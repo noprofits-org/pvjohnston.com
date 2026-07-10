@@ -1,0 +1,619 @@
+{
+  "label": "nitrobenzene",
+  "name": "nitrobenzene",
+  "smiles": "O=[N+]([O-])c1ccccc1",
+  "geometry": {
+    "ring_rms_planarity_ang": 1.7049393924963106e-06,
+    "max_heavy_out_of_plane_ang": 1.7558685761203472e-05,
+    "acc_NO2_twist_deg": 0.0,
+    "opt_level": "B3LYP/def2-svp (C1, gau_tight)",
+    "opt_energy_Ha": -436.4317786798006
+  },
+  "td_basis": "def2-tzvp",
+  "functionals": {
+    "b3lyp": {
+      "scf_energy_Ha": -436.92608297247904,
+      "n_states": 12,
+      "states": [
+        {
+          "state": 1,
+          "energy_eV": 3.8655,
+          "wavelength_nm": 320.75,
+          "f": 0.0,
+          "hole_particle_dist_ang": 1.25,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-2",
+              "to": "LUMO",
+              "weight_pct": 96.6,
+              "occ_index": 29,
+              "vir_index": 0
+            }
+          ]
+        },
+        {
+          "state": 2,
+          "energy_eV": 4.3389,
+          "wavelength_nm": 285.75,
+          "f": 0.00019,
+          "hole_particle_dist_ang": 1.07,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-3",
+              "to": "LUMO",
+              "weight_pct": 96.8,
+              "occ_index": 28,
+              "vir_index": 0
+            }
+          ]
+        },
+        {
+          "state": 3,
+          "energy_eV": 4.3808,
+          "wavelength_nm": 283.02,
+          "f": 0.01445,
+          "hole_particle_dist_ang": 1.96,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO",
+              "to": "LUMO",
+              "weight_pct": 93.9,
+              "occ_index": 31,
+              "vir_index": 0
+            },
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+1",
+              "weight_pct": 5.5,
+              "occ_index": 30,
+              "vir_index": 1
+            }
+          ]
+        },
+        {
+          "state": 4,
+          "energy_eV": 4.7809,
+          "wavelength_nm": 259.33,
+          "f": 0.1968,
+          "hole_particle_dist_ang": 1.91,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO-1",
+              "to": "LUMO",
+              "weight_pct": 95.2,
+              "occ_index": 30,
+              "vir_index": 0
+            }
+          ]
+        },
+        {
+          "state": 5,
+          "energy_eV": 5.924,
+          "wavelength_nm": 209.29,
+          "f": 0.00242,
+          "hole_particle_dist_ang": 0.13,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+1",
+              "weight_pct": 54.7,
+              "occ_index": 30,
+              "vir_index": 1
+            },
+            {
+              "from": "HOMO",
+              "to": "LUMO+2",
+              "weight_pct": 24.1,
+              "occ_index": 31,
+              "vir_index": 2
+            },
+            {
+              "from": "HOMO-4",
+              "to": "LUMO",
+              "weight_pct": 15.8,
+              "occ_index": 27,
+              "vir_index": 0
+            }
+          ]
+        },
+        {
+          "state": 6,
+          "energy_eV": 6.0789,
+          "wavelength_nm": 203.96,
+          "f": 0.0561,
+          "hole_particle_dist_ang": 1.29,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO-4",
+              "to": "LUMO",
+              "weight_pct": 73.7,
+              "occ_index": 27,
+              "vir_index": 0
+            },
+            {
+              "from": "HOMO",
+              "to": "LUMO+2",
+              "weight_pct": 13.7,
+              "occ_index": 31,
+              "vir_index": 2
+            },
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+1",
+              "weight_pct": 6.4,
+              "occ_index": 30,
+              "vir_index": 1
+            }
+          ]
+        },
+        {
+          "state": 7,
+          "energy_eV": 6.2932,
+          "wavelength_nm": 197.01,
+          "f": 2e-05,
+          "hole_particle_dist_ang": 3.28,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-2",
+              "to": "LUMO+1",
+              "weight_pct": 99.8,
+              "occ_index": 29,
+              "vir_index": 1
+            }
+          ]
+        },
+        {
+          "state": 8,
+          "energy_eV": 6.421,
+          "wavelength_nm": 193.09,
+          "f": 0.19064,
+          "hole_particle_dist_ang": 0.08,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO",
+              "to": "LUMO+1",
+              "weight_pct": 75.8,
+              "occ_index": 31,
+              "vir_index": 1
+            },
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+2",
+              "weight_pct": 20.2,
+              "occ_index": 30,
+              "vir_index": 2
+            }
+          ]
+        },
+        {
+          "state": 9,
+          "energy_eV": 6.4944,
+          "wavelength_nm": 190.91,
+          "f": 0.0,
+          "hole_particle_dist_ang": 2.09,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-5",
+              "to": "LUMO",
+              "weight_pct": 96.5,
+              "occ_index": 26,
+              "vir_index": 0
+            }
+          ]
+        },
+        {
+          "state": 10,
+          "energy_eV": 6.6304,
+          "wavelength_nm": 186.99,
+          "f": 0.0,
+          "hole_particle_dist_ang": 3.1,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-3",
+              "to": "LUMO+1",
+              "weight_pct": 97.1,
+              "occ_index": 28,
+              "vir_index": 1
+            }
+          ]
+        },
+        {
+          "state": 11,
+          "energy_eV": 6.789,
+          "wavelength_nm": 182.63,
+          "f": 0.0,
+          "hole_particle_dist_ang": 2.56,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-2",
+              "to": "LUMO+2",
+              "weight_pct": 95.3,
+              "occ_index": 29,
+              "vir_index": 2
+            }
+          ]
+        },
+        {
+          "state": 12,
+          "energy_eV": 6.883,
+          "wavelength_nm": 180.13,
+          "f": 0.00678,
+          "hole_particle_dist_ang": 3.33,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-4",
+              "to": "LUMO+1",
+              "weight_pct": 96.5,
+              "occ_index": 27,
+              "vir_index": 1
+            }
+          ]
+        }
+      ],
+      "lowest_bright": {
+        "state": 3,
+        "energy_eV": 4.3808,
+        "wavelength_nm": 283.02,
+        "f": 0.01445,
+        "A21_s^-1": 12032832.094690433,
+        "tau_rad_s": 8.310595478526261e-08,
+        "tau_rad_ns": 83.10595478526261,
+        "type": "pi->pi*"
+      }
+    },
+    "cam-b3lyp": {
+      "scf_energy_Ha": -436.7201670362828,
+      "n_states": 12,
+      "states": [
+        {
+          "state": 1,
+          "energy_eV": 4.0221,
+          "wavelength_nm": 308.26,
+          "f": 0.0,
+          "hole_particle_dist_ang": 1.35,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-2",
+              "to": "LUMO",
+              "weight_pct": 89.3,
+              "occ_index": 29,
+              "vir_index": 0
+            },
+            {
+              "from": "HOMO-2",
+              "to": "LUMO+2",
+              "weight_pct": 10.1,
+              "occ_index": 29,
+              "vir_index": 2
+            }
+          ]
+        },
+        {
+          "state": 2,
+          "energy_eV": 4.4836,
+          "wavelength_nm": 276.53,
+          "f": 0.00025,
+          "hole_particle_dist_ang": 1.15,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-4",
+              "to": "LUMO",
+              "weight_pct": 89.8,
+              "occ_index": 27,
+              "vir_index": 0
+            },
+            {
+              "from": "HOMO-4",
+              "to": "LUMO+2",
+              "weight_pct": 9.1,
+              "occ_index": 27,
+              "vir_index": 2
+            }
+          ]
+        },
+        {
+          "state": 3,
+          "energy_eV": 4.8554,
+          "wavelength_nm": 255.35,
+          "f": 0.01818,
+          "hole_particle_dist_ang": 1.87,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO",
+              "to": "LUMO",
+              "weight_pct": 85.1,
+              "occ_index": 31,
+              "vir_index": 0
+            },
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+1",
+              "weight_pct": 12.7,
+              "occ_index": 30,
+              "vir_index": 1
+            }
+          ]
+        },
+        {
+          "state": 4,
+          "energy_eV": 5.1708,
+          "wavelength_nm": 239.78,
+          "f": 0.20988,
+          "hole_particle_dist_ang": 1.8,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO-1",
+              "to": "LUMO",
+              "weight_pct": 93.4,
+              "occ_index": 30,
+              "vir_index": 0
+            }
+          ]
+        },
+        {
+          "state": 5,
+          "energy_eV": 6.2296,
+          "wavelength_nm": 199.02,
+          "f": 0.00213,
+          "hole_particle_dist_ang": 0.12,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+1",
+              "weight_pct": 43.7,
+              "occ_index": 30,
+              "vir_index": 1
+            },
+            {
+              "from": "HOMO-3",
+              "to": "LUMO",
+              "weight_pct": 34.2,
+              "occ_index": 28,
+              "vir_index": 0
+            },
+            {
+              "from": "HOMO",
+              "to": "LUMO+2",
+              "weight_pct": 10.3,
+              "occ_index": 31,
+              "vir_index": 2
+            },
+            {
+              "from": "HOMO",
+              "to": "LUMO",
+              "weight_pct": 9.9,
+              "occ_index": 31,
+              "vir_index": 0
+            }
+          ]
+        },
+        {
+          "state": 6,
+          "energy_eV": 6.5428,
+          "wavelength_nm": 189.5,
+          "f": 0.16951,
+          "hole_particle_dist_ang": 1.42,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO-3",
+              "to": "LUMO",
+              "weight_pct": 61.0,
+              "occ_index": 28,
+              "vir_index": 0
+            },
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+1",
+              "weight_pct": 19.5,
+              "occ_index": 30,
+              "vir_index": 1
+            },
+            {
+              "from": "HOMO",
+              "to": "LUMO+2",
+              "weight_pct": 12.6,
+              "occ_index": 31,
+              "vir_index": 2
+            }
+          ]
+        },
+        {
+          "state": 7,
+          "energy_eV": 6.6093,
+          "wavelength_nm": 187.59,
+          "f": 0.27423,
+          "hole_particle_dist_ang": 0.06,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO",
+              "to": "LUMO+1",
+              "weight_pct": 79.7,
+              "occ_index": 31,
+              "vir_index": 1
+            },
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+2",
+              "weight_pct": 14.6,
+              "occ_index": 30,
+              "vir_index": 2
+            }
+          ]
+        },
+        {
+          "state": 8,
+          "energy_eV": 7.0816,
+          "wavelength_nm": 175.08,
+          "f": 0.0,
+          "hole_particle_dist_ang": 1.98,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-5",
+              "to": "LUMO",
+              "weight_pct": 92.0,
+              "occ_index": 26,
+              "vir_index": 0
+            }
+          ]
+        },
+        {
+          "state": 9,
+          "energy_eV": 7.5773,
+          "wavelength_nm": 163.63,
+          "f": 0.00023,
+          "hole_particle_dist_ang": 3.27,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-2",
+              "to": "LUMO+1",
+              "weight_pct": 77.8,
+              "occ_index": 29,
+              "vir_index": 1
+            },
+            {
+              "from": "HOMO-6",
+              "to": "LUMO",
+              "weight_pct": 18.0,
+              "occ_index": 25,
+              "vir_index": 0
+            }
+          ]
+        },
+        {
+          "state": 10,
+          "energy_eV": 7.6277,
+          "wavelength_nm": 162.54,
+          "f": 0.2618,
+          "hole_particle_dist_ang": 0.72,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+2",
+              "weight_pct": 78.1,
+              "occ_index": 30,
+              "vir_index": 2
+            },
+            {
+              "from": "HOMO",
+              "to": "LUMO+1",
+              "weight_pct": 14.1,
+              "occ_index": 31,
+              "vir_index": 1
+            }
+          ]
+        },
+        {
+          "state": 11,
+          "energy_eV": 7.6487,
+          "wavelength_nm": 162.1,
+          "f": 0.46736,
+          "hole_particle_dist_ang": 0.78,
+          "type": "pi->pi*",
+          "bright": true,
+          "dominant": [
+            {
+              "from": "HOMO",
+              "to": "LUMO+2",
+              "weight_pct": 73.4,
+              "occ_index": 31,
+              "vir_index": 2
+            },
+            {
+              "from": "HOMO-1",
+              "to": "LUMO+1",
+              "weight_pct": 22.1,
+              "occ_index": 30,
+              "vir_index": 1
+            }
+          ]
+        },
+        {
+          "state": 12,
+          "energy_eV": 7.6678,
+          "wavelength_nm": 161.69,
+          "f": 0.00132,
+          "hole_particle_dist_ang": 2.54,
+          "type": "dark/weak",
+          "bright": false,
+          "dominant": [
+            {
+              "from": "HOMO-6",
+              "to": "LUMO",
+              "weight_pct": 59.3,
+              "occ_index": 25,
+              "vir_index": 0
+            },
+            {
+              "from": "HOMO-2",
+              "to": "LUMO+1",
+              "weight_pct": 19.9,
+              "occ_index": 29,
+              "vir_index": 1
+            },
+            {
+              "from": "HOMO-4",
+              "to": "LUMO+2",
+              "weight_pct": 11.6,
+              "occ_index": 27,
+              "vir_index": 2
+            }
+          ]
+        }
+      ],
+      "lowest_bright": {
+        "state": 3,
+        "energy_eV": 4.8554,
+        "wavelength_nm": 255.35,
+        "f": 0.01818,
+        "A21_s^-1": 18596750.457440507,
+        "tau_rad_s": 5.377283532886805e-08,
+        "tau_rad_ns": 53.77283532886805,
+        "type": "pi->pi*"
+      }
+    }
+  }
+}

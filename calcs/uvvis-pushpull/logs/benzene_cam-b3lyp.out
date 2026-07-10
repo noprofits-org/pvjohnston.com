@@ -1,0 +1,508 @@
+
+Scratch directory: /Users/pvjohnst/noprofits/blog/calcs/uvvis-pushpull/scratch/
+   => Libint2 <=
+
+    Primary   basis highest AM E, G, H:  7, 6, 3
+    Auxiliary basis highest AM E, G, H:  7, 7, 4
+    Onebody   basis highest AM E, G, H:  -, -, -
+    Solid Harmonics ordering:            Gaussian
+
+*** tstart() called on MacBookPro
+*** at Sun Jul  5 15:39:38 2026
+
+   => Loading Basis Set <=
+
+    Name: DEF2-TZVP
+    Role: ORBITAL
+    Keyword: BASIS
+    atoms 1-6  entry C          line   123 file /opt/homebrew/Caskroom/miniforge/base/envs/qchem/share/psi4/basis/def2-tzvp.gbs 
+    atoms 7-12 entry H          line    15 file /opt/homebrew/Caskroom/miniforge/base/envs/qchem/share/psi4/basis/def2-tzvp.gbs 
+
+
+         ---------------------------------------------------------
+                                   SCF
+               by Justin Turney, Rob Parrish, Andy Simmonett
+                          and Daniel G. A. Smith
+                              RKS Reference
+                        9 Threads,  22888 MiB Core
+         ---------------------------------------------------------
+
+  ==> Geometry <==
+
+    Molecular point group: c1
+    Full point group: Cs
+
+    Geometry (in Angstrom), charge = 0, multiplicity = 1:
+
+       Center              X                  Y                   Z               Mass       
+    ------------   -----------------  -----------------  -----------------  -----------------
+         C            1.398898987564    -0.000000659640     0.000000000000    12.000000000000
+         C            0.699421379485     1.211411847032     0.000000000001    12.000000000000
+         C           -0.699422208837     1.211412752739     0.000000000000    12.000000000000
+         C           -1.398898993329     0.000000686754     0.000000000000    12.000000000000
+         C           -0.699421368175    -1.211411869484     0.000000000001    12.000000000000
+         C            0.699422256486    -1.211412739398     0.000000000001    12.000000000000
+         H            2.492177713147    -0.000000181842    -0.000000000001     1.007825032230
+         H            1.246020399878     2.158247468451    -0.000000000000     1.007825032230
+         H           -1.246021357794     2.158248355827    -0.000000000001     1.007825032230
+         H           -2.492177763179     0.000000212212    -0.000000000001     1.007825032230
+         H           -1.246020432690    -2.158247536767    -0.000000000001     1.007825032230
+         H            1.246021387445    -2.158248335883    -0.000000000000     1.007825032230
+
+  Running in c1 symmetry.
+
+  Rotational constants: A =      0.18895  B =      0.18893  C =      0.09447 [cm^-1]
+  Rotational constants: A =   5664.48492  B =   5664.08553  C =   2832.14261 [MHz]
+  Nuclear repulsion =  202.735359528360419
+
+  Charge       = 0
+  Multiplicity = 1
+  Electrons    = 42
+  Nalpha       = 21
+  Nbeta        = 21
+
+  ==> Algorithm <==
+
+  SCF Algorithm Type is DF.
+  DIIS enabled.
+  MOM disabled.
+  Fractional occupation disabled.
+  Guess Type is SAD.
+  Energy threshold   = 1.00e-08
+  Density threshold  = 1.00e-08
+  Integral threshold = 1.00e-12
+
+  ==> Primary Basis <==
+
+  Basis Set: DEF2-TZVP
+    Blend: DEF2-TZVP
+    Number of shells: 90
+    Number of basis functions: 222
+    Number of Cartesian functions: 252
+    Spherical Harmonics?: true
+    Max angular momentum: 3
+
+  ==> DFT Potential <==
+
+   => LibXC <=
+
+    Version 7.0.0
+    S. Lehtola, C. Steigemann, M. J.T. Oliveira, and M. A.L. Marques.,  SoftwareX 7, 1–5 (2018) (10.1016/j.softx.2017.11.002)
+
+   => Composite Functional: CAM-B3LYP <= 
+
+    CAM-B3LYP Hyb-GGA Exchange-Correlation Functional
+
+    T. Yanai, D. P. Tew, and N. C. Handy.,  Chem. Phys. Lett. 393, 51 (2004) (10.1016/j.cplett.2004.06.011)
+
+    Deriv               =              1
+    GGA                 =           TRUE
+    Meta                =          FALSE
+
+    Exchange Hybrid     =           TRUE
+    MP2 Hybrid          =          FALSE
+
+   => Exchange Functionals <=
+
+    0.3500         Becke 88 [omega = 0.3300]
+    0.4600   Short-range recipe for B88 functional - erf [omega = 0.3300]
+
+   => Exact (HF) Exchange <=
+
+    0.4600            HF,LR [omega = 0.3300]
+    0.1900               HF 
+
+   => Correlation Functionals <=
+
+    0.1900   Vosko, Wilk & Nusair (VWN5)
+    0.8100   Lee, Yang & Parr
+
+   => LibXC Density Thresholds  <==
+
+    XC_HYB_GGA_XC_CAM_B3LYP:  1.00E-14 
+
+   => Molecular Quadrature <=
+
+    Radial Scheme          =       TREUTLER
+    Pruning Scheme         =           NONE
+    Nuclear Scheme         =       TREUTLER
+
+    Blocking Scheme        =         OCTREE
+    BS radius alpha        =              1
+    Pruning alpha          =              1
+    Radial Points          =             75
+    Spherical Points       =            302
+    Total Points           =         255133
+    Total Blocks           =           1956
+    Max Points             =            256
+    Max Functions          =            217
+    Weights Tolerance      =       1.00E-15
+
+   => Loading Basis Set <=
+
+    Name: (DEF2-TZVP AUX)
+    Role: JKFIT
+    Keyword: DF_BASIS_SCF
+    atoms 1-6  entry C          line   198 file /opt/homebrew/Caskroom/miniforge/base/envs/qchem/share/psi4/basis/def2-universal-jkfit.gbs 
+    atoms 7-12 entry H          line    18 file /opt/homebrew/Caskroom/miniforge/base/envs/qchem/share/psi4/basis/def2-universal-jkfit.gbs 
+
+  ==> Integral Setup <==
+
+  DFHelper Memory: AOs need 0.624 GiB; user supplied 15.439 GiB. 
+  SCF_SUBTYPE=INCORE selected. In-core MEM_DF algorithm will be used.
+  Using in-core AOs.
+
+  ==> MemDFJK: Density-Fitted J/K Matrices <==
+
+    J tasked:                   Yes
+    K tasked:                   Yes
+    wK tasked:                  Yes
+    Omega:                3.300E-01
+    OpenMP threads:               9
+    Memory [MiB]:             15809
+    Algorithm:                 Core
+    Schwarz Cutoff:           1E-12
+    Mask sparsity (%):       1.0876
+    Fitting Condition:        1E-10
+
+   => Auxiliary Basis Set <=
+
+  Basis Set: (DEF2-TZVP AUX)
+    Blend: DEF2-UNIVERSAL-JKFIT
+    Number of shells: 186
+    Number of basis functions: 558
+    Number of Cartesian functions: 654
+    Spherical Harmonics?: true
+    Max angular momentum: 4
+
+  Cached 100.0% of DFT collocation blocks in 1.325 [GiB].
+
+  Minimum eigenvalue in the overlap matrix is 1.0732936551E-05.
+  Reciprocal condition number of the overlap matrix is 1.1037629779E-06.
+    Using symmetric orthogonalization.
+
+  ==> Pre-Iterations <==
+
+  SCF Guess: Superposition of Atomic Densities via on-the-fly atomic UHF (no occupation information).
+
+   -------------------------
+    Irrep   Nso     Nmo    
+   -------------------------
+     A        222     222 
+   -------------------------
+    Total     222     222
+   -------------------------
+
+  ==> Iterations <==
+
+                           Total Energy        Delta E     RMS |[F,P]|
+
+   @DF-RKS iter SAD:  -231.57413768339865   -2.31574e+02   0.00000e+00 
+   @DF-RKS iter   1:  -231.84554324050015   -2.71406e-01   3.65533e-03 ADIIS/DIIS
+   @DF-RKS iter   2:  -231.89905566345749   -5.35124e-02   3.39468e-03 ADIIS/DIIS
+   @DF-RKS iter   3:  -232.19126092141551   -2.92205e-01   2.35753e-04 ADIIS/DIIS
+   @DF-RKS iter   4:  -232.19248968619914   -1.22876e-03   3.85803e-05 DIIS
+   @DF-RKS iter   5:  -232.19253044986485   -4.07637e-05   3.40881e-06 DIIS
+   @DF-RKS iter   6:  -232.19253095223340   -5.02369e-07   3.48960e-07 DIIS
+   @DF-RKS iter   7:  -232.19253095791635   -5.68295e-09   6.45789e-08 DIIS
+   @DF-RKS iter   8:  -232.19253095800735   -9.10063e-11   5.20641e-08 DIIS
+   @DF-RKS iter   9:  -232.19253095806786   -6.05098e-11   1.99153e-09 DIIS
+  Energy and wave function converged.
+
+
+  ==> Post-Iterations <==
+
+   Electrons on quadrature grid:
+      Ntotal   =   42.0000110484 ; deviation = 1.105e-05 
+
+    Orbital Energies [Eh]
+    ---------------------
+
+    Doubly Occupied:                                                      
+
+       1A    -10.252868     2A    -10.252655     3A    -10.252653  
+       4A    -10.252091     5A    -10.252089     6A    -10.251831  
+       7A     -0.937532     8A     -0.826635     9A     -0.826630  
+      10A     -0.678079    11A     -0.678069    12A     -0.596504  
+      13A     -0.530495    14A     -0.516656    15A     -0.489508  
+      16A     -0.489491    17A     -0.439561    18A     -0.409037  
+      19A     -0.409021    20A     -0.311429    21A     -0.311426  
+
+    Virtual:                                                              
+
+      22A      0.030950    23A      0.030958    24A      0.085255  
+      25A      0.115505    26A      0.115507    27A      0.142315  
+      28A      0.142319    29A      0.162725    30A      0.193137  
+      31A      0.196200    32A      0.251405    33A      0.252304  
+      34A      0.255978    35A      0.255980    36A      0.276086  
+      37A      0.276100    38A      0.292605    39A      0.292609  
+      40A      0.315045    41A      0.315046    42A      0.373508  
+      43A      0.373515    44A      0.375160    45A      0.405039  
+      46A      0.405045    47A      0.427669    48A      0.451536  
+      49A      0.458390    50A      0.458392    51A      0.482223  
+      52A      0.482230    53A      0.482597    54A      0.506175  
+      55A      0.518537    56A      0.534917    57A      0.539785  
+      58A      0.539792    59A      0.555369    60A      0.555384  
+      61A      0.691923    62A      0.691936    63A      0.711530  
+      64A      0.734144    65A      0.738357    66A      0.800338  
+      67A      0.800349    68A      0.804575    69A      0.804594  
+      70A      0.852830    71A      0.904947    72A      0.904951  
+      73A      0.909596    74A      0.936968    75A      0.945385  
+      76A      1.060005    77A      1.060009    78A      1.069631  
+      79A      1.069641    80A      1.110668    81A      1.110671  
+      82A      1.227282    83A      1.231749    84A      1.231762  
+      85A      1.263576    86A      1.263578    87A      1.281387  
+      88A      1.281396    89A      1.310394    90A      1.310415  
+      91A      1.345021    92A      1.432776    93A      1.434339  
+      94A      1.449349    95A      1.510675    96A      1.510690  
+      97A      1.542260    98A      1.542266    99A      1.544239  
+     100A      1.544245   101A      1.654728   102A      1.665853  
+     103A      1.719915   104A      1.727488   105A      1.727488  
+     106A      1.743413   107A      1.748814   108A      1.748830  
+     109A      1.763111   110A      1.763177   111A      1.827635  
+     112A      1.901628   113A      1.963889   114A      1.963892  
+     115A      2.091875   116A      2.091893   117A      2.122765  
+     118A      2.139961   119A      2.142292   120A      2.142304  
+     121A      2.215505   122A      2.215593   123A      2.286336  
+     124A      2.297887   125A      2.297906   126A      2.387973  
+     127A      2.509337   128A      2.553136   129A      2.553152  
+     130A      2.613271   131A      2.613314   132A      2.615288  
+     133A      2.630135   134A      2.654868   135A      2.705837  
+     136A      2.705846   137A      2.722864   138A      2.731365  
+     139A      2.731383   140A      2.736000   141A      2.736002  
+     142A      2.798827   143A      2.816215   144A      2.816216  
+     145A      2.864577   146A      2.864610   147A      2.866439  
+     148A      2.897785   149A      2.897816   150A      2.903344  
+     151A      2.917240   152A      2.917240   153A      2.957588  
+     154A      3.078540   155A      3.164418   156A      3.164474  
+     157A      3.170627   158A      3.170642   159A      3.196356  
+     160A      3.196378   161A      3.203909   162A      3.203921  
+     163A      3.254740   164A      3.270657   165A      3.270672  
+     166A      3.315592   167A      3.316364   168A      3.316401  
+     169A      3.379315   170A      3.416427   171A      3.432550  
+     172A      3.432600   173A      3.451843   174A      3.510789  
+     175A      3.510847   176A      3.515591   177A      3.560512  
+     178A      3.584185   179A      3.584186   180A      3.646513  
+     181A      3.709078   182A      3.709124   183A      3.800124  
+     184A      3.813717   185A      3.813819   186A      3.857603  
+     187A      3.924567   188A      4.046545   189A      4.046605  
+     190A      4.115334   191A      4.120328   192A      4.120355  
+     193A      4.163019   194A      4.256221   195A      4.256223  
+     196A      4.258390   197A      4.278103   198A      4.278184  
+     199A      4.332730   200A      4.332852   201A      4.348717  
+     202A      4.348742   203A      4.677556   204A      4.706657  
+     205A      4.706710   206A      4.708997   207A      4.869768  
+     208A      4.869835   209A      4.944522   210A      4.944556  
+     211A      5.237544   212A      5.237548   213A      5.325538  
+     214A      5.351101   215A      5.459322   216A      5.681639  
+     217A     21.911364   218A     22.549918   219A     22.549931  
+     220A     22.640509   221A     22.640576   222A     23.049200  
+
+    Final Occupation by Irrep:
+              A 
+    DOCC [    21 ]
+    NA   [    21 ]
+    NB   [    21 ]
+
+  @DF-RKS Final Energy:  -232.19253095806786
+
+   => Energetics <=
+
+    Nuclear Repulsion Energy =            202.7353595283604193
+    One-Electron Energy =                -712.8249906356152223
+    Two-Electron Energy =                 302.9732341423697335
+    DFT Exchange-Correlation Energy =     -25.0761339931827969
+    Empirical Dispersion Energy =           0.0000000000000000
+    VV10 Nonlocal Energy =                  0.0000000000000000
+    Total Energy =                       -232.1925309580678913
+
+Computation Completed
+
+
+Properties will be evaluated at   0.000000,   0.000000,   0.000000 [a0]
+
+Properties computed using the SCF density matrix
+
+
+ Multipole Moments:
+
+ ------------------------------------------------------------------------------------
+     Multipole            Electronic (a.u.)      Nuclear  (a.u.)        Total (a.u.)
+ ------------------------------------------------------------------------------------
+
+ L = 1.  Multiply by 2.5417464519 to convert [e a0] to [Debye]
+ Dipole X            :         -0.0000005            0.0000005            0.0000000
+ Dipole Y            :         -0.0000001            0.0000002            0.0000000
+ Dipole Z            :         -0.0000000            0.0000000           -0.0000000
+ Magnitude           :                                                    0.0000001
+
+ ------------------------------------------------------------------------------------
+
+*** tstop() called on MacBookPro at Sun Jul  5 15:39:42 2026
+Module time:
+	user time   =      25.78 seconds =       0.43 minutes
+	system time =       1.00 seconds =       0.02 minutes
+	total time  =          4 seconds =       0.07 minutes
+Total time:
+	user time   =     530.87 seconds =       8.85 minutes
+	system time =       8.09 seconds =       0.13 minutes
+	total time  =         76 seconds =       1.27 minutes
+
+******************************************************************************************
+**********                               WARNING                                **********
+**********       The names of excited state variables changed between 1.5       **********
+**********     and 1.6. For a quick solution, remove the symmetry specifier     **********
+**********   from the variable name. For full details, see 'Notes on Psivars'   **********
+**********                        in the documentation.                         **********
+******************************************************************************************
+
+
+
+         ---------------------------------------------------------
+                         TDSCF excitation energies                
+                 by Andrew M. James and Daniel G. A. Smith        
+         ---------------------------------------------------------
+
+  ==> Options <==
+
+     Residual threshold  : 1.0000e-05
+     Initial guess       : denominators
+     Reference           : RHF
+     Solver type         : RPA (Hamiltonian)
+
+
+  ==> Requested Excitations <==
+
+      12 singlet states with A symmetry
+
+
+  ==> Seeking the lowest 12 singlet states with A symmetry
+
+                        Generalized Hamiltonian Solver                       
+                              By Andrew M. James                             
+
+  ==> Options <==
+
+    Max number of iterations        = 60   
+    Eigenvector tolerance           = 1.0000e-05
+    Max number of expansion vectors = 3000 
+
+  => Iterations <=
+                              Max[D[value]]     Max[|R|]   # vectors
+  HamiltonianSolver iter   1:   3.23584e-01  3.84277e-01     48      
+  HamiltonianSolver iter   2:   2.79034e-02  8.60610e-02     72      
+  HamiltonianSolver iter   3:   1.67271e-03  2.35592e-02     96      
+  HamiltonianSolver iter   4:   8.13724e-05  5.10028e-03    120      
+  HamiltonianSolver iter   5:   2.98768e-06  1.11652e-03    144      
+  HamiltonianSolver iter   6:   9.86965e-08  2.44756e-04    168      
+  HamiltonianSolver iter   7:   4.03058e-09  5.02186e-05    190      
+  HamiltonianSolver iter   8:   2.85194e-10  9.22363e-06    196      Converged
+
+******************************************************************************************
+**********                               WARNING                                **********
+**********  Length-gauge rotatory strengths are **NOT** gauge-origin invariant  **********
+******************************************************************************************
+
+                                    Excitation Energy         Total Energy        Oscillator Strength             Rotatory Strength       
+     #   Sym: GS->ES (Trans)        au              eV              au          au (length)    au (velocity)    au (length)    au (velocity) 
+    ---- -------------------- --------------- --------------- --------------- --------------- --------------- --------------- ---------------
+     1        A->A (1 A)       0.20059         5.45828        -231.99194       0.0000          0.0000         -0.0000         -0.0000        
+     2        A->A (1 A)       0.22595         6.14835        -231.96658       0.0000          0.0000          0.0000          0.0000        
+     3        A->A (1 A)       0.26153         7.11647        -231.93101       0.6006          0.6105          0.0000          0.0000        
+     4        A->A (1 A)       0.26153         7.11655        -231.93100       0.6006          0.6106         -0.0000         -0.0000        
+     5        A->A (1 A)       0.28285         7.69668        -231.90968       0.0000          0.0000          0.0000          0.0000        
+     6        A->A (1 A)       0.28285         7.69678        -231.90968       0.0000          0.0000         -0.0000         -0.0000        
+     7        A->A (1 A)       0.28999         7.89093        -231.90254       0.0000          0.0000          0.0000          0.0000        
+     8        A->A (1 A)       0.29300         7.97281        -231.89954       0.0112          0.0095          0.0000          0.0000        
+     9        A->A (1 A)       0.29377         7.99381        -231.89876       0.0000          0.0000         -0.0000         -0.0000        
+     10       A->A (1 A)       0.29377         7.99382        -231.89876       0.0000          0.0000          0.0000          0.0000        
+     11       A->A (1 A)       0.31044         8.44740        -231.88209       0.0202          0.0180         -0.0000         -0.0000        
+     12       A->A (1 A)       0.31932         8.68912        -231.87321       0.0000          0.0000          0.0000          0.0000        
+
+
+
+Contributing excitations and de-excitations
+Only contributions with abs(coeff) > 1.00e-01 will be printed:
+
+Excited State    1 (1 A):   0.20059 au   227.15 nm f = 0.0000
+  Sums of squares: Xssq =  1.003284e+00; Yssq =  3.283778e-03; Xssq - Yssq =  1.000000e+00
+     20a  ->  23a    -0.702732 (49.383%)
+     21a  ->  22a    -0.702852 (49.400%)
+
+Excited State    2 (1 A):   0.22595 au   201.65 nm f = 0.0000
+  Sums of squares: Xssq =  1.006522e+00; Yssq =  6.521832e-03; Xssq - Yssq =  1.000000e+00
+     20a  ->  22a     0.699800 (48.972%)
+     21a  ->  23a    -0.699751 (48.965%)
+
+Excited State    3 (1 A):   0.26153 au   174.22 nm f = 0.6006
+  Sums of squares: Xssq =  1.029320e+00; Yssq =  2.932016e-02; Xssq - Yssq =  1.000000e+00
+     20a  ->  23a     0.697886 (48.705%)
+     21a  ->  22a    -0.697767 (48.688%)
+     20a  <-  23a    -0.102872 ( 1.058%)
+     21a  <-  22a     0.102879 ( 1.058%)
+
+Excited State    4 (1 A):   0.26153 au   174.22 nm f = 0.6006
+  Sums of squares: Xssq =  1.029321e+00; Yssq =  2.932089e-02; Xssq - Yssq =  1.000000e+00
+     20a  ->  22a     0.697801 (48.693%)
+     21a  ->  23a     0.697850 (48.700%)
+     20a  <-  22a    -0.102877 ( 1.058%)
+     21a  <-  23a    -0.102876 ( 1.058%)
+
+Excited State    5 (1 A):   0.28285 au   161.09 nm f = 0.0000
+  Sums of squares: Xssq =  1.000156e+00; Yssq =  1.561962e-04; Xssq - Yssq =  1.000000e+00
+     17a  ->  25a     0.116074 ( 1.347%)
+     21a  ->  24a    -0.984423 (96.909%)
+
+Excited State    6 (1 A):   0.28285 au   161.09 nm f = 0.0000
+  Sums of squares: Xssq =  1.000156e+00; Yssq =  1.562022e-04; Xssq - Yssq =  1.000000e+00
+     17a  ->  26a     0.116073 ( 1.347%)
+     20a  ->  24a     0.984424 (96.909%)
+
+Excited State    7 (1 A):   0.28999 au   157.12 nm f = 0.0000
+  Sums of squares: Xssq =  1.000653e+00; Yssq =  6.533070e-04; Xssq - Yssq =  1.000000e+00
+     14a  ->  31a    -0.100819 ( 1.016%)
+     18a  ->  23a    -0.698011 (48.722%)
+     19a  ->  22a    -0.702396 (49.336%)
+
+Excited State    8 (1 A):   0.29300 au   155.51 nm f = 0.0112
+  Sums of squares: Xssq =  1.000856e+00; Yssq =  8.555605e-04; Xssq - Yssq =  1.000000e+00
+     18a  ->  22a     0.697645 (48.671%)
+     19a  ->  23a    -0.705705 (49.802%)
+
+Excited State    9 (1 A):   0.29377 au   155.10 nm f = 0.0000
+  Sums of squares: Xssq =  1.000565e+00; Yssq =  5.646594e-04; Xssq - Yssq =  1.000000e+00
+     18a  ->  22a    -0.695785 (48.412%)
+     18a  ->  23a    -0.114251 ( 1.305%)
+     19a  ->  22a     0.113483 ( 1.288%)
+     19a  ->  23a    -0.687804 (47.307%)
+
+Excited State   10 (1 A):   0.29377 au   155.10 nm f = 0.0000
+  Sums of squares: Xssq =  1.000565e+00; Yssq =  5.646524e-04; Xssq - Yssq =  1.000000e+00
+     18a  ->  22a     0.114449 ( 1.310%)
+     18a  ->  23a    -0.693957 (48.158%)
+     19a  ->  22a     0.689647 (47.561%)
+     19a  ->  23a     0.113282 ( 1.283%)
+
+Excited State   11 (1 A):   0.31044 au   146.77 nm f = 0.0202
+  Sums of squares: Xssq =  1.000136e+00; Yssq =  1.363313e-04; Xssq - Yssq =  1.000000e+00
+     17a  ->  24a    -0.242615 ( 5.886%)
+     20a  ->  25a    -0.141691 ( 2.008%)
+     20a  ->  26a    -0.666317 (44.398%)
+     21a  ->  25a     0.666699 (44.449%)
+     21a  ->  26a    -0.141706 ( 2.008%)
+
+Excited State   12 (1 A):   0.31932 au   142.69 nm f = 0.0000
+  Sums of squares: Xssq =  1.000106e+00; Yssq =  1.063174e-04; Xssq - Yssq =  1.000000e+00
+     17a  ->  27a    -0.110948 ( 1.231%)
+     20a  ->  26a    -0.696059 (48.450%)
+     21a  ->  25a    -0.695708 (48.401%)
+
+
+******************************************************************************************
+**********                               WARNING                                **********
+**********       The names of excited state variables changed between 1.5       **********
+**********     and 1.6. For a quick solution, remove the symmetry specifier     **********
+**********   from the variable name. For full details, see 'Notes on Psivars'   **********
+**********                        in the documentation.                         **********
+******************************************************************************************
+

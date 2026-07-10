@@ -1,0 +1,11 @@
+Structure: LiNbO3_minimal
+Alpha_zz: 41.764352 a.u.
+R-squared: 0.925954
+
+Field-Dipole Data:
+Field (a.u.)	Dipole_z (a.u.)
+-0.002000	0.083532
+-0.001000	0.041755
+0.000000	-0.041757
+0.001000	-0.041757
+0.002000	-0.083534

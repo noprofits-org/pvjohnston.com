@@ -1,0 +1,15 @@
+<div class="post-list">
+    $for(posts)$
+    <a class="post-row" href="$url$" data-topic="$topicSlug$"$if(hasFigure)$ data-has-figure="1"$endif$>
+        <div class="post-row-meta">
+            <span class="post-row-date">$date$</span>
+            <span class="post-row-topic">$topic$</span>
+        </div>
+        <div class="post-row-main">
+            <h4 class="post-row-title">$title$</h4>
+            $if(description)$<p class="post-row-desc">$description$</p>$endif$
+            $if(hashTags)$<div class="post-row-tags">$hashTags$</div>$endif$
+        </div>
+    </a>
+    $endfor$
+</div>

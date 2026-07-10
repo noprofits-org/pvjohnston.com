@@ -1,0 +1,14 @@
+#!/bin/bash
+# run.bsh - Script to run LiNbO3 photonic radar calculations
+
+# Activate the conda environment
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate qchem
+
+# Create output directory if it doesn't exist
+mkdir -p lithium_niobate_results
+
+# Run the calculation
+python input_script.py > calculation_log.txt 2>&1
+
+echo "Calculation completed. Check calculation_log.txt for details."

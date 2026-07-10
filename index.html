@@ -1,0 +1,112 @@
+---
+title: Home
+description: Peter Johnston is a Seattle project and operations coordinator, chemist, and systems builder. Portfolio, résumé, and technical writing.
+---
+<section class="personal-hero">
+    <div class="personal-hero-inner">
+        <div class="masthead-meta">
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span class="meta-place">Peter Johnston · Seattle</span>
+            <span class="meta-rule" aria-hidden="true"></span>
+            <span class="meta-kind">Systems Builder · Chemist</span>
+        </div>
+        <h1>I make complicated work <em>legible, reliable, and fast.</em></h1>
+        <p>Project and operations coordinator with a research scientist’s rigor and a builder’s instinct for process. I move between chemistry, construction operations, automation, public-interest data, and the small tools that make each domain easier to understand.</p>
+        <div class="hero-actions">
+            <a class="np-btn np-btn-primary" href="/resume.html">View résumé <span aria-hidden="true">→</span></a>
+            <a class="np-btn np-btn-secondary" href="/writing.html">Read the notes <span aria-hidden="true">→</span></a>
+        </div>
+    </div>
+</section>
+
+<section class="work-section" aria-labelledby="work-heading">
+    <div class="work-inner">
+        <div class="section-label">Selected work</div>
+        <h2 id="work-heading">Systems built in the open</h2>
+        <div class="work-grid">
+            <a class="work-card work-card-wide" href="https://noprofits.org">
+                <span class="work-type">Flagship project</span>
+                <h3>noprofits.org</h3>
+                <p>Public-interest tools and field notes that make nonprofit finances, Form 990 data, and grant flows easier to inspect.</p>
+                <span class="work-link">Visit the project →</span>
+            </a>
+            <a class="work-card" href="https://search.noprofits.org">
+                <span class="work-type">Data tool</span>
+                <h3>Nonprofit Search</h3>
+                <p>Mission, filing history, financials, and operational metrics for U.S. nonprofits.</p>
+                <span class="work-link">Open Search →</span>
+            </a>
+            <a class="work-card" href="https://grants.noprofits.org">
+                <span class="work-type">Visualization</span>
+                <h3>Grant Flows</h3>
+                <p>An interactive graph for tracing federal money from grantor to grantee.</p>
+                <span class="work-link">Explore Grants →</span>
+            </a>
+            <a class="work-card" href="https://rag.noprofits.org">
+                <span class="work-type">Art experiment</span>
+                <h3>The Met, randomized</h3>
+                <p>A four-screen PWA that manufactures a random walk through the Met’s open collection.</p>
+                <span class="work-link">Find an artwork →</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+$for(featured)$
+<section class="featured" aria-labelledby="featured-heading">
+    <div class="featured-inner">
+        <div class="featured-head">
+            <span class="featured-kicker" id="featured-heading">✦ From the notebook</span>
+            <span class="featured-date">$date$</span>
+        </div>
+        <div class="featured-grid">
+            <div class="featured-text">
+                <span class="featured-topic">$topic$</span>
+                <h2 class="featured-title"><a href="$url$">$title$</a></h2>
+                $if(description)$<p class="featured-desc">$description$</p>$endif$
+                $if(tagChips)$<div class="tag-chips">$tagChips$</div>$endif$
+                <a class="featured-readmore" href="$url$">Read the note →</a>
+            </div>
+            $if(figure)$
+            <figure class="featured-figure">
+                <div class="figure-label">Fig. 1 — $figlabel$</div>
+                <div class="figure-body">$figure$</div>
+                $if(figcaption)$<figcaption class="figure-caption">$figcaption$</figcaption>$endif$
+            </figure>
+            $else$
+            $if(figSlides)$
+            <figure class="featured-figure" data-figcycle>
+                <div class="figure-label">
+                    <span data-fig-counter>Fig. 1 of $figCount$</span>
+                    <span class="fig-nav" data-fig-nav hidden>
+                        <button type="button" class="fig-btn" data-fig-prev aria-label="Previous figure">←</button>
+                        <button type="button" class="fig-btn" data-fig-next aria-label="Next figure">→</button>
+                    </span>
+                </div>
+                <div class="figure-body" aria-live="polite">$figSlides$</div>
+            </figure>
+            $endif$
+            $endif$
+        </div>
+    </div>
+</section>
+$endfor$
+
+<section class="latest" aria-labelledby="latest-heading">
+    <div class="latest-inner">
+        <div class="latest-head">
+            <h3 id="latest-heading">Latest writing</h3>
+            <div class="topic-filter" role="group" aria-label="Filter posts by topic">
+                <button type="button" class="topic-pill is-active" data-topic-filter="all" aria-pressed="true">All</button>
+                <button type="button" class="topic-pill" data-topic-filter="chemistry" aria-pressed="false">Chemistry</button>
+                <button type="button" class="topic-pill" data-topic-filter="physics" aria-pressed="false">Physics</button>
+                <button type="button" class="topic-pill" data-topic-filter="mathematics" aria-pressed="false">Mathematics</button>
+                <button type="button" class="topic-pill" data-topic-filter="engineering" aria-pressed="false">Engineering</button>
+                <button type="button" class="topic-pill" data-topic-filter="art" aria-pressed="false">Art</button>
+            </div>
+        </div>
+        $partial("templates/post-list.html")$
+        <p class="topic-empty" hidden>No recent posts under this topic.</p>
+    </div>
+    <div class="archive-cta"><a class="np-btn-outline" href="/writing.html">Explore all 51 notes →</a></div>
+</section>

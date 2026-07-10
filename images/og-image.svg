@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Peter Johnston</title>
+  <desc id="desc">Systems builder, chemist, and writer in Seattle</desc>
+  <rect width="1200" height="630" fill="#f5f2ea"/>
+  <path d="M0 0h28v630H0z" fill="#465c9b"/>
+  <g transform="translate(86 92)">
+    <rect width="118" height="118" rx="24" fill="#1a1d2b"/>
+    <path d="M28 27h32c18 0 28 10 28 26S78 79 60 79H46v17H28V27Zm18 16v20h12c8 0 12-4 12-10s-4-10-12-10H46Z" fill="#f5f2ea"/>
+    <path d="M88 68v14c0 16-8 24-24 24-6 0-12-2-16-4l6-14c2 2 6 2 8 2 6 0 8-2 8-10V68h18Z" fill="#8fa5e3"/>
+  </g>
+  <text x="86" y="310" fill="#1a1d2b" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700">Peter Johnston</text>
+  <text x="90" y="386" fill="#465c9b" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="2">SYSTEMS BUILDER · CHEMIST · WRITER</text>
+  <line x1="90" y1="444" x2="1110" y2="444" stroke="#ccd3e5" stroke-width="3"/>
+  <text x="90" y="515" fill="#4d5366" font-family="Arial, Helvetica, sans-serif" font-size="30">Portfolio, résumé, and technical notes · Seattle</text>
+</svg>

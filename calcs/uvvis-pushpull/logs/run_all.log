@@ -1,0 +1,273 @@
+=== START benzene 15:38:25 ===
+
+  Memory set to  22.352 GiB by Python driver.
+  Threads set to 9 by Python driver.
+Some dependencies such as QCElemental have not yet finished migration to pydantic v2. If issues are encountered please downgrade pydantic or upgrade QCElemental as appropriate
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.57e-11
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 3.
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to   0.25.
+Optimizer: Optimization complete!
+[benzene] done: opt E=-232.084784; b3lyp lowest-bright 176.45 nm; cam-b3lyp lowest-bright 174.22 nm
+=== OK benzene 15:40:33 ===
+=== START aniline 15:40:33 ===
+
+  Memory set to  22.352 GiB by Python driver.
+  Threads set to 9 by Python driver.
+Some dependencies such as QCElemental have not yet finished migration to pydantic v2. If issues are encountered please downgrade pydantic or upgrade QCElemental as appropriate
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.05e-05
+
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.33e-07
+
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  2.356e-07 	Max(dx):  1.253e-06 	RMS(dq):  4.008e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 3.05e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 6.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  2.080e-06 	Max(dx):  8.196e-06 	RMS(dq):  6.103e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 4.81e-06
+
+Optimizer: Optimization complete!
+[aniline] done: opt E=-287.401098; b3lyp lowest-bright 269.11 nm; cam-b3lyp lowest-bright 258.74 nm
+=== OK aniline 15:43:31 ===
+=== START nitrobenzene 15:43:31 ===
+
+  Memory set to  22.352 GiB by Python driver.
+  Threads set to 9 by Python driver.
+Some dependencies such as QCElemental have not yet finished migration to pydantic v2. If issues are encountered please downgrade pydantic or upgrade QCElemental as appropriate
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.29e-05
+
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  1.061e-07 	Max(dx):  3.412e-07 	RMS(dq):  9.001e-08
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  1.383e-07 	Max(dx):  3.381e-07 	RMS(dq):  9.250e-08
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 8.37e-08
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 5.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  3.725e-06 	Max(dx):  9.620e-06 	RMS(dq):  3.584e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 3.39e-06
+
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to   0.25.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  3.403e-06 	Max(dx):  1.301e-05 	RMS(dq):  3.065e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 3.05e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 6.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 5.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  7.715e-07 	Max(dx):  2.360e-06 	RMS(dq):  3.154e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.80e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 6.
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to  0.188.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  5.047e-06 	Max(dx):  2.177e-05 	RMS(dq):  4.823e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 4.15e-06
+
+Optimizer: Optimization complete!
+[nitrobenzene] done: opt E=-436.431779; b3lyp lowest-bright 283.02 nm; cam-b3lyp lowest-bright 255.35 nm
+=== OK nitrobenzene 15:47:21 ===
+=== START pNA 15:47:21 ===
+
+  Memory set to  22.352 GiB by Python driver.
+  Threads set to 9 by Python driver.
+Some dependencies such as QCElemental have not yet finished migration to pydantic v2. If issues are encountered please downgrade pydantic or upgrade QCElemental as appropriate
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 4.30e-05
+
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 1.45e-05
+
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.85e-04
+
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to   0.25.
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.75e-04
+
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  4.065e-06 	Max(dx):  1.968e-05 	RMS(dq):  3.328e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 3.13e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  1.064e-06 	Max(dx):  5.712e-06 	RMS(dq):  2.602e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 1.51e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 9.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  2.414e-06 	Max(dx):  1.290e-05 	RMS(dq):  3.635e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.69e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 10.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 9.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  4.739e-06 	Max(dx):  1.952e-05 	RMS(dq):  5.510e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 3.81e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 11.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 10.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 9.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to   0.25.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  9.365e-06 	Max(dx):  3.714e-05 	RMS(dq):  5.126e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 4.40e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 12.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 11.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 10.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 9.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to 0.0625.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  4.252e-06 	Max(dx):  1.159e-05 	RMS(dq):  5.035e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 4.47e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 13.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 12.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 11.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 10.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 9.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to 0.0156.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  7.332e-06 	Max(dx):  2.044e-05 	RMS(dq):  4.215e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 4.02e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 14.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 13.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 12.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 11.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 10.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 9.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  8.055e-06 	Max(dx):  2.680e-05 	RMS(dq):  5.018e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 4.32e-06
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 15.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 14.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 13.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 12.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 11.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 10.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 9.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to 0.0117.
+	Unable to completely converge to displaced geometry.
+	RMS(dx):  3.860e-06 	Max(dx):  1.194e-05 	RMS(dq):  6.064e-06
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 5.17e-06
+
+Optimizer: Optimization complete!
+[pNA] done: opt E=-491.754298; b3lyp lowest-bright 312.32 nm; cam-b3lyp lowest-bright 282.87 nm
+=== OK pNA 15:54:09 ===
+=== ALL DONE 15:54:09 ===

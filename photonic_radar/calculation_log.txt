@@ -1,0 +1,54 @@
+
+  Memory set to   7.451 GiB by Python driver.
+  Threads set to 6 by Python driver.
+Starting LiNbO3 property calculations at 2025-03-01 21:35:21
+Output directory: /home/peter/Desktop/photonic_radar/lithium_niobate_results
+Calculating electronic properties for LiNbO3_minimal...
+  HOMO: -9.0610 eV
+  LUMO: -0.8162 eV
+  Gap: 8.2448 eV
+Calculating polarizability for LiNbO3_minimal...
+  Field 0.002: Completed (E = -288.14118107 Eh, μz = -0.083534 a.u.)
+  Field 0.001: Completed (E = -288.14111843 Eh, μz = -0.041757 a.u.)
+  Field 0.0: Completed (E = -288.14111843 Eh, μz = -0.041757 a.u.)
+  Field -0.001: Completed (E = -288.14111843 Eh, μz = 0.041755 a.u.)
+  Field -0.002: Completed (E = -288.14118107 Eh, μz = 0.083532 a.u.)
+  Calculated alpha_zz = 41.764352 a.u. (R² = 0.9260)
+Calculating electronic properties for LiNbO3_extended...
+  HOMO: -5.8317 eV
+  LUMO: -0.9954 eV
+  Gap: 4.8364 eV
+Calculating polarizability for LiNbO3_extended...
+  Field 0.002: Completed (E = -566.27604177 Eh, μz = 0.585289 a.u.)
+  Field 0.001: Completed (E = -566.27670536 Eh, μz = 0.742100 a.u.)
+  Field 0.0: Completed (E = -566.27670537 Eh, μz = 0.742083 a.u.)
+  Field -0.001: Completed (E = -566.27850231 Eh, μz = 1.056038 a.u.)
+  Field -0.002: Completed (E = -566.27963766 Eh, μz = 1.214738 a.u.)
+  Calculated alpha_zz = 157.283466 a.u. (R² = 0.9258)
+Calculating electronic properties for LiNbO3_Mg_doped...
+
+
+c: [0]
+fc: [0.0]
+m: [1]
+fm: [1]
+Traceback (most recent call last):
+  File "input_script.py", line 413, in <module>
+    main()
+  File "input_script.py", line 301, in main
+    elec_props = calculate_electronic_properties(name, geometry)
+  File "input_script.py", line 210, in calculate_electronic_properties
+    molecule = psi4.geometry(geometry)
+  File "/home/peter/miniconda3/envs/qchem/lib/python3.8/site-packages/psi4/driver/molutil.py", line 259, in geometry
+    molrec = qcel.molparse.from_string(
+  File "/home/peter/miniconda3/envs/qchem/lib/python3.8/site-packages/qcelemental/molparse/from_string.py", line 276, in from_string
+    molrec = from_input_arrays(
+  File "/home/peter/miniconda3/envs/qchem/lib/python3.8/site-packages/qcelemental/molparse/from_arrays.py", line 97, in from_input_arrays
+    processed = from_arrays(
+  File "/home/peter/miniconda3/envs/qchem/lib/python3.8/site-packages/qcelemental/molparse/from_arrays.py", line 380, in from_arrays
+    processed = validate_and_fill_chgmult(
+  File "/home/peter/miniconda3/envs/qchem/lib/python3.8/site-packages/qcelemental/molparse/chgmult.py", line 501, in validate_and_fill_chgmult
+    c_final, fc_final, m_final, fm_final = reconcile(cgmp_exact_c, cgmp_exact_fc, cgmp_exact_m, cgmp_exact_fm)
+  File "/home/peter/miniconda3/envs/qchem/lib/python3.8/site-packages/qcelemental/molparse/chgmult.py", line 491, in reconcile
+    raise ValidationError(err)
+qcelemental.exceptions.ValidationError: Inconsistent or unspecified chg/mult: sys chg: None, frag chg: [0.0], sys mult: None, frag mult: [1]

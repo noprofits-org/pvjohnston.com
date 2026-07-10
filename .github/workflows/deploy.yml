@@ -1,0 +1,131 @@
+name: Build and Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Publish through GitHub's native Pages deployment (Settings → Pages → Source:
+# "GitHub Actions"). One controlled deploy per run instead of force-pushing a
+# gh-pages branch and relying on GitHub's separate, flaky auto "pages build and
+# deployment" pipeline. Serialize deploys and never cancel one mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Installs Stack only. Stack provisions the GHC the snapshot pins
+    # (stack.yaml — currently GHC 9.8.4 via LTS 23.8) into ~/.stack, which is
+    # cached below, so a setup-installed GHC would just be dead weight.
+    - name: Setup Haskell Stack
+      uses: haskell-actions/setup@v2
+      with:
+        enable-stack: true
+        stack-no-global: true
+
+    - name: Cache Stack dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.stack
+          .stack-work
+        key: ${{ runner.os }}-stack-${{ hashFiles('stack.yaml.lock', '*.cabal') }}
+        restore-keys: |
+          ${{ runner.os }}-stack-
+
+    # Entries are content-addressed (hash of preamble + diagram source), so
+    # always restore the newest cache and save a fresh one per run — new
+    # diagrams accumulate, stale ones are just never read.
+    - name: Cache rendered TikZ diagrams
+      uses: actions/cache@v4
+      with:
+        path: _cache/tikz
+        key: ${{ runner.os }}-tikz-${{ github.run_id }}
+        restore-keys: |
+          ${{ runner.os }}-tikz-
+
+    - name: Cache APT package downloads
+      uses: actions/cache@v4
+      with:
+        path: /tmp/apt-cache
+        # Bump the trailing version (v2) to invalidate when the package list changes.
+        key: ${{ runner.os }}-apt-texlive-v2
+
+    - name: Install LaTeX, dvisvgm and mutool
+      run: |
+        mkdir -p /tmp/apt-cache/partial
+        sudo apt-get update
+        # Download .debs into the cached dir and still run dpkg configure so
+        # TeX Live format/map generation happens normally on every run.
+        # lualatex (texlive-luatex) renders the diagrams; dvisvgm converts them
+        # to SVG; mutool (mupdf-tools) is dvisvgm's PDF backend.
+        sudo apt-get -o Dir::Cache::archives="/tmp/apt-cache" install -y \
+          texlive-latex-extra texlive-pictures texlive-science texlive-luatex \
+          texlive-plain-generic texlive-fonts-recommended dvisvgm mupdf-tools
+        sudo chmod -R a+r /tmp/apt-cache
+
+    - name: Build, test, and verify generated output
+      run: |
+        stack test
+        stack exec site build
+        node scripts/verify-site.mjs
+
+    # Custom domain (the file GitHub Pages reads for the CNAME record) and a
+    # marker that disables Jekyll processing of the already-rendered site.
+    - name: Add CNAME and .nojekyll
+      if: github.event_name != 'pull_request'
+      run: |
+        echo "pvjohnston.com" > _site/CNAME
+        touch _site/.nojekyll
+
+    # Packages _site into the single tar artifact that actions/deploy-pages
+    # expects (named "github-pages").
+    - name: Upload Pages artifact
+      if: github.event_name != 'pull_request'
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    # Scopes required by the native Pages deployment: an OIDC token proves the
+    # run's identity to the Pages backend, and pages:write performs the deploy.
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url || steps.retry.outputs.page_url }}
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      continue-on-error: true
+      uses: actions/deploy-pages@v4
+
+    # The Pages backend intermittently rejects a freshly created deployment
+    # within seconds with a generic "Deployment failed, try again later." and
+    # no diagnostics (first seen 2026-07-04, twice in one hour). A manual
+    # rerun of the identical artifact succeeds, so retry once automatically
+    # before failing the run.
+    - name: Pause before retrying rejected deploy
+      if: steps.deployment.outcome == 'failure'
+      run: sleep 30
+
+    - name: Retry deploy to GitHub Pages
+      id: retry
+      if: steps.deployment.outcome == 'failure'
+      uses: actions/deploy-pages@v4

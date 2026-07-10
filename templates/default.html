@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="$if(description)$$description$$else$$sitedesc$$endif$">
+    <title>$title$ — Peter Johnston</title>
+
+    <meta name="theme-color" content="#F5F2EA" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#11131D" media="(prefers-color-scheme: dark)">
+    <link rel="canonical" href="$siteHost$$url$">
+    <meta property="og:type" content="$if(ogtype)$$ogtype$$else$website$endif$">
+    <meta property="og:site_name" content="Peter Johnston">
+    <meta property="og:title" content="$title$">
+    <meta property="og:description" content="$if(description)$$description$$else$$sitedesc$$endif$">
+    <meta property="og:url" content="$siteHost$$url$">
+    <meta property="og:image" content="$ogimage$">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Peter Johnston — systems builder, chemist, and writer in Seattle">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="$title$">
+    <meta name="twitter:description" content="$if(description)$$description$$else$$sitedesc$$endif$">
+    <meta name="twitter:image" content="$ogimage$">
+
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+      })();
+    </script>
+    <script>
+      (function () {
+        document.documentElement.classList.add('feat-pending');
+        setTimeout(function () { document.documentElement.classList.remove('feat-pending'); }, 1500);
+      })();
+    </script>
+
+    <link rel="preload" href="/fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700;800;900&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet" media="print">
+
+    <link rel="stylesheet" href="/css/site-theme.css">
+    <link rel="stylesheet" href="/css/default.css">
+    <link rel="alternate" type="application/atom+xml" title="Peter Johnston (Atom)" href="/atom.xml">
+    <link rel="alternate" type="application/rss+xml" title="Peter Johnston (RSS)" href="/rss.xml">
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+
+    <script defer src="/js/site-theme.js"></script>
+    <script defer src="/js/topic-filter.js"></script>
+    <script defer src="/js/featured-random.js"></script>
+    <script defer src="/js/figure-cycler.js"></script>
+    <script defer src="/js/mathjax-config.js"></script>
+    <script defer src="/js/code-copy.js"></script>
+    <script defer id="MathJax-script"
+        src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"
+        integrity="sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <a class="np-skiplink" href="#main">Skip to content</a>
+
+    <header class="np-header">
+        <div class="np-container np-header__bar">
+            <a class="np-header__brand" href="/" aria-label="Peter Johnston home">
+                <img src="/images/brandmark.svg" alt="" class="np-brandmark" width="34" height="34" aria-hidden="true">
+                <span class="np-wordmark">Peter Johnston<span class="np-wordmark__tld">.com</span></span>
+            </a>
+
+            <nav class="np-nav--inline" aria-label="Main navigation">
+                <a class="np-nav__link" href="/">Home</a>
+                <a class="np-nav__link" href="/resume.html">Résumé</a>
+                <a class="np-nav__link" href="/writing.html">Writing</a>
+                <a class="np-nav__link" href="/about.html">About</a>
+                <a class="np-nav__link" href="/contact.html">Contact</a>
+            </nav>
+
+            <button type="button" class="np-themetoggle" data-np-themetoggle aria-pressed="false" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <span data-np-themeicon aria-hidden="true">☽</span>
+            </button>
+            <button type="button" class="np-header__toggle" aria-label="Open menu" aria-expanded="false" aria-controls="np-drawer">
+                <span class="np-burger" aria-hidden="true"></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="np-scrim" data-drawer-scrim></div>
+    <aside id="np-drawer" class="np-drawer" aria-hidden="true" aria-label="Menu">
+        <div class="np-drawer__head">
+            <span class="np-drawer__title">Menu</span>
+            <button type="button" class="np-drawer__close" aria-label="Close menu"></button>
+        </div>
+        <a class="np-drawer__link" href="/">Home</a>
+        <a class="np-drawer__link" href="/resume.html">Résumé</a>
+        <a class="np-drawer__link" href="/writing.html">Writing</a>
+        <a class="np-drawer__link" href="/about.html">About</a>
+        <a class="np-drawer__link" href="/contact.html">Contact</a>
+    </aside>
+
+    <main id="main" role="main">$body$</main>
+
+    <footer class="np-footer">
+        <div class="np-container np-footer__top">
+            <div class="np-footer__brand">
+                <div class="np-footer__lockup">
+                    <span class="np-footer__mark">pj</span>
+                    <span class="np-footer__word">Peter Johnston</span>
+                </div>
+                <p class="np-footer__blurb">Systems, chemistry, art, and software — written with the math, code, references, and diagrams left in.</p>
+            </div>
+            <div class="np-footer__cols">
+                <div class="np-footer__col">
+                    <h4 class="np-footer__heading">Site</h4>
+                    <a class="np-footer__link" href="/resume.html">Résumé</a>
+                    <a class="np-footer__link" href="/writing.html">Writing</a>
+                    <a class="np-footer__link" href="/colophon.html">Colophon</a>
+                </div>
+                <div class="np-footer__col">
+                    <h4 class="np-footer__heading">Elsewhere</h4>
+                    <a class="np-footer__link" href="https://github.com/noprofits-org">GitHub</a>
+                    <a class="np-footer__link" href="https://noprofits.org">noprofits.org</a>
+                    <a class="np-footer__link" href="/contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="np-footer__legalwrap">
+            <div class="np-container np-footer__legal">
+                <span>© 2026 Peter Johnston · BSD-3-Clause · Built with Hakyll + Pandoc</span>
+                <span>Seattle</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

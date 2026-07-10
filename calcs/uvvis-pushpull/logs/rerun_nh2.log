@@ -1,0 +1,77 @@
+=== START aniline 15:56:20 ===
+
+  Memory set to  22.352 GiB by Python driver.
+  Threads set to 9 by Python driver.
+Some dependencies such as QCElemental have not yet finished migration to pydantic v2. If issues are encountered please downgrade pydantic or upgrade QCElemental as appropriate
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 3.69e-07
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 7.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 8.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 7.
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 9.17e-08
+
+Optimizer: Optimization complete!
+[aniline] done: opt E=-287.401898; b3lyp lowest-bright 264.92 nm; cam-b3lyp lowest-bright 254.77 nm
+=== OK aniline ===
+=== START pNA 15:59:17 ===
+
+  Memory set to  22.352 GiB by Python driver.
+  Threads set to 9 by Python driver.
+Some dependencies such as QCElemental have not yet finished migration to pydantic v2. If issues are encountered please downgrade pydantic or upgrade QCElemental as appropriate
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.81e-04
+
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 5.41e-03
+
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to   0.25.
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 8.92e-05
+
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 1.81e-04
+
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 2.04e-06
+
+	Previous geometry is closer to target in internal coordinates, so using that one.
+
+	Best geometry has RMS(Delta(q)) = 4.61e-07
+
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 11.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 12.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 11.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 13.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 12.
+	Energy has increased in a minimization.
+	Energy ratio indicates iffy step.
+	Intrafrag trust radius decreased to   0.25.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 14.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 13.
+	Denominators (dg)(dq) or (dq)(dq) are very small.
+	Skipping Hessian update for step 12.
+Optimizer: Optimization complete!
+[pNA] done: opt E=-491.754365; b3lyp lowest-bright 311.24 nm; cam-b3lyp lowest-bright 281.63 nm
+=== OK pNA ===
+=== NH2 RERUN DONE 16:05:42 ===

@@ -1,0 +1,26 @@
+<article class="post">
+    <a class="back-link" href="/writing.html">← All writing</a>
+
+    $if(tags)$
+    <div class="post-chips">
+        <span class="chip">$tags$</span>
+    </div>
+    $endif$
+
+    <h1 class="post-title">$title$</h1>
+
+    <div class="post-meta">
+        $if(author)$<span class="byline">$author$</span> · $endif$<span>$date$</span>
+    </div>
+
+    <div class="post-rule"></div>
+
+    <div class="post-body">
+        $body$
+    </div>
+
+    <div class="post-foot">
+        <a class="back-link" style="margin:0;" href="/writing.html">← All writing</a>
+        <button type="button" class="print-link" onclick="window.print();">Print / Save as PDF</button>
+    </div>
+</article>

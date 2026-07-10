@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#ffffff"/>
+  
+  <!-- Grid lines -->
+  <g stroke="#e0e0e0" stroke-width="1">
+    <!-- Horizontal grid lines -->
+    <line x1="100" y1="100" x2="700" y2="100"/>
+    <line x1="100" y1="175" x2="700" y2="175"/>
+    <line x1="100" y1="250" x2="700" y2="250"/>
+    <line x1="100" y1="325" x2="700" y2="325"/>
+    <line x1="100" y1="400" x2="700" y2="400"/>
+    <line x1="100" y1="475" x2="700" y2="475"/>
+    
+    <!-- Vertical grid lines -->
+    <line x1="157" y1="75" x2="157" y2="500"/>
+    <line x1="272" y1="75" x2="272" y2="500"/>
+    <line x1="386" y1="75" x2="386" y2="500"/>
+    <line x1="500" y1="75" x2="500" y2="500"/>
+    <line x1="614" y1="75" x2="614" y2="500"/>
+  </g>
+  
+  <!-- Axes -->
+  <g stroke="#000000" stroke-width="2">
+    <line x1="100" y1="500" x2="700" y2="500"/>  <!-- X-axis -->
+    <line x1="100" y1="500" x2="100" y2="75"/>   <!-- Y-axis -->
+  </g>
+  
+  <!-- X-axis ticks and labels -->
+  <g text-anchor="middle" font-family="Arial, sans-serif" font-size="14">
+    <line x1="157" y1="500" x2="157" y2="510" stroke="#000000" stroke-width="2"/>
+    <text x="157" y="530">1.0</text>
+    
+    <line x1="272" y1="500" x2="272" y2="510" stroke="#000000" stroke-width="2"/>
+    <text x="272" y="530">1.2</text>
+    
+    <line x1="386" y1="500" x2="386" y2="510" stroke="#000000" stroke-width="2"/>
+    <text x="386" y="530">1.4</text>
+    
+    <line x1="500" y1="500" x2="500" y2="510" stroke="#000000" stroke-width="2"/>
+    <text x="500" y="530">1.6</text>
+    
+    <line x1="614" y1="500" x2="614" y2="510" stroke="#000000" stroke-width="2"/>
+    <text x="614" y="530">1.8</text>
+    
+    <line x1="728" y1="500" x2="728" y2="510" stroke="#000000" stroke-width="2"/>
+    <text x="728" y="530">2.0</text>
+    
+    <!-- X-axis label -->
+    <text x="400" y="575" font-weight="bold">Bond Length (Å)</text>
+  </g>
+  
+  <!-- Y-axis ticks and labels -->
+  <g text-anchor="end" font-family="Arial, sans-serif" font-size="14">
+    <line x1="100" y1="500" x2="90" y2="500" stroke="#000000" stroke-width="2"/>
+    <text x="85" y="505">0</text>
+    
+    <line x1="100" y1="400" x2="90" y2="400" stroke="#000000" stroke-width="2"/>
+    <text x="85" y="405">15</text>
+    
+    <line x1="100" y1="300" x2="90" y2="300" stroke="#000000" stroke-width="2"/>
+    <text x="85" y="305">30</text>
+    
+    <line x1="100" y1="200" x2="90" y2="200" stroke="#000000" stroke-width="2"/>
+    <text x="85" y="205">45</text>
+    
+    <line x1="100" y1="100" x2="90" y2="100" stroke="#000000" stroke-width="2"/>
+    <text x="85" y="105">60</text>
+    
+    <!-- Y-axis label -->
+    <text transform="rotate(-90 40 300)" x="40" y="300" text-anchor="middle" font-weight="bold">Polarizability / a.u.</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Bond Length vs. Polarizability for Carbon-Chalcogen Molecules</text>
+  
+  <!-- Data Points -->
+  <g>
+    <circle cx="163" cy="397" r="8" fill="#1f77b4"/>
+    <circle cx="367" cy="246" r="8" fill="#1f77b4"/>
+    <circle cx="438" cy="191" r="8" fill="#1f77b4"/>
+    <circle cx="547" cy="74" r="8" fill="#1f77b4"/>
+    
+    <!-- Labels -->
+    <g text-anchor="start" font-family="Arial, sans-serif" font-size="14" fill="#1f77b4">
+      <text x="173" y="390">CO</text>
+      <text x="377" y="239">CS</text>
+      <text x="448" y="184">CSe</text>
+      <text x="557" y="67">CTe</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <rect x="550" y="435" width="130" height="30" fill="white" stroke="#888888" stroke-width="1"/>
+  <circle cx="570" cy="450" r="6" fill="#1f77b4"/>
+  <text x="585" y="455" font-family="Arial, sans-serif" font-size="14">Data Points</text>
+</svg>

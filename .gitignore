@@ -1,0 +1,46 @@
+# Created by https://www.gitignore.io/api/haskell
+
+### Haskell ###
+dist
+cabal-dev
+*.o
+*.hi
+*.chi
+*.chs.h
+*.dyn_o
+*.dyn_hi
+.hpc
+.hsenv
+.cabal-sandbox/
+cabal.sandbox.config
+*.prof
+*.aux
+*.hp
+.stack-work/
+dist-newstyle/
+_cache/
+_site/
+# Local scratch — saved Scholar page, not for publishing
+temp_vitae/
+
+# Adversarial-review hand-off scratch files (kept local, never committed)
+PR_*.md
+
+# Stray per-run timer artifact that shows up across working dirs
+timer.dat
+
+# IRS SOI raw extract data — large source files, kept local (scripts in
+# calcs/months-of-cash-at-scale/ document how to re-download and rebuild)
+24eoextract990.zip
+24eofinextractdoc.xlsx
+calcs/data/
+calcs/months-of-cash-at-scale/c3_months.csv.gz
+
+# Original oversized hero export (kept; resized 1200x630 copy is the real one)
+images/2026-07-07-months-of-cash-at-scale-hero.png.png
+
+# Local build toolchain (Haskell Stack + TinyTeX) — large binaries, kept local
+.tools/
+
+### macOS ###
+.DS_Store
