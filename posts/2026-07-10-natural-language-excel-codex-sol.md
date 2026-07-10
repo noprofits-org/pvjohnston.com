@@ -11,7 +11,7 @@ figcaption: A formula-driven Excel dashboard built from 6,319 confirmed planets 
 
 The interesting part of AI-assisted spreadsheet automation is not that a model can emit a few formulas. It is that a person can now describe the workbook they need in ordinary language, let an agent assemble the code and file, and then inspect a serious deliverable: source data, tables, formulas, charts, documentation, and validation included.
 
-I wanted to test that claim on something less forgiving than a toy sales table. I asked Codex to use a documented scientific dataset, preserve its provenance, create an analysis-ready Excel workbook, and verify the result visually and mathematically. The result is a seven-sheet workbook built from 6,319 confirmed planets in the NASA Exoplanet Archive.
+I wanted to test that claim on something less forgiving than a toy sales table. I asked Codex to use a documented scientific dataset, preserve its provenance, create an analysis-ready Excel workbook, and verify the result visually and mathematically. The result is a nine-sheet workbook built from 6,319 confirmed planets in the NASA Exoplanet Archive.
 
 [Download the finished NASA exoplanet Excel workbook](/downloads/nasa-exoplanet-dashboard.xlsx)
 
@@ -105,7 +105,7 @@ formulas, a compact dashboard, useful charts, filters, frozen headers, and
 clear number formats. Do not hide the analysis logic.
 ```
 
-That produced seven sheets:
+That produced nine sheets:
 
 | Sheet | What it is for |
 |---|---|
@@ -115,9 +115,38 @@ That produced seven sheets:
 | **Year Summary** | Formula-driven annual and cumulative discovery counts. |
 | **Method Summary** | Formula-driven counts and shares for each discovery method. |
 | **Field Coverage** | Completeness checks for orbital, planetary, stellar, and distance fields. |
+| **Prompt Lab** | Natural-language requests paired with live formulas, a formula-driven chart, and conditional formatting. |
+| **Pivot Analysis** | A live discovery-method-by-radius-class cross-tab with totals, a heat map, and the formula shown in the sheet. |
 | **Read Me** | Prompts, query, source URLs, methodology warning, and visible classification thresholds. |
 
 The distinction between raw and processed data matters. Nothing in the raw sheet is silently cleaned or overwritten. The derived classifications live in their own columns, use visible thresholds, and remain ordinary Excel formulas that a reviewer can trace.
+
+## Make the translation from prompt to spreadsheet visible
+
+The revised workbook does not merely present the finished analysis. Its **Prompt Lab** puts four requests beside the live cells and exact Excel formulas that answer them:
+
+| Natural-language request | Formula generated in the workbook |
+|---|---|
+| Count all confirmed planets in the snapshot. | `=COUNTA('Raw Data'!$A$2:$A$6320)` |
+| What share of planets has a measured radius? | `=COUNT('Raw Data'!$H$2:$H$6320)/COUNTA('Raw Data'!$A$2:$A$6320)` |
+| Find the average radius of transit-discovered planets. | `=AVERAGEIF('Processed Data'!$D$2:$D$6320,"Transit",'Processed Data'!$G$2:$G$6320)` |
+| Classify a planet with a radius of 1.60 Earth radii. | A nested `IF` formula that reads the visible thresholds on **Read Me**. |
+
+The result column is not pasted output: those are working in-cell formulas. Change the radius input from `1.60`, for example, and the classification recalculates. The sheet also records the requested display format—whole number, percentage, decimal measurement, or text category—because formula logic and presentation are separate parts of a useful workbook.
+
+![Prompt Lab sheet pairing ordinary-language requests with live Excel formulas, formatting rules, and a formula-driven chart](/images/exoplanet-prompt-lab.png)
+
+The plotting example starts with another plain-language request: compare average planet radius across the six most common discovery methods. Codex created a helper table whose values are calculated with `AVERAGEIF`, then bound a native Excel chart to that table. If the source data changes, the table and plot change with it.
+
+Formatting can be requested the same way. “Highlight field coverage below 95% in coral and coverage of 99% or better in teal” became two conditional-formatting rules, not hand-colored cells. The colors therefore continue to describe the values after recalculation.
+
+## A pivot-style analysis that remains auditable
+
+I also asked for a pivot table counting planets by discovery method and formula-derived radius class, including row totals, column totals, and a heat map. The workbook builds that cross-tab with live `COUNTIFS` formulas. Every body cell is inspectable, and the grand total reconciles to all 6,319 planets.
+
+![Pivot Analysis sheet showing a formula-backed cross-tab of discovery methods and planet-radius classes](/images/exoplanet-pivot-analysis.png)
+
+Current Excel 365 releases also offer a compact `PIVOTBY` formula. The **Pivot Analysis** sheet displays the equivalent one-cell formula for readers who want to try it. I did not make it the live implementation because the workbook-generation verifier used for this article cannot yet calculate `PIVOTBY`; using `COUNTIFS` allowed the generated file to be calculated, rendered, and checked end to end instead of shipping an unverified result.
 
 ## The prompt that matters most: verify it
 
@@ -129,7 +158,7 @@ every sheet, and fix clipping, broken charts, unreadable colors, and awkward
 wrapping before export.
 ```
 
-Codex checked the important ranges, confirmed that the annual counts reconcile to 6,319 planets, scanned the workbook for `#REF!`, `#DIV/0!`, `#VALUE!`, `#NAME?`, and `#N/A`, and found no matches. It rendered all seven sheets for visual inspection. That last step caught a real export problem: two fractional font sizes rendered correctly but violated a stricter integer requirement in the final Excel serializer. Codex changed them to whole-point sizes, rebuilt the file, and repeated the checks.
+Codex checked the important ranges, confirmed that the annual counts and pivot totals reconcile to 6,319 planets, scanned the workbook for `#REF!`, `#DIV/0!`, `#VALUE!`, `#NAME?`, and `#N/A`, and found no matches. It rendered all nine sheets for visual inspection. That last step caught a real export problem: two fractional font sizes rendered correctly but violated a stricter integer requirement in the final Excel serializer. Codex changed them to whole-point sizes, rebuilt the file, and repeated the checks.
 
 This is why I think of Codex as more than a code generator. The valuable loop is:
 
