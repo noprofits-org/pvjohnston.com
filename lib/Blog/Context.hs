@@ -17,7 +17,7 @@ siteHost = "https://pvjohnston.com"
 -- | Fallback description used for social meta on pages without their own.
 siteDescription :: String
 siteDescription =
-  "Peter Johnston builds useful systems and writes about chemistry, art, software, and the work of making complicated domains legible."
+  "Peter Johnston is an analytical problem solver, AI-assisted tool builder, and Ph.D. chemist who makes complicated domains legible."
 
 -- | Fields every page that renders @templates/default.html@ needs: the social
 -- @ogimage@ (absolute, per-post overridable) and the site-description fallback,
