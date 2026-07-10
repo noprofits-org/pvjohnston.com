@@ -14,7 +14,7 @@ import Blog.Context (postCtx)
 feedConfiguration :: FeedConfiguration
 feedConfiguration = FeedConfiguration
   { feedTitle       = "Peter Johnston — Notes"
-  , feedDescription = "Chemistry, art, software, systems, and other things worth understanding."
+  , feedDescription = "Science, AI-assisted tools, automation, art, and other things worth understanding."
   , feedAuthorName  = "Peter Johnston"
   , feedAuthorEmail = "pvjohnst@gmail.com"
   , feedRoot        = "https://pvjohnston.com"
