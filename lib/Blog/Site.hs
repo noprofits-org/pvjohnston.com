@@ -52,6 +52,10 @@ siteRules previewDrafts = do
         route   idRoute
         compile copyFileCompiler
 
+    match "downloads/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match "css/*" $ do
         route   idRoute
         compile compressCssCompiler
