@@ -1,26 +1,26 @@
 ---
 title: Résumé
-description: Peter Johnston — project and operations coordinator, systems builder, and chemist in Seattle.
+description: Peter Johnston — analytical problem solver, AI-assisted tool builder, and Ph.D. chemist in Seattle.
 ---
 
 <article class="resume-page">
 <header class="resume-head">
 <div class="resume-eyebrow">Curriculum Vitae</div>
 <h1>Peter Johnston<span>, Ph.D.</span></h1>
-<p class="resume-role">Project &amp; Operations Coordinator · Systems Builder · Chemist</p>
+<p class="resume-role">Analytical Problem Solver · AI-Assisted Tool Builder · Scientist</p>
 <p class="resume-contact">Seattle, WA · <a href="mailto:pvjohnst@gmail.com">pvjohnst@gmail.com</a> · <a href="https://github.com/noprofits-org">github.com/noprofits-org</a></p>
 <button type="button" class="resume-print" onclick="window.print()">Print / Save as PDF</button>
 </header>
 
-<p class="resume-profile">Construction project coordinator with a research scientist’s rigor and a builder’s instinct for process improvement. I coordinate subcontractors, suppliers, materials procurement, scheduling, and client communication across dozens of concurrent jobs—and build the systems that make that coordination faster and more accurate. I pair advanced spreadsheet and document automation with AI-assisted tooling to turn repetitive tasks into reliable systems.</p>
+<p class="resume-profile">Analytical problem solver with a Ph.D. in chemistry and a record of turning complex, loosely defined work into useful systems. I combine scientific reasoning, advanced Google Workspace and Apps Script automation, data analysis, and AI-assisted development to investigate problems, build custom tools, and improve how teams work. My experience spans molecular materials research, hazardous-materials classification, public-interest data, and operations—evidence of an ability to learn unfamiliar domains quickly and deliver practical results.</p>
 
 <section>
 <h2>Core competencies</h2>
 <div class="resume-grid">
-<div><h3>Operations &amp; coordination</h3><p>Concurrent project coordination · subcontractors and vendors · materials procurement · scheduling · records and document control · client communication.</p></div>
-<div><h3>Documentation &amp; productivity</h3><p>Advanced spreadsheet modeling · templated document generation · databases and reporting · Google Workspace and Apps Script · Microsoft Office · Adobe Creative Cloud.</p></div>
-<div><h3>Process improvement &amp; automation</h3><p>Workflow design · document automation · procurement reconciliation · AI-assisted development · self-directed projects from problem discovery through rollout.</p></div>
-<div><h3>Industry knowledge</h3><p>Insurance restoration · subcontractor scoping and competitive bidding · finishing-material selections · Xactimate workflows · construction procurement.</p></div>
+<div><h3>Analytical problem solving</h3><p>Problem framing · research and literature synthesis · quantitative analysis · root-cause investigation · translating complex domains into actionable models.</p></div>
+<div><h3>AI-assisted tools &amp; automation</h3><p>Rapid prototyping · custom internal applications · workflow design · data integration · document automation · validation and iterative improvement.</p></div>
+<div><h3>Google Workspace &amp; data</h3><p>Advanced Sheets (formulas, pivots, validation, connected sources) · Apps Script · SQL and structured data · Docs and Drive automation · reporting dashboards · templated document generation.</p></div>
+<div><h3>Scientific &amp; technical communication</h3><p>Chemistry and molecular materials · computational workflows · spectroscopy · peer-reviewed publication · technical writing · visual explanation.</p></div>
 </div>
 </section>
 
@@ -28,13 +28,13 @@ description: Peter Johnston — project and operations coordinator, systems buil
 <h2>Experience</h2>
 <div class="resume-job">
 <div class="resume-job-head"><h3>Grey Wolfe Construction <span>— Project Coordinator</span></h3><p>Jan 2026–Present · Seattle, WA</p></div>
-<p>Coordinate insurance-restoration and custom-build projects end to end while continuously improving the internal systems that run the office.</p>
+<p>Apply a systems and automation mindset inside a fast-moving small construction firm, coordinating active projects while designing the connected tools that run the office.</p>
 <ul>
-<li>Coordinate dozens of concurrent projects across subcontractors, suppliers, schedules, procurement, document control, and client communication.</li>
 <li>Led the design and rollout of six connected project-tracking applications, replacing scattered spreadsheets with a live source of truth used by field crews, warehouse staff, and the office.</li>
 <li>Automated finishing-material selection letters, bid packages, supplier requests, scopes of work, and client correspondence directly from job data, reducing routine production from hours to minutes.</li>
 <li>Built procurement reconciliation that matches orders to deliveries and flags discrepancies and outstanding materials by dollar value.</li>
 <li>Standardized subcontractor scoping and competitive bidding across trades with margin targets built into cost analysis.</li>
+<li>Coordinate dozens of concurrent projects across subcontractors, suppliers, schedules, procurement, document control, and client communication.</li>
 </ul>
 </div>
 <div class="resume-job">
@@ -74,7 +74,7 @@ description: Peter Johnston — project and operations coordinator, systems buil
 
 <section>
 <h2>Research &amp; publications</h2>
-<p>Eleven peer-reviewed publications in organic electro-optic materials and silicon/plasmonic photonics. Ph.D. research in the Dalton group at the University of Washington. <a href="https://scholar.google.com/citations?user=kl64cagAAAAJ">Google Scholar profile</a>.</p>
+<p>Eleven peer-reviewed publications in organic electro-optic materials and silicon/plasmonic photonics. Current independent work revisits quantum chemistry, spectroscopy, and molecular properties through reproducible computational notebooks and AI-assisted scientific tooling. Ph.D. research in the Dalton group at the University of Washington. <a href="https://scholar.google.com/citations?user=kl64cagAAAAJ">Google Scholar profile</a>.</p>
 <ol class="resume-publications">
 <li><strong>Plasmonic modulators for microwave photonics applications.</strong> Asia Communications and Photonics Conference, 2017.</li>
 <li><strong>Structure–function relationship exploration for enhanced thermal stability and electro-optic activity in monolithic organic NLO chromophores.</strong> Journal of Materials Chemistry C 4(15), 3119–3124, 2016.</li>
@@ -91,12 +91,12 @@ description: Peter Johnston — project and operations coordinator, systems buil
 </section>
 
 <section>
-<h2>Built in public</h2>
+<h2>Selected tools &amp; research notes</h2>
 <div class="resume-links">
-<a href="https://noprofits.org"><strong>noprofits.org</strong><span>Nonprofit transparency project and public-information hub</span></a>
+<a href="https://noprofits.org"><strong>noprofits.org</strong><span>Data and transparency tools built from public filings and grant records</span></a>
 <a href="https://search.noprofits.org"><strong>Nonprofit Search</strong><span>Form 990 financial and operational data</span></a>
 <a href="https://grants.noprofits.org"><strong>Grant Flows</strong><span>Interactive grantor-to-grantee visualization</span></a>
-<a href="/writing.html"><strong>Technical notebook</strong><span>Science, art, software, and systems writing</span></a>
+<a href="/writing.html"><strong>Scientific notebook</strong><span>AI-assisted computational explorations in quantum chemistry, spectroscopy, and molecular properties</span></a>
 </div>
 </section>
 </article>
