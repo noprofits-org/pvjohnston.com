@@ -87,8 +87,12 @@ thing it automates, and there's no second artifact to keep in sync.
 
 ## The general flow
 
-Under the menu, the work is a straight pipeline. Each stage reads what the last one
-produced and writes the next tab; nothing loops back.
+Under the menu, one pay period's work is a straight pipeline: each stage reads what
+the last one produced and writes the next tab, and no *data* ever flows backward.
+What comes back around is the period itself. Once the exports are out, *Archive
+period* snapshots the finished run and *Clear out* wipes the working tabs to empty,
+which stages the workbook for the next upload — so the whole thing is a loop that
+happens to be dead straight along the working leg.
 
 ```tikzpicture
 \begin{tikzpicture}[
@@ -98,18 +102,27 @@ produced and writes the next tab; nothing loops back.
   inbox/.style={box, fill=orange!13, draw=orange!72!black, minimum width=26mm},
   stepbox/.style={box, fill=blue!8, draw=blue!55!black, minimum width=26mm},
   outbox/.style={box, fill=green!10, draw=green!55!black, minimum width=26mm},
+  resetbox/.style={box, fill=black!5, draw=black!55, minimum width=26mm},
   flow/.style={->, thick, black!75},
+  loop/.style={->, thick, black!55, dashed},
   lbl/.style={font=\scriptsize, align=center},
 ]
+  % top row, left to right: one pay period's data pipeline
   \node[inbox]   (up)  at (0,0)      {Upload\\[-1pt]{\scriptsize .xls/.xlsx/.csv}};
   \node[stepbox] (imp) at (3.6,0)    {Import tab\\[-1pt]{\scriptsize raw grid}};
-  \node[stepbox] (lab) at (7.4,0)    {Labor Hours\\[-1pt]{\scriptsize hours + OT}};
-  \node[stepbox] (pay) at (11.2,0)   {Payout\\[-1pt]{\scriptsize gross pay}};
-  \node[outbox]  (exp) at (11.2,-2.4){Exports\\[-1pt]{\scriptsize files \(\cdot\) drafts \(\cdot\) CSV}};
+  \node[stepbox] (lab) at (7.2,0)    {Labor Hours\\[-1pt]{\scriptsize hours + OT}};
+  \node[stepbox] (pay) at (10.8,0)   {Payout\\[-1pt]{\scriptsize gross pay}};
+  % bottom row, right to left: exports, then the archive-and-clear reset
+  \node[outbox]   (exp) at (10.8,-2.6) {Exports\\[-1pt]{\scriptsize files \(\cdot\) drafts \(\cdot\) CSV}};
+  \node[resetbox] (arc) at (5.4,-2.6)  {Archive period\\[-1pt]{\scriptsize snapshot saved}};
+  \node[resetbox] (clr) at (0,-2.6)    {Clear out\\[-1pt]{\scriptsize reset the sheet}};
   \draw[flow] (up)  -- (imp);
   \draw[flow] (imp) -- (lab);
   \draw[flow] (lab) -- (pay);
   \draw[flow] (pay) -- (exp);
+  \draw[flow] (exp) -- (arc);
+  \draw[flow] (arc) -- (clr);
+  \draw[loop] (clr) -- node[lbl,left=1pt]{next\\pay period} (up);
 \end{tikzpicture}
 ```
 
@@ -117,8 +130,12 @@ The *Import* tab is just the raw export, dropped in as-is. *Labor Hours* is the
 computed heart: one block per employee, their shifts, and the regular/overtime
 summary. *Payout* rolls each person up to a single row of gross pay. From there the
 exports fan out — a per-worker file, an email draft, a CSV for the payroll
-provider. Keeping it a one-directional pipeline is what makes it comprehensible:
-to understand any tab, you only have to understand the one before it.
+provider. Then *Archive period* files the finished run away and *Clear out* resets
+the working tabs, closing the loop so the next pay period starts on a clean sheet
+instead of on top of the last one. Keeping the working leg one-directional is what
+makes it comprehensible — to understand any tab, you only have to understand the
+one before it — and the archive-and-clear return is what lets the same workbook run
+fortnight after fortnight without silting up with old data.
 
 ## Turning an uploaded Excel file into data
 
