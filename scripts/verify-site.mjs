@@ -32,8 +32,10 @@ if (!existsSync(root)) {
 const htmlFiles = walk(root).filter((file) => file.endsWith('.html'));
 const postFiles = htmlFiles.filter((file) => dirname(file) === join(root, 'posts'));
 
-if (postFiles.length !== 54) {
-  errors.push(`expected 54 published posts, found ${postFiles.length}`);
+// Guard against a build that silently drops the post pipeline, without
+// hard-coding an exact count that has to be bumped on every new post.
+if (postFiles.length === 0) {
+  errors.push('no published posts found in _site/posts — the post pipeline produced nothing');
 }
 
 for (const file of htmlFiles) {
