@@ -32,8 +32,8 @@ if (!existsSync(root)) {
 const htmlFiles = walk(root).filter((file) => file.endsWith('.html'));
 const postFiles = htmlFiles.filter((file) => dirname(file) === join(root, 'posts'));
 
-if (postFiles.length !== 53) {
-  errors.push(`expected 53 published posts, found ${postFiles.length}`);
+if (postFiles.length !== 54) {
+  errors.push(`expected 54 published posts, found ${postFiles.length}`);
 }
 
 for (const file of htmlFiles) {
