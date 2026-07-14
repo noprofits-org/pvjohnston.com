@@ -32,19 +32,47 @@ Em-dashes are fine and characteristic. Lead with a concrete, slightly
 contrarian hook. Close by tying back to the series or the concrete problem that
 opened the note.
 
-## 3. Citations — two conventions, pick by series
+## 3. Citations — two conventions, pick by the *sources*, not the topic
 
 Every post is compiled through the Pandoc citation pipeline
 (`lib/Blog/Compilers.hs` → `readPandocBiblio` with `bib/style.csl` +
-`bib/bibliography.bib`), so `[@key]` works anywhere. Choose the convention that
-fits the kind of note:
+`bib/bibliography.bib`), so `[@key]` works anywhere. Choose the convention by
+what you are actually citing:
 
-- **Science / academic notes** — Pandoc citations: `[@Halkier1999]`, rendered
-  into a numbered reference list via the shared bibliography.
-- **Software, art, and personal notes** — inline Markdown hyperlinks when a
-  formal reference list would add more ceremony than value.
+- **Any post that leans on formal, citable sources** — peer-reviewed papers,
+  books, or standards (e.g. Goldberg, Higham, an IEEE standard) — uses Pandoc
+  citations: `[@Halkier1999]`, rendered into a numbered reference list via the
+  shared bibliography. **This is triggered by the sources, not the subject.** A
+  numerical-computing or software post that rests on real literature is in this
+  convention even though it "feels" like a software note — do not default it to
+  inline links.
+- **Posts whose only references are web pages, docs, or tools** with no formal
+  bibliographic identity — inline Markdown hyperlinks, when a reference list
+  would add more ceremony than value.
 
-Do **not** use markdown footnotes (`[^1]`) — that matches neither.
+**Do not mix the two in one post.** Once a note is in the citation convention,
+route *all* of its references through the bibliography — including plain doc/tool
+pages, which get a `@misc` entry — so the reader gets one uniform numbered list
+rather than some superscripts and some inline links. Do **not** use markdown
+footnotes (`[^1]`) — that matches neither.
+
+**Marker placement.** Put the `[@key]` marker *after* the sentence punctuation,
+and group multiple sources for one sentence into a single bracket at the end of
+that sentence (semicolon-separated):
+
+```markdown
+…rounds to the nearest representable value.[@IEEE754_2019]
+…more accurate than a naïve Python loop.[@Higham2002; @NumpySum]
+```
+
+These render as trailing superscripts (`.¹`, `.³ˑ⁵`) under the numeric CSL
+style. End the post with a bare `## References` heading and nothing under it —
+Pandoc populates the bibliography there at build time; an empty-looking
+`## References` in the source is correct, not a stub to fill by hand.
+
+**Internal cross-links to other notes** in this repo stay as site-relative
+Markdown links (`/posts/…`) — those are navigation, not references, and never go
+in the bibliography.
 
 ## 4. Bibliography (`bib/bibliography.bib`) — append-only
 
@@ -146,12 +174,26 @@ The verification script rejects missing internal assets/links and any generated
 `tikz-error` box, because a green Hakyll exit alone does not prove every diagram
 compiled.
 
+**If you author in a sandbox and cannot run the build,** the orchestrator/human
+runs §7's build + verify before merge — but a missing citation will not fail the
+build loudly: a `[@key]` with no matching bib entry silently renders as `[?]`.
+So do this build-free self-check before handing off, and call out in your summary
+that the build still needs to run:
+
+1. For **every** `[@key]` you used, grep `bib/bibliography.bib` and confirm a
+   matching entry exists (`grep '{Higham2002,' bib/bibliography.bib`). New
+   entries you appended count; typos and forgotten entries are the failure mode.
+2. Confirm the post ends with a bare `## References` heading.
+3. Confirm no reference-style inline Markdown links remain in a citation-convention
+   post (grep the draft for `](http`), and that internal `/posts/…` links resolve.
+
 ## 8. Per-post checklist
 
 - [ ] Front matter complete; title quoted if needed; links relative
 - [ ] Voice matches the series and opens with a concrete problem
-- [ ] Citations in the correct convention for the series
-- [ ] New bib entries appended (science posts only), keys unique & de-duped
+- [ ] Citation convention picked by the sources (formal sources → `[@key]`, not inline links); conventions not mixed
+- [ ] New bib entries appended (any citation-convention post), keys unique & de-duped
+- [ ] Every `[@key]` grep-verified against `bib/bibliography.bib`; markers after punctuation; post ends with `## References`
 - [ ] Figure 1 authored at 1200×630 in house style; `<figure>` + alt text
 - [ ] Every figure, table, and code block has a numbered caption (Figure/Table/Code N) and is referenced by number in the prose
 - [ ] `og-image` set to the hero
