@@ -71,8 +71,13 @@ Pandoc populates the bibliography there at build time; an empty-looking
 `## References` in the source is correct, not a stub to fill by hand.
 
 **Internal cross-links to other notes** in this repo stay as site-relative
-Markdown links (`/posts/…`) — those are navigation, not references, and never go
-in the bibliography.
+Markdown links, and **must point at the rendered `.html` target, not the source
+`.md`** — Hakyll compiles posts to `.html` and does *not* rewrite the extension
+for you, so a `/posts/…-slug.md` link ships as a live 404 (e.g. link to
+`/posts/2026-07-04-the-correlation-gap-in-water-measured.html`). These are
+navigation, not references, and never go in the bibliography. `relativizeUrls`
+turns the leading `/` into a relative `../` at build time — that is expected;
+just get the extension right.
 
 ## 4. Bibliography (`bib/bibliography.bib`) — append-only
 
@@ -83,12 +88,17 @@ Rules:
    rewrite existing entries.
 2. **One writer at a time.** If another agent has uncommitted changes to this
    file, don't touch it — coordinate first.
-3. **Key scheme:** `AuthorYYYYword` (e.g. `Gregory2009Starvation`,
-   `Tinkelman2006Donations`). Before adding, grep the file for the surname AND
-   the year to confirm it isn't already present under a different key — common
-   surnames produce false-positive substring matches, so verify the actual
-   entry, not just the string.
-4. Only add entries when the note uses the academic `[@key]` convention.
+3. **Key scheme:** for authored works, `AuthorYYYY` with an optional trailing
+   word (`Goldberg1991`, `Gregory2009Starvation`, `Tinkelman2006Donations`). For
+   sources with no clear author or year — standards, vendor docs, tool/library
+   doc pages cited via `@misc` — use a short descriptive PascalCase key instead
+   (`GccFPMath`, `NumpySum`, `IEEE754_2019`). Before adding, grep the file for
+   the author/name AND the year to confirm it isn't already present under a
+   different key — common surnames produce false-positive substring matches, so
+   verify the actual entry, not just the string.
+4. Only add entries when the note uses the `[@key]` citation convention (§3) —
+   inline-link posts add nothing here. This is keyed on whether the note cites
+   formal sources, not on its subject.
 
 ## 5. Figures & the hero image
 
@@ -185,7 +195,15 @@ that the build still needs to run:
    entries you appended count; typos and forgotten entries are the failure mode.
 2. Confirm the post ends with a bare `## References` heading.
 3. Confirm no reference-style inline Markdown links remain in a citation-convention
-   post (grep the draft for `](http`), and that internal `/posts/…` links resolve.
+   post (grep the draft for `](http`), and that every internal `/posts/…` link
+   ends in `.html`, not `.md` (grep the draft for `/posts/[^)]*\.md` — it should
+   return nothing; the source `.md` extension ships as a 404, see §3).
+
+Note: `stack exec site build` alone is not enough — it runs the **already-compiled**
+`site` binary. If `lib/Blog/Site.hs` changed (e.g. a new asset rule), run
+`stack build` first or the binary silently omits the new outputs and verify-site
+flags phantom missing targets. The full sequence is `stack build && stack exec
+site build && node scripts/verify-site.mjs`.
 
 ## 8. Per-post checklist
 
@@ -197,5 +215,5 @@ that the build still needs to run:
 - [ ] Figure 1 authored at 1200×630 in house style; `<figure>` + alt text
 - [ ] Every figure, table, and code block has a numbered caption (Figure/Table/Code N) and is referenced by number in the prose
 - [ ] `og-image` set to the hero
-- [ ] Cross-links to the rest of the series
+- [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
 - [ ] Branch, build, verification, PR, and merge complete
