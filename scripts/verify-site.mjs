@@ -11,15 +11,12 @@ function walk(dir) {
   });
 }
 
-function targetExists(url) {
-  const clean = decodeURI(url.split('#')[0].split('?')[0]);
-  if (!clean || clean === '/') return existsSync(join(root, 'index.html'));
-  const relative = clean.replace(/^\//, '');
-  const direct = join(root, relative);
-  if (existsSync(direct)) return true;
-  if (clean.endsWith('/')) return existsSync(join(direct, 'index.html'));
+function targetExists(base, clean) {
+  if (clean === '/' || clean === '') return existsSync(join(base, 'index.html'));
+  if (existsSync(base)) return true;
+  if (clean.endsWith('/')) return existsSync(join(base, 'index.html'));
   if (!extname(clean)) {
-    return existsSync(`${direct}.html`) || existsSync(join(direct, 'index.html'));
+    return existsSync(`${base}.html`) || existsSync(join(base, 'index.html'));
   }
   return false;
 }
@@ -53,8 +50,17 @@ for (const file of htmlFiles) {
 
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     const url = match[1];
-    if (!url.startsWith('/') || url.startsWith('//')) continue;
-    if (!targetExists(url)) errors.push(`${label}: missing internal target ${url}`);
+    // Skip external (scheme:), protocol-relative (//), and fragment-only (#) links.
+    // Everything else is internal — including the ../ and ./ forms that relativizeUrls
+    // produces, which the old /-only filter silently skipped.
+    if (/^([a-z][a-z0-9+.-]*:|\/\/|#)/i.test(url)) continue;
+    const clean = decodeURI(url.split('#')[0].split('?')[0]);
+    const base = clean.startsWith('/')
+      ? join(root, clean.replace(/^\//, ''))
+      : resolve(dirname(file), clean);
+    if (!targetExists(base, clean)) {
+      errors.push(`${label}: missing internal target ${url}`);
+    }
   }
 }
 

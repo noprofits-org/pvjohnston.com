@@ -112,7 +112,7 @@ that cloud. Asking "which grouping is correct?" is the wrong question; the cloud
 *width* is the thing to know, because it tells you how many digits mean anything.
 
 This is the same discipline I leaned on in
-[the correlation-gap-in-water measurement](/posts/2026-07-04-the-correlation-gap-in-water-measured.md),
+[the correlation-gap-in-water measurement](/posts/2026-07-04-the-correlation-gap-in-water-measured.html),
 where every quoted digit was chosen to sit far above the arithmetic noise floor.
 The reason those energies could be reported to microhartree precision is that the
 quantities of interest were well-conditioned and the reported digits were nowhere
