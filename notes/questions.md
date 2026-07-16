@@ -64,6 +64,58 @@ Format:
 - **Blocked on:** a GPU. Rentable; not owned. Do not report as first-hand without one.
 - **Status:** observation
 
+## SIREN's underperformance in Villatoro et al. may be an initialization artifact
+- **Observed:** §2.3.2 records that "the official SIREN Python implementation's
+  initialization ... [differs from] the initialization scheme described in [32]",
+  states "the network is sensitive to how it is initialized", and then adopts a
+  *third* scheme from [35] without measuring what any of it costs. Separately they
+  test ω₀ ∈ {5,10,20}, report "no meaningful difference", and then **run at ω₀=30 —
+  a value outside the range they tested**. SIREN folklore holds ω₀ is *the*
+  critical knob; "insensitive to ω₀" and "sensitive to initialization" are in
+  tension. A load-bearing conclusion rests on this: "SIREN networks ... generally
+  underperform relative to KAN and MLP."
+- **Source:** Villatoro, Geraci & Schiavazzi, *J. Comput. Phys.* **565** (2026) 115170, §2.3.2 / §4
+- **Type:** quantification (asserted sensitivity, never measured) → possible falsification
+- **Contribution (candidate):** the measured cost of the SIREN paper-vs-repo
+  initialization discrepancy in the multi-fidelity setting, and ω₀ sensitivity
+  across {5,10,20,30} — neither of which the paper measures, though its
+  SIREN-underperforms conclusion depends on both
+- **Falsifier:** all three init schemes and all four ω₀ produce statistically
+  indistinguishable HF MSE on K1–K4 → the discrepancy is cosmetic, SIREN's
+  underperformance is architectural, and the paper's conclusion stands unharmed
+- **Publish the other outcome?** Yes — "SIREN really does underperform, and here
+  is the sensitivity data proving it isn't the init" is the useful null result
+  the paper skipped.
+- **Feasibility:** high. 1D closed-form test pair (eq. 4, the Forrester-type
+  function), nets of 1×8 to 3×16, CPU-only. Paper's own runs: 180–230 s/train.
+- **Status:** ready
+
+## Does the NTK mechanism actually predict Table 5?
+- **Observed:** §2.4 attributes encoding's benefit to NTK eigenspectrum reshaping
+  ("NTK-based analysis [51] *suggests* ... allowing the network to represent
+  high-frequency components of F that are otherwise suppressed by spectral bias")
+  and confirms only the *outcome*, never the mechanism — no NTK is ever computed.
+  §4 makes a further spectral claim qualitatively: KAN good across all frequency
+  ranges, MLP preferential for low-frequency, SIREN for high-frequency
+  oscillation. Meanwhile **Table 5 is a published 15-case ledger of exactly where
+  encoding helped (K3, K4, 2DU, GJG9) and where it hurt or was unnecessary (K1,
+  K5)**. The hypothesis predicts that ledger. Nobody has checked whether it does.
+  §5 concedes the theory "remains an open problem".
+- **Source:** Villatoro, Geraci & Schiavazzi (2026), §2.4 / Table 5 / §5
+- **Type:** unplotted line
+- **Contribution (candidate):** measured NTK eigenspectra for encoded vs
+  unencoded MF networks, tested against the paper's own published help/hurt
+  ledger — the mechanism the paper asserts from a citation and never computes
+- **Falsifier:** encoding leaves the eigenspectrum statistically unchanged, or
+  the spectral shift does not track Table 5's help/hurt column (i.e. it fails to
+  predict that encoding *harms* K1 and is unnecessary for K5)
+- **Feasibility:** medium. Tiny nets make the NTK Gram cheap; MLP and SIREN are
+  straightforward (Jacobian outer products), KAN is not — scope to MLP+SIREN and
+  say so.
+- **Risk:** the metric choice (effective rank vs eigenvalue decay exponent) is a
+  judgement call and must be fixed *before* running, or this becomes curve-fitting.
+- **Status:** ready
+
 ## Does anything I report depend on the bits that moved?
 - **Observed:** The closing question of the temperature-zero note, unanswered and
   currently rhetorical. It is only a real question against a specific reported
