@@ -1,8 +1,77 @@
 # Blog authoring conventions
 
 The single source of truth for producing a note on pvjohnston.com. Read this
-before drafting and follow it so every post comes out consistently. Pipeline order: **research → draft →
-bib → figures → hero/OG → branch → verify → PR → merge → auto-deploy.**
+before drafting and follow it so every post comes out consistently. Pipeline
+order: **question → contribution gate → hypothesis → experiment → draft → bib →
+figures → branch → verify → PR → merge → auto-deploy.**
+
+**Every post is an experiment.** There is no second class of post here — no
+explainer, no tutorial, no roundup. A note that tests nothing is not published,
+however well it reads.
+
+---
+
+## 0. Before you draft — the question, and what it contributes
+
+**The bottleneck is not writing. It is question supply.** Nobody finds a novel
+question on demand at 9pm, and a post that starts from a *topic* instead of a
+*question* will restate what is already known — fluently, and pointlessly. That
+is the machine that produces triviality, and no amount of structure downstream
+will stop it. Real labs do not invent a hypothesis on the day they write; they
+keep a backlog of things that do not add up, and pull from it.
+
+So `notes/questions.md` is the shelf. **Nothing gets drafted that was not sitting
+on the shelf first.** Entries come from three places, all three already proven
+here:
+
+- **Anomalies.** Anything that did not reproduce, did not match, or surprised
+  you. Log it the moment it happens, *before* you have an explanation — the
+  explanation is the post. The Neumaier finding sat for a day underneath the
+  sentence "I cannot account for the difference."
+- **Standing.** Places where you have a vantage nobody else has: your own
+  published work and the methods in it, or data only you can see.
+- **Next steps.** Every Conclusion names the next experiment (§2). That sentence
+  is a queue entry. This is the loop that makes the blog a research programme
+  rather than a series of posts.
+
+**The contribution gate.** Before drafting, write one sentence, and put it in the
+post's front matter:
+
+```yaml
+contribution: X, which is not in [source].
+```
+
+Then name its type from the list below. **If you cannot write that sentence, you
+do not have a post** — put the topic back on the shelf and pull another. This
+gate is the foundation. Everything else in this document is bookkeeping.
+
+| Type | The move |
+| --- | --- |
+| **Falsification** | a published claim does not hold |
+| **Decay** | a result was true and quietly stopped being true |
+| **Unplotted line** | the analysis the source's own data supports, that the source never ran |
+| **Quantification** | someone wrote "negligible" and never measured it |
+| **Untested regime** | it holds at X — does it hold at Y? |
+| **Composition** | two known results nobody has connected |
+| **Negative result** | expected X, measured not-X |
+
+Both of this site's genuine contributions came from friction with a *specific
+source*, not from choosing a subject: the unplotted regression in "a citation, a
+slot, and the line nobody plots" (the source's own data, the author's own error
+method), and the Neumaier decay in the temperature-zero note (a number that
+refused to reconcile). Neither came from a hook. Anomalies and standing are where
+the questions live; go there deliberately.
+
+**What is not novelty:** "I explained a known thing well." Kramers-Kronig has
+been understood since 1926. A good explanation of it contributes nothing to
+collective knowledge, however well it reads. Exposition is not a lesser post
+here — it is not a post here.
+
+**The honest failure mode.** When the shelf is empty, nothing ships that day. A
+gate that cannot fail is not a gate, and the only other way this resolves is
+stamping it to protect a streak — which produces precisely the trivial
+restatement this section exists to prevent. Breaking the streak is the cheaper
+loss.
 
 ---
 
@@ -18,43 +87,129 @@ date: 2026-07-06
 author: Peter Johnston
 tags: quantum chemistry, spectroscopy      # comma-separated
 description: One or two sentences. Used for meta description and social cards.
+contribution: X, which is not in [source].        # required; see §0
+contribution-type: decay                          # required; one of §0's table
 og-image: /images/YYYY-MM-DD-post-slug-hero.png   # optional; see §5
 ---
 ```
 
 - **Title:** quote if it contains a colon or other YAML-significant punctuation.
 - **Links:** use site-relative URLs for other notes in this repository.
+- **`contribution` / `contribution-type`:** written *before* drafting, not after
+  (§0). They are not rendered — they exist so the gate leaves an artifact in the
+  file, where a reviewer can check it against what the post actually did.
 
-## 2. Voice
+## 2. Structure — IMRaD, and voice within it
 
-Prose, not bullet lists. Section headers with `##`. Bold key terms on first use.
-Em-dashes are fine and characteristic. Lead with a concrete, slightly
-contrarian hook. Close by tying back to the series or the concrete problem that
-opened the note.
+**Every post uses the IMRaD skeleton**, in this order, as `##` headers:
 
-## 3. Citations — two conventions, pick by the *sources*, not the topic
+```
+## Abstract
+## Introduction
+## Computational Methods     (or ## Experimental Methods)
+## Results
+## Discussion
+## Conclusion
+## References
+```
+
+This is not decoration. We are scientists; the job is to state a hypothesis and
+test it, and the format is what keeps us honest about which of those we actually
+did. The discipline pays for itself in the Methods and Results sections
+specifically: a note that must declare what it ran tends to get run, and a note
+that must report what came out tends to catch the thing that didn't reproduce.
+Prefer reproducing a published number yourself over quoting it.
+
+- **Abstract** is a real in-body section, distinct from the `description` front
+  matter (which is the meta/social card). Don't reuse the same sentences.
+- **Introduction** builds the case for the experiment. It is a **funnel, not a
+  hook**: what is known (cited) → what that predicts → **the thing that does not
+  fit** → therefore the hypothesis → which predicts P. The gap is the
+  load-bearing element; it is the reason the experiment exists. If a reader
+  reaches Methods without already knowing why you ran it, the Introduction
+  failed. Do not open with a contrarian flourish. Open with the state of
+  knowledge and walk to the edge of it.
+- **The hypothesis must be falsifiable, and its falsifier is stated before
+  Results** — in the Introduction or Methods, name the outcome that would kill
+  it. Two tests: could it have come out the other way, and **would you have
+  published it if it had?** If no outcome would falsify the hypothesis, you have
+  an illustration, not an experiment, and §0 has already told you what to do.
+- **Methods** must state the environment precisely enough to re-run: interpreter
+  or compiler version, architecture, library versions, seeds, exact procedure.
+  Write it to be *used* during review, not filed — the 2026-07-16 note's whole
+  phantom discrepancy was explained by the version number in its own Methods,
+  three paragraphs above, and nobody read it.
+- **Anything you did not run yourself must say so, in Methods, in those words,**
+  and be attributed at every point of use in Discussion. Reporting someone
+  else's result is legitimate; implying you reproduced it is not. If a claim
+  needs hardware you don't have, name that as a limitation. Never assert that
+  your procedure is equivalent to a source's — *test* the equivalence. The word
+  "exactly" is a claim.
+- **Results** reports what the machine printed, and nothing else. See below.
+- **Discussion** renders the **verdict — supported / falsified / inconclusive, in
+  those words** — then relevance (what changes for someone who has to act) and
+  limits (what would overturn this). All mechanism, interpretation, and
+  speculation lives here. Discrepancies with a source get chased before they get
+  reported: check your own Methods first — version, dtype, accumulator, library
+  defaults explain most of them. "I cannot account for this" is publishable, but
+  only after you have tried; it is a last resort, not a shrug.
+- **Conclusion** points **forward, not back**. State what changed in what we
+  know, and name the next experiment. Do *not* tie back to the problem that
+  opened the note — that is circularity, and it is what an essay does. A post
+  with no next step probably opened nothing. The next step goes on the shelf
+  (§0).
+
+**There are no exceptions.** Every post is an experiment (see the top of this
+document), so every post has Methods and Results. A post that reaches for the
+exception is a post that failed §0 and should not be drafted.
+
+**Results are dry.** Every sentence in Results must survive one question: *what
+did the machine print?* If the answer is a number, a count, or a range, it is a
+result. If the answer is a verdict, it is Discussion. We do not interpret, judge,
+confirm, or discuss in Results.
+
+Confirmation is a verdict, so **"confirmed" is a banned word in Results.** So are
+*therefore, thus, shows that, which means, matters, worth recording, reconciles,
+not marginal, only, merely, artifact*, and any clause beginning *because*.
+**Captions are not an exemption** — an interpretive clause in a table caption is
+the same violation, better hidden.
+
+This rule previously existed in the abstract form "keep interpretation out of
+Results," and it caught nothing: the 2026-07-16 note shipped with a Results
+section roughly four-fifths interpretation, written and reviewed by people who
+had read that rule the same day. A principle you can nod at and still violate
+needs a test. Apply the printed-output test sentence by sentence.
+
+Dry usually means shorter, and often means a table. Prose narrating a
+reconciliation is a signal that the reconciliation belongs in Discussion and the
+data belongs in a table.
+
+**Voice within the structure.** Prose, not bullet lists. Bold key terms on first
+use. Em-dashes are fine and characteristic. The section headers are fixed but the
+writing under them is not stiff — ACS research articles read like arguments, not
+forms. The argument lives in the Introduction and the Discussion, where it is
+allowed to.
+
+## 3. Citations — ACS style, always, no exceptions
 
 Every post is compiled through the Pandoc citation pipeline
 (`lib/Blog/Compilers.hs` → `readPandocBiblio` with `bib/style.csl` +
-`bib/bibliography.bib`), so `[@key]` works anywhere. Choose the convention by
-what you are actually citing:
+`bib/bibliography.bib`). **`bib/style.csl` is the American Chemical Society
+style.** Every external reference in every post goes through it as a `[@key]`
+citation resolved against the shared bibliography. There is no second
+convention and no "this one's just a blog post" exit.
 
-- **Any post that leans on formal, citable sources** — peer-reviewed papers,
-  books, or standards (e.g. Goldberg, Higham, an IEEE standard) — uses Pandoc
-  citations: `[@Halkier1999]`, rendered into a numbered reference list via the
-  shared bibliography. **This is triggered by the sources, not the subject.** A
-  numerical-computing or software post that rests on real literature is in this
-  convention even though it "feels" like a software note — do not default it to
-  inline links.
-- **Posts whose only references are web pages, docs, or tools** with no formal
-  bibliographic identity — inline Markdown hyperlinks, when a reference list
-  would add more ceremony than value.
+This rule used to have an escape hatch for "web pages, docs, or tools with no
+formal bibliographic identity," which was deleted because it was wrong twice
+over. First, ACS specifies formats for exactly these source types — web pages,
+software, datasets, preprints, standards — so "no bibliographic identity" is not
+a category that exists; it just means you haven't looked up the right ACS format
+yet (§4). Second, it invited misclassification: the escape hatch was once used
+to inline-link a source that turned out to carry a DOI and ship its own BibTeX
+entry. If you are citing it, it has an entry.
 
-**Do not mix the two in one post.** Once a note is in the citation convention,
-route *all* of its references through the bibliography — including plain doc/tool
-pages, which get a `@misc` entry — so the reader gets one uniform numbered list
-rather than some superscripts and some inline links. Do **not** use markdown
-footnotes (`[^1]`) — that matches neither.
+**Never mix conventions, and never use markdown footnotes** (`[^1]`) — that
+matches neither.
 
 **Marker placement.** Put the `[@key]` marker *after* the sentence punctuation,
 and group multiple sources for one sentence into a single bracket at the end of
@@ -89,16 +244,40 @@ Rules:
 2. **One writer at a time.** If another agent has uncommitted changes to this
    file, don't touch it — coordinate first.
 3. **Key scheme:** for authored works, `AuthorYYYY` with an optional trailing
-   word (`Goldberg1991`, `Gregory2009Starvation`, `Tinkelman2006Donations`). For
+   word (`Goldberg1991`, `Gregory2009Starvation`, `He2025Nondeterminism`). For
    sources with no clear author or year — standards, vendor docs, tool/library
    doc pages cited via `@misc` — use a short descriptive PascalCase key instead
    (`GccFPMath`, `NumpySum`, `IEEE754_2019`). Before adding, grep the file for
    the author/name AND the year to confirm it isn't already present under a
    different key — common surnames produce false-positive substring matches, so
    verify the actual entry, not just the string.
-4. Only add entries when the note uses the `[@key]` citation convention (§3) —
-   inline-link posts add nothing here. This is keyed on whether the note cites
-   formal sources, not on its subject.
+4. **Every source a post cites gets an entry** (§3). There is no class of source
+   that skips the bibliography.
+5. **Check whether the source publishes its own citation** before writing one.
+   Journals, preprint servers, and an increasing number of research blogs ship a
+   BibTeX block or a DOI; use it rather than inventing an entry, and prefer the
+   authors' own choice of entry type and venue name.
+
+**ACS formats by source type.** ACS specifies all of these; pick by what the
+source *is*, and always include an access date for anything that can change
+under you.
+
+| Source | Entry | Required fields beyond title/author |
+| --- | --- | --- |
+| Journal article | `@article` | `journal`, `year`, `volume`, `pages`, `doi` |
+| Book | `@book` | `publisher`, `address`, `year`; `edition` if not 1st |
+| Chapter in edited book | `@incollection` | `booktitle`, `editor`, `publisher`, `year`, `pages` |
+| Preprint | `@misc` | `eprint`, `archiveprefix`, `year`, `doi` if issued |
+| Standard | `@misc` | issuing body as `author`, designation in `title`, `year` |
+| Web page / research blog | `@online` | `organization` (site name), `year`, `month`, `url`, `note={accessed YYYY-MM-DD}` |
+| Software / repository | `@misc` | `version` if tagged, `url`, `note={accessed …}` |
+| Dataset | `@misc` | `publisher` (repository), `doi` or `url`, `year` |
+| Thesis | `@phdthesis` / `@thesis` | `school`, `year`, `type` |
+| Conference talk / poster | `@inproceedings` | `booktitle` (meeting name), `address`, `year` |
+
+**Table 0.** ACS-mapped BibTeX entry types by source type. A research blog post
+that carries a DOI is an `@article` with the blog as `journal` — follow the
+source's own citation block when it provides one (rule 5).
 
 ## 5. Figures & the hero image
 
@@ -137,13 +316,19 @@ chart clips or piles a heavy tail, mark the overflow bins visually (detached
 bars in the lifted teal, tick labels like "≤ −6" / "> 36"), letter them, and
 let the caption say what they collect.
 
-**Hero = Figure 1 = the social card.** Author Figure 1 at **1200×630 (1.91:1
-landscape)** so the same asset serves as both the in-post hero and the OG/Twitter
-card — no separate variant, no crop. Compose horizontally (e.g. a left-to-right
-loop, or side-by-side panels) rather than square. Then set `og-image` in front
-matter to that file. Posts without `og-image` fall back to the generic branded
-card (`/images/og-image.png`), so always set it going forward. (Backfill older
-posts by setting `og-image` to a 1200×630 crop/reframe of their existing figure.)
+**Figures are optional and must earn their place.** A post with something to show
+makes one; a post whose argument is a table does not manufacture one. Seven
+consecutive posts have shipped without a figure and were not worse for it — this
+was a mandate that the work quietly voted against, and a rule nobody follows
+teaches you to skim the ones that matter.
+
+**If you make one: hero = Figure 1 = the social card.** Author Figure 1 at
+**1200×630 (1.91:1 landscape)** so the same asset serves as both the in-post hero
+and the OG/Twitter card — no separate variant, no crop. Compose horizontally
+(e.g. a left-to-right loop, or side-by-side panels) rather than square. Then set
+`og-image` in front matter to that file. Posts without `og-image` fall back to
+the generic branded card (`/images/og-image.png`), which is a fine outcome, not a
+defect.
 
 ## 6. Captions & numbering (required)
 
@@ -207,13 +392,31 @@ site build && node scripts/verify-site.mjs`.
 
 ## 8. Per-post checklist
 
+**Before drafting (§0) — if any of these fails, there is no post:**
+
+- [ ] The question came off `notes/questions.md`; it was not invented today
+- [ ] `contribution:` sentence written, naming what this post has that its sources do not
+- [ ] `contribution-type:` set to one of §0's seven; "explained a known thing well" is not on the list
+- [ ] The hypothesis has a falsifier, written down before the experiment ran
+- [ ] You would publish the other outcome
+
+**After drafting:**
+
 - [ ] Front matter complete; title quoted if needed; links relative
-- [ ] Voice matches the series and opens with a concrete problem
-- [ ] Citation convention picked by the sources (formal sources → `[@key]`, not inline links); conventions not mixed
-- [ ] New bib entries appended (any citation-convention post), keys unique & de-duped
+- [ ] IMRaD sections present and in order (§2) — no exceptions; every post is an experiment
+- [ ] Introduction funnels known → predicted → **gap** → hypothesis; no hook
+- [ ] Methods states interpreter/arch/versions/seeds precisely enough to re-run
+- [ ] Anything not run first-hand is declared as such in Methods and attributed at each use
+- [ ] No untested equivalence claims ("reproduces X's semantics exactly" is a claim — test it)
+- [ ] **Results passes the printed-output test sentence by sentence** (§2); no banned words; captions clean
+- [ ] Any discrepancy with a source was chased through your own Methods before being reported unresolved
+- [ ] Discussion states the verdict — supported / falsified / inconclusive — in those words
+- [ ] Conclusion points forward and names the next experiment; that next step is now on the shelf
+- [ ] Every external source cited as `[@key]` in ACS style — no inline links, no footnotes, no exceptions (§3)
+- [ ] Source's own BibTeX/DOI used where it publishes one; entry type matches Table 0
+- [ ] New bib entries appended, keys unique & de-duped
 - [ ] Every `[@key]` grep-verified against `bib/bibliography.bib`; markers after punctuation; post ends with `## References`
-- [ ] Figure 1 authored at 1200×630 in house style; `<figure>` + alt text
+- [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional)
 - [ ] Every figure, table, and code block has a numbered caption (Figure/Table/Code N) and is referenced by number in the prose
-- [ ] `og-image` set to the hero
 - [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
 - [ ] Branch, build, verification, PR, and merge complete
