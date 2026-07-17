@@ -88,6 +88,39 @@ Format:
   the paper skipped.
 - **Feasibility:** high. 1D closed-form test pair (eq. 4, the Forrester-type
   function), nets of 1×8 to 3×16, CPU-only. Paper's own runs: 180–230 s/train.
+- **Status:** published — `/posts/2026-07-17-the-siren-that-was-a-straight-line.html`.
+  Mechanism half only. Measured: specified scheme gives hidden pre-activation std
+  0.036 vs ≈1 for both Sitzmann conventions at ω₀=30, compounding to 0.0018 by
+  layer 2. Narrowed on the way: `siren-pytorch` [35] passes ONE w0 to both its
+  initializer and its activation, so the degenerate config is nearly unreachable
+  from the library — the defect is in the paper's prose, not necessarily its
+  results. Did NOT claim otherwise. The cost half is the next entry.
+
+## Does the SIREN spec degeneracy actually cost accuracy?
+- **Observed:** Next step from the post above. A preliminary numpy training pilot
+  (3×16, K1 HF, Adam, 15k epochs, **fixed lr=1e-3**, 4 reps) suggested the
+  degenerate network *outperforms* both intact schemes at ω₀=30 — e.g. N_H=32:
+  specified 5.1e-5 vs described 1.3e-2 vs official 1.6e-1 normalized MSE. Plausible
+  reading: a linear hidden stack is fewer effective DOF, which regularizes in the
+  8–32-sample regime where a true high-frequency SIREN overfits.
+- **Why it is not yet a result:** the pilot is confounded. The paper tunes lr per
+  configuration with Hyperopt over log[1e-5,1e-1]; at fixed lr a network that
+  *fails to train* is indistinguishable from one that *overfits*, and the intact
+  schemes scored >1.0 normalized MSE at ω₀=30, which smells like optimization
+  failure rather than overfitting. Not reported in the post for that reason.
+- **Source:** own next step; Villatoro et al. (2026) §2.7 (Hyperopt protocol)
+- **Type:** quantification
+- **Contribution (candidate):** the accuracy cost of the specification degeneracy
+  under per-configuration lr tuning — i.e. whether the linear hidden stack helps
+  or hurts once the optimizer confound is removed
+- **Falsifier:** with lr tuned per config, intact and degenerate schemes reach
+  statistically indistinguishable test MSE → the degeneracy is accuracy-neutral
+  and the post's finding stays purely a specification defect
+- **Needs:** an lr sweep per config (~4×the pilot's compute, still minutes), and
+  ideally the MF architecture rather than single-fidelity HF fitting, since the
+  paper's SIREN claim is about the MF setting
+- **Blocked on (soft):** the authors' repo, to check spec-vs-code. Unreleased as of
+  2026-07-16 ("shared upon acceptance"; accepted 2026-06-29).
 - **Status:** ready
 
 ## Does the NTK mechanism actually predict Table 5?
@@ -124,3 +157,37 @@ Format:
 - **Type:** quantification
 - **Falsifier:** the reported quantity is stable across reruns to more digits than are quoted
 - **Status:** observation — needs a concrete target before it is a question
+
+## Does the h/p-adaptive SPH speedup reach an order of magnitude at equal accuracy?
+- **Observed:** Ricci, Vacondio, and Fourtakas state that their h/p-adaptive SPH
+  formulation reduces cost by up to an order of magnitude. In the three-dimensional
+  vortex-ring case they identify two equal-accuracy resolution pairs in prose and
+  report the corresponding normalized run times in a separate table, but never join
+  those values into equal-accuracy speedups.
+- **Source:** Ricci, Vacondio, and Fourtakas, *J. Comput. Phys.* **565** (2026)
+  115192, Table 3 and the paragraph immediately below it
+- **Type:** quantification
+- **Contribution (candidate):** an equal-accuracy cost ledger for the paper's two
+  explicit vortex-ring resolution matches, which the source's own timing data
+  supports but the source never calculates
+- **Falsifier:** either matched pair gives a speedup of at least 10 when the reported
+  normalized run times are divided
+- **Publish the other outcome?** Yes — a measured tenfold saving would make the
+  paper's headline claim more concrete rather than less useful.
+- **Status:** drafting
+
+## What is the full cost-accuracy Pareto frontier for h/p-adaptive SPH?
+- **Observed:** Figure 8 of Ricci, Vacondio, and Fourtakas plots drag-history
+  error against normalized wall-clock time for the impulsively started cylinder,
+  but the plotted errors are not tabulated and the paper does not report the
+  equal-error speedup along the curve.
+- **Source:** Ricci, Vacondio, and Fourtakas, *J. Comput. Phys.* **565** (2026)
+  115192, Figure 8 and Table 1
+- **Type:** unplotted line
+- **Contribution (candidate):** a pre-thresholded equal-error Pareto frontier for
+  the cylinder runs, including the maximum supported speedup, which is not in
+  the source
+- **Falsifier:** the h/p curve does not Pareto-dominate the Lagrangian curve at
+  the declared error threshold, or its maximum matched speedup remains below 10
+- **Status:** observation — needs the authors' raw Figure 8 error values or a
+  documented plot-digitization uncertainty model
