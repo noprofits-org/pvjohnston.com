@@ -67,6 +67,36 @@ been understood since 1926. A good explanation of it contributes nothing to
 collective knowledge, however well it reads. Exposition is not a lesser post
 here — it is not a post here.
 
+**Anchor the hypothesis to a recent primary source — a journal article from this
+year or last.** This is the single most reliable way to find a question that is
+actually open, and it follows directly from the rule above. A settled result can
+only be *explained*; a live one can be *contributed to*. Kramers-Kronig has had a
+century of scrutiny and every accessible gap in it is closed. A paper from six
+months ago has unpriced claims, unreleased code, and mechanisms asserted but not
+measured — because that is what the edge of a literature looks like. Both of this
+site's genuine contributions came from 2025–2026 sources; none of its expository
+posts could have, because their sources were decades old and there was nothing
+left to find.
+
+Recency is necessary, not sufficient: a modern paper still has to yield a
+`contribution:` sentence, and "recent" is not a synonym for "unexamined."
+
+**Where the gaps hide in a modern paper.** Read for friction, not for topic:
+
+| Look at | What it yields |
+| --- | --- |
+| "Future work", "remains an open problem" | gaps the authors named themselves — free targets |
+| Hedged mechanisms: "suggests", "likely", "attributed to" | a cause asserted from a citation and never measured |
+| Two tables that were never joined | an **unplotted line** — the analysis their own data supports |
+| "negligible", "no meaningful difference", "comparable" | an unquantified null |
+| Spec in the text vs the code they cite or release | a reimplementation hazard; acute when the code is unreleased |
+| A headline number with no tabulated case behind it | an unsourced claim |
+
+Prefer a source whose data or code you can actually reach, and check whether the
+code is released before committing — an unreleased repository does not block the
+question, but it *bounds* what you may claim, and that boundary belongs in
+Methods (§2) from the start rather than being discovered late.
+
 **The honest failure mode.** When the shelf is empty, nothing ships that day. A
 gate that cannot fail is not a gate, and the only other way this resolves is
 stamping it to protect a streak — which produces precisely the trivial
@@ -395,6 +425,8 @@ site build && node scripts/verify-site.mjs`.
 **Before drafting (§0) — if any of these fails, there is no post:**
 
 - [ ] The question came off `notes/questions.md`; it was not invented today
+- [ ] Anchored to a recent primary source (journal article, this year or last) — not a settled result (§0)
+- [ ] Checked whether the source's code/data is released; if not, the claim boundary is already written into Methods
 - [ ] `contribution:` sentence written, naming what this post has that its sources do not
 - [ ] `contribution-type:` set to one of §0's seven; "explained a known thing well" is not on the list
 - [ ] The hypothesis has a falsifier, written down before the experiment ran
