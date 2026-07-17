@@ -180,7 +180,62 @@ that band — $T = 7600$, $8400$, $8800$, $9200$, $9600$, $10000$, $10400$, $108
 and $11200$. The largest deviation is $2.346$, at $T = 9200$, where the displacement
 is $+0.346$; the next two are $-3.76$ at $T = 9600$ and $-3.02$ at $T = 8400$. The
 standard deviation over the 18 periods is $0.7865$ (Table 3). The largest deviation
-of each pump falls at the same period, $T = 9200$.
+of each pump falls at the same period, $T = 9200$ (Figure 1).
+
+```tikzpicture
+\definecolor{ink}{HTML}{1A1D2B}
+\definecolor{indigo}{HTML}{465C9B}
+\begin{axis}[
+    width=16cm, height=9cm,
+    xlabel={pump period $T$ (thousands)},
+    ylabel={displacement over one cycle (unit cells)},
+    xmin=3.6, xmax=12, ymin=-4.5, ymax=1.0,
+    xtick={4,5,6,7,8,9,10,11,12},
+    ytick={1,0,-1,-2,-3,-4},
+    grid=major,
+    grid style={line width=.2pt, draw=gray!30},
+    axis lines=left,
+    legend pos=north east,
+    legend style={draw=none, fill=white, fill opacity=0.85, font=\large},
+    every axis label/.style={font=\large},
+    every tick label/.style={font=\large}
+]
+\fill[ink!8] (axis cs:3.6,-1.15) rectangle (axis cs:12,-0.85);
+\fill[indigo!12] (axis cs:3.6,-2.15) rectangle (axis cs:12,-1.85);
+\addplot[dashed, color=ink!55] coordinates {(3.6,-1)(12,-1)};
+\addplot[dashed, color=indigo!70] coordinates {(3.6,-2)(12,-2)};
+\draw[dashed, color=indigo!60] (axis cs:5.2,-4.5) -- (axis cs:5.2,1.0);
+\addplot[thick, color=ink, mark=*, mark size=1.4pt] coordinates {
+(3.6,-0.858) (4.0,-1.011) (4.4,-0.985) (4.8,-0.958) (5.2,-0.986) (5.6,-0.993)
+(6.0,-0.983) (6.4,-1.007) (6.8,-0.994) (7.2,-1.051) (7.6,-0.897) (8.0,-0.950)
+(8.4,-0.971) (8.8,-1.008) (9.2,-0.815) (9.6,-0.990) (10.0,-0.991) (10.4,-0.908)
+(10.8,-0.998) (11.2,-1.036) (11.6,-1.019) (12.0,-0.990)
+};
+\addlegendentry{normal, $-1$}
+\addplot[thick, color=indigo, mark=*, mark size=1.4pt] coordinates {
+(3.6,-0.371) (4.0,0.593) (4.4,-4.244) (4.8,-0.703) (5.2,-1.935) (5.6,-1.922)
+(6.0,-1.986) (6.4,-1.992) (6.8,-2.017) (7.2,-2.022) (7.6,-0.944) (8.0,-1.973)
+(8.4,-3.018) (8.8,-2.221) (9.2,0.346) (9.6,-3.757) (10.0,-1.369) (10.4,-1.812)
+(10.8,-1.792) (11.2,-1.822) (11.6,-1.998) (12.0,-1.956)
+};
+\addlegendentry{anomalous, $-2$}
+\node[font=\large\bfseries, color=indigo] at (axis cs:5.2,0.65) {A};
+\node[font=\large\bfseries] at (axis cs:9.2,0.62) {B};
+\node[font=\large\bfseries, color=indigo] at (axis cs:9.28,-3.7) {C};
+\end{axis}
+```
+
+**Figure 1.** Pumped displacement versus pump period $T$, above each pump's
+adiabatic threshold, from the convergence-gated time evolution. Black: the normal
+pump ($g=g_{12}=1$), target $-1$. Indigo: the anomalous pump ($g=1$, $g_{12}=0$),
+target $-2$. Shaded strips are the $\pm 0.15$ bands around each target; the dashed
+horizontal lines are the targets. **A** marks the anomalous threshold $T = 5200$
+(the normal threshold, $T = 1200$, is off-scale to the left). **B** marks $T = 9200$,
+where both pumps deviate farthest and in the same direction — the normal pump to
+$-0.82$, the anomalous pump all the way to $+0.35$, a pump nominally worth two cells
+that instead moves the soliton the wrong way. **C** marks the $-3.76$ excursion at
+$T = 9600$. Below $T \approx 5200$ the anomalous displacement swings off-scale (it
+reaches $+12$ and $-16$) because the soliton is not yet locked to its branch.
 
 | | Normal | Anomalous (case 2) |
 | --- | ---: | ---: |
