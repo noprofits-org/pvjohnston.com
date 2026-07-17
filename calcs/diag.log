@@ -1,0 +1,26 @@
+TEST 1 -- convergence at fixed T (normal case)
+        T     dt  nblocks |  displacement     drift
+     6400   0.02     1500 |      -1.00748   1.1e-11
+     6400   0.01     3000 |      -1.00871   9.2e-12
+     6400  0.005     6000 |      -1.01232   1.8e-11
+    25600   0.02     1500 |      -1.21625   6.3e-11
+    25600   0.01     3000 |      -1.02983   1.3e-10
+    25600  0.005     6000 |      -1.00477   1.8e-10
+
+TEST 1b -- lattice size at fixed T (normal case)
+  On a ring, shed radiation cannot escape: it laps the lattice and re-interacts
+  with the soliton. That would degrade long-T runs specifically. The paper does
+  not state its lattice size.
+        T     L |  displacement     drift
+     6400    60 |      -1.00748   1.1e-11
+     6400   100 |      -1.01987   2.8e-11
+     6400   160 |      -0.99803   2.2e-11
+    25600    60 |      -1.21625   6.3e-11
+    25600   100 |      -1.20251   4.3e-11
+    25600   160 |     -25.14476   1.0e-11
+
+TEST 2 -- localization over the cycle (normal case)
+        T | |z| start  |z| end partic start  partic end      disp
+     3200 |    0.9726   0.9720        7.226       7.265   -1.0202
+     6400 |    0.9726   0.9722        7.226       7.231   -1.0075
+    25600 |    0.9726   0.9676        7.226       7.318   -1.2163

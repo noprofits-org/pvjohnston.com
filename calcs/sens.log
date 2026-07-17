@@ -1,0 +1,33 @@
+Sensitivity of the pumped displacement to a tiny initial perturbation
+(dt fixed by the T*dt^2 rule; only the initial condition is perturbed)
+
+normal: g=1.0 g12=1.0 m0=1.0  paper adiabatic displacement = -1
+  T=3200
+    eps=0e+00   disp =  -1.0202   spread=0.0000
+    eps=1e-12   disp =  -1.0202  -1.0202  -1.0202   spread=0.0000
+    eps=1e-10   disp =  -1.0202  -1.0202  -1.0202   spread=0.0000
+    eps=1e-08   disp =  -1.0202  -1.0202  -1.0202   spread=0.0000
+
+  T=6400
+    eps=0e+00   disp =  -0.9987   spread=0.0000
+    eps=1e-12   disp =  -0.9987  -0.9987  -0.9987   spread=0.0000
+    eps=1e-10   disp =  -0.9987  -0.9987  -0.9987   spread=0.0000
+    eps=1e-08   disp =  -0.9987  -0.9987  -0.9987   spread=0.0000
+
+  T=12800
+    eps=0e+00   disp =  -0.9947   spread=0.0000
+    eps=1e-12   disp =  -0.9947  -0.9947  -0.9947   spread=0.0000
+    eps=1e-10   disp =  -0.9947  -0.9947  -0.9947   spread=0.0000
+    eps=1e-08   disp =  -0.9947  -0.9947  -0.9947   spread=0.0000
+
+anom2: g=1.0 g12=0.0 m0=1.0  paper adiabatic displacement = -2
+  T=3200
+    eps=0e+00   disp =  +2.4441   spread=0.0000
+    eps=1e-12   disp =  +2.4441  +2.4441  +2.4441   spread=0.0000
+    eps=1e-10   disp =  +2.4441  +2.4441  +2.4441   spread=0.0000
+    eps=1e-08   disp =  +2.4441  +2.4441  +2.4441   spread=0.0000
+
+  T=6400
+    eps=0e+00   disp =  -1.9905   spread=0.0000
+    eps=1e-12   disp =  -1.9905  -1.9905  -1.9905   spread=0.0000
+    eps=1e-10   disp =  -1.9905  -1.9905  -1.9905   spread=0.0000
