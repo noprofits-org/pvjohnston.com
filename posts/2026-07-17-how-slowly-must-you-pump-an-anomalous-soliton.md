@@ -3,7 +3,7 @@ title: "How slowly must you pump an anomalous soliton?"
 date: 2026-07-17
 author: Peter Johnston
 tags: topological pumping, solitons, nonlinear dynamics, adiabaticity, cold atoms, numerical methods
-description: A new anomalous soliton pump is quantized only in the adiabatic limit, and the paper says only that its parameter must be varied "sufficiently slowly". Measured, the anomalous pump needs a 4.7x slower ramp than the normal one — and above that threshold it still leaves the quantized value at 7 of 17 periods.
+description: A new anomalous soliton pump is quantized only in the adiabatic limit, and the paper says only that its parameter must be varied "sufficiently slowly". Measured, the anomalous pump needs a 4.3x slower ramp than the normal one — and above that threshold it still misses the quantized value at 9 of 18 periods, once by more than a full unit cell.
 contribution: The pump period required for quantized anomalous soliton transport, and its ratio to the normal pump's — a quantity Tao, Wang & Xu (2026) assert as "sufficiently slowly" and never measure, in a mechanism they propose for cold-atom experiment.
 contribution-type: quantification
 ---
@@ -19,13 +19,15 @@ approached is that the pump parameter was varied "sufficiently slowly". No pump
 period appears anywhere in it. I measure the period. Direct time evolution of the
 paper's own discrete model reproduces three of its four reported displacements, and
 locates the adiabatic threshold at $T \approx 1200$ for the normal pump and
-$T \approx 5600$ for the anomalous one — a factor of $4.7$, which supports the
+$T \approx 5200$ for the anomalous one — a factor of $4.3$, which supports the
 hypothesis that routing a soliton through a branch point costs adiabaticity. The
-larger effect is not the threshold. Above it the normal pump never leaves a
-$\pm 0.15$ band around $-1$ across 28 periods, while the anomalous pump leaves the
-band around $-2$ at 7 of 17 periods, reaching $-3.41$ at $T = 9600$, with a scatter
-$7.1$ times larger. "Slowly enough" is therefore not a sufficient instruction for
-the anomalous pump: particular periods fail well above the threshold.
+larger effect is not the threshold. Above it the normal pump leaves a $\pm 0.15$
+band around $-1$ at only 1 of 28 periods, and then by $0.19$; the anomalous pump
+leaves the band around $-2$ at 9 of 18 periods, once reaching $+0.35$ — a pump that
+should advance the soliton two cells instead moving it essentially nowhere — with a
+scatter $13$ times larger. "Slowly enough" is therefore not a sufficient
+instruction for the anomalous pump: particular periods fail well above the
+threshold, and both pumps fail worst at the same period, $T = 9200$.
 
 ## Introduction
 
@@ -124,14 +126,20 @@ $1.000000$, which is what identifies it as the paper's branch.
 **Time evolution.** $\theta(t) = 2\pi t/T$, integrated by split-step with the
 nonlinear substep taken exactly (it is a phase rotation, so it preserves
 $|\psi|^2$ and hence $V$). Second-order Strang splitting proved inadequate: its
-error accumulates as $T\,\delta t^2$ and reaches $\sim 10^{-1}$ by $T \sim 10^4$,
-which is not small compared to the quantity being measured. All results below use
-4th-order Yoshida composition,[@Yoshida1990] error $\sim T\,\delta t^4$, at
-$\delta t = 0.03$, and every reported value was checked against $\delta t = 0.04$,
-$0.02$ and $0.01$. Norm is conserved to $\lesssim 10^{-10}$ throughout. The centre
-of mass on a ring is the Resta phase estimator,[@Resta1998] unwrapped along the
-trajectory; the Resta amplitude $|z|$ is recorded at every sample so that a
-displacement is only reported while the state is still localized.
+error accumulates as $T\,\delta t^2$, so it is *largest* in exactly the
+long-period limit of interest, and reaches $\sim 10^{-1}$ by $T \sim 10^4$. All
+results below use 4th-order Yoshida composition,[@Yoshida1990] error
+$\sim T\,\delta t^4$. Each pump period is integrated at step sizes
+$\delta t = 0.02, 0.01, 0.005, 0.0025$ in turn until two successive sizes agree to
+within $0.02$ in displacement; that value is reported and the period marked
+converged. Every period in the scans below reached that criterion, the finer
+anomalous excursions requiring $\delta t = 0.005$. A first version of this note
+tabulated a single under-resolved scan at $\delta t = 0.03$ instead, which
+misplaced the excursion values by up to $1.1$ cells; the convergence gate is the
+correction. Norm is conserved to $\lesssim 10^{-10}$ throughout. The centre of mass
+on a ring is the Resta phase estimator,[@Resta1998] unwrapped along the trajectory;
+the Resta amplitude $|z|$ is recorded at every sample so that a displacement is only
+reported while the state is still localized.
 
 **Not done here.** The paper's continuous Gross–Pitaevskii model, its supercell
 Chern analysis, and its stability analysis were not reproduced. The instantaneous
@@ -140,49 +148,55 @@ pseudo-arclength continuation; all statements below come from time evolution onl
 
 Every number below is reproducible from
 [soliton-pump-code.tar.gz](/downloads/soliton-pump-code.tar.gz), which needs
-nothing but NumPy.
+nothing but NumPy: `converge.py` runs the convergence-gated scan for each case and
+`build_tables.py` rebuilds Tables 2 and 3 from its output.
 
 ## Results
 
 Time evolution reproduces three of the paper's four reported displacements
 (Table 2). The fourth, case 3, was not reproduced at any period tested: at
-$T = 9600$ it converges to $-19.3$ under $\delta t = 0.04$, $0.02$ and $0.01$.
+$T = 9600$ it takes the values $-19.23$, $-19.30$ and $-19.33$ under
+$\delta t = 0.04$, $0.02$ and $0.01$.
 
 | Case | $g$ | $g_{12}$ | $m_0$ | Paper | Measured | At |
 | --- | --- | --- | --- | --- | --- | --- |
-| normal | 1 | 1 | 1 | $-1$ | $-0.9928 \pm 0.0561$ | mean over $T \in [1200, 12000]$ |
-| case 1 | $-1$ | 0 | 1 | $0$ | $-0.0003$ to $+0.0016$ | every $T \in [400, 12800]$ |
+| normal | 1 | 1 | 1 | $-1$ | $-0.9796 \pm 0.0584$ | mean over $T \in [1200, 12000]$ |
+| case 1 | $-1$ | 0 | 1 | $0$ | $-0.0009$ to $+0.0019$ | every $T \in [400, 12000]$ |
 | case 2 | 1 | 0 | 1 | $-2$ | $-1.9921$ | $T = 6400$ |
 | case 3 | 1 | 0 | 1.3 | $-3$ | $-19.33$ | $T = 9600$ |
 
 **Table 2.** Pumped displacement in unit cells from direct time evolution,
-against the values reported in the source's Fig. 2a.
+against the values reported in the source's Fig. 2a. Cases normal, 1 and 2 are the
+convergence-gated scan; case 3 is the three step sizes quoted above.
 
 The displacement of the normal pump first enters a $\pm 0.15$ band around $-1$ at
-$T = 1200$. Across the 28 periods tested from $T = 1200$ to $T = 12000$, none lies
-outside that band; the largest deviation is $0.124$ at $T = 7600$, and the standard
-deviation is $0.0561$.
+$T = 1200$. Across the 28 periods from $T = 1200$ to $T = 12000$, one lies outside
+that band: $T = 9200$, at $-0.815$, a deviation of $0.185$. The standard deviation
+over the 28 periods is $0.0584$.
 
 The displacement of the anomalous case 2 first enters a $\pm 0.15$ band around $-2$
-at $T = 5600$. Across the 17 periods tested from $T = 5600$ to $T = 12000$, 7 lie
-outside that band — $T = 8400$, $8800$, $9200$, $9600$, $10000$, $10400$ and
-$10800$. The largest deviation is $1.410$, at $T = 9600$, where the displacement is
-$-3.41$. The standard deviation over the same range is $0.3983$ (Table 3).
+at $T = 5200$. Across the 18 periods from $T = 5200$ to $T = 12000$, 9 lie outside
+that band — $T = 7600$, $8400$, $8800$, $9200$, $9600$, $10000$, $10400$, $10800$
+and $11200$. The largest deviation is $2.346$, at $T = 9200$, where the displacement
+is $+0.346$; the next two are $-3.76$ at $T = 9600$ and $-3.02$ at $T = 8400$. The
+standard deviation over the 18 periods is $0.7865$ (Table 3). The largest deviation
+of each pump falls at the same period, $T = 9200$.
 
 | | Normal | Anomalous (case 2) |
 | --- | ---: | ---: |
-| First period inside the $\pm 0.15$ band | $1200$ | $5600$ |
-| Periods tested at or above it | 28 | 17 |
-| Of those, outside the band | **0** | **7** |
-| Largest deviation above it | $0.124$ | $1.410$ |
-| Mean displacement above it | $-0.9928$ | $-2.0859$ |
-| Standard deviation above it | $0.0561$ | $0.3983$ |
+| First period inside the $\pm 0.15$ band | $1200$ | $5200$ |
+| Periods at or above it | 28 | 18 |
+| Of those, outside the band | **1** | **9** |
+| Largest deviation above it | $0.185$ | $2.346$ |
+| Mean displacement above it | $-0.9796$ | $-1.8995$ |
+| Standard deviation above it | $0.0584$ | $0.7865$ |
 
 **Table 3.** Behaviour of the pumped displacement at and above the first period
-that reaches the quantized value, $\pm 0.15$ band, 4th-order integration at
-$\delta t = 0.03$.
+that reaches the quantized value, $\pm 0.15$ band, convergence-gated 4th-order
+integration. Every period converged; the anomalous excursions required
+$\delta t = 0.005$.
 
-The ratio of first-in-band periods, anomalous to normal, is $5600/1200 = 4.67$.
+The ratio of first-in-band periods, anomalous to normal, is $5200/1200 = 4.33$.
 
 At $T = 9600$ the anomalous displacement takes the values $-3.7606$, $-3.7585$ and
 $-3.7574$ under $\delta t = 0.04$, $0.02$ and $0.01$ respectively. Under
@@ -190,22 +204,19 @@ second-order Strang splitting at the same three step sizes the same quantity tak
 the values $-0.2694$, $-0.2542$ and $-2.7950$.
 
 Perturbing the initial soliton by a relative $10^{-12}$, $10^{-10}$ and $10^{-8}$,
-with three random directions each, changes the displacement by $0.0000$ in every
-instance, for the normal case at $T = 3200$, $6400$ and $12800$ and for the
-anomalous case at $T = 3200$. For the anomalous case at $T = 6400$ the same holds
-at $10^{-12}$ and $10^{-10}$; the $10^{-8}$ run was not completed.
+with three random directions each, changes the anomalous displacement by $0.0000$
+in every instance, at the excursion periods $T = 8800$ (unperturbed $-2.221$) and
+$T = 9600$ (unperturbed $-3.757$).
 
-The Resta amplitude $|z|$ of the evolving state has a minimum over the cycle of
-$0.9702$–$0.9722$ for the normal case and $0.9112$–$0.9591$ for the anomalous case,
-across all periods tested. Its value at $T = 25600$ for the normal case falls from
-$0.9726$ to $0.9676$ over the cycle, with the participation ratio going from $7.226$
-to $7.318$ cells.
+The Resta amplitude $|z|$ of the evolving state has a minimum over the cycle, taken
+across all periods tested, in the range $0.9384$–$0.9722$ for the normal case,
+$0.9885$–$0.9978$ for case 1, and $0.8745$–$0.9591$ for the anomalous case 2.
 
 ## Discussion
 
 **Verdict: the hypothesis is supported.** The pre-registered falsifier required the
-two thresholds to agree within a factor of about 2; the measured ratio is $4.67$.
-Routing a soliton through the intersite-soliton branch point costs roughly five
+two thresholds to agree within a factor of about 2; the measured ratio is $4.33$.
+Routing a soliton through the intersite-soliton branch point costs roughly four
 times the pump period that following a single Wannier function costs. The mechanism
 proposed in the Introduction survives: the protecting scale for the anomalous
 transition is not the band gap — which in this model is pinned at $2$ for the whole
@@ -213,20 +224,28 @@ cycle, and at $\theta = \pi$ both bands are exactly flat — but the splitting b
 soliton branches at the point where they nearly touch, and that scale is set by the
 nonlinearity and is much smaller.
 
-**The threshold is the less useful half of the answer.** A factor of five in
+**The threshold is the less useful half of the answer.** A factor of four in
 required pump time is a nuisance; an experimentalist absorbs it. What does not
 absorb is the second column of Table 3. Above its threshold the normal pump is
-quantized in the operationally meaningful sense — pick any period you like above
-$T \approx 1200$ and you get $-1$ to within 12%, 28 times out of 28. The anomalous
-pump is not: 7 of 17 periods above its threshold miss $-2$, one of them by 70%, and
-the scatter is $7.1$ times larger. Quantization means the answer does not depend on
-the knob. For the anomalous pump, at these periods, it does.
+quantized in the operationally meaningful sense — of the 28 periods above
+$T \approx 1200$, all but one give $-1$ to within 15%, and the exception misses by
+$0.19$. The anomalous pump is not: 9 of 18 periods above its threshold miss $-2$,
+and the scatter is $13$ times larger. At $T = 9200$ the anomalous displacement is
+$+0.35$ — a pump nominally worth $-2$ cells that instead nudges the soliton the
+wrong way. Quantization means the answer does not depend on the knob. For the
+anomalous pump, at these periods, it does.
+
+The two pumps reach their worst deviation at the same period, $T = 9200$: the normal
+pump by $0.19$, the anomalous by $2.35$. A period-selective mechanism therefore acts
+on both and is an order of magnitude stronger for the anomalous one — which is what a
+resonance between the drive and an internal soliton mode would look like, and is the
+thread the next experiment pulls on.
 
 So "vary $\theta$ sufficiently slowly" is not a sufficient instruction, and that is
 the practical content of this note. The paper proposes realizing this in a $^7$Li
 condensate with interactions tuned through a Feshbach resonance. An experimenter
 following its guidance would choose a period long enough to look adiabatic and might
-land on $T \approx 9600$, where the model returns $-3.41$ rather than $-2$ — and
+land on $T \approx 9200$, where the model returns $+0.35$ rather than $-2$ — and
 would have no way to know, from the paper, that the period was the problem.
 
 **What this does not show.** It does not show the paper is wrong. Its Fig. 2a is a
@@ -244,11 +263,17 @@ wrong. The large-period degradation I first measured was **my integrator**, not 
 model: Strang splitting carries error $\sim T\delta t^2$, so at fixed step size it
 gets worse in exactly the limit one is trying to reach, and the $-0.27$ and $-2.80$
 it returns at $T = 9600$ are artefacts — the same quantity is $-3.757$ under 4th-order
-composition, converged to three decimals. And the excursions are **not** sensitive
-dependence: a $10^{-8}$ perturbation of the initial soliton moves the displacement
-by exactly zero, so whatever selects $-3.41$ at $T = 9600$ is a smooth, deterministic
-function of the period and not an amplified perturbation. Nor is it delocalization:
-$|z|$ never falls below $0.91$, so the object being tracked is a soliton throughout.
+composition, converged to three decimals. The same error, subtler, forced a rerun of
+this note: an earlier version tabulated a single 4th-order scan at $\delta t = 0.03$
+and reported the $T = 9600$ excursion as $-3.41$ and the count as 7 of 17. Neither
+survived a proper convergence gate — $\delta t = 0.03$ was itself under-resolved for
+the sharp excursions, off by $0.35$ there and by $1.1$ at $T = 7600$, and the
+converged figures are $-3.76$ and 9 of 18. And the excursions are **not** sensitive
+dependence: a $10^{-8}$ perturbation of the initial soliton moves the displacement by
+exactly zero *at the excursion periods themselves* ($T = 8800$ and $9600$), so
+whatever selects them is a smooth, deterministic function of the period and not an
+amplified perturbation. Nor is it delocalization: $|z|$ stays above $0.87$, so the
+object being tracked is a soliton throughout.
 
 **Limits.** One lattice size, one norm, one $L = 60$ ring; the periods are a grid
 of 400, so a narrower excursion between grid points would have been missed, and the
@@ -259,7 +284,7 @@ authors follow — their own text notes that case 3's parameter window is narrow
 
 ## Conclusion
 
-The anomalous soliton pump costs about five times the pump period of the normal one
+The anomalous soliton pump costs about four times the pump period of the normal one
 to reach its quantized displacement, and that number did not exist before: the
 source states only that its parameter was varied "sufficiently slowly", in a paper
 that proposes the effect for cold-atom experiment and cites three separate studies
@@ -267,20 +292,23 @@ of pumping breakdown without asking the question of its own mechanism.
 
 What changed in what we know is smaller than the threshold and more awkward. Above
 threshold the two pumps are not the same kind of object. The normal pump's
-displacement is flat in the pump period, which is what quantization is supposed to
-mean. The anomalous pump's is not — it wanders out to $-3.41$ at $T = 9600$ and back
-to $-1.98$ at $T = 12000$, deterministically, with the integrator converged and the
+displacement is nearly flat in the pump period, which is what quantization is
+supposed to mean — one excursion in 28, and that one small. The anomalous pump's is
+not — it swings to $+0.35$ at $T = 9200$ and $-3.76$ at $T = 9600$ and back to
+$-1.96$ at $T = 12000$, deterministically, with the integrator converged and the
 soliton intact. A quantity that depends on the knob is not quantized, whatever the
 instantaneous branch does.
 
-The next experiment is to find out what sets those periods. The obvious candidate is
-a resonance between the pump frequency $2\pi/T$ and an internal mode of the soliton
-near the branch point — the frequency splitting between the soliton branches that
-nearly touch at $\theta = \pi$. That splitting is computable from the Jacobian of the
-stationary problem, which this note already builds, and the prediction is sharp
-enough to be worth failing: the excursion periods should sit where an integer
-multiple of $2\pi/T$ matches that splitting. If they do, the anomalous pump has a
-usable design rule — a list of periods to avoid rather than a threshold to exceed.
-That goes on the shelf.
+The next experiment is to find out what sets those periods, and the data already
+points at it: both pumps deviate most at $T = 9200$, which is the fingerprint of a
+period-selective resonance rather than a slow drift. The candidate is a resonance
+between the pump frequency $2\pi/T$ and an internal mode of the soliton near the
+branch point — the frequency splitting between the soliton branches that nearly touch
+at $\theta = \pi$. That splitting is computable from the Jacobian of the stationary
+problem, which this note already builds, and the prediction is sharp enough to be
+worth failing: the excursion periods should sit where an integer multiple of
+$2\pi/T$ matches that splitting. If they do, the anomalous pump has a usable design
+rule — a list of periods to avoid rather than a threshold to exceed. That goes on the
+shelf.
 
 ## References

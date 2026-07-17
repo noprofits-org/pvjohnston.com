@@ -1,0 +1,13 @@
+env: CPython 3.13.12 arm64 darwin | numpy 2.4.4
+4th-order Yoshida, dt=0.01. Perturb initial soliton, measure displacement spread.
+
+anom2 T=8800  unperturbed disp = -2.2209
+  eps=1e-12: -2.2209 -2.2209 -2.2209   spread=0.0000
+  eps=1e-10: -2.2209 -2.2209 -2.2209   spread=0.0000
+  eps=1e-08: -2.2209 -2.2209 -2.2209   spread=0.0000
+
+anom2 T=9600  unperturbed disp = -3.7574
+  eps=1e-12: -3.7574 -3.7574 -3.7574   spread=0.0000
+  eps=1e-10: -3.7574 -3.7574 -3.7574   spread=0.0000
+  eps=1e-08: -3.7574 -3.7574 -3.7574   spread=0.0000
+

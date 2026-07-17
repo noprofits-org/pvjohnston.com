@@ -210,12 +210,16 @@ Format:
   affect the content". Fine for a physics-of-the-model question; would NOT support
   a text-vs-code claim like the SIREN post, since the text is not final.
 - **Status:** published — `/posts/2026-07-17-how-slowly-must-you-pump-an-anomalous-soliton.html`.
-  H **supported**: T_c = 1200 (normal) vs 5600 (anomalous), ratio 4.67, outside the
-  factor-of-2 falsifier. Bigger finding than the threshold: above it the normal pump
-  never leaves a ±0.15 band around −1 (0 of 28 periods) while the anomalous pump
-  leaves the band around −2 at 7 of 17, reaching −3.41 at T=9600, scatter 7.1× larger.
-  Reproduced 3 of the paper's 4 displacements (−1, 0, −2); case 3 (−3) not reproduced
-  at any period — see next entry.
+  **Numbers below are the CONVERGED rerun** (2026-07-17) after a code review (Codex +
+  a Claude review) caught that the first version built Table 3 from a single
+  under-resolved dt=0.03 scan. H **supported**: T_c = 1200 (normal) vs 5200
+  (anomalous), ratio 4.33, outside the factor-of-2 falsifier. Above threshold the
+  normal pump leaves the ±0.15 band once in 28 (T=9200, by 0.19); the anomalous pump
+  leaves it 9 of 18, worst +0.35 at T=9200 (a −2 pump moving the wrong way), scatter
+  13× larger. Both pumps deviate most at T=9200 → resonance fingerprint (next entry).
+  Reproduced 3 of 4 displacements (−1, 0, −2); case 3 (−3) not reproduced — see below.
+  Lesson recorded: [[reference-numerics-check-the-integrator-first]] — right
+  integrator, wrong step size, table built from a coarser scan than the spot-check.
 
 ## What sets the anomalous pump's excursion periods?
 - **Observed:** Next step from the post above. The anomalous displacement leaves the
