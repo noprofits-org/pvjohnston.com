@@ -44,3 +44,6 @@ images/2026-07-07-months-of-cash-at-scale-hero.png.png
 
 ### macOS ###
 .DS_Store
+calcs/__pycache__/
+calcs/*.pyc
+calcs/*.npy

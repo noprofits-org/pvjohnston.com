@@ -1,0 +1,6 @@
+env: CPython 3.13.12 arm64 darwin | numpy 2.4.4
+4th-order Yoshida, dt=0.03, N=1.45, L=60
+
+normal: g=1.0 g12=1.0 m0=1.0  paper adiabatic displacement = -1
+       T       disp   min|z|
+    4000    -0.9185   0.9681

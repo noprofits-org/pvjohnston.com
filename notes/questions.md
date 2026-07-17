@@ -149,6 +149,68 @@ Format:
   judgement call and must be fixed *before* running, or this becomes curve-fitting.
 - **Status:** ready
 
+## How slowly must you pump an anomalous soliton before quantization breaks?
+- **Observed:** Tao, Wang & Xu report a new *anomalous* nonlinear Thouless pump —
+  a soliton displaced by 0, −2 or −3 unit cells per cycle while the Bloch band it
+  comes from has Chern number −1. The mechanism is a transition between Wannier
+  functions **by passing through an intersite-soliton state**. Adiabaticity is
+  asserted and never quantified: "in the adiabatic limit—where θ is varied very
+  slowly", "when θ is varied **sufficiently slowly** ... the results **closely
+  resemble** the instantaneous solutions". **No pump period T appears anywhere in
+  the paper**, and no displacement-vs-ramp-rate curve is plotted.
+- **Why the gap is glaring:** quantization breakdown is an established subfield the
+  paper itself cites three times — Walter et al., *Quantization and its breakdown
+  in a Hubbard–Thouless pump* (Nat. Phys. 19, 1471, 2023) [10]; Fu et al.,
+  *Nonlinear Thouless pumping: solitons and transport breakdown* (PRL 128, 154101,
+  2022) [37]; Tuloup et al., *Breakdown of quantization in nonlinear Thouless
+  pumping* (New J. Phys. 25, 083048, 2023) [40]. They introduce a new pumping
+  mechanism and never ask where *its* quantization breaks.
+- **Physical reason to expect a difference:** the anomalous pump routes through an
+  intersite-soliton state — a bifurcation where solution branches nearly touch.
+  Adiabatic following through a near-degeneracy is exactly where it should be
+  fragile. The normal pump (following a single Wannier function) has no such
+  passage.
+- **Source:** Tao, Wang & Xu, *Nat. Commun.* (2026), doi:10.1038/s41467-026-73460-y
+  (Article in Press, accepted 2026-05-13)
+- **Type:** unplotted line / quantification
+- **Contribution (candidate):** the critical pump period for quantized anomalous
+  soliton transport, and whether it exceeds the normal pump's — which the paper
+  asserts as "sufficiently slowly" and never measures, in a mechanism it proposes
+  for cold-atom experiment
+- **Falsifier:** the critical pump period T_c is the same, within a factor of ~2,
+  for the normal case (g=g₁₂=m₀=1, displacement −1) and the anomalous case
+  (g=1, g₁₂=0, m₀=1, displacement −2). The anomalous mechanism then carries no
+  extra adiabaticity cost and the paper's silence is harmless.
+- **Publish the other outcome?** Yes — "the anomalous pump is no more fragile than
+  the normal one" is directly useful to the experimentalists they are pitching
+  (they propose a ⁷Li BEC, 1316 atoms, a_s ≈ −1.43 nm, a = 532 nm, ω_⊥ = 2π×710 Hz),
+  since experiments have finite coherence time. A null here is a green light.
+- **Stakes:** they argue the effect "can be experimentally observed". Any adiabatic
+  protocol has to fit inside a coherence budget. If the anomalous pump needs 10×
+  the normal pump's ramp, that is a design constraint nobody has stated.
+- **Feasibility:** high, numpy-only. Fully specified discrete model:
+  Eq. (2) H^lin(k) = (m_z + J₁cos k)σ_z + J'₁ sin k σ_y + J₂σ_x, with
+  m_z = m₀ + cos θ, J₁ = J'₁ = 1, J₂ = sin θ; Eq. (1) DNLS with
+  V_σj = g|ψ_σj|² + g₁₂|ψ_σ̄j|²; N = 1.45. ~40–80 sites × 2 components.
+  Needs a hand-rolled Newton solver (no scipy) + RK4/split-step integrator.
+- **Source data is declared but NOT reachable (checked 2026-07-16).** The paper
+  cites Figshare doi:10.6084/m9.figshare.32182566 [65], but the DOI 404s, the
+  Figshare API 404s on both the DOI and the article id, and a title search returns
+  zero hits — presumably embargoed until the Article in Press becomes final. My
+  earlier note that the data "IS released" was wrong. The gate therefore cannot be
+  checked against their numbers and must stand on independent validation of the
+  model instead (Chern numbers; Wannier centers at l+1/2; the exact flat-band
+  solution at theta=pi). Same shape as the SIREN post's unreleased code: declared
+  available, not actually reachable.
+- **GATE (do this before anything else):** reproduce Fig. 2a's four displacements —
+  −1 (black: g=g₁₂=m₀=1), 0 (blue: g=−1, g₁₂=0, m₀=1), −2 (red: g=1, g₁₂=0, m₀=1),
+  −3 (gold: g=1, g₁₂=0, m₀=1.3). If the baseline does not reproduce, stop and
+  report; a T_c measured against a wrong soliton is worthless.
+- **Caveat:** "Article in Press", unedited — "there may be errors present which
+  affect the content". Fine for a physics-of-the-model question; would NOT support
+  a text-vs-code claim like the SIREN post, since the text is not final.
+- **Status:** ready — worktree `pvjohnston.com-soliton-adiabaticity`
+
 ## Does anything I report depend on the bits that moved?
 - **Observed:** The closing question of the temperature-zero note, unanswered and
   currently rhetorical. It is only a real question against a specific reported
