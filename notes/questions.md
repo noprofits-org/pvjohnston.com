@@ -223,10 +223,11 @@ Format:
 
 ## What sets the anomalous pump's excursion periods?
 - **Observed:** Next step from the post above. The anomalous displacement leaves the
-  quantized value at specific periods (T = 8400–10800, worst −3.41 at T=9600) and
-  returns to −1.98 by T=12000 — deterministic (a 1e-8 initial perturbation moves it
-  by 0.0000), dt-converged under 4th-order Yoshida, and with the soliton intact
-  (|z| > 0.91 throughout). So it is a smooth function of T with structure, not noise.
+  quantized value at specific periods (T = 7600–11200, worst +0.35 at T=9200 — a −2
+  pump nudging the soliton the wrong way) and returns to −1.96 by T=12000 —
+  deterministic (a 1e-8 initial perturbation moves it by 0.0000), dt-converged under
+  4th-order Yoshida, and with the soliton intact (|z| > 0.87 throughout). So it is a
+  smooth function of T with structure, not noise.
 - **Candidate mechanism:** a resonance between the pump frequency 2π/T and the
   splitting between the soliton branches that nearly touch at θ=π. That splitting is
   computable from the Jacobian of the stationary problem, which

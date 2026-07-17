@@ -148,8 +148,9 @@ pseudo-arclength continuation; all statements below come from time evolution onl
 
 Every number below is reproducible from
 [soliton-pump-code.tar.gz](/downloads/soliton-pump-code.tar.gz), which needs
-nothing but NumPy: `converge.py` runs the convergence-gated scan for each case and
-`build_tables.py` rebuilds Tables 2 and 3 from its output.
+nothing but NumPy: `converge.py` runs the convergence-gated scan for each case,
+`build_tables.py` rebuilds Tables 2 and 3 from its output, and `dtconv.py`
+reproduces the Strang-versus-Yoshida step-size comparison.
 
 ## Results
 
@@ -235,7 +236,7 @@ where both pumps deviate farthest and in the same direction — the normal pump 
 $-0.82$, the anomalous pump all the way to $+0.35$, a pump nominally worth two cells
 that instead moves the soliton the wrong way. **C** marks the $-3.76$ excursion at
 $T = 9600$. Below $T \approx 5200$ the anomalous displacement swings off-scale (it
-reaches $+12$ and $-16$) because the soliton is not yet locked to its branch.
+reaches $+12$ and $-16$).
 
 | | Normal | Anomalous (case 2) |
 | --- | ---: | ---: |
@@ -255,8 +256,9 @@ The ratio of first-in-band periods, anomalous to normal, is $5200/1200 = 4.33$.
 
 At $T = 9600$ the anomalous displacement takes the values $-3.7606$, $-3.7585$ and
 $-3.7574$ under $\delta t = 0.04$, $0.02$ and $0.01$ respectively. Under
-second-order Strang splitting at the same three step sizes the same quantity takes
-the values $-0.2694$, $-0.2542$ and $-2.7950$.
+second-order Strang splitting the same quantity takes the values $-0.2694$,
+$-0.2542$ and $-2.7950$ — and those are at *finer* steps ($\delta t \approx 0.012$,
+$0.006$, $0.003$, scaled to hold $T\,\delta t^2$ fixed), yet they never settle.
 
 Perturbing the initial soliton by a relative $10^{-12}$, $10^{-10}$ and $10^{-8}$,
 with three random directions each, changes the anomalous displacement by $0.0000$
