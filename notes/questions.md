@@ -209,7 +209,50 @@ Format:
 - **Caveat:** "Article in Press", unedited — "there may be errors present which
   affect the content". Fine for a physics-of-the-model question; would NOT support
   a text-vs-code claim like the SIREN post, since the text is not final.
-- **Status:** ready — worktree `pvjohnston.com-soliton-adiabaticity`
+- **Status:** published — `/posts/2026-07-17-how-slowly-must-you-pump-an-anomalous-soliton.html`.
+  H **supported**: T_c = 1200 (normal) vs 5600 (anomalous), ratio 4.67, outside the
+  factor-of-2 falsifier. Bigger finding than the threshold: above it the normal pump
+  never leaves a ±0.15 band around −1 (0 of 28 periods) while the anomalous pump
+  leaves the band around −2 at 7 of 17, reaching −3.41 at T=9600, scatter 7.1× larger.
+  Reproduced 3 of the paper's 4 displacements (−1, 0, −2); case 3 (−3) not reproduced
+  at any period — see next entry.
+
+## What sets the anomalous pump's excursion periods?
+- **Observed:** Next step from the post above. The anomalous displacement leaves the
+  quantized value at specific periods (T = 8400–10800, worst −3.41 at T=9600) and
+  returns to −1.98 by T=12000 — deterministic (a 1e-8 initial perturbation moves it
+  by 0.0000), dt-converged under 4th-order Yoshida, and with the soliton intact
+  (|z| > 0.91 throughout). So it is a smooth function of T with structure, not noise.
+- **Candidate mechanism:** a resonance between the pump frequency 2π/T and the
+  splitting between the soliton branches that nearly touch at θ=π. That splitting is
+  computable from the Jacobian of the stationary problem, which
+  `downloads/soliton-pump-code.tar.gz` already builds.
+- **Source:** own next step; Tao, Wang & Xu (2026)
+- **Type:** unplotted line
+- **Contribution (candidate):** the rule that predicts which pump periods fail —
+  turning "pump slowly enough" into a list of periods to avoid, which is what an
+  experimentalist actually needs
+- **Falsifier (fix before running):** the excursion periods show no relation to any
+  integer multiple of the branch splitting → the resonance picture is wrong and the
+  structure has another origin
+- **Needs:** the stationary Jacobian's spectrum near θ=π, and a finer T grid than
+  400 to resolve excursion widths
+- **Status:** ready
+
+## Why does case 3 (m0=1.3, displacement −3) not reproduce at all?
+- **Observed:** From the post above. Every period tested gives values nowhere near
+  −3; at T=9600 it converges to −19.33 across dt = 0.04/0.02/0.01, i.e. the soliton
+  slides ~19 cells per cycle. Not a convergence failure and not delocalization
+  (|z| ≈ 0.95).
+- **Likely cause:** the θ=0 branch I seed (staggered envelope, μ = −1.1375,
+  participation 6.49) may not be the branch the authors follow. The paper notes case
+  3's window is narrow (0 ≤ g12 ≤ 0.01 at m0=1.3), so branch identity matters more here.
+- **Type:** falsification (of my own reproduction, first) — resolve before claiming
+  anything about the paper
+- **Needs:** pseudo-arclength continuation through the branch point to trace which
+  instantaneous branch connects to θ=0, rather than naive θ-stepping (which jumps
+  branches near θ=π — observed: max|Δx| per step 0.44 at dθ=0.0044)
+- **Status:** observation
 
 ## Does anything I report depend on the bits that moved?
 - **Observed:** The closing question of the temperature-zero note, unanswered and
