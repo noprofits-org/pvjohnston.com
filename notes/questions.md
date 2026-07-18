@@ -378,3 +378,54 @@ Format:
   the declared error threshold, or its maximum matched speedup remains below 10
 - **Status:** observation — needs the authors' raw Figure 8 error values or a
   documented plot-digitization uncertainty model
+
+## Over what bond-distance range does Coulomb subtraction help an ANN potential fit?
+- **Observed:** Rana et al. report a useful physics-informed fitting strategy:
+  subtract the exact nuclear-repulsion term from a molecular potential, fit the
+  smoother electronic energy, and restore the exact term afterward. Their
+  examples span curves and surfaces with different geometric domains, which
+  makes the bond-distance dependence of that useful decomposition a natural
+  next variable to isolate. The paper does not map fit performance against the
+  shortest included internuclear distance.
+- **Source:** Rana, Sankar Manoj, Lourderaj, and Sathyamurthy, *J. Comput. Chem.*
+  **46** (2025) e70220, doi:10.1002/jcc.70220
+- **Type:** quantification / untested regime
+- **Contribution (candidate):** a matched-seed measurement of the bond-distance
+  regime over which subtracting the exact 1/R nuclear repulsion improves an ANN
+  fit to an H2+ potential curve, which the source does not report
+- **Hypothesis:** the benefit is concentrated in the short-range Coulombic
+  regime, so the median test-RMSD ratio RMSD(A)/RMSD(B) will move toward 1 as
+  the smallest bond distances are removed
+- **Falsifier:** the median ratio remains at least 2, without a downward trend,
+  after all points below R = 1.5 a0 are removed
+- **Publish the other outcome?** Yes — persistence outside the short-range
+  regime would show that the residual fit has a broader numerical benefit than
+  removal of the near-singular wall alone.
+- **Scope boundary:** the article is CC BY and the Supporting Information is
+  public, but the raw energy grids, MATLAB code, split indices, preprocessing,
+  and random seeds are available only from the authors on request or are not
+  specified. This will be an independent controlled test, not a numerical
+  reproduction of the paper's tables.
+- **Feasibility:** high. Generate a small H2+ curve with a one-electron quantum
+  chemistry calculation; fit identical one-hidden-layer networks to total and
+  electronic energies across matched splits, initializations, and distance
+  cutoffs. CPU-only and laptop-scale.
+- **Status:** drafting — `/posts/2026-07-18-where-coulomb-subtraction-helps.md`
+
+## Does force training move the Coulomb-subtraction crossover?
+- **Observed:** The H2+ cutoff experiment fits energies only. Its measured
+  crossover is controlled by whether the fitted domain contains the short-range
+  $1/R$ wall, while the corresponding nuclear force grows as $1/R^2$.
+- **Source:** `/posts/2026-07-18-where-coulomb-subtraction-helps.md` (own next step)
+- **Type:** untested regime
+- **Contribution (candidate):** a matched energy-plus-force measurement of how
+  differentiation changes the fitted-distance range over which exact Coulomb
+  subtraction improves an H2+ neural potential
+- **Hypothesis:** adding force labels moves the median A/B parity crossing to a
+  larger $R_{\min}$ because Scheme A must approximate the steeper $1/R^2$
+  nuclear-force contribution
+- **Falsifier:** the first cutoff with median A/B at or below 1 is unchanged or
+  moves to a smaller $R_{\min}$ under the predeclared energy-plus-force loss
+- **Publish the other outcome?** Yes — it would separate an energy-conditioning
+  effect from a general advantage under differentiation.
+- **Status:** ready

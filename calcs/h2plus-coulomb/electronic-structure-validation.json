@@ -1,0 +1,31 @@
+{
+  "distances_bohr": [
+    0.15,
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    5.0,
+    10.0,
+    20.0
+  ],
+  "max_abs_df_minus_direct_hartree": 8.881784197001252e-15,
+  "max_abs_uhf_minus_rohf_hartree": 1.509903313490213e-14,
+  "max_abs_qz_minus_5z_hartree": 0.0006352013225523478,
+  "max_abs_tz_minus_5z_hartree": 0.01530620792871229,
+  "max_abs_two_electron_hartree": 4.440892098500626e-16,
+  "scan_minimum_r_bohr": 2.0058977418367516,
+  "scan_minimum_total_hartree": -0.6026188222767151,
+  "scan_total_at_20_bohr": -0.5000089859743404,
+  "five_z_electronic_at_2_bohr": -1.1026222714797764,
+  "high_accuracy_electronic_at_2_bohr": -1.1026342144949,
+  "high_accuracy_source_doi": "10.1063/1.2842068",
+  "five_z_error_at_2_bohr_hartree": 1.19430151235278e-05,
+  "criteria": {
+    "df_matches_direct": true,
+    "uhf_matches_rohf": true,
+    "two_electron_energy_is_zero": true,
+    "minimum_near_two_bohr": true,
+    "dissociation_near_half_hartree": true
+  }
+}
