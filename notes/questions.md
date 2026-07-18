@@ -166,6 +166,38 @@ Format:
 - **Type:** untested regime
 - **Falsifier:** the measured SGD gap is far from 900 (null, or ~30) → the
   parameter-space-step picture of the mechanism is wrong
+- **Status:** published —
+  `/posts/2026-07-18-the-sgd-control-900-on-the-hidden-stack.html`. The isolated
+  hidden-stack displacement ratio is 899.86 at lr=1e-8, while a direct
+  shared/hidden decomposition and a 0.05-decade full-network sweep resolve no
+  convention-dependent global learning-rate gap on K1.
+
+## Does momentum change the full-network dilution under SGD?
+- **Observed:** Plain SGD preserves the predicted isolated hidden-stack factor
+  of ω₀²=900, but K1's shared parameters dominate the one-step displacement and
+  both conventions select the same best tested global learning rate. Momentum
+  remains linear in the gradient, so 900 should survive on the isolated stack;
+  its effect on the shared-to-hidden balance over a full trajectory is unknown.
+- **Source:** own next step; the SGD-control post's Conclusion
+- **Type:** untested regime
+- **Contribution (candidate):** measure isolated and full-network convention
+  gaps under SGD with momentum, including a direct velocity/displacement
+  decomposition
+- **Falsifier:** momentum leaves both the full-network displacement balance and
+  best tested global learning-rate ratio unchanged from plain SGD
+- **Status:** ready
+
+## Does nonlinear cross-correlation expose the SGD convention gap?
+- **Observed:** K1 obeys y_H=2y_L-20x+20, so its affine branch can carry the fit
+  while the convention-scaled SIREN hidden stack remains secondary. A nonlinear
+  K-case removes that escape route.
+- **Source:** own next step; the SGD-control post's Conclusion
+- **Type:** untested regime
+- **Contribution (candidate):** repeat the direct decomposition and refined SGD
+  sweep on a K-case whose high/low-fidelity correlation requires the nonlinear
+  branch
+- **Falsifier:** the two conventions still have no resolvable network-level
+  learning-rate gap after the affine branch can no longer represent the target
 - **Status:** ready
 
 ## Does the NTK mechanism actually predict Table 5?
