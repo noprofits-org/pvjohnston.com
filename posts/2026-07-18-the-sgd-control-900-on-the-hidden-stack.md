@@ -11,7 +11,8 @@ contribution-type: untested regime
 ## Abstract
 
 [Yesterday's note](/posts/2026-07-17-why-the-two-siren-conventions-train-differently.html)
-showed that the two circulating SIREN conventions represent the same initial
+showed that, in a matched construction that rescales hidden biases as well as
+weights, the two circulating SIREN parameterizations represent the same initial
 function to sixteen digits but take hidden-layer Adam steps differing by
 $\omega_0=30$, and predicted a plain-SGD factor of $\omega_0^2=900$. On the
 **isolated hidden stack** — the first layer, readout, and affine branch frozen —
@@ -38,8 +39,12 @@ A SIREN's two conventions store the same sinusoidal network in parameters that
 differ by a factor of $\omega_0$: the described convention draws hidden weights
 from $\mathcal{U}(\pm\sqrt{6/n})$ and applies $\sin(Wx+b)$, the official
 implementation draws from $\mathcal{U}(\pm\sqrt{6/n}/\omega_0)$ and applies
-$\sin(\omega_0(Wx+b))$, and the $\div\omega_0$ cancels the $\times\omega_0$ so
-that, from a common seed, the two are the same function.[@Sitzmann2020; @SirenOfficial]
+$\sin(\omega_0(Wx+b))$. For the matched-function control below I divide both
+hidden weights and hidden biases by $\omega_0$, so the division cancels the
+multiplication and a common draw gives the same function. This is one declared
+idealization: the official repository rescales only weights, while biases keep
+the framework's default initialization, so the exact-equivalence claims below
+describe the matched parameterization rather than its literal initialization.[@Sitzmann2020; @SirenOfficial]
 Yesterday I showed that this cancellation is a statement about the forward pass
 and says nothing about the optimizer, which acts on the parameters: **under Adam,
 whose step size is set by the learning rate and is almost independent of gradient
@@ -83,8 +88,11 @@ Sobol' samples of size $N_H=32$ with the two boundary points appended; test sets
 are $32$ independent uniform draws. Errors are normalized test MSE,
 $\operatorname{MSE}/\|y_H\|^2_{L^2([0,1])}$, with the denominator $20.0631$.
 Both conventions in a repetition are instantiated from **one** parameter draw,
-the official obtained by dividing the described convention's hidden weights and
-biases by $\omega_0$, so the two are the same function by construction.
+the matched official parameterization obtained by dividing the described
+convention's hidden weights and biases by $\omega_0$, so the two are the same
+function by construction. The hidden-bias division is the deliberate
+matched-function idealization declared in the Introduction; it is not a replay
+of the repository's default bias initialization.
 
 The optimizer is **full-batch SGD** — no momentum, no normalization,
 $\theta \leftarrow \theta - \text{lr}\cdot g$ — for $20{,}000$ epochs. Gradients
@@ -134,11 +142,15 @@ regularization penalties at zero, where the paper searches them jointly with the
 learning rate; the single-step ratio, decomposition, and rescaling trajectory use
 one initialization (seed $7000$), the sweeps three; and **I did not run the
 authors' code**, which remains unreleased, so every number describes my
-reimplementation of their written specification. The complete script and raw
-outputs for the added measurements are
-[siren-convention-sgd.py](/downloads/siren-convention-sgd.py),
-[sgd_decomposition.json](/downloads/sgd_decomposition.json), and
-[sgd_refined_sweep.json](/downloads/sgd_refined_sweep.json).
+reimplementation of their written specification. The complete script is
+[siren-convention-sgd.py](/downloads/siren-convention-sgd.py). Raw outputs for
+Table 1, both trajectory rates, the parameter-group decomposition, the broad
+sweep, and the local refinement are
+[sgd_ratio.json](/downloads/sgd_ratio.json),
+[sgd_traj.json](/downloads/sgd_traj.json),
+[sgd_decomposition.json](/downloads/sgd_decomposition.json),
+[sgd_sweep.json](/downloads/sgd_sweep.json), and
+[sgd_refined_sweep.json](/downloads/sgd_refined_sweep.json), respectively.
 
 ## Results
 

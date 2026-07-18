@@ -10,6 +10,12 @@ smaller, so their gradient is omega_0 times larger, and the step lands on a weig
 the forward pass multiplies by omega_0 again. Predicted function-space factor:
 omega_0^2 = 900, exact per step with no epsilon caveat.
 
+"Official" below means the matched-function parameterization used by the note:
+both hidden weights and hidden biases are divided by omega_0. The official
+repository initializes only the weights this way and leaves biases at the
+framework default, so this is an exact reparameterization control rather than a
+literal replay of the repository's initialization.
+
 NumPy only; manual backprop; CPU. Same model as siren-convention-adam.py.
 
 Commands used by the note:
@@ -32,6 +38,15 @@ print("env:", platform.python_version(), platform.machine(), sys.platform,
 OMEGA, C, WIDTH, NHID = 30.0, 6.0, 16, 3
 EPOCHS = 20_000
 OMEGA2 = OMEGA * OMEGA          # 900, the predicted hidden-layer factor under SGD
+
+
+def json_number(value):
+    """Return a strict-JSON number, or None for NaN and either infinity."""
+    if value is None:
+        return None
+    value = float(value)
+    return value if np.isfinite(value) else None
+
 
 # ---- K1, eq. (4) of Villatoro et al.
 y_lo = lambda x: 0.5 * (6 * x - 2) ** 2 * np.sin(12 * x - 4) + 10 * x - 10
@@ -70,6 +85,7 @@ def init_described(rng, d_in=2):
 
 
 def to_official(P):
+    """Matched official parameterization; also scale biases for exact identity."""
     Q = {k: v.copy() for k, v in P.items()}
     for l in range(1, NHID):
         Q[f"W{l}"] = P[f"W{l}"] / OMEGA
@@ -197,7 +213,7 @@ if __name__ == "__main__":
                   f" | isolated-hidden ratio={row['iso_ratio']:.4f}"
                   f"  (predict {OMEGA2:.0f})", flush=True)
             out.append(row)
-        json.dump(out, open("sgd_ratio.json", "w"))
+        json.dump(out, open("sgd_ratio.json", "w"), indent=2)
 
     if what == "decompose":
         # D. Directly measure the hidden-only and shared-only contributions to a
@@ -284,7 +300,22 @@ if __name__ == "__main__":
         print(f"E. lr={lr:.0e} steps={n} isolated | max|y_off - y_desc*|"
               f" first={diffs[0]:.3e} last={diffs[-1]:.3e}"
               f" | rel_last={diffs[-1]/scale:.3e}")
-        json.dump(dict(lr=lr, diffs=diffs, scale=scale), open("sgd_traj.json", "w"))
+        record = dict(lr=lr, steps=n, diffs=diffs, scale=scale)
+        runs = []
+        try:
+            existing = json.load(open("sgd_traj.json"))
+            if isinstance(existing, dict) and "runs" in existing:
+                runs = existing["runs"]
+            elif isinstance(existing, dict) and "lr" in existing:
+                runs = [existing]
+            elif isinstance(existing, list):
+                runs = existing
+        except Exception:
+            pass
+        runs = [run for run in runs if run.get("lr") != lr]
+        runs.append(record)
+        runs.sort(key=lambda run: run["lr"])
+        json.dump({"runs": runs}, open("sgd_traj.json", "w"), indent=2)
 
     if what == "equiv":
         # B. official@lr vs described@lr vs described@(hidden lr x900), full run
@@ -297,7 +328,10 @@ if __name__ == "__main__":
             print(f"B. lr={lr:.0e} | official={mo:.6e}  described={md:.6e}  "
                   f"described(hidden lr x{OMEGA2:.0f})={mp:.6e}  "
                   f"| rel|desc*-off| = {rel:.3e}", flush=True)
-            out.append(dict(lr=lr, official=mo, described=md, described_scaled=mp))
+            out.append(dict(lr=lr, official=json_number(mo),
+                            described=json_number(md),
+                            described_scaled=json_number(mp),
+                            relative_difference=json_number(rel)))
         json.dump(out, open("sgd_equiv.json", "w"))
 
     if what.startswith("sweep"):
@@ -309,6 +343,8 @@ if __name__ == "__main__":
             rows = json.load(open("sgd_sweep.json"))
         except Exception:
             pass
+        for row in rows:
+            row["test"] = json_number(row["test"])
         seen = {(r["conv"], r["rep"], round(r["lr"], 14)) for r in rows}
         for rep in range(reps):
             xa, xb = data(32, rep)
@@ -319,7 +355,8 @@ if __name__ == "__main__":
                     if (conv, rep, round(float(lr), 14)) in seen:
                         continue
                     _, mse, _ = train(P, off, xa, xb, float(lr))
-                    rows.append(dict(conv=conv, rep=rep, lr=float(lr), test=mse))
+                    rows.append(dict(conv=conv, rep=rep, lr=float(lr),
+                                     test=json_number(mse)))
                     print(f"C. rep{rep} {conv:<10} lr={lr:.3e} test={mse:.4e}", flush=True)
                     json.dump(rows, open("sgd_sweep.json", "w"))   # checkpoint each run
         json.dump(rows, open("sgd_sweep.json", "w"))
@@ -334,6 +371,8 @@ if __name__ == "__main__":
             rows = json.load(open("sgd_refined_sweep.json"))
         except Exception:
             pass
+        for row in rows:
+            row["test"] = json_number(row["test"])
         seen = {(r["conv"], r["rep"], round(r["lr"], 14)) for r in rows}
         for rep in range(reps):
             xa, xb = data(32, rep)
@@ -344,14 +383,11 @@ if __name__ == "__main__":
                     if (conv, rep, round(float(lr), 14)) in seen:
                         continue
                     _, mse, _ = train(P, off, xa, xb, float(lr))
-                    stored_mse = float(mse) if np.isfinite(mse) else None
+                    stored_mse = json_number(mse)
                     rows.append(dict(conv=conv, rep=rep, lr=float(lr), test=stored_mse))
                     print(f"F. rep{rep} {conv:<10} lr={lr:.6e} "
                           f"test={mse:.6e}", flush=True)
                     json.dump(rows, open("sgd_refined_sweep.json", "w"))
-        for row in rows:             # normalize checkpoints made by older runs
-            if row["test"] is not None and not np.isfinite(row["test"]):
-                row["test"] = None  # JSON null, rather than non-standard Infinity
         json.dump(rows, open("sgd_refined_sweep.json", "w"))
         for rep in range(reps):
             for conv in ("official", "described"):
