@@ -121,6 +121,51 @@ Format:
   paper's SIREN claim is about the MF setting
 - **Blocked on (soft):** the authors' repo, to check spec-vs-code. Unreleased as of
   2026-07-16 ("shared upon acceptance"; accepted 2026-06-29).
+- **Status:** ready — the sweep RAN 2026-07-17 (324 trainings, 3 schemes × 3 N_H ×
+  4 reps × 9 lrs) but with the regularization penalties fixed at 0, which confounds
+  it on K1 (the affine branch alone represents y_H; the penalty is how the paper's
+  config wins). Headline withheld for that reason. The sweep's side product — the
+  two Sitzmann conventions separating at fixed lr — became the convention post
+  (next entry). Re-run needs the penalty search restored.
+
+## The two Sitzmann conventions separated under training
+- **Observed:** In the confounded sweep above, the two Sitzmann conventions —
+  which the morning post had just called "numerically equivalent", and which are
+  the same function at initialization to one part in 1e16 — separated by a factor
+  of 3 in test error at fixed lr.
+- **Source:** own sweep; `/posts/2026-07-17-the-siren-that-was-a-straight-line.html`
+- **Type:** falsification (of my own published claim, same day)
+- **Status:** published — `/posts/2026-07-17-why-the-two-siren-conventions-train-differently.html`.
+  Mechanism: Adam's step is fixed-size in parameter space and the official
+  convention stores hidden weights ω₀× smaller, so equal lr is an ω₀×-larger
+  function-space step. Hidden-lr ×30 reproduces official to 3.5e-5 relative at
+  lr=1e-5; first-fit lr on K1 shifts 10× in 3/4 seeds, 3.16× in 1/4. Two next
+  steps below.
+
+## Is the convention gap exactly 30 on the isolated hidden stack?
+- **Observed:** The mechanism predicts a per-layer factor of ω₀=30 on the hidden
+  layers; the measured first-fit lr gap is 10 (median of 4 seeds). Candidate
+  dilution: the first layer and readout are shared and unscaled, and do some of
+  the fitting.
+- **Source:** own next step; the convention post's Conclusion
+- **Type:** quantification
+- **Contribution (candidate):** freeze the first layer and readout, re-run the
+  lr sweep on the isolated hidden stack — if it returns 30, the dilution is
+  quantified rather than asserted
+- **Falsifier:** the isolated hidden stack still returns ~10 → the dilution story
+  is wrong and a second mechanism is present
+- **Status:** ready
+
+## SGD control: does the convention gap become ω₀² = 900?
+- **Observed:** Corrected prediction from the convention post (an earlier draft
+  said SGD is invariant here — backwards): SGD's step is proportional to the
+  gradient, which is ω₀× larger for the official convention, and lands on a
+  weight the forward pass scales by ω₀ again — effective factor ω₀² = 900, exact
+  for SGD with no ε caveat.
+- **Source:** own next step; the convention post's Conclusion
+- **Type:** untested regime
+- **Falsifier:** the measured SGD gap is far from 900 (null, or ~30) → the
+  parameter-space-step picture of the mechanism is wrong
 - **Status:** ready
 
 ## Does the NTK mechanism actually predict Table 5?
