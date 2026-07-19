@@ -19,13 +19,20 @@ siteDescription :: String
 siteDescription =
   "Peter Johnston is an analytical problem solver, AI-assisted tool builder, and Ph.D. chemist who makes complicated domains legible."
 
+-- | Fallback description of the branded social image used when a page does not
+-- provide an image with alt text in its @figure@ metadata.
+siteImageAlt :: String
+siteImageAlt =
+  "Peter Johnston — analytical problem solver, AI-assisted tool builder, and Ph.D. chemist"
+
 -- | Fields every page that renders @templates/default.html@ needs: the social
--- @ogimage@ (absolute, per-post overridable) and the site-description fallback,
--- over the Hakyll defaults. Used directly for static pages / index / archive,
--- and folded into 'postCtx'.
+-- @ogimage@ (absolute, per-post overridable), its @ogimagealt@ text, and the
+-- site-description fallback, over the Hakyll defaults. Used directly for
+-- static pages / index / archive, and folded into 'postCtx'.
 baseCtx :: Context String
 baseCtx =
   ogImageField <>
+  ogImageAltField <>
   constField "siteHost" siteHost <>
   constField "sitedesc" siteDescription <>
   defaultContext
@@ -45,6 +52,36 @@ ogImageField = field "ogimage" $ \item -> do
       | "https://" `isPrefixOf` u = u
       | "/"        `isPrefixOf` u = siteHost ++ u
       | otherwise                 = siteHost ++ "/" ++ u
+
+-- | Alt text for a page's share image. When a page explicitly selects an
+-- @og-image@, reuse the alt text from its optional HTML @figure@ metadata;
+-- otherwise describe the branded fallback card. Figure metadata is
+-- author-controlled and already suitable for use in an HTML attribute.
+ogImageAltField :: Context a
+ogImageAltField = field "ogimagealt" $ \item -> do
+  mogimage <- getMetadataField (itemIdentifier item) "og-image"
+  mfigure <- getMetadataField (itemIdentifier item) "figure"
+  pure $ case (mogimage, mfigure >>= figureImageAlt) of
+    (Just _, Just alt) -> alt
+    _                  -> siteImageAlt
+
+-- | Extract the conventional @alt="…"@ (or single-quoted equivalent) from
+-- the image HTML stored in @figure@ metadata.
+figureImageAlt :: String -> Maybe String
+figureImageAlt html = case extract " alt=\"" '"' html of
+  Just alt -> Just alt
+  Nothing  -> escapeDoubleQuotes <$> extract " alt='" '\'' html
+  where
+    extract marker closing input = do
+      (_, atMarker) <- breakOnSub marker input
+      let value = drop (length marker) atMarker
+          (alt, rest) = break (== closing) value
+      if null alt || null rest then Nothing else Just alt
+    -- The destination meta tag is double-quoted. A raw double quote is
+    -- impossible in the conventional double-quoted source form, but must be
+    -- encoded when the source figure uses single quotes.
+    escapeDoubleQuotes = concatMap $ \c ->
+      if c == '"' then "&quot;" else [c]
 
 -- | Context for posts: a human-readable @date@ field, the derived @topic@ /
 -- @topicSlug@ used by the home-page filter pills, the @article@ og:type marker,
