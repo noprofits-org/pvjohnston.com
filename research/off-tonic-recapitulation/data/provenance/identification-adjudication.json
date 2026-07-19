@@ -1,0 +1,281 @@
+{
+  "schema_version": "1.0.0",
+  "status": "complete",
+  "levels": {
+    "L2": "Uniquely correct work or catalogue identifier and movement.",
+    "L1": "Correct composer or work family, but not a unique work and movement.",
+    "L0": "Incorrect, broad style resemblance only, or abstention."
+  },
+  "judgments": [
+    {
+      "output": "openai-prior-generation__symbolic__CASE-VT57__run-01.md",
+      "level": "L2",
+      "reason": "K. 545 matches the frozen work; No. 16/C major add no conflict; I. Allegro = movement I; composer matches."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-DZWT__run-03.md",
+      "level": "L0",
+      "reason": "Haydn/Hob. XVI:37 and movement III conflict with Mozart/K. 570 and movement I."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-8JQJ__run-03.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-6U43__run-01.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-DZWT__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-D09B__run-03.md",
+      "level": "L2",
+      "reason": "K.576 = frozen K. 576; I. Allegro = movement I; composer and D-major title match."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-D09B__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-VT57__run-01.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-Q2R9__run-03.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-VT57__run-03.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-VT57__run-01.md",
+      "level": "L2",
+      "reason": "K. 545 matches the frozen work; No. 16/C major add no conflict; I. Allegro = movement I; composer matches."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-DZWT__run-01.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-6U43__run-02.md",
+      "level": "L0",
+      "reason": "J. S. Bach/BWV 774 conflicts with C. P. E. Bach/Wq 48/3; movement is null."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-DZWT__run-02.md",
+      "level": "L1",
+      "reason": "Composer matches, but K. 284 conflicts with frozen K. 570 and movement II conflicts with I."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-DZWT__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-Q2R9__run-01.md",
+      "level": "L1",
+      "reason": "Composer and movement I match, but K. 311/284c conflicts with frozen K. 333."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-DZWT__run-03.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-DZWT__run-01.md",
+      "level": "L0",
+      "reason": "Beethoven/Op. 10 No. 3 and movement III conflict with Mozart/K. 570 and movement I."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-Q2R9__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-D09B__run-01.md",
+      "level": "L2",
+      "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-DZWT__run-03.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-8JQJ__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-6U43__run-02.md",
+      "level": "L0",
+      "reason": "Mozart/K. 576 provides no correct composer or work family for C. P. E. Bach/Wq 48/3; movement I also conflicts with III."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-8JQJ__run-01.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-6U43__run-01.md",
+      "level": "L0",
+      "reason": "Mozart/K. 576 provides no correct composer or work family for C. P. E. Bach/Wq 48/3; movement I also conflicts with III."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-VT57__run-03.md",
+      "level": "L0",
+      "reason": "Handel/HWV 430 and its named variation conflict with Mozart/K. 545 and movement I."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-DZWT__run-01.md",
+      "level": "L1",
+      "reason": "Composer and movement I match, but K. 283/G major conflicts with K. 570/B-flat major."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-6U43__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-D09B__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-6U43__run-01.md",
+      "level": "L0",
+      "reason": "Movement III matches, but Mozart/K. 576 supplies no correct composer or work family for C. P. E. Bach/Wq 48/3."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-Q2R9__run-01.md",
+      "level": "L1",
+      "reason": "Composer and movement I match, but K. 311/284c conflicts with frozen K. 333."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-D09B__run-03.md",
+      "level": "L1",
+      "reason": "Composer matches, but K. 311/284c conflicts with frozen K. 576 and movement III conflicts with I."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-Q2R9__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-D09B__run-02.md",
+      "level": "L2",
+      "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-6U43__run-03.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-D09B__run-01.md",
+      "level": "L2",
+      "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-VT57__run-02.md",
+      "level": "L0",
+      "reason": "Scarlatti/K. 21 in D and a single movement conflict with Mozart/K. 545 in C, movement I."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-6U43__run-03.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-Q2R9__run-03.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-6U43__run-03.md",
+      "level": "L0",
+      "reason": "J. S. Bach/BWV 829 conflicts with C. P. E. Bach/Wq 48/3; movement VII conflicts with III."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-VT57__run-02.md",
+      "level": "L2",
+      "reason": "K. 545 matches the frozen work; No. 16/C major add no conflict; I. Allegro = movement I; composer matches."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-8JQJ__run-03.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-8JQJ__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-Q2R9__run-03.md",
+      "level": "L1",
+      "reason": "Composer and movement I match, but K. 311/284c conflicts with frozen K. 333."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-D09B__run-03.md",
+      "level": "L2",
+      "reason": "K. 576 matches the frozen work; No. 18/D major add no conflict; I. Allegro = movement I; composer matches."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-8JQJ__run-03.md",
+      "level": "L0",
+      "reason": "Mozart/K. 545 and movement II conflict with Benda's Sonata No. 2 in G and movement III."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-VT57__run-03.md",
+      "level": "L1",
+      "reason": "Composer and movement I match, but K. 311/284c conflicts with frozen K. 545."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-Q2R9__run-01.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "anthropic-frontier__symbolic__CASE-VT57__run-02.md",
+      "level": "L0",
+      "reason": "All structured identity fields are null (abstention)."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-8JQJ__run-01.md",
+      "level": "L0",
+      "reason": "Mozart/K. 284 and movement II conflict with Benda's Sonata No. 2 in G and movement III."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-8JQJ__run-02.md",
+      "level": "L0",
+      "reason": "J. S. Bach/BWV 988 and Aria conflict with Benda's Sonata No. 2 in G, movement III."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-Q2R9__run-02.md",
+      "level": "L0",
+      "reason": "Movement I matches, but Haydn/Hob. XVI:37 supplies no correct composer or work family for Mozart/K. 333."
+    },
+    {
+      "output": "openai-frontier__symbolic__CASE-D09B__run-01.md",
+      "level": "L2",
+      "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+    },
+    {
+      "output": "openai-prior-generation__symbolic__CASE-8JQJ__run-01.md",
+      "level": "L0",
+      "reason": "J. S. Bach/BWV 825 and Menuet I conflict with Benda's Sonata No. 2 in G, movement III."
+    }
+  ]
+}

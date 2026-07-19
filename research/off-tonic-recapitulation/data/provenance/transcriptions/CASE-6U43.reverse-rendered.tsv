@@ -1,0 +1,270 @@
+case_id	window_id	measure_index	evidence_id	record_type	record_id	onset_qn	duration_qn	voice_id	detail
+CASE-6U43	W1	0	E001	measure			3		meter=6/8;key_fifths=2;barlines=none|regular;volta=none
+CASE-6U43	W1	0	E001	note	EV0001	0	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	0	E001	rest	EV0002	0	3	V02	articulations=
+CASE-6U43	W1	0	E001	note	EV0003	1/2	1/2	V01	pitch=D4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	0	E001	note	EV0004	1	1/2	V01	pitch=C#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	0	E001	note	EV0005	3/2	1/2	V01	pitch=B3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	0	E001	note	EV0006	2	1/2	V01	pitch=A3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	0	E001	note	EV0007	5/2	1/2	V01	pitch=G3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	1	E002	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W1	1	E002	note	EV0008	0	1	V01	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	1	E002	rest	EV0009	0	1/2	V02	articulations=
+CASE-6U43	W1	1	E002	note	EV0010	1/2	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	1	E002	note	EV0011	1	1/2	V01	pitch=A3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	1	E002	note	EV0012	1	1/2	V02	pitch=A2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	1	E002	note	EV0013	3/2	1	V01	pitch=D4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	1	E002	note	EV0014	3/2	1/2	V02	pitch=F#2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	1	E002	note	EV0015	2	1/2	V02	pitch=D2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	1	E002	note	EV0016	5/2	1/2	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	1	E002	note	EV0017	5/2	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W1	2	E003	note	EV0018	0	1	V01	pitch=A4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	note	EV0019	0	1/2	V02	pitch=D2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	note	EV0020	1/2	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	note	EV0021	1	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	note	EV0022	1	1/2	V02	pitch=A2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	note	EV0023	3/2	1	V01	pitch=F#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	note	EV0024	3/2	1/2	V02	pitch=F#2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	note	EV0025	2	1/2	V02	pitch=D2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	note	EV0026	5/2	1/2	V01	pitch=A5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	2	E003	note	EV0027	5/2	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	3	E004	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W1	3	E004	note	EV0028	0	1/2	V01	pitch=A5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	3	E004	rest	EV0029	0	1/2	V02	articulations=
+CASE-6U43	W1	3	E004	note	EV0030	1/2	1	V01	pitch=C5;tie=start;grace=none;articulations=;ornaments=
+CASE-6U43	W1	3	E004	note	EV0031	1/2	1/2	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	3	E004	note	EV0032	1	1/2	V02	pitch=G3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	3	E004	note	EV0033	3/2	1/2	V01	pitch=C5;tie=stop;grace=none;articulations=;ornaments=
+CASE-6U43	W1	3	E004	note	EV0034	3/2	1	V02	pitch=G2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	3	E004	note	EV0035	2	1/2	V01	pitch=A#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	3	E004	note	EV0036	5/2	1/2	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	3	E004	rest	EV0037	5/2	1/2	V02	articulations=
+CASE-6U43	W1	4	E005	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W1	4	E005	note	EV0038	0	1/2	V01	pitch=G5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	4	E005	rest	EV0039	0	1/2	V02	articulations=
+CASE-6U43	W1	4	E005	note	EV0040	1/2	1	V01	pitch=B4;tie=start;grace=none;articulations=;ornaments=
+CASE-6U43	W1	4	E005	note	EV0041	1/2	1/2	V02	pitch=E#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	4	E005	note	EV0042	1	1/2	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	4	E005	note	EV0043	3/2	1/2	V01	pitch=B4;tie=stop;grace=none;articulations=;ornaments=
+CASE-6U43	W1	4	E005	note	EV0044	3/2	1	V02	pitch=F#2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	4	E005	note	EV0045	2	1/2	V01	pitch=G#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	4	E005	note	EV0046	5/2	1/2	V01	pitch=A4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	4	E005	rest	EV0047	5/2	1/2	V02	articulations=
+CASE-6U43	W1	5	E006	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W1	5	E006	note	EV0048	0	1/2	V01	pitch=F#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	5	E006	rest	EV0049	0	1/2	V02	articulations=
+CASE-6U43	W1	5	E006	note	EV0050	1/2	1	V01	pitch=A4;tie=start;grace=none;articulations=;ornaments=
+CASE-6U43	W1	5	E006	note	EV0051	1/2	1/2	V02	pitch=D#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	5	E006	note	EV0052	1	1/2	V02	pitch=E3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	5	E006	note	EV0053	3/2	1/2	V01	pitch=A4;tie=stop;grace=none;articulations=;ornaments=
+CASE-6U43	W1	5	E006	note	EV0054	3/2	1	V02	pitch=E2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	5	E006	note	EV0055	2	1/2	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	5	E006	note	EV0056	5/2	1/2	V01	pitch=G4;tie=start;grace=none;articulations=;ornaments=
+CASE-6U43	W1	5	E006	note	EV0057	5/2	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W1	6	E007	note	EV0058	0	1/2	V01	pitch=G4;tie=stop;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0059	0	1	V02	pitch=C#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0060	1/2	1/4	V01	pitch=E5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0061	3/4	1/4	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0062	1	1/4	V01	pitch=C#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	rest	EV0063	1	1/2	V02	articulations=
+CASE-6U43	W1	6	E007	note	EV0064	5/4	1/4	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0065	3/2	1/2	V01	pitch=A4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	rest	EV0066	3/2	1/2	V02	articulations=
+CASE-6U43	W1	6	E007	note	EV0067	2	1/2	V01	pitch=E5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0068	2	1/4	V02	pitch=A2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0069	9/4	1/4	V02	pitch=B2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0070	5/2	1/2	V01	pitch=G4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0071	5/2	1/4	V02	pitch=C#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	6	E007	note	EV0072	11/4	1/4	V02	pitch=A2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	7	E008	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W1	7	E008	note	EV0073	0	1/2	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	7	E008	note	EV0074	0	1	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	7	E008	note	EV0075	1/2	1/4	V01	pitch=A4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	7	E008	note	EV0076	3/4	1/4	V01	pitch=G4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	7	E008	note	EV0077	1	1/4	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	7	E008	rest	EV0078	1	1/2	V02	articulations=
+CASE-6U43	W1	7	E008	note	EV0079	5/4	1/4	V01	pitch=E4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	7	E008	note	EV0080	3/2	1/2	V01	pitch=D4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	7	E008	rest	EV0081	3/2	1/2	V02	articulations=
+CASE-6U43	W1	7	E008	rest	EV0082	2	1/2	V01	articulations=
+CASE-6U43	W1	7	E008	note	EV0083	2	1/2	V02	pitch=A3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W1	7	E008	rest	EV0084	5/2	1/2	V01	articulations=
+CASE-6U43	W1	7	E008	note	EV0085	5/2	1/2	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	0	E009	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W2	0	E009	note	EV0086	0	1/2	V01	pitch=G#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	0	E009	note	EV0087	0	1	V02	pitch=E3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	0	E009	note	EV0088	1/2	1/2	V01	pitch=E5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	0	E009	note	EV0089	1	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	0	E009	rest	EV0090	1	1/2	V02	articulations=
+CASE-6U43	W2	0	E009	note	EV0091	3/2	1/2	V01	pitch=C#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	0	E009	note	EV0092	3/2	1	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	0	E009	note	EV0093	2	1/2	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	0	E009	note	EV0094	5/2	1/2	V01	pitch=A#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	0	E009	rest	EV0095	5/2	1/2	V02	articulations=
+CASE-6U43	W2	1	E010	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W2	1	E010	note	EV0096	0	1/2	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	1	E010	rest	EV0097	0	3/2	V02	articulations=
+CASE-6U43	W2	1	E010	note	EV0098	1/2	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	1	E010	note	EV0099	1	1/2	V01	pitch=F#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	1	E010	note	EV0100	3/2	3/2	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	1	E010	note	EV0101	3/2	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	1	E010	note	EV0102	2	1/2	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	1	E010	note	EV0103	5/2	1/2	V02	pitch=B3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	2	E011	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W2	2	E011	note	EV0104	0	1/2	V01	pitch=G#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	2	E011	note	EV0105	0	1	V02	pitch=E3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	2	E011	note	EV0106	1/2	1/2	V01	pitch=E5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	2	E011	note	EV0107	1	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	2	E011	rest	EV0108	1	1/2	V02	articulations=
+CASE-6U43	W2	2	E011	note	EV0109	3/2	1/2	V01	pitch=C#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	2	E011	note	EV0110	3/2	1	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	2	E011	note	EV0111	2	1/2	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	2	E011	note	EV0112	5/2	1/2	V01	pitch=A#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	2	E011	rest	EV0113	5/2	1/2	V02	articulations=
+CASE-6U43	W2	3	E012	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W2	3	E012	note	EV0114	0	1/2	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	3	E012	note	EV0115	0	1	V02	pitch=G3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	3	E012	note	EV0116	1/2	1/2	V01	pitch=G5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	3	E012	note	EV0117	1	1/2	V01	pitch=F#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	3	E012	rest	EV0118	1	1/2	V02	articulations=
+CASE-6U43	W2	3	E012	note	EV0119	3/2	1/2	V01	pitch=E5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	3	E012	note	EV0120	3/2	1	V02	pitch=A#2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	3	E012	note	EV0121	2	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	3	E012	note	EV0122	5/2	1/2	V01	pitch=C#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	3	E012	rest	EV0123	5/2	1/2	V02	articulations=
+CASE-6U43	W2	4	E013	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W2	4	E013	note	EV0124	0	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	4	E013	note	EV0125	0	1	V02	pitch=B2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	4	E013	note	EV0126	1/2	1/2	V01	pitch=B5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	4	E013	note	EV0127	1	1/2	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	4	E013	note	EV0128	1	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	4	E013	note	EV0129	3/2	1	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	4	E013	note	EV0130	3/2	1	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	4	E013	note	EV0131	5/2	1/2	V01	pitch=C#5;tie=none;grace=none;articulations=;ornaments=trill
+CASE-6U43	W2	4	E013	note	EV0132	5/2	1/2	V02	pitch=F#2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	5	E014	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W2	5	E014	note	EV0133	0	1/2	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	5	E014	note	EV0134	0	1	V02	pitch=B2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	5	E014	note	EV0135	1/2	1/2	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	5	E014	note	EV0136	1	1/2	V01	pitch=D4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	5	E014	rest	EV0137	1	1/2	V02	articulations=
+CASE-6U43	W2	5	E014	note	EV0138	3/2	1	V01	pitch=B3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W2	5	E014	rest	EV0139	3/2	3/2	V02	articulations=
+CASE-6U43	W2	5	E014	rest	EV0140	5/2	1/2	V01	articulations=
+CASE-6U43	W3	0	E015	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W3	0	E015	note	EV0141	0	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	0	E015	rest	EV0142	0	3	V02	articulations=
+CASE-6U43	W3	0	E015	note	EV0143	1/2	1/2	V01	pitch=D4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	0	E015	note	EV0144	1	1/2	V01	pitch=C#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	0	E015	note	EV0145	3/2	1/2	V01	pitch=B3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	0	E015	note	EV0146	2	1/2	V01	pitch=A3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	0	E015	note	EV0147	5/2	1/2	V01	pitch=G3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	1	E016	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W3	1	E016	note	EV0148	0	1	V01	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	1	E016	rest	EV0149	0	1/2	V02	articulations=
+CASE-6U43	W3	1	E016	note	EV0150	1/2	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	1	E016	rest	EV0151	1	1/2	V01	articulations=
+CASE-6U43	W3	1	E016	note	EV0152	1	1/2	V02	pitch=C#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	1	E016	rest	EV0153	3/2	3/2	V01	articulations=
+CASE-6U43	W3	1	E016	note	EV0154	3/2	1/2	V02	pitch=B2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	1	E016	note	EV0155	2	1/2	V02	pitch=A2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	1	E016	note	EV0156	5/2	1/2	V02	pitch=G2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	2	E017	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W3	2	E017	note	EV0157	0	1/2	V02	pitch=F#2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	2	E017	note	EV0158	1/2	1/2	V02	pitch=A2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	2	E017	note	EV0159	1	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	2	E017	note	EV0160	3/2	1/2	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	2	E017	note	EV0161	2	1/2	V01	pitch=A3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	2	E017	note	EV0162	5/2	1/2	V01	pitch=D4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	3	E018	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W3	3	E018	note	EV0163	0	1/2	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	3	E018	rest	EV0164	0	1	V02	articulations=
+CASE-6U43	W3	3	E018	note	EV0165	1/2	1/2	V01	pitch=A4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	3	E018	note	EV0166	1	1/2	V01	pitch=C4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	3	E018	note	EV0167	1	1/2	V02	pitch=E3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	3	E018	rest	EV0168	3/2	1/2	V01	articulations=
+CASE-6U43	W3	3	E018	note	EV0169	3/2	1	V02	pitch=D#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	3	E018	note	EV0170	2	1/2	V01	pitch=B3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	3	E018	note	EV0171	5/2	1/2	V01	pitch=A4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	3	E018	rest	EV0172	5/2	1/2	V02	articulations=
+CASE-6U43	W3	4	E019	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W3	4	E019	note	EV0173	0	1/2	V02	pitch=E2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	4	E019	note	EV0174	1/2	1/2	V02	pitch=G2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	4	E019	note	EV0175	1	1/2	V02	pitch=B2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	4	E019	note	EV0176	3/2	1/2	V02	pitch=E3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	4	E019	note	EV0177	2	1/2	V01	pitch=G3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	4	E019	note	EV0178	5/2	1/2	V01	pitch=B3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	5	E020	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W3	5	E020	note	EV0179	0	1/2	V01	pitch=E4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	5	E020	rest	EV0180	0	1	V02	articulations=
+CASE-6U43	W3	5	E020	note	EV0181	1/2	1/2	V01	pitch=G4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	5	E020	note	EV0182	1	1/2	V01	pitch=B3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	5	E020	note	EV0183	1	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	5	E020	rest	EV0184	3/2	1/2	V01	articulations=
+CASE-6U43	W3	5	E020	note	EV0185	3/2	1	V02	pitch=C#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	5	E020	note	EV0186	2	1/2	V01	pitch=A3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	5	E020	note	EV0187	5/2	1/2	V01	pitch=G4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W3	5	E020	rest	EV0188	5/2	1/2	V02	articulations=
+CASE-6U43	W4	0	E021	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W4	0	E021	note	EV0189	0	1/2	V02	pitch=D3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	0	E021	note	EV0190	1/2	1/2	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	0	E021	note	EV0191	1	1/2	V02	pitch=A3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	0	E021	note	EV0192	3/2	1/2	V01	pitch=D4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	0	E021	note	EV0193	2	1/2	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	0	E021	note	EV0194	5/2	1/2	V01	pitch=A4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	1	E022	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W4	1	E022	note	EV0195	0	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	1	E022	rest	EV0196	0	1	V02	articulations=
+CASE-6U43	W4	1	E022	note	EV0197	1/2	1/2	V01	pitch=F#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	1	E022	note	EV0198	1	1/2	V01	pitch=A4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	1	E022	note	EV0199	1	1/2	V02	pitch=C#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	1	E022	rest	EV0200	3/2	1/2	V01	articulations=
+CASE-6U43	W4	1	E022	note	EV0201	3/2	1	V02	pitch=B3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	1	E022	note	EV0202	2	1/2	V01	pitch=G#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	1	E022	note	EV0203	5/2	1/2	V01	pitch=F#5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	1	E022	rest	EV0204	5/2	1/2	V02	articulations=
+CASE-6U43	W4	2	E023	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W4	2	E023	rest	EV0205	0	1/2	V01	articulations=
+CASE-6U43	W4	2	E023	note	EV0206	0	1	V02	pitch=C#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	2	E023	note	EV0207	1/2	1/2	V01	pitch=E5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	2	E023	note	EV0208	1	1/2	V01	pitch=G4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	2	E023	rest	EV0209	1	1/2	V02	articulations=
+CASE-6U43	W4	2	E023	rest	EV0210	3/2	1/2	V01	articulations=
+CASE-6U43	W4	2	E023	note	EV0211	3/2	1	V02	pitch=D4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	2	E023	note	EV0212	2	1/2	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	2	E023	note	EV0213	5/2	1/2	V01	pitch=D5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	2	E023	rest	EV0214	5/2	1/2	V02	articulations=
+CASE-6U43	W4	3	E024	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W4	3	E024	note	EV0215	0	3/2	V01	pitch=F#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	3	E024	note	EV0216	0	1/2	V02	pitch=A2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	3	E024	note	EV0217	1/2	1/2	V02	pitch=A3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	3	E024	note	EV0218	1	1/2	V02	pitch=G#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	3	E024	note	EV0219	3/2	1	V01	pitch=E4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	3	E024	note	EV0220	3/2	1/2	V02	pitch=A3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	3	E024	note	EV0221	2	1/2	V02	pitch=B3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	3	E024	rest	EV0222	5/2	1/2	V01	articulations=
+CASE-6U43	W4	3	E024	note	EV0223	5/2	1/2	V02	pitch=G3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	4	E025	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W4	4	E025	note	EV0224	0	1/2	V01	pitch=A5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	4	E025	rest	EV0225	0	1/2	V02	articulations=
+CASE-6U43	W4	4	E025	note	EV0226	1/2	1	V01	pitch=C5;tie=start;grace=none;articulations=;ornaments=
+CASE-6U43	W4	4	E025	note	EV0227	1/2	1/2	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	4	E025	note	EV0228	1	1/2	V02	pitch=G3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	4	E025	note	EV0229	3/2	1/2	V01	pitch=C5;tie=stop;grace=none;articulations=;ornaments=
+CASE-6U43	W4	4	E025	note	EV0230	3/2	1	V02	pitch=G2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	4	E025	note	EV0231	2	1/2	V01	pitch=A#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	4	E025	note	EV0232	5/2	1/2	V01	pitch=B4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	4	E025	rest	EV0233	5/2	1/2	V02	articulations=
+CASE-6U43	W4	5	E026	measure			3		meter=6/8;key_fifths=2;barlines=regular|regular;volta=none
+CASE-6U43	W4	5	E026	note	EV0234	0	1/2	V01	pitch=G5;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	5	E026	rest	EV0235	0	1/2	V02	articulations=
+CASE-6U43	W4	5	E026	note	EV0236	1/2	1	V01	pitch=B4;tie=start;grace=none;articulations=;ornaments=
+CASE-6U43	W4	5	E026	note	EV0237	1/2	1/2	V02	pitch=E#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	5	E026	note	EV0238	1	1/2	V02	pitch=F#3;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	5	E026	note	EV0239	3/2	1/2	V01	pitch=B4;tie=stop;grace=none;articulations=;ornaments=
+CASE-6U43	W4	5	E026	note	EV0240	3/2	1	V02	pitch=F#2;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	5	E026	note	EV0241	2	1/2	V01	pitch=G#4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	5	E026	note	EV0242	5/2	1/2	V01	pitch=A4;tie=none;grace=none;articulations=;ornaments=
+CASE-6U43	W4	5	E026	rest	EV0243	5/2	1/2	V02	articulations=

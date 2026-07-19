@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "completed_at": "2026-07-19T19:50:08.269Z",
+  "metadata_file": "openai-frontier__symbolic__CASE-8JQJ__run-01.run.json",
+  "metadata_sha256": "feb21e183f7352e8dd96c38840b3d5dd1d4ebd2bb6fb68454154dcd2eec4846a",
+  "response_file": "openai-frontier__symbolic__CASE-8JQJ__run-01.md",
+  "response_sha256": "42c9ea5d15cce3c74deec2315c4afe6cf3df02c881000ab4295ae16a8a31fec2",
+  "stderr_file": "openai-frontier__symbolic__CASE-8JQJ__run-01.stderr.txt",
+  "stderr_sha256": "043dee1db149d093d6a226fb31b0b26a7631650c0bafde7be08a83b4b82bd557"
+}

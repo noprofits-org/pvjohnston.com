@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_kind": "synthetic_response_contract_preflight",
+  "status": "failed",
+  "started_at": "2026-07-19T17:25:55.722Z",
+  "ended_at": "2026-07-19T17:25:56.199Z",
+  "model": {
+    "label": "openai-prior-generation",
+    "provider": "OpenAI",
+    "requested_model_id": "gpt-5.5",
+    "generation_role": "prior_generation_active_not_deprecated",
+    "experimental_unit": "Codex CLI model system",
+    "cli": "codex",
+    "cli_version": "0.144.6",
+    "tool_access": "none",
+    "adapter": "scripts/adapters/openai-prior-generation.sh",
+    "adapter_sha256": "582c17f4bb45e5ea1e3aa077573e506a80cf4841be3d7c8b5c5d91b0c32bca5d"
+  },
+  "protocol": {
+    "matrix_contract_sha256": "7b6ebd57926d42cebefbef75f9af0245fb81312209d2f0766ab56cf43bc721be",
+    "dossier_schema_version": "3.1.0",
+    "response_schema_version": "2.1.0",
+    "synthetic_case_id": "CASE-SYN0",
+    "synthetic_dossier_sha256": "496c29304e0453d0c68e339136e0a609855a6adc0cb06651ee58945c14efdeee",
+    "source_file_sha256": {
+      "scripts/run-synthetic-preflight.mjs": "4798cff5e5821e8d80eefb1b426d79216bee35510744d72550ef18dc2fc47c45",
+      "scripts/lib/synthetic-preflight.mjs": "5544bd69dcd6e11b9836425c75a24e5039f097d4990a2d23043de533df1a5dba",
+      "scripts/lib/case-validator.mjs": "5e0aed39ec867902fe7bdd417b0bf08a3dd1c63b00e60458bfe6f44870dab305",
+      "scripts/lib/response-validator.mjs": "0d4c7a9b3350ad184fcef0653c8c3da31e5db23abf4c62147e2a6094f3a48a52"
+    }
+  },
+  "retention": {
+    "rendered_prompt_body_retained": false,
+    "response_body_retained": false,
+    "stderr_body_retained": false,
+    "real_case_material_accessed": false
+  },
+  "tasks": [
+    {
+      "task": "analysis",
+      "status": "failed",
+      "started_at": "2026-07-19T17:25:55.724Z",
+      "ended_at": "2026-07-19T17:25:56.130Z",
+      "duration_ms": 406,
+      "command_exit_status": 1,
+      "command_signal": null,
+      "validation_status": "not_run",
+      "failure_code": "adapter_command_failed",
+      "prompt_template": "prompts/analysis.md",
+      "prompt_template_sha256": "41e2ed6155f468348145a5ddb0f95795196db86ad29e2c662202ad78149a67af",
+      "rendered_prompt_sha256": "52b33100440d1590671b04db2af57df82f0c254d73f06f1feeaa13843a274e60",
+      "rendered_prompt_bytes": 17915,
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "response_bytes": 0,
+      "stderr_sha256": "8cf4d3942c7b3f9162fa8683db06f94ea699fe6edf8802ab8bb02a960b8c6fbc",
+      "stderr_bytes": 896
+    },
+    {
+      "task": "identification",
+      "status": "failed",
+      "started_at": "2026-07-19T17:25:56.131Z",
+      "ended_at": "2026-07-19T17:25:56.199Z",
+      "duration_ms": 67,
+      "command_exit_status": 1,
+      "command_signal": null,
+      "validation_status": "not_run",
+      "failure_code": "adapter_command_failed",
+      "prompt_template": "prompts/identification.md",
+      "prompt_template_sha256": "052aab8b04cf5417937ba3a3e0af98c4425eec42c46d601ba8c0e3d43f69b84e",
+      "rendered_prompt_sha256": "96db3c25881bc9ac4448d19b2e2f375d42c93781f9c143fcf49bb11b37db5b63",
+      "rendered_prompt_bytes": 15947,
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "response_bytes": 0,
+      "stderr_sha256": "7933672eb4defac8ec86dea527d0f6520807b1606f8eb4a7890ffc560e3b429d",
+      "stderr_bytes": 896
+    }
+  ]
+}

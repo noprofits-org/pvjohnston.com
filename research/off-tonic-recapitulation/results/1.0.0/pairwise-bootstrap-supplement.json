@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "preregistered_reporting_addendum",
+  "dataset_version": "1.0.0",
+  "status": "complete",
+  "purpose": "Complete the frozen specification's omitted dossier-clustered bootstrap intervals for all three named system-pair descriptions without changing the frozen analyzer or primary summary.",
+  "preregistered_scope": {
+    "specification": "STATISTICAL_ANALYSIS.md, Bootstrap intervals and Direct agreement sections",
+    "repetitions": 2000,
+    "seed": 1702,
+    "resampling_unit": "target dossier",
+    "carried_observations": "all six case-cue units and both named system medians",
+    "target_case_ids": [
+      "CASE-6U43",
+      "CASE-8JQJ",
+      "CASE-D09B",
+      "CASE-DZWT",
+      "CASE-Q2R9"
+    ],
+    "positive_identification_anchor_excluded": true
+  },
+  "interpretation_boundary": [
+    "Intervals are descriptive resampling-sensitivity summaries, not population confidence intervals.",
+    "Each cross-provider pair has only twelve complete case-cue units because a three-run median is null when any repetition is invalid.",
+    "The two cross-provider pairs share the same Anthropic system and are not independent replications.",
+    "Named pair comparisons do not estimate causal provider or generation effects."
+  ],
+  "provenance": {
+    "collection_lock_sha256": "2efbbcb23fd1178e50297618af083ecc8d1d5b6dbddeb5324b14bab78a13f015",
+    "primary_summary_sha256": "e915df4256e2ff493581d62610e952a4fac95d7f8f1032a0afa28eee919eb383",
+    "statistical_analysis_spec_sha256": "4b4dcf087365314028b262eb37e51fa8fcddd18e3bb7ee164757e39379cf5243",
+    "frozen_reliability_implementation_sha256": "574c26b79b562054f4999496cf3d4a0b46c0db28e03ce43d74d9dd40a791eac8",
+    "frozen_response_validator_sha256": "0d4c7a9b3350ad184fcef0653c8c3da31e5db23abf4c62147e2a6094f3a48a52",
+    "reporting_addenda_builder_sha256": "f4b843c76791398e54a261f1520e036175e1b6691d45e176e9c18b72eca8312a",
+    "reporting_addenda_library_sha256": "0c4359f6131a1dc6fd293cab4f566de36d0aea4438bb46a60a28fb2b766ba567",
+    "reporting_addenda_test_sha256": "de7ef0abd54d308c72681e5affbd25e1d719d0aab530c0bd50dcc10e9f019b2c",
+    "locked_file_count": 41
+  },
+  "pairs": [
+    {
+      "systems": [
+        "openai-frontier",
+        "anthropic-frontier"
+      ],
+      "model_ids": [
+        "gpt-5.6-sol",
+        "claude-fable-5"
+      ],
+      "providers": [
+        "OpenAI",
+        "Anthropic"
+      ],
+      "provider_comparison": "cross_provider",
+      "target_case_count": 5,
+      "cues_per_case": 6,
+      "scheduled_case_cue_units": 30,
+      "complete_paired_units": 12,
+      "complete_paired_unit_fraction": 0.4,
+      "observed": {
+        "ordinal_krippendorff_alpha": 0.7911324786324786,
+        "pairs": 12,
+        "exact_agreement": 0.75,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.25,
+        "median_absolute_difference": 0
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 18,
+          "two": 12,
+          "three": 0,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 0.4,
+        "mixed_availability_units": 18
+      },
+      "bootstrap_95": {
+        "ordinal_krippendorff_alpha": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 0.32386363636363635,
+          "upper_95": 1
+        },
+        "exact_agreement": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 0.5,
+          "upper_95": 1
+        },
+        "within_one_agreement": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 1,
+          "upper_95": 1
+        },
+        "mean_absolute_difference": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 0,
+          "upper_95": 0.5
+        },
+        "median_absolute_difference": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 0,
+          "upper_95": 0.5
+        }
+      }
+    },
+    {
+      "systems": [
+        "openai-frontier",
+        "openai-prior-generation"
+      ],
+      "model_ids": [
+        "gpt-5.6-sol",
+        "gpt-5.5"
+      ],
+      "providers": [
+        "OpenAI",
+        "OpenAI"
+      ],
+      "provider_comparison": "within_provider",
+      "target_case_count": 5,
+      "cues_per_case": 6,
+      "scheduled_case_cue_units": 30,
+      "complete_paired_units": 30,
+      "complete_paired_unit_fraction": 1,
+      "observed": {
+        "ordinal_krippendorff_alpha": 0.8836313476009594,
+        "pairs": 30,
+        "exact_agreement": 0.7333333333333333,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.26666666666666666,
+        "median_absolute_difference": 0
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 0,
+          "two": 30,
+          "three": 0,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 1,
+        "mixed_availability_units": 0
+      },
+      "bootstrap_95": {
+        "ordinal_krippendorff_alpha": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0.774169835234474,
+          "upper_95": 0.981817610062893
+        },
+        "exact_agreement": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0.6666666666666666,
+          "upper_95": 0.8666666666666667
+        },
+        "within_one_agreement": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 1,
+          "upper_95": 1
+        },
+        "mean_absolute_difference": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0.13333333333333333,
+          "upper_95": 0.3333333333333333
+        },
+        "median_absolute_difference": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0,
+          "upper_95": 0
+        }
+      }
+    },
+    {
+      "systems": [
+        "anthropic-frontier",
+        "openai-prior-generation"
+      ],
+      "model_ids": [
+        "claude-fable-5",
+        "gpt-5.5"
+      ],
+      "providers": [
+        "Anthropic",
+        "OpenAI"
+      ],
+      "provider_comparison": "cross_provider",
+      "target_case_count": 5,
+      "cues_per_case": 6,
+      "scheduled_case_cue_units": 30,
+      "complete_paired_units": 12,
+      "complete_paired_unit_fraction": 0.4,
+      "observed": {
+        "ordinal_krippendorff_alpha": 0.7861125297923051,
+        "pairs": 12,
+        "exact_agreement": 0.6666666666666666,
+        "within_one_agreement": 0.9166666666666666,
+        "mean_absolute_difference": 0.4166666666666667,
+        "median_absolute_difference": 0
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 18,
+          "two": 12,
+          "three": 0,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 0.4,
+        "mixed_availability_units": 18
+      },
+      "bootstrap_95": {
+        "ordinal_krippendorff_alpha": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 0.29641812865497086,
+          "upper_95": 1
+        },
+        "exact_agreement": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 0.3333333333333333,
+          "upper_95": 1
+        },
+        "within_one_agreement": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 0.8333333333333334,
+          "upper_95": 1
+        },
+        "mean_absolute_difference": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 0,
+          "upper_95": 0.8333333333333334
+        },
+        "median_absolute_difference": {
+          "defined_replicates": 1837,
+          "defined_fraction": 0.9185,
+          "lower_95": 0,
+          "upper_95": 1
+        }
+      }
+    }
+  ]
+}

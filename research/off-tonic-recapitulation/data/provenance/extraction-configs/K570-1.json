@@ -1,0 +1,42 @@
+{
+  "case_id": "CASE-DZWT",
+  "work": "K570-1",
+  "candidate_mc": 133,
+  "candidate_onset_qn": {
+    "numerator": 0,
+    "denominator": 1
+  },
+  "second_part_mc": 80,
+  "second_part_onset_qn": {
+    "numerator": 0,
+    "denominator": 1
+  },
+  "source_score_corrections": [
+    {
+      "correction_id": "COR-K570-M001-P",
+      "source_mc": 1,
+      "onset_qn": {"numerator": 0, "denominator": 1},
+      "direction_type": "dynamic",
+      "voice_id": null,
+      "value": "p",
+      "authority": {
+        "source_id": "SRC-DCML-MOZART-V2.3",
+        "file": "pdf/NMA_vol2.pdf",
+        "printed_page": 132
+      }
+    },
+    {
+      "correction_id": "COR-K570-M133-P",
+      "source_mc": 133,
+      "onset_qn": {"numerator": 0, "denominator": 1},
+      "direction_type": "dynamic",
+      "voice_id": null,
+      "value": "p",
+      "authority": {
+        "source_id": "SRC-DCML-MOZART-V2.3",
+        "file": "pdf/NMA_vol2.pdf",
+        "printed_page": 137
+      }
+    }
+  ]
+}

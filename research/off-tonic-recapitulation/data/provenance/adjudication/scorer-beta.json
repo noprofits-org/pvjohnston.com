@@ -1,0 +1,272 @@
+[
+  {
+    "judgment_id": "J-0001",
+    "level": "L2",
+    "reason": "Mozart matches; K. 545 = K 545 with compatible No. 16 expansion; I. Allegro states movement I."
+  },
+  {
+    "judgment_id": "J-0002",
+    "level": "L0",
+    "reason": "Haydn, Hob. XVI:37, and movement III contradict Mozart, K. 570, and movement I."
+  },
+  {
+    "judgment_id": "J-0003",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0004",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0005",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0006",
+    "level": "L2",
+    "reason": "Mozart matches; K.576 = K 576; I. Allegro states movement I."
+  },
+  {
+    "judgment_id": "J-0007",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0008",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0009",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0010",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0011",
+    "level": "L2",
+    "reason": "Mozart matches; K. 545 = K 545 with compatible No. 16 expansion; I. Allegro states movement I."
+  },
+  {
+    "judgment_id": "J-0012",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0013",
+    "level": "L0",
+    "reason": "J. S. Bach and BWV 774 do not match C. P. E. Bach or Wq 48/3; movement is null."
+  },
+  {
+    "judgment_id": "J-0014",
+    "level": "L1",
+    "reason": "Composer matches Mozart, but K. 284 and movement II contradict K. 570 and movement I."
+  },
+  {
+    "judgment_id": "J-0015",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0016",
+    "level": "L1",
+    "reason": "Composer and movement I match, but K. 311 contradicts K. 333."
+  },
+  {
+    "judgment_id": "J-0017",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0018",
+    "level": "L0",
+    "reason": "Beethoven, Op. 10 No. 3, and movement III contradict Mozart, K. 570, and movement I."
+  },
+  {
+    "judgment_id": "J-0019",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0020",
+    "level": "L2",
+    "reason": "Mozart and K. 576 match; I. Allegro states movement I."
+  },
+  {
+    "judgment_id": "J-0021",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0022",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0023",
+    "level": "L0",
+    "reason": "Mozart, K. 576, and movement I contradict C. P. E. Bach, Wq 48/3, and movement III."
+  },
+  {
+    "judgment_id": "J-0024",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0025",
+    "level": "L0",
+    "reason": "Mozart, K. 576, and movement I contradict C. P. E. Bach, Wq 48/3, and movement III."
+  },
+  {
+    "judgment_id": "J-0026",
+    "level": "L0",
+    "reason": "Handel, HWV 430, and the Air do not match Mozart, K. 545, or movement I."
+  },
+  {
+    "judgment_id": "J-0027",
+    "level": "L1",
+    "reason": "Composer and movement I match, but K. 283 in G major contradicts K. 570 in B-flat major."
+  },
+  {
+    "judgment_id": "J-0028",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0029",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0030",
+    "level": "L0",
+    "reason": "Movement III matches, but Mozart and K. 576 contradict C. P. E. Bach and Wq 48/3."
+  },
+  {
+    "judgment_id": "J-0031",
+    "level": "L1",
+    "reason": "Composer and movement I match, but K. 311 contradicts K. 333."
+  },
+  {
+    "judgment_id": "J-0032",
+    "level": "L1",
+    "reason": "Composer matches Mozart, but K. 311 and movement III contradict K. 576 and movement I."
+  },
+  {
+    "judgment_id": "J-0033",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0034",
+    "level": "L2",
+    "reason": "Mozart and K. 576 match; I. Allegro states movement I."
+  },
+  {
+    "judgment_id": "J-0035",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0036",
+    "level": "L2",
+    "reason": "Mozart and K. 576 match; I. Allegro states movement I."
+  },
+  {
+    "judgment_id": "J-0037",
+    "level": "L0",
+    "reason": "Scarlatti, K.21, and a single movement contradict Mozart, K. 545, and movement I."
+  },
+  {
+    "judgment_id": "J-0038",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0039",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0040",
+    "level": "L0",
+    "reason": "J. S. Bach, BWV 829, and movement VII contradict C. P. E. Bach, Wq 48/3, and movement III."
+  },
+  {
+    "judgment_id": "J-0041",
+    "level": "L2",
+    "reason": "Mozart matches; K. 545 = K 545 with compatible No. 16 expansion; I. Allegro states movement I."
+  },
+  {
+    "judgment_id": "J-0042",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0043",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0044",
+    "level": "L1",
+    "reason": "Composer and movement I match, but K. 311 contradicts K. 333."
+  },
+  {
+    "judgment_id": "J-0045",
+    "level": "L2",
+    "reason": "Mozart matches; K. 576 is the canonical catalogue with compatible No. 18 expansion; I. Allegro states movement I."
+  },
+  {
+    "judgment_id": "J-0046",
+    "level": "L0",
+    "reason": "Mozart, K. 545, and movement II contradict Benda, Sonata No. 2 in G major, and movement III."
+  },
+  {
+    "judgment_id": "J-0047",
+    "level": "L1",
+    "reason": "Composer and movement I match, but K. 311 in D major contradicts K. 545 in C major."
+  },
+  {
+    "judgment_id": "J-0048",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0049",
+    "level": "L0",
+    "reason": "All three identity fields are null."
+  },
+  {
+    "judgment_id": "J-0050",
+    "level": "L0",
+    "reason": "Mozart, K. 284, and movement II contradict Benda, Sonata No. 2 in G major, and movement III."
+  },
+  {
+    "judgment_id": "J-0051",
+    "level": "L0",
+    "reason": "J. S. Bach, BWV 988, and Aria provide no correct Benda Sonata No. 2 movement III information."
+  },
+  {
+    "judgment_id": "J-0052",
+    "level": "L0",
+    "reason": "Movement I matches, but Haydn and Hob. XVI:37 contradict Mozart and K. 333."
+  },
+  {
+    "judgment_id": "J-0053",
+    "level": "L2",
+    "reason": "Mozart and K. 576 match; I. Allegro states movement I."
+  },
+  {
+    "judgment_id": "J-0054",
+    "level": "L0",
+    "reason": "J. S. Bach, BWV 825, and Menuet I provide no correct Benda Sonata No. 2 movement III information."
+  }
+]

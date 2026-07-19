@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0.0",
+  "status": "generated_unverified",
+  "case_id": "CASE-D09B",
+  "source": {
+    "source_id": "SRC-DCML-MOZART-V2.3",
+    "work": "K576-1",
+    "commit": "5337257a5318711e6302cfe85c3f1a6ade3c6271",
+    "files": [
+      {
+        "path": "pdf/NMA_vol2.pdf",
+        "sha256": "fd165fcf84905700c23947bc5fc58b7b61275b42cfb2e7068cbc2109401800d6"
+      },
+      {
+        "path": "MS3/K576-1.mscx",
+        "sha256": "02344e831b8ffb5242b89448fe26177a87dab4da645df2cffd6b558f67f9ecd5"
+      },
+      {
+        "path": "notes/K576-1.notes.tsv",
+        "sha256": "a7d9926e023386c5182cffd159d84f128f3f941c73ebc2c7afd5bd6ed4542815"
+      },
+      {
+        "path": "measures/K576-1.measures.tsv",
+        "sha256": "a690921ad13546134481656135683d4f0fd58678c5d9bc894732b491cd35acfc"
+      }
+    ]
+  },
+  "configuration": {
+    "case_id": "CASE-D09B",
+    "work": "K576-1",
+    "candidate_mc": 101,
+    "candidate_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "second_part_mc": 60,
+    "second_part_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "source_score_corrections": []
+  },
+  "source_score_corrections": [],
+  "normalization": {
+    "source_tonic": "D",
+    "home_mode": "major",
+    "chromatic_semitones": 0,
+    "diatonic_steps": 0,
+    "voice_map": [
+      {
+        "source_staff": 1,
+        "source_voice": 1,
+        "voice_id": "V01"
+      },
+      {
+        "source_staff": 1,
+        "source_voice": 2,
+        "voice_id": "V02"
+      },
+      {
+        "source_staff": 2,
+        "source_voice": 1,
+        "voice_id": "V03"
+      },
+      {
+        "source_staff": 2,
+        "source_voice": 2,
+        "voice_id": "V04"
+      }
+    ]
+  },
+  "source_measure_map": [
+    {
+      "window_id": "W1",
+      "measure_index": -1,
+      "source_mc": 1
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 0,
+      "source_mc": 2
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 1,
+      "source_mc": 3
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 2,
+      "source_mc": 4
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 3,
+      "source_mc": 5
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 4,
+      "source_mc": 6
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 5,
+      "source_mc": 7
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 6,
+      "source_mc": 8
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 7,
+      "source_mc": 9
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 0,
+      "source_mc": 95
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 1,
+      "source_mc": 96
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 2,
+      "source_mc": 97
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 3,
+      "source_mc": 98
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 4,
+      "source_mc": 99
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 5,
+      "source_mc": 100
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 0,
+      "source_mc": 101
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 1,
+      "source_mc": 102
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 2,
+      "source_mc": 103
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 3,
+      "source_mc": 104
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 4,
+      "source_mc": 105
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 5,
+      "source_mc": 106
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 0,
+      "source_mc": 107
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 1,
+      "source_mc": 108
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 2,
+      "source_mc": 109
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 3,
+      "source_mc": 110
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 4,
+      "source_mc": 111
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 5,
+      "source_mc": 112
+    }
+  ],
+  "exact_durations_qn": {
+    "second_part_elapsed": {
+      "numerator": 241,
+      "denominator": 2
+    },
+    "second_part_total": {
+      "numerator": 613,
+      "denominator": 2
+    }
+  },
+  "checks": {
+    "all_source_chords_reconciled_with_notes_table": true,
+    "selected_schema_unsupported_constructs": 0,
+    "selected_event_count": 321,
+    "selected_rest_count": 29,
+    "selected_direction_count": 3,
+    "selected_source_score_correction_count": 0
+  },
+  "limitations": [
+    "generated dossier still requires full source-score visual verification and reverse-render review",
+    "any source-score correction is explicit in the operator configuration and audit object",
+    "schema 3 omits slurs, clefs, beaming, tempo, and display-only accidental status by design",
+    "chord-level articulations and ornaments are copied to every constituent note event"
+  ],
+  "dossier_sha256": "5dbb6b1bc7e4b300757a67c4c03fae5afe603f317b8a4b13fb813b0aac4b27f5",
+  "generated_by": "scripts/extract-dcml-mozart.mjs"
+}
