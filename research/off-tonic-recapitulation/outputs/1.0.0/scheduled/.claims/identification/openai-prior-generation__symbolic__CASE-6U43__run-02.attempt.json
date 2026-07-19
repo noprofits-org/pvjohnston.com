@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "sequence": 21,
+  "task": "identification",
+  "model": "openai-prior-generation",
+  "case_id": "CASE-6U43",
+  "run": "02",
+  "collection_lock_sha256": "2efbbcb23fd1178e50297618af083ecc8d1d5b6dbddeb5324b14bab78a13f015",
+  "claimed_at": "2026-07-19T18:33:56.200Z"
+}

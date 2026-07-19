@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "completed_at": "2026-07-19T19:45:22.780Z",
+  "metadata_file": "anthropic-frontier__symbolic__CASE-6U43__run-02.run.json",
+  "metadata_sha256": "28c70e2bc165090218c7023ff391e39caaf77ed66cefe8cad82b6841db49e6e7",
+  "response_file": "anthropic-frontier__symbolic__CASE-6U43__run-02.md",
+  "response_sha256": "97965b4dd936595e5dc3d60d9b049843470b6f5f91216dbb537d5b8f4ae1f6ac",
+  "stderr_file": "anthropic-frontier__symbolic__CASE-6U43__run-02.stderr.txt",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

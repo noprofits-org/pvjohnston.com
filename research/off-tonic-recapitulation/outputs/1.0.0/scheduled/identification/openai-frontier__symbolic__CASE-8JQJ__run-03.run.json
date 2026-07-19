@@ -1,0 +1,48 @@
+{
+  "schema_version": "2.0.0",
+  "task": "identification",
+  "case_id": "CASE-8JQJ",
+  "model_label": "openai-frontier",
+  "run_kind": "scheduled",
+  "run": "03",
+  "requested_model_spec": {
+    "provider": "OpenAI",
+    "model_id": "gpt-5.6-sol",
+    "generation_role": "frontier",
+    "experimental_unit": "Codex CLI model system",
+    "cli": "codex",
+    "cli_version": "0.144.6",
+    "authentication": "ChatGPT subscription authentication; account identity not published",
+    "decoding_settings": "reasoning_effort=high; verbosity=low; provider sampling defaults because temperature/seed are not exposed by this CLI",
+    "tool_access": "none",
+    "adapter": "scripts/adapters/openai-frontier.sh",
+    "adapter_sha256": "e3e0f383ec08c13ba746be0b271a8cebf94e9504f31e4a416cc765638b87d1f9",
+    "preflight_status": "passed_no_outcome_2026-07-19",
+    "preflight_receipt": {
+      "path": "data/provenance/preflight-receipts/openai-frontier__synthetic-schema__20260719T174400981Z__pid-10157.receipt.json",
+      "sha256": "775a1ceedb170a339ebaf03835de918e076473c6f0123f3adf2a13281501a808"
+    }
+  },
+  "observed_model_version": null,
+  "provider_request_id": null,
+  "invocation": [
+    "scripts/adapters/openai-frontier.sh"
+  ],
+  "started_at": "2026-07-19T19:17:56Z",
+  "ended_at": "2026-07-19T19:18:46Z",
+  "dataset_version": "1.0.0",
+  "dataset_manifest_sha256": "6a027698775083ed275e0149685ec23cc07dea9d4f7f19b2a40b6c7d2eb246bb",
+  "run_matrix_sha256": "145cb1278b85ced5502386d2b722f1cf0ba04050e961aa785cfe6c67e712bcca",
+  "collection_lock_sha256": "2efbbcb23fd1178e50297618af083ecc8d1d5b6dbddeb5324b14bab78a13f015",
+  "adapter_sha256": "e3e0f383ec08c13ba746be0b271a8cebf94e9504f31e4a416cc765638b87d1f9",
+  "prompt_template_sha256": "c3c576338b5f3a06a588fa16d722c2d81158768c2e66d9c6fc0df638c462903b",
+  "rendered_prompt_sha256": "81b9a63afb0ff045cec8c3dad77e22d727f9ebfb032a60ed99d3b79bdc46d1f7",
+  "dossier_sha256": "135484af663bb92f279bed6e26bc9ff03db2607391021e6b0d5ef7444754df1d",
+  "response_file": "openai-frontier__symbolic__CASE-8JQJ__run-03.md",
+  "response_sha256": "823d4c2c44272359712ae89f224301c7eb43bb3c7200b203f534d8f7f238a381",
+  "stderr_file": "openai-frontier__symbolic__CASE-8JQJ__run-03.stderr.txt",
+  "stderr_sha256": "2c4761fb866408cdab429db1a7310c38dc67d7ad960baa18d64ab4fef6e081ce",
+  "command_exit_status": 0,
+  "validation_status": "valid",
+  "validation_error": null
+}

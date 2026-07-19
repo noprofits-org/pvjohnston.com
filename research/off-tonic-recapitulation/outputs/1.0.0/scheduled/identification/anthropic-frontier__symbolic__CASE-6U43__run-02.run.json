@@ -1,0 +1,48 @@
+{
+  "schema_version": "2.0.0",
+  "task": "identification",
+  "case_id": "CASE-6U43",
+  "model_label": "anthropic-frontier",
+  "run_kind": "scheduled",
+  "run": "02",
+  "requested_model_spec": {
+    "provider": "Anthropic",
+    "model_id": "claude-fable-5",
+    "generation_role": "frontier",
+    "experimental_unit": "Claude Code CLI model system",
+    "cli": "claude",
+    "cli_version": "2.1.215",
+    "authentication": "Claude subscription authentication; account identity not published",
+    "decoding_settings": "effort=high; adaptive thinking always on; provider sampling defaults because temperature/seed are not exposed by this CLI",
+    "tool_access": "none",
+    "adapter": "scripts/adapters/anthropic-frontier.sh",
+    "adapter_sha256": "f0b736ba54968acd1f49d052410b3bac27c71ae0ea79bbf844234953edea4e0c",
+    "preflight_status": "passed_no_outcome_2026-07-19",
+    "preflight_receipt": {
+      "path": "data/provenance/preflight-receipts/anthropic-frontier__synthetic-schema__20260719T174614323Z__pid-12386.receipt.json",
+      "sha256": "fac6843505e780c7acf503ba1873162a90d464c0b8eec2c43cec8a1a692c19b7"
+    }
+  },
+  "observed_model_version": null,
+  "provider_request_id": null,
+  "invocation": [
+    "scripts/adapters/anthropic-frontier.sh"
+  ],
+  "started_at": "2026-07-19T19:44:25Z",
+  "ended_at": "2026-07-19T19:45:22Z",
+  "dataset_version": "1.0.0",
+  "dataset_manifest_sha256": "6a027698775083ed275e0149685ec23cc07dea9d4f7f19b2a40b6c7d2eb246bb",
+  "run_matrix_sha256": "145cb1278b85ced5502386d2b722f1cf0ba04050e961aa785cfe6c67e712bcca",
+  "collection_lock_sha256": "2efbbcb23fd1178e50297618af083ecc8d1d5b6dbddeb5324b14bab78a13f015",
+  "adapter_sha256": "f0b736ba54968acd1f49d052410b3bac27c71ae0ea79bbf844234953edea4e0c",
+  "prompt_template_sha256": "c3c576338b5f3a06a588fa16d722c2d81158768c2e66d9c6fc0df638c462903b",
+  "rendered_prompt_sha256": "99eaeed375903c712e37cfc054a84212758943abbd30313cd4e11d29d85c9986",
+  "dossier_sha256": "8cb1446f4d625fc1203608e80602a2f5b733e43db3b439dcedd072ca98c4fa91",
+  "response_file": "anthropic-frontier__symbolic__CASE-6U43__run-02.md",
+  "response_sha256": "97965b4dd936595e5dc3d60d9b049843470b6f5f91216dbb537d5b8f4ae1f6ac",
+  "stderr_file": "anthropic-frontier__symbolic__CASE-6U43__run-02.stderr.txt",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "command_exit_status": 0,
+  "validation_status": "valid",
+  "validation_error": null
+}

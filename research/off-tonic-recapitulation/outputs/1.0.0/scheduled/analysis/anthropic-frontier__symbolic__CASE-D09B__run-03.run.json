@@ -1,0 +1,48 @@
+{
+  "schema_version": "2.0.0",
+  "task": "analysis",
+  "case_id": "CASE-D09B",
+  "model_label": "anthropic-frontier",
+  "run_kind": "scheduled",
+  "run": "03",
+  "requested_model_spec": {
+    "provider": "Anthropic",
+    "model_id": "claude-fable-5",
+    "generation_role": "frontier",
+    "experimental_unit": "Claude Code CLI model system",
+    "cli": "claude",
+    "cli_version": "2.1.215",
+    "authentication": "Claude subscription authentication; account identity not published",
+    "decoding_settings": "effort=high; adaptive thinking always on; provider sampling defaults because temperature/seed are not exposed by this CLI",
+    "tool_access": "none",
+    "adapter": "scripts/adapters/anthropic-frontier.sh",
+    "adapter_sha256": "f0b736ba54968acd1f49d052410b3bac27c71ae0ea79bbf844234953edea4e0c",
+    "preflight_status": "passed_no_outcome_2026-07-19",
+    "preflight_receipt": {
+      "path": "data/provenance/preflight-receipts/anthropic-frontier__synthetic-schema__20260719T174614323Z__pid-12386.receipt.json",
+      "sha256": "fac6843505e780c7acf503ba1873162a90d464c0b8eec2c43cec8a1a692c19b7"
+    }
+  },
+  "observed_model_version": null,
+  "provider_request_id": null,
+  "invocation": [
+    "scripts/adapters/anthropic-frontier.sh"
+  ],
+  "started_at": "2026-07-19T19:04:37Z",
+  "ended_at": "2026-07-19T19:05:31Z",
+  "dataset_version": "1.0.0",
+  "dataset_manifest_sha256": "6a027698775083ed275e0149685ec23cc07dea9d4f7f19b2a40b6c7d2eb246bb",
+  "run_matrix_sha256": "145cb1278b85ced5502386d2b722f1cf0ba04050e961aa785cfe6c67e712bcca",
+  "collection_lock_sha256": "2efbbcb23fd1178e50297618af083ecc8d1d5b6dbddeb5324b14bab78a13f015",
+  "adapter_sha256": "f0b736ba54968acd1f49d052410b3bac27c71ae0ea79bbf844234953edea4e0c",
+  "prompt_template_sha256": "d1d5dc1ce592ff2862c15b27d9377482e55ddb227b402db751ebf02862eade4e",
+  "rendered_prompt_sha256": "9aebf8b45d0ad9b9d1635b7c6d81a3c7f9d865c604917aad2426c2bf39f35d1d",
+  "dossier_sha256": "5dbb6b1bc7e4b300757a67c4c03fae5afe603f317b8a4b13fb813b0aac4b27f5",
+  "response_file": "anthropic-frontier__symbolic__CASE-D09B__run-03.invalid.md",
+  "response_sha256": "1506d01dd4408209327e4e32ec0addcbf2c98916ef943c13f3f760bb5082e11a",
+  "stderr_file": "anthropic-frontier__symbolic__CASE-D09B__run-03.stderr.txt",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "command_exit_status": 0,
+  "validation_status": "invalid",
+  "validation_error": "file:///private/tmp/pvjohnston-music-theory/research/off-tonic-recapitulation/scripts/lib/response-validator.mjs:106     if (!evidenceIds.has(id)) throw new Error(`unknown evidence ID ${id} at ${location}`);                                     ^  Error: unknown evidence ID DR0003 at result.cues.rhetorical_emphasis.evidence_ids     at validateEvidenceReferences (file:///private/tmp/pvjohnston-music-theory/research/off-tonic-recapitulation/scripts/lib/response-validator.mjs:106:37)     at validateAnalysisResult (file:///private/tmp/pvjohnston-music-theory/research/off-tonic-recapitulation/scripts/lib/response-validator.mjs:177:5)     at parseAndValidateResponse (file:///private/tmp/pvjohnston-music-theory/research/off-tonic-recapitulation/scripts/lib/response-validator.mjs:260:5)     at file:///private/tmp/pvjohnston-music-theory/research/off-tonic-recapitulation/scripts/validate-output.mjs:11:1     at ModuleJob.run (node:internal/modules/esm/module_job:371:25)     at async onImport.trac"
+}
