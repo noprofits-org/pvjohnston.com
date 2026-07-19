@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0.0",
+  "status": "verified_manual_transcription",
+  "case_id": "CASE-8JQJ",
+  "verification_date": "2026-07-18",
+  "source": {
+    "source_id": "SRC-BENDA-1757-SLUB",
+    "local_file": "data/sources/operator/benda_1757_first_edition_slub.pdf",
+    "sha256": "34aab7ccd253df6585f3afaade5bbafca3f2f72f6ae1b647ca8653f96aced350",
+    "pdf_pages": [18, 19],
+    "plates": [11, 12],
+    "legibility_only": [
+      "benda_16_sonatas_MAB.pdf"
+    ],
+    "expression_authority": "1757 first edition",
+    "embedded_image_maximum": "1000x707"
+  },
+  "configuration": {
+    "case_id": "CASE-8JQJ",
+    "candidate_measure": 51,
+    "candidate_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "second_part_measure": 27,
+    "second_part_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "conventional_final_measure": 72,
+    "physical_written_bar_count": 74,
+    "physical_timeline": [
+      "1-25",
+      "26a",
+      "26b",
+      "27-71",
+      "72a",
+      "72b"
+    ],
+    "anacrusis": false
+  },
+  "normalization": {
+    "source_tonic": "G",
+    "home_mode": "major",
+    "source_key_fifths": 1,
+    "normalized_key_fifths": 2,
+    "chromatic_semitones": -5,
+    "diatonic_steps": -3,
+    "voice_map": [
+      {
+        "source_staff": 1,
+        "source_voice": "all_notated_layers",
+        "voice_id": "V01"
+      },
+      {
+        "source_staff": 2,
+        "source_voice": "all_notated_layers",
+        "voice_id": "V02"
+      }
+    ]
+  },
+  "source_measure_map": [
+    {"window_id": "W1", "measure_index": 0, "source_measure": 1},
+    {"window_id": "W1", "measure_index": 1, "source_measure": 2},
+    {"window_id": "W1", "measure_index": 2, "source_measure": 3},
+    {"window_id": "W1", "measure_index": 3, "source_measure": 4},
+    {"window_id": "W1", "measure_index": 4, "source_measure": 5},
+    {"window_id": "W1", "measure_index": 5, "source_measure": 6},
+    {"window_id": "W1", "measure_index": 6, "source_measure": 7},
+    {"window_id": "W1", "measure_index": 7, "source_measure": 8},
+    {"window_id": "W2", "measure_index": 0, "source_measure": 45},
+    {"window_id": "W2", "measure_index": 1, "source_measure": 46},
+    {"window_id": "W2", "measure_index": 2, "source_measure": 47},
+    {"window_id": "W2", "measure_index": 3, "source_measure": 48},
+    {"window_id": "W2", "measure_index": 4, "source_measure": 49},
+    {"window_id": "W2", "measure_index": 5, "source_measure": 50},
+    {"window_id": "W3", "measure_index": 0, "source_measure": 51},
+    {"window_id": "W3", "measure_index": 1, "source_measure": 52},
+    {"window_id": "W3", "measure_index": 2, "source_measure": 53},
+    {"window_id": "W3", "measure_index": 3, "source_measure": 54},
+    {"window_id": "W3", "measure_index": 4, "source_measure": 55},
+    {"window_id": "W3", "measure_index": 5, "source_measure": 56},
+    {"window_id": "W4", "measure_index": 0, "source_measure": 57},
+    {"window_id": "W4", "measure_index": 1, "source_measure": 58},
+    {"window_id": "W4", "measure_index": 2, "source_measure": 59},
+    {"window_id": "W4", "measure_index": 3, "source_measure": 60},
+    {"window_id": "W4", "measure_index": 4, "source_measure": 61},
+    {"window_id": "W4", "measure_index": 5, "source_measure": 62}
+  ],
+  "exact_durations_qn": {
+    "second_part_elapsed": {
+      "numerator": 72,
+      "denominator": 1
+    },
+    "second_part_total": {
+      "numerator": 141,
+      "denominator": 1
+    }
+  },
+  "checks": {
+    "authority_scan_measure_pass": true,
+    "legibility_edition_rechecked_against_authority": true,
+    "editorial_expression_exclusion_checked": true,
+    "compiler_regeneration_byte_identical": true,
+    "reverse_event_table_compared_with_all_selected_measures": true,
+    "semantic_validator_pass": true,
+    "transposition_invariants_checked": true,
+    "candidate_and_volta_duration_arithmetic_checked": true,
+    "identity_metadata_scan_pass": true,
+    "selected_measure_count": 26,
+    "selected_event_count": 251,
+    "selected_note_count": 236,
+    "selected_rest_count": 15,
+    "selected_direction_count": 3,
+    "selected_ornament_count": 8
+  },
+  "limitations": [
+    "No second independent human transcription was available; Audiveris and MAB were legibility aids, not independent verification.",
+    "The pinned first-edition image is limited to 1000x707; hard-to-read noteheads and rests were cross-checked against MAB and then rechecked in the authority scan.",
+    "Schema 3.0.0 omits slurs, clefs, beaming, tempo text, and display-only accidental status by design.",
+    "Movement-wide voice IDs represent source staves and collapse simultaneous layers within a staff."
+  ],
+  "operator_source_sha256": "30f4d5fe6fe758a661760a5b368fa383c8b7026be0a63610fd254ce6caaecafa",
+  "reverse_table_sha256": "6ac3986a74beeb68d9663e51841e9a72c36d8cec4c8bf054e0d92495e3648c87",
+  "dossier_sha256": "5bf1fe6d39a730f697e8bee06156eed76b7262069e704d24bd8fd6fb6c01b945",
+  "compiler_sha256": "73190e199337e0f697bbe190f40b578c949b2cc1d6cb95f0fc083848c94d2896",
+  "reverse_renderer_sha256": "2a6136058b84128b5ebb391fe25388c990b0b270af56663b5ecee758a118a5ce",
+  "generated_by": "scripts/compile-transcription.mjs"
+}
