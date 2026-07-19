@@ -60,6 +60,11 @@ const HAIRPINS = new Set([
   "diminuendo_stop"
 ]);
 
+const TEXTUAL_GRADUAL_DYNAMICS = new Set([
+  "crescendo",
+  "diminuendo"
+]);
+
 const LEFT_BARLINES = new Set([
   "none",
   "regular",
@@ -332,8 +337,10 @@ const validateDirection = (direction, path, duration, state) => {
     expectEnum(direction.value, DYNAMICS, `${path}.value`);
   } else if (direction.direction_type === "hairpin") {
     expectEnum(direction.value, HAIRPINS, `${path}.value`);
+  } else if (direction.direction_type === "textual_gradual_dynamic") {
+    expectEnum(direction.value, TEXTUAL_GRADUAL_DYNAMICS, `${path}.value`);
   } else {
-    fail(`${path}.direction_type`, "expected dynamic or hairpin");
+    fail(`${path}.direction_type`, "expected dynamic, hairpin, or textual_gradual_dynamic");
   }
 };
 
@@ -443,7 +450,9 @@ export const validateCase = (dossier) => {
     "candidate_return",
     "windows"
   ]);
-  if (dossier.schema_version !== "3.0.0") fail("$.schema_version", "expected 3.0.0");
+  if (dossier.schema_version !== "3.0.0" && dossier.schema_version !== "3.1.0") {
+    fail("$.schema_version", "expected 3.0.0 or 3.1.0");
+  }
   if (typeof dossier.case_id !== "string" || !/^CASE-[A-Z0-9]{4}$/.test(dossier.case_id)) {
     fail("$.case_id", "expected CASE- followed by four uppercase letters or digits");
   }
@@ -501,6 +510,17 @@ export const validateCase = (dossier) => {
     {windowId: "W4", role: "continuation", indexes: [0, 1, 2, 3, 4, 5]}
   ];
   dossier.windows.forEach((window, index) => validateWindow(window, `$.windows[${index}]`, specifications[index], state));
+
+  if (dossier.schema_version === "3.0.0") {
+    const hasTextualGradualDynamic = dossier.windows.some((window) => (
+      window.measures.some((measure) => (
+        measure.directions.some((direction) => direction.direction_type === "textual_gradual_dynamic")
+      ))
+    ));
+    if (hasTextualGradualDynamic) {
+      fail("$.schema_version", "textual_gradual_dynamic requires schema 3.1.0");
+    }
+  }
 
   const voiceNumbers = [...state.voices].map((voice) => Number(voice.slice(1))).sort((a, b) => a - b);
   voiceNumbers.forEach((number, index) => {

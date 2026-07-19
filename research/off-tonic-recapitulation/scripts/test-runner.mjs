@@ -4,6 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import {spawnSync} from "node:child_process";
+import {writePassedPreflightReceipt} from "./test-helpers/preflight-receipt.mjs";
 
 const sourceDir = path.resolve(import.meta.dirname, "..");
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "off-tonic-runner-test."));
@@ -58,7 +59,7 @@ const makeDossier = (caseId) => {
     measures: Array.from({length: count}, (_, index) => makeMeasure(index))
   });
   return {
-    schema_version: "3.0.0",
+    schema_version: "3.1.0",
     case_id: caseId,
     condition: "symbolic",
     encoding: {
@@ -95,7 +96,7 @@ const makeDossier = (caseId) => {
   };
 };
 
-const adapterSource = (analystModel, invalid = false) => [
+const adapterSource = (analystModel, invalid = false, hangCase = null) => [
   "#!/usr/bin/env node",
   "import fs from 'node:fs';",
   "const prompt = fs.readFileSync(0, 'utf8');",
@@ -104,6 +105,9 @@ const adapterSource = (analystModel, invalid = false) => [
     : "const caseId = prompt.match(/\"case_id\":\\s*\"(CASE-[A-Z0-9]{4})\"/)?.[1];",
   ...(invalid ? [] : [
     "if (!caseId) throw new Error('case ID not found in rendered prompt');",
+    ...(hangCase ? [
+      `if (caseId === '${hangCase}') { setInterval(() => {}, 1000); await new Promise(() => {}); }`
+    ] : []),
     "const isAnalysis = prompt.startsWith('# Frozen analysis instructions');",
     "const fence = String.fromCharCode(96).repeat(3);",
     "const cueNames = ['tonal_stability','thematic_correspondence','preparation_strength','proportional_location','rhetorical_emphasis','rotational_continuation'];",
@@ -115,7 +119,16 @@ const adapterSource = (analystModel, invalid = false) => [
   ])
 ].join("\n") + "\n";
 
-const assertBundle = ({task, model, caseId, runKind, runId, valid}) => {
+const assertBundle = ({
+  task,
+  model,
+  caseId,
+  runKind,
+  runId,
+  valid,
+  commandStatus = 0,
+  validationStatus = valid ? "valid" : "invalid"
+}) => {
   const kindDirectory = runKind === "scheduled" ? "scheduled" : "diagnostic";
   const idLabel = runKind === "scheduled" ? `run-${runId}` : `diagnostic-${runId}`;
   const base = `${model}__symbolic__${caseId}__${idLabel}`;
@@ -138,8 +151,8 @@ const assertBundle = ({task, model, caseId, runKind, runId, valid}) => {
   assert.equal(metadata.run_kind, runKind);
   assert.equal(metadata.run, runId);
   assert.equal(metadata.dataset_version, datasetVersion);
-  assert.equal(metadata.command_exit_status, 0);
-  assert.equal(metadata.validation_status, valid ? "valid" : "invalid");
+  assert.equal(metadata.command_exit_status, commandStatus);
+  assert.equal(metadata.validation_status, validationStatus);
   assert.equal(metadata.response_file, responseName);
   assert.equal(metadata.response_sha256, hashFile(responsePath));
   assert.equal(metadata.stderr_sha256, hashFile(stderrPath));
@@ -159,6 +172,11 @@ const assertBundle = ({task, model, caseId, runKind, runId, valid}) => {
 };
 
 try {
+  const sourceRunner = path.join(sourceDir, "scripts", "run-model.sh");
+  fs.accessSync(sourceRunner, fs.constants.X_OK);
+  const help = run([sourceRunner, "--help"]);
+  assert.match(help.stdout, /Scheduled:\s+run-model\.sh/);
+
   fs.cpSync(sourceDir, experimentDir, {
     recursive: true,
     filter: (source) => {
@@ -184,7 +202,6 @@ try {
   Object.assign(manifest, {
     dataset_version: datasetVersion,
     dataset_status: "frozen",
-    randomization_seed: 117,
     frozen: "2026-07-18T00:00:00Z",
     cases,
     prompt_sha256: Object.fromEntries(["analysis", "identification"].map((task) => [
@@ -228,25 +245,30 @@ try {
   const adapterDir = path.join(experimentDir, "scripts", "adapters");
   fs.mkdirSync(adapterDir, {recursive: true});
   const modelDefinitions = [
-    ["mock-a", false],
-    ["mock-b", true],
-    ["mock-c", false]
+    ["mock-a", false, null],
+    ["mock-b", true, null],
+    ["mock-c", false, "CASE-A004"]
   ];
   const models = {};
-  for (const [model, invalid] of modelDefinitions) {
+  for (const [model, invalid, hangCase] of modelDefinitions) {
     const adapterRelative = `scripts/adapters/${model}.mjs`;
     const adapterPath = path.join(experimentDir, adapterRelative);
-    fs.writeFileSync(adapterPath, adapterSource(model, invalid), {mode: 0o755});
+    fs.writeFileSync(adapterPath, adapterSource(model, invalid, hangCase), {mode: 0o755});
     fs.chmodSync(adapterPath, 0o755);
     models[model] = {
-      provider: "fixture",
+      provider: model === "mock-b" ? "fixture-family-two" : "fixture-family-one",
       model_id: `${model}-v1`,
+      generation_role: model === "mock-c" ? "prior_generation_active_not_deprecated" : "frontier",
+      experimental_unit: "local fixture model system",
       cli: "local fixture adapter",
       cli_version: "1.0.0",
+      authentication: "local fixture",
       decoding_settings: "deterministic fixture",
       tool_access: "none",
       adapter: adapterRelative,
-      adapter_sha256: hashFile(adapterPath)
+      adapter_sha256: hashFile(adapterPath),
+      preflight_status: "passed_no_outcome_2026-07-18",
+      preflight_receipt: null
     };
   }
 
@@ -256,18 +278,103 @@ try {
     matrix_status: "frozen",
     dataset_manifest_sha256: hashFile(manifestPath),
     schedule_seed: 991,
+    call_timeout_seconds: 1,
     models,
     schedule: []
   });
+  for (const model of Object.keys(models)) {
+    models[model].preflight_receipt = writePassedPreflightReceipt({
+      experimentDir,
+      matrix,
+      modelLabel: model,
+      date: "2026-07-18"
+    });
+  }
   fs.writeFileSync(matrixPath, `${JSON.stringify(matrix, null, 2)}\n`);
   run([process.execPath, path.join(experimentDir, "scripts", "generate-schedule.mjs"), "--write", experimentDir]);
   assert.equal(readJson(matrixPath).schedule.length, 108);
 
+  const receiptPathBeforeLock = path.join(experimentDir, models["mock-a"].preflight_receipt.path);
+  const receiptBodyBeforeTamper = fs.readFileSync(receiptPathBeforeLock);
+  const matrixBeforeReceiptTamper = readJson(matrixPath);
+  const renderedPromptTamper = JSON.parse(receiptBodyBeforeTamper);
+  renderedPromptTamper.tasks[0].rendered_prompt_sha256 = "0".repeat(64);
+  fs.writeFileSync(receiptPathBeforeLock, `${JSON.stringify(renderedPromptTamper, null, 2)}\n`);
+  matrixBeforeReceiptTamper.models["mock-a"].preflight_receipt.sha256 = hashFile(receiptPathBeforeLock);
+  fs.writeFileSync(matrixPath, `${JSON.stringify(matrixBeforeReceiptTamper, null, 2)}\n`);
+  const rejectedRenderedPromptReceipt = spawnSync(process.execPath, [
+    path.join(experimentDir, "scripts", "create-collection-lock.mjs"), "--write", experimentDir
+  ], {encoding: "utf8"});
+  assert.notEqual(rejectedRenderedPromptReceipt.status, 0);
+  assert.match(rejectedRenderedPromptReceipt.stderr, /rendered prompt mismatch/);
+  fs.writeFileSync(receiptPathBeforeLock, receiptBodyBeforeTamper);
+  matrixBeforeReceiptTamper.models["mock-a"].preflight_receipt.sha256 = hashFile(receiptPathBeforeLock);
+  fs.writeFileSync(matrixPath, `${JSON.stringify(matrixBeforeReceiptTamper, null, 2)}\n`);
+
   const runner = path.join(experimentDir, "scripts", "run-model.sh");
-  fs.chmodSync(runner, 0o755);
+  fs.accessSync(runner, fs.constants.X_OK);
   run([process.execPath, path.join(experimentDir, "scripts", "create-collection-lock.mjs"), "--write", experimentDir]);
   run([process.execPath, path.join(experimentDir, "scripts", "verify-collection-lock.mjs"), experimentDir]);
+  const collectionLock = readJson(path.join(experimentDir, "collection-lock.json"));
+  for (const model of Object.values(models)) {
+    assert.equal(
+      collectionLock.files[model.preflight_receipt.path],
+      model.preflight_receipt.sha256,
+      "passed preflight receipt must be included in the collection lock"
+    );
+  }
 
+  const writeAttemptClaim = ({task, model, caseId, runId}) => {
+    const slot = readJson(matrixPath).schedule.find((entry) => (
+      entry.task === task
+      && entry.model === model
+      && entry.case_id === caseId
+      && entry.run === runId
+    ));
+    assert.ok(slot, "fixture scheduled slot should exist");
+    const base = `${model}__symbolic__${caseId}__run-${runId}`;
+    const claimDir = path.join(
+      experimentDir,
+      "outputs",
+      datasetVersion,
+      "scheduled",
+      ".claims",
+      task
+    );
+    fs.mkdirSync(claimDir, {recursive: true});
+    const claimPath = path.join(claimDir, `${base}.attempt.json`);
+    const claim = {
+      schema_version: "1.0.0",
+      sequence: slot.sequence,
+      task,
+      model,
+      case_id: caseId,
+      run: runId,
+      collection_lock_sha256: hashFile(path.join(experimentDir, "collection-lock.json")),
+      claimed_at: "2026-07-18T00:59:59Z"
+    };
+    fs.writeFileSync(claimPath, `${JSON.stringify(claim, null, 2)}\n`, {mode: 0o444});
+    fs.chmodSync(claimPath, 0o444);
+    return claimPath;
+  };
+
+  const unclaimed = run([
+    runner, "--task", "analysis", "--case", "CASE-A001", "--model", "mock-a", "--run", "01"
+  ], 4);
+  assert.match(unclaimed.stderr, /Scheduled attempt claim verification failed; no model was contacted/);
+  assert.equal(
+    fs.existsSync(path.join(
+      experimentDir,
+      "outputs",
+      datasetVersion,
+      "scheduled",
+      "analysis",
+      "mock-a__symbolic__CASE-A001__run-01.md"
+    )),
+    false
+  );
+
+  writeAttemptClaim({task: "analysis", model: "mock-a", caseId: "CASE-A001", runId: "01"});
   const successful = run([
     runner, "--task", "analysis", "--case", "CASE-A001", "--model", "mock-a", "--run", "01"
   ]);
@@ -285,6 +392,7 @@ try {
   ], 4);
   assert.match(duplicate.stderr, /Refusing to overwrite existing run/);
 
+  writeAttemptClaim({task: "identification", model: "mock-b", caseId: "CASE-A002", runId: "02"});
   const invalid = run([
     runner, "--task", "identification", "--case", "CASE-A002", "--model", "mock-b", "--run", "02"
   ], 5);
@@ -295,6 +403,23 @@ try {
   assert.equal(fs.existsSync(invalidBundle.responsePath.replace(".invalid.md", ".md")), false);
   assert.match(readJson(invalidBundle.metadataPath).validation_error, /unexpected heading sequence/);
 
+  writeAttemptClaim({task: "analysis", model: "mock-c", caseId: "CASE-A004", runId: "01"});
+  const timedOut = run([
+    runner, "--task", "analysis", "--case", "CASE-A004", "--model", "mock-c", "--run", "01"
+  ], 5);
+  assert.match(timedOut.stderr, /Run retained as .*\.invalid\.md \(command_failed\)/);
+  const timedOutBundle = assertBundle({
+    task: "analysis",
+    model: "mock-c",
+    caseId: "CASE-A004",
+    runKind: "scheduled",
+    runId: "01",
+    valid: false,
+    commandStatus: 124,
+    validationStatus: "command_failed"
+  });
+  assert.match(fs.readFileSync(timedOutBundle.stderrPath, "utf8"), /timed out after 1 seconds/);
+
   const diagnostic = run([
     runner, "--task", "identification", "--case", "CASE-A003", "--model", "mock-c", "--diagnostic", "07"
   ]);
@@ -304,6 +429,15 @@ try {
   assert.equal(diagnostic.stdout.trim(), diagnosticBundle.responsePath);
   assert.equal(diagnosticBundle.responsePath.includes(`${path.sep}diagnostic${path.sep}`), true);
   assert.equal(diagnosticBundle.responsePath.includes(`${path.sep}scheduled${path.sep}`), false);
+
+  const receiptPath = path.join(experimentDir, models["mock-a"].preflight_receipt.path);
+  fs.chmodSync(receiptPath, 0o644);
+  fs.appendFileSync(receiptPath, " ");
+  const tamperedReceipt = spawnSync(process.execPath, [
+    path.join(experimentDir, "scripts", "verify-collection-lock.mjs"), experimentDir
+  ], {encoding: "utf8"});
+  assert.notEqual(tamperedReceipt.status, 0);
+  assert.match(tamperedReceipt.stderr, /preflight receipt hash mismatch/);
 
   process.stdout.write("runner integration test passed\n");
 } finally {

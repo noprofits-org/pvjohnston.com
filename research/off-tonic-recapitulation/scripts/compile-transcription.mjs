@@ -250,8 +250,8 @@ const compileEvent = (record, transposition, label) => {
 const compileDirection = (record, label) => {
   if (!Array.isArray(record) || record.length !== 4) fail(`${label} must be a four-item direction array`);
   const [kind, onset, voice_id, value] = record;
-  const direction_type = ({ d: "dynamic", h: "hairpin" })[kind];
-  if (!direction_type) fail(`${label} direction kind must be d or h`);
+  const direction_type = ({ d: "dynamic", h: "hairpin", t: "textual_gradual_dynamic" })[kind];
+  if (!direction_type) fail(`${label} direction kind must be d, h, or t`);
   return { direction_type, onset_qn: parseRational(onset, `${label} onset`), voice_id, value };
 };
 
@@ -310,7 +310,7 @@ const compileSource = (source) => {
     return { window_id: windowId, role: roles[windowIndex], measures: compiled };
   });
   const dossier = {
-    schema_version: "3.0.0",
+    schema_version: "3.1.0",
     case_id: source.case_id,
     condition: "symbolic",
     encoding: {

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://pvjohnston.com/schemas/off-tonic-symbolic-case-3.0.0.json",
-  "title": "Blinded symbolic candidate-return dossier",
+  "$id": "https://pvjohnston.com/schemas/off-tonic-symbolic-case-3.1.0.json",
+  "title": "Identity-withheld symbolic candidate-return dossier",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -13,7 +13,7 @@
     "windows"
   ],
   "properties": {
-    "schema_version": {"const": "3.0.0"},
+    "schema_version": {"const": "3.1.0"},
     "case_id": {"type": "string", "pattern": "^CASE-[A-Z0-9]{4}$"},
     "condition": {"const": "symbolic"},
     "encoding": {
@@ -286,10 +286,28 @@
         }
       }
     },
+    "textual_gradual_dynamic_direction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["direction_id", "direction_type", "onset_qn", "voice_id", "value"],
+      "properties": {
+        "direction_id": {"type": "string", "pattern": "^DR[0-9]{4}$"},
+        "direction_type": {"const": "textual_gradual_dynamic"},
+        "onset_qn": {"$ref": "#/$defs/nonnegative_rational"},
+        "voice_id": {
+          "oneOf": [
+            {"type": "string", "pattern": "^V[0-9]{2}$"},
+            {"type": "null"}
+          ]
+        },
+        "value": {"enum": ["crescendo", "diminuendo"]}
+      }
+    },
     "direction": {
       "oneOf": [
         {"$ref": "#/$defs/dynamic_direction"},
-        {"$ref": "#/$defs/hairpin_direction"}
+        {"$ref": "#/$defs/hairpin_direction"},
+        {"$ref": "#/$defs/textual_gradual_dynamic_direction"}
       ]
     },
     "measure": {

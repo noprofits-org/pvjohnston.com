@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "status": "development",
+  "status": "frozen",
   "access_date": "2026-07-18",
   "sources": [
     {
@@ -9,9 +9,11 @@
       "repository": "https://github.com/DCMLab/mozart_piano_sonatas",
       "release": "v2.3",
       "commit": "5337257a5318711e6302cfe85c3f1a6ade3c6271",
-      "license": "CC BY-NC-SA 4.0",
+      "license": "CC BY-NC-SA 4.0 (DCML corpus data)",
+      "license_notes": "The included NMA_vol2.pdf visibly bears a 1986 Bärenreiter copyright notice. Do not assume the corpus data licence authorizes republication of NMA page images; publish page coordinates and hashes unless separate permission is confirmed.",
       "citation": "Hentschel, Neuwirth, and Rohrmeier (2021), doi:10.5334/tismir.63",
       "files": [
+        {"path": "pdf/NMA_vol2.pdf", "sha256": "fd165fcf84905700c23947bc5fc58b7b61275b42cfb2e7068cbc2109401800d6"},
         {"path": "MS3/K333-1.mscx", "sha256": "2822921745818df3d3194215b33ea0a46c72756a6468426ed22f575a056839f2"},
         {"path": "notes/K333-1.notes.tsv", "sha256": "40f4ce51a41000025bc71c7f1fccdf34c90cfed53216a6ff755df4224d3c2458"},
         {"path": "measures/K333-1.measures.tsv", "sha256": "7fa973ac443a449fa3f4cd18ada093a6b7c8ed1a66bc4244542a0957dab2497f"},
@@ -23,8 +25,51 @@
         {"path": "MS3/K570-1.mscx", "sha256": "326fecaedf12ebe933bb14b13aef62bd33127cf5df9f7946bb4d4af9bd0443a8"},
         {"path": "notes/K570-1.notes.tsv", "sha256": "0b8501f172b6498d202ffba50cd8ee55e25581f2a115c0c4d57cb632c5a76f1f"},
         {"path": "measures/K570-1.measures.tsv", "sha256": "5e5b5a551cdf0de8e7eaff03c00cc05e41ef66dd58e16df76f78d1c3f51c88ce"},
-        {"path": "chords/K570-1.chords.tsv", "sha256": "36b1535e077e42b38a0803c419588834f1656a2ca7cf55ce4921639c60d813b7"}
+        {"path": "chords/K570-1.chords.tsv", "sha256": "36b1535e077e42b38a0803c419588834f1656a2ca7cf55ce4921639c60d813b7"},
+        {"path": "MS3/K576-1.mscx", "sha256": "02344e831b8ffb5242b89448fe26177a87dab4da645df2cffd6b558f67f9ecd5"},
+        {"path": "notes/K576-1.notes.tsv", "sha256": "a7d9926e023386c5182cffd159d84f128f3f941c73ebc2c7afd5bd6ed4542815"},
+        {"path": "measures/K576-1.measures.tsv", "sha256": "a690921ad13546134481656135683d4f0fd58678c5d9bc894732b491cd35acfc"},
+        {"path": "chords/K576-1.chords.tsv", "sha256": "016807e9c9897fef72198b9078ca0f0a3b6337abb77346222da6817f73300d4a"}
       ]
+    },
+    {
+      "source_id": "SRC-BENDA-MAB-1954-LEGIBILITY",
+      "kind": "legibility_only_edited_score",
+      "repository": "https://imslp.org/",
+      "imslp_file_id": "12841",
+      "access_date": "2026-07-18",
+      "status": "metadata_recorded_external_operator_copy",
+      "operator_filename": "benda_16_sonatas_MAB.pdf",
+      "sha256": "395127f2bbb0566812f3490a8b79d4403dd1edbfe1b12acf0ee2480e7373bcb7",
+      "license": "Rights status not asserted; do not redistribute without a separate review",
+      "edition": "Musica Antiqua Bohemica, ed. V. Sykora, Prague, 1954",
+      "notes": "Used only to resolve hard-to-read noteheads and rests in the Benda scan. Its editorial dynamics, phrasing, fingering, pedaling, and articulations were excluded, and every selected event was rechecked against the 1757 authority. The PDF is not copied into this worktree or proposed for publication. Hash and IMSLP identifier are retained so the exact operator aid is auditable if the separate main checkout is cleaned."
+    },
+    {
+      "source_id": "SRC-CPE-NAGEL-1927-LEGIBILITY",
+      "kind": "legibility_only_edited_score",
+      "repository": "https://imslp.org/wiki/6_Prussian_Sonatas_%28Bach%2C_Carl_Philipp_Emanuel%29",
+      "imslp_file_id": "03751",
+      "access_date": "2026-07-18",
+      "status": "metadata_recorded_external_operator_copy",
+      "operator_filename": "cpe_bach_wq48_nagel1927.pdf",
+      "sha256": "2d07549ec59187c690f9411d0b479dfb650f2d7b864c977eb2b11a623f8f12cb",
+      "license": "Rights status not asserted; do not redistribute without a separate review",
+      "edition": "Nagels Musik-Archiv, ed. Rudolf Steglich, 1927",
+      "notes": "Used for notehead legibility only in Wq. 48/3. Dynamics and other expression were taken from the 1742 first edition, and every selected event was rechecked against that authority. The PDF is not copied into this worktree or proposed for publication. Hash and IMSLP identifier are retained so the exact operator aid is auditable if the separate main checkout is cleaned."
+    },
+    {
+      "source_id": "SRC-CPE-FARRENC-1861-ORIENTATION",
+      "kind": "orientation_only_historical_score",
+      "repository": "https://imslp.org/wiki/6_Prussian_Sonatas_%28Bach%2C_Carl_Philipp_Emanuel%29",
+      "imslp_file_id": "529779",
+      "access_date": "2026-07-18",
+      "status": "metadata_recorded_not_used_as_authority",
+      "operator_filename": "cpe_bach_wq48_farrenc1861.pdf",
+      "sha256": "636d9bf5794d1b68bdc1a511ce3e4f372093aa6ceb8b8fa5f172431cc377a269",
+      "license": "Historical edition is public domain; scan redistribution not assessed",
+      "edition": "Louise Farrenc, Le Tresor des pianistes, Paris, 1861",
+      "notes": "Retained as an orientation record only. It was not an authority for any selected event or expression and is not copied into this worktree or proposed for publication. Hash and IMSLP identifier are retained so the exact operator file can be distinguished from the authority and legibility aids."
     },
     {
       "source_id": "SRC-BENDA-1757-SLUB",
@@ -59,8 +104,45 @@
       "sha256": "86e1909e95c049ebab7cdc3f8e8623cd0e37e05445746ecd1988b0e6047ea38f",
       "license": "Public domain",
       "edition": "Longman and Broderip early print (BnF copy, ark btv1b9010256n)",
-      "notes": "Fetched twice independently on 2026-07-18 (operator Downloads and mirror); byte-identical. Torricella-1783 concordance NOT PERFORMED because no Torricella source is on disk. Movement i structure and candidate were resolved from PDF pages 14-16, but mandatory window W3 contains a printed textual dimi:/dim. instruction that schema 3.0.0 cannot represent without converting it to a graphical hairpin or omitting it. CASE-Z3F9 was stopped before transcription or dossier generation."
+      "notes": "Fetched twice independently on 2026-07-18 (operator Downloads and mirror); byte-identical. This BnF scan remains the notation and expression authority. A corrected traversal gives 119 measures (45 + 46 + 28), part 2 at m. 46, and the thematic pickup at m. 70 onset 3 qn into the first full thematic bar at m. 71; fixed windows are W2 64-69, W3 70-75, and W4 76-81. Schema 3.1.0 resolves the former textual dim./dimi: representation blocker. Only actual mm. 69-71 have converged to JSON-safe events; the other 24 evidence measures still require an authority-based event double pass. No CASE-Z3F9 dossier has been promoted."
+    },
+    {
+      "source_id": "SRC-BROWNELL-CLEMENTI-2010",
+      "kind": "secondary_scholarly_coordinate_witness",
+      "repository": "https://openaccess.city.ac.uk/id/eprint/12134/",
+      "file_url": "https://openaccess.city.ac.uk/id/eprint/12134/1/The%20english%20piano%20in%20the%20Classical%20Period.pdf",
+      "status": "downloaded_for_verification",
+      "access_date": "2026-07-19",
+      "sha256": "bb639fa524fa67c406489d56e580f846c7668c527c1cfc29b0c43c217798373d",
+      "license": "Copyright and moral rights retained; repository permits credited personal research, study, educational, and not-for-profit use",
+      "citation": "Andrew Brownell, The English Piano in the Classical Period: Its Music, Performers, and Influences (DMA thesis, City University London, 2010), pp. 71-72, Example 3.8.",
+      "notes": "Example 3.8 is captioned Sonata Op. 10 No. 3, I, mm. 67-74 and Copied from Torricella, Vienna, 1783. The excerpt matches the BnF sequence and independently resolves the five-measure numbering error, but it is a partial copied excerpt rather than the complete Torricella source. It is a coordinate and concordance witness only and never supersedes the BnF authority for selected notes or expression. Do not republish the excerpt image without separate rights review."
     }
   ],
-  "cases": []
+  "cases": [
+    {
+      "case_id": "CASE-6U43",
+      "source_id": "SRC-CPE-WQ48-FIRST-EDITION"
+    },
+    {
+      "case_id": "CASE-8JQJ",
+      "source_id": "SRC-BENDA-1757-SLUB"
+    },
+    {
+      "case_id": "CASE-DZWT",
+      "source_id": "SRC-DCML-MOZART-V2.3"
+    },
+    {
+      "case_id": "CASE-Q2R9",
+      "source_id": "SRC-DCML-MOZART-V2.3"
+    },
+    {
+      "case_id": "CASE-VT57",
+      "source_id": "SRC-DCML-MOZART-V2.3"
+    },
+    {
+      "case_id": "CASE-D09B",
+      "source_id": "SRC-DCML-MOZART-V2.3"
+    }
+  ]
 }

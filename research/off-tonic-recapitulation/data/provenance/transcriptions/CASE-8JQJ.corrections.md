@@ -1,6 +1,6 @@
 # CASE-8JQJ transcription and correction log
 
-Status: complete and manually verified, 2026-07-18. This is operator-only
+Status: complete, agent-transcribed, and reverse-checked, 2026-07-18. This is operator-only
 provenance. Source identities and source measure numbers in this file must not
 be copied into the model-facing dossier.
 
@@ -111,5 +111,7 @@ same interval to every pitch and preserves its diatonic spelling.
 5. The model-facing JSON was scanned for composer, work, source key, source
    measure numbers, filenames, URLs, and free-form text. None is present.
 
-There was no second independent human transcription. OMR was a fallible
+An OpenAI Codex research agent performed the event-level transcription under
+human operator supervision. No music-theory-trained human independently
+transcribed or verified it. OMR was a fallible
 legibility aid, not an independent extraction, and is not represented as one.

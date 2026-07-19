@@ -1,54 +1,90 @@
 {
   "schema_version": "1.0.0",
-  "status": "development",
+  "status": "frozen",
   "cases": [
     {
       "case_id": "CASE-6U43",
-      "slot": 1,
+      "role": "focal",
       "probe_role": "target",
-      "label": "cpe_wq48_3_iii",
-      "description": "C. P. E. Bach, Prussian Sonata in E, Wq 48/3, iii, m. 51",
-      "aliases": []
+      "composer": "Carl Philipp Emanuel Bach",
+      "work": "Prussian Sonata in E major, Wq 48/3",
+      "movement": "iii",
+      "candidate_measure": 51,
+      "accepted_aliases": {
+        "composer": ["C. P. E. Bach", "CPE Bach", "Carl P. E. Bach"],
+        "work": ["Prussian Sonata No. 3 in E major", "Prussian Sonata in E major, Wq. 48/3", "Wq 48/3", "Wq. 48/3"],
+        "movement": ["III", "3", "third movement", "movement 3"]
+      }
     },
     {
       "case_id": "CASE-8JQJ",
-      "slot": 2,
+      "role": "focal",
       "probe_role": "target",
-      "label": "benda_1757_2_iii",
-      "description": "Benda, 1757 Sonata No. 2 in G, iii, m. 51",
-      "aliases": []
+      "composer": "Georg Benda",
+      "work": "Keyboard Sonata No. 2 in G major (Sei Sonate per il cembalo solo)",
+      "movement": "iii",
+      "candidate_measure": 51,
+      "accepted_aliases": {
+        "composer": ["Jiří Antonín Benda", "Jiri Antonin Benda", "Georg Anton Benda", "George Benda"],
+        "work": ["Sonata No. 2 in G major", "Keyboard Sonata in G major No. 2", "Sonata II in G major", "Sei Sonate per il cembalo solo, No. 2"],
+        "movement": ["III", "3", "third movement", "movement 3"]
+      }
     },
     {
       "case_id": "CASE-DZWT",
-      "slot": 3,
+      "role": "tonic_control",
       "probe_role": "target",
-      "label": "mozart_k570_i",
-      "description": "Mozart, K. 570, i, m. 133",
-      "aliases": []
+      "composer": "Wolfgang Amadeus Mozart",
+      "work": "Piano Sonata in B-flat major, K. 570",
+      "movement": "i",
+      "candidate_measure": 133,
+      "accepted_aliases": {
+        "composer": ["W. A. Mozart", "Wolfgang Mozart", "Mozart"],
+        "work": ["Piano Sonata in B-flat major, K 570", "Piano Sonata in B-flat major, KV 570", "K. 570", "K 570", "KV 570"],
+        "movement": ["I", "1", "first movement", "movement 1"]
+      }
     },
     {
       "case_id": "CASE-Q2R9",
-      "slot": 4,
+      "role": "tonic_control",
       "probe_role": "target",
-      "label": "mozart_k333_i",
-      "description": "Mozart, K. 333, i, pickup m. 93 into 94",
-      "aliases": []
+      "composer": "Wolfgang Amadeus Mozart",
+      "work": "Piano Sonata in B-flat major, K. 333",
+      "movement": "i",
+      "candidate_measure": "pickup in m. 93 into m. 94",
+      "accepted_aliases": {
+        "composer": ["W. A. Mozart", "Wolfgang Mozart", "Mozart"],
+        "work": ["Piano Sonata in B-flat major, K 333", "Piano Sonata in B-flat major, KV 333", "K. 333", "K 333", "KV 333"],
+        "movement": ["I", "1", "first movement", "movement 1"]
+      }
     },
     {
       "case_id": "CASE-VT57",
-      "slot": 5,
+      "role": "off_tonic_control",
       "probe_role": "positive_control",
-      "label": "mozart_k545_i",
-      "description": "Mozart, K. 545, i, m. 42",
-      "aliases": []
+      "composer": "Wolfgang Amadeus Mozart",
+      "work": "Piano Sonata in C major, K. 545",
+      "movement": "i",
+      "candidate_measure": 42,
+      "accepted_aliases": {
+        "composer": ["W. A. Mozart", "Wolfgang Mozart", "Mozart"],
+        "work": ["Piano Sonata in C major, K 545", "Piano Sonata in C major, KV 545", "K. 545", "K 545", "KV 545"],
+        "movement": ["I", "1", "first movement", "movement 1"]
+      }
     },
     {
-      "case_id": "CASE-Z3F9",
-      "slot": 6,
+      "case_id": "CASE-D09B",
+      "role": "tonic_control",
       "probe_role": "target",
-      "label": "clementi_op10_3_i",
-      "description": "Clementi, Op. 10 No. 3, i, m. 69",
-      "aliases": []
+      "composer": "Wolfgang Amadeus Mozart",
+      "work": "Piano Sonata in D major, K. 576",
+      "movement": "i",
+      "candidate_measure": 99,
+      "accepted_aliases": {
+        "composer": ["W. A. Mozart", "Wolfgang Mozart", "Mozart"],
+        "work": ["Piano Sonata in D major, K 576", "Piano Sonata in D major, KV 576", "K. 576", "K 576", "KV 576"],
+        "movement": ["I", "1", "first movement", "movement 1"]
+      }
     }
   ]
 }

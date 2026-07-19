@@ -1,18 +1,38 @@
-# LLM reliability in off-tonic recapitulation analysis
+# Model-system reliability in off-tonic recapitulation analysis
 
 This directory contains a reproducible six-dossier pilot associated with Yoel
 Greenberg's 2025 paper, "The Off-Tonic Recapitulation in Context: a Study in
 Fuzziness" (doi:10.1111/musa.12251).
 
 The primary experiment does **not** test Greenberg's continuum claim. It tests
-whether several model families can apply one music-analytic rubric repeatably,
-whether their ratings agree across families, and whether supposedly blinded
-canonical repertoire can be identified from anonymized symbolic evidence.
+whether three frozen CLI model systems can apply one music-analytic rubric
+repeatably, whether their ratings agree across provider families, and how often
+they recover the identities of canonical works from identity-withheld symbolic
+evidence.
+
+The six 0--4 cues are an investigator-authored operational synthesis of
+mechanisms discussed around the focal cases. Greenberg did not propose or
+validate this rubric, and agreement on it is not evidence of music-theoretical
+correctness.
+
+The frozen matrix fixes OpenAI `gpt-5.6-sol` and Anthropic
+`claude-fable-5` as frontier systems and OpenAI `gpt-5.5` as an active
+prior-generation system. This is a partial 2x2 panel across two provider
+families, not three independent provider families: pooled three-system results
+give OpenAI two positions and are descriptive rather than causal. The analysis
+therefore reports named within-provider and cross-provider system pairs.
 
 ## Status
 
-The protocol is under development. The dataset is not frozen, so the runner
-refuses all model calls. No outcome-producing model run is authorized yet.
+Dataset 1.0.0, the protocol, the three-system matrix, and its 108-call schedule
+were frozen at 2026-07-19T17:54:14Z before any real-case output call. All three
+adapters passed the separately defined fictional schema preflight under working
+OpenAI and Anthropic authentication; no real dossier was used and no response
+body was retained. The 41-file collection lock was created and verified at
+2026-07-19T17:56:35.630Z. Real-case collection is authorized only from the
+pre-outcome Git commit containing that lock and after the planned collection
+window opens. Gemini was dropped before any Gemini model request because the
+available authentication path required a Google Cloud project.
 
 ## Files
 
@@ -21,8 +41,8 @@ refuses all model calls. No outcome-producing model run is authorized yet.
 - `RUN_MATRIX.md`: exact models, CLI versions, settings, and scheduled calls.
 - `prompts/analysis.md`: frozen ordinal-rubric task.
 - `prompts/identification.md`: separate repertoire-identification probe.
-- `data/manifest.json`: allowed case files, randomized order, and hashes.
-- `data/cases/`: six blinded symbolic dossiers.
+- `data/manifest.json`: allowed case files and hashes.
+- `data/cases/`: six identity-withheld symbolic dossiers.
 - `data/provenance/`: operator-only identity and score-source records.
 - `collection-lock.json`: frozen hashes of every collection-critical input.
 - `scripts/run-model.sh`: isolated runner bound to frozen model adapters.
@@ -39,19 +59,28 @@ responses, or another analyst's labels. The textual prohibition remains in the
 prompt because some agent CLIs may technically be able to escape their working
 directory; such behavior must be reported as a protocol violation.
 
-## Command-line interface
+The model-facing dossier is a deterministic compact-JSON serialization of the
+hash-verified readable case file. This removes non-evidentiary indentation from
+the repeated input; each run sidecar hashes the exact rendered prompt.
 
-The runner resolves the only permitted model adapter from `run-matrix.json`:
+## Collection interface
+
+After the protocol is frozen, run the collection only through the sequential
+schedule orchestrator:
 
 ```sh
-research/off-tonic-recapitulation/scripts/run-model.sh \
-  --task analysis \
-  --case CASE-AB12 \
-  --model model-label \
-  --run 01
+node research/off-tonic-recapitulation/scripts/collect-schedule.mjs
 ```
 
-Both tasks use runs `01`, `02`, and `03` for every model/case pair, each in a
+The orchestrator verifies the collection lock and schedule order, writes an
+immutable attempt claim for the next slot, and then invokes `run-model.sh`
+internally. Do not invoke a scheduled `--run` directly: it would lack the
+required claim, so the runner refuses before contacting a model and the
+analyzer independently rejects any unclaimed bundle. The lower-
+level runner is retained for isolated `--diagnostic NN` troubleshooting, which
+is kept outside the scheduled namespace and never replaces a scheduled slot.
+
+Both tasks use runs `01`, `02`, and `03` for every system/case pair, each in a
 fresh context. Repeated identification distinguishes stable recognition from a
 lucky or hallucinated match.
 
@@ -64,17 +93,24 @@ The runner never overwrites an output. Command failures and malformed responses
 are retained with `.invalid.md`. Scheduled slots are never retried in place;
 troubleshooting calls use `--diagnostic NN` and are excluded from analysis. A
 repeated scheduled collection receives a new dataset version.
+The matrix also freezes a per-call timeout. A timeout kills the adapter process
+group, finalizes the slot as `command_failed`, and stops collection without a
+retry.
 
 ## Freeze sequence
 
 1. Finalize the preregistration, extraction protocol, and score sources.
-2. Generate and independently inspect all six symbolic dossiers.
-3. Randomize opaque case IDs and freeze the identity/source records.
+2. Generate all six symbolic dossiers and inspect them in a separate reverse
+   pass.
+3. Assign arbitrary opaque case IDs that encode no identity or corpus role, and
+   freeze the identity/source records.
 4. Validate dossiers, calculate hashes, and freeze `data/manifest.json`.
 5. Freeze exact models and hashed adapters in `run-matrix.json`, then generate
    its explicit 108-call schedule.
 6. Create and verify `collection-lock.json`.
-7. Commit or tag the complete frozen protocol before the first model call.
-8. Run all 54 analysis and 54 identification invocations.
+7. Commit or tag the complete frozen protocol before the first real-case
+   outcome call.
+8. Run all 54 analysis and 54 identification invocations through
+   `scripts/collect-schedule.mjs`.
 9. Analyze only after the scheduled matrix is complete and identification has
    been adjudicated against the frozen key.

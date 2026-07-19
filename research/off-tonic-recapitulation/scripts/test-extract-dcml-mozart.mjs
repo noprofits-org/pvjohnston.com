@@ -20,7 +20,8 @@ const cases = [
     candidate_onset_qn: {numerator: 3, denominator: 1},
     second_part_mc: 65,
     second_part_onset_qn: {numerator: 0, denominator: 1},
-    expected: {opening: 9, elapsed: 120, total: 408, events: 442, rests: 37},
+    source_score_corrections: [],
+    expected: {opening: 9, elapsed: 120, total: 408, events: 442, rests: 37, directions: 0},
   },
   {
     case_id: "CASE-T545",
@@ -29,7 +30,8 @@ const cases = [
     candidate_onset_qn: {numerator: 0, denominator: 1},
     second_part_mc: 29,
     second_part_onset_qn: {numerator: 0, denominator: 1},
-    expected: {opening: 8, elapsed: 52, total: 180, events: 465, rests: 49},
+    source_score_corrections: [],
+    expected: {opening: 8, elapsed: 52, total: 180, events: 465, rests: 49, directions: 0},
   },
   {
     case_id: "CASE-T570",
@@ -38,7 +40,44 @@ const cases = [
     candidate_onset_qn: {numerator: 0, denominator: 1},
     second_part_mc: 80,
     second_part_onset_qn: {numerator: 0, denominator: 1},
-    expected: {opening: 8, elapsed: 159, total: 390, events: 212, rests: 25},
+    source_score_corrections: [
+      {
+        correction_id: "COR-K570-M001-P",
+        source_mc: 1,
+        onset_qn: {numerator: 0, denominator: 1},
+        direction_type: "dynamic",
+        voice_id: null,
+        value: "p",
+        authority: {source_id: "SRC-DCML-MOZART-V2.3", file: "pdf/NMA_vol2.pdf", printed_page: 132},
+      },
+      {
+        correction_id: "COR-K570-M133-P",
+        source_mc: 133,
+        onset_qn: {numerator: 0, denominator: 1},
+        direction_type: "dynamic",
+        voice_id: null,
+        value: "p",
+        authority: {source_id: "SRC-DCML-MOZART-V2.3", file: "pdf/NMA_vol2.pdf", printed_page: 137},
+      },
+    ],
+    expected: {opening: 8, elapsed: 159, total: 390, events: 212, rests: 25, directions: 2},
+  },
+  {
+    case_id: "CASE-T576",
+    work: "K576-1",
+    candidate_mc: 101,
+    candidate_onset_qn: {numerator: 0, denominator: 1},
+    second_part_mc: 60,
+    second_part_onset_qn: {numerator: 0, denominator: 1},
+    source_score_corrections: [],
+    expected: {
+      opening: 9,
+      elapsed: {numerator: 241, denominator: 2},
+      total: {numerator: 613, denominator: 2},
+      events: 321,
+      rests: 29,
+      directions: 3,
+    },
   },
 ];
 
@@ -60,13 +99,21 @@ try {
     const audit = JSON.parse(readFileSync(auditPath, "utf8"));
 
     assert.equal(dossier.windows[0].measures.length, expected.opening);
-    assert.deepEqual(dossier.candidate_return.second_part_elapsed_qn, {numerator: expected.elapsed, denominator: 1});
-    assert.deepEqual(dossier.candidate_return.second_part_total_qn, {numerator: expected.total, denominator: 1});
+    const expectedElapsed = typeof expected.elapsed === "number"
+      ? {numerator: expected.elapsed, denominator: 1}
+      : expected.elapsed;
+    const expectedTotal = typeof expected.total === "number"
+      ? {numerator: expected.total, denominator: 1}
+      : expected.total;
+    assert.deepEqual(dossier.candidate_return.second_part_elapsed_qn, expectedElapsed);
+    assert.deepEqual(dossier.candidate_return.second_part_total_qn, expectedTotal);
     assert.ok(dossier.windows.every((window) => window.measures.every((measure) => measure.key_signature.fifths === 2)));
     assert.equal(audit.checks.all_source_chords_reconciled_with_notes_table, true);
     assert.equal(audit.checks.selected_schema_unsupported_constructs, 0);
     assert.equal(audit.checks.selected_event_count, expected.events);
     assert.equal(audit.checks.selected_rest_count, expected.rests);
+    assert.equal(audit.checks.selected_direction_count, expected.directions);
+    assert.equal(audit.checks.selected_source_score_correction_count, config.source_score_corrections.length);
     assert.match(audit.dossier_sha256, /^[0-9a-f]{64}$/);
 
     const repeated = spawnSync(process.execPath, [
@@ -78,6 +125,23 @@ try {
     assert.equal(repeated.stdout, result.stdout, `${config.work} extraction is not byte-deterministic`);
   }
 
+  const correctedK570 = cases[2];
+  const correctedPath = join(temporary, `${correctedK570.work}.json`);
+  const correctedRun = spawnSync(process.execPath, [
+    extractor,
+    "--config", correctedPath,
+    "--source-root", sourceRoot,
+  ], {encoding: "utf8", maxBuffer: 64 * 1024 * 1024});
+  assert.equal(correctedRun.status, 0, correctedRun.stderr);
+  const correctedDossier = JSON.parse(correctedRun.stdout);
+  const correctedDirections = correctedDossier.windows
+    .flatMap((window) => window.measures.map((measure) => ({window: window.window_id, measure, directions: measure.directions})))
+    .filter((entry) => entry.directions.length > 0);
+  assert.deepEqual(correctedDirections.map((entry) => [entry.window, entry.measure.measure_index, entry.directions[0]]), [
+    ["W1", 0, {direction_type: "dynamic", onset_qn: {numerator: 0, denominator: 1}, voice_id: null, value: "p", direction_id: "DR0001"}],
+    ["W3", 0, {direction_type: "dynamic", onset_qn: {numerator: 0, denominator: 1}, voice_id: null, value: "p", direction_id: "DR0002"}],
+  ]);
+
   // K333 MC 150 contains the corpus's only hairpin. A nearby legal window
   // verifies that represented directions survive extraction and validation.
   const directionConfig = {
@@ -87,6 +151,7 @@ try {
     candidate_onset_qn: {numerator: 0, denominator: 1},
     second_part_mc: 65,
     second_part_onset_qn: {numerator: 0, denominator: 1},
+    source_score_corrections: [],
   };
   const directionPath = join(temporary, "hairpin.json");
   writeFileSync(directionPath, `${JSON.stringify(directionConfig)}\n`);
@@ -127,6 +192,7 @@ try {
     candidate_onset_qn: {numerator: 0, denominator: 1},
     second_part_mc: 29,
     second_part_onset_qn: {numerator: 0, denominator: 1},
+    source_score_corrections: [],
   };
   const graceSequencePath = join(temporary, "grace-sequence.json");
   writeFileSync(graceSequencePath, `${JSON.stringify(graceSequenceConfig)}\n`);
@@ -145,6 +211,7 @@ try {
     candidate_onset_qn: {numerator: 0, denominator: 1},
     second_part_mc: 29,
     second_part_onset_qn: {numerator: 0, denominator: 1},
+    source_score_corrections: [],
   };
   const repeatPath = join(temporary, "repeats.json");
   writeFileSync(repeatPath, `${JSON.stringify(repeatConfig)}\n`);

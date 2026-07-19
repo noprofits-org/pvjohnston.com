@@ -96,6 +96,7 @@ case_file="$(node -e '
 
 prompt_relative="$(node -e 'const m=require(process.argv[1]); process.stdout.write(m.tasks[process.argv[2]].prompt)' "$matrix" "$task")"
 adapter_relative="$(node -e 'const m=require(process.argv[1]); process.stdout.write(m.models[process.argv[2]].adapter)' "$matrix" "$model_label")"
+timeout_seconds="$(node -e 'const m=require(process.argv[1]); process.stdout.write(String(m.call_timeout_seconds))' "$matrix")"
 prompt_file="$experiment_dir/$prompt_relative"
 adapter_file="$experiment_dir/$adapter_relative"
 if [[ ! -x "$adapter_file" ]]; then
@@ -115,6 +116,14 @@ metadata_file="$output_dir/${output_base}.run.json"
 stderr_file="$output_dir/${output_base}.stderr.txt"
 marker_file="$output_dir/${output_base}.complete.json"
 lock_dir="$output_dir/.${output_base}.lock"
+
+if [[ "$run_kind" == 'scheduled' ]]; then
+  if ! node "$script_dir/verify-scheduled-attempt.mjs" \
+    "$experiment_dir" "$task" "$model_label" "$case_id" "$run_id" >/dev/null; then
+    printf 'Scheduled attempt claim verification failed; no model was contacted.\n' >&2
+    exit 4
+  fi
+fi
 
 mkdir -p "$output_dir"
 if ! mkdir "$lock_dir" 2>/dev/null; then
@@ -138,10 +147,9 @@ node "$script_dir/build-prompt.mjs" "$experiment_dir" "$task" "$case_id" > "$sta
 started_at="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 
 set +e
-(
-  cd "$stage_dir"
-  "$adapter_file" < prompt.md
-) > "$stage_dir/response.md" 2> "$stage_dir/stderr.txt"
+node "$script_dir/invoke-adapter.mjs" \
+  "$adapter_file" "$stage_dir/prompt.md" "$stage_dir/response.md" "$stage_dir/stderr.txt" \
+  "$timeout_seconds"
 command_status=$?
 set -e
 ended_at="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"

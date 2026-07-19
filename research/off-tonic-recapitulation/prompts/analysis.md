@@ -1,6 +1,6 @@
 # Frozen analysis instructions
 
-You are one blinded annotator in a preregistered pilot of language-model
+You are one identity-withheld annotator in a preregistered pilot of language-model
 reliability. Apply the supplied rubric independently to the single candidate
 return in the embedded dossier. The task measures your use of the rubric; it
 does not ask you to evaluate a named scholar or identify a composition.
@@ -10,8 +10,9 @@ does not ask you to evaluate a named scholar or identify a composition.
 Use only the dossier embedded after `BEGIN ALLOWED DOSSIER`. Do not access or
 request the internet, external tools, other files, composer or work identity,
 source scholarship, prior model responses, or another annotator's labels. Do
-not infer missing evidence from memory. If you recognize the music, do not use
-recalled analysis; disclose the recognition under limitations.
+not supplement the dossier with unsupplied facts or recalled analysis. If the
+music seems familiar, do not use that familiarity as evidence; report it only
+through the required familiarity field and limitations.
 
 ## Procedure
 
@@ -23,10 +24,12 @@ recalled analysis; disclose the recognition under limitations.
 5. Separate observed evidence from your inference in each reason.
 6. Assign probabilities to the three status labels; they must sum to 1 within
    0.001. Do not change cue scores to make the probabilities look coherent.
-7. Report `suspected_recognition`: the most specific identity level you suspect
-   from memory (`none`, `style`, `composer`, or `work`) with a confidence from
-   0 to 1. Use `none` with confidence 0 when nothing feels familiar. Do not
-   name the suspected identity anywhere in this task.
+7. Report `suspected_recognition`: the most specific familiarity or identity
+   level elicited by the dossier (`none`, `style`, `composer`, or `work`) with a
+   confidence from 0 to 1. This is a model-generated self-report, not evidence
+   of memorization, introspective access, or training-data provenance. Use
+   `none` with confidence 0 when nothing feels familiar. Do not name the
+   suspected identity anywhere in this task.
 
 ## Cues
 
@@ -60,12 +63,12 @@ other text. Follow this shape:
   "analyst_model": "string or unknown",
   "case_id": "{{CASE_ID}}",
   "cues": {
-    "tonal_stability": {"score": 0, "evidence_ids": ["E1"], "reason": "string"},
-    "thematic_correspondence": {"score": 0, "evidence_ids": ["E1"], "reason": "string"},
-    "preparation_strength": {"score": 0, "evidence_ids": ["E1"], "reason": "string"},
-    "proportional_location": {"score": 0, "evidence_ids": ["E1"], "reason": "string"},
-    "rhetorical_emphasis": {"score": 0, "evidence_ids": ["E1"], "reason": "string"},
-    "rotational_continuation": {"score": 0, "evidence_ids": ["E1"], "reason": "string"}
+    "tonal_stability": {"score": 0, "evidence_ids": ["E001"], "reason": "string"},
+    "thematic_correspondence": {"score": 0, "evidence_ids": ["E001"], "reason": "string"},
+    "preparation_strength": {"score": 0, "evidence_ids": ["E001"], "reason": "string"},
+    "proportional_location": {"score": 0, "evidence_ids": ["E001"], "reason": "string"},
+    "rhetorical_emphasis": {"score": 0, "evidence_ids": ["E001"], "reason": "string"},
+    "rotational_continuation": {"score": 0, "evidence_ids": ["E001"], "reason": "string"}
   },
   "status_distribution": {
     "not_recapitulation": 0.0,

@@ -1,12 +1,17 @@
 # Model-facing pilot dossiers
 
-This directory will contain exactly six JSON dossiers conforming to
-`../schema/case.schema.json`. It is intentionally empty while corpus selection
-and extraction rules are under development.
+This directory contains exactly six JSON dossiers conforming to
+`../schema/case.schema.json`, including the pre-freeze replacement
+`CASE-D09B`. Dataset 1.0.0, its operator manifests, prompt hashes, and 108-call
+schedule were frozen at 2026-07-19T17:54:14Z. The collection lock was created
+and verified at 2026-07-19T17:56:35.630Z; real-case collection is authorized
+only from the pre-outcome Git commit containing it. File presence alone is not
+evidence that those gates were met.
 
 Each invocation receives exactly one dossier. Filenames and case IDs are
-randomized and must not encode composer, work, date, key relationship,
-focal/control status, or expected classification.
+arbitrary, operator-assigned opaque labels; they are not claimed to have been
+randomly generated. They must not encode composer, work, date, key
+relationship, focal/control status, or expected classification.
 
 Allowed evidence is limited to mechanically transposed symbolic score content:
 notes, durations, voices, signatures, dynamics, articulations, texture, and

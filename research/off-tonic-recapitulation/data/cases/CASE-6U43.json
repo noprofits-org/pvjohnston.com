@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.0.0",
+  "schema_version": "3.1.0",
   "case_id": "CASE-6U43",
   "condition": "symbolic",
   "encoding": {

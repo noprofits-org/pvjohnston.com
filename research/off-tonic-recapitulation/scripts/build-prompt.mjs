@@ -58,7 +58,13 @@ const prompt = promptBody.toString("utf8");
 if (prompt.split(dossierMarker).length !== 2) throw new Error("prompt must contain exactly one dossier marker");
 if (prompt.split(caseMarker).length !== 2) throw new Error("prompt must contain exactly one case-ID marker");
 
+// Whitespace is not evidence. Render the already hash-verified and validated
+// dossier as deterministic compact JSON to avoid billing every provider for
+// repository indentation on all 108 calls. The readable source file remains
+// the published dossier, and the runner hashes the exact compact prompt sent.
+const modelFacingDossier = JSON.stringify(matched.parsed);
+
 process.stdout.write(prompt.replace(caseMarker, requestedCase).replace(
   dossierMarker,
-  `--- BEGIN FILE: ${matched.relative} ---\n${matched.body.toString("utf8")}\n--- END FILE: ${matched.relative} ---`
+  `--- BEGIN FILE: ${matched.relative} ---\n${modelFacingDossier}\n--- END FILE: ${matched.relative} ---`
 ));

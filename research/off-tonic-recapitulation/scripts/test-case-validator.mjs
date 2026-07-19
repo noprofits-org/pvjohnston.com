@@ -62,7 +62,7 @@ const makeDossier = ({anacrusis = false} = {}) => {
 
   const openingIndexes = anacrusis ? [-1, 0, 1, 2, 3, 4, 5, 6, 7] : [0, 1, 2, 3, 4, 5, 6, 7];
   return {
-    schema_version: "3.0.0",
+    schema_version: "3.1.0",
     case_id: "CASE-AB12",
     condition: "symbolic",
     encoding: {
@@ -106,7 +106,7 @@ const changed = (mutator, options) => {
 };
 
 const schema = JSON.parse(fs.readFileSync(new URL("../data/schema/case.schema.json", import.meta.url), "utf8"));
-assert.equal(schema.properties.schema_version.const, "3.0.0");
+assert.equal(schema.properties.schema_version.const, "3.1.0");
 
 const valid = makeDossier();
 assert.equal(validateCase(valid), valid);
@@ -115,6 +115,31 @@ assert.equal(collectEvidenceIds(valid).size, 26);
 const validWithAnacrusis = makeDossier({anacrusis: true});
 assert.equal(validateCase(validWithAnacrusis), validWithAnacrusis);
 assert.equal(collectEvidenceIds(validWithAnacrusis).size, 27);
+
+const validWithTextualGradualDynamic = changed((dossier) => {
+  dossier.windows[2].measures[0].directions = [{
+    direction_id: "DR0002",
+    direction_type: "textual_gradual_dynamic",
+    onset_qn: rational(1),
+    voice_id: null,
+    value: "diminuendo"
+  }];
+});
+assert.equal(validateCase(validWithTextualGradualDynamic), validWithTextualGradualDynamic);
+
+assert.throws(
+  () => validateCase(changed((dossier) => {
+    dossier.schema_version = "3.0.0";
+    dossier.windows[2].measures[0].directions = [{
+      direction_id: "DR0002",
+      direction_type: "textual_gradual_dynamic",
+      onset_qn: rational(1),
+      voice_id: null,
+      value: "diminuendo"
+    }];
+  })),
+  /requires schema 3\.1\.0/
+);
 
 assert.throws(
   () => validateCase(changed((dossier) => dossier.windows[1].measures.pop())),

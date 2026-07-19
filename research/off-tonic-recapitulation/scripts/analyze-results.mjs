@@ -10,6 +10,7 @@ import {
 } from "./lib/reliability.mjs";
 import {hashFile, sha256, verifyCollectionLock} from "./lib/collection-integrity.mjs";
 import {parseAndValidateResponse} from "./lib/response-validator.mjs";
+import {scheduledSlotPaths, verifyAttemptClaim} from "./lib/scheduled-bundle-integrity.mjs";
 
 const experimentDir = path.resolve(process.argv[2] ?? path.join(import.meta.dirname, ".."));
 const {lock, manifest, matrix, identity} = verifyCollectionLock(experimentDir);
@@ -27,6 +28,8 @@ const identificationLevels = ["L0", "L1", "L2"];
 const runIds = ["01", "02", "03"];
 const caseIds = manifest.cases.map((entry) => entry.case_id);
 const modelLabels = Object.keys(matrix.models);
+const providerByModel = new Map(modelLabels.map((model) => [model, matrix.models[model].provider]));
+const providerLabels = [...new Set(providerByModel.values())];
 const caseEntries = new Map(manifest.cases.map((entry) => [entry.case_id, entry]));
 const dossiers = new Map(manifest.cases.map((entry) => [
   entry.case_id,
@@ -47,11 +50,11 @@ const baseName = ({model, case_id: caseId, run}) =>
 
 const renderedPromptHash = (task, caseId) => {
   const entry = caseEntries.get(caseId);
-  const dossierBody = fs.readFileSync(path.join(experimentDir, "data", entry.file), "utf8");
+  const dossier = JSON.parse(fs.readFileSync(path.join(experimentDir, "data", entry.file), "utf8"));
   const prompt = fs.readFileSync(path.join(experimentDir, matrix.tasks[task].prompt), "utf8");
   const rendered = prompt.replace("{{CASE_ID}}", caseId).replace(
     "{{DOSSIER}}",
-    `--- BEGIN FILE: ${entry.file} ---\n${dossierBody}\n--- END FILE: ${entry.file} ---`
+    `--- BEGIN FILE: ${entry.file} ---\n${JSON.stringify(dossier)}\n--- END FILE: ${entry.file} ---`
   );
   return sha256(rendered);
 };
@@ -64,23 +67,18 @@ const addMismatch = (issues, condition, message) => {
 };
 
 function inspectScheduledSlot(slot) {
-  const outputDir = path.join(
-    experimentDir,
-    "outputs",
-    manifest.dataset_version,
-    "scheduled",
-    slot.task
-  );
-  const base = baseName(slot);
+  const scheduledPaths = scheduledSlotPaths(experimentDir, manifest, slot);
+  const base = scheduledPaths.base;
   const files = {
-    marker: path.join(outputDir, `${base}.complete.json`),
-    metadata: path.join(outputDir, `${base}.run.json`),
-    response_valid: path.join(outputDir, `${base}.md`),
-    response_invalid: path.join(outputDir, `${base}.invalid.md`),
-    stderr: path.join(outputDir, `${base}.stderr.txt`)
+    marker: scheduledPaths.marker,
+    metadata: scheduledPaths.metadata,
+    response_valid: scheduledPaths.response,
+    response_invalid: scheduledPaths.invalidResponse,
+    stderr: scheduledPaths.stderr
   };
   const present = Object.fromEntries(Object.entries(files).map(([name, file]) => [name, existing(file)]));
   const artifactCount = Object.values(present).filter(Boolean).length;
+  const claimPresent = existing(scheduledPaths.attempt);
   const record = {
     sequence: slot.sequence,
     task: slot.task,
@@ -93,11 +91,25 @@ function inspectScheduledSlot(slot) {
     response_file: null,
     parsed: null
   };
-  if (artifactCount === 0) return record;
+  if (artifactCount === 0 && !claimPresent) return record;
+
+  record.status = "partial";
+  if (!claimPresent) {
+    record.issues.push("missing attempt claim");
+  } else {
+    try {
+      verifyAttemptClaim(experimentDir, scheduledPaths, slot);
+    } catch (error) {
+      record.issues.push(`invalid attempt claim: ${error.message}`);
+    }
+  }
+  if (artifactCount === 0) {
+    record.issues.push("attempt claim exists without a scheduled bundle");
+    return record;
+  }
 
   const responsePaths = [files.response_valid, files.response_invalid].filter(existing);
   if (!present.marker || !present.metadata || !present.stderr || responsePaths.length !== 1) {
-    record.status = "partial";
     if (!present.marker) record.issues.push("missing completion marker");
     if (!present.metadata) record.issues.push("missing run metadata");
     if (!present.stderr) record.issues.push("missing stderr artifact");
@@ -105,6 +117,7 @@ function inspectScheduledSlot(slot) {
     if (responsePaths.length > 1) record.issues.push("both valid and invalid response artifacts are present");
     return record;
   }
+  if (record.issues.length > 0) return record;
 
   const responsePath = responsePaths[0];
   record.response_file = path.basename(responsePath);
@@ -277,6 +290,12 @@ const roleByCase = new Map(identity.cases.map((entry) => [entry.case_id, entry.p
 const primaryCaseIds = caseIds.filter((caseId) => roleByCase.get(caseId) === "target");
 const anchorCaseIds = caseIds.filter((caseId) => roleByCase.get(caseId) !== "target");
 if (primaryCaseIds.length === 0) throw new Error("no target cases in identity key");
+const medianScoreFor = (model, caseId, cue) => completeOrdinalMedian(scoresFor(model, caseId, cue));
+const modelCaseCueMedians = Object.fromEntries(modelLabels.map((model) => [model,
+  Object.fromEntries(caseIds.map((caseId) => [caseId,
+    Object.fromEntries(cueNames.map((cue) => [cue, medianScoreFor(model, caseId, cue)]))
+  ]))
+]));
 
 const withinModel = {};
 for (const model of modelLabels) {
@@ -300,23 +319,57 @@ for (const model of modelLabels) {
 }
 
 const crossCaseUnits = primaryCaseIds.map((caseId) => cueNames.map((cue) =>
-  modelLabels.map((model) => completeOrdinalMedian(scoresFor(model, caseId, cue)))
+  modelLabels.map((model) => medianScoreFor(model, caseId, cue))
 ));
 const anchorCrossUnits = anchorCaseIds.map((caseId) => cueNames.map((cue) =>
-  modelLabels.map((model) => completeOrdinalMedian(scoresFor(model, caseId, cue)))
+  modelLabels.map((model) => medianScoreFor(model, caseId, cue))
 ));
 const crossModel = {
   aggregate: summarizeReliability(crossCaseUnits.flat()),
   availability: availabilityAgreement(crossCaseUnits.flat()),
   bootstrap_95: dossierBootstrap(crossCaseUnits, 2000, 1702),
   by_cue: Object.fromEntries(cueNames.map((cue) => [cue,
-    directAgreement(primaryCaseIds.map((caseId) => modelLabels.map((model) => completeOrdinalMedian(scoresFor(model, caseId, cue)))))
+    directAgreement(primaryCaseIds.map((caseId) => modelLabels.map((model) => medianScoreFor(model, caseId, cue))))
   ])),
   anchor: {
     aggregate: summarizeReliability(anchorCrossUnits.flat()),
     availability: availabilityAgreement(anchorCrossUnits.flat())
   }
 };
+
+const pairwiseSystemReliability = [];
+for (let leftIndex = 0; leftIndex < modelLabels.length; leftIndex += 1) {
+  for (let rightIndex = leftIndex + 1; rightIndex < modelLabels.length; rightIndex += 1) {
+    const left = modelLabels[leftIndex];
+    const right = modelLabels[rightIndex];
+    const providers = [providerByModel.get(left), providerByModel.get(right)];
+    const primaryUnits = primaryCaseIds.map((caseId) => cueNames.map((cue) => [
+      medianScoreFor(left, caseId, cue),
+      medianScoreFor(right, caseId, cue)
+    ]));
+    const anchorUnits = anchorCaseIds.map((caseId) => cueNames.map((cue) => [
+      medianScoreFor(left, caseId, cue),
+      medianScoreFor(right, caseId, cue)
+    ]));
+    pairwiseSystemReliability.push({
+      systems: [left, right],
+      providers,
+      provider_comparison: providers[0] === providers[1] ? "within_provider" : "cross_provider",
+      aggregate: summarizeReliability(primaryUnits.flat()),
+      availability: availabilityAgreement(primaryUnits.flat()),
+      by_cue: Object.fromEntries(cueNames.map((cue) => [cue,
+        directAgreement(primaryCaseIds.map((caseId) => [
+          medianScoreFor(left, caseId, cue),
+          medianScoreFor(right, caseId, cue)
+        ]))
+      ])),
+      anchor: {
+        aggregate: summarizeReliability(anchorUnits.flat()),
+        availability: availabilityAgreement(anchorUnits.flat())
+      }
+    });
+  }
+}
 
 const scheduledAnalysis = analysisRecords.length;
 const scheduledIdentification = identificationRecords.length;
@@ -335,9 +388,11 @@ const repeatableModels = modelLabels.filter((model) => {
     && metric.ordinal_krippendorff_alpha !== null
     && metric.ordinal_krippendorff_alpha >= 0.67;
 });
+const providersForModels = (models) => [...new Set(models.map((model) => providerByModel.get(model)))];
+const repeatableProviders = providersForModels(repeatableModels);
 const dispersion = Object.fromEntries(cueNames.map((cue) => [cue,
   Object.fromEntries(modelLabels.map((model) => {
-    const values = primaryCaseIds.map((caseId) => completeOrdinalMedian(scoresFor(model, caseId, cue))).filter((value) => value !== null);
+    const values = primaryCaseIds.map((caseId) => medianScoreFor(model, caseId, cue)).filter((value) => value !== null);
     return [model, values.length ? {
       minimum: Math.min(...values),
       maximum: Math.max(...values),
@@ -345,8 +400,13 @@ const dispersion = Object.fromEntries(cueNames.map((cue) => [cue,
     } : null];
   }))
 ]));
+const dispersionQualifiers = Object.fromEntries(cueNames.map((cue) => {
+  const systems = repeatableModels.filter((model) => dispersion[cue][model]?.span >= 2);
+  return [cue, {systems, providers: providersForModels(systems)}];
+}));
 const nondegenerateCues = cueNames.filter((cue) =>
-  repeatableModels.filter((model) => dispersion[cue][model]?.span >= 2).length >= 2
+  dispersionQualifiers[cue].systems.length >= 2
+  && dispersionQualifiers[cue].providers.length === providerLabels.length
 );
 const modelCaseValidRepetitions = Object.fromEntries(modelLabels.map((model) => [model,
   Object.fromEntries(caseIds.map((caseId) => [caseId,
@@ -387,35 +447,37 @@ const confidenceSummary = {
   ]))
 };
 
-const identificationRepeatability = (responses, byOutput) => {
-  const summarize = (selectedModels) => {
-    const triplets = [];
-    for (const model of selectedModels) for (const caseId of caseIds) {
-      const labels = runIds.map((run) => {
-        const response = responses.get(resultKey(model, caseId, run));
-        return response ? byOutput.get(response.filename)?.level ?? null : null;
-      });
-      if (labels.every((level) => identificationLevels.includes(level))) triplets.push(labels);
+const analysisScoreRepeatabilityByL2Category = (responses, byOutput) => {
+  const categories = ["repeated_l2", "isolated_l2", "no_l2"];
+  const entries = Object.fromEntries(categories.map((category) => [category, []]));
+  for (const model of modelLabels) for (const caseId of primaryCaseIds) {
+    const levels = runIds.map((run) => {
+      const response = responses.get(resultKey(model, caseId, run));
+      return response ? byOutput.get(response.filename)?.level ?? null : null;
+    });
+    if (!levels.every((level) => identificationLevels.includes(level))) {
+      throw new Error(`incomplete identification levels for ${model} ${caseId}`);
     }
-    const pairs = triplets.flatMap((labels) => [[labels[0], labels[1]], [labels[0], labels[2]], [labels[1], labels[2]]]);
-    return {
-      complete_case_triplets: triplets.length,
-      pairwise_comparisons: pairs.length,
-      exact_pairwise_agreement: pairs.length
-        ? pairs.filter(([left, right]) => left === right).length / pairs.length
-        : null,
-      unanimous_cases: triplets.filter((labels) => new Set(labels).size === 1).length,
-      by_category: Object.fromEntries(identificationLevels.map((level) => [level, {
-        run_count: triplets.flat().filter((value) => value === level).length,
-        pairwise_matches: pairs.filter(([left, right]) => left === level && right === level).length,
-        unanimous_cases: triplets.filter((labels) => labels.every((value) => value === level)).length
-      }]))
-    };
-  };
-  return {
-    overall: summarize(modelLabels),
-    by_model: Object.fromEntries(modelLabels.map((model) => [model, summarize([model])]))
-  };
+    const l2Count = levels.filter((level) => level === "L2").length;
+    const category = l2Count >= 2 ? "repeated_l2" : l2Count === 1 ? "isolated_l2" : "no_l2";
+    const units = cueNames.map((cue) => scoresFor(model, caseId, cue));
+    entries[category].push({model, case_id: caseId, l2_count: l2Count, units});
+  }
+  return Object.fromEntries(categories.map((category) => {
+    const selected = entries[category];
+    const pooledUnits = selected.flatMap((entry) => entry.units);
+    return [category, {
+      model_case_pair_count: selected.length,
+      case_cue_unit_count: pooledUnits.length,
+      pooled_score_repeatability: directAgreement(pooledUnits),
+      pooled_score_availability: availabilityAgreement(pooledUnits),
+      model_case_pairs: selected.map(({units, ...entry}) => ({
+        ...entry,
+        score_repeatability: directAgreement(units),
+        score_availability: availabilityAgreement(units)
+      }))
+    }];
+  }));
 };
 
 const validIdentificationByName = new Map(validIdentification.map((record) => [record.response_file, {
@@ -437,9 +499,10 @@ let identificationSummary = {
   level_counts: null,
   l2_events: null,
   target_l2_events: null,
+  target_case_l2_summary: null,
   compromised_target_dossiers: null,
   positive_control: null,
-  repeatability_by_category: null,
+  analysis_score_repeatability_by_l2_category: null,
   gate: false
 };
 if (adjudication.status === "complete") {
@@ -477,24 +540,40 @@ if (adjudication.status === "complete") {
   const positiveControlId = identity.cases.find((entry) => entry.probe_role === "positive_control").case_id;
   const targetCaseIds = caseIds.filter((caseId) => identityByCase.get(caseId).probe_role === "target");
   const targetL2Events = l2Events.filter((event) => targetCaseIds.includes(event.case_id));
-  const compromisedTargets = [];
-  for (const caseId of targetCaseIds) {
-    const events = targetL2Events.filter((item) => item.case_id === caseId);
+  const summarizeCaseL2 = (caseId, eventPool) => {
+    const events = eventPool.filter((item) => item.case_id === caseId);
     const countByModel = Object.fromEntries(modelLabels.map((model) => [model,
       events.filter((item) => item.model === model).length
     ]));
+    const countByProvider = Object.fromEntries(providerLabels.map((provider) => [provider,
+      events.filter((item) => providerByModel.get(item.model) === provider).length
+    ]));
     const modelsWithL2 = modelLabels.filter((model) => countByModel[model] > 0);
-    if (modelLabels.some((model) => countByModel[model] >= 2) || modelsWithL2.length >= 2) {
-      compromisedTargets.push({case_id: caseId, l2_by_model: countByModel});
-    }
-  }
+    const providersWithL2 = providerLabels.filter((provider) => countByProvider[provider] > 0);
+    const identityRecoverable = modelLabels.some((model) => countByModel[model] >= 2)
+      || providersWithL2.length === providerLabels.length;
+    return {
+      case_id: caseId,
+      l2_by_model: countByModel,
+      models_with_any_l2: modelsWithL2,
+      l2_by_provider: countByProvider,
+      providers_with_any_l2: providersWithL2,
+      identity_recoverable: identityRecoverable
+    };
+  };
+  const targetCaseL2Summary = targetCaseIds.map((caseId) => summarizeCaseL2(caseId, targetL2Events));
+  const compromisedTargets = targetCaseL2Summary.filter((entry) => entry.identity_recoverable);
   const positiveEvents = l2Events.filter((event) => event.case_id === positiveControlId);
   const positiveByModel = Object.fromEntries(modelLabels.map((model) => [model,
     positiveEvents.filter((event) => event.model === model).length
   ]));
+  const positiveByProvider = Object.fromEntries(providerLabels.map((provider) => [provider,
+    positiveEvents.filter((event) => providerByModel.get(event.model) === provider).length
+  ]));
   const positiveModelsWithAny = modelLabels.filter((model) => positiveByModel[model] > 0);
+  const positiveProvidersWithAny = providerLabels.filter((provider) => positiveByProvider[provider] > 0);
   const positiveSensitive = modelLabels.some((model) => positiveByModel[model] >= 2)
-    || positiveModelsWithAny.length >= 2;
+    || positiveProvidersWithAny.length === providerLabels.length;
   const fullyAdjudicated = byOutput.size === scheduledIdentification
     && validIdentification.length === scheduledIdentification;
 
@@ -507,14 +586,19 @@ if (adjudication.status === "complete") {
     level_counts: levelCounts,
     l2_events: l2Events,
     target_l2_events: targetL2Events,
+    target_case_l2_summary: targetCaseL2Summary,
     compromised_target_dossiers: compromisedTargets,
     positive_control: {
       case_id: positiveControlId,
       l2_by_model: positiveByModel,
       models_with_any_l2: positiveModelsWithAny,
+      l2_by_provider: positiveByProvider,
+      providers_with_any_l2: positiveProvidersWithAny,
       sensitivity_detected: positiveSensitive
     },
-    repeatability_by_category: identificationRepeatability(validIdentificationByResultKey, byOutput),
+    analysis_score_repeatability_by_l2_category: fullyAdjudicated
+      ? analysisScoreRepeatabilityByL2Category(validIdentificationByResultKey, byOutput)
+      : null,
     gate: fullyAdjudicated
       && !unexpectedScheduledArtifacts.some((artifact) => artifact.startsWith("identification/"))
       && targetL2Events.length === 0
@@ -527,8 +611,12 @@ const outputGate = slotStatusCounts.analysis.valid === scheduledAnalysis
   && slotStatusCounts.identification.valid === scheduledIdentification
   && nonNullCueCells === cueCells
   && unexpectedScheduledArtifacts.length === 0;
+const workLevelRecognitionOnTarget = validAnalysis.some((record) =>
+  primaryCaseIds.includes(record.case_id)
+  && record.parsed.suspected_recognition.level === "work"
+);
 const summary = {
-  schema_version: "2.0.0",
+  schema_version: "2.1.0",
   dataset_version: manifest.dataset_version,
   collection_integrity: {
     lock_created_at: lock.created_at,
@@ -551,21 +639,25 @@ const summary = {
     confidence: record.parsed.suspected_recognition.confidence,
     target_case: primaryCaseIds.includes(record.case_id)
   })),
-  work_level_recognition_on_target: validAnalysis.some((record) =>
-    primaryCaseIds.includes(record.case_id)
-    && record.parsed.suspected_recognition.level === "work"),
+  work_level_recognition_on_target: workLevelRecognitionOnTarget,
   within_model: withinModel,
   cross_model: crossModel,
+  pairwise_system_reliability: pairwiseSystemReliability,
+  model_case_cue_medians: modelCaseCueMedians,
   cue_dispersion: dispersion,
+  cue_dispersion_qualifiers: dispersionQualifiers,
   model_case_valid_repetitions: modelCaseValidRepetitions,
   identification: identificationSummary,
   repeatable_models: repeatableModels,
+  repeatable_providers: repeatableProviders,
   nondegenerate_cues: nondegenerateCues,
   preliminary_gates: {
     output_gate: outputGate,
-    repeatability_gate: repeatableModels.length >= 2,
+    repeatability_gate: repeatableModels.length >= 2
+      && repeatableProviders.length === providerLabels.length,
     dispersion_gate: nondegenerateCues.length >= 4,
-    identification_gate: identificationSummary.gate
+    identification_gate: identificationSummary.gate,
+    analysis_recognition_gate: !workLevelRecognitionOnTarget
   }
 };
 summary.automatic_expansion_gate = Object.values(summary.preliminary_gates).every((value) => value === true);

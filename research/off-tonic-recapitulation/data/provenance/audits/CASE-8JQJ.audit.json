@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "status": "verified_manual_transcription",
+  "status": "agent_transcribed_reverse_checked",
   "case_id": "CASE-8JQJ",
   "verification_date": "2026-07-18",
   "source": {
@@ -115,15 +115,15 @@
     "selected_ornament_count": 8
   },
   "limitations": [
-    "No second independent human transcription was available; Audiveris and MAB were legibility aids, not independent verification.",
+    "Event-level transcription and reverse comparison were performed by an OpenAI Codex research agent under human operator supervision; no music-theory-trained human independently transcribed or verified the case. Audiveris and MAB were legibility aids only.",
     "The pinned first-edition image is limited to 1000x707; hard-to-read noteheads and rests were cross-checked against MAB and then rechecked in the authority scan.",
-    "Schema 3.0.0 omits slurs, clefs, beaming, tempo text, and display-only accidental status by design.",
+    "Schema 3.1.0 omits slurs, clefs, beaming, tempo text, and display-only accidental status by design.",
     "Movement-wide voice IDs represent source staves and collapse simultaneous layers within a staff."
   ],
   "operator_source_sha256": "30f4d5fe6fe758a661760a5b368fa383c8b7026be0a63610fd254ce6caaecafa",
   "reverse_table_sha256": "6ac3986a74beeb68d9663e51841e9a72c36d8cec4c8bf054e0d92495e3648c87",
-  "dossier_sha256": "5bf1fe6d39a730f697e8bee06156eed76b7262069e704d24bd8fd6fb6c01b945",
-  "compiler_sha256": "73190e199337e0f697bbe190f40b578c949b2cc1d6cb95f0fc083848c94d2896",
+  "dossier_sha256": "135484af663bb92f279bed6e26bc9ff03db2607391021e6b0d5ef7444754df1d",
+  "compiler_sha256": "6fcef9c228180f7eea2b77647038ef01446ea83fa4d1f62f2064e47d22c26df8",
   "reverse_renderer_sha256": "2a6136058b84128b5ebb391fe25388c990b0b270af56663b5ecee758a118a5ce",
   "generated_by": "scripts/compile-transcription.mjs"
 }

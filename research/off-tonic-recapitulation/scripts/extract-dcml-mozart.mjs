@@ -13,9 +13,10 @@ const usage = () => {
     "  node scripts/extract-dcml-mozart.mjs --config CONFIG.json --source-root DCML_REPO [--out DOSSIER.json] [--audit-out AUDIT.json]",
     "",
     "The strict operator config contains exactly:",
-    "  case_id, work, candidate_mc, candidate_onset_qn, second_part_mc, second_part_onset_qn",
+    "  case_id, work, candidate_mc, candidate_onset_qn, second_part_mc, second_part_onset_qn,",
+    "  source_score_corrections",
     "where rational values use {\"numerator\":N,\"denominator\":D}.",
-    "Allowed works: K333-1, K545-1, K570-1.",
+    "Allowed works: K333-1, K545-1, K570-1, K576-1.",
     "",
   ].join("\n"));
 };

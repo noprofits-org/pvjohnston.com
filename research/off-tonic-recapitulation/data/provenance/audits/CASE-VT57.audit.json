@@ -8,6 +8,10 @@
     "commit": "5337257a5318711e6302cfe85c3f1a6ade3c6271",
     "files": [
       {
+        "path": "pdf/NMA_vol2.pdf",
+        "sha256": "fd165fcf84905700c23947bc5fc58b7b61275b42cfb2e7068cbc2109401800d6"
+      },
+      {
         "path": "MS3/K545-1.mscx",
         "sha256": "1d54af691e2b24be8f977b048d7417ff2abc79b69bdd484de82a85f4dcf33654"
       },
@@ -33,8 +37,10 @@
     "second_part_onset_qn": {
       "numerator": 0,
       "denominator": 1
-    }
+    },
+    "source_score_corrections": []
   },
+  "source_score_corrections": [],
   "normalization": {
     "source_tonic": "C",
     "home_mode": "major",
@@ -200,13 +206,15 @@
     "selected_schema_unsupported_constructs": 0,
     "selected_event_count": 465,
     "selected_rest_count": 49,
-    "selected_direction_count": 0
+    "selected_direction_count": 0,
+    "selected_source_score_correction_count": 0
   },
   "limitations": [
-    "generated dossier still requires source-score visual verification and reverse-render review",
+    "generated dossier still requires full source-score visual verification and reverse-render review",
+    "any source-score correction is explicit in the operator configuration and audit object",
     "schema 3 omits slurs, clefs, beaming, tempo, and display-only accidental status by design",
     "chord-level articulations and ornaments are copied to every constituent note event"
   ],
-  "dossier_sha256": "2ae228d19c59fe277669ecf5333afa6c0e9028f8813da1b393a1e4b3020b16f5",
+  "dossier_sha256": "bce90cdd3869b6db306804cc8fd274f1f1c23ff1f8effa9a5efe82a44ece1118",
   "generated_by": "scripts/extract-dcml-mozart.mjs"
 }

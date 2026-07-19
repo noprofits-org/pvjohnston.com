@@ -1,6 +1,6 @@
 # CASE-6U43 transcription and correction log
 
-Status: complete and manually verified, 2026-07-18. This is operator-only
+Status: complete, agent-transcribed, and reverse-checked, 2026-07-18. This is operator-only
 provenance. Source identities and source measure numbers in this file must not
 be copied into the model-facing dossier.
 
@@ -51,7 +51,7 @@ table; it is not converted into inferred hands or contrapuntal voices.
   high magnification. `B#`, `F##`, and `E#` are retained as written rather
   than respelled enharmonically.
 - Opening, mm. 7-8: the semiquaver groups and lower-staff rests were checked
-  note by note; beaming itself is outside schema 3.0.0, but its durations were
+  note by note; beaming itself is outside schema 3.1.0, but its durations were
   used to establish the exact onsets.
 - Pre-candidate, mm. 45-48: the alternating upper-staff quavers and the rests
   surrounding the lower-staff sustained notes were compared against the first
@@ -67,7 +67,7 @@ table; it is not converted into inferred hands or contrapuntal voices.
   material was transcribed afresh and not copied mechanically from W1.
 - Empty `directions` and articulation arrays mean verified absence in the 1742
   print. Slurs, beaming, clefs, tempo text, and display-only accidentals are
-  outside schema 3.0.0 by design and were not encoded.
+  outside schema 3.1.0 by design and were not encoded.
 
 ## Tonic-D normalization
 
@@ -89,7 +89,9 @@ spelling; no pitch was normalized independently.
 5. The model-facing JSON was scanned for source identity, source coordinates,
    filenames, URLs, and free-form text. None is present.
 
-There was no second independent human transcription. The retained compact
+An OpenAI Codex research agent performed the event-level transcription under
+human operator supervision. No music-theory-trained human independently
+transcribed or verified it. The retained compact
 source, deterministic compiler, reverse table, this decision log, and audit
 JSON are the compensating record; this limitation is reported rather than
 described as independence.

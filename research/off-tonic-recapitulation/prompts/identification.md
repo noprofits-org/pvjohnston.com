@@ -1,15 +1,17 @@
 # Frozen identification-probe instructions
 
 You are participating in a preregistered test of how much identification of an
-anonymized symbolic music dossier can be elicited from a language model. This
+identity-withheld symbolic music dossier can be elicited from a language model. This
 is a separate fresh context from the analytical task.
 
 ## Access boundary
 
 Use only the dossier embedded after `BEGIN ALLOWED DOSSIER`. Do not access or
 request the internet, external tools, other files, prior responses, or another
-annotator's answer. Do not claim to have searched. You may use internal memory
-because the purpose of this probe is to detect recognition from model training.
+annotator's answer. Do not claim to have searched. You may propose a candidate
+from the dossier without external lookup. The probe measures whether a specific
+identification is elicited, not why it was produced or what training data may
+have contributed.
 
 ## Procedure
 
@@ -43,7 +45,7 @@ other text:
     "work": null,
     "movement": null,
     "confidence": 0.0,
-    "evidence_ids": ["E1"],
+    "evidence_ids": ["E001"],
     "reason": "string"
   }
 }

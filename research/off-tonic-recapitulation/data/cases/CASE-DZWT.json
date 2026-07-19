@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.0.0",
+  "schema_version": "3.1.0",
   "case_id": "CASE-DZWT",
   "condition": "symbolic",
   "encoding": {
@@ -148,7 +148,18 @@
               "event_id": "EV0004"
             }
           ],
-          "directions": []
+          "directions": [
+            {
+              "direction_type": "dynamic",
+              "onset_qn": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "voice_id": null,
+              "value": "p",
+              "direction_id": "DR0001"
+            }
+          ]
         },
         {
           "measure_index": 1,
@@ -2860,7 +2871,18 @@
               "event_id": "EV0117"
             }
           ],
-          "directions": []
+          "directions": [
+            {
+              "direction_type": "dynamic",
+              "onset_qn": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "voice_id": null,
+              "value": "p",
+              "direction_id": "DR0002"
+            }
+          ]
         },
         {
           "measure_index": 1,

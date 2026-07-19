@@ -1,8 +1,11 @@
 # Symbolic dossier extraction protocol
 
-Status: **development; must be frozen before any case is encoded**.
+Status: **frozen for dataset 1.0.0 at 2026-07-19T17:54:14Z**. All six launch
+dossiers were regenerated and checked before freeze. Real-case collection
+remains prohibited until the randomized schedule, collection lock, and
+pre-outcome Git commit are complete.
 
-This protocol defines dossier schema `3.0.0`. A dossier contains only normalized
+This protocol defines dossier schema `3.1.0`. A dossier contains only normalized
 notation and fixed structural identifiers. It contains no prose or identity
 metadata. Structural conformance is necessary but does not establish that a
 musical fingerprint is unrecognizable; the separate identification probe tests
@@ -45,7 +48,7 @@ the eight complete opening measures. No other window may contain `-1`.
 The candidate is always `W3`, measure `0`. Record its exact onset within that
 measure in rational quarter-note units. Exclude a case if any required window is
 too short, if the windows overlap, or if a required window contains a notation
-construct that schema `3.0.0` cannot represent without loss. Do not shorten or
+construct that schema `3.1.0` cannot represent without loss. Do not shorten or
 extend a window case by case.
 
 Compute second-part position from notated time: elapsed duration from the
@@ -75,7 +78,8 @@ Every measure contains:
 - exact notated duration, active meter, and active notated key signature;
 - normalized left and right barlines and volta membership;
 - typed `note` or `rest` events; and
-- typed dynamic or hairpin directions.
+- typed fixed-dynamic, graphical-hairpin, or textual gradual-dynamic
+  directions.
 
 Measure-level evidence IDs are assigned `E001`, `E002`, and so on in canonical
 window and measure order, including `-1` first when an anacrusis exists. Event
@@ -97,6 +101,14 @@ voltas, and barlines. A fermata or ornament is a notated mark only; do not infer
 a sounding duration. Texture and register are recoverable from simultaneous
 typed events and must not be summarized in a separate field.
 
+Preserve the notational medium of gradual dynamics. Encode graphical wedges as
+typed hairpin states. Encode a printed textual `cresc.`/`crescendo` or
+`dim.`/`dimi:`/`diminuendo` instruction as `textual_gradual_dynamic`, with the
+normalized semantic value `crescendo` or `diminuendo`. Surface spelling and
+punctuation remain operator-only provenance; the typed value does not license
+any inferred endpoint or dynamic level. Arbitrary expressive text remains
+prohibited.
+
 Within each measure, order events by onset, voice, event type, pitch, written
 duration, and remaining enum fields; order directions by onset, type, value,
 and voice. Sort articulation and ornament arrays alphabetically. Canonical
@@ -105,9 +117,11 @@ directly comparable.
 
 ## Mechanical normalization
 
-Transpose the home tonic to D while preserving mode and every interval. D is
-preregistered because no pilot source is notated in D: every case, including
-the C major positive control, is therefore displaced from its source key.
+Normalize the home tonic to D while preserving mode and every interval. Five
+pilot sources require nonzero displacement. K. 576/i is already in D major and
+therefore uses the identity transform; provenance and reporting must disclose
+that its exact pitch and register survive and that masking is weaker for this
+case. The experiment makes no causal claim about transposition or masking.
 Choose the chromatic displacement from the source tonic pitch class to D in the
 range `-5` through `+6` semitones; use `+6` for the tritone tie. Choose the
 diatonic displacement that maps the source tonic letter to D in the same
@@ -124,7 +138,7 @@ mapping and every correction in operator provenance.
 
 Carry forward only notated key-signature changes. Do not infer local keys or
 tonicizations. Mid-measure meter or key-signature changes are not representable
-in schema `3.0.0`; exclude an affected pilot case or revise and freeze a new
+in schema `3.1.0`; exclude an affected pilot case or revise and freeze a new
 schema before collection.
 
 Remove titles, composer names, catalogue numbers, dates, movement and

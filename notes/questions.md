@@ -157,11 +157,13 @@ Format:
 - **Status:** ready
 
 ## Can LLMs apply a music-analytic rubric repeatably without recognizing the work?
-- **Observed:** Greenberg describes early off-tonic recapitulations through six
-  potentially operational cues--tonal stability, thematic correspondence,
-  preparation, proportional location, rhetorical emphasis, and rotational
-  continuation. Turning those cues into an LLM annotation task creates two
-  prior measurement problems: repeated runs may not agree, and an anonymized
+- **Observed:** Greenberg's analyses of early off-tonic recapitulations discuss
+  mechanisms that we synthesize into six potentially operational cues--tonal
+  stability, thematic correspondence, preparation, proportional location,
+  rhetorical emphasis, and rotational continuation. The six-cue 0--4 rubric is
+  investigator-authored; Greenberg did not propose or validate it. Turning
+  those cues into an LLM annotation task creates two
+  prior measurement problems: repeated runs may not agree, and an identity-withheld
   canonical score may still be identifiable from model training. Neither is
   tested by Greenberg, and a model comparison cannot by itself adjudicate his
   historical or perceptual claim.
@@ -169,30 +171,45 @@ Format:
   in Fuzziness," *Music Analysis* **44** (2025) 372--392,
   doi:10.1111/musa.12251.
 - **Type:** composition (music-analytic rubric x LLM annotation reliability)
-- **Contribution (candidate):** a repeated, cross-family measurement of whether
-  LLMs apply one explicit music-analytic rubric consistently, paired with a
-  direct identification probe for training-data leakage--which is not in
-  Greenberg and is normally assumed away in blinded canonical-repertoire tasks
-- **Hypothesis:** on a six-dossier pilot, at least two of three model families
-  will achieve ordinal alpha at least 0.67, mean pairwise score difference at
-  most 0.50, and at least 90% within-one agreement; no target dossier will yield
-  an exact work-and-movement identification, while the deliberately recognizable
-  positive control will yield repeated or cross-family exact identification.
-- **Falsifier:** fewer than two model families meet all repeatability thresholds,
+- **Contribution (candidate):** a repeated cross-system measurement spanning
+  two provider families of whether LLMs apply one explicit music-analytic
+  rubric consistently, paired with a direct probe of elicited repertoire
+  identification--which is not in
+  Greenberg and is normally assumed away in identity-withheld canonical-
+  repertoire tasks; identification cannot by itself establish training-data
+  provenance or memorization
+- **Hypothesis:** on a six-dossier pilot, at least two of three model systems,
+  spanning both tested provider families, will achieve ordinal alpha at least
+  0.67, mean pairwise score difference at most 0.50, and at least 90% within-one
+  agreement; no target dossier will yield an exact work-and-movement
+  identification, while the intended identification-sensitivity anchor will
+  yield repeated within-system or both-family exact identification.
+- **Falsifier:** fewer than two model systems spanning both provider families
+  meet all repeatability thresholds,
   any target work and movement is exactly identified, the positive control is
   not detected, or the rubric is degenerate across cases.
 - **Publish the other outcome?** Yes--unstable ratings, stable model-specific
   disagreement, or successful repertoire identification would each change how
   LLM annotation should be designed and interpreted in humanities research.
-- **Primary outcome:** within-model repeatability across three fresh-context
-  runs, cross-model reliability after repetition medians, schema/missingness
+- **Primary outcome:** within-system repeatability across three fresh-context
+  runs, cross-system reliability after repetition medians, schema/missingness
   rates, and a separately run identification probe. The continuum question is
-  deferred and cannot be inferred from six cases.
-- **GATE:** freeze two focal, two tonic-control, and two off-tonic-control
-  dossiers; two task prompts; exact model versions; all hashes; the ordinal
-  alpha implementation; completeness, dispersion, and identification rules;
-  and the full 108-call schedule before the first model output is viewed.
-- **Status:** piloting--protocol and runner implemented; corpus not frozen
+  deferred and cannot be inferred from six cases. The model matrix is a partial
+  2x2 panel--OpenAI frontier and active prior-generation plus Anthropic
+  frontier--so pooled results double-weight OpenAI and generation comparisons
+  remain descriptive rather than causal.
+- **GATE:** freeze two focal, three tonic-control, and one off-tonic positive-
+  control dossier; disclose the resulting imbalance and the deferred Clementi
+  extension; freeze two task prompts, exact model systems, all hashes, the
+  ordinal-alpha implementation, completeness/dispersion/identification rules,
+  and the full 108-call schedule before the first real-case output is viewed.
+- **Status:** frozen pre-collection pilot--six dossiers, prompts, exact model
+  systems, analysis rules, and the seeded 108-call schedule were frozen as
+  dataset 1.0.0 at 2026-07-19T17:54:14Z after all three fictional schema
+  preflights passed with working OpenAI and Anthropic authentication and no
+  real-case call. The 41-file collection lock was created and verified at
+  2026-07-19T17:56:35.630Z; collection is authorized only from the pre-outcome
+  Git commit containing it and after the planned window opens
 
 ## SGD control: does the convention gap become ω₀² = 900?
 - **Observed:** Corrected prediction from the convention post (an earlier draft

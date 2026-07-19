@@ -21,12 +21,15 @@ from pathlib import Path
 
 
 PINNED_COMMIT = "5337257a5318711e6302cfe85c3f1a6ade3c6271"
+NMA_PDF_PATH = "pdf/NMA_vol2.pdf"
+NMA_PDF_SHA256 = "fd165fcf84905700c23947bc5fc58b7b61275b42cfb2e7068cbc2109401800d6"
 
 WORKS = {
     "K333-1": {
         "tonic": "Bb",
         "mode": "major",
         "files": {
+            NMA_PDF_PATH: NMA_PDF_SHA256,
             "MS3/K333-1.mscx": "2822921745818df3d3194215b33ea0a46c72756a6468426ed22f575a056839f2",
             "notes/K333-1.notes.tsv": "40f4ce51a41000025bc71c7f1fccdf34c90cfed53216a6ff755df4224d3c2458",
             "measures/K333-1.measures.tsv": "7fa973ac443a449fa3f4cd18ada093a6b7c8ed1a66bc4244542a0957dab2497f",
@@ -36,6 +39,7 @@ WORKS = {
         "tonic": "C",
         "mode": "major",
         "files": {
+            NMA_PDF_PATH: NMA_PDF_SHA256,
             "MS3/K545-1.mscx": "1d54af691e2b24be8f977b048d7417ff2abc79b69bdd484de82a85f4dcf33654",
             "notes/K545-1.notes.tsv": "6e67611704cf0ecb83d10ee574f2095180b30a0b121ff8ed983d30e51cde0551",
             "measures/K545-1.measures.tsv": "ba453205a0c39871ce01f1f4d84df4e9c7ae3d686a29f783a02702c5143643f4",
@@ -45,9 +49,20 @@ WORKS = {
         "tonic": "Bb",
         "mode": "major",
         "files": {
+            NMA_PDF_PATH: NMA_PDF_SHA256,
             "MS3/K570-1.mscx": "326fecaedf12ebe933bb14b13aef62bd33127cf5df9f7946bb4d4af9bd0443a8",
             "notes/K570-1.notes.tsv": "0b8501f172b6498d202ffba50cd8ee55e25581f2a115c0c4d57cb632c5a76f1f",
             "measures/K570-1.measures.tsv": "5e5b5a551cdf0de8e7eaff03c00cc05e41ef66dd58e16df76f78d1c3f51c88ce",
+        },
+    },
+    "K576-1": {
+        "tonic": "D",
+        "mode": "major",
+        "files": {
+            NMA_PDF_PATH: NMA_PDF_SHA256,
+            "MS3/K576-1.mscx": "02344e831b8ffb5242b89448fe26177a87dab4da645df2cffd6b558f67f9ecd5",
+            "notes/K576-1.notes.tsv": "a7d9926e023386c5182cffd159d84f128f3f941c73ebc2c7afd5bd6ed4542815",
+            "measures/K576-1.measures.tsv": "a690921ad13546134481656135683d4f0fd58678c5d9bc894732b491cd35acfc",
         },
     },
 }
@@ -59,6 +74,7 @@ CONFIG_KEYS = {
     "candidate_onset_qn",
     "second_part_mc",
     "second_part_onset_qn",
+    "source_score_corrections",
 }
 
 STEPS = ("C", "D", "E", "F", "G", "A", "B")
@@ -168,6 +184,43 @@ def verify_config(config: object) -> dict:
             fail(f"{key} must be a positive integer measure count")
     fraction_from_json(config["candidate_onset_qn"], "candidate_onset_qn")
     fraction_from_json(config["second_part_onset_qn"], "second_part_onset_qn")
+    corrections = config["source_score_corrections"]
+    if not isinstance(corrections, list):
+        fail("source_score_corrections must be an array")
+    correction_ids: set[str] = set()
+    for index, correction in enumerate(corrections):
+        label = f"source_score_corrections[{index}]"
+        expected_keys = {
+            "correction_id", "source_mc", "onset_qn", "direction_type",
+            "voice_id", "value", "authority",
+        }
+        if not isinstance(correction, dict) or set(correction) != expected_keys:
+            fail(f"{label} must contain exactly: {', '.join(sorted(expected_keys))}")
+        correction_id = correction["correction_id"]
+        if not isinstance(correction_id, str) or not re.fullmatch(r"COR-[A-Z0-9-]+", correction_id):
+            fail(f"{label}.correction_id must match COR-[A-Z0-9-]+")
+        if correction_id in correction_ids:
+            fail(f"duplicate source-score correction ID: {correction_id}")
+        correction_ids.add(correction_id)
+        source_mc = correction["source_mc"]
+        if isinstance(source_mc, bool) or not isinstance(source_mc, int) or source_mc < 1:
+            fail(f"{label}.source_mc must be a positive integer measure count")
+        fraction_from_json(correction["onset_qn"], f"{label}.onset_qn")
+        if correction["direction_type"] != "dynamic":
+            fail(f"{label}.direction_type must be dynamic")
+        voice_id = correction["voice_id"]
+        if voice_id is not None and (not isinstance(voice_id, str) or not re.fullmatch(r"V[0-9]{2}", voice_id)):
+            fail(f"{label}.voice_id must be null or match V[0-9]{{2}}")
+        if correction["value"] not in DYNAMICS:
+            fail(f"{label}.value is not a supported fixed dynamic")
+        authority = correction["authority"]
+        if not isinstance(authority, dict) or set(authority) != {"source_id", "file", "printed_page"}:
+            fail(f"{label}.authority must contain exactly source_id, file, and printed_page")
+        if authority["source_id"] != "SRC-DCML-MOZART-V2.3" or authority["file"] != NMA_PDF_PATH:
+            fail(f"{label}.authority must identify the pinned NMA PDF")
+        printed_page = authority["printed_page"]
+        if isinstance(printed_page, bool) or not isinstance(printed_page, int) or printed_page < 1:
+            fail(f"{label}.authority.printed_page must be a positive integer")
     return config
 
 
@@ -797,6 +850,32 @@ def build(source_root: Path, config: dict) -> dict:
             details = "; ".join(sorted(set(xml["unsupported"][mc])))
             fail(f"selected MC {mc} contains notation schema 3 cannot preserve losslessly: {details}")
 
+    corrections_by_mc: dict[int, list[dict]] = defaultdict(list)
+    valid_voice_ids = set(xml["voice_map"].values())
+    for correction in config["source_score_corrections"]:
+        mc = correction["source_mc"]
+        if mc > len(measures):
+            fail(f"source-score correction {correction['correction_id']} lies beyond the movement")
+        if mc not in selected_mcs:
+            fail(f"source-score correction {correction['correction_id']} is outside the selected windows")
+        onset_qn = fraction_from_json(
+            correction["onset_qn"], f"source-score correction {correction['correction_id']} onset_qn"
+        )
+        if onset_qn > measures[mc - 1]["duration_qn"]:
+            fail(f"source-score correction {correction['correction_id']} lies outside MC {mc}")
+        if correction["voice_id"] is not None and correction["voice_id"] not in valid_voice_ids:
+            fail(f"source-score correction {correction['correction_id']} names an unmapped voice")
+        duplicate = any(
+            source_direction["direction_type"] == correction["direction_type"]
+            and source_direction["source_onset_whole"] * 4 == onset_qn
+            for source_direction in xml["directions"].get(mc, [])
+        )
+        if duplicate:
+            fail(
+                f"source-score correction {correction['correction_id']} duplicates a pinned symbolic direction"
+            )
+        corrections_by_mc[mc].append({**correction, "_onset": onset_qn})
+
     candidate_has_note = any(
         parse_fraction(row["mc_onset"], f"MC {candidate_mc} candidate check") * 4 == candidate_onset
         for row in notes_by_measure[candidate_mc]
@@ -907,6 +986,14 @@ def build(source_root: Path, config: dict) -> dict:
                 })
                 if directions[-1]["voice_id"] is None:
                     fail(f"direction refers to unmapped source voice at MC {mc}")
+            for correction in corrections_by_mc.get(mc, []):
+                directions.append({
+                    "direction_type": correction["direction_type"],
+                    "onset_qn": rational(correction["_onset"]),
+                    "voice_id": correction["voice_id"],
+                    "value": correction["value"],
+                    "_onset": correction["_onset"],
+                })
             directions.sort(key=direction_sort_key)
             for direction in directions:
                 direction["direction_id"] = f"DR{direction_counter:04d}"
@@ -942,7 +1029,7 @@ def build(source_root: Path, config: dict) -> dict:
         })
 
     dossier = {
-        "schema_version": "3.0.0",
+        "schema_version": "3.1.0",
         "case_id": config["case_id"],
         "condition": "symbolic",
         "encoding": {
@@ -984,6 +1071,7 @@ def build(source_root: Path, config: dict) -> dict:
             "files": pins,
         },
         "configuration": config,
+        "source_score_corrections": config["source_score_corrections"],
         "normalization": {
             "source_tonic": settings["tonic"],
             "home_mode": settings["mode"],
@@ -1005,9 +1093,11 @@ def build(source_root: Path, config: dict) -> dict:
             "selected_event_count": selected_event_count,
             "selected_rest_count": selected_rest_count,
             "selected_direction_count": selected_direction_count,
+            "selected_source_score_correction_count": len(config["source_score_corrections"]),
         },
         "limitations": [
-            "generated dossier still requires source-score visual verification and reverse-render review",
+            "generated dossier still requires full source-score visual verification and reverse-render review",
+            "any source-score correction is explicit in the operator configuration and audit object",
             "schema 3 omits slurs, clefs, beaming, tempo, and display-only accidental status by design",
             "chord-level articulations and ornaments are copied to every constituent note event",
         ],

@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "review_status": "draft",
+  "reviewer": {
+    "name_or_pseudonym": "",
+    "expertise": "",
+    "affiliation_optional": "",
+    "conflicts_or_prior_exposure": ""
+  },
+  "review_date": "",
+  "cpe_wq48_first_edition_pdf_sha256": "b9e20b14f79973fedc7f1aa6efacdca7cd3c7d818e711d13fb3dd5d186be68ef",
+  "benda_1757_first_edition_pdf_sha256": "34aab7ccd253df6585f3afaade5bbafca3f2f72f6ae1b647ca8653f96aced350",
+  "mozart_dcml_commit": "5337257a5318711e6302cfe85c3f1a6ade3c6271",
+  "mozart_nma_pdf_sha256": "fd165fcf84905700c23947bc5fc58b7b61275b42cfb2e7068cbc2109401800d6",
+  "clementi_bnf_pdf_sha256": "86e1909e95c049ebab7cdc3f8e8623cd0e37e05445746ecd1988b0e6047ea38f",
+  "clementi_brownell_coordinate_witness_sha256": "bb639fa524fa67c406489d56e580f846c7668c527c1cfc29b0c43c217798373d",
+  "launch_case_ids": ["CASE-6U43", "CASE-8JQJ", "CASE-D09B", "CASE-DZWT", "CASE-Q2R9", "CASE-VT57"],
+  "deferred_case_ids": ["CASE-Z3F9"],
+  "case_reviews": [
+    {
+      "case_id": "CASE-6U43",
+      "review_scope": "launch_dossier",
+      "artifact_status": "complete_unverified",
+      "dossier_sha256": "8cb1446f4d625fc1203608e80602a2f5b733e43db3b439dcedd072ca98c4fa91",
+      "reverse_table_sha256": "1a2730422e9a9b2905d198106d9ef7a8c9eb5ed48a0bf21c324c276a39010fee",
+      "source_and_coordinates": "not_reviewed",
+      "event_fidelity": "not_reviewed",
+      "candidate_formal_return": "not_reviewed",
+      "tonic_status_at_candidate": "not_reviewed",
+      "window_adequacy": "not_reviewed",
+      "representation_limits_acceptable": "not_reviewed",
+      "confidence_0_to_1": null,
+      "summary": ""
+    },
+    {
+      "case_id": "CASE-8JQJ",
+      "review_scope": "launch_dossier",
+      "artifact_status": "complete_unverified",
+      "dossier_sha256": "135484af663bb92f279bed6e26bc9ff03db2607391021e6b0d5ef7444754df1d",
+      "reverse_table_sha256": "6ac3986a74beeb68d9663e51841e9a72c36d8cec4c8bf054e0d92495e3648c87",
+      "source_and_coordinates": "not_reviewed",
+      "event_fidelity": "not_reviewed",
+      "candidate_formal_return": "not_reviewed",
+      "tonic_status_at_candidate": "not_reviewed",
+      "window_adequacy": "not_reviewed",
+      "representation_limits_acceptable": "not_reviewed",
+      "confidence_0_to_1": null,
+      "summary": ""
+    },
+    {
+      "case_id": "CASE-D09B",
+      "review_scope": "launch_dossier",
+      "artifact_status": "complete_unverified",
+      "dossier_sha256": "5dbb6b1bc7e4b300757a67c4c03fae5afe603f317b8a4b13fb813b0aac4b27f5",
+      "reverse_table_sha256": "731d97f4eee4696034584f6373eb3cc60d8aed5bba3e648b2daf95b24879d1bf",
+      "source_and_coordinates": "not_reviewed",
+      "event_fidelity": "not_reviewed",
+      "candidate_formal_return": "not_reviewed",
+      "tonic_status_at_candidate": "not_reviewed",
+      "window_adequacy": "not_reviewed",
+      "representation_limits_acceptable": "not_reviewed",
+      "confidence_0_to_1": null,
+      "summary": ""
+    },
+    {
+      "case_id": "CASE-DZWT",
+      "review_scope": "launch_dossier",
+      "artifact_status": "complete_unverified",
+      "dossier_sha256": "508ba29752932e92772781a975b313f7d1f99b63a603c79e026c51a019aee17c",
+      "reverse_table_sha256": "7e9c87c6c60dc1efdf010aa3a3dffe88b26811bd81a52fe0303d184ab595794f",
+      "source_and_coordinates": "not_reviewed",
+      "event_fidelity": "not_reviewed",
+      "candidate_formal_return": "not_reviewed",
+      "tonic_status_at_candidate": "not_reviewed",
+      "window_adequacy": "not_reviewed",
+      "representation_limits_acceptable": "not_reviewed",
+      "confidence_0_to_1": null,
+      "summary": ""
+    },
+    {
+      "case_id": "CASE-Q2R9",
+      "review_scope": "launch_dossier",
+      "artifact_status": "complete_unverified",
+      "dossier_sha256": "4901ea3fc205f5d1fac19eb6cd04ee00d98ad4de4fb014e65d5695f1877047cb",
+      "reverse_table_sha256": "6cea2e2857e25cebc6e21c2c7b0e34ad55e9fae6e7584bb5e6175c9234fe26c9",
+      "source_and_coordinates": "not_reviewed",
+      "event_fidelity": "not_reviewed",
+      "candidate_formal_return": "not_reviewed",
+      "tonic_status_at_candidate": "not_reviewed",
+      "window_adequacy": "not_reviewed",
+      "representation_limits_acceptable": "not_reviewed",
+      "confidence_0_to_1": null,
+      "summary": ""
+    },
+    {
+      "case_id": "CASE-VT57",
+      "review_scope": "launch_dossier",
+      "artifact_status": "complete_unverified",
+      "dossier_sha256": "bce90cdd3869b6db306804cc8fd274f1f1c23ff1f8effa9a5efe82a44ece1118",
+      "reverse_table_sha256": "f90605d59eb4278efed531fa8741efbbb51fba170beca2cdfce8b5c5eb65d76d",
+      "source_and_coordinates": "not_reviewed",
+      "event_fidelity": "not_reviewed",
+      "candidate_formal_return": "not_reviewed",
+      "tonic_status_at_candidate": "not_reviewed",
+      "window_adequacy": "not_reviewed",
+      "representation_limits_acceptable": "not_reviewed",
+      "confidence_0_to_1": null,
+      "summary": ""
+    },
+    {
+      "case_id": "CASE-Z3F9",
+      "review_scope": "deferred_replication_coordinates_only",
+      "artifact_status": "incomplete_no_dossier",
+      "dossier_sha256": "",
+      "reverse_table_sha256": "",
+      "source_and_coordinates": "not_reviewed",
+      "event_fidelity": "not_reviewed",
+      "candidate_formal_return": "not_reviewed",
+      "tonic_status_at_candidate": "not_reviewed",
+      "window_adequacy": "not_reviewed",
+      "representation_limits_acceptable": "not_reviewed",
+      "confidence_0_to_1": null,
+      "summary": ""
+    }
+  ],
+  "issues": [
+    {
+      "case_id": "",
+      "issue_type": "",
+      "severity": "",
+      "authority_page": null,
+      "source_measure": "",
+      "window_id": "",
+      "window_measure_index": null,
+      "evidence_or_event_id": "",
+      "json_pointer": "",
+      "finding": "",
+      "suggested_resolution": "",
+      "supporting_reference": ""
+    }
+  ],
+  "claim_recommendations": [
+    {
+      "current_or_proposed_claim": "",
+      "recommendation": "",
+      "reason": ""
+    }
+  ],
+  "overall_assessment": ""
+}

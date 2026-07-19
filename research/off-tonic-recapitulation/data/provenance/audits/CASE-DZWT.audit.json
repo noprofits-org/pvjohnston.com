@@ -8,6 +8,10 @@
     "commit": "5337257a5318711e6302cfe85c3f1a6ade3c6271",
     "files": [
       {
+        "path": "pdf/NMA_vol2.pdf",
+        "sha256": "fd165fcf84905700c23947bc5fc58b7b61275b42cfb2e7068cbc2109401800d6"
+      },
+      {
         "path": "MS3/K570-1.mscx",
         "sha256": "326fecaedf12ebe933bb14b13aef62bd33127cf5df9f7946bb4d4af9bd0443a8"
       },
@@ -33,8 +37,76 @@
     "second_part_onset_qn": {
       "numerator": 0,
       "denominator": 1
-    }
+    },
+    "source_score_corrections": [
+      {
+        "correction_id": "COR-K570-M001-P",
+        "source_mc": 1,
+        "onset_qn": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "direction_type": "dynamic",
+        "voice_id": null,
+        "value": "p",
+        "authority": {
+          "source_id": "SRC-DCML-MOZART-V2.3",
+          "file": "pdf/NMA_vol2.pdf",
+          "printed_page": 132
+        }
+      },
+      {
+        "correction_id": "COR-K570-M133-P",
+        "source_mc": 133,
+        "onset_qn": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "direction_type": "dynamic",
+        "voice_id": null,
+        "value": "p",
+        "authority": {
+          "source_id": "SRC-DCML-MOZART-V2.3",
+          "file": "pdf/NMA_vol2.pdf",
+          "printed_page": 137
+        }
+      }
+    ]
   },
+  "source_score_corrections": [
+    {
+      "correction_id": "COR-K570-M001-P",
+      "source_mc": 1,
+      "onset_qn": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "direction_type": "dynamic",
+      "voice_id": null,
+      "value": "p",
+      "authority": {
+        "source_id": "SRC-DCML-MOZART-V2.3",
+        "file": "pdf/NMA_vol2.pdf",
+        "printed_page": 132
+      }
+    },
+    {
+      "correction_id": "COR-K570-M133-P",
+      "source_mc": 133,
+      "onset_qn": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "direction_type": "dynamic",
+      "voice_id": null,
+      "value": "p",
+      "authority": {
+        "source_id": "SRC-DCML-MOZART-V2.3",
+        "file": "pdf/NMA_vol2.pdf",
+        "printed_page": 137
+      }
+    }
+  ],
   "normalization": {
     "source_tonic": "Bb",
     "home_mode": "major",
@@ -205,13 +277,15 @@
     "selected_schema_unsupported_constructs": 0,
     "selected_event_count": 212,
     "selected_rest_count": 25,
-    "selected_direction_count": 0
+    "selected_direction_count": 2,
+    "selected_source_score_correction_count": 2
   },
   "limitations": [
-    "generated dossier still requires source-score visual verification and reverse-render review",
+    "generated dossier still requires full source-score visual verification and reverse-render review",
+    "any source-score correction is explicit in the operator configuration and audit object",
     "schema 3 omits slurs, clefs, beaming, tempo, and display-only accidental status by design",
     "chord-level articulations and ornaments are copied to every constituent note event"
   ],
-  "dossier_sha256": "dbe625c9905b64cfea7c9eb27803e9e4707a2815866fcd9598fcfab8696412c3",
+  "dossier_sha256": "508ba29752932e92772781a975b313f7d1f99b63a603c79e026c51a019aee17c",
   "generated_by": "scripts/extract-dcml-mozart.mjs"
 }

@@ -1,6 +1,8 @@
 # Identification scoring protocol
 
-Freeze `identity-key.json` with the six randomized case IDs before collection.
+Freeze `identity-key.json` with the six arbitrary opaque case IDs before
+collection. The IDs are operator-assigned and are not claimed to have been
+randomized.
 For each case, list normalized composer, work, catalogue, movement, and accepted
 aliases. The key is operator-only and never enters a model prompt.
 
@@ -24,4 +26,3 @@ Set adjudication `status` to `complete` only after every valid scheduled output
 has exactly one judgment. The analyzer rejects missing, duplicate, unknown, or
 invalid levels. Identification scoring is factual adjudication, not a judgment
 of whether the model's musical reasoning was good.
-
