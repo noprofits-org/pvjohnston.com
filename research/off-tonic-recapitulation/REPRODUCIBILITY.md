@@ -66,15 +66,23 @@ Key SHA-256 values are:
 Use Node.js 24.8.0 or a compatible Node 24 release. From this directory:
 
 ```sh
+node scripts/restore-immutable-modes.mjs
 node scripts/verify-collection-lock.mjs
 node scripts/test-analyzer.mjs
 node scripts/test-reporting-addenda.mjs
 node scripts/test-validator-contract-sensitivity.mjs
 ```
 
+ZIP extraction restores Git-tracked files as writable even though the frozen
+collection and masked-adjudication artifacts were made read-only during the
+experiment. The first command reapplies those mode bits to an exact, asserted
+551-file set; it changes no bytes and is idempotent. The analyzer deliberately
+refuses writable attempt claims and adjudication packet files.
+
 The complete test suite is:
 
 ```sh
+node scripts/restore-immutable-modes.mjs
 for test_file in scripts/test-*.mjs; do node "$test_file"; done
 ```
 

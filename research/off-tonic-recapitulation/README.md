@@ -57,6 +57,8 @@ Cloud project.
 - `scripts/run-model.sh`: isolated runner bound to frozen model adapters.
 - `scripts/validate-output.mjs`: task-specific output validation.
 - `scripts/analyze-results.mjs`: preregistered reliability summary.
+- `scripts/restore-immutable-modes.mjs`: restores the read-only flags required
+  by integrity checks after ZIP extraction; it changes no file bytes.
 - `results/1.0.0/summary.json`: immutable primary result.
 - `results/1.0.0/pairwise-bootstrap-supplement.json`: preregistered
   pair-bootstrap reporting addendum.
