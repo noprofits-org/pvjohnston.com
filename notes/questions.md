@@ -203,13 +203,31 @@ Format:
   extension; freeze two task prompts, exact model systems, all hashes, the
   ordinal-alpha implementation, completeness/dispersion/identification rules,
   and the full 108-call schedule before the first real-case output is viewed.
-- **Status:** frozen pre-collection pilot--six dossiers, prompts, exact model
-  systems, analysis rules, and the seeded 108-call schedule were frozen as
-  dataset 1.0.0 at 2026-07-19T17:54:14Z after all three fictional schema
-  preflights passed with working OpenAI and Anthropic authentication and no
-  real-case call. The 41-file collection lock was created and verified at
-  2026-07-19T17:56:35.630Z; collection is authorized only from the pre-outcome
-  Git commit containing it and after the planned window opens
+- **Status:** published —
+  `/posts/2026-07-19-repeatable-but-not-blind.html`. The hypothesis was
+  falsified for automatic expansion: the two complete passing systems came
+  from one provider family, cue dispersion reached 0/6 (2/6 post hoc), all
+  three systems exactly identified K. 576/i, and two target work-level
+  recognition self-reports occurred; the K. 545 sensitivity condition passed
+
+## Off-tonic dataset 2.0: does fixing the design preserve the stability?
+- **Observed:** The 1.0.0 pilot was repeatable but not blind: the frozen
+  validator rejected five complete Anthropic responses over two unstated
+  constraints, the primary set had no off-tonic anchor (Clementi deferred on
+  source verification), K. 576 survived normalization as an identity transform
+  and was the only exactly identified target, and the panel gave OpenAI two of
+  three positions.
+- **Source:** own next step; the off-tonic pilot post's Conclusion
+- **Type:** untested regime (revised design under the same estimands)
+- **Contribution (candidate):** a re-frozen run with an expert-verifiable
+  off-tonic primary anchor, a prompt-aligned preflighted output contract, a
+  representation that reduces identity recovery or models familiarity as an
+  explicit factor, and a provider-balanced panel
+- **Falsifier:** the revised design loses the observed test–retest stability
+  (any previously passing system drops below the frozen α/MAD/within-one
+  thresholds), or identity recovery persists across the changed representation
+- **Status:** observation — blocked on expert-readable source verification for
+  Clementi Op. 10 No. 3/i (or another off-tonic anchor) before any re-freeze
 
 ## SGD control: does the convention gap become ω₀² = 900?
 - **Observed:** Corrected prediction from the convention post (an earlier draft
