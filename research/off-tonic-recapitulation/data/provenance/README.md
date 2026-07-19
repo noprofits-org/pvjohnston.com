@@ -21,3 +21,9 @@ existence does not imply expert verification.
 from a model-produced repository survey remained current after the sixth
 dossier and schema-3.1 work. It is a dated protocol audit, not independent
 musicological review.
+
+`IDENTIFICATION_ADJUDICATION_EXECUTION.md` is an outcome-blind pre-collection
+clarification of how the frozen L0/L1/L2 rule will handle text normalization,
+contradictory structured fields, and hedged multiple candidates. It changes no
+threshold or identity value and must not use response confidence or prose as
+scoring evidence.
