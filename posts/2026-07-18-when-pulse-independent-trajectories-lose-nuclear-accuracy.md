@@ -28,12 +28,13 @@ $0.1\sigma_x$ tolerance at a 19.98% early-hop fraction; the upper-state and
 product-side population differences remained below 0.05 throughout. Exact
 grid dynamics sharpened the split: RP-AXE had the lower electronic-population
 RMSE in all nine tested regimes, while FP had the lower product probability
-and centroid RMSE in all nine. The hypothesis is supported over the observed
-7.30--26.29% range. Its predeclared high-overlap test remains inconclusive,
-because neither translating nor directionally kicking the packet produced the
-required 50% early-hop fraction. Population agreement alone can therefore
-overstate the quality of reused nuclear trajectories before their ultimate
-validity boundary has been located.
+and centroid RMSE in all nine. The preregistered center scan supports the
+hypothesis over its reached 7.30--26.13% range; the adaptive kick extension
+reached 26.29% without changing the qualitative result. The predeclared
+high-overlap test remains inconclusive, because neither translating nor
+directionally kicking the packet produced the required 50% early-hop fraction.
+Population agreement alone can therefore overstate the quality of reused
+nuclear trajectories before their ultimate validity boundary has been located.
 
 ## Introduction
 
@@ -274,11 +275,13 @@ of 9 regimes. FP had the lower $P(q_x<0)$ RMSE in 9 of 9 and the lower
 centroid RMSE in 9 of 9. At center fraction 0.5 without a kick, the
 upper-population RMSEs were 0.02765 for FP and 0.01946 for RP-AXE; product
 RMSEs were 0.01902 and 0.02639; centroid RMSEs were $0.06361\sigma_x$ and
-$0.12582\sigma_x$. Figure 3 plots the two time series used for the population
-and centroid entries. Across the nine exact runs, the maximum norm error was
-$6.28\times10^{-14}$. In the separate per-seed comparison, RP-AXE had the
-lower population RMSE in 36/36 replicates; FP had the lower product RMSE in
-35/36 and the lower centroid RMSE in 36/36. The post hoc $384^2$--$512^2$
+$0.12582\sigma_x$. At the strongest $-2\sigma_{p_x}$ kick, FP's product and
+centroid RMSEs were 0.0492 and $0.247\sigma_x$, respectively. Figure 3 plots the
+two time series used for the population and centroid entries. Across the nine
+exact runs, the maximum norm error was $6.28\times10^{-14}$. In the separate
+per-seed comparison, RP-AXE had the lower population RMSE in 36/36 replicates;
+FP had the lower product RMSE in 35/36 and the lower centroid RMSE in 36/36.
+The post hoc $384^2$--$512^2$
 spot checks returned maximum population differences of
 $6.96\times10^{-6}$ and $1.24\times10^{-5}$, product-side differences of
 0.00310 and 0.00305, and centroid differences below
@@ -320,8 +323,8 @@ That ordering persists in all nine regimes. This is consistent with error
 cancellation in an electronic marginal: changing the nuclear paths can move a
 surface-hopping population toward the exact curve even while moving nuclear
 observables away from it. It is not evidence that FP is exact. In the strongest
-$-2\sigma_{p_x}$ kick, FP itself has product and centroid RMSEs of 0.0492 and
-$0.247\sigma_x$ against the grid reference.
+$-2\sigma_{p_x}$ kick, the FP errors reported above are already substantial
+against the grid reference.
 
 The distinction answers the source paper's open question without contradicting
 its reported glycine result. Galiana and co-workers tested a regime in which
