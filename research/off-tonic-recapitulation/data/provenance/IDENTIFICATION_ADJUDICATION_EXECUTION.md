@@ -39,7 +39,11 @@ not consult a musical rationale to infer the intended identity.
   correct movement. The composer must be correct or absent, and no structured
   identity field may contradict the frozen key.
 - `L1` applies when the composer or work family is correct but unique
-  work-and-movement identification is missing. A correct unique work with a
+  work-and-movement identification is missing. Here, `work family` means a
+  composer-specific named collection or a compatible sonata title/key without
+  the unique frozen catalogue or sonata number; generic Classical-keyboard
+  style is not a work family. A correct composer paired with a wrong specific
+  work remains `L1` under the literal frozen rule. A correct unique work with a
   missing or wrong movement is `L1`. A correct work and movement paired with an
   explicitly wrong composer is capped at `L1` and the contradiction is stated.
 - `L0` applies to abstention; only broad style; a wholly incorrect identity; or
@@ -52,11 +56,22 @@ not consult a musical rationale to infer the intended identity.
 
 ## Execution and audit
 
-After all 54 identification bundles are immutable, perform one complete factual
-pass in schedule order and write a brief field-based reason for every valid
-output. A separate Codex agent then audits all judgments against this memo and
-the frozen key without evaluating musical reasoning. Resolve disagreements by
-the rules above; if a string remains genuinely ambiguous, retain both audit
-positions and use the lower level for the preregistered gate. Report that this
-was model-assisted factual adjudication under human operator supervision, not
-music-theory expert review or independent validation.
+Only after all 108 scheduled slots have terminated and every completed bundle
+has been mechanically verified as immutable may any response body be opened or
+the frozen identity key be revealed for scoring. Then parse the valid
+identification outputs into a deterministically shuffled, masked packet
+containing only an opaque judgment ID, case ID, and the structured
+composer/work/movement fields. Exclude model, provider, run, control role,
+confidence, recognition level, evidence IDs, prose, and aggregate counts; keep a
+separate hash-bound filename mapping. Invalid identification responses receive
+no judgment.
+
+Perform one complete factual pass over the masked packet and write a brief
+field-based reason for every valid output. A separate Codex agent independently
+scores the same masked packet against this memo and the frozen key without
+seeing the first-pass judgments and without evaluating musical reasoning.
+Resolve disagreements by the rules above; if a string remains genuinely
+ambiguous, retain both positions and assign the lower level because `L2`
+requires an unambiguous unique match. Report that this was model-assisted
+factual adjudication under human operator supervision, not music-theory expert
+review or independent validation.
