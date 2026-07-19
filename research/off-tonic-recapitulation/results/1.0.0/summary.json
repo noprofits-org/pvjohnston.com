@@ -1,0 +1,3557 @@
+{
+  "schema_version": "2.1.0",
+  "dataset_version": "1.0.0",
+  "collection_integrity": {
+    "lock_created_at": "2026-07-19T17:56:35.630Z",
+    "scheduled_slot_status_counts": {
+      "analysis": {
+        "absent": 0,
+        "partial": 0,
+        "command_failed": 0,
+        "invalid": 5,
+        "valid": 49
+      },
+      "identification": {
+        "absent": 0,
+        "partial": 0,
+        "command_failed": 0,
+        "invalid": 0,
+        "valid": 54
+      }
+    },
+    "unexpected_scheduled_artifacts": [],
+    "slots": [
+      {
+        "sequence": 1,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-DZWT",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-DZWT__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-DZWT__run-03.md"
+      },
+      {
+        "sequence": 2,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-Q2R9__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-Q2R9__run-02.md"
+      },
+      {
+        "sequence": 3,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-8JQJ__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-8JQJ__run-01.md"
+      },
+      {
+        "sequence": 4,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-DZWT__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-DZWT__run-02.md"
+      },
+      {
+        "sequence": 5,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-Q2R9__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-Q2R9__run-03.md"
+      },
+      {
+        "sequence": 6,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-DZWT__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-DZWT__run-03.md"
+      },
+      {
+        "sequence": 7,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-8JQJ__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-8JQJ__run-01.md"
+      },
+      {
+        "sequence": 8,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-Q2R9__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-Q2R9__run-02.md"
+      },
+      {
+        "sequence": 9,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-6U43",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-6U43__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-6U43__run-01.md"
+      },
+      {
+        "sequence": 10,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-VT57",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-VT57__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-VT57__run-01.md"
+      },
+      {
+        "sequence": 11,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-8JQJ",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-8JQJ__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-8JQJ__run-02.md"
+      },
+      {
+        "sequence": 12,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-DZWT__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-DZWT__run-03.md"
+      },
+      {
+        "sequence": 13,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-Q2R9",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-Q2R9__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-Q2R9__run-03.md"
+      },
+      {
+        "sequence": 14,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-D09B__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-D09B__run-02.md"
+      },
+      {
+        "sequence": 15,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-6U43",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-6U43__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-6U43__run-03.md"
+      },
+      {
+        "sequence": 16,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-8JQJ__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-8JQJ__run-02.md"
+      },
+      {
+        "sequence": 17,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-8JQJ__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-8JQJ__run-01.md"
+      },
+      {
+        "sequence": 18,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-D09B__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-D09B__run-01.md"
+      },
+      {
+        "sequence": 19,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-D09B__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-D09B__run-02.md"
+      },
+      {
+        "sequence": 20,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-8JQJ",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-8JQJ__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-8JQJ__run-02.md"
+      },
+      {
+        "sequence": 21,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-6U43",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-6U43__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-6U43__run-02.md"
+      },
+      {
+        "sequence": 22,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-VT57",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-VT57__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-VT57__run-03.md"
+      },
+      {
+        "sequence": 23,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-D09B__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-D09B__run-01.md"
+      },
+      {
+        "sequence": 24,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-8JQJ__run-03",
+        "status": "invalid",
+        "issues": [
+          "unknown evidence ID DR0002 at result.cues.preparation_strength.evidence_ids"
+        ],
+        "response_file": "anthropic-frontier__symbolic__CASE-8JQJ__run-03.invalid.md"
+      },
+      {
+        "sequence": 25,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-DZWT__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-DZWT__run-01.md"
+      },
+      {
+        "sequence": 26,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-D09B__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-D09B__run-03.md"
+      },
+      {
+        "sequence": 27,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-6U43",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-6U43__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-6U43__run-02.md"
+      },
+      {
+        "sequence": 28,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-8JQJ",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-8JQJ__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-8JQJ__run-01.md"
+      },
+      {
+        "sequence": 29,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-VT57",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-VT57__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-VT57__run-01.md"
+      },
+      {
+        "sequence": 30,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-DZWT__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-DZWT__run-01.md"
+      },
+      {
+        "sequence": 31,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-8JQJ__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-8JQJ__run-03.md"
+      },
+      {
+        "sequence": 32,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-DZWT__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-DZWT__run-01.md"
+      },
+      {
+        "sequence": 33,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-D09B__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-D09B__run-01.md"
+      },
+      {
+        "sequence": 34,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-DZWT",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-DZWT__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-DZWT__run-01.md"
+      },
+      {
+        "sequence": 35,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-D09B__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-D09B__run-01.md"
+      },
+      {
+        "sequence": 36,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-D09B__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-D09B__run-03.md"
+      },
+      {
+        "sequence": 37,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-8JQJ__run-02",
+        "status": "invalid",
+        "issues": [
+          "result.case_note exceeds 40 words (43)"
+        ],
+        "response_file": "anthropic-frontier__symbolic__CASE-8JQJ__run-02.invalid.md"
+      },
+      {
+        "sequence": 38,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-6U43",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-6U43__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-6U43__run-01.md"
+      },
+      {
+        "sequence": 39,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-VT57",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-VT57__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-VT57__run-03.md"
+      },
+      {
+        "sequence": 40,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-Q2R9__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-Q2R9__run-01.md"
+      },
+      {
+        "sequence": 41,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-DZWT__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-DZWT__run-02.md"
+      },
+      {
+        "sequence": 42,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-8JQJ",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-8JQJ__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-8JQJ__run-01.md"
+      },
+      {
+        "sequence": 43,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-Q2R9__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-Q2R9__run-03.md"
+      },
+      {
+        "sequence": 44,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-Q2R9__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-Q2R9__run-01.md"
+      },
+      {
+        "sequence": 45,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-Q2R9",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-Q2R9__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-Q2R9__run-01.md"
+      },
+      {
+        "sequence": 46,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-6U43",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-6U43__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-6U43__run-01.md"
+      },
+      {
+        "sequence": 47,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-DZWT",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-DZWT__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-DZWT__run-03.md"
+      },
+      {
+        "sequence": 48,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-8JQJ__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-8JQJ__run-02.md"
+      },
+      {
+        "sequence": 49,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-6U43",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-6U43__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-6U43__run-03.md"
+      },
+      {
+        "sequence": 50,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-DZWT",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-DZWT__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-DZWT__run-02.md"
+      },
+      {
+        "sequence": 51,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-D09B__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-D09B__run-01.md"
+      },
+      {
+        "sequence": 52,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-DZWT",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-DZWT__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-DZWT__run-02.md"
+      },
+      {
+        "sequence": 53,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-VT57",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-VT57__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-VT57__run-01.md"
+      },
+      {
+        "sequence": 54,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-D09B__run-03",
+        "status": "invalid",
+        "issues": [
+          "unknown evidence ID DR0003 at result.cues.rhetorical_emphasis.evidence_ids"
+        ],
+        "response_file": "anthropic-frontier__symbolic__CASE-D09B__run-03.invalid.md"
+      },
+      {
+        "sequence": 55,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-Q2R9__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-Q2R9__run-01.md"
+      },
+      {
+        "sequence": 56,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-8JQJ__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-8JQJ__run-03.md"
+      },
+      {
+        "sequence": 57,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-VT57",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-VT57__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-VT57__run-02.md"
+      },
+      {
+        "sequence": 58,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-VT57",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-VT57__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-VT57__run-02.md"
+      },
+      {
+        "sequence": 59,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-Q2R9__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-Q2R9__run-03.md"
+      },
+      {
+        "sequence": 60,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-VT57",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-VT57__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-VT57__run-01.md"
+      },
+      {
+        "sequence": 61,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-D09B__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-D09B__run-02.md"
+      },
+      {
+        "sequence": 62,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-Q2R9__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-Q2R9__run-02.md"
+      },
+      {
+        "sequence": 63,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-6U43",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-6U43__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-6U43__run-03.md"
+      },
+      {
+        "sequence": 64,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-D09B__run-02",
+        "status": "invalid",
+        "issues": [
+          "result.case_note exceeds 40 words (43)"
+        ],
+        "response_file": "anthropic-frontier__symbolic__CASE-D09B__run-02.invalid.md"
+      },
+      {
+        "sequence": 65,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-8JQJ__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-8JQJ__run-03.md"
+      },
+      {
+        "sequence": 66,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-DZWT__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-DZWT__run-03.md"
+      },
+      {
+        "sequence": 67,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-D09B__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-D09B__run-03.md"
+      },
+      {
+        "sequence": 68,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-D09B__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-D09B__run-03.md"
+      },
+      {
+        "sequence": 69,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-VT57",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-VT57__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-VT57__run-03.md"
+      },
+      {
+        "sequence": 70,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-Q2R9__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-Q2R9__run-02.md"
+      },
+      {
+        "sequence": 71,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-VT57",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-VT57__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-VT57__run-03.md"
+      },
+      {
+        "sequence": 72,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-DZWT",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-DZWT__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-DZWT__run-01.md"
+      },
+      {
+        "sequence": 73,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-D09B__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-D09B__run-01.md"
+      },
+      {
+        "sequence": 74,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-6U43",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-6U43__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-6U43__run-01.md"
+      },
+      {
+        "sequence": 75,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-D09B__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-D09B__run-02.md"
+      },
+      {
+        "sequence": 76,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-Q2R9",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-Q2R9__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-Q2R9__run-02.md"
+      },
+      {
+        "sequence": 77,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-Q2R9",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-Q2R9__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-Q2R9__run-01.md"
+      },
+      {
+        "sequence": 78,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-6U43",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-6U43__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-6U43__run-01.md"
+      },
+      {
+        "sequence": 79,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-6U43",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-6U43__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-6U43__run-03.md"
+      },
+      {
+        "sequence": 80,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-VT57",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-VT57__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-VT57__run-02.md"
+      },
+      {
+        "sequence": 81,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-VT57",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-VT57__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-VT57__run-02.md"
+      },
+      {
+        "sequence": 82,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-6U43",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-6U43__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-6U43__run-02.md"
+      },
+      {
+        "sequence": 83,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-Q2R9__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-Q2R9__run-03.md"
+      },
+      {
+        "sequence": 84,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-VT57",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-VT57__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-VT57__run-01.md"
+      },
+      {
+        "sequence": 85,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-Q2R9",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-Q2R9__run-01",
+        "status": "invalid",
+        "issues": [
+          "result.case_note exceeds 40 words (43)"
+        ],
+        "response_file": "anthropic-frontier__symbolic__CASE-Q2R9__run-01.invalid.md"
+      },
+      {
+        "sequence": 86,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-VT57",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-VT57__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-VT57__run-02.md"
+      },
+      {
+        "sequence": 87,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-VT57",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-VT57__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-VT57__run-03.md"
+      },
+      {
+        "sequence": 88,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-8JQJ",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-8JQJ__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-8JQJ__run-03.md"
+      },
+      {
+        "sequence": 89,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-6U43",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-6U43__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-6U43__run-02.md"
+      },
+      {
+        "sequence": 90,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-6U43",
+        "run": "01",
+        "base": "openai-prior-generation__symbolic__CASE-6U43__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-6U43__run-01.md"
+      },
+      {
+        "sequence": 91,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-8JQJ__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-8JQJ__run-02.md"
+      },
+      {
+        "sequence": 92,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-DZWT__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-DZWT__run-02.md"
+      },
+      {
+        "sequence": 93,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-VT57",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-VT57__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-VT57__run-02.md"
+      },
+      {
+        "sequence": 94,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-Q2R9",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-Q2R9__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-Q2R9__run-02.md"
+      },
+      {
+        "sequence": 95,
+        "task": "identification",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-8JQJ",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-8JQJ__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-8JQJ__run-03.md"
+      },
+      {
+        "sequence": 96,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-D09B__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-D09B__run-03.md"
+      },
+      {
+        "sequence": 97,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-DZWT__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-DZWT__run-03.md"
+      },
+      {
+        "sequence": 98,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-Q2R9",
+        "run": "03",
+        "base": "openai-prior-generation__symbolic__CASE-Q2R9__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-Q2R9__run-03.md"
+      },
+      {
+        "sequence": 99,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-6U43",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-6U43__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-6U43__run-02.md"
+      },
+      {
+        "sequence": 100,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-DZWT__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-DZWT__run-01.md"
+      },
+      {
+        "sequence": 101,
+        "task": "identification",
+        "model": "openai-frontier",
+        "case_id": "CASE-6U43",
+        "run": "03",
+        "base": "openai-frontier__symbolic__CASE-6U43__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-6U43__run-03.md"
+      },
+      {
+        "sequence": 102,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-DZWT",
+        "run": "02",
+        "base": "openai-frontier__symbolic__CASE-DZWT__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-DZWT__run-02.md"
+      },
+      {
+        "sequence": 103,
+        "task": "analysis",
+        "model": "openai-frontier",
+        "case_id": "CASE-8JQJ",
+        "run": "01",
+        "base": "openai-frontier__symbolic__CASE-8JQJ__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-frontier__symbolic__CASE-8JQJ__run-01.md"
+      },
+      {
+        "sequence": 104,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-VT57",
+        "run": "01",
+        "base": "anthropic-frontier__symbolic__CASE-VT57__run-01",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-VT57__run-01.md"
+      },
+      {
+        "sequence": 105,
+        "task": "identification",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-6U43",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-6U43__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-6U43__run-03.md"
+      },
+      {
+        "sequence": 106,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-6U43",
+        "run": "02",
+        "base": "anthropic-frontier__symbolic__CASE-6U43__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-6U43__run-02.md"
+      },
+      {
+        "sequence": 107,
+        "task": "analysis",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-VT57",
+        "run": "03",
+        "base": "anthropic-frontier__symbolic__CASE-VT57__run-03",
+        "status": "valid",
+        "issues": [],
+        "response_file": "anthropic-frontier__symbolic__CASE-VT57__run-03.md"
+      },
+      {
+        "sequence": 108,
+        "task": "analysis",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "02",
+        "base": "openai-prior-generation__symbolic__CASE-D09B__run-02",
+        "status": "valid",
+        "issues": [],
+        "response_file": "openai-prior-generation__symbolic__CASE-D09B__run-02.md"
+      }
+    ]
+  },
+  "scheduled_analysis_invocations": 54,
+  "valid_analysis_invocations": 49,
+  "scheduled_cue_cells": 324,
+  "non_null_cue_cells": 294,
+  "output_validity_rate": 0.9074074074074074,
+  "cue_completeness_rate": 0.9074074074074074,
+  "status_distribution": {
+    "overall": {
+      "not_recapitulation": {
+        "count": 49,
+        "mean": 0.06838775510204083,
+        "median": 0.03,
+        "minimum": 0.002,
+        "maximum": 0.33
+      },
+      "off_tonic_recapitulation": {
+        "count": 49,
+        "mean": 0.29753061224489796,
+        "median": 0.05,
+        "minimum": 0.001,
+        "maximum": 0.985
+      },
+      "tonic_double_return": {
+        "count": 49,
+        "mean": 0.6340816326530612,
+        "median": 0.85,
+        "minimum": 0.001,
+        "maximum": 0.997
+      }
+    },
+    "by_model": {
+      "openai-frontier": {
+        "not_recapitulation": {
+          "count": 18,
+          "mean": 0.04394444444444445,
+          "median": 0.017,
+          "minimum": 0.002,
+          "maximum": 0.33
+        },
+        "off_tonic_recapitulation": {
+          "count": 18,
+          "mean": 0.3235555555555556,
+          "median": 0.052500000000000005,
+          "minimum": 0.001,
+          "maximum": 0.985
+        },
+        "tonic_double_return": {
+          "count": 18,
+          "mean": 0.6325,
+          "median": 0.905,
+          "minimum": 0.001,
+          "maximum": 0.997
+        }
+      },
+      "anthropic-frontier": {
+        "not_recapitulation": {
+          "count": 13,
+          "mean": 0.09692307692307695,
+          "median": 0.08,
+          "minimum": 0.01,
+          "maximum": 0.33
+        },
+        "off_tonic_recapitulation": {
+          "count": 13,
+          "mean": 0.25961538461538464,
+          "median": 0.04,
+          "minimum": 0.005,
+          "maximum": 0.92
+        },
+        "tonic_double_return": {
+          "count": 13,
+          "mean": 0.6434615384615385,
+          "median": 0.8,
+          "minimum": 0.03,
+          "maximum": 0.985
+        }
+      },
+      "openai-prior-generation": {
+        "not_recapitulation": {
+          "count": 18,
+          "mean": 0.07222222222222223,
+          "median": 0.055,
+          "minimum": 0.01,
+          "maximum": 0.2
+        },
+        "off_tonic_recapitulation": {
+          "count": 18,
+          "mean": 0.29888888888888887,
+          "median": 0.12,
+          "minimum": 0.01,
+          "maximum": 0.86
+        },
+        "tonic_double_return": {
+          "count": 18,
+          "mean": 0.628888888888889,
+          "median": 0.85,
+          "minimum": 0.02,
+          "maximum": 0.98
+        }
+      }
+    }
+  },
+  "suspected_recognition": [
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-DZWT",
+      "run": "03",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "02",
+      "level": "style",
+      "confidence": 0.5,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.3,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "02",
+      "level": "style",
+      "confidence": 0.4,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-VT57",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.35,
+      "target_case": false
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "03",
+      "level": "style",
+      "confidence": 0.68,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-6U43",
+      "run": "03",
+      "level": "style",
+      "confidence": 0.45,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-D09B",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.35,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-8JQJ",
+      "run": "02",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-6U43",
+      "run": "02",
+      "level": "work",
+      "confidence": 0.78,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.82,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-D09B",
+      "run": "01",
+      "level": "work",
+      "confidence": 0.72,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-6U43",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.3,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-8JQJ",
+      "run": "01",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.82,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-6U43",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.65,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-6U43",
+      "run": "03",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-DZWT",
+      "run": "02",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-VT57",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.3,
+      "target_case": false
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "03",
+      "level": "style",
+      "confidence": 0.7,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-VT57",
+      "run": "02",
+      "level": "none",
+      "confidence": 0,
+      "target_case": false
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "03",
+      "level": "style",
+      "confidence": 0.5,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-VT57",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.92,
+      "target_case": false
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-D09B",
+      "run": "02",
+      "level": "style",
+      "confidence": 0.9,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-6U43",
+      "run": "03",
+      "level": "style",
+      "confidence": 0.9,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-D09B",
+      "run": "03",
+      "level": "style",
+      "confidence": 0.9,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-VT57",
+      "run": "03",
+      "level": "style",
+      "confidence": 0.85,
+      "target_case": false
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "02",
+      "level": "style",
+      "confidence": 0.88,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-VT57",
+      "run": "03",
+      "level": "none",
+      "confidence": 0,
+      "target_case": false
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-DZWT",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.35,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-D09B",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.3,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-Q2R9",
+      "run": "02",
+      "level": "style",
+      "confidence": 0.35,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-Q2R9",
+      "run": "01",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-VT57",
+      "run": "02",
+      "level": "work",
+      "confidence": 0.7,
+      "target_case": false
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "03",
+      "level": "style",
+      "confidence": 0.3,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-8JQJ",
+      "run": "03",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-6U43",
+      "run": "02",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-6U43",
+      "run": "01",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "02",
+      "level": "style",
+      "confidence": 0.85,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-VT57",
+      "run": "02",
+      "level": "style",
+      "confidence": 0.7,
+      "target_case": false
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-D09B",
+      "run": "03",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "03",
+      "level": "style",
+      "confidence": 0.3,
+      "target_case": true
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-Q2R9",
+      "run": "03",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.35,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "02",
+      "level": "style",
+      "confidence": 0.7,
+      "target_case": true
+    },
+    {
+      "model": "openai-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "01",
+      "level": "style",
+      "confidence": 0.82,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-6U43",
+      "run": "02",
+      "level": "style",
+      "confidence": 0.3,
+      "target_case": true
+    },
+    {
+      "model": "anthropic-frontier",
+      "case_id": "CASE-VT57",
+      "run": "03",
+      "level": "work",
+      "confidence": 0.6,
+      "target_case": false
+    },
+    {
+      "model": "openai-prior-generation",
+      "case_id": "CASE-D09B",
+      "run": "02",
+      "level": "none",
+      "confidence": 0,
+      "target_case": true
+    }
+  ],
+  "work_level_recognition_on_target": true,
+  "within_model": {
+    "openai-frontier": {
+      "complete_three_run_data": true,
+      "aggregate": {
+        "ordinal_krippendorff_alpha": 0.8708392681972864,
+        "pairs": 90,
+        "exact_agreement": 0.7777777777777778,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.2222222222222222,
+        "median_absolute_difference": 0
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 0,
+          "two": 0,
+          "three": 30,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 1,
+        "mixed_availability_units": 0
+      },
+      "bootstrap_95": {
+        "ordinal_krippendorff_alpha": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0.7061154637543526,
+          "upper_95": 0.9438612870891514
+        },
+        "exact_agreement": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0.7111111111111111,
+          "upper_95": 0.8444444444444444
+        },
+        "within_one_agreement": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 1,
+          "upper_95": 1
+        },
+        "mean_absolute_difference": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0.15555555555555556,
+          "upper_95": 0.28888888888888886
+        },
+        "median_absolute_difference": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0,
+          "upper_95": 0
+        }
+      },
+      "by_cue": {
+        "tonal_stability": {
+          "pairs": 15,
+          "exact_agreement": 0.8666666666666667,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.13333333333333333,
+          "median_absolute_difference": 0
+        },
+        "thematic_correspondence": {
+          "pairs": 15,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        },
+        "preparation_strength": {
+          "pairs": 15,
+          "exact_agreement": 0.6,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.4,
+          "median_absolute_difference": 0
+        },
+        "proportional_location": {
+          "pairs": 15,
+          "exact_agreement": 0.7333333333333333,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.26666666666666666,
+          "median_absolute_difference": 0
+        },
+        "rhetorical_emphasis": {
+          "pairs": 15,
+          "exact_agreement": 0.7333333333333333,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.26666666666666666,
+          "median_absolute_difference": 0
+        },
+        "rotational_continuation": {
+          "pairs": 15,
+          "exact_agreement": 0.7333333333333333,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.26666666666666666,
+          "median_absolute_difference": 0
+        }
+      },
+      "anchor": {
+        "complete_three_run_data": true,
+        "aggregate": {
+          "ordinal_krippendorff_alpha": 0.9793939393939394,
+          "pairs": 18,
+          "exact_agreement": 0.8888888888888888,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.1111111111111111,
+          "median_absolute_difference": 0
+        },
+        "availability": {
+          "scored_repetitions_per_unit": {
+            "zero": 0,
+            "one": 0,
+            "two": 0,
+            "three": 6,
+            "other": 0
+          },
+          "pairwise_availability_agreement": 1,
+          "mixed_availability_units": 0
+        }
+      }
+    },
+    "anthropic-frontier": {
+      "complete_three_run_data": false,
+      "aggregate": {
+        "ordinal_krippendorff_alpha": 0.8372057683036743,
+        "pairs": 42,
+        "exact_agreement": 0.7619047619047619,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.23809523809523808,
+        "median_absolute_difference": 0
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 12,
+          "two": 6,
+          "three": 12,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 0.6,
+        "mixed_availability_units": 18
+      },
+      "bootstrap_95": {
+        "ordinal_krippendorff_alpha": {
+          "defined_replicates": 1978,
+          "defined_fraction": 0.989,
+          "lower_95": 0.31818181818181823,
+          "upper_95": 1
+        },
+        "exact_agreement": {
+          "defined_replicates": 1978,
+          "defined_fraction": 0.989,
+          "lower_95": 0.6666666666666666,
+          "upper_95": 1
+        },
+        "within_one_agreement": {
+          "defined_replicates": 1978,
+          "defined_fraction": 0.989,
+          "lower_95": 1,
+          "upper_95": 1
+        },
+        "mean_absolute_difference": {
+          "defined_replicates": 1978,
+          "defined_fraction": 0.989,
+          "lower_95": 0,
+          "upper_95": 0.3333333333333333
+        },
+        "median_absolute_difference": {
+          "defined_replicates": 1978,
+          "defined_fraction": 0.989,
+          "lower_95": 0,
+          "upper_95": 0
+        }
+      },
+      "by_cue": {
+        "tonal_stability": {
+          "pairs": 7,
+          "exact_agreement": 0.7142857142857143,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.2857142857142857,
+          "median_absolute_difference": 0
+        },
+        "thematic_correspondence": {
+          "pairs": 7,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        },
+        "preparation_strength": {
+          "pairs": 7,
+          "exact_agreement": 0.7142857142857143,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.2857142857142857,
+          "median_absolute_difference": 0
+        },
+        "proportional_location": {
+          "pairs": 7,
+          "exact_agreement": 0.7142857142857143,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.2857142857142857,
+          "median_absolute_difference": 0
+        },
+        "rhetorical_emphasis": {
+          "pairs": 7,
+          "exact_agreement": 0.42857142857142855,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.5714285714285714,
+          "median_absolute_difference": 1
+        },
+        "rotational_continuation": {
+          "pairs": 7,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        }
+      },
+      "anchor": {
+        "complete_three_run_data": true,
+        "aggregate": {
+          "ordinal_krippendorff_alpha": 1,
+          "pairs": 18,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        },
+        "availability": {
+          "scored_repetitions_per_unit": {
+            "zero": 0,
+            "one": 0,
+            "two": 0,
+            "three": 6,
+            "other": 0
+          },
+          "pairwise_availability_agreement": 1,
+          "mixed_availability_units": 0
+        }
+      }
+    },
+    "openai-prior-generation": {
+      "complete_three_run_data": true,
+      "aggregate": {
+        "ordinal_krippendorff_alpha": 0.891678992139985,
+        "pairs": 90,
+        "exact_agreement": 0.7777777777777778,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.2222222222222222,
+        "median_absolute_difference": 0
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 0,
+          "two": 0,
+          "three": 30,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 1,
+        "mixed_availability_units": 0
+      },
+      "bootstrap_95": {
+        "ordinal_krippendorff_alpha": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0.8505128515066477,
+          "upper_95": 0.9257691323544623
+        },
+        "exact_agreement": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0.6888888888888889,
+          "upper_95": 0.8666666666666667
+        },
+        "within_one_agreement": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 1,
+          "upper_95": 1
+        },
+        "mean_absolute_difference": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0.13333333333333333,
+          "upper_95": 0.3111111111111111
+        },
+        "median_absolute_difference": {
+          "defined_replicates": 2000,
+          "defined_fraction": 1,
+          "lower_95": 0,
+          "upper_95": 0
+        }
+      },
+      "by_cue": {
+        "tonal_stability": {
+          "pairs": 15,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        },
+        "thematic_correspondence": {
+          "pairs": 15,
+          "exact_agreement": 0.8666666666666667,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.13333333333333333,
+          "median_absolute_difference": 0
+        },
+        "preparation_strength": {
+          "pairs": 15,
+          "exact_agreement": 0.6,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.4,
+          "median_absolute_difference": 0
+        },
+        "proportional_location": {
+          "pairs": 15,
+          "exact_agreement": 0.4666666666666667,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.5333333333333333,
+          "median_absolute_difference": 1
+        },
+        "rhetorical_emphasis": {
+          "pairs": 15,
+          "exact_agreement": 0.7333333333333333,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.26666666666666666,
+          "median_absolute_difference": 0
+        },
+        "rotational_continuation": {
+          "pairs": 15,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        }
+      },
+      "anchor": {
+        "complete_three_run_data": true,
+        "aggregate": {
+          "ordinal_krippendorff_alpha": 0.8730418943533698,
+          "pairs": 18,
+          "exact_agreement": 0.5555555555555556,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.4444444444444444,
+          "median_absolute_difference": 0
+        },
+        "availability": {
+          "scored_repetitions_per_unit": {
+            "zero": 0,
+            "one": 0,
+            "two": 0,
+            "three": 6,
+            "other": 0
+          },
+          "pairwise_availability_agreement": 1,
+          "mixed_availability_units": 0
+        }
+      }
+    }
+  },
+  "cross_model": {
+    "aggregate": {
+      "ordinal_krippendorff_alpha": 0.8405081100958502,
+      "pairs": 54,
+      "exact_agreement": 0.7222222222222222,
+      "within_one_agreement": 0.9814814814814815,
+      "mean_absolute_difference": 0.2962962962962963,
+      "median_absolute_difference": 0
+    },
+    "availability": {
+      "scored_repetitions_per_unit": {
+        "zero": 0,
+        "one": 0,
+        "two": 18,
+        "three": 12,
+        "other": 0
+      },
+      "pairwise_availability_agreement": 0.6,
+      "mixed_availability_units": 18
+    },
+    "bootstrap_95": {
+      "ordinal_krippendorff_alpha": {
+        "defined_replicates": 2000,
+        "defined_fraction": 1,
+        "lower_95": 0.6977465636423179,
+        "upper_95": 0.9503604542957407
+      },
+      "exact_agreement": {
+        "defined_replicates": 2000,
+        "defined_fraction": 1,
+        "lower_95": 0.5303030303030303,
+        "upper_95": 0.9393939393939394
+      },
+      "within_one_agreement": {
+        "defined_replicates": 2000,
+        "defined_fraction": 1,
+        "lower_95": 0.9545454545454546,
+        "upper_95": 1
+      },
+      "mean_absolute_difference": {
+        "defined_replicates": 2000,
+        "defined_fraction": 1,
+        "lower_95": 0.06060606060606061,
+        "upper_95": 0.5151515151515151
+      },
+      "median_absolute_difference": {
+        "defined_replicates": 2000,
+        "defined_fraction": 1,
+        "lower_95": 0,
+        "upper_95": 0
+      }
+    },
+    "by_cue": {
+      "tonal_stability": {
+        "pairs": 9,
+        "exact_agreement": 0.7777777777777778,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.2222222222222222,
+        "median_absolute_difference": 0
+      },
+      "thematic_correspondence": {
+        "pairs": 9,
+        "exact_agreement": 0.6666666666666666,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.3333333333333333,
+        "median_absolute_difference": 0
+      },
+      "preparation_strength": {
+        "pairs": 9,
+        "exact_agreement": 0.5555555555555556,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.4444444444444444,
+        "median_absolute_difference": 0
+      },
+      "proportional_location": {
+        "pairs": 9,
+        "exact_agreement": 0.8888888888888888,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.1111111111111111,
+        "median_absolute_difference": 0
+      },
+      "rhetorical_emphasis": {
+        "pairs": 9,
+        "exact_agreement": 0.4444444444444444,
+        "within_one_agreement": 0.8888888888888888,
+        "mean_absolute_difference": 0.6666666666666666,
+        "median_absolute_difference": 1
+      },
+      "rotational_continuation": {
+        "pairs": 9,
+        "exact_agreement": 1,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0,
+        "median_absolute_difference": 0
+      }
+    },
+    "anchor": {
+      "aggregate": {
+        "ordinal_krippendorff_alpha": 0.7575503355704698,
+        "pairs": 18,
+        "exact_agreement": 0.4444444444444444,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.5555555555555556,
+        "median_absolute_difference": 1
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 0,
+          "two": 0,
+          "three": 6,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 1,
+        "mixed_availability_units": 0
+      }
+    }
+  },
+  "pairwise_system_reliability": [
+    {
+      "systems": [
+        "openai-frontier",
+        "anthropic-frontier"
+      ],
+      "providers": [
+        "OpenAI",
+        "Anthropic"
+      ],
+      "provider_comparison": "cross_provider",
+      "aggregate": {
+        "ordinal_krippendorff_alpha": 0.7911324786324786,
+        "pairs": 12,
+        "exact_agreement": 0.75,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.25,
+        "median_absolute_difference": 0
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 18,
+          "two": 12,
+          "three": 0,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 0.4,
+        "mixed_availability_units": 18
+      },
+      "by_cue": {
+        "tonal_stability": {
+          "pairs": 2,
+          "exact_agreement": 0.5,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.5,
+          "median_absolute_difference": 0.5
+        },
+        "thematic_correspondence": {
+          "pairs": 2,
+          "exact_agreement": 0.5,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.5,
+          "median_absolute_difference": 0.5
+        },
+        "preparation_strength": {
+          "pairs": 2,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        },
+        "proportional_location": {
+          "pairs": 2,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        },
+        "rhetorical_emphasis": {
+          "pairs": 2,
+          "exact_agreement": 0.5,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.5,
+          "median_absolute_difference": 0.5
+        },
+        "rotational_continuation": {
+          "pairs": 2,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        }
+      },
+      "anchor": {
+        "aggregate": {
+          "ordinal_krippendorff_alpha": 0.6383463541666667,
+          "pairs": 6,
+          "exact_agreement": 0.3333333333333333,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.6666666666666666,
+          "median_absolute_difference": 1
+        },
+        "availability": {
+          "scored_repetitions_per_unit": {
+            "zero": 0,
+            "one": 0,
+            "two": 6,
+            "three": 0,
+            "other": 0
+          },
+          "pairwise_availability_agreement": 1,
+          "mixed_availability_units": 0
+        }
+      }
+    },
+    {
+      "systems": [
+        "openai-frontier",
+        "openai-prior-generation"
+      ],
+      "providers": [
+        "OpenAI",
+        "OpenAI"
+      ],
+      "provider_comparison": "within_provider",
+      "aggregate": {
+        "ordinal_krippendorff_alpha": 0.8836313476009594,
+        "pairs": 30,
+        "exact_agreement": 0.7333333333333333,
+        "within_one_agreement": 1,
+        "mean_absolute_difference": 0.26666666666666666,
+        "median_absolute_difference": 0
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 0,
+          "two": 30,
+          "three": 0,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 1,
+        "mixed_availability_units": 0
+      },
+      "by_cue": {
+        "tonal_stability": {
+          "pairs": 5,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        },
+        "thematic_correspondence": {
+          "pairs": 5,
+          "exact_agreement": 0.8,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.2,
+          "median_absolute_difference": 0
+        },
+        "preparation_strength": {
+          "pairs": 5,
+          "exact_agreement": 0.4,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.6,
+          "median_absolute_difference": 1
+        },
+        "proportional_location": {
+          "pairs": 5,
+          "exact_agreement": 0.8,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.2,
+          "median_absolute_difference": 0
+        },
+        "rhetorical_emphasis": {
+          "pairs": 5,
+          "exact_agreement": 0.4,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.6,
+          "median_absolute_difference": 1
+        },
+        "rotational_continuation": {
+          "pairs": 5,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        }
+      },
+      "anchor": {
+        "aggregate": {
+          "ordinal_krippendorff_alpha": 0.7927841634738186,
+          "pairs": 6,
+          "exact_agreement": 0.3333333333333333,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.6666666666666666,
+          "median_absolute_difference": 1
+        },
+        "availability": {
+          "scored_repetitions_per_unit": {
+            "zero": 0,
+            "one": 0,
+            "two": 6,
+            "three": 0,
+            "other": 0
+          },
+          "pairwise_availability_agreement": 1,
+          "mixed_availability_units": 0
+        }
+      }
+    },
+    {
+      "systems": [
+        "anthropic-frontier",
+        "openai-prior-generation"
+      ],
+      "providers": [
+        "Anthropic",
+        "OpenAI"
+      ],
+      "provider_comparison": "cross_provider",
+      "aggregate": {
+        "ordinal_krippendorff_alpha": 0.7861125297923051,
+        "pairs": 12,
+        "exact_agreement": 0.6666666666666666,
+        "within_one_agreement": 0.9166666666666666,
+        "mean_absolute_difference": 0.4166666666666667,
+        "median_absolute_difference": 0
+      },
+      "availability": {
+        "scored_repetitions_per_unit": {
+          "zero": 0,
+          "one": 18,
+          "two": 12,
+          "three": 0,
+          "other": 0
+        },
+        "pairwise_availability_agreement": 0.4,
+        "mixed_availability_units": 18
+      },
+      "by_cue": {
+        "tonal_stability": {
+          "pairs": 2,
+          "exact_agreement": 0.5,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.5,
+          "median_absolute_difference": 0.5
+        },
+        "thematic_correspondence": {
+          "pairs": 2,
+          "exact_agreement": 0.5,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.5,
+          "median_absolute_difference": 0.5
+        },
+        "preparation_strength": {
+          "pairs": 2,
+          "exact_agreement": 0.5,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.5,
+          "median_absolute_difference": 0.5
+        },
+        "proportional_location": {
+          "pairs": 2,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        },
+        "rhetorical_emphasis": {
+          "pairs": 2,
+          "exact_agreement": 0.5,
+          "within_one_agreement": 0.5,
+          "mean_absolute_difference": 1,
+          "median_absolute_difference": 1
+        },
+        "rotational_continuation": {
+          "pairs": 2,
+          "exact_agreement": 1,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0,
+          "median_absolute_difference": 0
+        }
+      },
+      "anchor": {
+        "aggregate": {
+          "ordinal_krippendorff_alpha": 0.8317727840199751,
+          "pairs": 6,
+          "exact_agreement": 0.6666666666666666,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.3333333333333333,
+          "median_absolute_difference": 0
+        },
+        "availability": {
+          "scored_repetitions_per_unit": {
+            "zero": 0,
+            "one": 0,
+            "two": 6,
+            "three": 0,
+            "other": 0
+          },
+          "pairwise_availability_agreement": 1,
+          "mixed_availability_units": 0
+        }
+      }
+    }
+  ],
+  "model_case_cue_medians": {
+    "openai-frontier": {
+      "CASE-6U43": {
+        "tonal_stability": 3,
+        "thematic_correspondence": 4,
+        "preparation_strength": 2,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 2,
+        "rotational_continuation": 3
+      },
+      "CASE-8JQJ": {
+        "tonal_stability": 1,
+        "thematic_correspondence": 4,
+        "preparation_strength": 2,
+        "proportional_location": 4,
+        "rhetorical_emphasis": 3,
+        "rotational_continuation": 2
+      },
+      "CASE-D09B": {
+        "tonal_stability": 4,
+        "thematic_correspondence": 4,
+        "preparation_strength": 4,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 3,
+        "rotational_continuation": 4
+      },
+      "CASE-DZWT": {
+        "tonal_stability": 4,
+        "thematic_correspondence": 4,
+        "preparation_strength": 4,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 3,
+        "rotational_continuation": 4
+      },
+      "CASE-Q2R9": {
+        "tonal_stability": 3,
+        "thematic_correspondence": 4,
+        "preparation_strength": 1,
+        "proportional_location": 2,
+        "rhetorical_emphasis": 2,
+        "rotational_continuation": 4
+      },
+      "CASE-VT57": {
+        "tonal_stability": 0,
+        "thematic_correspondence": 4,
+        "preparation_strength": 4,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 3,
+        "rotational_continuation": 4
+      }
+    },
+    "anthropic-frontier": {
+      "CASE-6U43": {
+        "tonal_stability": 2,
+        "thematic_correspondence": 3,
+        "preparation_strength": 2,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 3,
+        "rotational_continuation": 3
+      },
+      "CASE-8JQJ": {
+        "tonal_stability": null,
+        "thematic_correspondence": null,
+        "preparation_strength": null,
+        "proportional_location": null,
+        "rhetorical_emphasis": null,
+        "rotational_continuation": null
+      },
+      "CASE-D09B": {
+        "tonal_stability": null,
+        "thematic_correspondence": null,
+        "preparation_strength": null,
+        "proportional_location": null,
+        "rhetorical_emphasis": null,
+        "rotational_continuation": null
+      },
+      "CASE-DZWT": {
+        "tonal_stability": 4,
+        "thematic_correspondence": 4,
+        "preparation_strength": 4,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 3,
+        "rotational_continuation": 4
+      },
+      "CASE-Q2R9": {
+        "tonal_stability": null,
+        "thematic_correspondence": null,
+        "preparation_strength": null,
+        "proportional_location": null,
+        "rhetorical_emphasis": null,
+        "rotational_continuation": null
+      },
+      "CASE-VT57": {
+        "tonal_stability": 1,
+        "thematic_correspondence": 4,
+        "preparation_strength": 3,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 2,
+        "rotational_continuation": 3
+      }
+    },
+    "openai-prior-generation": {
+      "CASE-6U43": {
+        "tonal_stability": 3,
+        "thematic_correspondence": 4,
+        "preparation_strength": 1,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 1,
+        "rotational_continuation": 3
+      },
+      "CASE-8JQJ": {
+        "tonal_stability": 1,
+        "thematic_correspondence": 3,
+        "preparation_strength": 2,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 3,
+        "rotational_continuation": 2
+      },
+      "CASE-D09B": {
+        "tonal_stability": 4,
+        "thematic_correspondence": 4,
+        "preparation_strength": 3,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 2,
+        "rotational_continuation": 4
+      },
+      "CASE-DZWT": {
+        "tonal_stability": 4,
+        "thematic_correspondence": 4,
+        "preparation_strength": 4,
+        "proportional_location": 3,
+        "rhetorical_emphasis": 3,
+        "rotational_continuation": 4
+      },
+      "CASE-Q2R9": {
+        "tonal_stability": 3,
+        "thematic_correspondence": 4,
+        "preparation_strength": 2,
+        "proportional_location": 2,
+        "rhetorical_emphasis": 1,
+        "rotational_continuation": 4
+      },
+      "CASE-VT57": {
+        "tonal_stability": 1,
+        "thematic_correspondence": 4,
+        "preparation_strength": 3,
+        "proportional_location": 2,
+        "rhetorical_emphasis": 2,
+        "rotational_continuation": 4
+      }
+    }
+  },
+  "cue_dispersion": {
+    "tonal_stability": {
+      "openai-frontier": {
+        "minimum": 1,
+        "maximum": 4,
+        "span": 3
+      },
+      "anthropic-frontier": {
+        "minimum": 2,
+        "maximum": 4,
+        "span": 2
+      },
+      "openai-prior-generation": {
+        "minimum": 1,
+        "maximum": 4,
+        "span": 3
+      }
+    },
+    "thematic_correspondence": {
+      "openai-frontier": {
+        "minimum": 4,
+        "maximum": 4,
+        "span": 0
+      },
+      "anthropic-frontier": {
+        "minimum": 3,
+        "maximum": 4,
+        "span": 1
+      },
+      "openai-prior-generation": {
+        "minimum": 3,
+        "maximum": 4,
+        "span": 1
+      }
+    },
+    "preparation_strength": {
+      "openai-frontier": {
+        "minimum": 1,
+        "maximum": 4,
+        "span": 3
+      },
+      "anthropic-frontier": {
+        "minimum": 2,
+        "maximum": 4,
+        "span": 2
+      },
+      "openai-prior-generation": {
+        "minimum": 1,
+        "maximum": 4,
+        "span": 3
+      }
+    },
+    "proportional_location": {
+      "openai-frontier": {
+        "minimum": 2,
+        "maximum": 4,
+        "span": 2
+      },
+      "anthropic-frontier": {
+        "minimum": 3,
+        "maximum": 3,
+        "span": 0
+      },
+      "openai-prior-generation": {
+        "minimum": 2,
+        "maximum": 3,
+        "span": 1
+      }
+    },
+    "rhetorical_emphasis": {
+      "openai-frontier": {
+        "minimum": 2,
+        "maximum": 3,
+        "span": 1
+      },
+      "anthropic-frontier": {
+        "minimum": 3,
+        "maximum": 3,
+        "span": 0
+      },
+      "openai-prior-generation": {
+        "minimum": 1,
+        "maximum": 3,
+        "span": 2
+      }
+    },
+    "rotational_continuation": {
+      "openai-frontier": {
+        "minimum": 2,
+        "maximum": 4,
+        "span": 2
+      },
+      "anthropic-frontier": {
+        "minimum": 3,
+        "maximum": 4,
+        "span": 1
+      },
+      "openai-prior-generation": {
+        "minimum": 2,
+        "maximum": 4,
+        "span": 2
+      }
+    }
+  },
+  "cue_dispersion_qualifiers": {
+    "tonal_stability": {
+      "systems": [
+        "openai-frontier",
+        "openai-prior-generation"
+      ],
+      "providers": [
+        "OpenAI"
+      ]
+    },
+    "thematic_correspondence": {
+      "systems": [],
+      "providers": []
+    },
+    "preparation_strength": {
+      "systems": [
+        "openai-frontier",
+        "openai-prior-generation"
+      ],
+      "providers": [
+        "OpenAI"
+      ]
+    },
+    "proportional_location": {
+      "systems": [
+        "openai-frontier"
+      ],
+      "providers": [
+        "OpenAI"
+      ]
+    },
+    "rhetorical_emphasis": {
+      "systems": [
+        "openai-prior-generation"
+      ],
+      "providers": [
+        "OpenAI"
+      ]
+    },
+    "rotational_continuation": {
+      "systems": [
+        "openai-frontier",
+        "openai-prior-generation"
+      ],
+      "providers": [
+        "OpenAI"
+      ]
+    }
+  },
+  "model_case_valid_repetitions": {
+    "openai-frontier": {
+      "CASE-6U43": 3,
+      "CASE-8JQJ": 3,
+      "CASE-D09B": 3,
+      "CASE-DZWT": 3,
+      "CASE-Q2R9": 3,
+      "CASE-VT57": 3
+    },
+    "anthropic-frontier": {
+      "CASE-6U43": 3,
+      "CASE-8JQJ": 1,
+      "CASE-D09B": 1,
+      "CASE-DZWT": 3,
+      "CASE-Q2R9": 2,
+      "CASE-VT57": 3
+    },
+    "openai-prior-generation": {
+      "CASE-6U43": 3,
+      "CASE-8JQJ": 3,
+      "CASE-D09B": 3,
+      "CASE-DZWT": 3,
+      "CASE-Q2R9": 3,
+      "CASE-VT57": 3
+    }
+  },
+  "identification": {
+    "status": "complete",
+    "scheduled": 54,
+    "valid_outputs": 54,
+    "adjudicated_outputs": 54,
+    "confidence": {
+      "overall": {
+        "count": 54,
+        "mean": 0.597037037037037,
+        "median": 0.72,
+        "minimum": 0.15,
+        "maximum": 0.99
+      },
+      "by_model": {
+        "openai-frontier": {
+          "count": 18,
+          "mean": 0.923888888888889,
+          "median": 0.95,
+          "minimum": 0.72,
+          "maximum": 0.99
+        },
+        "anthropic-frontier": {
+          "count": 18,
+          "mean": 0.24166666666666664,
+          "median": 0.2,
+          "minimum": 0.15,
+          "maximum": 0.7
+        },
+        "openai-prior-generation": {
+          "count": 18,
+          "mean": 0.6255555555555555,
+          "median": 0.73,
+          "minimum": 0.32,
+          "maximum": 0.94
+        }
+      },
+      "by_recognition_level": {
+        "none": {
+          "count": 0,
+          "mean": null,
+          "median": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "style_only": {
+          "count": 24,
+          "mean": 0.24499999999999997,
+          "median": 0.225,
+          "minimum": 0.15,
+          "maximum": 0.42
+        },
+        "specific_candidate": {
+          "count": 30,
+          "mean": 0.8786666666666666,
+          "median": 0.91,
+          "minimum": 0.65,
+          "maximum": 0.99
+        }
+      }
+    },
+    "level_counts": {
+      "L0": 38,
+      "L1": 7,
+      "L2": 9
+    },
+    "l2_events": [
+      {
+        "filename": "openai-frontier__symbolic__CASE-D09B__run-01.md",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+      },
+      {
+        "filename": "anthropic-frontier__symbolic__CASE-D09B__run-03.md",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "reason": "K. 576 matches the frozen work; No. 18/D major add no conflict; I. Allegro = movement I; composer matches."
+      },
+      {
+        "filename": "openai-prior-generation__symbolic__CASE-VT57__run-01.md",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-VT57",
+        "run": "01",
+        "reason": "K. 545 matches the frozen work; No. 16/C major add no conflict; I. Allegro = movement I; composer matches."
+      },
+      {
+        "filename": "anthropic-frontier__symbolic__CASE-D09B__run-01.md",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+      },
+      {
+        "filename": "openai-prior-generation__symbolic__CASE-D09B__run-01.md",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+      },
+      {
+        "filename": "openai-prior-generation__symbolic__CASE-D09B__run-03.md",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "reason": "K.576 = frozen K. 576; I. Allegro = movement I; composer and D-major title match."
+      },
+      {
+        "filename": "openai-frontier__symbolic__CASE-D09B__run-02.md",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "02",
+        "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+      },
+      {
+        "filename": "openai-prior-generation__symbolic__CASE-VT57__run-02.md",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-VT57",
+        "run": "02",
+        "reason": "K. 545 matches the frozen work; No. 16/C major add no conflict; I. Allegro = movement I; composer matches."
+      },
+      {
+        "filename": "openai-frontier__symbolic__CASE-VT57__run-01.md",
+        "model": "openai-frontier",
+        "case_id": "CASE-VT57",
+        "run": "01",
+        "reason": "K. 545 matches the frozen work; No. 16/C major add no conflict; I. Allegro = movement I; composer matches."
+      }
+    ],
+    "target_l2_events": [
+      {
+        "filename": "openai-frontier__symbolic__CASE-D09B__run-01.md",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+      },
+      {
+        "filename": "anthropic-frontier__symbolic__CASE-D09B__run-03.md",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "reason": "K. 576 matches the frozen work; No. 18/D major add no conflict; I. Allegro = movement I; composer matches."
+      },
+      {
+        "filename": "anthropic-frontier__symbolic__CASE-D09B__run-01.md",
+        "model": "anthropic-frontier",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+      },
+      {
+        "filename": "openai-prior-generation__symbolic__CASE-D09B__run-01.md",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "01",
+        "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+      },
+      {
+        "filename": "openai-prior-generation__symbolic__CASE-D09B__run-03.md",
+        "model": "openai-prior-generation",
+        "case_id": "CASE-D09B",
+        "run": "03",
+        "reason": "K.576 = frozen K. 576; I. Allegro = movement I; composer and D-major title match."
+      },
+      {
+        "filename": "openai-frontier__symbolic__CASE-D09B__run-02.md",
+        "model": "openai-frontier",
+        "case_id": "CASE-D09B",
+        "run": "02",
+        "reason": "Composer and K. 576 work match; I. Allegro = movement I."
+      }
+    ],
+    "target_case_l2_summary": [
+      {
+        "case_id": "CASE-6U43",
+        "l2_by_model": {
+          "openai-frontier": 0,
+          "anthropic-frontier": 0,
+          "openai-prior-generation": 0
+        },
+        "models_with_any_l2": [],
+        "l2_by_provider": {
+          "OpenAI": 0,
+          "Anthropic": 0
+        },
+        "providers_with_any_l2": [],
+        "identity_recoverable": false
+      },
+      {
+        "case_id": "CASE-8JQJ",
+        "l2_by_model": {
+          "openai-frontier": 0,
+          "anthropic-frontier": 0,
+          "openai-prior-generation": 0
+        },
+        "models_with_any_l2": [],
+        "l2_by_provider": {
+          "OpenAI": 0,
+          "Anthropic": 0
+        },
+        "providers_with_any_l2": [],
+        "identity_recoverable": false
+      },
+      {
+        "case_id": "CASE-D09B",
+        "l2_by_model": {
+          "openai-frontier": 2,
+          "anthropic-frontier": 2,
+          "openai-prior-generation": 2
+        },
+        "models_with_any_l2": [
+          "openai-frontier",
+          "anthropic-frontier",
+          "openai-prior-generation"
+        ],
+        "l2_by_provider": {
+          "OpenAI": 4,
+          "Anthropic": 2
+        },
+        "providers_with_any_l2": [
+          "OpenAI",
+          "Anthropic"
+        ],
+        "identity_recoverable": true
+      },
+      {
+        "case_id": "CASE-DZWT",
+        "l2_by_model": {
+          "openai-frontier": 0,
+          "anthropic-frontier": 0,
+          "openai-prior-generation": 0
+        },
+        "models_with_any_l2": [],
+        "l2_by_provider": {
+          "OpenAI": 0,
+          "Anthropic": 0
+        },
+        "providers_with_any_l2": [],
+        "identity_recoverable": false
+      },
+      {
+        "case_id": "CASE-Q2R9",
+        "l2_by_model": {
+          "openai-frontier": 0,
+          "anthropic-frontier": 0,
+          "openai-prior-generation": 0
+        },
+        "models_with_any_l2": [],
+        "l2_by_provider": {
+          "OpenAI": 0,
+          "Anthropic": 0
+        },
+        "providers_with_any_l2": [],
+        "identity_recoverable": false
+      }
+    ],
+    "compromised_target_dossiers": [
+      {
+        "case_id": "CASE-D09B",
+        "l2_by_model": {
+          "openai-frontier": 2,
+          "anthropic-frontier": 2,
+          "openai-prior-generation": 2
+        },
+        "models_with_any_l2": [
+          "openai-frontier",
+          "anthropic-frontier",
+          "openai-prior-generation"
+        ],
+        "l2_by_provider": {
+          "OpenAI": 4,
+          "Anthropic": 2
+        },
+        "providers_with_any_l2": [
+          "OpenAI",
+          "Anthropic"
+        ],
+        "identity_recoverable": true
+      }
+    ],
+    "positive_control": {
+      "case_id": "CASE-VT57",
+      "l2_by_model": {
+        "openai-frontier": 1,
+        "anthropic-frontier": 0,
+        "openai-prior-generation": 2
+      },
+      "models_with_any_l2": [
+        "openai-frontier",
+        "openai-prior-generation"
+      ],
+      "l2_by_provider": {
+        "OpenAI": 3,
+        "Anthropic": 0
+      },
+      "providers_with_any_l2": [
+        "OpenAI"
+      ],
+      "sensitivity_detected": true
+    },
+    "analysis_score_repeatability_by_l2_category": {
+      "repeated_l2": {
+        "model_case_pair_count": 3,
+        "case_cue_unit_count": 18,
+        "pooled_score_repeatability": {
+          "pairs": 36,
+          "exact_agreement": 0.8333333333333334,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.16666666666666666,
+          "median_absolute_difference": 0
+        },
+        "pooled_score_availability": {
+          "scored_repetitions_per_unit": {
+            "zero": 0,
+            "one": 6,
+            "two": 0,
+            "three": 12,
+            "other": 0
+          },
+          "pairwise_availability_agreement": 0.7777777777777778,
+          "mixed_availability_units": 6
+        },
+        "model_case_pairs": [
+          {
+            "model": "openai-frontier",
+            "case_id": "CASE-D09B",
+            "l2_count": 2,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.7777777777777778,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.2222222222222222,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "anthropic-frontier",
+            "case_id": "CASE-D09B",
+            "l2_count": 2,
+            "score_repeatability": {
+              "pairs": 0,
+              "exact_agreement": null,
+              "within_one_agreement": null,
+              "mean_absolute_difference": null,
+              "median_absolute_difference": null
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 6,
+                "two": 0,
+                "three": 0,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 0.3333333333333333,
+              "mixed_availability_units": 6
+            }
+          },
+          {
+            "model": "openai-prior-generation",
+            "case_id": "CASE-D09B",
+            "l2_count": 2,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.8888888888888888,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.1111111111111111,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          }
+        ]
+      },
+      "isolated_l2": {
+        "model_case_pair_count": 0,
+        "case_cue_unit_count": 0,
+        "pooled_score_repeatability": {
+          "pairs": 0,
+          "exact_agreement": null,
+          "within_one_agreement": null,
+          "mean_absolute_difference": null,
+          "median_absolute_difference": null
+        },
+        "pooled_score_availability": {
+          "scored_repetitions_per_unit": {
+            "zero": 0,
+            "one": 0,
+            "two": 0,
+            "three": 0,
+            "other": 0
+          },
+          "pairwise_availability_agreement": null,
+          "mixed_availability_units": 0
+        },
+        "model_case_pairs": []
+      },
+      "no_l2": {
+        "model_case_pair_count": 12,
+        "case_cue_unit_count": 72,
+        "pooled_score_repeatability": {
+          "pairs": 186,
+          "exact_agreement": 0.7634408602150538,
+          "within_one_agreement": 1,
+          "mean_absolute_difference": 0.23655913978494625,
+          "median_absolute_difference": 0
+        },
+        "pooled_score_availability": {
+          "scored_repetitions_per_unit": {
+            "zero": 0,
+            "one": 6,
+            "two": 6,
+            "three": 60,
+            "other": 0
+          },
+          "pairwise_availability_agreement": 0.8888888888888888,
+          "mixed_availability_units": 12
+        },
+        "model_case_pairs": [
+          {
+            "model": "openai-frontier",
+            "case_id": "CASE-6U43",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.6666666666666666,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.3333333333333333,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "openai-frontier",
+            "case_id": "CASE-8JQJ",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.7777777777777778,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.2222222222222222,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "openai-frontier",
+            "case_id": "CASE-DZWT",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.8888888888888888,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.1111111111111111,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "openai-frontier",
+            "case_id": "CASE-Q2R9",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.7777777777777778,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.2222222222222222,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "anthropic-frontier",
+            "case_id": "CASE-6U43",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.6666666666666666,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.3333333333333333,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "anthropic-frontier",
+            "case_id": "CASE-8JQJ",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 0,
+              "exact_agreement": null,
+              "within_one_agreement": null,
+              "mean_absolute_difference": null,
+              "median_absolute_difference": null
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 6,
+                "two": 0,
+                "three": 0,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 0.3333333333333333,
+              "mixed_availability_units": 6
+            }
+          },
+          {
+            "model": "anthropic-frontier",
+            "case_id": "CASE-DZWT",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.7777777777777778,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.2222222222222222,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "anthropic-frontier",
+            "case_id": "CASE-Q2R9",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 6,
+              "exact_agreement": 1,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 6,
+                "three": 0,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 0.3333333333333333,
+              "mixed_availability_units": 6
+            }
+          },
+          {
+            "model": "openai-prior-generation",
+            "case_id": "CASE-6U43",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.6666666666666666,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.3333333333333333,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "openai-prior-generation",
+            "case_id": "CASE-8JQJ",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.8888888888888888,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.1111111111111111,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "openai-prior-generation",
+            "case_id": "CASE-DZWT",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.7777777777777778,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.2222222222222222,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          },
+          {
+            "model": "openai-prior-generation",
+            "case_id": "CASE-Q2R9",
+            "l2_count": 0,
+            "score_repeatability": {
+              "pairs": 18,
+              "exact_agreement": 0.6666666666666666,
+              "within_one_agreement": 1,
+              "mean_absolute_difference": 0.3333333333333333,
+              "median_absolute_difference": 0
+            },
+            "score_availability": {
+              "scored_repetitions_per_unit": {
+                "zero": 0,
+                "one": 0,
+                "two": 0,
+                "three": 6,
+                "other": 0
+              },
+              "pairwise_availability_agreement": 1,
+              "mixed_availability_units": 0
+            }
+          }
+        ]
+      }
+    },
+    "gate": false
+  },
+  "repeatable_models": [
+    "openai-frontier",
+    "openai-prior-generation"
+  ],
+  "repeatable_providers": [
+    "OpenAI"
+  ],
+  "nondegenerate_cues": [],
+  "preliminary_gates": {
+    "output_gate": false,
+    "repeatability_gate": false,
+    "dispersion_gate": false,
+    "identification_gate": false,
+    "analysis_recognition_gate": false
+  },
+  "automatic_expansion_gate": false
+}

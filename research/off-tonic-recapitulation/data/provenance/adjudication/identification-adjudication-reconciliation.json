@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "status": "complete",
+  "reconciliation_method": "deterministic_unanimous_level_join",
+  "inputs": {
+    "collection_lock_sha256": "2efbbcb23fd1178e50297618af083ecc8d1d5b6dbddeb5324b14bab78a13f015",
+    "collection_lock_file_count": 41,
+    "collection_output_checksum_manifest_sha256": "7aa40e37c9948f03ef7689320e07ac42067ea9ed957bdec5fcc7ce97f560f229",
+    "collection_output_record_count": 540,
+    "packet_artifact_sha256": {
+      "data/provenance/adjudication/identification-scorer-packet.json": "edd8fe2ad36c22a13dc6dc56701b9acd910eeb160115a77605b819a59f7abfc7",
+      "data/provenance/adjudication/identification-scorer-filename-map.json": "7a5ad8c0a625c3c459015357da11a194cbf764766e2e08eb187abbfe4dfd1d12",
+      "data/provenance/adjudication/identification-scorer-key.json": "d2de3bd9ba3f340c1a39ed3dbc2911c5c6d4d0d9d8248f6ecd9187dca2b4c044"
+    },
+    "scorer_artifact_sha256": {
+      "data/provenance/adjudication/scorer-alpha.json": "2fd460c62e4f3c5419377208a357379484c29521a8d4ebed30bd12344870f15e",
+      "data/provenance/adjudication/scorer-beta.json": "ce4b888e7e17e89ed61041e622c90257ddda209a1fcebd7594d73a23e5999e49"
+    }
+  },
+  "agreement": {
+    "expected_judgment_count": 54,
+    "scorer_alpha_judgment_count": 54,
+    "scorer_beta_judgment_count": 54,
+    "matching_level_count": 54,
+    "disagreement_count": 0,
+    "disagreement_judgment_ids": []
+  },
+  "finalization": {
+    "output": "data/provenance/identification-adjudication.json",
+    "output_sha256": "da8412bbaa9b55a09ae12348b1b4eab72d9ff446d6c17998a4e24d608bb623f1",
+    "filename_map": "data/provenance/adjudication/identification-scorer-filename-map.json",
+    "reason_selection_rule": "For every unanimous level, copy the reason verbatim from scorer-alpha.json."
+  },
+  "reviewer_disclosure": {
+    "music_theory_expert_reviewer": false,
+    "method": "Two independent Codex-agent factual scoring passes under human operator supervision; no music-theory expert validation."
+  }
+}
