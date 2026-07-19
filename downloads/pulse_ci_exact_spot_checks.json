@@ -1,0 +1,86 @@
+{
+  "environment": {
+    "python": "3.13.12",
+    "numpy": "2.4.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64"
+  },
+  "status": "post hoc grid audit performed during drafting",
+  "reference_path": "downloads/pulse_ci_exact_regimes.json",
+  "runs": [
+    {
+      "regime": {
+        "center_fraction": 0.0,
+        "momentum_kick_sigma": 0.0
+      },
+      "coarse_grid_n": 384,
+      "fine_configuration": {
+        "grid_n": 512,
+        "half_width": 96.0,
+        "dx": 0.375,
+        "requested_dt_fs": 0.025,
+        "actual_dt_fs": 0.025,
+        "total_fs": 20.0,
+        "sample_every_fs": 0.025,
+        "qbar_x": 0.0,
+        "mean_momentum_x": -0.0
+      },
+      "fine_runtime_seconds": 26.223531291001564,
+      "fine_max_norm_error": 2.2581936320875684e-13,
+      "maximum_time_series_differences": {
+        "upper_population": {
+          "raw": 6.964095186079433e-06,
+          "scaled": 6.964095186079433e-06,
+          "scale": "probability"
+        },
+        "product_qx_lt_0": {
+          "raw": 0.0031028423516297754,
+          "scaled": 0.0031028423516297754,
+          "scale": "probability"
+        },
+        "centroid_x": {
+          "raw": 2.533084852984757e-12,
+          "scaled": 3.152240651636684e-13,
+          "scale": "initial_sigma_x"
+        }
+      }
+    },
+    {
+      "regime": {
+        "center_fraction": 0.5,
+        "momentum_kick_sigma": 2.0
+      },
+      "coarse_grid_n": 384,
+      "fine_configuration": {
+        "grid_n": 512,
+        "half_width": 96.0,
+        "dx": 0.375,
+        "requested_dt_fs": 0.025,
+        "actual_dt_fs": 0.025,
+        "total_fs": 20.0,
+        "sample_every_fs": 0.025,
+        "qbar_x": 7.7625,
+        "mean_momentum_x": -0.12444275792507975
+      },
+      "fine_runtime_seconds": 25.982763374999195,
+      "fine_max_norm_error": 2.313704783318826e-13,
+      "maximum_time_series_differences": {
+        "upper_population": {
+          "raw": 1.2432362769654315e-05,
+          "scaled": 1.2432362769654315e-05,
+          "scale": "probability"
+        },
+        "product_qx_lt_0": {
+          "raw": 0.0030461908799492843,
+          "scaled": 0.0030461908799492843,
+          "scale": "probability"
+        },
+        "centroid_x": {
+          "raw": 2.6918911544271396e-10,
+          "scaled": 3.3498635929104006e-11,
+          "scale": "initial_sigma_x"
+        }
+      }
+    }
+  ]
+}
