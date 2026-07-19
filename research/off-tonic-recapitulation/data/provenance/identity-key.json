@@ -1,6 +1,54 @@
 {
   "schema_version": "1.0.0",
   "status": "development",
-  "cases": []
+  "cases": [
+    {
+      "case_id": "CASE-6U43",
+      "slot": 1,
+      "probe_role": "target",
+      "label": "cpe_wq48_3_iii",
+      "description": "C. P. E. Bach, Prussian Sonata in E, Wq 48/3, iii, m. 51",
+      "aliases": []
+    },
+    {
+      "case_id": "CASE-8JQJ",
+      "slot": 2,
+      "probe_role": "target",
+      "label": "benda_1757_2_iii",
+      "description": "Benda, 1757 Sonata No. 2 in G, iii, m. 51",
+      "aliases": []
+    },
+    {
+      "case_id": "CASE-DZWT",
+      "slot": 3,
+      "probe_role": "target",
+      "label": "mozart_k570_i",
+      "description": "Mozart, K. 570, i, m. 133",
+      "aliases": []
+    },
+    {
+      "case_id": "CASE-Q2R9",
+      "slot": 4,
+      "probe_role": "target",
+      "label": "mozart_k333_i",
+      "description": "Mozart, K. 333, i, pickup m. 93 into 94",
+      "aliases": []
+    },
+    {
+      "case_id": "CASE-VT57",
+      "slot": 5,
+      "probe_role": "positive_control",
+      "label": "mozart_k545_i",
+      "description": "Mozart, K. 545, i, m. 42",
+      "aliases": []
+    },
+    {
+      "case_id": "CASE-Z3F9",
+      "slot": 6,
+      "probe_role": "target",
+      "label": "clementi_op10_3_i",
+      "description": "Clementi, Op. 10 No. 3, i, m. 69",
+      "aliases": []
+    }
+  ]
 }
-

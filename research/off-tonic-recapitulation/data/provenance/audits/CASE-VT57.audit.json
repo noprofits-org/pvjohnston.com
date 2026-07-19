@@ -1,0 +1,212 @@
+{
+  "schema_version": "1.0.0",
+  "status": "generated_unverified",
+  "case_id": "CASE-VT57",
+  "source": {
+    "source_id": "SRC-DCML-MOZART-V2.3",
+    "work": "K545-1",
+    "commit": "5337257a5318711e6302cfe85c3f1a6ade3c6271",
+    "files": [
+      {
+        "path": "MS3/K545-1.mscx",
+        "sha256": "1d54af691e2b24be8f977b048d7417ff2abc79b69bdd484de82a85f4dcf33654"
+      },
+      {
+        "path": "notes/K545-1.notes.tsv",
+        "sha256": "6e67611704cf0ecb83d10ee574f2095180b30a0b121ff8ed983d30e51cde0551"
+      },
+      {
+        "path": "measures/K545-1.measures.tsv",
+        "sha256": "ba453205a0c39871ce01f1f4d84df4e9c7ae3d686a29f783a02702c5143643f4"
+      }
+    ]
+  },
+  "configuration": {
+    "case_id": "CASE-VT57",
+    "work": "K545-1",
+    "candidate_mc": 42,
+    "candidate_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "second_part_mc": 29,
+    "second_part_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    }
+  },
+  "normalization": {
+    "source_tonic": "C",
+    "home_mode": "major",
+    "chromatic_semitones": 2,
+    "diatonic_steps": 1,
+    "voice_map": [
+      {
+        "source_staff": 1,
+        "source_voice": 1,
+        "voice_id": "V01"
+      },
+      {
+        "source_staff": 2,
+        "source_voice": 1,
+        "voice_id": "V02"
+      }
+    ]
+  },
+  "source_measure_map": [
+    {
+      "window_id": "W1",
+      "measure_index": 0,
+      "source_mc": 1
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 1,
+      "source_mc": 2
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 2,
+      "source_mc": 3
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 3,
+      "source_mc": 4
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 4,
+      "source_mc": 5
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 5,
+      "source_mc": 6
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 6,
+      "source_mc": 7
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 7,
+      "source_mc": 8
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 0,
+      "source_mc": 36
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 1,
+      "source_mc": 37
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 2,
+      "source_mc": 38
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 3,
+      "source_mc": 39
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 4,
+      "source_mc": 40
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 5,
+      "source_mc": 41
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 0,
+      "source_mc": 42
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 1,
+      "source_mc": 43
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 2,
+      "source_mc": 44
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 3,
+      "source_mc": 45
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 4,
+      "source_mc": 46
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 5,
+      "source_mc": 47
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 0,
+      "source_mc": 48
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 1,
+      "source_mc": 49
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 2,
+      "source_mc": 50
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 3,
+      "source_mc": 51
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 4,
+      "source_mc": 52
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 5,
+      "source_mc": 53
+    }
+  ],
+  "exact_durations_qn": {
+    "second_part_elapsed": {
+      "numerator": 52,
+      "denominator": 1
+    },
+    "second_part_total": {
+      "numerator": 180,
+      "denominator": 1
+    }
+  },
+  "checks": {
+    "all_source_chords_reconciled_with_notes_table": true,
+    "selected_schema_unsupported_constructs": 0,
+    "selected_event_count": 465,
+    "selected_rest_count": 49,
+    "selected_direction_count": 0
+  },
+  "limitations": [
+    "generated dossier still requires source-score visual verification and reverse-render review",
+    "schema 3 omits slurs, clefs, beaming, tempo, and display-only accidental status by design",
+    "chord-level articulations and ornaments are copied to every constituent note event"
+  ],
+  "dossier_sha256": "2ae228d19c59fe277669ecf5333afa6c0e9028f8813da1b393a1e4b3020b16f5",
+  "generated_by": "scripts/extract-dcml-mozart.mjs"
+}

@@ -62,7 +62,7 @@ try {
     assert.equal(dossier.windows[0].measures.length, expected.opening);
     assert.deepEqual(dossier.candidate_return.second_part_elapsed_qn, {numerator: expected.elapsed, denominator: 1});
     assert.deepEqual(dossier.candidate_return.second_part_total_qn, {numerator: expected.total, denominator: 1});
-    assert.ok(dossier.windows.every((window) => window.measures.every((measure) => measure.key_signature.fifths === 0)));
+    assert.ok(dossier.windows.every((window) => window.measures.every((measure) => measure.key_signature.fifths === 2)));
     assert.equal(audit.checks.all_source_chords_reconciled_with_notes_table, true);
     assert.equal(audit.checks.selected_schema_unsupported_constructs, 0);
     assert.equal(audit.checks.selected_event_count, expected.events);

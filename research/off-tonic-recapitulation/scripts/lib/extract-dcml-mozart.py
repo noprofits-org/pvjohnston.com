@@ -237,11 +237,11 @@ def spelling_parts(spelling: str) -> tuple[str, int]:
 
 def transposition_for_tonic(tonic: str) -> tuple[int, int]:
     source_step, _ = spelling_parts(tonic)
-    chromatic = (-pitch_class(tonic)) % 12
+    chromatic = (2 - pitch_class(tonic)) % 12
     if chromatic > 6:
         chromatic -= 12
     # The modulo result is +6 for a tritone, satisfying the protocol's tie rule.
-    target_index = STEP_INDEX["C"]
+    target_index = STEP_INDEX["D"]
     source_index = STEP_INDEX[source_step]
     possible = []
     for diatonic in range(-7, 8):
@@ -946,7 +946,7 @@ def build(source_root: Path, config: dict) -> dict:
         "case_id": config["case_id"],
         "condition": "symbolic",
         "encoding": {
-            "common_tonic": "C",
+            "common_tonic": "D",
             "home_mode": settings["mode"],
             "duration_unit": "quarter_note",
             "measure_numbers": "window_relative",

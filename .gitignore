@@ -55,3 +55,6 @@ psi.*.clean
 
 # Off-tonic experiment: regenerable score-page renders
 research/off-tonic-recapitulation/tmp/
+
+# DCML corpus clone (operator-only, reproducible from pinned commit)
+research/off-tonic-recapitulation/data/sources/dcml/

@@ -66,7 +66,7 @@ const buildDossier = (caseId, pitchOffset) => {
     case_id: caseId,
     condition: "symbolic",
     encoding: {
-      common_tonic: "C",
+      common_tonic: "D",
       home_mode: "major",
       duration_unit: "quarter_note",
       measure_numbers: "window_relative",

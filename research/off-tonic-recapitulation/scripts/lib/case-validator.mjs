@@ -457,7 +457,7 @@ export const validateCase = (dossier) => {
     "pitch_system",
     "coverage"
   ]);
-  if (dossier.encoding.common_tonic !== "C") fail("$.encoding.common_tonic", "expected C");
+  if (dossier.encoding.common_tonic !== "D") fail("$.encoding.common_tonic", "expected D");
   expectEnum(dossier.encoding.home_mode, new Set(["major", "minor"]), "$.encoding.home_mode");
   if (dossier.encoding.duration_unit !== "quarter_note") fail("$.encoding.duration_unit", "expected quarter_note");
   if (dossier.encoding.measure_numbers !== "window_relative") fail("$.encoding.measure_numbers", "expected window_relative");

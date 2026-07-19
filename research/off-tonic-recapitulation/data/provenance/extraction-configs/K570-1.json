@@ -1,0 +1,14 @@
+{
+  "case_id": "CASE-DZWT",
+  "work": "K570-1",
+  "candidate_mc": 133,
+  "candidate_onset_qn": {
+    "numerator": 0,
+    "denominator": 1
+  },
+  "second_part_mc": 80,
+  "second_part_onset_qn": {
+    "numerator": 0,
+    "denominator": 1
+  }
+}

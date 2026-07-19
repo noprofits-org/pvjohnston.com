@@ -32,20 +32,31 @@ EXTRACTION_PROTOCOL.
   m. 51 = p. 16 system 1, final bar, preceded by the sharp-inflected vi
   cadence in bars 5–6 of that system. Consistent with the claim under both
   readings of the exposition boundary.
-- OPEN: exposition end is 29 or 32 (start-repeat stands at the head of p. 15
-  system 5; the two systems detected with an extra vertical line may hide
-  voltas). This changes `second_part_fraction` and MUST be resolved during
-  note-level transcription before the dossier is hashed.
+- RESOLVED 2026-07-18 (second session): exposition = 29 measures. Nagel p. 15
+  system 4 closes with an end-repeat and no voltas exist (the a)/b) marks are
+  ossia footnotes); system counts 7+7+8+7. Part 2 begins m. 30 with the
+  begin-repeat at the head of system 5. Candidate m. 51 = 22 measures into
+  part 2 ("a little less than halfway" — consistent). Still open at
+  transcription: exact final-measure count (total is ~81-84; it is the
+  denominator of `second_part_fraction`).
 
 ## Clementi, Op. 10 No. 3, movement i — LOCATED; VERIFICATION OPEN
 
 - Movement located: BnF/Longman & Broderip scan, "SONATA III", Presto, common
   time, two flats, beginning scan p. 14 (plate 13); part 1 ends with a repeat
   at the foot of plate 13 ("Volti").
-- OPEN: m. 69 candidate not yet verified — this print's barlines do not span
-  the grand staff, so the automated count failed; needs a manual per-system
-  count (or transcription-time count). Key/mode of the movement (G minor vs
-  B-flat major) to be recorded from the opening tonic at the same time.
+- Structure established: part 1 occupies all five systems of plate 13 and
+  ends with the repeat at the page's foot ("Volti"); two flats.
+- OPEN: key/mode. pilot-corpus.csv says B-flat major; an IMSLP file title
+  lists the set as "A, D, G minor", but that likely describes the Artaria
+  op. 9 alias publication, whose contents differ from the Longman & Broderip
+  Op. 10. Settle from the opening bass and the part-1 cadence at
+  transcription; the "clear IV return" claim depends on it (IV = E-flat vs
+  C minor).
+- OPEN: m. 69 candidate not verified to the single measure — the engraving's
+  irregular spacing defeated both automated counting (barlines do not span
+  the grand staff) and strip-level visual counting. Resolve during
+  transcription, where numbering is a byproduct of measure-by-measure work.
 - OPEN: concordance of this Longman & Broderip text against the Torricella
   1783 lineage (required by the source manifest) not yet performed.
 

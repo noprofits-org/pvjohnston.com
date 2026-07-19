@@ -28,7 +28,7 @@
         "coverage"
       ],
       "properties": {
-        "common_tonic": {"const": "C"},
+        "common_tonic": {"const": "D"},
         "home_mode": {"enum": ["major", "minor"]},
         "duration_unit": {"const": "quarter_note"},
         "measure_numbers": {"const": "window_relative"},
