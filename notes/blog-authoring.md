@@ -81,6 +81,37 @@ left to find.
 Recency is necessary, not sufficient: a modern paper still has to yield a
 `contribution:` sentence, and "recent" is not a synonym for "unexamined."
 
+**Name the source before you inherit its question.** A **direct source-response
+post** is one whose contribution depends on a particular paper's open question,
+untested regime, claim, data, or method. In such a post, a citation halfway
+through the Introduction is necessary but not sufficient: the reader should not
+have to infer the intellectual handoff from phrases such as "their published
+test" or from a late Methods disclaimer.
+
+Before Methods, three surfaces must agree:
+
+- **Headline:** name the source author or a recognizable short paper title and
+  state the relationship — testing an open regime, reanalysing data, checking a
+  claim, or extending a method. Use the full paper title when it remains
+  readable; otherwise use the author in the headline and give the full title in
+  the Abstract.
+- **Description:** identify the work as an independent benchmark, reproduction,
+  reanalysis, falsification, or extension. Do not describe only the new result
+  while hiding what prompted it.
+- **First Abstract paragraph:** give the authors, year, full paper title, and
+  citation, then state exactly what this post does in relation to it. Do not use
+  "their," "the source paper," or a method acronym before naming the source.
+
+Methods then records the implementation lineage precisely: whether the source
+authors' program, code, or data were used; what was independently implemented;
+and what could not be reproduced at the software level. This attribution does
+not imply collaboration, endorsement, or a call to the authors' program.
+
+**Provenance test:** read only the headline, description, and first Abstract
+paragraph. A reader must be able to name the source, identify the relationship
+to it, and tell whether the experiment is an independent implementation. If any
+of those still has to be inferred, the opening is not ready.
+
 **Where the gaps hide in a modern paper.** Read for friction, not for topic:
 
 | Look at | What it yields |
@@ -124,6 +155,10 @@ og-image: /images/YYYY-MM-DD-post-slug-hero.png   # optional; see §5
 ```
 
 - **Title:** quote if it contains a colon or other YAML-significant punctuation.
+  For direct source-response posts, it also names the source author or a
+  recognizable short source title (§0).
+- **Description:** says how the post relates to its anchor source when that
+  relationship is direct (§0); it cannot report only the result.
 - **Links:** use site-relative URLs for other notes in this repository.
 - **`contribution` / `contribution-type`:** written *before* drafting, not after
   (§0). They are not rendered — they exist so the gate leaves an artifact in the
@@ -427,6 +462,7 @@ site build && node scripts/verify-site.mjs`.
 - [ ] The question came off `notes/questions.md`; it was not invented today
 - [ ] Anchored to a recent primary source (journal article, this year or last) — not a settled result (§0)
 - [ ] Checked whether the source's code/data is released; if not, the claim boundary is already written into Methods
+- [ ] For a direct source-response post, recorded the source's full title and classified the relationship: independent benchmark, reproduction, reanalysis, falsification, or extension (§0)
 - [ ] `contribution:` sentence written, naming what this post has that its sources do not
 - [ ] `contribution-type:` set to one of §0's seven; "explained a known thing well" is not on the list
 - [ ] The hypothesis has a falsifier, written down before the experiment ran
@@ -435,9 +471,11 @@ site build && node scripts/verify-site.mjs`.
 **After drafting:**
 
 - [ ] Front matter complete; title quoted if needed; links relative
+- [ ] Direct source-response provenance passes the headline + description + first-Abstract-paragraph test: source, relationship, and independent status are explicit (§0)
 - [ ] IMRaD sections present and in order (§2) — no exceptions; every post is an experiment
 - [ ] Introduction funnels known → predicted → **gap** → hypothesis; no hook
 - [ ] Methods states interpreter/arch/versions/seeds precisely enough to re-run
+- [ ] Methods states whether source program/code/data were used and what was independently implemented
 - [ ] Anything not run first-hand is declared as such in Methods and attributed at each use
 - [ ] No untested equivalence claims ("reproduces X's semantics exactly" is a claim — test it)
 - [ ] **Results passes the printed-output test sentence by sentence** (§2); no banned words; captions clean

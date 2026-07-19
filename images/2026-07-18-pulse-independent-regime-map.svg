@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+<title id="title">FP versus RP-AXE error by early-hop fraction</title>
+<desc id="desc">FP versus RP-AXE error by early-hop fraction</desc>
+<rect width="100%" height="100%" fill="#fbfcfe"/>
+<style>
+  text { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; }
+  .tick { font-size: 17px; fill: #5e6a7d; }
+  .axis-label { font-size: 21px; font-weight: 600; }
+  .title { font-size: 29px; font-weight: 700; }
+  .subtitle { font-size: 17px; fill: #5e6a7d; }
+  .legend { font-size: 17px; }
+</style>
+<text x="105" y="48" class="title">FP versus RP-AXE error by early-hop fraction</text>
+<text x="105" y="78" class="subtitle">FP versus RP-AXE maximum errors, normalized by their predeclared tolerances</text>
+<line x1="105" y1="605.00" x2="1165" y2="605.00" stroke="#d9dee8" stroke-width="1"/>
+<text x="88" y="611.00" text-anchor="end" class="tick">0</text>
+<line x1="105" y1="490.00" x2="1165" y2="490.00" stroke="#d9dee8" stroke-width="1"/>
+<text x="88" y="496.00" text-anchor="end" class="tick">0.5</text>
+<line x1="105" y1="375.00" x2="1165" y2="375.00" stroke="#d9dee8" stroke-width="1"/>
+<text x="88" y="381.00" text-anchor="end" class="tick">1</text>
+<line x1="105" y1="260.00" x2="1165" y2="260.00" stroke="#d9dee8" stroke-width="1"/>
+<text x="88" y="266.00" text-anchor="end" class="tick">1.5</text>
+<line x1="105" y1="145.00" x2="1165" y2="145.00" stroke="#d9dee8" stroke-width="1"/>
+<text x="88" y="151.00" text-anchor="end" class="tick">2</text>
+<line x1="105.00" y1="145" x2="105.00" y2="605" stroke="#d9dee8" stroke-width="1"/>
+<text x="105.00" y="635" text-anchor="middle" class="tick">5</text>
+<line x1="335.43" y1="145" x2="335.43" y2="605" stroke="#d9dee8" stroke-width="1"/>
+<text x="335.43" y="635" text-anchor="middle" class="tick">10</text>
+<line x1="565.87" y1="145" x2="565.87" y2="605" stroke="#d9dee8" stroke-width="1"/>
+<text x="565.87" y="635" text-anchor="middle" class="tick">15</text>
+<line x1="796.30" y1="145" x2="796.30" y2="605" stroke="#d9dee8" stroke-width="1"/>
+<text x="796.30" y="635" text-anchor="middle" class="tick">20</text>
+<line x1="1026.74" y1="145" x2="1026.74" y2="605" stroke="#d9dee8" stroke-width="1"/>
+<text x="1026.74" y="635" text-anchor="middle" class="tick">25</text>
+<line x1="105" y1="605" x2="1165" y2="605" stroke="#172033" stroke-width="2"/>
+<line x1="105" y1="145" x2="105" y2="605" stroke="#172033" stroke-width="2"/>
+<line x1="105" y1="375.00" x2="1165" y2="375.00" stroke="#b91c1c" stroke-width="3" stroke-dasharray="9 7"/>
+<text x="1157" y="365.00" text-anchor="end" fill="#b91c1c" font-size="17">declared limit</text>
+<text x="635.00" y="670" text-anchor="middle" class="axis-label">Successful hops before C(0)/e (%)</text>
+<text x="29" y="375.00" text-anchor="middle" class="axis-label" transform="rotate(-90 29 375.00)">Maximum error / declared tolerance</text>
+<polyline points="211.13,582.22 467.10,554.57 795.53,512.12 1004.18,517.03 1078.84,504.42" fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="1.0"/>
+<polyline points="795.53,512.12 957.14,507.20 1023.63,510.86 1048.78,499.45 1086.26,492.76" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.82" stroke-dasharray="8 7"/>
+<circle cx="211.13" cy="582.22" r="6" fill="#0f766e" stroke="white" stroke-width="2"/>
+<circle cx="467.10" cy="554.57" r="6" fill="#0f766e" stroke="white" stroke-width="2"/>
+<circle cx="795.53" cy="512.12" r="6" fill="#0f766e" stroke="white" stroke-width="2"/>
+<circle cx="1004.18" cy="517.03" r="6" fill="#0f766e" stroke="white" stroke-width="2"/>
+<circle cx="1078.84" cy="504.42" r="6" fill="#0f766e" stroke="white" stroke-width="2"/>
+<path d="M 795.53 505.12 L 802.53 512.12 L 795.53 519.12 L 788.53 512.12 Z" fill="#fbfcfe" stroke="#0f766e" stroke-width="3"/>
+<path d="M 957.14 500.20 L 964.14 507.20 L 957.14 514.20 L 950.14 507.20 Z" fill="#fbfcfe" stroke="#0f766e" stroke-width="3"/>
+<path d="M 1023.63 503.86 L 1030.63 510.86 L 1023.63 517.86 L 1016.63 510.86 Z" fill="#fbfcfe" stroke="#0f766e" stroke-width="3"/>
+<path d="M 1048.78 492.45 L 1055.78 499.45 L 1048.78 506.45 L 1041.78 499.45 Z" fill="#fbfcfe" stroke="#0f766e" stroke-width="3"/>
+<path d="M 1086.26 485.76 L 1093.26 492.76 L 1086.26 499.76 L 1079.26 492.76 Z" fill="#fbfcfe" stroke="#0f766e" stroke-width="3"/>
+<polyline points="211.13,555.46 467.10,550.38 795.53,538.93 1004.18,523.47 1078.84,530.16" fill="none" stroke="#d97706" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="1.0"/>
+<polyline points="795.53,538.93 957.14,521.60 1023.63,513.97 1048.78,492.58 1086.26,499.09" fill="none" stroke="#d97706" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.82" stroke-dasharray="8 7"/>
+<circle cx="211.13" cy="555.46" r="6" fill="#d97706" stroke="white" stroke-width="2"/>
+<circle cx="467.10" cy="550.38" r="6" fill="#d97706" stroke="white" stroke-width="2"/>
+<circle cx="795.53" cy="538.93" r="6" fill="#d97706" stroke="white" stroke-width="2"/>
+<circle cx="1004.18" cy="523.47" r="6" fill="#d97706" stroke="white" stroke-width="2"/>
+<circle cx="1078.84" cy="530.16" r="6" fill="#d97706" stroke="white" stroke-width="2"/>
+<path d="M 795.53 531.93 L 802.53 538.93 L 795.53 545.93 L 788.53 538.93 Z" fill="#fbfcfe" stroke="#d97706" stroke-width="3"/>
+<path d="M 957.14 514.60 L 964.14 521.60 L 957.14 528.60 L 950.14 521.60 Z" fill="#fbfcfe" stroke="#d97706" stroke-width="3"/>
+<path d="M 1023.63 506.97 L 1030.63 513.97 L 1023.63 520.97 L 1016.63 513.97 Z" fill="#fbfcfe" stroke="#d97706" stroke-width="3"/>
+<path d="M 1048.78 485.58 L 1055.78 492.58 L 1048.78 499.58 L 1041.78 492.58 Z" fill="#fbfcfe" stroke="#d97706" stroke-width="3"/>
+<path d="M 1086.26 492.09 L 1093.26 499.09 L 1086.26 506.09 L 1079.26 499.09 Z" fill="#fbfcfe" stroke="#d97706" stroke-width="3"/>
+<polyline points="211.13,455.80 467.10,415.64 795.53,366.23 1004.18,311.23 1078.84,358.33" fill="none" stroke="#2457a7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="1.0"/>
+<polyline points="795.53,366.23 957.14,305.75 1023.63,277.75 1048.78,208.84 1086.26,216.71" fill="none" stroke="#2457a7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.82" stroke-dasharray="8 7"/>
+<circle cx="211.13" cy="455.80" r="6" fill="#2457a7" stroke="white" stroke-width="2"/>
+<circle cx="467.10" cy="415.64" r="6" fill="#2457a7" stroke="white" stroke-width="2"/>
+<circle cx="795.53" cy="366.23" r="6" fill="#2457a7" stroke="white" stroke-width="2"/>
+<circle cx="1004.18" cy="311.23" r="6" fill="#2457a7" stroke="white" stroke-width="2"/>
+<circle cx="1078.84" cy="358.33" r="6" fill="#2457a7" stroke="white" stroke-width="2"/>
+<path d="M 795.53 359.23 L 802.53 366.23 L 795.53 373.23 L 788.53 366.23 Z" fill="#fbfcfe" stroke="#2457a7" stroke-width="3"/>
+<path d="M 957.14 298.75 L 964.14 305.75 L 957.14 312.75 L 950.14 305.75 Z" fill="#fbfcfe" stroke="#2457a7" stroke-width="3"/>
+<path d="M 1023.63 270.75 L 1030.63 277.75 L 1023.63 284.75 L 1016.63 277.75 Z" fill="#fbfcfe" stroke="#2457a7" stroke-width="3"/>
+<path d="M 1048.78 201.84 L 1055.78 208.84 L 1048.78 215.84 L 1041.78 208.84 Z" fill="#fbfcfe" stroke="#2457a7" stroke-width="3"/>
+<path d="M 1086.26 209.71 L 1093.26 216.71 L 1086.26 223.71 L 1079.26 216.71 Z" fill="#fbfcfe" stroke="#2457a7" stroke-width="3"/>
+<line x1="600" y1="108" x2="630" y2="108" stroke="#0f766e" stroke-width="4"/>
+<text x="638" y="114" class="legend">upper-state population</text>
+<line x1="810" y1="108" x2="840" y2="108" stroke="#d97706" stroke-width="4"/>
+<text x="848" y="114" class="legend">P(qx &lt; 0)</text>
+<line x1="1020" y1="108" x2="1050" y2="108" stroke="#2457a7" stroke-width="4"/>
+<text x="1058" y="114" class="legend">qx centroid</text>
+<circle cx="106" cy="108" r="6" fill="#172033"/><text x="121" y="114" class="tick">original center sweep</text>
+<path d="M 325 101 L 332 108 L 325 115 L 318 108 Z" fill="white" stroke="#172033" stroke-width="3"/><text x="344" y="114" class="tick">adaptive directional kick</text>
+</svg>

@@ -53,6 +53,14 @@ calcs/h2plus-coulomb/predictions-*.csv
 calcs/**/__pycache__/
 psi.*.clean
 
+# Regenerable pulse-independent-trajectory raw JSON. The publication bundle
+# contains frozen copies; the compact joined analysis remains reviewable here.
+downloads/pulse_ci_baseline.json
+downloads/pulse_ci_convergence.json
+downloads/pulse_ci_sweep.json
+downloads/pulse_ci_exact_regimes.json
+downloads/__pycache__/
+
 # Off-tonic experiment: regenerable score-page renders
 research/off-tonic-recapitulation/tmp/
 

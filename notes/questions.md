@@ -484,3 +484,113 @@ Format:
 - **Publish the other outcome?** Yes — it would separate an energy-conditioning
   effect from a general advantage under differentiation.
 - **Status:** ready
+
+## When do pulse-independent trajectories stop being pulse-independent?
+- **Observed:** Galiana et al. reuse nuclear trajectories generated without an
+  initial pump-generated electronic coherence, then repropagate only the
+  electronic coefficients for each new broadband pulse. In their three-state
+  glycine test, more than 90% of surface hops occur after 3 fs, when the relevant
+  initial coherences have almost completely decayed. They explicitly leave the
+  complementary regime untested: a wavepacket prepared at or near a conical
+  intersection, where many hops can occur while the coherence is still alive.
+- **Source:** Galiana et al., *J. Chem. Theory Comput.* **22** (2026) 1224–1243,
+  doi:10.1021/acs.jctc.5c01809; Grell et al., *Faraday Discuss.* (2026),
+  doi:10.1039/D6FD00086J
+- **Type:** untested regime / quantification
+- **Contribution (candidate):** the validity boundary of pulse-independent
+  trajectory reuse as the fraction of surface hops occurring before electronic
+  decoherence is increased, which neither 2026 source measures
+- **Hypothesis:** repropagation error is controlled by the overlap between
+  surviving pump-generated coherence and surface hopping: population,
+  coherence, and nuclear-observable errors will rise with the fraction of hops
+  that occur before the coherence has decayed
+- **Falsifier:** pulse-independent repropagation remains within 5 percentage
+  points in state populations and 0.1 initial nuclear standard deviations in
+  nuclear centroids even when at least half of all hops occur before the
+  coherence magnitude falls to 1/e of its initial value, or its error has no
+  positive association with that early-hop fraction
+- **Publish the other outcome?** Yes — robustness in the early-hop regime would
+  materially strengthen the method's advertised use for broadband-pulse control
+  studies near conical intersections.
+- **Primary outcome:** the full-propagation versus repropagation error in a
+  product-side nuclear population or branching observable. Electronic
+  populations and coherences are secondary outcomes; population agreement alone
+  does not pass the test.
+- **GATE (before the sweep):** reproduce a published coherent-state
+  conical-intersection benchmark on the same two-state vibronic-coupling
+  Hamiltonian. At minimum, match one reported population trace and one nuclear
+  observable under time-step, grid/ensemble-size, and seed convergence. If the
+  baseline does not reproduce, stop rather than assigning its discrepancy to
+  pulse-independent repropagation.
+- **GATE REFINEMENT (before data):** the coherent BMA panel in Mannouch and
+  Kelly reports the upper-adiabatic population but no nuclear observable. The
+  published checks will therefore be (1) that BMA population trace and (2) the
+  coherent 1D nuclear-density bifurcation reported in the same paper. The BMA
+  product-side population used in the new sweep will be benchmarked against
+  independently converged exact grid dynamics; it will not be described as a
+  previously published observable. This refinement was recorded before any
+  simulation output was generated.
+- **Operational definitions (before trajectory data):** stress the method by
+  translating the initial BMA Gaussian toward the intersection while retaining
+  its published widths, momenta, electronic state, and Hamiltonian. Use centers
+  $q_{x,0}/(a/2)=1,0.75,0.5,0.25,0$; 20 fs trajectories; four predeclared seeds
+  1701--1704; and 4000 Wigner geometries per seed. Define coherence survival as
+  the ensemble mean of $2|c_-^*c_+|$ after PFM damping and its lifetime as the
+  first crossing of $C(0)/e$. The early-hop fraction is the fraction of all
+  successful full-propagation hops at or before that lifetime. Report the
+  maximum-in-time absolute upper-state population error, product-side
+  $P(q_x<0)$ error, and $q_x$-centroid error divided by the published initial
+  $sigma_x$. Pulse-independent reuse counts as robust in the early-hop regime
+  only if all three errors remain at or below 0.05, 0.05, and 0.1,
+  respectively, for a case with early-hop fraction at least 0.5. Assess the
+  predicted trend with the Spearman correlation between early-hop fraction and
+  each error across the five centers. Use RP-AXE, PFM with momentum injection,
+  a 0.05 fs nuclear step, five exact two-state electronic substeps, and verify
+  the latter choices at $q_{x,0}/(a/2)=0.25$ against a 0.025 fs /
+  ten-substep run before interpreting the sweep. For that paired 4000-geometry
+  seed-1701 check, require the maximum population and product-side differences
+  between numerical settings to be below 0.02 and the centroid difference to
+  be below $0.03\sigma_x$.
+- **Numerical-gate outcome (before the final sweep):** the 0.05 fs / five-
+  substep and 0.025 fs / ten-substep seed-1701 runs differed by 0.0078 in the
+  full upper population, 0.0083 in $P(q_x<0)$, and $0.0384\sigma_x$ in the full
+  centroid. The first two criteria passed and the centroid criterion failed.
+  All final runs will therefore use 0.025 fs and ten electronic substeps; the
+  centroid tolerance was not relaxed.
+- **Pilot-triggered extension (recorded before kicked-ensemble data):**
+  1000-geometry runtime pilots at center fractions 0.25 and 0 produced early-
+  hop fractions 0.262 and 0.254, respectively, so translating an undirected
+  Wigner packet did not reach the planned 0.5 stress regime. Retain and report
+  the original five-center sweep, then add a separately labeled adaptive sweep
+  at $q_{x,0}/(a/2)=0.5$ with a mean momentum directed toward the intersection:
+  $\langle p_x\rangle/\sigma_{p_x}=0,-0.5,-1,-1.5,-2$. Use the same four
+  seeds, 4000 geometries, fine time step, observables, and thresholds. Treat
+  trends from this directional-kick sweep as second-stage evidence, not as part
+  of the original preregistered center-only test.
+- **Feasibility:** medium. A two-state, two-dimensional linear-vibronic-coupling
+  model is laptop-scale and permits an exact grid-based quantum reference, but
+  the TSH-PFM decoherence and repropagation algorithms must be implemented or
+  obtained in reproducible form.
+- **Status:** drafting
+
+## Can a conical-intersection model sustain a majority of hops before decoherence?
+- **Observed:** The pulse-independent-trajectory stress test increased accepted
+  surface hops by translating and directionally kicking the BMA packet, but the
+  largest early-hop fraction was 0.263. Faster launch momentum also shortened
+  the $C(0)/e$ lifetime and added later hops, so the predeclared 0.5 boundary
+  remained untested.
+- **Source:** `/posts/2026-07-18-when-pulse-independent-trajectories-lose-nuclear-accuracy.md`
+  (own next step)
+- **Type:** untested regime
+- **Contribution (candidate):** an adjudicated validity test for RP-AXE in a
+  regime where most accepted hops occur while the initial coherence survives
+- **Hypothesis:** changing the diabatic coupling or initial coherence lifetime,
+  while holding the launch distribution fixed, can raise the early-hop fraction
+  above 0.5 without increasing the late-hop denominator as a momentum kick did
+- **Falsifier:** no predeclared coupling/lifetime setting reaches an early-hop
+  fraction of 0.5 under converged FP dynamics, or a reached setting keeps the
+  FP--RP-AXE population, product, and centroid errors below 0.05, 0.05, and
+  $0.1\sigma_x$
+- **Publish the other outcome?** Yes — numerical robustness after a majority of
+  coherence-overlapping hops would materially strengthen the reuse method.
+- **Status:** ready
