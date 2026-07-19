@@ -60,3 +60,9 @@ downloads/pulse_ci_convergence.json
 downloads/pulse_ci_sweep.json
 downloads/pulse_ci_exact_regimes.json
 downloads/__pycache__/
+
+# Off-tonic experiment: regenerable score-page renders
+research/off-tonic-recapitulation/tmp/
+
+# DCML corpus clone (operator-only, reproducible from pinned commit)
+research/off-tonic-recapitulation/data/sources/dcml/

@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "status": "agent_transcribed_reverse_checked",
+  "case_id": "CASE-6U43",
+  "verification_date": "2026-07-18",
+  "source": {
+    "source_id": "SRC-CPE-WQ48-FIRST-EDITION",
+    "local_file": "data/sources/operator/cpe_bach_wq48_1742_first_edition.pdf",
+    "sha256": "b9e20b14f79973fedc7f1aa6efacdca7cd3c7d818e711d13fb3dd5d186be68ef",
+    "pdf_pages": [16, 17],
+    "plates": [13, 14],
+    "legibility_only": [
+      "cpe_bach_wq48_nagel1927.pdf",
+      "C. P. E. Bach Complete Works, Wq 48/3"
+    ],
+    "expression_authority": "1742 first edition"
+  },
+  "configuration": {
+    "case_id": "CASE-6U43",
+    "candidate_measure": 51,
+    "candidate_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "second_part_measure": 30,
+    "second_part_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "final_measure": 78,
+    "anacrusis": false
+  },
+  "normalization": {
+    "source_tonic": "E",
+    "home_mode": "major",
+    "source_key_fifths": 4,
+    "normalized_key_fifths": 2,
+    "chromatic_semitones": -2,
+    "diatonic_steps": -1,
+    "voice_map": [
+      {
+        "source_staff": 1,
+        "source_voice": "all_notated_layers",
+        "voice_id": "V01"
+      },
+      {
+        "source_staff": 2,
+        "source_voice": "all_notated_layers",
+        "voice_id": "V02"
+      }
+    ]
+  },
+  "source_measure_map": [
+    {"window_id": "W1", "measure_index": 0, "source_measure": 1},
+    {"window_id": "W1", "measure_index": 1, "source_measure": 2},
+    {"window_id": "W1", "measure_index": 2, "source_measure": 3},
+    {"window_id": "W1", "measure_index": 3, "source_measure": 4},
+    {"window_id": "W1", "measure_index": 4, "source_measure": 5},
+    {"window_id": "W1", "measure_index": 5, "source_measure": 6},
+    {"window_id": "W1", "measure_index": 6, "source_measure": 7},
+    {"window_id": "W1", "measure_index": 7, "source_measure": 8},
+    {"window_id": "W2", "measure_index": 0, "source_measure": 45},
+    {"window_id": "W2", "measure_index": 1, "source_measure": 46},
+    {"window_id": "W2", "measure_index": 2, "source_measure": 47},
+    {"window_id": "W2", "measure_index": 3, "source_measure": 48},
+    {"window_id": "W2", "measure_index": 4, "source_measure": 49},
+    {"window_id": "W2", "measure_index": 5, "source_measure": 50},
+    {"window_id": "W3", "measure_index": 0, "source_measure": 51},
+    {"window_id": "W3", "measure_index": 1, "source_measure": 52},
+    {"window_id": "W3", "measure_index": 2, "source_measure": 53},
+    {"window_id": "W3", "measure_index": 3, "source_measure": 54},
+    {"window_id": "W3", "measure_index": 4, "source_measure": 55},
+    {"window_id": "W3", "measure_index": 5, "source_measure": 56},
+    {"window_id": "W4", "measure_index": 0, "source_measure": 57},
+    {"window_id": "W4", "measure_index": 1, "source_measure": 58},
+    {"window_id": "W4", "measure_index": 2, "source_measure": 59},
+    {"window_id": "W4", "measure_index": 3, "source_measure": 60},
+    {"window_id": "W4", "measure_index": 4, "source_measure": 61},
+    {"window_id": "W4", "measure_index": 5, "source_measure": 62}
+  ],
+  "exact_durations_qn": {
+    "second_part_elapsed": {
+      "numerator": 63,
+      "denominator": 1
+    },
+    "second_part_total": {
+      "numerator": 147,
+      "denominator": 1
+    }
+  },
+  "checks": {
+    "authority_scan_measure_pass": true,
+    "legibility_editions_rechecked_against_authority": true,
+    "compiler_regeneration_byte_identical": true,
+    "reverse_event_table_compared_with_all_selected_measures": true,
+    "semantic_validator_pass": true,
+    "transposition_invariants_checked": true,
+    "candidate_and_duration_arithmetic_checked": true,
+    "identity_metadata_scan_pass": true,
+    "selected_measure_count": 26,
+    "selected_event_count": 243,
+    "selected_note_count": 198,
+    "selected_rest_count": 45,
+    "selected_direction_count": 0,
+    "selected_ornament_count": 1
+  },
+  "limitations": [
+    "Event-level transcription and reverse comparison were performed by an OpenAI Codex research agent under human operator supervision; no music-theory-trained human independently transcribed or verified the case. OMR and modern editions were legibility aids only.",
+    "Schema 3.1.0 omits slurs, clefs, beaming, tempo text, and display-only accidental status by design.",
+    "Movement-wide voice IDs represent source staves and collapse simultaneous layers within a staff."
+  ],
+  "operator_source_sha256": "9abb61acacf5cebee61b39b7bbc398923741269118c5b6f154ffc77d94167d7c",
+  "reverse_table_sha256": "1a2730422e9a9b2905d198106d9ef7a8c9eb5ed48a0bf21c324c276a39010fee",
+  "dossier_sha256": "8cb1446f4d625fc1203608e80602a2f5b733e43db3b439dcedd072ca98c4fa91",
+  "compiler_sha256": "6fcef9c228180f7eea2b77647038ef01446ea83fa4d1f62f2064e47d22c26df8",
+  "reverse_renderer_sha256": "2a6136058b84128b5ebb391fe25388c990b0b270af56663b5ecee758a118a5ce",
+  "generated_by": "scripts/compile-transcription.mjs"
+}

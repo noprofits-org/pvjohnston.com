@@ -1,0 +1,836 @@
+{
+  "schema_version": "2.0.0",
+  "matrix_status": "frozen",
+  "dataset_manifest_sha256": "6a027698775083ed275e0149685ec23cc07dea9d4f7f19b2a40b6c7d2eb246bb",
+  "schedule_seed": 20260719,
+  "planned_collection_window": {
+    "start": "2026-07-19T18:15:00Z",
+    "end": "2026-07-21T06:59:59Z",
+    "timezone": "America/Los_Angeles"
+  },
+  "call_timeout_seconds": 1200,
+  "tasks": {
+    "analysis": {
+      "prompt": "prompts/analysis.md",
+      "repetitions_per_case": 3
+    },
+    "identification": {
+      "prompt": "prompts/identification.md",
+      "repetitions_per_case": 3
+    }
+  },
+  "models": {
+    "openai-frontier": {
+      "provider": "OpenAI",
+      "model_id": "gpt-5.6-sol",
+      "generation_role": "frontier",
+      "experimental_unit": "Codex CLI model system",
+      "cli": "codex",
+      "cli_version": "0.144.6",
+      "authentication": "ChatGPT subscription authentication; account identity not published",
+      "decoding_settings": "reasoning_effort=high; verbosity=low; provider sampling defaults because temperature/seed are not exposed by this CLI",
+      "tool_access": "none",
+      "adapter": "scripts/adapters/openai-frontier.sh",
+      "adapter_sha256": "e3e0f383ec08c13ba746be0b271a8cebf94e9504f31e4a416cc765638b87d1f9",
+      "preflight_status": "passed_no_outcome_2026-07-19",
+      "preflight_receipt": {
+        "path": "data/provenance/preflight-receipts/openai-frontier__synthetic-schema__20260719T174400981Z__pid-10157.receipt.json",
+        "sha256": "775a1ceedb170a339ebaf03835de918e076473c6f0123f3adf2a13281501a808"
+      }
+    },
+    "anthropic-frontier": {
+      "provider": "Anthropic",
+      "model_id": "claude-fable-5",
+      "generation_role": "frontier",
+      "experimental_unit": "Claude Code CLI model system",
+      "cli": "claude",
+      "cli_version": "2.1.215",
+      "authentication": "Claude subscription authentication; account identity not published",
+      "decoding_settings": "effort=high; adaptive thinking always on; provider sampling defaults because temperature/seed are not exposed by this CLI",
+      "tool_access": "none",
+      "adapter": "scripts/adapters/anthropic-frontier.sh",
+      "adapter_sha256": "f0b736ba54968acd1f49d052410b3bac27c71ae0ea79bbf844234953edea4e0c",
+      "preflight_status": "passed_no_outcome_2026-07-19",
+      "preflight_receipt": {
+        "path": "data/provenance/preflight-receipts/anthropic-frontier__synthetic-schema__20260719T174614323Z__pid-12386.receipt.json",
+        "sha256": "fac6843505e780c7acf503ba1873162a90d464c0b8eec2c43cec8a1a692c19b7"
+      }
+    },
+    "openai-prior-generation": {
+      "provider": "OpenAI",
+      "model_id": "gpt-5.5",
+      "generation_role": "prior_generation_active_not_deprecated",
+      "experimental_unit": "Codex CLI model system",
+      "cli": "codex",
+      "cli_version": "0.144.6",
+      "authentication": "ChatGPT subscription authentication; account identity not published",
+      "decoding_settings": "reasoning_effort=high; verbosity=low; provider sampling defaults because temperature/seed are not exposed by this CLI",
+      "tool_access": "none",
+      "adapter": "scripts/adapters/openai-prior-generation.sh",
+      "adapter_sha256": "582c17f4bb45e5ea1e3aa077573e506a80cf4841be3d7c8b5c5d91b0c32bca5d",
+      "preflight_status": "passed_no_outcome_2026-07-19",
+      "preflight_receipt": {
+        "path": "data/provenance/preflight-receipts/openai-prior-generation__synthetic-schema__20260719T174718215Z__pid-12770.receipt.json",
+        "sha256": "21e5eb4c980200b4d0e1b59619c992a228e780f85d6aed3cdd5587078ce9e223"
+      }
+    }
+  },
+  "schedule": [
+    {
+      "sequence": 1,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-DZWT",
+      "run": "03"
+    },
+    {
+      "sequence": 2,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "02"
+    },
+    {
+      "sequence": 3,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "01"
+    },
+    {
+      "sequence": 4,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "02"
+    },
+    {
+      "sequence": 5,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "03"
+    },
+    {
+      "sequence": 6,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "03"
+    },
+    {
+      "sequence": 7,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "01"
+    },
+    {
+      "sequence": 8,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "02"
+    },
+    {
+      "sequence": 9,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-6U43",
+      "run": "01"
+    },
+    {
+      "sequence": 10,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-VT57",
+      "run": "01"
+    },
+    {
+      "sequence": 11,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-8JQJ",
+      "run": "02"
+    },
+    {
+      "sequence": 12,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "03"
+    },
+    {
+      "sequence": 13,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-Q2R9",
+      "run": "03"
+    },
+    {
+      "sequence": 14,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-D09B",
+      "run": "02"
+    },
+    {
+      "sequence": 15,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-6U43",
+      "run": "03"
+    },
+    {
+      "sequence": 16,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "02"
+    },
+    {
+      "sequence": 17,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "01"
+    },
+    {
+      "sequence": 18,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-D09B",
+      "run": "01"
+    },
+    {
+      "sequence": 19,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-D09B",
+      "run": "02"
+    },
+    {
+      "sequence": 20,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-8JQJ",
+      "run": "02"
+    },
+    {
+      "sequence": 21,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-6U43",
+      "run": "02"
+    },
+    {
+      "sequence": 22,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-VT57",
+      "run": "03"
+    },
+    {
+      "sequence": 23,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-D09B",
+      "run": "01"
+    },
+    {
+      "sequence": 24,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "03"
+    },
+    {
+      "sequence": 25,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "01"
+    },
+    {
+      "sequence": 26,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-D09B",
+      "run": "03"
+    },
+    {
+      "sequence": 27,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-6U43",
+      "run": "02"
+    },
+    {
+      "sequence": 28,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-8JQJ",
+      "run": "01"
+    },
+    {
+      "sequence": 29,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-VT57",
+      "run": "01"
+    },
+    {
+      "sequence": 30,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "01"
+    },
+    {
+      "sequence": 31,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "03"
+    },
+    {
+      "sequence": 32,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "01"
+    },
+    {
+      "sequence": 33,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-D09B",
+      "run": "01"
+    },
+    {
+      "sequence": 34,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-DZWT",
+      "run": "01"
+    },
+    {
+      "sequence": 35,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-D09B",
+      "run": "01"
+    },
+    {
+      "sequence": 36,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-D09B",
+      "run": "03"
+    },
+    {
+      "sequence": 37,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "02"
+    },
+    {
+      "sequence": 38,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-6U43",
+      "run": "01"
+    },
+    {
+      "sequence": 39,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-VT57",
+      "run": "03"
+    },
+    {
+      "sequence": 40,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "01"
+    },
+    {
+      "sequence": 41,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "02"
+    },
+    {
+      "sequence": 42,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-8JQJ",
+      "run": "01"
+    },
+    {
+      "sequence": 43,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "03"
+    },
+    {
+      "sequence": 44,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "01"
+    },
+    {
+      "sequence": 45,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-Q2R9",
+      "run": "01"
+    },
+    {
+      "sequence": 46,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-6U43",
+      "run": "01"
+    },
+    {
+      "sequence": 47,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-DZWT",
+      "run": "03"
+    },
+    {
+      "sequence": 48,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "02"
+    },
+    {
+      "sequence": 49,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-6U43",
+      "run": "03"
+    },
+    {
+      "sequence": 50,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-DZWT",
+      "run": "02"
+    },
+    {
+      "sequence": 51,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-D09B",
+      "run": "01"
+    },
+    {
+      "sequence": 52,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-DZWT",
+      "run": "02"
+    },
+    {
+      "sequence": 53,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-VT57",
+      "run": "01"
+    },
+    {
+      "sequence": 54,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-D09B",
+      "run": "03"
+    },
+    {
+      "sequence": 55,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "01"
+    },
+    {
+      "sequence": 56,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "03"
+    },
+    {
+      "sequence": 57,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-VT57",
+      "run": "02"
+    },
+    {
+      "sequence": 58,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-VT57",
+      "run": "02"
+    },
+    {
+      "sequence": 59,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "03"
+    },
+    {
+      "sequence": 60,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-VT57",
+      "run": "01"
+    },
+    {
+      "sequence": 61,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-D09B",
+      "run": "02"
+    },
+    {
+      "sequence": 62,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "02"
+    },
+    {
+      "sequence": 63,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-6U43",
+      "run": "03"
+    },
+    {
+      "sequence": 64,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-D09B",
+      "run": "02"
+    },
+    {
+      "sequence": 65,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "03"
+    },
+    {
+      "sequence": 66,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "03"
+    },
+    {
+      "sequence": 67,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-D09B",
+      "run": "03"
+    },
+    {
+      "sequence": 68,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-D09B",
+      "run": "03"
+    },
+    {
+      "sequence": 69,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-VT57",
+      "run": "03"
+    },
+    {
+      "sequence": 70,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "02"
+    },
+    {
+      "sequence": 71,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-VT57",
+      "run": "03"
+    },
+    {
+      "sequence": 72,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-DZWT",
+      "run": "01"
+    },
+    {
+      "sequence": 73,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-D09B",
+      "run": "01"
+    },
+    {
+      "sequence": 74,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-6U43",
+      "run": "01"
+    },
+    {
+      "sequence": 75,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-D09B",
+      "run": "02"
+    },
+    {
+      "sequence": 76,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-Q2R9",
+      "run": "02"
+    },
+    {
+      "sequence": 77,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-Q2R9",
+      "run": "01"
+    },
+    {
+      "sequence": 78,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-6U43",
+      "run": "01"
+    },
+    {
+      "sequence": 79,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-6U43",
+      "run": "03"
+    },
+    {
+      "sequence": 80,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-VT57",
+      "run": "02"
+    },
+    {
+      "sequence": 81,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-VT57",
+      "run": "02"
+    },
+    {
+      "sequence": 82,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-6U43",
+      "run": "02"
+    },
+    {
+      "sequence": 83,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "03"
+    },
+    {
+      "sequence": 84,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-VT57",
+      "run": "01"
+    },
+    {
+      "sequence": 85,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-Q2R9",
+      "run": "01"
+    },
+    {
+      "sequence": 86,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-VT57",
+      "run": "02"
+    },
+    {
+      "sequence": 87,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-VT57",
+      "run": "03"
+    },
+    {
+      "sequence": 88,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-8JQJ",
+      "run": "03"
+    },
+    {
+      "sequence": 89,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-6U43",
+      "run": "02"
+    },
+    {
+      "sequence": 90,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-6U43",
+      "run": "01"
+    },
+    {
+      "sequence": 91,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "02"
+    },
+    {
+      "sequence": 92,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "02"
+    },
+    {
+      "sequence": 93,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-VT57",
+      "run": "02"
+    },
+    {
+      "sequence": 94,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-Q2R9",
+      "run": "02"
+    },
+    {
+      "sequence": 95,
+      "task": "identification",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-8JQJ",
+      "run": "03"
+    },
+    {
+      "sequence": 96,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-D09B",
+      "run": "03"
+    },
+    {
+      "sequence": 97,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "03"
+    },
+    {
+      "sequence": 98,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-Q2R9",
+      "run": "03"
+    },
+    {
+      "sequence": 99,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-6U43",
+      "run": "02"
+    },
+    {
+      "sequence": 100,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "01"
+    },
+    {
+      "sequence": 101,
+      "task": "identification",
+      "model": "openai-frontier",
+      "case_id": "CASE-6U43",
+      "run": "03"
+    },
+    {
+      "sequence": 102,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-DZWT",
+      "run": "02"
+    },
+    {
+      "sequence": 103,
+      "task": "analysis",
+      "model": "openai-frontier",
+      "case_id": "CASE-8JQJ",
+      "run": "01"
+    },
+    {
+      "sequence": 104,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-VT57",
+      "run": "01"
+    },
+    {
+      "sequence": 105,
+      "task": "identification",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-6U43",
+      "run": "03"
+    },
+    {
+      "sequence": 106,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-6U43",
+      "run": "02"
+    },
+    {
+      "sequence": 107,
+      "task": "analysis",
+      "model": "anthropic-frontier",
+      "case_id": "CASE-VT57",
+      "run": "03"
+    },
+    {
+      "sequence": 108,
+      "task": "analysis",
+      "model": "openai-prior-generation",
+      "case_id": "CASE-D09B",
+      "run": "02"
+    }
+  ]
+}

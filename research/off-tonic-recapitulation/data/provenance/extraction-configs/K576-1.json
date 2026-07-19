@@ -1,0 +1,15 @@
+{
+  "case_id": "CASE-D09B",
+  "work": "K576-1",
+  "candidate_mc": 101,
+  "candidate_onset_qn": {
+    "numerator": 0,
+    "denominator": 1
+  },
+  "second_part_mc": 60,
+  "second_part_onset_qn": {
+    "numerator": 0,
+    "denominator": 1
+  },
+  "source_score_corrections": []
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_kind": "synthetic_response_contract_preflight",
+  "status": "passed",
+  "started_at": "2026-07-19T17:46:14.323Z",
+  "ended_at": "2026-07-19T17:47:09.693Z",
+  "model": {
+    "label": "anthropic-frontier",
+    "provider": "Anthropic",
+    "requested_model_id": "claude-fable-5",
+    "generation_role": "frontier",
+    "experimental_unit": "Claude Code CLI model system",
+    "cli": "claude",
+    "cli_version": "2.1.215",
+    "tool_access": "none",
+    "adapter": "scripts/adapters/anthropic-frontier.sh",
+    "adapter_sha256": "f0b736ba54968acd1f49d052410b3bac27c71ae0ea79bbf844234953edea4e0c"
+  },
+  "protocol": {
+    "matrix_contract_sha256": "c74c9b1796c005829dbd9cbf74400b032053dcb20940a6f2791f44c2b7b2538b",
+    "dossier_schema_version": "3.1.0",
+    "response_schema_version": "2.1.0",
+    "synthetic_case_id": "CASE-SYN0",
+    "synthetic_dossier_sha256": "496c29304e0453d0c68e339136e0a609855a6adc0cb06651ee58945c14efdeee",
+    "source_file_sha256": {
+      "scripts/run-synthetic-preflight.mjs": "4798cff5e5821e8d80eefb1b426d79216bee35510744d72550ef18dc2fc47c45",
+      "scripts/lib/synthetic-preflight.mjs": "5544bd69dcd6e11b9836425c75a24e5039f097d4990a2d23043de533df1a5dba",
+      "scripts/lib/case-validator.mjs": "5e0aed39ec867902fe7bdd417b0bf08a3dd1c63b00e60458bfe6f44870dab305",
+      "scripts/lib/response-validator.mjs": "0d4c7a9b3350ad184fcef0653c8c3da31e5db23abf4c62147e2a6094f3a48a52"
+    }
+  },
+  "retention": {
+    "rendered_prompt_body_retained": false,
+    "response_body_retained": false,
+    "stderr_body_retained": false,
+    "real_case_material_accessed": false
+  },
+  "tasks": [
+    {
+      "task": "analysis",
+      "status": "passed",
+      "started_at": "2026-07-19T17:46:14.325Z",
+      "ended_at": "2026-07-19T17:46:57.014Z",
+      "duration_ms": 42688,
+      "command_exit_status": 0,
+      "command_signal": null,
+      "validation_status": "valid",
+      "failure_code": null,
+      "prompt_template": "prompts/analysis.md",
+      "prompt_template_sha256": "d1d5dc1ce592ff2862c15b27d9377482e55ddb227b402db751ebf02862eade4e",
+      "rendered_prompt_sha256": "0c2f929313024972d10f4d0fc4069cc524890939026efa1abe8c7c6ce3e5c444",
+      "rendered_prompt_bytes": 18126,
+      "response_sha256": "69c3a337457f49f10763352dbdf2a987bd00b186d160d54856d0e7cfd03b4606",
+      "response_bytes": 4052,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0
+    },
+    {
+      "task": "identification",
+      "status": "passed",
+      "started_at": "2026-07-19T17:46:57.018Z",
+      "ended_at": "2026-07-19T17:47:09.692Z",
+      "duration_ms": 12674,
+      "command_exit_status": 0,
+      "command_signal": null,
+      "validation_status": "valid",
+      "failure_code": null,
+      "prompt_template": "prompts/identification.md",
+      "prompt_template_sha256": "c3c576338b5f3a06a588fa16d722c2d81158768c2e66d9c6fc0df638c462903b",
+      "rendered_prompt_sha256": "ae9346d6838dd4b3d2816db8e1ffff6251db1e46e409491400ae798f19bdb387",
+      "rendered_prompt_bytes": 16043,
+      "response_sha256": "bae9e4d1dbe25f47ebd3a7285bbdcf364d7779e130028810bc33fafdb6074044",
+      "response_bytes": 1860,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0
+    }
+  ]
+}

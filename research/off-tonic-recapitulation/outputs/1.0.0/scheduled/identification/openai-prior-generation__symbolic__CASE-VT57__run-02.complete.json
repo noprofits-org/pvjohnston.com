@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "completed_at": "2026-07-19T19:30:32.846Z",
+  "metadata_file": "openai-prior-generation__symbolic__CASE-VT57__run-02.run.json",
+  "metadata_sha256": "d4b95d176f6355a0cab86f708e59b8221fc276602c0dcf37b35c7f268399e75d",
+  "response_file": "openai-prior-generation__symbolic__CASE-VT57__run-02.md",
+  "response_sha256": "781ce361914cfa3659c78e35ac693a0463ec54904bfbb30f6a323fe3ac319a28",
+  "stderr_file": "openai-prior-generation__symbolic__CASE-VT57__run-02.stderr.txt",
+  "stderr_sha256": "a6721d8ad5a50ee5ec8609160b7efefe300e3a8f5ecaa1e64c8353180279372b"
+}

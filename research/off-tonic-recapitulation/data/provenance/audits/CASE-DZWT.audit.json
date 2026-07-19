@@ -1,0 +1,291 @@
+{
+  "schema_version": "1.0.0",
+  "status": "generated_unverified",
+  "case_id": "CASE-DZWT",
+  "source": {
+    "source_id": "SRC-DCML-MOZART-V2.3",
+    "work": "K570-1",
+    "commit": "5337257a5318711e6302cfe85c3f1a6ade3c6271",
+    "files": [
+      {
+        "path": "pdf/NMA_vol2.pdf",
+        "sha256": "fd165fcf84905700c23947bc5fc58b7b61275b42cfb2e7068cbc2109401800d6"
+      },
+      {
+        "path": "MS3/K570-1.mscx",
+        "sha256": "326fecaedf12ebe933bb14b13aef62bd33127cf5df9f7946bb4d4af9bd0443a8"
+      },
+      {
+        "path": "notes/K570-1.notes.tsv",
+        "sha256": "0b8501f172b6498d202ffba50cd8ee55e25581f2a115c0c4d57cb632c5a76f1f"
+      },
+      {
+        "path": "measures/K570-1.measures.tsv",
+        "sha256": "5e5b5a551cdf0de8e7eaff03c00cc05e41ef66dd58e16df76f78d1c3f51c88ce"
+      }
+    ]
+  },
+  "configuration": {
+    "case_id": "CASE-DZWT",
+    "work": "K570-1",
+    "candidate_mc": 133,
+    "candidate_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "second_part_mc": 80,
+    "second_part_onset_qn": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "source_score_corrections": [
+      {
+        "correction_id": "COR-K570-M001-P",
+        "source_mc": 1,
+        "onset_qn": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "direction_type": "dynamic",
+        "voice_id": null,
+        "value": "p",
+        "authority": {
+          "source_id": "SRC-DCML-MOZART-V2.3",
+          "file": "pdf/NMA_vol2.pdf",
+          "printed_page": 132
+        }
+      },
+      {
+        "correction_id": "COR-K570-M133-P",
+        "source_mc": 133,
+        "onset_qn": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "direction_type": "dynamic",
+        "voice_id": null,
+        "value": "p",
+        "authority": {
+          "source_id": "SRC-DCML-MOZART-V2.3",
+          "file": "pdf/NMA_vol2.pdf",
+          "printed_page": 137
+        }
+      }
+    ]
+  },
+  "source_score_corrections": [
+    {
+      "correction_id": "COR-K570-M001-P",
+      "source_mc": 1,
+      "onset_qn": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "direction_type": "dynamic",
+      "voice_id": null,
+      "value": "p",
+      "authority": {
+        "source_id": "SRC-DCML-MOZART-V2.3",
+        "file": "pdf/NMA_vol2.pdf",
+        "printed_page": 132
+      }
+    },
+    {
+      "correction_id": "COR-K570-M133-P",
+      "source_mc": 133,
+      "onset_qn": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "direction_type": "dynamic",
+      "voice_id": null,
+      "value": "p",
+      "authority": {
+        "source_id": "SRC-DCML-MOZART-V2.3",
+        "file": "pdf/NMA_vol2.pdf",
+        "printed_page": 137
+      }
+    }
+  ],
+  "normalization": {
+    "source_tonic": "Bb",
+    "home_mode": "major",
+    "chromatic_semitones": 4,
+    "diatonic_steps": 2,
+    "voice_map": [
+      {
+        "source_staff": 1,
+        "source_voice": 1,
+        "voice_id": "V01"
+      },
+      {
+        "source_staff": 2,
+        "source_voice": 1,
+        "voice_id": "V02"
+      },
+      {
+        "source_staff": 2,
+        "source_voice": 2,
+        "voice_id": "V03"
+      }
+    ]
+  },
+  "source_measure_map": [
+    {
+      "window_id": "W1",
+      "measure_index": 0,
+      "source_mc": 1
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 1,
+      "source_mc": 2
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 2,
+      "source_mc": 3
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 3,
+      "source_mc": 4
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 4,
+      "source_mc": 5
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 5,
+      "source_mc": 6
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 6,
+      "source_mc": 7
+    },
+    {
+      "window_id": "W1",
+      "measure_index": 7,
+      "source_mc": 8
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 0,
+      "source_mc": 127
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 1,
+      "source_mc": 128
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 2,
+      "source_mc": 129
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 3,
+      "source_mc": 130
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 4,
+      "source_mc": 131
+    },
+    {
+      "window_id": "W2",
+      "measure_index": 5,
+      "source_mc": 132
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 0,
+      "source_mc": 133
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 1,
+      "source_mc": 134
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 2,
+      "source_mc": 135
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 3,
+      "source_mc": 136
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 4,
+      "source_mc": 137
+    },
+    {
+      "window_id": "W3",
+      "measure_index": 5,
+      "source_mc": 138
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 0,
+      "source_mc": 139
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 1,
+      "source_mc": 140
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 2,
+      "source_mc": 141
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 3,
+      "source_mc": 142
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 4,
+      "source_mc": 143
+    },
+    {
+      "window_id": "W4",
+      "measure_index": 5,
+      "source_mc": 144
+    }
+  ],
+  "exact_durations_qn": {
+    "second_part_elapsed": {
+      "numerator": 159,
+      "denominator": 1
+    },
+    "second_part_total": {
+      "numerator": 390,
+      "denominator": 1
+    }
+  },
+  "checks": {
+    "all_source_chords_reconciled_with_notes_table": true,
+    "selected_schema_unsupported_constructs": 0,
+    "selected_event_count": 212,
+    "selected_rest_count": 25,
+    "selected_direction_count": 2,
+    "selected_source_score_correction_count": 2
+  },
+  "limitations": [
+    "generated dossier still requires full source-score visual verification and reverse-render review",
+    "any source-score correction is explicit in the operator configuration and audit object",
+    "schema 3 omits slurs, clefs, beaming, tempo, and display-only accidental status by design",
+    "chord-level articulations and ornaments are copied to every constituent note event"
+  ],
+  "dossier_sha256": "508ba29752932e92772781a975b313f7d1f99b63a603c79e026c51a019aee17c",
+  "generated_by": "scripts/extract-dcml-mozart.mjs"
+}

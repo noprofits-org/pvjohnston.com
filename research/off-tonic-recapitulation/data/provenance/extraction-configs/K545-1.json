@@ -1,0 +1,15 @@
+{
+  "case_id": "CASE-VT57",
+  "work": "K545-1",
+  "candidate_mc": 42,
+  "candidate_onset_qn": {
+    "numerator": 0,
+    "denominator": 1
+  },
+  "second_part_mc": 29,
+  "second_part_onset_qn": {
+    "numerator": 0,
+    "denominator": 1
+  },
+  "source_score_corrections": []
+}

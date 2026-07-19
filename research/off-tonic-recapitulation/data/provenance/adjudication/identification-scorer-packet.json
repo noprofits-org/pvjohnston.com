@@ -1,0 +1,380 @@
+[
+  {
+    "judgment_id": "J-0001",
+    "case_id": "CASE-VT57",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata No. 16 in C major, K. 545",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0002",
+    "case_id": "CASE-DZWT",
+    "composer": "Joseph Haydn",
+    "work": "Keyboard Sonata in D major, Hob. XVI:37",
+    "movement": "III. Finale: Presto ma non troppo"
+  },
+  {
+    "judgment_id": "J-0003",
+    "case_id": "CASE-8JQJ",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0004",
+    "case_id": "CASE-6U43",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0005",
+    "case_id": "CASE-DZWT",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0006",
+    "case_id": "CASE-D09B",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K.576",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0007",
+    "case_id": "CASE-D09B",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0008",
+    "case_id": "CASE-VT57",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0009",
+    "case_id": "CASE-Q2R9",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0010",
+    "case_id": "CASE-VT57",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0011",
+    "case_id": "CASE-VT57",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata No. 16 in C major, K. 545",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0012",
+    "case_id": "CASE-DZWT",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0013",
+    "case_id": "CASE-6U43",
+    "composer": "Johann Sebastian Bach",
+    "work": "Two-Part Invention No. 3 in D major, BWV 774",
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0014",
+    "case_id": "CASE-DZWT",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 284 (K. 205b)",
+    "movement": "II. Rondeau en Polonaise: Andante"
+  },
+  {
+    "judgment_id": "J-0015",
+    "case_id": "CASE-DZWT",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0016",
+    "case_id": "CASE-Q2R9",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 311/284c",
+    "movement": "I. Allegro con spirito"
+  },
+  {
+    "judgment_id": "J-0017",
+    "case_id": "CASE-DZWT",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0018",
+    "case_id": "CASE-DZWT",
+    "composer": "Ludwig van Beethoven",
+    "work": "Piano Sonata No. 7 in D major, Op. 10 No. 3",
+    "movement": "III. Menuetto: Allegro"
+  },
+  {
+    "judgment_id": "J-0019",
+    "case_id": "CASE-Q2R9",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0020",
+    "case_id": "CASE-D09B",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 576",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0021",
+    "case_id": "CASE-DZWT",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0022",
+    "case_id": "CASE-8JQJ",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0023",
+    "case_id": "CASE-6U43",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 576",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0024",
+    "case_id": "CASE-8JQJ",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0025",
+    "case_id": "CASE-6U43",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 576",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0026",
+    "case_id": "CASE-VT57",
+    "composer": "George Frideric Handel",
+    "work": "Keyboard Suite No. 5 in E major, HWV 430",
+    "movement": "Air and Variations, 'The Harmonious Blacksmith'"
+  },
+  {
+    "judgment_id": "J-0027",
+    "case_id": "CASE-DZWT",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata No. 5 in G major, K. 283 (189h)",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0028",
+    "case_id": "CASE-6U43",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0029",
+    "case_id": "CASE-D09B",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0030",
+    "case_id": "CASE-6U43",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 576",
+    "movement": "III. Allegretto"
+  },
+  {
+    "judgment_id": "J-0031",
+    "case_id": "CASE-Q2R9",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 311 (284c)",
+    "movement": "I. Allegro con spirito"
+  },
+  {
+    "judgment_id": "J-0032",
+    "case_id": "CASE-D09B",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 311 (284c)",
+    "movement": "III. Rondeau: Allegro"
+  },
+  {
+    "judgment_id": "J-0033",
+    "case_id": "CASE-Q2R9",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0034",
+    "case_id": "CASE-D09B",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 576",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0035",
+    "case_id": "CASE-6U43",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0036",
+    "case_id": "CASE-D09B",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 576",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0037",
+    "case_id": "CASE-VT57",
+    "composer": "Domenico Scarlatti",
+    "work": "Keyboard Sonata in D major, K.21 (L.363)",
+    "movement": "Single movement (Allegro)"
+  },
+  {
+    "judgment_id": "J-0038",
+    "case_id": "CASE-6U43",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0039",
+    "case_id": "CASE-Q2R9",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0040",
+    "case_id": "CASE-6U43",
+    "composer": "Johann Sebastian Bach",
+    "work": "Partita No. 5 in G major, BWV 829",
+    "movement": "VII. Gigue"
+  },
+  {
+    "judgment_id": "J-0041",
+    "case_id": "CASE-VT57",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata No. 16 in C major, K. 545",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0042",
+    "case_id": "CASE-8JQJ",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0043",
+    "case_id": "CASE-8JQJ",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0044",
+    "case_id": "CASE-Q2R9",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 311 (284c)",
+    "movement": "I. Allegro con spirito"
+  },
+  {
+    "judgment_id": "J-0045",
+    "case_id": "CASE-D09B",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata No. 18 in D major, K. 576",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0046",
+    "case_id": "CASE-8JQJ",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata No. 16 in C major, K. 545",
+    "movement": "II. Andante"
+  },
+  {
+    "judgment_id": "J-0047",
+    "case_id": "CASE-VT57",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 311 (284c)",
+    "movement": "I. Allegro con spirito"
+  },
+  {
+    "judgment_id": "J-0048",
+    "case_id": "CASE-Q2R9",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0049",
+    "case_id": "CASE-VT57",
+    "composer": null,
+    "work": null,
+    "movement": null
+  },
+  {
+    "judgment_id": "J-0050",
+    "case_id": "CASE-8JQJ",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata No. 6 in D major, K. 284/205b",
+    "movement": "II. Rondeau en Polonaise: Andante"
+  },
+  {
+    "judgment_id": "J-0051",
+    "case_id": "CASE-8JQJ",
+    "composer": "Johann Sebastian Bach",
+    "work": "Goldberg Variations, BWV 988",
+    "movement": "Aria"
+  },
+  {
+    "judgment_id": "J-0052",
+    "case_id": "CASE-Q2R9",
+    "composer": "Joseph Haydn",
+    "work": "Piano Sonata in D major, Hob. XVI:37",
+    "movement": "I. Allegro con brio"
+  },
+  {
+    "judgment_id": "J-0053",
+    "case_id": "CASE-D09B",
+    "composer": "Wolfgang Amadeus Mozart",
+    "work": "Piano Sonata in D major, K. 576",
+    "movement": "I. Allegro"
+  },
+  {
+    "judgment_id": "J-0054",
+    "case_id": "CASE-8JQJ",
+    "composer": "Johann Sebastian Bach",
+    "work": "Partita No. 1 in B-flat major, BWV 825",
+    "movement": "Menuet I"
+  }
+]

@@ -156,6 +156,79 @@ Format:
   is wrong and a second mechanism is present
 - **Status:** ready
 
+## Can LLMs apply a music-analytic rubric repeatably without recognizing the work?
+- **Observed:** Greenberg's analyses of early off-tonic recapitulations discuss
+  mechanisms that we synthesize into six potentially operational cues--tonal
+  stability, thematic correspondence, preparation, proportional location,
+  rhetorical emphasis, and rotational continuation. The six-cue 0--4 rubric is
+  investigator-authored; Greenberg did not propose or validate it. Turning
+  those cues into an LLM annotation task creates two
+  prior measurement problems: repeated runs may not agree, and an identity-withheld
+  canonical score may still be identifiable from model training. Neither is
+  tested by Greenberg, and a model comparison cannot by itself adjudicate his
+  historical or perceptual claim.
+- **Source:** Yoel Greenberg, "The Off-Tonic Recapitulation in Context: a Study
+  in Fuzziness," *Music Analysis* **44** (2025) 372--392,
+  doi:10.1111/musa.12251.
+- **Type:** composition (music-analytic rubric x LLM annotation reliability)
+- **Contribution (candidate):** a repeated cross-system measurement spanning
+  two provider families of whether LLMs apply one explicit music-analytic
+  rubric consistently, paired with a direct probe of elicited repertoire
+  identification--which is not in
+  Greenberg and is normally assumed away in identity-withheld canonical-
+  repertoire tasks; identification cannot by itself establish training-data
+  provenance or memorization
+- **Hypothesis:** on a six-dossier pilot, at least two of three model systems,
+  spanning both tested provider families, will achieve ordinal alpha at least
+  0.67, mean pairwise score difference at most 0.50, and at least 90% within-one
+  agreement; no target dossier will yield an exact work-and-movement
+  identification, while the intended identification-sensitivity anchor will
+  yield repeated within-system or both-family exact identification.
+- **Falsifier:** fewer than two model systems spanning both provider families
+  meet all repeatability thresholds,
+  any target work and movement is exactly identified, the positive control is
+  not detected, or the rubric is degenerate across cases.
+- **Publish the other outcome?** Yes--unstable ratings, stable model-specific
+  disagreement, or successful repertoire identification would each change how
+  LLM annotation should be designed and interpreted in humanities research.
+- **Primary outcome:** within-system repeatability across three fresh-context
+  runs, cross-system reliability after repetition medians, schema/missingness
+  rates, and a separately run identification probe. The continuum question is
+  deferred and cannot be inferred from six cases. The model matrix is a partial
+  2x2 panel--OpenAI frontier and active prior-generation plus Anthropic
+  frontier--so pooled results double-weight OpenAI and generation comparisons
+  remain descriptive rather than causal.
+- **GATE:** freeze two focal, three tonic-control, and one off-tonic positive-
+  control dossier; disclose the resulting imbalance and the deferred Clementi
+  extension; freeze two task prompts, exact model systems, all hashes, the
+  ordinal-alpha implementation, completeness/dispersion/identification rules,
+  and the full 108-call schedule before the first real-case output is viewed.
+- **Status:** published —
+  `/posts/2026-07-19-repeatable-but-not-blind.html`. The hypothesis was
+  falsified for automatic expansion: the two complete passing systems came
+  from one provider family, cue dispersion reached 0/6 (2/6 post hoc), all
+  three systems exactly identified K. 576/i, and two target work-level
+  recognition self-reports occurred; the K. 545 sensitivity condition passed
+
+## Off-tonic dataset 2.0: does fixing the design preserve the stability?
+- **Observed:** The 1.0.0 pilot was repeatable but not blind: the frozen
+  validator rejected five complete Anthropic responses over two unstated
+  constraints, the primary set had no off-tonic anchor (Clementi deferred on
+  source verification), K. 576 survived normalization as an identity transform
+  and was the only exactly identified target, and the panel gave OpenAI two of
+  three positions.
+- **Source:** own next step; the off-tonic pilot post's Conclusion
+- **Type:** untested regime (revised design under the same estimands)
+- **Contribution (candidate):** a re-frozen run with an expert-verifiable
+  off-tonic primary anchor, a prompt-aligned preflighted output contract, a
+  representation that reduces identity recovery or models familiarity as an
+  explicit factor, and a provider-balanced panel
+- **Falsifier:** the revised design loses the observed test–retest stability
+  (any previously passing system drops below the frozen α/MAD/within-one
+  thresholds), or identity recovery persists across the changed representation
+- **Status:** observation — blocked on expert-readable source verification for
+  Clementi Op. 10 No. 3/i (or another off-tonic anchor) before any re-freeze
+
 ## SGD control: does the convention gap become ω₀² = 900?
 - **Observed:** Corrected prediction from the convention post (an earlier draft
   said SGD is invariant here — backwards): SGD's step is proportional to the

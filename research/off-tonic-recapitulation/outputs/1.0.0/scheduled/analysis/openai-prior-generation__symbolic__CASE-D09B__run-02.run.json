@@ -1,0 +1,48 @@
+{
+  "schema_version": "2.0.0",
+  "task": "analysis",
+  "case_id": "CASE-D09B",
+  "model_label": "openai-prior-generation",
+  "run_kind": "scheduled",
+  "run": "02",
+  "requested_model_spec": {
+    "provider": "OpenAI",
+    "model_id": "gpt-5.5",
+    "generation_role": "prior_generation_active_not_deprecated",
+    "experimental_unit": "Codex CLI model system",
+    "cli": "codex",
+    "cli_version": "0.144.6",
+    "authentication": "ChatGPT subscription authentication; account identity not published",
+    "decoding_settings": "reasoning_effort=high; verbosity=low; provider sampling defaults because temperature/seed are not exposed by this CLI",
+    "tool_access": "none",
+    "adapter": "scripts/adapters/openai-prior-generation.sh",
+    "adapter_sha256": "582c17f4bb45e5ea1e3aa077573e506a80cf4841be3d7c8b5c5d91b0c32bca5d",
+    "preflight_status": "passed_no_outcome_2026-07-19",
+    "preflight_receipt": {
+      "path": "data/provenance/preflight-receipts/openai-prior-generation__synthetic-schema__20260719T174718215Z__pid-12770.receipt.json",
+      "sha256": "21e5eb4c980200b4d0e1b59619c992a228e780f85d6aed3cdd5587078ce9e223"
+    }
+  },
+  "observed_model_version": null,
+  "provider_request_id": null,
+  "invocation": [
+    "scripts/adapters/openai-prior-generation.sh"
+  ],
+  "started_at": "2026-07-19T19:54:27Z",
+  "ended_at": "2026-07-19T19:54:52Z",
+  "dataset_version": "1.0.0",
+  "dataset_manifest_sha256": "6a027698775083ed275e0149685ec23cc07dea9d4f7f19b2a40b6c7d2eb246bb",
+  "run_matrix_sha256": "145cb1278b85ced5502386d2b722f1cf0ba04050e961aa785cfe6c67e712bcca",
+  "collection_lock_sha256": "2efbbcb23fd1178e50297618af083ecc8d1d5b6dbddeb5324b14bab78a13f015",
+  "adapter_sha256": "582c17f4bb45e5ea1e3aa077573e506a80cf4841be3d7c8b5c5d91b0c32bca5d",
+  "prompt_template_sha256": "d1d5dc1ce592ff2862c15b27d9377482e55ddb227b402db751ebf02862eade4e",
+  "rendered_prompt_sha256": "9aebf8b45d0ad9b9d1635b7c6d81a3c7f9d865c604917aad2426c2bf39f35d1d",
+  "dossier_sha256": "5dbb6b1bc7e4b300757a67c4c03fae5afe603f317b8a4b13fb813b0aac4b27f5",
+  "response_file": "openai-prior-generation__symbolic__CASE-D09B__run-02.md",
+  "response_sha256": "e5cb23fa664f37437427b959b88ce1c5b0b5ec02b1e6d9764238535d905f86c7",
+  "stderr_file": "openai-prior-generation__symbolic__CASE-D09B__run-02.stderr.txt",
+  "stderr_sha256": "03a5e759406b504892c0b39307705376849615c8c38d06dc7f9ef26d891fe405",
+  "command_exit_status": 0,
+  "validation_status": "valid",
+  "validation_error": null
+}

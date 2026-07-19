@@ -1,0 +1,703 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "post_hoc_descriptive",
+  "dataset_version": "1.0.0",
+  "status": "complete",
+  "purpose": "Tabulate case-by-system status probabilities and argmax patterns from only the strictly valid frozen analysis responses.",
+  "interpretation_boundary": [
+    "This table was specified after outcomes were available and is descriptive only.",
+    "Corpus roles are design labels, not music-theoretical ground truth or an accuracy reference.",
+    "Means condition on strictly valid responses, so system-case cells with invalid responses have smaller n.",
+    "Pooled means and counts weight each valid run equally, are system/provider-unbalanced, and change composition where Anthropic responses are invalid.",
+    "Status probabilities are secondary model outputs and do not validate the investigator-authored rubric."
+  ],
+  "provenance": {
+    "collection_lock_sha256": "2efbbcb23fd1178e50297618af083ecc8d1d5b6dbddeb5324b14bab78a13f015",
+    "primary_summary_sha256": "e915df4256e2ff493581d62610e952a4fac95d7f8f1032a0afa28eee919eb383",
+    "statistical_analysis_spec_sha256": "4b4dcf087365314028b262eb37e51fa8fcddd18e3bb7ee164757e39379cf5243",
+    "frozen_reliability_implementation_sha256": "574c26b79b562054f4999496cf3d4a0b46c0db28e03ce43d74d9dd40a791eac8",
+    "frozen_response_validator_sha256": "0d4c7a9b3350ad184fcef0653c8c3da31e5db23abf4c62147e2a6094f3a48a52",
+    "reporting_addenda_builder_sha256": "f4b843c76791398e54a261f1520e036175e1b6691d45e176e9c18b72eca8312a",
+    "reporting_addenda_library_sha256": "0c4359f6131a1dc6fd293cab4f566de36d0aea4438bb46a60a28fb2b766ba567",
+    "reporting_addenda_test_sha256": "de7ef0abd54d308c72681e5affbd25e1d719d0aab530c0bd50dcc10e9f019b2c",
+    "locked_file_count": 41,
+    "collection_output_checksum_manifest_sha256": "7aa40e37c9948f03ef7689320e07ac42067ea9ed957bdec5fcc7ce97f560f229",
+    "collection_output_record_count": 540,
+    "strictly_valid_analysis_count": 49,
+    "invalid_analysis_responses_parsed": 0
+  },
+  "status_labels": [
+    "not_recapitulation",
+    "off_tonic_recapitulation",
+    "tonic_double_return"
+  ],
+  "systems": {
+    "openai-frontier": {
+      "provider": "OpenAI",
+      "model_id": "gpt-5.6-sol",
+      "generation_role": "frontier"
+    },
+    "anthropic-frontier": {
+      "provider": "Anthropic",
+      "model_id": "claude-fable-5",
+      "generation_role": "frontier"
+    },
+    "openai-prior-generation": {
+      "provider": "OpenAI",
+      "model_id": "gpt-5.5",
+      "generation_role": "prior_generation_active_not_deprecated"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "CASE-6U43",
+      "identity": {
+        "composer": "Carl Philipp Emanuel Bach",
+        "work": "Prussian Sonata in E major, Wq 48/3",
+        "movement": "iii",
+        "candidate_measure": 51
+      },
+      "corpus_role": "focal",
+      "probe_role": "target",
+      "by_system": {
+        "openai-frontier": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.07333333333333333,
+            "off_tonic_recapitulation": 0.05000000000000001,
+            "tonic_double_return": 0.8766666666666666
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "02",
+            "01",
+            "03"
+          ]
+        },
+        "anthropic-frontier": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.22999999999999998,
+            "off_tonic_recapitulation": 0.04666666666666667,
+            "tonic_double_return": 0.7233333333333333
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "03",
+            "01",
+            "02"
+          ]
+        },
+        "openai-prior-generation": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.09333333333333334,
+            "off_tonic_recapitulation": 0.08,
+            "tonic_double_return": 0.8266666666666668
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "03",
+            "02",
+            "01"
+          ]
+        }
+      },
+      "pooled": {
+        "valid_analysis_count": 9,
+        "mean_status_probability": {
+          "not_recapitulation": 0.1322222222222222,
+          "off_tonic_recapitulation": 0.05888888888888889,
+          "tonic_double_return": 0.8088888888888889
+        },
+        "argmax_counts": {
+          "not_recapitulation": 0,
+          "off_tonic_recapitulation": 0,
+          "tonic_double_return": 9
+        },
+        "unique_argmax_labels_present": [
+          "tonic_double_return"
+        ],
+        "source_runs": [
+          "03",
+          "02",
+          "01",
+          "01",
+          "03",
+          "03",
+          "02",
+          "01",
+          "02"
+        ],
+        "argmax_consistency": {
+          "unanimous": true,
+          "consensus_label": "tonic_double_return",
+          "matching_count": 9,
+          "valid_analysis_count": 9,
+          "matching_fraction": 1
+        }
+      }
+    },
+    {
+      "case_id": "CASE-8JQJ",
+      "identity": {
+        "composer": "Georg Benda",
+        "work": "Keyboard Sonata No. 2 in G major (Sei Sonate per il cembalo solo)",
+        "movement": "iii",
+        "candidate_measure": 51
+      },
+      "corpus_role": "focal",
+      "probe_role": "target",
+      "by_system": {
+        "openai-frontier": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.15166666666666667,
+            "off_tonic_recapitulation": 0.8443333333333333,
+            "tonic_double_return": 0.004
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 3,
+            "tonic_double_return": 0
+          },
+          "unique_argmax_labels_present": [
+            "off_tonic_recapitulation"
+          ],
+          "source_runs": [
+            "03",
+            "02",
+            "01"
+          ]
+        },
+        "anthropic-frontier": {
+          "valid_analysis_count": 1,
+          "mean_status_probability": {
+            "not_recapitulation": 0.13,
+            "off_tonic_recapitulation": 0.55,
+            "tonic_double_return": 0.32
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 1,
+            "tonic_double_return": 0
+          },
+          "unique_argmax_labels_present": [
+            "off_tonic_recapitulation"
+          ],
+          "source_runs": [
+            "01"
+          ]
+        },
+        "openai-prior-generation": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.17666666666666667,
+            "off_tonic_recapitulation": 0.7066666666666667,
+            "tonic_double_return": 0.11666666666666665
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 3,
+            "tonic_double_return": 0
+          },
+          "unique_argmax_labels_present": [
+            "off_tonic_recapitulation"
+          ],
+          "source_runs": [
+            "02",
+            "01",
+            "03"
+          ]
+        }
+      },
+      "pooled": {
+        "valid_analysis_count": 7,
+        "mean_status_probability": {
+          "not_recapitulation": 0.1592857142857143,
+          "off_tonic_recapitulation": 0.7432857142857142,
+          "tonic_double_return": 0.09742857142857143
+        },
+        "argmax_counts": {
+          "not_recapitulation": 0,
+          "off_tonic_recapitulation": 7,
+          "tonic_double_return": 0
+        },
+        "unique_argmax_labels_present": [
+          "off_tonic_recapitulation"
+        ],
+        "source_runs": [
+          "01",
+          "02",
+          "01",
+          "03",
+          "03",
+          "02",
+          "01"
+        ],
+        "argmax_consistency": {
+          "unanimous": true,
+          "consensus_label": "off_tonic_recapitulation",
+          "matching_count": 7,
+          "valid_analysis_count": 7,
+          "matching_fraction": 1
+        }
+      }
+    },
+    {
+      "case_id": "CASE-D09B",
+      "identity": {
+        "composer": "Wolfgang Amadeus Mozart",
+        "work": "Piano Sonata in D major, K. 576",
+        "movement": "i",
+        "candidate_measure": 99
+      },
+      "corpus_role": "tonic_control",
+      "probe_role": "target",
+      "by_system": {
+        "openai-frontier": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.0030000000000000005,
+            "off_tonic_recapitulation": 0.001,
+            "tonic_double_return": 0.996
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "01",
+            "02",
+            "03"
+          ]
+        },
+        "anthropic-frontier": {
+          "valid_analysis_count": 1,
+          "mean_status_probability": {
+            "not_recapitulation": 0.01,
+            "off_tonic_recapitulation": 0.01,
+            "tonic_double_return": 0.98
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 1
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "01"
+          ]
+        },
+        "openai-prior-generation": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.016666666666666666,
+            "off_tonic_recapitulation": 0.023333333333333334,
+            "tonic_double_return": 0.96
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "01",
+            "03",
+            "02"
+          ]
+        }
+      },
+      "pooled": {
+        "valid_analysis_count": 7,
+        "mean_status_probability": {
+          "not_recapitulation": 0.009857142857142856,
+          "off_tonic_recapitulation": 0.011857142857142858,
+          "tonic_double_return": 0.9782857142857143
+        },
+        "argmax_counts": {
+          "not_recapitulation": 0,
+          "off_tonic_recapitulation": 0,
+          "tonic_double_return": 7
+        },
+        "unique_argmax_labels_present": [
+          "tonic_double_return"
+        ],
+        "source_runs": [
+          "01",
+          "01",
+          "02",
+          "03",
+          "01",
+          "03",
+          "02"
+        ],
+        "argmax_consistency": {
+          "unanimous": true,
+          "consensus_label": "tonic_double_return",
+          "matching_count": 7,
+          "valid_analysis_count": 7,
+          "matching_fraction": 1
+        }
+      }
+    },
+    {
+      "case_id": "CASE-DZWT",
+      "identity": {
+        "composer": "Wolfgang Amadeus Mozart",
+        "work": "Piano Sonata in B-flat major, K. 570",
+        "movement": "i",
+        "candidate_measure": 133
+      },
+      "corpus_role": "tonic_control",
+      "probe_role": "target",
+      "by_system": {
+        "openai-frontier": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.0033333333333333335,
+            "off_tonic_recapitulation": 0.001,
+            "tonic_double_return": 0.9956666666666667
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "03",
+            "01",
+            "02"
+          ]
+        },
+        "anthropic-frontier": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.02,
+            "off_tonic_recapitulation": 0.008333333333333333,
+            "tonic_double_return": 0.9716666666666667
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "02",
+            "03",
+            "01"
+          ]
+        },
+        "openai-prior-generation": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.02,
+            "off_tonic_recapitulation": 0.02,
+            "tonic_double_return": 0.96
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "03",
+            "02",
+            "01"
+          ]
+        }
+      },
+      "pooled": {
+        "valid_analysis_count": 9,
+        "mean_status_probability": {
+          "not_recapitulation": 0.014444444444444446,
+          "off_tonic_recapitulation": 0.00977777777777778,
+          "tonic_double_return": 0.9757777777777777
+        },
+        "argmax_counts": {
+          "not_recapitulation": 0,
+          "off_tonic_recapitulation": 0,
+          "tonic_double_return": 9
+        },
+        "unique_argmax_labels_present": [
+          "tonic_double_return"
+        ],
+        "source_runs": [
+          "03",
+          "02",
+          "03",
+          "01",
+          "02",
+          "01",
+          "03",
+          "01",
+          "02"
+        ],
+        "argmax_consistency": {
+          "unanimous": true,
+          "consensus_label": "tonic_double_return",
+          "matching_count": 9,
+          "valid_analysis_count": 9,
+          "matching_fraction": 1
+        }
+      }
+    },
+    {
+      "case_id": "CASE-Q2R9",
+      "identity": {
+        "composer": "Wolfgang Amadeus Mozart",
+        "work": "Piano Sonata in B-flat major, K. 333",
+        "movement": "i",
+        "candidate_measure": "pickup in m. 93 into m. 94"
+      },
+      "corpus_role": "tonic_control",
+      "probe_role": "target",
+      "by_system": {
+        "openai-frontier": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.013333333333333334,
+            "off_tonic_recapitulation": 0.065,
+            "tonic_double_return": 0.9216666666666665
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "01",
+            "03",
+            "02"
+          ]
+        },
+        "anthropic-frontier": {
+          "valid_analysis_count": 2,
+          "mean_status_probability": {
+            "not_recapitulation": 0.055,
+            "off_tonic_recapitulation": 0.015,
+            "tonic_double_return": 0.9299999999999999
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 2
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "02",
+            "03"
+          ]
+        },
+        "openai-prior-generation": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.03,
+            "off_tonic_recapitulation": 0.12,
+            "tonic_double_return": 0.85
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 0,
+            "tonic_double_return": 3
+          },
+          "unique_argmax_labels_present": [
+            "tonic_double_return"
+          ],
+          "source_runs": [
+            "02",
+            "01",
+            "03"
+          ]
+        }
+      },
+      "pooled": {
+        "valid_analysis_count": 8,
+        "mean_status_probability": {
+          "not_recapitulation": 0.030000000000000002,
+          "off_tonic_recapitulation": 0.073125,
+          "tonic_double_return": 0.896875
+        },
+        "argmax_counts": {
+          "not_recapitulation": 0,
+          "off_tonic_recapitulation": 0,
+          "tonic_double_return": 8
+        },
+        "unique_argmax_labels_present": [
+          "tonic_double_return"
+        ],
+        "source_runs": [
+          "02",
+          "01",
+          "03",
+          "02",
+          "02",
+          "01",
+          "03",
+          "03"
+        ],
+        "argmax_consistency": {
+          "unanimous": true,
+          "consensus_label": "tonic_double_return",
+          "matching_count": 8,
+          "valid_analysis_count": 8,
+          "matching_fraction": 1
+        }
+      }
+    },
+    {
+      "case_id": "CASE-VT57",
+      "identity": {
+        "composer": "Wolfgang Amadeus Mozart",
+        "work": "Piano Sonata in C major, K. 545",
+        "movement": "i",
+        "candidate_measure": 42
+      },
+      "corpus_role": "off_tonic_control",
+      "probe_role": "positive_control",
+      "by_system": {
+        "openai-frontier": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.019,
+            "off_tonic_recapitulation": 0.98,
+            "tonic_double_return": 0.001
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 3,
+            "tonic_double_return": 0
+          },
+          "unique_argmax_labels_present": [
+            "off_tonic_recapitulation"
+          ],
+          "source_runs": [
+            "01",
+            "03",
+            "02"
+          ]
+        },
+        "anthropic-frontier": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.08666666666666667,
+            "off_tonic_recapitulation": 0.8733333333333334,
+            "tonic_double_return": 0.04
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 3,
+            "tonic_double_return": 0
+          },
+          "unique_argmax_labels_present": [
+            "off_tonic_recapitulation"
+          ],
+          "source_runs": [
+            "01",
+            "02",
+            "03"
+          ]
+        },
+        "openai-prior-generation": {
+          "valid_analysis_count": 3,
+          "mean_status_probability": {
+            "not_recapitulation": 0.09666666666666668,
+            "off_tonic_recapitulation": 0.8433333333333333,
+            "tonic_double_return": 0.06
+          },
+          "argmax_counts": {
+            "not_recapitulation": 0,
+            "off_tonic_recapitulation": 3,
+            "tonic_double_return": 0
+          },
+          "unique_argmax_labels_present": [
+            "off_tonic_recapitulation"
+          ],
+          "source_runs": [
+            "01",
+            "02",
+            "03"
+          ]
+        }
+      },
+      "pooled": {
+        "valid_analysis_count": 9,
+        "mean_status_probability": {
+          "not_recapitulation": 0.06744444444444445,
+          "off_tonic_recapitulation": 0.8988888888888888,
+          "tonic_double_return": 0.03366666666666667
+        },
+        "argmax_counts": {
+          "not_recapitulation": 0,
+          "off_tonic_recapitulation": 9,
+          "tonic_double_return": 0
+        },
+        "unique_argmax_labels_present": [
+          "off_tonic_recapitulation"
+        ],
+        "source_runs": [
+          "01",
+          "01",
+          "02",
+          "01",
+          "03",
+          "03",
+          "02",
+          "02",
+          "03"
+        ],
+        "argmax_consistency": {
+          "unanimous": true,
+          "consensus_label": "off_tonic_recapitulation",
+          "matching_count": 9,
+          "valid_analysis_count": 9,
+          "matching_fraction": 1
+        }
+      }
+    }
+  ]
+}
