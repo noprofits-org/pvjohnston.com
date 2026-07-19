@@ -156,6 +156,44 @@ Format:
   is wrong and a second mechanism is present
 - **Status:** ready
 
+## Can LLMs apply a music-analytic rubric repeatably without recognizing the work?
+- **Observed:** Greenberg describes early off-tonic recapitulations through six
+  potentially operational cues--tonal stability, thematic correspondence,
+  preparation, proportional location, rhetorical emphasis, and rotational
+  continuation. Turning those cues into an LLM annotation task creates two
+  prior measurement problems: repeated runs may not agree, and an anonymized
+  canonical score may still be identifiable from model training. Neither is
+  tested by Greenberg, and a model comparison cannot by itself adjudicate his
+  historical or perceptual claim.
+- **Source:** Yoel Greenberg, "The Off-Tonic Recapitulation in Context: a Study
+  in Fuzziness," *Music Analysis* **44** (2025) 372--392,
+  doi:10.1111/musa.12251.
+- **Type:** composition (music-analytic rubric x LLM annotation reliability)
+- **Contribution (candidate):** a repeated, cross-family measurement of whether
+  LLMs apply one explicit music-analytic rubric consistently, paired with a
+  direct identification probe for training-data leakage--which is not in
+  Greenberg and is normally assumed away in blinded canonical-repertoire tasks
+- **Hypothesis:** on a six-dossier pilot, at least two of three model families
+  will achieve ordinal alpha at least 0.67, mean pairwise score difference at
+  most 0.50, and at least 90% within-one agreement; no target dossier will yield
+  an exact work-and-movement identification, while the deliberately recognizable
+  positive control will yield repeated or cross-family exact identification.
+- **Falsifier:** fewer than two model families meet all repeatability thresholds,
+  any target work and movement is exactly identified, the positive control is
+  not detected, or the rubric is degenerate across cases.
+- **Publish the other outcome?** Yes--unstable ratings, stable model-specific
+  disagreement, or successful repertoire identification would each change how
+  LLM annotation should be designed and interpreted in humanities research.
+- **Primary outcome:** within-model repeatability across three fresh-context
+  runs, cross-model reliability after repetition medians, schema/missingness
+  rates, and a separately run identification probe. The continuum question is
+  deferred and cannot be inferred from six cases.
+- **GATE:** freeze two focal, two tonic-control, and two off-tonic-control
+  dossiers; two task prompts; exact model versions; all hashes; the ordinal
+  alpha implementation; completeness, dispersion, and identification rules;
+  and the full 108-call schedule before the first model output is viewed.
+- **Status:** piloting--protocol and runner implemented; corpus not frozen
+
 ## SGD control: does the convention gap become ω₀² = 900?
 - **Observed:** Corrected prediction from the convention post (an earlier draft
   said SGD is invariant here — backwards): SGD's step is proportional to the

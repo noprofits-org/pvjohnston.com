@@ -1,0 +1,17 @@
+{
+  "experiment": "off-tonic-llm-reliability-pilot",
+  "schema_version": "2.0.0",
+  "dataset_version": "0.0.0-development",
+  "dataset_status": "development",
+  "evidence_condition": "symbolic",
+  "pilot_case_count": 6,
+  "randomization_seed": null,
+  "created": "2026-07-18",
+  "frozen": null,
+  "cases": [],
+  "prompt_sha256": {
+    "analysis": null,
+    "identification": null
+  },
+  "notes": "The runner must refuse collection until six case files, prompt hashes, randomization, and frozen status are recorded."
+}

@@ -52,3 +52,6 @@ calcs/*.npy
 calcs/h2plus-coulomb/predictions-*.csv
 calcs/**/__pycache__/
 psi.*.clean
+
+# Off-tonic experiment: regenerable score-page renders
+research/off-tonic-recapitulation/tmp/

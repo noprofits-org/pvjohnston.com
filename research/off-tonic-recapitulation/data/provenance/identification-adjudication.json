@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "status": "development",
+  "levels": {
+    "L2": "Uniquely correct work or catalogue identifier and movement.",
+    "L1": "Correct composer or work family, but not a unique work and movement.",
+    "L0": "Incorrect, broad style resemblance only, or abstention."
+  },
+  "judgments": []
+}
+

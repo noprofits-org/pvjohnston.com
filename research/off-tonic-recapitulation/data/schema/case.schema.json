@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pvjohnston.com/schemas/off-tonic-symbolic-case-3.0.0.json",
+  "title": "Blinded symbolic candidate-return dossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "condition",
+    "encoding",
+    "candidate_return",
+    "windows"
+  ],
+  "properties": {
+    "schema_version": {"const": "3.0.0"},
+    "case_id": {"type": "string", "pattern": "^CASE-[A-Z0-9]{4}$"},
+    "condition": {"const": "symbolic"},
+    "encoding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "common_tonic",
+        "home_mode",
+        "duration_unit",
+        "measure_numbers",
+        "pitch_system",
+        "coverage"
+      ],
+      "properties": {
+        "common_tonic": {"const": "C"},
+        "home_mode": {"enum": ["major", "minor"]},
+        "duration_unit": {"const": "quarter_note"},
+        "measure_numbers": {"const": "window_relative"},
+        "pitch_system": {"const": "scientific_pitch_diatonic_spelling"},
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "notes",
+            "rests",
+            "voices",
+            "meter",
+            "key_signatures",
+            "dynamics",
+            "articulations",
+            "ornaments",
+            "repeats_and_barlines"
+          ],
+          "properties": {
+            "notes": {"const": "complete"},
+            "rests": {"const": "complete"},
+            "voices": {"const": "complete"},
+            "meter": {"const": "complete"},
+            "key_signatures": {"const": "complete"},
+            "dynamics": {"const": "complete"},
+            "articulations": {"const": "complete"},
+            "ornaments": {"const": "complete"},
+            "repeats_and_barlines": {"const": "complete"}
+          }
+        }
+      }
+    },
+    "candidate_return": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "window_id",
+        "measure_index",
+        "onset_qn",
+        "second_part_elapsed_qn",
+        "second_part_total_qn"
+      ],
+      "properties": {
+        "window_id": {"const": "W3"},
+        "measure_index": {"const": 0},
+        "onset_qn": {"$ref": "#/$defs/nonnegative_rational"},
+        "second_part_elapsed_qn": {"$ref": "#/$defs/nonnegative_rational"},
+        "second_part_total_qn": {"$ref": "#/$defs/positive_rational"}
+      }
+    },
+    "windows": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "prefixItems": [
+        {"$ref": "#/$defs/opening_window"},
+        {"$ref": "#/$defs/pre_candidate_window"},
+        {"$ref": "#/$defs/candidate_window"},
+        {"$ref": "#/$defs/continuation_window"}
+      ],
+      "items": false
+    }
+  },
+  "$defs": {
+    "nonnegative_rational": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["numerator", "denominator"],
+      "properties": {
+        "numerator": {"type": "integer", "minimum": 0},
+        "denominator": {"type": "integer", "minimum": 1}
+      }
+    },
+    "positive_rational": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["numerator", "denominator"],
+      "properties": {
+        "numerator": {"type": "integer", "minimum": 1},
+        "denominator": {"type": "integer", "minimum": 1}
+      }
+    },
+    "meter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["beats", "beat_type"],
+      "properties": {
+        "beats": {"type": "integer", "minimum": 1, "maximum": 32},
+        "beat_type": {"enum": [1, 2, 4, 8, 16, 32, 64]}
+      }
+    },
+    "key_signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fifths"],
+      "properties": {
+        "fifths": {"type": "integer", "minimum": -7, "maximum": 7}
+      }
+    },
+    "pitch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["step", "alter", "octave"],
+      "properties": {
+        "step": {"enum": ["C", "D", "E", "F", "G", "A", "B"]},
+        "alter": {"type": "integer", "minimum": -4, "maximum": 4},
+        "octave": {"type": "integer", "minimum": -1, "maximum": 9}
+      }
+    },
+    "articulations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "accent",
+          "breath_mark",
+          "caesura",
+          "fermata",
+          "marcato",
+          "portato",
+          "spiccato",
+          "staccatissimo",
+          "staccato",
+          "tenuto"
+        ]
+      }
+    },
+    "ornaments": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "arpeggiate",
+          "inverted_mordent",
+          "inverted_turn",
+          "mordent",
+          "trill",
+          "turn"
+        ]
+      }
+    },
+    "note_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "event_type",
+        "onset_qn",
+        "duration_qn",
+        "voice_id",
+        "pitch",
+        "tie",
+        "grace",
+        "articulations",
+        "ornaments"
+      ],
+      "properties": {
+        "event_id": {"type": "string", "pattern": "^EV[0-9]{4}$"},
+        "event_type": {"const": "note"},
+        "onset_qn": {"$ref": "#/$defs/nonnegative_rational"},
+        "duration_qn": {"$ref": "#/$defs/positive_rational"},
+        "voice_id": {"type": "string", "pattern": "^V[0-9]{2}$"},
+        "pitch": {"$ref": "#/$defs/pitch"},
+        "tie": {"enum": ["none", "start", "continue", "stop"]},
+        "grace": {"enum": ["none", "acciaccatura", "appoggiatura", "unspecified"]},
+        "articulations": {"$ref": "#/$defs/articulations"},
+        "ornaments": {"$ref": "#/$defs/ornaments"}
+      }
+    },
+    "rest_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "event_type",
+        "onset_qn",
+        "duration_qn",
+        "voice_id",
+        "articulations"
+      ],
+      "properties": {
+        "event_id": {"type": "string", "pattern": "^EV[0-9]{4}$"},
+        "event_type": {"const": "rest"},
+        "onset_qn": {"$ref": "#/$defs/nonnegative_rational"},
+        "duration_qn": {"$ref": "#/$defs/positive_rational"},
+        "voice_id": {"type": "string", "pattern": "^V[0-9]{2}$"},
+        "articulations": {"$ref": "#/$defs/articulations"}
+      }
+    },
+    "event": {
+      "oneOf": [
+        {"$ref": "#/$defs/note_event"},
+        {"$ref": "#/$defs/rest_event"}
+      ]
+    },
+    "dynamic_direction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["direction_id", "direction_type", "onset_qn", "voice_id", "value"],
+      "properties": {
+        "direction_id": {"type": "string", "pattern": "^DR[0-9]{4}$"},
+        "direction_type": {"const": "dynamic"},
+        "onset_qn": {"$ref": "#/$defs/nonnegative_rational"},
+        "voice_id": {
+          "oneOf": [
+            {"type": "string", "pattern": "^V[0-9]{2}$"},
+            {"type": "null"}
+          ]
+        },
+        "value": {
+          "enum": [
+            "pppp",
+            "ppp",
+            "pp",
+            "p",
+            "mp",
+            "mf",
+            "f",
+            "ff",
+            "fff",
+            "ffff",
+            "fp",
+            "sf",
+            "sfp",
+            "sfz",
+            "sffz",
+            "rfz"
+          ]
+        }
+      }
+    },
+    "hairpin_direction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["direction_id", "direction_type", "onset_qn", "voice_id", "value"],
+      "properties": {
+        "direction_id": {"type": "string", "pattern": "^DR[0-9]{4}$"},
+        "direction_type": {"const": "hairpin"},
+        "onset_qn": {"$ref": "#/$defs/nonnegative_rational"},
+        "voice_id": {
+          "oneOf": [
+            {"type": "string", "pattern": "^V[0-9]{2}$"},
+            {"type": "null"}
+          ]
+        },
+        "value": {
+          "enum": [
+            "crescendo_start",
+            "crescendo_continue",
+            "crescendo_stop",
+            "diminuendo_start",
+            "diminuendo_continue",
+            "diminuendo_stop"
+          ]
+        }
+      }
+    },
+    "direction": {
+      "oneOf": [
+        {"$ref": "#/$defs/dynamic_direction"},
+        {"$ref": "#/$defs/hairpin_direction"}
+      ]
+    },
+    "measure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "measure_index",
+        "evidence_id",
+        "notated_duration_qn",
+        "meter",
+        "key_signature",
+        "left_barline",
+        "right_barline",
+        "volta",
+        "events",
+        "directions"
+      ],
+      "properties": {
+        "measure_index": {"type": "integer", "minimum": -1, "maximum": 7},
+        "evidence_id": {"type": "string", "pattern": "^E[0-9]{3}$"},
+        "notated_duration_qn": {"$ref": "#/$defs/positive_rational"},
+        "meter": {"$ref": "#/$defs/meter"},
+        "key_signature": {"$ref": "#/$defs/key_signature"},
+        "left_barline": {
+          "enum": ["none", "regular", "double", "dashed", "repeat_start", "repeat_both"]
+        },
+        "right_barline": {
+          "enum": ["none", "regular", "double", "dashed", "final", "repeat_end", "repeat_both"]
+        },
+        "volta": {"enum": ["none", "first", "second", "third"]},
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/event"}
+        },
+        "directions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/direction"}
+        }
+      }
+    },
+    "opening_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["window_id", "role", "measures"],
+      "properties": {
+        "window_id": {"const": "W1"},
+        "role": {"const": "opening"},
+        "measures": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 9,
+          "items": {"$ref": "#/$defs/measure"}
+        }
+      }
+    },
+    "pre_candidate_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["window_id", "role", "measures"],
+      "properties": {
+        "window_id": {"const": "W2"},
+        "role": {"const": "pre_candidate"},
+        "measures": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {"$ref": "#/$defs/measure"}
+        }
+      }
+    },
+    "candidate_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["window_id", "role", "measures"],
+      "properties": {
+        "window_id": {"const": "W3"},
+        "role": {"const": "candidate"},
+        "measures": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {"$ref": "#/$defs/measure"}
+        }
+      }
+    },
+    "continuation_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["window_id", "role", "measures"],
+      "properties": {
+        "window_id": {"const": "W4"},
+        "role": {"const": "continuation"},
+        "measures": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {"$ref": "#/$defs/measure"}
+        }
+      }
+    }
+  }
+}

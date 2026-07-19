@@ -1,0 +1,49 @@
+{
+  "schema_version": "2.0.0",
+  "matrix_status": "development",
+  "dataset_manifest_sha256": null,
+  "schedule_seed": null,
+  "tasks": {
+    "analysis": {
+      "prompt": "prompts/analysis.md",
+      "repetitions_per_case": 3
+    },
+    "identification": {
+      "prompt": "prompts/identification.md",
+      "repetitions_per_case": 3
+    }
+  },
+  "models": {
+    "model-a": {
+      "provider": "TBD",
+      "model_id": "TBD",
+      "cli": "TBD",
+      "cli_version": "TBD",
+      "decoding_settings": "TBD",
+      "tool_access": "none",
+      "adapter": "TBD",
+      "adapter_sha256": "TBD"
+    },
+    "model-b": {
+      "provider": "TBD",
+      "model_id": "TBD",
+      "cli": "TBD",
+      "cli_version": "TBD",
+      "decoding_settings": "TBD",
+      "tool_access": "none",
+      "adapter": "TBD",
+      "adapter_sha256": "TBD"
+    },
+    "model-c": {
+      "provider": "TBD",
+      "model_id": "TBD",
+      "cli": "TBD",
+      "cli_version": "TBD",
+      "decoding_settings": "TBD",
+      "tool_access": "none",
+      "adapter": "TBD",
+      "adapter_sha256": "TBD"
+    }
+  },
+  "schedule": []
+}
