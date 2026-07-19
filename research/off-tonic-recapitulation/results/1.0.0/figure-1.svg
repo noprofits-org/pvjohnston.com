@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+<title id="title">Repeatable, but not blind</title>
+<desc id="desc">Three panels compare ordinal test-retest reliability, frozen and prompt-aligned feasibility gates, and exact work-and-movement identification across six music dossiers.</desc>
+<rect x="0" y="0" width="1200" height="630" fill="#F5F2EA"/>
+<text x="42" y="39" fill="#465C9B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13" font-weight="750" letter-spacing="1.45">OFF-TONIC RECAPITULATION  ·  DATASET 1.0.0  ·  108 CALLS</text>
+<text x="40" y="92" fill="#1A1D2B" font-family="Georgia,'Times New Roman',serif" font-size="45" font-weight="700" letter-spacing="-0.8">Repeatable, but not blind</text>
+<text x="42" y="124" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17" font-weight="500">Ordinal reliability  ·  feasibility gates  ·  exact dossier identification</text>
+<line x1="40" y1="145" x2="1160" y2="145" stroke="#D9D2C2" stroke-width="1.5"/>
+<rect x="40" y="164" width="495" height="426" rx="18" fill="#FFFDF8" stroke="#D9D2C2" stroke-width="1.5"/>
+<circle cx="66" cy="194" r="15" fill="#2F417A"/>
+<text x="66" y="199.5" fill="white" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" font-weight="750" text-anchor="middle">A</text>
+<text x="92" y="201" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" font-weight="750">Test–retest reliability</text>
+<text x="64" y="230" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="500">ordinal Krippendorff α · 95% dossier bootstrap</text>
+<circle cx="70" cy="256" r="5.5" fill="#465C9B"/>
+<text x="82" y="260" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11.5">frozen primary</text>
+<path d="M 176 250 L 182 256 L 176 262 L 170 256 Z" fill="#FFFDF8" stroke="#B57A24" stroke-width="2"/>
+<text x="188" y="260" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11.5">prompt-aligned post hoc</text>
+<line x1="206" y1="281" x2="206" y2="520" stroke="#E8E2D6" stroke-width="1"/>
+<text x="206" y="542" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11.5" text-anchor="middle">0.0</text>
+<line x1="353" y1="281" x2="353" y2="520" stroke="#E8E2D6" stroke-width="1" stroke-dasharray="3 5"/>
+<text x="353" y="542" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11.5" text-anchor="middle">0.5</text>
+<line x1="500" y1="281" x2="500" y2="520" stroke="#E8E2D6" stroke-width="1"/>
+<text x="500" y="542" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11.5" text-anchor="middle">1.0</text>
+<line x1="402.98" y1="281" x2="402.98" y2="520" stroke="#8FA5E3" stroke-width="1.4" stroke-dasharray="5 5"/>
+<text x="402.98" y="277" fill="#465C9B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" font-weight="650" text-anchor="middle">0.67 threshold</text>
+<text x="64" y="319" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" font-weight="700">OpenAI 5.6</text>
+<text x="64" y="337" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" font-weight="600" letter-spacing="0.55">frontier</text>
+<line x1="413.59794634377965" y1="322" x2="483.4952184042105" y2="322" stroke="#465C9B" stroke-width="3" stroke-linecap="round"/>
+<line x1="413.59794634377965" y1="317" x2="413.59794634377965" y2="327" stroke="#465C9B" stroke-width="1.5"/>
+<line x1="483.4952184042105" y1="317" x2="483.4952184042105" y2="327" stroke="#465C9B" stroke-width="1.5"/>
+<circle cx="462.0267448500022" cy="322" r="6.2" fill="#465C9B" stroke="#FFFDF8" stroke-width="1.5"/>
+<text x="510" y="326" fill="#2F417A" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" font-weight="700" text-anchor="end">.871</text>
+<text x="64" y="402" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" font-weight="700">Anthropic Fable 5</text>
+<text x="64" y="420" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" font-weight="600" letter-spacing="0.55">frontier</text>
+<line x1="299.54545454545456" y1="397" x2="500" y2="397" stroke="#465C9B" stroke-width="3" stroke-linecap="round"/>
+<line x1="299.54545454545456" y1="392" x2="299.54545454545456" y2="402" stroke="#465C9B" stroke-width="1.5"/>
+<line x1="500" y1="392" x2="500" y2="402" stroke="#465C9B" stroke-width="1.5"/>
+<circle cx="452.1384958812803" cy="397" r="6.2" fill="#465C9B" stroke="#FFFDF8" stroke-width="1.5"/>
+<line x1="400.90709344784574" y1="414" x2="470.64689595866497" y2="414" stroke="#B57A24" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="400.90709344784574" y1="410" x2="400.90709344784574" y2="418" stroke="#B57A24" stroke-width="1.3"/>
+<line x1="470.64689595866497" y1="410" x2="470.64689595866497" y2="418" stroke="#B57A24" stroke-width="1.3"/>
+<path d="M 445.70574438771376 407.5 L 452.20574438771376 414 L 445.70574438771376 420.5 L 439.20574438771376 414 Z" fill="#FFFDF8" stroke="#B57A24" stroke-width="2"/>
+<text x="452.1384958812803" y="387" fill="#2F417A" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" font-weight="700" text-anchor="middle">.837*</text>
+<text x="445.70574438771376" y="433" fill="#B57A24" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" font-weight="700" text-anchor="middle">.815</text>
+<text x="64" y="485" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" font-weight="700">OpenAI 5.5</text>
+<text x="64" y="503" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" font-weight="600" letter-spacing="0.55">prior generation</text>
+<line x1="456.05077834295446" y1="488" x2="478.17612491221195" y2="488" stroke="#465C9B" stroke-width="3" stroke-linecap="round"/>
+<line x1="456.05077834295446" y1="483" x2="456.05077834295446" y2="493" stroke="#465C9B" stroke-width="1.5"/>
+<line x1="478.17612491221195" y1="483" x2="478.17612491221195" y2="493" stroke="#465C9B" stroke-width="1.5"/>
+<circle cx="468.1536236891556" cy="488" r="6.2" fill="#465C9B" stroke="#FFFDF8" stroke-width="1.5"/>
+<text x="510" y="492" fill="#2F417A" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" font-weight="700" text-anchor="end">.892</text>
+<text x="64" y="568" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" font-style="italic">* available case · 10/15 target calls</text>
+<rect x="553" y="164" width="298" height="426" rx="18" fill="#FFFDF8" stroke="#D9D2C2" stroke-width="1.5"/>
+<circle cx="579" cy="194" r="15" fill="#2F417A"/>
+<text x="579" y="199.5" fill="white" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" font-weight="750" text-anchor="middle">B</text>
+<text x="605" y="201" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" font-weight="750">Feasibility gates</text>
+<text x="755" y="245" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9.5" font-weight="750" letter-spacing="0.8" text-anchor="middle">PRIMARY</text>
+<text x="821" y="245" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9.5" font-weight="750" letter-spacing="0.7" text-anchor="middle">POST HOC</text>
+<text x="576" y="287" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="600">Output validity</text>
+<circle cx="755" cy="283" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="751" y1="279" x2="759" y2="287" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="759" y1="279" x2="751" y2="287" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<circle cx="821" cy="283" r="11" fill="#DDEBE5" stroke="#35695A" stroke-width="1.4"/>
+<path d="M 816.5 283 L 820 286.7 L 826.5 278.8" fill="none" stroke="#35695A" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="576" y1="306" x2="828" y2="306" stroke="#E8E2D6" stroke-width="1"/>
+<text x="576" y="334" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="600">Repeatability</text>
+<circle cx="755" cy="330" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="751" y1="326" x2="759" y2="334" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="759" y1="326" x2="751" y2="334" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<circle cx="821" cy="330" r="11" fill="#DDEBE5" stroke="#35695A" stroke-width="1.4"/>
+<path d="M 816.5 330 L 820 333.7 L 826.5 325.8" fill="none" stroke="#35695A" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="576" y1="353" x2="828" y2="353" stroke="#E8E2D6" stroke-width="1"/>
+<text x="576" y="381" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="600">Cue dispersion</text>
+<circle cx="755" cy="377" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="751" y1="373" x2="759" y2="381" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="759" y1="373" x2="751" y2="381" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<circle cx="821" cy="377" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="817" y1="373" x2="825" y2="381" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="825" y1="373" x2="817" y2="381" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="576" y1="400" x2="828" y2="400" stroke="#E8E2D6" stroke-width="1"/>
+<text x="576" y="428" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="600">Target identity</text>
+<circle cx="755" cy="424" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="751" y1="420" x2="759" y2="428" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="759" y1="420" x2="751" y2="428" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<circle cx="821" cy="424" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="817" y1="420" x2="825" y2="428" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="825" y1="420" x2="817" y2="428" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="576" y1="447" x2="828" y2="447" stroke="#E8E2D6" stroke-width="1"/>
+<text x="576" y="475" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="600">Analysis recognition</text>
+<circle cx="755" cy="471" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="751" y1="467" x2="759" y2="475" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="759" y1="467" x2="751" y2="475" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<circle cx="821" cy="471" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="817" y1="467" x2="825" y2="475" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="825" y1="467" x2="817" y2="475" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="576" y1="505" x2="828" y2="505" stroke="#D9D2C2" stroke-width="1.5"/>
+<text x="576" y="535" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" font-weight="800" letter-spacing="0.75">AUTO-EXPAND</text>
+<circle cx="755" cy="531" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="751" y1="527" x2="759" y2="535" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="759" y1="527" x2="751" y2="535" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<circle cx="821" cy="531" r="11" fill="#F2DFDC" stroke="#9A4F4C" stroke-width="1.4"/>
+<line x1="817" y1="527" x2="825" y2="535" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<line x1="825" y1="527" x2="817" y2="535" stroke="#9A4F4C" stroke-width="1.9" stroke-linecap="round"/>
+<text x="576" y="566" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5">2/6 cues qualified post hoc · 4/6 required</text>
+<rect x="869" y="164" width="291" height="426" rx="18" fill="#FFFDF8" stroke="#D9D2C2" stroke-width="1.5"/>
+<circle cx="895" cy="194" r="15" fill="#2F417A"/>
+<text x="895" y="199.5" fill="white" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" font-weight="750" text-anchor="middle">C</text>
+<text x="921" y="201" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" font-weight="750">Exact identification</text>
+<text x="893" y="230" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="500">L2 work + movement · probes / 9</text>
+<line x1="1007" y1="259" x2="1007" y2="544" stroke="#E8E2D6" stroke-width="1"/>
+<text x="1007" y="253" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" text-anchor="middle">0</text>
+<line x1="1048.3333333333333" y1="259" x2="1048.3333333333333" y2="544" stroke="#E8E2D6" stroke-width="1"/>
+<text x="1048.3333333333333" y="253" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" text-anchor="middle">3</text>
+<line x1="1089.6666666666667" y1="259" x2="1089.6666666666667" y2="544" stroke="#E8E2D6" stroke-width="1"/>
+<text x="1089.6666666666667" y="253" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" text-anchor="middle">6</text>
+<line x1="1131" y1="259" x2="1131" y2="544" stroke="#E8E2D6" stroke-width="1"/>
+<text x="1131" y="253" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" text-anchor="middle">9</text>
+<text x="893" y="290" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="550">Wq 48/3/iii</text>
+<rect x="1007" y="278" width="124" height="16" rx="8" fill="#E8E2D6"/>
+<text x="1143" y="290" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="800" text-anchor="middle">0</text>
+<text x="893" y="334" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="550">Benda 2/iii</text>
+<rect x="1007" y="322" width="124" height="16" rx="8" fill="#E8E2D6"/>
+<text x="1143" y="334" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="800" text-anchor="middle">0</text>
+<text x="893" y="378" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="550">K. 570/i</text>
+<rect x="1007" y="366" width="124" height="16" rx="8" fill="#E8E2D6"/>
+<text x="1143" y="378" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="800" text-anchor="middle">0</text>
+<text x="893" y="422" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="550">K. 333/i</text>
+<rect x="1007" y="410" width="124" height="16" rx="8" fill="#E8E2D6"/>
+<text x="1143" y="422" fill="#696D78" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="800" text-anchor="middle">0</text>
+<text x="893" y="466" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="750">K. 576/i</text>
+<rect x="1007" y="454" width="124" height="16" rx="8" fill="#E8E2D6"/>
+<rect x="1007" y="454" width="82.66666666666674" height="16" rx="8" fill="#465C9B"/>
+<text x="1143" y="466" fill="#2F417A" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="800" text-anchor="middle">6</text>
+<line x1="893" y1="493" x2="1134" y2="493" stroke="#D9D2C2" stroke-width="1.5" stroke-dasharray="4 4"/>
+<text x="893" y="511" fill="#B57A24" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" font-weight="800" letter-spacing="0.8">SENSITIVITY ANCHOR</text>
+<text x="893" y="536" fill="#1A1D2B" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="750">K. 545/i</text>
+<rect x="1007" y="524" width="124" height="16" rx="8" fill="#E8E2D6"/>
+<rect x="1007" y="524" width="41.33333333333326" height="16" rx="8" fill="#B57A24"/>
+<text x="1143" y="536" fill="#B57A24" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="800" text-anchor="middle">3</text>
+</svg>

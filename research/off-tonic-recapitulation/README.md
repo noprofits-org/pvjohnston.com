@@ -29,10 +29,19 @@ were frozen at 2026-07-19T17:54:14Z before any real-case output call. All three
 adapters passed the separately defined fictional schema preflight under working
 OpenAI and Anthropic authentication; no real dossier was used and no response
 body was retained. The 41-file collection lock was created and verified at
-2026-07-19T17:56:35.630Z. Real-case collection is authorized only from the
-pre-outcome Git commit containing that lock and after the planned collection
-window opens. Gemini was dropped before any Gemini model request because the
-available authentication path required a Google Cloud project.
+2026-07-19T17:56:35.630Z. Collection subsequently completed all 108 scheduled
+calls from 18:15:05 through 19:54:52 UTC with no retry, timeout, or command
+failure. The frozen primary analyzer accepted 103 responses; all 54
+identification responses and 49 of 54 analysis responses passed the frozen
+output contract.
+The automatic-expansion decision was `false`.
+
+The preregistration and statistical-analysis documents retain their frozen,
+pre-collection wording by design. [REPRODUCIBILITY.md](REPRODUCIBILITY.md)
+records the completed state, artifact hashes, result taxonomy, verification
+commands, and distribution boundaries. Gemini was dropped before any Gemini
+model request because the available authentication path required a Google
+Cloud project.
 
 ## Files
 
@@ -48,6 +57,14 @@ available authentication path required a Google Cloud project.
 - `scripts/run-model.sh`: isolated runner bound to frozen model adapters.
 - `scripts/validate-output.mjs`: task-specific output validation.
 - `scripts/analyze-results.mjs`: preregistered reliability summary.
+- `results/1.0.0/summary.json`: immutable primary result.
+- `results/1.0.0/pairwise-bootstrap-supplement.json`: preregistered
+  pair-bootstrap reporting addendum.
+- `results/1.0.0/case-status-descriptives.json`: post hoc status descriptives.
+- `results/1.0.0/validator-contract-sensitivity.json`: post hoc, prompt-aligned
+  validator sensitivity; it does not replace the primary result.
+- `REPRODUCIBILITY.md`: completed-run verification and artifact guide.
+- `BUNDLE-NOTICE.md`: source exclusions and third-party data notice.
 - `outputs/`: versioned, hash-verified Markdown response bundles.
 
 ## Isolation boundary

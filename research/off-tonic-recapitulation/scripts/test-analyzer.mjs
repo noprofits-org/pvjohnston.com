@@ -161,6 +161,9 @@ const identificationResponse = (caseId, recognized) => {
 
 try {
   fs.cpSync(sourceDir, experimentDir, {recursive: true});
+  // The source tree is frozen after collection, but this fixture builds its
+  // own manifest and must create a fresh lock for those synthetic inputs.
+  fs.rmSync(path.join(experimentDir, "collection-lock.json"), {force: true});
 
   const cases = [];
   for (const [index, caseId] of caseIds.entries()) {
