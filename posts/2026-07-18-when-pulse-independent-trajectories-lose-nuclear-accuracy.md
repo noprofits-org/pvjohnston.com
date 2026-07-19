@@ -1,9 +1,9 @@
 ---
-title: "When pulse-independent trajectories lose nuclear accuracy"
+title: "When pulse-independent trajectories lose nuclear accuracy: testing Galiana et al.'s open regime"
 date: 2026-07-18
 author: Peter Johnston
 tags: nonadiabatic dynamics, surface hopping, electronic coherence, conical intersections, reproducibility
-description: A preregistered exact-and-trajectory benchmark finds that reusing nuclear paths can preserve electronic populations while doubling nuclear-centroid RMSE near a conical intersection.
+description: An independent benchmark of the conical-intersection regime left open by Galiana et al. finds that reusing nuclear paths can preserve electronic populations while doubling nuclear-centroid RMSE.
 contribution: A measured relationship between coherence-overlapping surface hops and pulse-independent-trajectory error, including the finding that nuclear-centroid error crosses its predeclared tolerance before population error, which is not reported by Galiana et al. or Grell et al.
 contribution-type: untested regime
 og-image: /images/2026-07-18-pulse-independent-trajectories-hero.png
@@ -11,13 +11,15 @@ og-image: /images/2026-07-18-pulse-independent-trajectories-hero.png
 
 ## Abstract
 
-Pulse-independent surface-hopping trajectories promise to separate an
-expensive nuclear simulation from the broadband pulse that prepares its
-electronic state. Their published test case is favorable: more than 90% of its
-surface hops occur after the initial electronic coherences have almost
-disappeared. I tested the complementary regime on a two-state, two-mode
-conical-intersection model. Full propagation (FP) and electronic
-repropagation on an all-excited-state ensemble (RP-AXE) used matched Wigner
+Galiana et al.'s 2026 paper, *Accounting for Electronic Coherences Induced by
+Broadband Pulses by Using Pulse-Independent Trajectories*, proposes separating
+an expensive nuclear simulation from the broadband pulse that prepares its
+electronic state.[@Galiana2026PulseIndependent] Their published glycine test is
+favorable: more than 90% of its surface hops occur after the initial electronic
+coherences have almost disappeared. I independently tested the complementary
+regime on a two-state, two-mode conical-intersection model. Full propagation
+(FP) and electronic repropagation on an all-excited-state ensemble (RP-AXE)
+used matched Wigner
 samples, four seeds, 4,000 geometries per seed, and the projected-forces-and-
 momenta decoherence correction. Moving the packet toward the intersection
 raised the fraction of successful hops occurring before the coherence fell to
@@ -52,13 +54,15 @@ coefficients and the nuclear forces from the first time step.
 Grell and co-workers introduced the projected forces and momenta method with
 momentum injection, **TSH-PFMi**, to damp electronic coherence from estimates
 of the separating nuclear-wavepacket momenta and forces.[@Grell2025PFM]
-Galiana and co-workers then proposed a way to reuse the expensive part of that
-calculation. Their **RP-AXE** construction first generates an all-excited-state
-ensemble of nuclear trajectories without pump-generated coherence. For each
-new pulse, it repropagates the inexpensive electronic coefficients along those
-frozen paths and combines the active-state branches with pulse-dependent
-weights.[@Galiana2026PulseIndependent] A 2026 extension uses that construction
-to scan pulse parameters without recalculating the glycine trajectories.[@Grell2026PFMAdvances]
+In *Accounting for Electronic Coherences Induced by Broadband Pulses by Using
+Pulse-Independent Trajectories*, Galiana and co-workers then proposed a way to
+reuse the expensive part of that calculation. Their **RP-AXE** construction
+first generates an all-excited-state ensemble of nuclear trajectories without
+pump-generated coherence. For each new pulse, it repropagates the inexpensive
+electronic coefficients along those frozen paths and combines the active-state
+branches with pulse-dependent weights.[@Galiana2026PulseIndependent] A 2026
+extension uses that construction to scan pulse parameters without recalculating
+the glycine trajectories.[@Grell2026PFMAdvances]
 
 The approximation has a clearly stated seam. Repropagation is exact when no
 surface hops occur, since changing the electronic coefficients cannot then
