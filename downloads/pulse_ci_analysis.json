@@ -1,0 +1,1236 @@
+{
+  "published_model_gate": {
+    "passed": true,
+    "bma_figure6_rmse": 0.0026534606277802213,
+    "bma_figure6_max_abs": 0.00955166096578404,
+    "bma_finest_pair": {
+      "upper_population": 7.062948544120373e-06,
+      "centroid_x": 3.984929719536012e-09,
+      "product_qx_lt_0": 0.0009958598087723702
+    },
+    "oned_finest_pair": {
+      "upper_population": 7.874256802153923e-14,
+      "stationary_q_lt_minus_1_5": 3.882886913597616e-05,
+      "moving_q_gt_minus_1": 7.384329380424881e-06
+    }
+  },
+  "trajectory_numerical_gate": {
+    "maximum_time_series_differences": {
+      "full": {
+        "upper_population": 0.007764438278285657,
+        "product_qx_lt_0": 0.00824999999999998,
+        "centroid_x": 0.038365841582270147
+      },
+      "reprop_axe": {
+        "upper_population": 0.003276149733811906,
+        "product_qx_lt_0": 0.005848189961306038,
+        "centroid_x": 0.00863248333529214
+      }
+    },
+    "maximum_error_summary_differences": {
+      "max_upper_population_error": 0.006655386813316955,
+      "max_product_probability_error": 0.0027669335193279687,
+      "max_centroid_x_error_sigma": 0.026772792703379844
+    },
+    "gate": {
+      "full_population_below_0_02": true,
+      "full_product_below_0_02": true,
+      "full_centroid_below_0_03_sigma": false,
+      "passed": false
+    },
+    "decision": "use 0.025 fs and ten electronic substeps for all final runs"
+  },
+  "sweep": {
+    "replicates": 36,
+    "geometry_count_per_replicate": 4000,
+    "seeds": [
+      1701,
+      1702,
+      1703,
+      1704
+    ],
+    "stage_analysis": {
+      "original_center_sweep": {
+        "regime_count": 5,
+        "spearman_early_hops_vs_errors": {
+          "max_upper_population_error": 0.8999999999999998,
+          "max_product_probability_error": 0.8999999999999998,
+          "max_centroid_x_error_sigma": 0.8999999999999998
+        },
+        "early_hop_regime_reached": false,
+        "early_hop_regimes": [],
+        "spearman_early_hops_vs_max_coherence_amplitude_error": 0.9999999999999999
+      },
+      "adaptive_directional_kick": {
+        "regime_count": 5,
+        "spearman_early_hops_vs_errors": {
+          "max_upper_population_error": 0.8999999999999998,
+          "max_product_probability_error": 0.8999999999999998,
+          "max_centroid_x_error_sigma": 0.8999999999999998
+        },
+        "early_hop_regime_reached": false,
+        "early_hop_regimes": [],
+        "spearman_early_hops_vs_max_coherence_amplitude_error": 0.9999999999999999
+      }
+    },
+    "regimes": [
+      {
+        "key": "center=1;kick=0",
+        "stage": "original_center_sweep",
+        "center_fraction": 1.0,
+        "momentum_kick_sigma": 0.0,
+        "seeds": [
+          1704,
+          1703,
+          1701,
+          1702
+        ],
+        "replicate_count": 4,
+        "fp_vs_reprop": {
+          "coherence_lifetime_fs": 2.16415915044485,
+          "successful_full_hops": 9777,
+          "early_hop_fraction": 0.07302853636084689,
+          "max_upper_population_error": 0.004952471923493906,
+          "time_of_max_upper_population_error_fs": 20.0,
+          "max_product_probability_error": 0.010770588956881627,
+          "time_of_max_product_probability_error_fs": 12.075000000000001,
+          "max_centroid_x_error_sigma": 0.06486782274587267,
+          "time_of_max_centroid_x_error_fs": 12.5,
+          "max_coherence_amplitude_error": 0.0029488175956801643
+        },
+        "replicate_statistics": {
+          "coherence_lifetime_fs": {
+            "mean": 2.1645664468445145,
+            "ci95_half_width": 0.043673646471718765,
+            "n": 4
+          },
+          "early_hop_fraction": {
+            "mean": 0.07344996433469583,
+            "ci95_half_width": 0.007764956428785437,
+            "n": 4
+          },
+          "max_upper_population_error": {
+            "mean": 0.008757394650826901,
+            "ci95_half_width": 0.001921638262517009,
+            "n": 4
+          },
+          "max_product_probability_error": {
+            "mean": 0.012958988351202613,
+            "ci95_half_width": 0.006893515362017604,
+            "n": 4
+          },
+          "max_centroid_x_error_sigma": {
+            "mean": 0.06817539061030516,
+            "ci95_half_width": 0.05695695146851985,
+            "n": 4
+          }
+        },
+        "exact_accuracy": {
+          "upper_population": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.012314955661761808,
+              "max_abs": 0.027040878357072723,
+              "mean_signed": 0.006736325948369726
+            },
+            "reprop_axe": {
+              "rmse": 0.0102626635406227,
+              "max_abs": 0.022426151836729497,
+              "mean_signed": 0.006065686311984342
+            },
+            "lower_rmse": "reprop_axe",
+            "rmse_penalty_reprop_minus_full": -0.002052292121139108
+          },
+          "product_qx_lt_0": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.01850006816153931,
+              "max_abs": 0.03523274203260564,
+              "mean_signed": 0.01617281576180484
+            },
+            "reprop_axe": {
+              "rmse": 0.023499390007516947,
+              "max_abs": 0.03680721921722509,
+              "mean_signed": 0.021053624711507086
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.004999321845977636
+          },
+          "centroid_x": {
+            "unit": "initial_sigma_x",
+            "full": {
+              "rmse": 0.0612334992661874,
+              "max_abs": 0.12027287345294185,
+              "mean_signed": -0.046077462054887344
+            },
+            "reprop_axe": {
+              "rmse": 0.09649731553162658,
+              "max_abs": 0.13842716172783787,
+              "mean_signed": -0.07900837616013272
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.035263816265439174
+          }
+        },
+        "diagnostics": {
+          "maximum_over_replicates": {
+            "max_full_electronic_norm_error": 1.3322676295501878e-15,
+            "max_reprop_electronic_norm_error": 1.4432899320127035e-15,
+            "max_axe_weight_normalization_error": 0.0,
+            "full_energy_drift_max_hartree": 0.0004765103160848244,
+            "axe_energy_drift_max_hartree": 0.0006004928294423423,
+            "max_full_internal_consistency_error": 0.013121970171349556
+          },
+          "successful_full_hops": 9777,
+          "successful_axe_hops": 34853
+        },
+        "normalized_declared_errors": {
+          "upper_population": 0.09904943846987813,
+          "product_probability": 0.21541177913763254,
+          "centroid_x": 0.6486782274587267
+        }
+      },
+      {
+        "key": "center=0.75;kick=0",
+        "stage": "original_center_sweep",
+        "center_fraction": 0.75,
+        "momentum_kick_sigma": 0.0,
+        "seeds": [
+          1701,
+          1702,
+          1703,
+          1704
+        ],
+        "replicate_count": 4,
+        "fp_vs_reprop": {
+          "coherence_lifetime_fs": 2.265446952954574,
+          "successful_full_hops": 10158,
+          "early_hop_fraction": 0.1285686158692656,
+          "max_upper_population_error": 0.010962543474780068,
+          "time_of_max_upper_population_error_fs": 19.700000000000003,
+          "max_product_probability_error": 0.011874012406958345,
+          "time_of_max_product_probability_error_fs": 14.25,
+          "max_centroid_x_error_sigma": 0.08233026669219577,
+          "time_of_max_centroid_x_error_fs": 11.200000000000001,
+          "max_coherence_amplitude_error": 0.003820950408406909
+        },
+        "replicate_statistics": {
+          "coherence_lifetime_fs": {
+            "mean": 2.2647240811445712,
+            "ci95_half_width": 0.07588679016058562,
+            "n": 4
+          },
+          "early_hop_fraction": {
+            "mean": 0.13050321007848764,
+            "ci95_half_width": 0.013676097641336689,
+            "n": 4
+          },
+          "max_upper_population_error": {
+            "mean": 0.014740077746575547,
+            "ci95_half_width": 0.005704583227730729,
+            "n": 4
+          },
+          "max_product_probability_error": {
+            "mean": 0.015339464274922283,
+            "ci95_half_width": 0.009348527195731302,
+            "n": 4
+          },
+          "max_centroid_x_error_sigma": {
+            "mean": 0.08433947737396666,
+            "ci95_half_width": 0.09092650507534768,
+            "n": 4
+          }
+        },
+        "exact_accuracy": {
+          "upper_population": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.018970123569013796,
+              "max_abs": 0.035203284958372716,
+              "mean_signed": 0.006977338982297839
+            },
+            "reprop_axe": {
+              "rmse": 0.013696920060306397,
+              "max_abs": 0.02835814820192553,
+              "mean_signed": 0.00567104009268091
+            },
+            "lower_rmse": "reprop_axe",
+            "rmse_penalty_reprop_minus_full": -0.0052732035087074
+          },
+          "product_qx_lt_0": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.016767655288949964,
+              "max_abs": 0.031054632153166686,
+              "mean_signed": 0.015063031396281932
+            },
+            "reprop_axe": {
+              "rmse": 0.021769447089661824,
+              "max_abs": 0.03072368639211559,
+              "mean_signed": 0.020715189502623566
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.00500179180071186
+          },
+          "centroid_x": {
+            "unit": "initial_sigma_x",
+            "full": {
+              "rmse": 0.04211485547746009,
+              "max_abs": 0.06453684225744401,
+              "mean_signed": -0.03587785328779679
+            },
+            "reprop_axe": {
+              "rmse": 0.09018775976652736,
+              "max_abs": 0.13792588737891148,
+              "mean_signed": -0.07657885768586933
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.04807290428906727
+          }
+        },
+        "diagnostics": {
+          "maximum_over_replicates": {
+            "max_full_electronic_norm_error": 1.3322676295501878e-15,
+            "max_reprop_electronic_norm_error": 1.3322676295501878e-15,
+            "max_axe_weight_normalization_error": 1.1102230246251565e-16,
+            "full_energy_drift_max_hartree": 0.0004724511812038146,
+            "axe_energy_drift_max_hartree": 0.0005724096501793924,
+            "max_full_internal_consistency_error": 0.011856911817718918
+          },
+          "successful_full_hops": 10158,
+          "successful_axe_hops": 34572
+        },
+        "normalized_declared_errors": {
+          "upper_population": 0.21925086949560135,
+          "product_probability": 0.2374802481391669,
+          "centroid_x": 0.8233026669219576
+        }
+      },
+      {
+        "key": "center=0.5;kick=0",
+        "stage": "original_center_sweep",
+        "center_fraction": 0.5,
+        "momentum_kick_sigma": 0.0,
+        "seeds": [
+          1701,
+          1702,
+          1703,
+          1704
+        ],
+        "replicate_count": 4,
+        "fp_vs_reprop": {
+          "coherence_lifetime_fs": 2.3963997557019914,
+          "successful_full_hops": 11865,
+          "early_hop_fraction": 0.1998314369995786,
+          "max_upper_population_error": 0.02019200902984125,
+          "time_of_max_upper_population_error_fs": 19.700000000000003,
+          "max_product_probability_error": 0.01436306992735567,
+          "time_of_max_product_probability_error_fs": 8.575000000000001,
+          "max_centroid_x_error_sigma": 0.10381459461699827,
+          "time_of_max_centroid_x_error_fs": 10.75,
+          "max_coherence_amplitude_error": 0.005897802504819999
+        },
+        "replicate_statistics": {
+          "coherence_lifetime_fs": {
+            "mean": 2.397923208685893,
+            "ci95_half_width": 0.06386831127906684,
+            "n": 4
+          },
+          "early_hop_fraction": {
+            "mean": 0.20024107897550153,
+            "ci95_half_width": 0.006102900805143291,
+            "n": 4
+          },
+          "max_upper_population_error": {
+            "mean": 0.022638044292528053,
+            "ci95_half_width": 0.003939004962899626,
+            "n": 4
+          },
+          "max_product_probability_error": {
+            "mean": 0.01630800016895575,
+            "ci95_half_width": 0.011887000416868992,
+            "n": 4
+          },
+          "max_centroid_x_error_sigma": {
+            "mean": 0.10720431858519644,
+            "ci95_half_width": 0.09563806966980448,
+            "n": 4
+          }
+        },
+        "exact_accuracy": {
+          "upper_population": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.027652788691271097,
+              "max_abs": 0.05131403488857328,
+              "mean_signed": 0.0067378684368209815
+            },
+            "reprop_axe": {
+              "rmse": 0.019463283212591848,
+              "max_abs": 0.03664328175750112,
+              "mean_signed": 0.005684477501270561
+            },
+            "lower_rmse": "reprop_axe",
+            "rmse_penalty_reprop_minus_full": -0.008189505478679249
+          },
+          "product_qx_lt_0": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.01901979557654632,
+              "max_abs": 0.03106628049659363,
+              "mean_signed": 0.01773641127702808
+            },
+            "reprop_axe": {
+              "rmse": 0.026391899058516334,
+              "max_abs": 0.03259917623647704,
+              "mean_signed": 0.025448171675747613
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.007372103481970014
+          },
+          "centroid_x": {
+            "unit": "initial_sigma_x",
+            "full": {
+              "rmse": 0.06361420602401652,
+              "max_abs": 0.10265612463562379,
+              "mean_signed": -0.052889587999434114
+            },
+            "reprop_axe": {
+              "rmse": 0.12582473478094028,
+              "max_abs": 0.20571424031954416,
+              "mean_signed": -0.10364949248982534
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.06221052875692376
+          }
+        },
+        "diagnostics": {
+          "maximum_over_replicates": {
+            "max_full_electronic_norm_error": 1.3322676295501878e-15,
+            "max_reprop_electronic_norm_error": 1.3322676295501878e-15,
+            "max_axe_weight_normalization_error": 1.1102230246251565e-16,
+            "full_energy_drift_max_hartree": 0.0004043790992800042,
+            "axe_energy_drift_max_hartree": 0.0005396976302810275,
+            "max_full_internal_consistency_error": 0.011989999855733069
+          },
+          "successful_full_hops": 11865,
+          "successful_axe_hops": 34849
+        },
+        "normalized_declared_errors": {
+          "upper_population": 0.403840180596825,
+          "product_probability": 0.2872613985471134,
+          "centroid_x": 1.0381459461699827
+        }
+      },
+      {
+        "key": "center=0.25;kick=0",
+        "stage": "original_center_sweep",
+        "center_fraction": 0.25,
+        "momentum_kick_sigma": 0.0,
+        "seeds": [
+          1701,
+          1702,
+          1703,
+          1704
+        ],
+        "replicate_count": 4,
+        "fp_vs_reprop": {
+          "coherence_lifetime_fs": 2.536104027448293,
+          "successful_full_hops": 14655,
+          "early_hop_fraction": 0.24510406004776528,
+          "max_upper_population_error": 0.0191236233654149,
+          "time_of_max_upper_population_error_fs": 4.275,
+          "max_product_probability_error": 0.017723340918177455,
+          "time_of_max_product_probability_error_fs": 11.225000000000001,
+          "max_centroid_x_error_sigma": 0.12772643410392734,
+          "time_of_max_centroid_x_error_fs": 10.975000000000001,
+          "max_coherence_amplitude_error": 0.006429048204885254
+        },
+        "replicate_statistics": {
+          "coherence_lifetime_fs": {
+            "mean": 2.537434187045548,
+            "ci95_half_width": 0.060202992136686964,
+            "n": 4
+          },
+          "early_hop_fraction": {
+            "mean": 0.2448507230065507,
+            "ci95_half_width": 0.005473510922775124,
+            "n": 4
+          },
+          "max_upper_population_error": {
+            "mean": 0.02007682628175938,
+            "ci95_half_width": 0.005974288267252759,
+            "n": 4
+          },
+          "max_product_probability_error": {
+            "mean": 0.01933478279420269,
+            "ci95_half_width": 0.007216096272492683,
+            "n": 4
+          },
+          "max_centroid_x_error_sigma": {
+            "mean": 0.12860802938019789,
+            "ci95_half_width": 0.05754558511187662,
+            "n": 4
+          }
+        },
+        "exact_accuracy": {
+          "upper_population": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.035373112573818276,
+              "max_abs": 0.06872531486049582,
+              "mean_signed": 0.0071696118955682925
+            },
+            "reprop_axe": {
+              "rmse": 0.027239404393242288,
+              "max_abs": 0.05378879066393927,
+              "mean_signed": 0.005117589403574445
+            },
+            "lower_rmse": "reprop_axe",
+            "rmse_penalty_reprop_minus_full": -0.008133708180575988
+          },
+          "product_qx_lt_0": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.021506056717329,
+              "max_abs": 0.03091903237736157,
+              "mean_signed": 0.020860132606081917
+            },
+            "reprop_axe": {
+              "rmse": 0.03236310341093887,
+              "max_abs": 0.03857957022045974,
+              "mean_signed": 0.031134756110063746
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.01085704669360987
+          },
+          "centroid_x": {
+            "unit": "initial_sigma_x",
+            "full": {
+              "rmse": 0.09955736813714545,
+              "max_abs": 0.16885685717005883,
+              "mean_signed": -0.07819460936794576
+            },
+            "reprop_axe": {
+              "rmse": 0.1772922306925645,
+              "max_abs": 0.2939787507674326,
+              "mean_signed": -0.14340010576765214
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.07773486255541905
+          }
+        },
+        "diagnostics": {
+          "maximum_over_replicates": {
+            "max_full_electronic_norm_error": 1.4432899320127035e-15,
+            "max_reprop_electronic_norm_error": 1.4432899320127035e-15,
+            "max_axe_weight_normalization_error": 1.1102230246251565e-16,
+            "full_energy_drift_max_hartree": 0.0003705969723502914,
+            "axe_energy_drift_max_hartree": 0.0004481157440742872,
+            "max_full_internal_consistency_error": 0.011441242986294231
+          },
+          "successful_full_hops": 14655,
+          "successful_axe_hops": 35437
+        },
+        "normalized_declared_errors": {
+          "upper_population": 0.382472467308298,
+          "product_probability": 0.3544668183635491,
+          "centroid_x": 1.2772643410392732
+        }
+      },
+      {
+        "key": "center=0;kick=0",
+        "stage": "original_center_sweep",
+        "center_fraction": 0.0,
+        "momentum_kick_sigma": 0.0,
+        "seeds": [
+          1701,
+          1702,
+          1703,
+          1704
+        ],
+        "replicate_count": 4,
+        "fp_vs_reprop": {
+          "coherence_lifetime_fs": 2.633592432779944,
+          "successful_full_hops": 17891,
+          "early_hop_fraction": 0.2613045665418367,
+          "max_upper_population_error": 0.021864746203229368,
+          "time_of_max_upper_population_error_fs": 19.925,
+          "max_product_probability_error": 0.016270210550402397,
+          "time_of_max_product_probability_error_fs": 13.4,
+          "max_centroid_x_error_sigma": 0.10724958043314375,
+          "time_of_max_centroid_x_error_fs": 11.100000000000001,
+          "max_coherence_amplitude_error": 0.006641481721218145
+        },
+        "replicate_statistics": {
+          "coherence_lifetime_fs": {
+            "mean": 2.631920743546482,
+            "ci95_half_width": 0.0348789755079314,
+            "n": 4
+          },
+          "early_hop_fraction": {
+            "mean": 0.2612157847104027,
+            "ci95_half_width": 0.008376530248336135,
+            "n": 4
+          },
+          "max_upper_population_error": {
+            "mean": 0.0251233871632707,
+            "ci95_half_width": 0.009980970186111793,
+            "n": 4
+          },
+          "max_product_probability_error": {
+            "mean": 0.017595420797291615,
+            "ci95_half_width": 0.011938944120760391,
+            "n": 4
+          },
+          "max_centroid_x_error_sigma": {
+            "mean": 0.10914316959282966,
+            "ci95_half_width": 0.09416776239004647,
+            "n": 4
+          }
+        },
+        "exact_accuracy": {
+          "upper_population": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.039734693020075526,
+              "max_abs": 0.08194053629629222,
+              "mean_signed": 0.0067941509083897945
+            },
+            "reprop_axe": {
+              "rmse": 0.03125370664236803,
+              "max_abs": 0.06243314447893622,
+              "mean_signed": 0.005095990051208424
+            },
+            "lower_rmse": "reprop_axe",
+            "rmse_penalty_reprop_minus_full": -0.008480986377707493
+          },
+          "product_qx_lt_0": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.02374848753639455,
+              "max_abs": 0.029909985047889887,
+              "mean_signed": 0.023118394700353557
+            },
+            "reprop_axe": {
+              "rmse": 0.03494515787061389,
+              "max_abs": 0.04487132362949314,
+              "mean_signed": 0.033471304384891654
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.011196670334219342
+          },
+          "centroid_x": {
+            "unit": "initial_sigma_x",
+            "full": {
+              "rmse": 0.13952934187098465,
+              "max_abs": 0.2350692510514734,
+              "mean_signed": -0.1103717846340556
+            },
+            "reprop_axe": {
+              "rmse": 0.20627572224702737,
+              "max_abs": 0.3405153429923904,
+              "mean_signed": -0.16767826478823455
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.06674638037604272
+          }
+        },
+        "diagnostics": {
+          "maximum_over_replicates": {
+            "max_full_electronic_norm_error": 1.3322676295501878e-15,
+            "max_reprop_electronic_norm_error": 1.3322676295501878e-15,
+            "max_axe_weight_normalization_error": 0.0,
+            "full_energy_drift_max_hartree": 0.0004130312070909706,
+            "axe_energy_drift_max_hartree": 0.00037176348161920697,
+            "max_full_internal_consistency_error": 0.014252770361496858
+          },
+          "successful_full_hops": 17891,
+          "successful_axe_hops": 35939
+        },
+        "normalized_declared_errors": {
+          "upper_population": 0.43729492406458736,
+          "product_probability": 0.32540421100804795,
+          "centroid_x": 1.0724958043314374
+        }
+      },
+      {
+        "key": "center=0.5;kick=0.5",
+        "stage": "adaptive_directional_kick",
+        "center_fraction": 0.5,
+        "momentum_kick_sigma": 0.5,
+        "seeds": [
+          1701,
+          1702,
+          1703,
+          1704
+        ],
+        "replicate_count": 4,
+        "fp_vs_reprop": {
+          "coherence_lifetime_fs": 2.4464827199027717,
+          "successful_full_hops": 12929,
+          "early_hop_fraction": 0.23489829066439785,
+          "max_upper_population_error": 0.02126164343500589,
+          "time_of_max_upper_population_error_fs": 4.0,
+          "max_product_probability_error": 0.018130110690359413,
+          "time_of_max_product_probability_error_fs": 12.925,
+          "max_centroid_x_error_sigma": 0.13010751188644618,
+          "time_of_max_centroid_x_error_fs": 10.875,
+          "max_coherence_amplitude_error": 0.006793293247803089
+        },
+        "replicate_statistics": {
+          "coherence_lifetime_fs": {
+            "mean": 2.4448829250688666,
+            "ci95_half_width": 0.08067398120155111,
+            "n": 4
+          },
+          "early_hop_fraction": {
+            "mean": 0.2344361807430524,
+            "ci95_half_width": 0.02397308173210901,
+            "n": 4
+          },
+          "max_upper_population_error": {
+            "mean": 0.024490413234291554,
+            "ci95_half_width": 0.010195307475777033,
+            "n": 4
+          },
+          "max_product_probability_error": {
+            "mean": 0.019570629843795033,
+            "ci95_half_width": 0.013946990492455616,
+            "n": 4
+          },
+          "max_centroid_x_error_sigma": {
+            "mean": 0.1314156312331321,
+            "ci95_half_width": 0.10642239705316173,
+            "n": 4
+          }
+        },
+        "exact_accuracy": {
+          "upper_population": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.029654155323110512,
+              "max_abs": 0.052965948895699444,
+              "mean_signed": 0.008992105653249097
+            },
+            "reprop_axe": {
+              "rmse": 0.01912356237309721,
+              "max_abs": 0.034933409634971546,
+              "mean_signed": 0.0071522533843798915
+            },
+            "lower_rmse": "reprop_axe",
+            "rmse_penalty_reprop_minus_full": -0.010530592950013302
+          },
+          "product_qx_lt_0": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.025199705983745272,
+              "max_abs": 0.03604020101781659,
+              "mean_signed": 0.023836126448661614
+            },
+            "reprop_axe": {
+              "rmse": 0.03458501091576902,
+              "max_abs": 0.042863322724729924,
+              "mean_signed": 0.03298429344407635
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.00938530493202375
+          },
+          "centroid_x": {
+            "unit": "initial_sigma_x",
+            "full": {
+              "rmse": 0.0975043662770484,
+              "max_abs": 0.15839356290549397,
+              "mean_signed": -0.07926589655669168
+            },
+            "reprop_axe": {
+              "rmse": 0.17723663261180325,
+              "max_abs": 0.2884076892085914,
+              "mean_signed": -0.1445100957262735
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.07973226633475486
+          }
+        },
+        "diagnostics": {
+          "maximum_over_replicates": {
+            "max_full_electronic_norm_error": 1.3322676295501878e-15,
+            "max_reprop_electronic_norm_error": 1.3322676295501878e-15,
+            "max_axe_weight_normalization_error": 1.1102230246251565e-16,
+            "full_energy_drift_max_hartree": 0.00038325285477709,
+            "axe_energy_drift_max_hartree": 0.0005569395968667359,
+            "max_full_internal_consistency_error": 0.015366640178456126
+          },
+          "successful_full_hops": 12929,
+          "successful_axe_hops": 36394
+        },
+        "normalized_declared_errors": {
+          "upper_population": 0.4252328687001178,
+          "product_probability": 0.36260221380718827,
+          "centroid_x": 1.3010751188644616
+        }
+      },
+      {
+        "key": "center=0.5;kick=1",
+        "stage": "adaptive_directional_kick",
+        "center_fraction": 0.5,
+        "momentum_kick_sigma": 1.0,
+        "seeds": [
+          1702,
+          1701,
+          1703,
+          1704
+        ],
+        "replicate_count": 4,
+        "fp_vs_reprop": {
+          "coherence_lifetime_fs": 2.3737328637780317,
+          "successful_full_hops": 15550,
+          "early_hop_fraction": 0.24932475884244373,
+          "max_upper_population_error": 0.020466192555905482,
+          "time_of_max_upper_population_error_fs": 3.2,
+          "max_product_probability_error": 0.019790026881395167,
+          "time_of_max_product_probability_error_fs": 8.9,
+          "max_centroid_x_error_sigma": 0.14228368168726518,
+          "time_of_max_centroid_x_error_fs": 10.475000000000001,
+          "max_coherence_amplitude_error": 0.007018138139510716
+        },
+        "replicate_statistics": {
+          "coherence_lifetime_fs": {
+            "mean": 2.372279971466432,
+            "ci95_half_width": 0.061873165858710534,
+            "n": 4
+          },
+          "early_hop_fraction": {
+            "mean": 0.2492711132344292,
+            "ci95_half_width": 0.012609055808714282,
+            "n": 4
+          },
+          "max_upper_population_error": {
+            "mean": 0.02493227995076705,
+            "ci95_half_width": 0.009482565538173426,
+            "n": 4
+          },
+          "max_product_probability_error": {
+            "mean": 0.020895350910167754,
+            "ci95_half_width": 0.013025614613412327,
+            "n": 4
+          },
+          "max_centroid_x_error_sigma": {
+            "mean": 0.1442367779451413,
+            "ci95_half_width": 0.10862042958815352,
+            "n": 4
+          }
+        },
+        "exact_accuracy": {
+          "upper_population": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.02810502989611619,
+              "max_abs": 0.049196334661305505,
+              "mean_signed": 0.010340526527307265
+            },
+            "reprop_axe": {
+              "rmse": 0.01848497224517799,
+              "max_abs": 0.03543767232733852,
+              "mean_signed": 0.00914225139310476
+            },
+            "lower_rmse": "reprop_axe",
+            "rmse_penalty_reprop_minus_full": -0.009620057650938197
+          },
+          "product_qx_lt_0": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.03730383509305269,
+              "max_abs": 0.05252751372133346,
+              "mean_signed": 0.035274059814645646
+            },
+            "reprop_axe": {
+              "rmse": 0.04632042200564098,
+              "max_abs": 0.056717045539337735,
+              "mean_signed": 0.043644428087211765
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.00901658691258829
+          },
+          "centroid_x": {
+            "unit": "initial_sigma_x",
+            "full": {
+              "rmse": 0.16935741918706285,
+              "max_abs": 0.27448035972948365,
+              "mean_signed": -0.13746039980125263
+            },
+            "reprop_axe": {
+              "rmse": 0.252665341111184,
+              "max_abs": 0.41097010990103167,
+              "mean_signed": -0.20572886216497857
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.08330792192412115
+          }
+        },
+        "diagnostics": {
+          "maximum_over_replicates": {
+            "max_full_electronic_norm_error": 1.3322676295501878e-15,
+            "max_reprop_electronic_norm_error": 1.3322676295501878e-15,
+            "max_axe_weight_normalization_error": 1.1102230246251565e-16,
+            "full_energy_drift_max_hartree": 0.00044666197292884957,
+            "axe_energy_drift_max_hartree": 0.0005243812150403371,
+            "max_full_internal_consistency_error": 0.01942591888583839
+          },
+          "successful_full_hops": 15550,
+          "successful_axe_hops": 40383
+        },
+        "normalized_declared_errors": {
+          "upper_population": 0.40932385111810965,
+          "product_probability": 0.39580053762790335,
+          "centroid_x": 1.4228368168726517
+        }
+      },
+      {
+        "key": "center=0.5;kick=1.5",
+        "stage": "adaptive_directional_kick",
+        "center_fraction": 0.5,
+        "momentum_kick_sigma": 1.5,
+        "seeds": [
+          1702,
+          1701,
+          1703,
+          1704
+        ],
+        "replicate_count": 4,
+        "fp_vs_reprop": {
+          "coherence_lifetime_fs": 2.2369268901867745,
+          "successful_full_hops": 19397,
+          "early_hop_fraction": 0.2547816672681342,
+          "max_upper_population_error": 0.022946284450400756,
+          "time_of_max_upper_population_error_fs": 3.2,
+          "max_product_probability_error": 0.02443849399262965,
+          "time_of_max_product_probability_error_fs": 12.325000000000001,
+          "max_centroid_x_error_sigma": 0.17224411832995437,
+          "time_of_max_centroid_x_error_fs": 10.55,
+          "max_coherence_amplitude_error": 0.008653495433688846
+        },
+        "replicate_statistics": {
+          "coherence_lifetime_fs": {
+            "mean": 2.2362743134433316,
+            "ci95_half_width": 0.03985977008141485,
+            "n": 4
+          },
+          "early_hop_fraction": {
+            "mean": 0.25500137824956515,
+            "ci95_half_width": 0.01024423870560172,
+            "n": 4
+          },
+          "max_upper_population_error": {
+            "mean": 0.027064702752555687,
+            "ci95_half_width": 0.011029327331668243,
+            "n": 4
+          },
+          "max_product_probability_error": {
+            "mean": 0.025388142478597255,
+            "ci95_half_width": 0.013547374084016028,
+            "n": 4
+          },
+          "max_centroid_x_error_sigma": {
+            "mean": 0.17334576685771938,
+            "ci95_half_width": 0.1134415270916777,
+            "n": 4
+          }
+        },
+        "exact_accuracy": {
+          "upper_population": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.026171476012376103,
+              "max_abs": 0.05160599276002506,
+              "mean_signed": 0.011023517849994138
+            },
+            "reprop_axe": {
+              "rmse": 0.01661394646822513,
+              "max_abs": 0.03667324800427585,
+              "mean_signed": 0.009936269221982963
+            },
+            "lower_rmse": "reprop_axe",
+            "rmse_penalty_reprop_minus_full": -0.009557529544150973
+          },
+          "product_qx_lt_0": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.043778498820637245,
+              "max_abs": 0.06234565972252552,
+              "mean_signed": 0.041050504072333134
+            },
+            "reprop_axe": {
+              "rmse": 0.054623407108665006,
+              "max_abs": 0.07009040351212234,
+              "mean_signed": 0.05101006207551777
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.010844908288027762
+          },
+          "centroid_x": {
+            "unit": "initial_sigma_x",
+            "full": {
+              "rmse": 0.20989161612924065,
+              "max_abs": 0.34163404093261535,
+              "mean_signed": -0.16925537602339608
+            },
+            "reprop_axe": {
+              "rmse": 0.31062992442243,
+              "max_abs": 0.5024157931149517,
+              "mean_signed": -0.25426189330616794
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.10073830829318933
+          }
+        },
+        "diagnostics": {
+          "maximum_over_replicates": {
+            "max_full_electronic_norm_error": 1.3322676295501878e-15,
+            "max_reprop_electronic_norm_error": 1.3322676295501878e-15,
+            "max_axe_weight_normalization_error": 1.1102230246251565e-16,
+            "full_energy_drift_max_hartree": 0.0005630910424545832,
+            "axe_energy_drift_max_hartree": 0.0006059360877443964,
+            "max_full_internal_consistency_error": 0.014018503403800453
+          },
+          "successful_full_hops": 19397,
+          "successful_axe_hops": 46203
+        },
+        "normalized_declared_errors": {
+          "upper_population": 0.4589256890080151,
+          "product_probability": 0.488769879852593,
+          "centroid_x": 1.7224411832995437
+        }
+      },
+      {
+        "key": "center=0.5;kick=2",
+        "stage": "adaptive_directional_kick",
+        "center_fraction": 0.5,
+        "momentum_kick_sigma": 2.0,
+        "seeds": [
+          1701,
+          1702,
+          1703,
+          1704
+        ],
+        "replicate_count": 4,
+        "fp_vs_reprop": {
+          "coherence_lifetime_fs": 2.1270668945455244,
+          "successful_full_hops": 23772,
+          "early_hop_fraction": 0.2629143530203601,
+          "max_upper_population_error": 0.024399985132798507,
+          "time_of_max_upper_population_error_fs": 2.725,
+          "max_product_probability_error": 0.023023994627731525,
+          "time_of_max_product_probability_error_fs": 9.075000000000001,
+          "max_centroid_x_error_sigma": 0.16882211302169461,
+          "time_of_max_centroid_x_error_fs": 10.05,
+          "max_coherence_amplitude_error": 0.011274297496105812
+        },
+        "replicate_statistics": {
+          "coherence_lifetime_fs": {
+            "mean": 2.1288177212307744,
+            "ci95_half_width": 0.08760206426827163,
+            "n": 4
+          },
+          "early_hop_fraction": {
+            "mean": 0.26339903471872095,
+            "ci95_half_width": 0.012851539592603566,
+            "n": 4
+          },
+          "max_upper_population_error": {
+            "mean": 0.027883153172179424,
+            "ci95_half_width": 0.010253601363453843,
+            "n": 4
+          },
+          "max_product_probability_error": {
+            "mean": 0.024594512426571583,
+            "ci95_half_width": 0.01376773765572785,
+            "n": 4
+          },
+          "max_centroid_x_error_sigma": {
+            "mean": 0.17231120347811368,
+            "ci95_half_width": 0.10934742927718728,
+            "n": 4
+          }
+        },
+        "exact_accuracy": {
+          "upper_population": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.024078312311755588,
+              "max_abs": 0.05265683099610549,
+              "mean_signed": 0.011485805673928757
+            },
+            "reprop_axe": {
+              "rmse": 0.01747362082769248,
+              "max_abs": 0.03813864584791793,
+              "mean_signed": 0.010622641494226348
+            },
+            "lower_rmse": "reprop_axe",
+            "rmse_penalty_reprop_minus_full": -0.006604691484063108
+          },
+          "product_qx_lt_0": {
+            "unit": "probability",
+            "full": {
+              "rmse": 0.04915033660511464,
+              "max_abs": 0.07152655049778733,
+              "mean_signed": 0.04582416298027989
+            },
+            "reprop_axe": {
+              "rmse": 0.05686952152691861,
+              "max_abs": 0.07380694160111134,
+              "mean_signed": 0.05283470659463956
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.00771918492180397
+          },
+          "centroid_x": {
+            "unit": "initial_sigma_x",
+            "full": {
+              "rmse": 0.24729124171104033,
+              "max_abs": 0.40319432777079856,
+              "mean_signed": -0.19863642420127636
+            },
+            "reprop_axe": {
+              "rmse": 0.3371699371085918,
+              "max_abs": 0.5461222449091734,
+              "mean_signed": -0.27584710715699257
+            },
+            "lower_rmse": "full",
+            "rmse_penalty_reprop_minus_full": 0.08987869539755144
+          }
+        },
+        "diagnostics": {
+          "maximum_over_replicates": {
+            "max_full_electronic_norm_error": 1.3322676295501878e-15,
+            "max_reprop_electronic_norm_error": 1.4432899320127035e-15,
+            "max_axe_weight_normalization_error": 1.1102230246251565e-16,
+            "full_energy_drift_max_hartree": 0.0004700233035825063,
+            "axe_energy_drift_max_hartree": 0.0005487539824785143,
+            "max_full_internal_consistency_error": 0.01383423994267402
+          },
+          "successful_full_hops": 23772,
+          "successful_axe_hops": 52574
+        },
+        "normalized_declared_errors": {
+          "upper_population": 0.48799970265597015,
+          "product_probability": 0.4604798925546305,
+          "centroid_x": 1.688221130216946
+        }
+      }
+    ]
+  },
+  "exact_reference_summary": {
+    "regime_count": 9,
+    "reprop_lower_population_rmse_count": 9,
+    "full_lower_product_rmse_count": 9,
+    "full_lower_centroid_rmse_count": 9,
+    "replicate_count": 36,
+    "replicate_reprop_lower_population_rmse_count": 36,
+    "replicate_full_lower_product_rmse_count": 35,
+    "replicate_full_lower_centroid_rmse_count": 36
+  },
+  "exact_reference_spot_checks": {
+    "environment": {
+      "python": "3.13.12",
+      "numpy": "2.4.4",
+      "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+      "machine": "arm64"
+    },
+    "status": "post hoc grid audit performed during drafting",
+    "reference_path": "downloads/pulse_ci_exact_regimes.json",
+    "runs": [
+      {
+        "regime": {
+          "center_fraction": 0.0,
+          "momentum_kick_sigma": 0.0
+        },
+        "coarse_grid_n": 384,
+        "fine_configuration": {
+          "grid_n": 512,
+          "half_width": 96.0,
+          "dx": 0.375,
+          "requested_dt_fs": 0.025,
+          "actual_dt_fs": 0.025,
+          "total_fs": 20.0,
+          "sample_every_fs": 0.025,
+          "qbar_x": 0.0,
+          "mean_momentum_x": -0.0
+        },
+        "fine_runtime_seconds": 26.223531291001564,
+        "fine_max_norm_error": 2.2581936320875684e-13,
+        "maximum_time_series_differences": {
+          "upper_population": {
+            "raw": 6.964095186079433e-06,
+            "scaled": 6.964095186079433e-06,
+            "scale": "probability"
+          },
+          "product_qx_lt_0": {
+            "raw": 0.0031028423516297754,
+            "scaled": 0.0031028423516297754,
+            "scale": "probability"
+          },
+          "centroid_x": {
+            "raw": 2.533084852984757e-12,
+            "scaled": 3.152240651636684e-13,
+            "scale": "initial_sigma_x"
+          }
+        }
+      },
+      {
+        "regime": {
+          "center_fraction": 0.5,
+          "momentum_kick_sigma": 2.0
+        },
+        "coarse_grid_n": 384,
+        "fine_configuration": {
+          "grid_n": 512,
+          "half_width": 96.0,
+          "dx": 0.375,
+          "requested_dt_fs": 0.025,
+          "actual_dt_fs": 0.025,
+          "total_fs": 20.0,
+          "sample_every_fs": 0.025,
+          "qbar_x": 7.7625,
+          "mean_momentum_x": -0.12444275792507975
+        },
+        "fine_runtime_seconds": 25.982763374999195,
+        "fine_max_norm_error": 2.313704783318826e-13,
+        "maximum_time_series_differences": {
+          "upper_population": {
+            "raw": 1.2432362769654315e-05,
+            "scaled": 1.2432362769654315e-05,
+            "scale": "probability"
+          },
+          "product_qx_lt_0": {
+            "raw": 0.0030461908799492843,
+            "scaled": 0.0030461908799492843,
+            "scale": "probability"
+          },
+          "centroid_x": {
+            "raw": 2.6918911544271396e-10,
+            "scaled": 3.3498635929104006e-11,
+            "scale": "initial_sigma_x"
+          }
+        }
+      }
+    ]
+  },
+  "verdict": {
+    "hypothesis_within_reached_range": "supported",
+    "original_spearman_correlations": {
+      "max_upper_population_error": 0.8999999999999998,
+      "max_product_probability_error": 0.8999999999999998,
+      "max_centroid_x_error_sigma": 0.8999999999999998
+    },
+    "maximum_early_hop_fraction": 0.2629143530203601,
+    "predeclared_half_early_hop_regime_reached": false,
+    "half_early_hop_falsifier_status": "inconclusive: regime not reached",
+    "original_centroid_threshold_failures": [
+      "center=0.5;kick=0",
+      "center=0.25;kick=0",
+      "center=0;kick=0"
+    ],
+    "interpretation": "The predicted association is supported over the observed 0.073--0.261 early-hop range, but the planned >=0.5 validity boundary was not reached. Nuclear centroid error crosses its declared threshold before either electronic population or product probability; exact dynamics favors full propagation for both nuclear observables in every regime."
+  }
+}
