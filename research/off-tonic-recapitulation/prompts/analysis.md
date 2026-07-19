@@ -23,6 +23,10 @@ recalled analysis; disclose the recognition under limitations.
 5. Separate observed evidence from your inference in each reason.
 6. Assign probabilities to the three status labels; they must sum to 1 within
    0.001. Do not change cue scores to make the probabilities look coherent.
+7. Report `suspected_recognition`: the most specific identity level you suspect
+   from memory (`none`, `style`, `composer`, or `work`) with a confidence from
+   0 to 1. Use `none` with confidence 0 when nothing feels familiar. Do not
+   name the suspected identity anywhere in this task.
 
 ## Cues
 
@@ -52,7 +56,7 @@ other text. Follow this shape:
 
 ```json
 {
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "analyst_model": "string or unknown",
   "case_id": "{{CASE_ID}}",
   "cues": {
@@ -68,14 +72,17 @@ other text. Follow this shape:
     "off_tonic_recapitulation": 0.0,
     "tonic_double_return": 1.0
   },
+  "suspected_recognition": {"level": "none", "confidence": 0.0},
   "case_note": "string"
 }
 ```
 
-Scores must be integers 0--4 or `null`. Reasons must be at most 40 words. Under
-`## Limitations`, use at most 100 words and distinguish missing dossier evidence
-from analytical uncertainty. State whether you recognized or suspected the
-identity, but do not name it in this task.
+Scores must be integers 0--4 or `null`. Reasons must be at most 40 words.
+`suspected_recognition.level` must be `none`, `style`, `composer`, or `work`.
+Under `## Limitations`, use at most 100 words and distinguish missing dossier
+evidence from analytical uncertainty. Recognition is reported only through
+`suspected_recognition`; do not name a suspected identity anywhere in this
+task.
 
 BEGIN ALLOWED DOSSIER
 

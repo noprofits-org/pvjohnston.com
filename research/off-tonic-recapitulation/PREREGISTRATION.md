@@ -10,15 +10,19 @@ Status: **development; not approved for model collection**.
 
 ## Primary research question
 
-How repeatable, cross-model-reliable, and genuinely blinded are applications of
-one explicit music-analytic rubric by current language models?
+How repeatable and cross-model-reliable are applications of one explicit
+music-analytic rubric by current language models, and how much identification
+of the underlying works can be elicited from the purportedly anonymized
+dossiers?
 
 ## Contribution
 
 A repeated, cross-family measurement of whether LLMs can apply an ordinal
 music-analytic rubric consistently to identical evidence, together with a
-direct probe of whether purportedly blinded canonical-repertoire dossiers are
-recognizable from model training or musical fingerprints.
+direct probe of how much identification of anonymized canonical-repertoire
+dossiers can be elicited from model training or musical fingerprints. The probe
+measures elicited identification only; a probe that elicits nothing does not
+demonstrate that the model lacks the memorized material.
 
 Every outcome changes the justified use of LLM annotators:
 
@@ -85,8 +89,11 @@ an empty array means verified absence, not failure to encode. It must not
 contain composer, title, catalogue number,
 date, absolute measure number, corpus role, Roman-numeral analysis, cadence
 labels, formal-function labels, or prose adapted from Greenberg. All cases are
-transposed mechanically to a common tonic while retaining mode and interval
-structure. Relative measure numbers begin at zero within each window. Candidate
+transposed mechanically to the common tonic D — major-mode movements to D major
+and minor-mode movements to D minor — while retaining mode, interval structure,
+and notated spelling relationships. D is preregistered because no pilot source
+is notated in D: every case, including the C major positive control, is
+therefore displaced from its source key. Relative measure numbers begin at zero within each window. Candidate
 onset and second-part elapsed/total durations use reduced integer-pair rational
 quarter-note units; no floating-point location estimate is permitted.
 
@@ -112,6 +119,12 @@ The analysis prompt also requests a probability distribution across
 `not_recapitulation`, `off_tonic_recapitulation`, and `tonic_double_return`.
 Those probabilities are secondary and do not supply an accuracy score.
 
+Each analysis response additionally records a `suspected_recognition` level
+(`none`, `style`, `composer`, or `work`) with a confidence, without naming any
+suspected identity; naming is reserved for the separate identification probe.
+These flags are tabulated as disclosed recognition signals alongside probe
+results.
+
 ## Identification probe
 
 Identification and analysis are separate tasks in fresh model contexts. Each
@@ -128,7 +141,7 @@ once. Every isolated L2 remains a disclosed leak event and triggers review.
 
 K. 545 is preregistered as the one positive identification control because its
 opening and return are unusually canonical. It is excluded from the target-case
-zero-L2 blinding gate. Probe sensitivity is demonstrated only if at least one
+zero-L2 elicited-identification gate and from the primary reliability gate. Probe sensitivity is demonstrated only if at least one
 model produces L2 in two of three K. 545 probes, or at least two model families
 produce L2 once. The other five dossiers are target cases. Failure to detect the
 positive control makes a clean target result inconclusive rather than proving
@@ -141,9 +154,14 @@ task, run each model on each dossier three times in a fresh context:
 
 `3 models x 6 cases x 3 repetitions = 54 analysis invocations`.
 
+Fresh-context repetitions share the same weights and the same input. They are
+same-input test-retest measurements of response stability, not independent
+corroboration by independent raters, and every reliability statistic is
+interpreted accordingly.
+
 For the identification task, run each model on each dossier three times in a
-fresh context. Repetition distinguishes reproducible recognition from a lucky
-or hallucinated guess:
+fresh context. Repetition distinguishes stable recognition from a lucky or
+hallucinated guess:
 
 `3 models x 6 cases x 3 repetitions = 54 identification invocations`.
 
@@ -169,8 +187,11 @@ namespace and never replace a scheduled result.
 
 ### 2. Within-model repeatability
 
-For each model, treat the three fresh-context repetitions as raters and the 36
-case-cue combinations (six cases x six cues) as units. Report:
+For each model, treat the three fresh-context repetitions as same-input
+test-retest ratings and the 30 target case-cue combinations (five target cases
+x six cues) as units. K. 545 is the disclosed recognizable anchor: its six
+case-cue units receive the identical computation but are reported separately
+and enter no primary reliability statistic or gate. Report:
 
 - ordinal Krippendorff's alpha using squared ordinal distance;
 - the proportion of within-unit repetition pairs with exact agreement;
@@ -195,8 +216,8 @@ must not disappear from the report.
 ### 3. Cross-model reliability
 
 For each model-case-cue, take the median of its three valid repetitions. Treat
-the three model medians as raters across the 36 case-cue units and report the
-same aggregate measures as above. Report cue-stratified direct agreement and
+the three model medians as raters across the 30 target case-cue units (K. 545
+reported separately) and report the same aggregate measures as above. Report cue-stratified direct agreement and
 absolute differences, but not cue-level alpha. Low cross-model reliability does
 not block a larger reliability study when models are internally repeatable:
 stable model-specific interpretations are a substantive result.
@@ -208,7 +229,10 @@ work/catalogue and movement), `L1` (correct composer or work family but not a
 unique work and movement), or `L0` (incorrect or abstention). A dossier is
 compromised if one model produces L2 in at least two of its three probes, or if
 at least two model families produce L2 at least once. Every isolated L2 remains
-a disclosed leak event. Also compare repeatability descriptively between
+a disclosed leak event. Additionally, tabulate the `suspected_recognition`
+flags from analysis responses by model and case; a `work`-level flag on a
+target case triggers the same review as an isolated L2, even though the
+analysis task never names identities. Also compare repeatability descriptively between
 compromised, isolated-leak, and unidentified model-case pairs; the pilot is not
 powered for an inferential comparison.
 
@@ -221,12 +245,13 @@ Proceed to a larger reliability study only if all of the following hold:
    non-null. Any failure or `null` triggers dossier/prompt review and a separately
    versioned pilot rather than automatic expansion.
 2. At least two of the three models achieve all three aggregate repeatability
-   criteria on all 18 scheduled analysis responses: mean absolute pairwise
-   difference at most 0.50, within-one
-   agreement at least 90%, and ordinal alpha at least 0.67.
+   criteria, computed over the 30 target case-cue units from all 15 scheduled
+   target-case analysis responses: mean absolute pairwise difference at most
+   0.50, within-one agreement at least 90%, and ordinal alpha at least 0.67.
+   K. 545 responses are excluded from this gate and reported separately.
 3. The instrument is non-degenerate among reliable models: for at least four of
    six cues, at least two models that pass criterion 2 each span at least two
-   scale points across their six case medians.
+   scale points across their five target-case medians.
 4. None of the five target dossiers receives L2. An isolated target L2 triggers
    review and a separately versioned pilot; reproducible L2 additionally
    compromises its dossier under the repeated-identification rule. Separately,

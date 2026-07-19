@@ -62,7 +62,7 @@ The root object has exactly these fields: `schema_version`, `case_id`,
 `condition`, `encoding`, `candidate_return`, and `windows`. Every string is a
 fixed enum or a structural ID. Free-form strings are prohibited.
 
-`encoding` declares common tonic C, home mode, quarter-note duration units,
+`encoding` declares common tonic D, home mode, quarter-note duration units,
 window-relative measure numbers, scientific pitch with diatonic spelling, and
 complete coverage of notes, notated rests, voices, meter, key signatures,
 dynamics, articulations, ornaments, repeats, and barlines. `complete` means an
@@ -105,10 +105,13 @@ directly comparable.
 
 ## Mechanical normalization
 
-Transpose the home tonic to C while preserving mode and every interval. Choose
-the chromatic displacement from the source tonic pitch class to C in the range
-`-5` through `+6` semitones; use `+6` for the tritone tie. Choose the diatonic
-displacement that maps the source tonic letter to C in the same direction.
+Transpose the home tonic to D while preserving mode and every interval. D is
+preregistered because no pilot source is notated in D: every case, including
+the C major positive control, is therefore displaced from its source key.
+Choose the chromatic displacement from the source tonic pitch class to D in the
+range `-5` through `+6` semitones; use `+6` for the tritone tie. Choose the
+diatonic displacement that maps the source tonic letter to D in the same
+direction.
 Apply that single chromatic-plus-diatonic interval to every note, preserving
 spelling. Store the original tonic and the interval only in operator provenance.
 

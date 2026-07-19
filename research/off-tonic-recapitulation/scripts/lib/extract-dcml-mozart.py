@@ -767,6 +767,17 @@ def build(source_root: Path, config: dict) -> dict:
     xml = parse_xml(source_root / f"MS3/{work}.mscx", raw_measure_rows)
     tsv_chords, notes_by_measure = parse_notes(note_rows)
     reconcile_chords(tsv_chords, xml["chords"])
+    for (mc, staff, voice, onset), groups in tsv_chords.items():
+        grace_groups = [group for group in groups if group["is_grace"]]
+        if len(grace_groups) > 1:
+            xml["unsupported"][mc].append(
+                "multiple ordered grace chords share one onset/voice, but schema 3 has no grace-sequence field"
+            )
+        non_grace_durations = [group["duration_whole"] for group in groups if not group["is_grace"]]
+        if len(non_grace_durations) != len(set(non_grace_durations)):
+            xml["unsupported"][mc].append(
+                "distinct simultaneous chords are not recoverable from schema-3 note events"
+            )
 
     candidate_mc = config["candidate_mc"]
     second_part_mc = config["second_part_mc"]

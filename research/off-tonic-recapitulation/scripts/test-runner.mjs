@@ -108,8 +108,8 @@ const adapterSource = (analystModel, invalid = false) => [
     "const fence = String.fromCharCode(96).repeat(3);",
     "const cueNames = ['tonal_stability','thematic_correspondence','preparation_strength','proportional_location','rhetorical_emphasis','rotational_continuation'];",
     "const cues = Object.fromEntries(cueNames.map((name) => [name, {score: 2, evidence_ids: ['E001'], reason: 'Observed E001; the inference is fixture-only.'}]));",
-    `const common = {schema_version: '2.0.0', analyst_model: '${analystModel}', case_id: caseId};`,
-    "const result = isAnalysis ? {...common, cues, status_distribution: {not_recapitulation: 0.2, off_tonic_recapitulation: 0.4, tonic_double_return: 0.4}, case_note: 'A deterministic runner fixture.'} : {...common, identification: {recognition_level: 'none', composer: null, work: null, movement: null, confidence: 0, evidence_ids: ['E001'], reason: 'No specific identity is supported by this fixture.'}};",
+    `const common = {schema_version: '2.1.0', analyst_model: '${analystModel}', case_id: caseId};`,
+    "const result = isAnalysis ? {...common, cues, status_distribution: {not_recapitulation: 0.2, off_tonic_recapitulation: 0.4, tonic_double_return: 0.4}, suspected_recognition: {level: 'none', confidence: 0}, case_note: 'A deterministic runner fixture.'} : {...common, identification: {recognition_level: 'none', composer: null, work: null, movement: null, confidence: 0, evidence_ids: ['E001'], reason: 'No specific identity is supported by this fixture.'}};",
     "const title = isAnalysis ? '# Analysis result' : '# Identification probe result';",
     "process.stdout.write(title + '\\n\\n## Run metadata\\n\\nDeterministic local fixture.\\n\\n## Machine-readable result\\n\\n' + fence + 'json\\n' + JSON.stringify(result, null, 2) + '\\n' + fence + '\\n\\n## Limitations\\n\\nThis is a deterministic integration fixture.\\n');"
   ])

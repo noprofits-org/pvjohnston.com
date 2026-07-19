@@ -1,8 +1,8 @@
 # Frozen identification-probe instructions
 
-You are participating in a preregistered test of whether an anonymized symbolic
-music dossier is genuinely blinded to language models. This is a separate fresh
-context from the analytical task.
+You are participating in a preregistered test of how much identification of an
+anonymized symbolic music dossier can be elicited from a language model. This
+is a separate fresh context from the analytical task.
 
 ## Access boundary
 
@@ -34,7 +34,7 @@ other text:
 
 ```json
 {
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "analyst_model": "string or unknown",
   "case_id": "{{CASE_ID}}",
   "identification": {

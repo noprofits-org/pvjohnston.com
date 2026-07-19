@@ -265,27 +265,44 @@ const analysisResults = new Map(validAnalysis.map((record) => [
 const scoresFor = (model, caseId, cue) => runIds.map((run) =>
   analysisResults.get(resultKey(model, caseId, run))?.cues?.[cue]?.score ?? null
 );
-const completeModelData = (model) => caseIds.every((caseId) => runIds.every((run) => {
+const completeModelData = (model, ids) => ids.every((caseId) => runIds.every((run) => {
   const parsed = analysisResults.get(resultKey(model, caseId, run));
   return parsed && cueNames.every((cue) => Number.isInteger(parsed.cues?.[cue]?.score));
 }));
 
+// Primary reliability uses only target cases; the disclosed recognizable
+// anchor (probe_role "positive_control") is computed identically but reported
+// separately and enters no gate.
+const roleByCase = new Map(identity.cases.map((entry) => [entry.case_id, entry.probe_role]));
+const primaryCaseIds = caseIds.filter((caseId) => roleByCase.get(caseId) === "target");
+const anchorCaseIds = caseIds.filter((caseId) => roleByCase.get(caseId) !== "target");
+if (primaryCaseIds.length === 0) throw new Error("no target cases in identity key");
+
 const withinModel = {};
 for (const model of modelLabels) {
-  const caseUnits = caseIds.map((caseId) => cueNames.map((cue) => scoresFor(model, caseId, cue)));
+  const caseUnits = primaryCaseIds.map((caseId) => cueNames.map((cue) => scoresFor(model, caseId, cue)));
   const units = caseUnits.flat();
+  const anchorUnits = anchorCaseIds.map((caseId) => cueNames.map((cue) => scoresFor(model, caseId, cue))).flat();
   withinModel[model] = {
-    complete_three_run_data: completeModelData(model),
+    complete_three_run_data: completeModelData(model, primaryCaseIds),
     aggregate: summarizeReliability(units),
     availability: availabilityAgreement(units),
     bootstrap_95: dossierBootstrap(caseUnits, 2000, 1701),
     by_cue: Object.fromEntries(cueNames.map((cue) => [cue,
-      directAgreement(caseIds.map((caseId) => scoresFor(model, caseId, cue)))
-    ]))
+      directAgreement(primaryCaseIds.map((caseId) => scoresFor(model, caseId, cue)))
+    ])),
+    anchor: {
+      complete_three_run_data: completeModelData(model, anchorCaseIds),
+      aggregate: summarizeReliability(anchorUnits),
+      availability: availabilityAgreement(anchorUnits)
+    }
   };
 }
 
-const crossCaseUnits = caseIds.map((caseId) => cueNames.map((cue) =>
+const crossCaseUnits = primaryCaseIds.map((caseId) => cueNames.map((cue) =>
+  modelLabels.map((model) => completeOrdinalMedian(scoresFor(model, caseId, cue)))
+));
+const anchorCrossUnits = anchorCaseIds.map((caseId) => cueNames.map((cue) =>
   modelLabels.map((model) => completeOrdinalMedian(scoresFor(model, caseId, cue)))
 ));
 const crossModel = {
@@ -293,8 +310,12 @@ const crossModel = {
   availability: availabilityAgreement(crossCaseUnits.flat()),
   bootstrap_95: dossierBootstrap(crossCaseUnits, 2000, 1702),
   by_cue: Object.fromEntries(cueNames.map((cue) => [cue,
-    directAgreement(caseIds.map((caseId) => modelLabels.map((model) => completeOrdinalMedian(scoresFor(model, caseId, cue)))))
-  ]))
+    directAgreement(primaryCaseIds.map((caseId) => modelLabels.map((model) => completeOrdinalMedian(scoresFor(model, caseId, cue)))))
+  ])),
+  anchor: {
+    aggregate: summarizeReliability(anchorCrossUnits.flat()),
+    availability: availabilityAgreement(anchorCrossUnits.flat())
+  }
 };
 
 const scheduledAnalysis = analysisRecords.length;
@@ -316,7 +337,7 @@ const repeatableModels = modelLabels.filter((model) => {
 });
 const dispersion = Object.fromEntries(cueNames.map((cue) => [cue,
   Object.fromEntries(modelLabels.map((model) => {
-    const values = caseIds.map((caseId) => completeOrdinalMedian(scoresFor(model, caseId, cue))).filter((value) => value !== null);
+    const values = primaryCaseIds.map((caseId) => completeOrdinalMedian(scoresFor(model, caseId, cue))).filter((value) => value !== null);
     return [model, values.length ? {
       minimum: Math.min(...values),
       maximum: Math.max(...values),
@@ -522,6 +543,17 @@ const summary = {
   output_validity_rate: scheduledAnalysis ? validAnalysis.length / scheduledAnalysis : null,
   cue_completeness_rate: cueCells ? nonNullCueCells / cueCells : null,
   status_distribution: statusDistributionSummary,
+  suspected_recognition: validAnalysis.map((record) => ({
+    model: record.model,
+    case_id: record.case_id,
+    run: record.run,
+    level: record.parsed.suspected_recognition.level,
+    confidence: record.parsed.suspected_recognition.confidence,
+    target_case: primaryCaseIds.includes(record.case_id)
+  })),
+  work_level_recognition_on_target: validAnalysis.some((record) =>
+    primaryCaseIds.includes(record.case_id)
+    && record.parsed.suspected_recognition.level === "work"),
   within_model: withinModel,
   cross_model: crossModel,
   cue_dispersion: dispersion,

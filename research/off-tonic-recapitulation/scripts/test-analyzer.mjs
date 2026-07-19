@@ -116,7 +116,7 @@ const analysisResponse = (caseId, caseIndex) => {
     reason: "The encoded event is observed; the score is a fixture inference."
   }]));
   const payload = {
-    schema_version: "2.0.0",
+    schema_version: "2.1.0",
     analyst_model: "fixture-model",
     case_id: caseId,
     cues: cueValues,
@@ -125,6 +125,7 @@ const analysisResponse = (caseId, caseIndex) => {
       off_tonic_recapitulation: 0.4,
       tonic_double_return: 0.4
     },
+    suspected_recognition: {level: "none", confidence: 0},
     case_note: "Deterministic fixture result."
   };
   return `# Analysis result\n\n## Run metadata\n\nFixture metadata.\n\n## Machine-readable result\n\n${fence}json\n${JSON.stringify(payload, null, 2)}\n${fence}\n\n## Limitations\n\nSynthetic fixture only.\n`;
@@ -149,7 +150,7 @@ const identificationResponse = (caseId, recognized) => {
     reason: "The fixture provides no specific identification."
   };
   const payload = {
-    schema_version: "2.0.0",
+    schema_version: "2.1.0",
     analyst_model: "fixture-model",
     case_id: caseId,
     identification

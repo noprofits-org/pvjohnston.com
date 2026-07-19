@@ -26,6 +26,7 @@ const cueNames = [
 
 const analysisResult = () => ({
   case_note: "The supplied evidence supports a deliberately cautious summary.",
+  suspected_recognition: {level: "none", confidence: 0},
   status_distribution: {
     tonic_double_return: 0.2,
     not_recapitulation: 0.3,
@@ -38,7 +39,7 @@ const analysisResult = () => ({
   }])),
   case_id: caseId,
   analyst_model: "test-model",
-  schema_version: "2.0.0"
+  schema_version: "2.1.0"
 });
 
 const identificationResult = (overrides = {}) => ({
@@ -54,7 +55,7 @@ const identificationResult = (overrides = {}) => ({
   },
   case_id: caseId,
   analyst_model: "test-model",
-  schema_version: "2.0.0"
+  schema_version: "2.1.0"
 });
 
 const markdown = (task, result, limitations = "No material limitation beyond the supplied dossier.") => {
@@ -113,6 +114,26 @@ reject("analysis", longReason, /exceeds 40 words/);
 const longCaseNote = analysisResult();
 longCaseNote.case_note = Array(41).fill("word").join(" ");
 reject("analysis", longCaseNote, /exceeds 40 words/);
+
+const badRecognitionLevel = analysisResult();
+badRecognitionLevel.suspected_recognition.level = "movement";
+reject("analysis", badRecognitionLevel, /suspected_recognition.level must be/);
+
+const badRecognitionConfidence = analysisResult();
+badRecognitionConfidence.suspected_recognition.confidence = 1.5;
+reject("analysis", badRecognitionConfidence, /suspected_recognition.confidence must be/);
+
+const extraRecognitionKey = analysisResult();
+extraRecognitionKey.suspected_recognition.note = "familiar";
+reject("analysis", extraRecognitionKey, /extra note/);
+
+const missingRecognition = analysisResult();
+delete missingRecognition.suspected_recognition;
+reject("analysis", missingRecognition, /missing suspected_recognition/);
+
+const workRecognition = analysisResult();
+workRecognition.suspected_recognition = {level: "work", confidence: 0.9};
+assert.deepEqual(accept("analysis", workRecognition), workRecognition);
 
 reject("identification", identificationResult({composer: "Mozart"}), /none identification must not name/);
 reject("identification", identificationResult({

@@ -2,7 +2,7 @@
 
 import {createHash} from "node:crypto";
 import {spawnSync} from "node:child_process";
-import {readFileSync, renameSync, writeFileSync} from "node:fs";
+import {existsSync, linkSync, readFileSync, unlinkSync, writeFileSync} from "node:fs";
 import {dirname, resolve} from "node:path";
 import {fileURLToPath} from "node:url";
 import {validateCase} from "./lib/case-validator.mjs";
@@ -82,11 +82,31 @@ packageValue.audit.dossier_sha256 = createHash("sha256").update(dossierText).dig
 packageValue.audit.generated_by = "scripts/extract-dcml-mozart.mjs";
 const auditText = `${JSON.stringify(packageValue.audit, null, 2)}\n`;
 
+const fileTargets = [options.get("--out"), options.get("--audit-out")]
+  .filter((target) => target !== undefined)
+  .map((target) => resolve(target));
+if (new Set(fileTargets).size !== fileTargets.length) {
+  process.stderr.write("Dossier and audit outputs must use distinct paths.\n");
+  process.exit(2);
+}
+for (const target of fileTargets) {
+  if (existsSync(target)) {
+    process.stderr.write(`Could not write extraction output: refusing to overwrite existing file ${target}\n`);
+    process.exit(1);
+  }
+}
+
 const writeAtomic = (target, contents) => {
   const absolute = resolve(target);
   const temporary = `${absolute}.tmp-${process.pid}`;
   writeFileSync(temporary, contents, {encoding: "utf8", flag: "wx"});
-  renameSync(temporary, absolute);
+  try {
+    // An atomic hard-link install refuses EEXIST even if another researcher
+    // creates the destination after the preflight check.
+    linkSync(temporary, absolute);
+  } finally {
+    unlinkSync(temporary);
+  }
 };
 
 try {

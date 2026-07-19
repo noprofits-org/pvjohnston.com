@@ -33,9 +33,11 @@ solo-keyboard works from approximately 1783. The focal cases are earlier
 ## Leakage risk
 
 K. 545 is intentionally recognizable: the identification probe must demonstrate
-sensitivity before non-identification of the other cases can support a blinding
-claim. It is excluded from the target zero-L2 gate but remains in the analysis
-matrix as a disclosed recognized anchor. The C. P. E. Bach and Benda passages
+sensitivity before non-identification of the other cases can support any claim
+about withheld identity, and even then the result is bounded elicitation, not
+proven blinding. It is excluded from the target zero-L2 gate and from the
+primary reliability gate (which uses the five target cases) but remains in the
+analysis matrix as a disclosed recognized anchor. The C. P. E. Bach and Benda passages
 also carry contamination risk because Greenberg analyzes them directly. An exact
 identification is a finding, not a response to discard. Identification probes
 run in separate fresh contexts on the same dossier representation as analysis.
@@ -53,7 +55,7 @@ coverage before any dossier encoding or model output.
 - Pin public-domain first-edition scans and file hashes for C. P. E. Bach Wq.
   48/3, Benda's 1757 Sonata No. 2, and the 1783 Clementi Op. 10 No. 3 lineage.
 - Pin DCML release v2.3 and repository commit for all three Mozart cases.
-- Verify every candidate onset and the required 8+8+8+8 measure windows.
+- Verify every candidate onset and the required 8+6+6+6 measure windows.
 - Resolve K. 333's pickup numbering using score event onset rather than prose.
 - Confirm each movement has enough measures for the fixed windows.
 - Record licensing separately for source score, derived symbolic events, and

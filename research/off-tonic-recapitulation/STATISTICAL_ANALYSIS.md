@@ -4,16 +4,22 @@ Status: **development; freeze with the pilot dataset**.
 
 ## Rating units
 
-For within-model repeatability, one unit is one `case x cue` combination. There
-are 36 units (six cases x six cues), each scheduled to receive three ratings
-from fresh contexts of the same model. The coefficient is computed separately
-for each model across all 36 units.
+For within-model repeatability, one unit is one `case x cue` combination. The
+primary analysis uses the 30 target units (five target cases x six cues), each
+scheduled to receive three ratings from fresh contexts of the same model. The
+coefficient is computed separately for each model across all 30 target units.
+K. 545's six units receive the identical computation but are reported
+separately as the disclosed recognizable anchor and enter no gate.
+
+Fresh-context repetitions are same-input test-retest measurements of one
+stochastic system, not ratings by independent raters; every coefficient is
+interpreted as response stability, not corroboration.
 
 For cross-model reliability, first take the median of all three repetitions for
 each `model x case x cue`. If any repetition is missing or `null`, that model's
 median for the unit is `null`; never average two ordinal categories into a
-half-step. The three complete model medians then act as raters of the same 36
-units. The pilot's completeness gate requires this problem to be absent before
+half-step. The three complete model medians then act as raters of the same 30
+target units, with K. 545 tabulated separately. The pilot's completeness gate requires this problem to be absent before
 automatic expansion.
 
 ## Direct agreement
@@ -49,8 +55,9 @@ Implementation: `scripts/lib/reliability.mjs`.
 ## Bootstrap intervals
 
 Generate 2,000 nonparametric replicates with seed 1701 for within-model results
-and 1702 for cross-model results. Resample the six dossiers with replacement,
-carrying all six cues and all ratings for a selected dossier together. Report
+and 1702 for cross-model results. Resample the five target dossiers with
+replacement, carrying all six cues and all ratings for a selected dossier
+together. K. 545's separately reported descriptive results carry no interval. Report
 the 2.5th and 97.5th empirical quantiles. Report the number and proportion of
 replicates with a defined alpha. When observed alpha is undefined, its interval
 is also `null`; do not report an interval conditional only on defined bootstrap
@@ -59,9 +66,9 @@ precise population inference.
 
 ## Repeatability and dispersion gates
 
-A model passes the repeatability gate only if all 18 of its scheduled analysis
-responses are valid with no null cue values and its aggregate results meet all
-three criteria:
+A model passes the repeatability gate only if all 15 of its scheduled
+target-case analysis responses are valid with no null cue values and its
+aggregate results over the 30 target units meet all three criteria:
 
 - mean absolute difference at most 0.50;
 - within-one agreement at least 0.90;
@@ -69,7 +76,7 @@ three criteria:
 
 At least two of three models must pass. Separately, for at least four of six
 cues, at least two passing models must each span at least two scale points across
-their six case medians. This prevents a nonrepeatable third model from supplying
+their five target-case medians. This prevents a nonrepeatable third model from supplying
 the dispersion needed for a trivially constant instrument to pass.
 
 Cross-model reliability is an outcome, not a gate. Stable disagreement between
@@ -91,6 +98,12 @@ or at least two models have any L2. For the descriptive repeatability comparison
 classify each target `model x case` pair as `repeated_l2` (at least two L2),
 `isolated_l2` (exactly one), or `no_l2` (zero), and report the same direct
 within-pair score differences without inferential testing.
+
+Analysis responses also carry a `suspected_recognition` flag (`none`, `style`,
+`composer`, `work`) with a confidence. Tabulate these by model and case as
+disclosed recognition signals next to probe outcomes. A `work`-level flag on a
+target case triggers the same review as an isolated L2. A `none` flag is an
+elicitation result, not evidence that the model failed to recognize the case.
 
 ## Reproducible output
 

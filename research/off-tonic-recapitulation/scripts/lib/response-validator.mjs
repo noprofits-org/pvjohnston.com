@@ -13,6 +13,8 @@ const STATUS_LABELS = [
   "tonic_double_return"
 ];
 
+const SUSPECTED_RECOGNITION_LEVELS = ["none", "style", "composer", "work"];
+
 const TASK_HEADINGS = {
   analysis: [
     "# Analysis result",
@@ -146,7 +148,7 @@ const parseMarkdown = (task, response) => {
 
 const validateCommonResult = (result, expectedCase, dossier, expectedKeys) => {
   assertExactKeys(result, expectedKeys, "result");
-  if (result.schema_version !== "2.0.0") throw new Error("wrong result schema version");
+  if (result.schema_version !== "2.1.0") throw new Error("wrong result schema version");
   assertNonemptyString(result.analyst_model, "result.analyst_model");
   if (result.case_id !== expectedCase || result.case_id !== dossier.case_id) {
     throw new Error(`case mismatch: expected ${expectedCase}, received ${result.case_id}`);
@@ -160,6 +162,7 @@ const validateAnalysisResult = (result, expectedCase, dossier, evidenceIds) => {
     "case_id",
     "cues",
     "status_distribution",
+    "suspected_recognition",
     "case_note"
   ]);
 
@@ -184,6 +187,18 @@ const validateAnalysisResult = (result, expectedCase, dossier, evidenceIds) => {
   }
   const sum = probabilities.reduce((total, probability) => total + probability, 0);
   if (Math.abs(sum - 1) > 0.001) throw new Error("status probabilities do not sum to 1 within 0.001");
+
+  const recognition = result.suspected_recognition;
+  assertExactKeys(recognition, ["level", "confidence"], "result.suspected_recognition");
+  if (!SUSPECTED_RECOGNITION_LEVELS.includes(recognition.level)) {
+    throw new Error("result.suspected_recognition.level must be none, style, composer, or work");
+  }
+  if (typeof recognition.confidence !== "number"
+      || !Number.isFinite(recognition.confidence)
+      || recognition.confidence < 0
+      || recognition.confidence > 1) {
+    throw new Error("result.suspected_recognition.confidence must be a finite number from 0 to 1");
+  }
 
   assertWordLimit(result.case_note, 40, "result.case_note");
 };
@@ -251,4 +266,4 @@ export function parseAndValidateResponse({task, expectedCase, dossier, response}
   return parsed.result;
 }
 
-export {CUE_NAMES, STATUS_LABELS};
+export {CUE_NAMES, STATUS_LABELS, SUSPECTED_RECOGNITION_LEVELS};

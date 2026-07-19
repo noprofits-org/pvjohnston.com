@@ -11,9 +11,10 @@ field below and in the normative `run-matrix.json` before freezing collection.
 | model-b | TBD | TBD | TBD | TBD | 18 | 18 |
 | model-c | TBD | TBD | TBD | TBD | 18 | 18 |
 
-Both tasks use three fresh contexts for each of six cases. Operators must not
-reuse a chat, session, cache transcript, or model-generated working file between
-calls.
+Both tasks use three fresh contexts for each of six cases. Fresh contexts are
+same-input test-retest repetitions of one stochastic system, not independent
+raters. Operators must not reuse a chat, session, cache transcript, or
+model-generated working file between calls.
 
 Each model entry in `run-matrix.json` must name one executable adapter and pin
 its SHA-256 hash. The adapter contains the exact model identifier and all

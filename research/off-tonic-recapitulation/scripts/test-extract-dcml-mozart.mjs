@@ -105,6 +105,60 @@ try {
   assert.ok(directionValues.includes("crescendo_start"));
   assert.ok(directionValues.includes("crescendo_stop"));
 
+  const unrepresentableConfig = {
+    ...directionConfig,
+    case_id: "CASE-TRIL",
+    candidate_mc: 149,
+  };
+  const unrepresentablePath = join(temporary, "trill-spanner.json");
+  writeFileSync(unrepresentablePath, `${JSON.stringify(unrepresentableConfig)}\n`);
+  const unrepresentable = spawnSync(process.execPath, [
+    extractor,
+    "--config", unrepresentablePath,
+    "--source-root", sourceRoot,
+  ], {encoding: "utf8", maxBuffer: 64 * 1024 * 1024});
+  assert.notEqual(unrepresentable.status, 0);
+  assert.match(unrepresentable.stderr, /trill spanner duration is not representable/);
+
+  const graceSequenceConfig = {
+    case_id: "CASE-GRAC",
+    work: "K545-1",
+    candidate_mc: 29,
+    candidate_onset_qn: {numerator: 0, denominator: 1},
+    second_part_mc: 29,
+    second_part_onset_qn: {numerator: 0, denominator: 1},
+  };
+  const graceSequencePath = join(temporary, "grace-sequence.json");
+  writeFileSync(graceSequencePath, `${JSON.stringify(graceSequenceConfig)}\n`);
+  const graceSequence = spawnSync(process.execPath, [
+    extractor,
+    "--config", graceSequencePath,
+    "--source-root", sourceRoot,
+  ], {encoding: "utf8", maxBuffer: 64 * 1024 * 1024});
+  assert.notEqual(graceSequence.status, 0);
+  assert.match(graceSequence.stderr, /schema 3 has no grace-sequence field/);
+
+  const repeatConfig = {
+    case_id: "CASE-REPT",
+    work: "K545-1",
+    candidate_mc: 34,
+    candidate_onset_qn: {numerator: 0, denominator: 1},
+    second_part_mc: 29,
+    second_part_onset_qn: {numerator: 0, denominator: 1},
+  };
+  const repeatPath = join(temporary, "repeats.json");
+  writeFileSync(repeatPath, `${JSON.stringify(repeatConfig)}\n`);
+  const repeatRun = spawnSync(process.execPath, [
+    extractor,
+    "--config", repeatPath,
+    "--source-root", sourceRoot,
+  ], {encoding: "utf8", maxBuffer: 64 * 1024 * 1024});
+  assert.equal(repeatRun.status, 0, repeatRun.stderr);
+  const repeatDossier = JSON.parse(repeatRun.stdout);
+  validateCase(repeatDossier);
+  assert.equal(repeatDossier.windows[1].measures[0].right_barline, "repeat_end");
+  assert.equal(repeatDossier.windows[1].measures[1].left_barline, "repeat_start");
+
   const invalid = {...cases[1]};
   delete invalid.expected;
   invalid.candidate_onset_qn = {numerator: 1, denominator: 3};
@@ -117,6 +171,18 @@ try {
   ], {encoding: "utf8"});
   assert.notEqual(rejected.status, 0);
   assert.match(rejected.stderr, /candidate onset does not coincide with a notated note/);
+
+  const protectedPath = join(temporary, "protected.json");
+  writeFileSync(protectedPath, "researcher-owned\n");
+  const overwriteAttempt = spawnSync(process.execPath, [
+    extractor,
+    "--config", join(temporary, "K545-1.json"),
+    "--source-root", sourceRoot,
+    "--out", protectedPath,
+  ], {encoding: "utf8", maxBuffer: 64 * 1024 * 1024});
+  assert.notEqual(overwriteAttempt.status, 0);
+  assert.match(overwriteAttempt.stderr, /refusing to overwrite existing file/);
+  assert.equal(readFileSync(protectedPath, "utf8"), "researcher-owned\n");
 
   process.stdout.write("DCML Mozart extractor tests passed\n");
 } finally {
