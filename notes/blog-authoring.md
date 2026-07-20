@@ -261,6 +261,7 @@ description: One or two sentences. Used for meta description and social cards.
 post-type: research                              # research or understanding
 contribution: X, which is not in [source].        # required; Research only
 contribution-type: decay                          # required; Research only
+experiment: experiment-slug                       # any post with generated results; see §7
 og-image: /images/YYYY-MM-DD-post-slug-hero.png   # optional; see §5
 ---
 ```
@@ -285,6 +286,9 @@ question: What physical signal does a chord make, and what does a Fourier transf
   (§0) and present only on Research notes. They are not rendered — they exist so
   the gate leaves an artifact in the file, where a reviewer can check it against
   what the post actually did.
+- **`experiment`:** the lowercase directory name under `research/` that owns
+  the post's generated metrics. Required whenever a post reports locally
+  generated results under the traceability contract (§7).
 - **`question`:** required on Understanding notes. It is not rendered; it keeps
   the explanation bounded during drafting and review.
 
@@ -591,13 +595,102 @@ uncaptioned or unreferenced element is a bug.
   post.
 - Figure 1 is still the hero / OG card (§5).
 
-## 7. Deploy flow
+## 7. Experiment artifacts and traceable metrics
+
+**The promise is traceability, not magic.** A metric reference proves that the
+rendered prose matches the committed metrics projection. The normal site build
+does not rerun the experiment and does not by itself prove correctness,
+freshness, or end-to-end reproducibility. Do not write that hand-typed results
+are impossible: the compiler can enforce references, but it cannot reliably
+classify every numeral in natural-language prose.
+
+Use these cumulative labels only when the corresponding evidence exists. Before
+the first one is earned, write **not yet established**. **Archived evidence** is
+an additional constraint note, not a competing level; it may coexist with any
+of the three when a paid API, hardware boundary, rights restriction, or missing
+upstream input prevents a future full rerun.
+
+| Label | Earned when |
+| --- | --- |
+| **Traceable** | result-bearing prose resolves from a validated `metrics.json` |
+| **Analysis-reproducible** | committed outputs can regenerate the analysis and metrics |
+| **End-to-end reproducible** | documented inputs and environment can rerun the experiment and regenerate its outputs |
+
+### One directory owns each new experiment
+
+Start from `research/_TEMPLATE/` and create `research/<experiment-slug>/`. Keep
+the executable code, native dependency lock or precise environment record,
+source manifest, canonical results, generated `metrics.json`, cheap metrics
+generator, and public-bundle allowlist together. `metrics.json` is a small
+publication projection; it does not replace the experiment's richer outputs.
+
+The post declares the binding:
+
+```yaml
+experiment: example-experiment
+```
+
+Reference a generated result with Pandoc's bracketed-span syntax:
+
+```markdown
+The accepted count was [accepted]{.metric}, or [acceptance_rate]{.metric}.
+```
+
+The metric name is not fallback prose. At build time it becomes a
+`metric-value` span carrying a `data-metric` identifier. For a metric reference,
+a missing experiment binding, file, or metric—or an invalid type, unsupported
+format, or malformed span—is a hard Hakyll build error. An `experiment:` field
+that points to a missing or invalid artifact also fails. Metric references work
+in normal prose, emphasis, captions, and tables; do not place them inside math,
+code, TikZ, raw HTML, title, description, or other front matter. Phase one
+therefore forbids experiment-result numerals in front matter. Summarize the
+conclusion there without quoting the measurement.
+
+Use metric references for **experiment-produced quantitative claims** in any
+new note bound to an experiment. In Research notes this includes repetitions of
+the same result in the Abstract, Results, Discussion, and Conclusion. In
+Understanding notes it includes generated demonstration values while keeping
+the demonstration distinct from perceptual, cultural, or historical evidence.
+Literal dates, software versions, seeds, declared parameters, dimensions,
+equation constants, and clearly attributed external values remain ordinary
+prose. Apply this convention prospectively; do not bulk-convert the archive.
+
+Every number metric stores a typed raw value plus a deterministic formatting
+rule (`fixed`, `scientific`, `percent`, or `raw`). It never stores arbitrary
+display text. The generator owns derivation from canonical outputs and supports
+`--check`. `node scripts/verify-metrics.mjs` verifies each declared source
+fingerprint and confirms that its generator reproduces the committed
+projection. Expensive training, simulation, model calls, and data acquisition
+stay out of the normal site build; a later end-to-end job may rerun them on an
+appropriate schedule.
+
+### Publication is an allowlist
+
+This GitHub repository is public: committing a file is already publication,
+even when Hakyll does not route it onto the website. Credentials, private data,
+and secrets must never be committed; excluding them from a bundle is not a
+confidentiality control. Hakyll publishes validated `metrics.json` files and the
+shared schema automatically. Other site/download artifacts need explicit
+routing. `PUBLIC_FILES.txt` is currently the reviewed manifest for an explicit
+or future reproduction-bundle step; the normal build does not consume it.
+
+Publish a curated, stable reader-facing bundle by default when the reviewed
+manifest and bundle step exist, but never package an entire research directory
+automatically. The manifest excludes nonredistributable sources, oversized
+artifacts, caches, scratch work, and sensitive transcripts. For excluded
+computational inputs, where applicable, record durable acquisition
+instructions, version or DOI, access date, checksum, license, and the resulting
+reproducibility limit. Literature citations remain in the shared bibliography.
+A URL plus checksum can verify retrieved bytes; it cannot guarantee that the URL
+will remain available.
+
+## 8. Deploy flow
 
 `.github/workflows/deploy.yml` builds the Hakyll site with Stack and publishes to
 GitHub Pages on **push to `main`** (also PR-to-main and manual dispatch). So:
 
 1. Work on a feature branch (`post/<slug>`), never commit straight to `main`.
-2. **Verify before merge:** `stack build && stack exec site build && node scripts/verify-site.mjs` must succeed;
+2. **Verify before merge:** `stack test && stack exec site rebuild && node scripts/verify-metrics.mjs && node scripts/verify-site.mjs` must succeed;
    check the post renders, citations resolve, figures load, and the card meta is
    right.
 3. Open a PR into `main`; merge triggers the deploy.
@@ -607,7 +700,7 @@ The verification script rejects missing internal assets/links and any generated
 compiled.
 
 **If you author in a sandbox and cannot run the build,** the orchestrator/human
-runs §7's build + verify before merge — but a missing citation will not fail the
+runs §8's build + verify before merge — but a missing citation will not fail the
 build loudly: a `[@key]` with no matching bib entry silently renders as `[?]`.
 So do this build-free self-check before handing off, and call out in your summary
 that the build still needs to run:
@@ -622,12 +715,12 @@ that the build still needs to run:
    return nothing; the source `.md` extension ships as a 404, see §3).
 
 Note: `stack exec site build` alone is not enough — it runs the **already-compiled**
-`site` binary. If `lib/Blog/Site.hs` changed (e.g. a new asset rule), run
-`stack build` first or the binary silently omits the new outputs and verify-site
-flags phantom missing targets. The full sequence is `stack build && stack exec
-site build && node scripts/verify-site.mjs`.
+`site` binary, and Hakyll's cache does not know when compiler semantics change.
+After any change under `lib/`, run `stack test` and use `site rebuild` so cached
+posts cannot retain old formatting or validation behavior. The full pre-merge
+sequence above deliberately uses `stack test && stack exec site rebuild`.
 
-## 8. Per-post checklist
+## 9. Per-post checklist
 
 **Before drafting — every post:**
 
@@ -673,6 +766,9 @@ site build && node scripts/verify-site.mjs`.
 - [ ] Methods states interpreter/arch/versions/seeds precisely enough to re-run
 - [ ] Methods states whether source program/code/data were used and what was independently implemented
 - [ ] Methods identifies the computational procedure and digital inputs; no living subjects were recruited, observed, surveyed, interviewed, exposed, or acted upon
+- [ ] `experiment:` names its `research/<slug>/` owner; result-bearing prose uses `[metric_name]{.metric}` and no experiment result is quoted in front matter (§7)
+- [ ] The metrics generator passes `--check`; source fingerprints pass `node scripts/verify-metrics.mjs`; the post claims only the reproducibility label it has earned (§7)
+- [ ] Public research files come from an explicit reviewed allowlist; rights, privacy, secrets, and size exceptions are documented (§7)
 - [ ] Anything not run first-hand is declared as such in Methods and attributed at each use
 - [ ] No untested equivalence claims ("reproduces X's semantics exactly" is a claim — test it)
 - [ ] **Results passes the printed-output test sentence by sentence** (§2); no banned words; captions clean
@@ -686,5 +782,6 @@ site build && node scripts/verify-site.mjs`.
 - [ ] Headings follow conceptual dependency order; no IMRaD labels or verdict
 - [ ] Equations are sufficient to reconstruct every plotted quantity
 - [ ] Reproducibility note names the computer environment, procedure, and digital inputs
+- [ ] If the note quotes a generated demonstration, `experiment:` names its owner; metric references, generator checks, fingerprints, and the earned reproducibility label follow §7
 - [ ] Every generated example is described as a demonstration, not perceptual or cultural evidence
 - [ ] A section explicitly states where the physical or mathematical model stops

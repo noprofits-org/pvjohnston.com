@@ -1,0 +1,468 @@
+{
+  "schema_version": 1,
+  "experiment": "siren-convention-adam",
+  "provenance": {
+    "generated_at": "2026-07-20T06:02:33Z",
+    "generator": "research/siren-convention-adam/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "downloads/siren-convention-adam.py",
+        "sha256": "b97413a7ffbf980f3db8c8f5428689db45ab9f1ccfd8fc3f2619f87c8a24a9ff"
+      },
+      {
+        "path": "downloads/conv_equiv.json",
+        "sha256": "2d995403b29af1809f99c7abae84478c416218a23d7e5c6d3b4622e537c071c2"
+      },
+      {
+        "path": "downloads/conv_range.json",
+        "sha256": "7d51df6bc65af79f8862af47c15a19d6d6a0114e3fb1e3ba9dfab160a2e69ca0"
+      }
+    ]
+  },
+  "metrics": {
+    "equiv_lr_1e_5_official_mse": {
+      "type": "number",
+      "value": 1.0822109633152537,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Official-convention normalized test MSE at learning rate 0.00001",
+      "unit": "normalized test MSE"
+    },
+    "equiv_lr_1e_5_described_mse": {
+      "type": "number",
+      "value": 1.1974445888961258,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Described-convention normalized test MSE at learning rate 0.00001",
+      "unit": "normalized test MSE"
+    },
+    "equiv_lr_1e_5_scaled_mse": {
+      "type": "number",
+      "value": 1.0821730822121647,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Hidden-rate-scaled described-convention normalized test MSE at learning rate 0.00001",
+      "unit": "normalized test MSE"
+    },
+    "equiv_lr_1e_5_relative_difference": {
+      "type": "number",
+      "value": 0.000035003436828022786,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "Relative difference between official and hidden-rate-scaled described runs at learning rate 0.00001",
+      "unit": "ratio"
+    },
+    "equiv_lr_1e_4_official_mse": {
+      "type": "number",
+      "value": 0.8429674184224139,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Official-convention normalized test MSE at learning rate 0.0001",
+      "unit": "normalized test MSE"
+    },
+    "equiv_lr_1e_4_described_mse": {
+      "type": "number",
+      "value": 1.0527825824191588,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Described-convention normalized test MSE at learning rate 0.0001",
+      "unit": "normalized test MSE"
+    },
+    "equiv_lr_1e_4_scaled_mse": {
+      "type": "number",
+      "value": 0.837373925604407,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Hidden-rate-scaled described-convention normalized test MSE at learning rate 0.0001",
+      "unit": "normalized test MSE"
+    },
+    "equiv_lr_1e_4_relative_difference": {
+      "type": "number",
+      "value": 0.006635479255502955,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "Relative difference between official and hidden-rate-scaled described runs at learning rate 0.0001",
+      "unit": "ratio"
+    },
+    "equiv_lr_1e_3_official_mse": {
+      "type": "number",
+      "value": 0.4432544467223796,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Official-convention normalized test MSE at learning rate 0.001",
+      "unit": "normalized test MSE"
+    },
+    "equiv_lr_1e_3_described_mse": {
+      "type": "number",
+      "value": 0.7619700222281519,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Described-convention normalized test MSE at learning rate 0.001",
+      "unit": "normalized test MSE"
+    },
+    "equiv_lr_1e_3_scaled_mse": {
+      "type": "number",
+      "value": 0.507558969415637,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Hidden-rate-scaled described-convention normalized test MSE at learning rate 0.001",
+      "unit": "normalized test MSE"
+    },
+    "equiv_lr_1e_3_relative_difference": {
+      "type": "number",
+      "value": 0.14507360990680104,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "Relative difference between official and hidden-rate-scaled described runs at learning rate 0.001",
+      "unit": "ratio"
+    },
+    "range_described_rep0_best_in_range": {
+      "type": "number",
+      "value": 0.7619700222281519,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described repetition 0 best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_described_rep0_best_above_range": {
+      "type": "number",
+      "value": 8.89772576793662e-16,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described repetition 0 best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_described_rep0_first_fit_lr": {
+      "type": "number",
+      "value": 0.0316,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "described repetition 0 lowest learning rate with normalized test MSE below 1e-3",
+      "unit": "learning rate"
+    },
+    "range_described_rep1_best_in_range": {
+      "type": "number",
+      "value": 3.4983573705685522,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described repetition 1 best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_described_rep1_best_above_range": {
+      "type": "number",
+      "value": 1.6529067594949382e-30,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described repetition 1 best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_described_rep1_first_fit_lr": {
+      "type": "number",
+      "value": 0.0316,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "described repetition 1 lowest learning rate with normalized test MSE below 1e-3",
+      "unit": "learning rate"
+    },
+    "range_described_rep2_best_in_range": {
+      "type": "number",
+      "value": 0.31310525000501294,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described repetition 2 best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_described_rep2_best_above_range": {
+      "type": "number",
+      "value": 2.0151457009484103e-14,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described repetition 2 best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_described_rep2_first_fit_lr": {
+      "type": "number",
+      "value": 0.01,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "described repetition 2 lowest learning rate with normalized test MSE below 1e-3",
+      "unit": "learning rate"
+    },
+    "range_described_rep3_best_in_range": {
+      "type": "number",
+      "value": 1.0222660942929234,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described repetition 3 best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_described_rep3_best_above_range": {
+      "type": "number",
+      "value": 3.518903852209597e-31,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described repetition 3 best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_described_rep3_first_fit_lr": {
+      "type": "number",
+      "value": 0.0316,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "described repetition 3 lowest learning rate with normalized test MSE below 1e-3",
+      "unit": "learning rate"
+    },
+    "range_described_median_best_in_range": {
+      "type": "number",
+      "value": 0.8921180582605377,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described median best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_described_median_best_above_range": {
+      "type": "number",
+      "value": 4.448862883968318e-16,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "described median best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_rep0_best_in_range": {
+      "type": "number",
+      "value": 0.4432544467223796,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official repetition 0 best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_rep0_best_above_range": {
+      "type": "number",
+      "value": 2.8363790193242822e-31,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official repetition 0 best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_rep0_first_fit_lr": {
+      "type": "number",
+      "value": 0.00316,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "official repetition 0 lowest learning rate with normalized test MSE below 1e-3",
+      "unit": "learning rate"
+    },
+    "range_official_rep1_best_in_range": {
+      "type": "number",
+      "value": 0.6190707556690112,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official repetition 1 best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_rep1_best_above_range": {
+      "type": "number",
+      "value": 2.470995068926751e-30,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official repetition 1 best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_rep1_first_fit_lr": {
+      "type": "number",
+      "value": 0.00316,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "official repetition 1 lowest learning rate with normalized test MSE below 1e-3",
+      "unit": "learning rate"
+    },
+    "range_official_rep2_best_in_range": {
+      "type": "number",
+      "value": 0.5781808784423871,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official repetition 2 best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_rep2_best_above_range": {
+      "type": "number",
+      "value": 6.545498865256955e-31,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official repetition 2 best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_rep2_first_fit_lr": {
+      "type": "number",
+      "value": 0.00316,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "official repetition 2 lowest learning rate with normalized test MSE below 1e-3",
+      "unit": "learning rate"
+    },
+    "range_official_rep3_best_in_range": {
+      "type": "number",
+      "value": 0.5855986621143283,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official repetition 3 best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_rep3_best_above_range": {
+      "type": "number",
+      "value": 4.471603929711301e-31,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official repetition 3 best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_rep3_first_fit_lr": {
+      "type": "number",
+      "value": 0.00316,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "official repetition 3 lowest learning rate with normalized test MSE below 1e-3",
+      "unit": "learning rate"
+    },
+    "range_official_median_best_in_range": {
+      "type": "number",
+      "value": 0.5818897702783576,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official median best normalized test MSE at learning rates no greater than 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_median_best_above_range": {
+      "type": "number",
+      "value": 5.508551397484128e-31,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "official median best normalized test MSE at learning rates above 1e-3",
+      "unit": "normalized test MSE"
+    },
+    "range_official_common_first_fit_count": {
+      "type": "integer",
+      "value": 4,
+      "description": "Repetitions sharing the official convention first-fit learning rate",
+      "unit": "repetitions"
+    },
+    "range_described_tenfold_gap_count": {
+      "type": "integer",
+      "value": 3,
+      "description": "Repetitions where the described first-fit learning rate is ten times the official rate",
+      "unit": "repetitions"
+    },
+    "range_common_first_fit_ratio": {
+      "type": "integer",
+      "value": 10,
+      "description": "Common described-to-official first-fit learning-rate ratio",
+      "unit": "ratio"
+    },
+    "range_outlier_first_fit_ratio": {
+      "type": "number",
+      "value": 3.1645569620253164,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Described-to-official first-fit learning-rate ratio in the non-tenfold repetition",
+      "unit": "ratio"
+    },
+    "range_median_first_fit_ratio": {
+      "type": "integer",
+      "value": 10,
+      "description": "Median described-to-official first-fit learning-rate ratio",
+      "unit": "ratio"
+    },
+    "equiv_lr_1e_5_unscaled_absolute_difference": {
+      "type": "number",
+      "value": 0.11523362558087213,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Absolute normalized-MSE difference between unscaled conventions at learning rate 1e-5",
+      "unit": "normalized test MSE"
+    }
+  }
+}

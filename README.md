@@ -8,6 +8,7 @@ Peter Johnston’s portfolio, résumé, and personal technical notebook. The sit
 - 51 migrated posts covering chemistry, physics, mathematics, art, software, automation, and systems
 - BibTeX/CSL citations and MathJax with `mhchem`
 - Build-time TikZ/circuitikz → inline SVG rendering
+- Typed experiment metrics resolved from generated, fingerprint-verified research artifacts
 - RSS, Atom, sitemap, social metadata, drafts, syntax highlighting, and print styles
 - Reproducible calculation artifacts for selected science posts
 
@@ -15,11 +16,14 @@ Nonprofit/watchdog articles remain in [`noprofits-org/blog`](https://github.com/
 
 ## Local development
 
-Prerequisites: Haskell Stack, LuaLaTeX with TikZ/pgfplots/circuitikz/mhchem, and `dvisvgm`.
+Prerequisites: Haskell Stack, Node.js, LuaLaTeX with
+TikZ/pgfplots/circuitikz/mhchem, and `dvisvgm`.
 
 ```sh
 stack test
-stack exec site build
+stack exec site rebuild
+node scripts/verify-metrics.mjs
+node scripts/verify-site.mjs
 stack exec site watch
 ```
 
