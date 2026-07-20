@@ -13,6 +13,7 @@ import Text.Pandoc.Highlighting (pygments)
 import Text.Pandoc.Options
 import Text.Pandoc.Walk (walk, walkM)
 
+import Blog.Metrics (loadPostMetrics, metricFilter)
 import Blog.TikZ (tikzFilter)
 
 -- | Wrap every table in a @div.table-scroll@ so wide tables scroll within
@@ -34,6 +35,7 @@ bibtexMathCompiler cslFileName bibFileName = do
         [ Ext_tex_math_dollars
         , Ext_tex_math_double_backslash
         , Ext_latex_macros
+        , Ext_bracketed_spans
         , Ext_raw_tex
         , Ext_raw_html
         , Ext_fenced_code_blocks
@@ -53,8 +55,11 @@ bibtexMathCompiler cslFileName bibFileName = do
               enableExtension Ext_raw_tex pandocExtensions
         }
 
+  metrics <- loadPostMetrics
+
   getResourceBody
     >>= readPandocBiblio readerOptions csl bib
     >>= \pandoc -> do
-          transformed <- walkM tikzFilter pandoc
-          return $ writePandocWith writerOptions (walk wrapTables transformed)
+          withMetrics <- walkM (metricFilter metrics) pandoc
+          withTikz <- walkM tikzFilter withMetrics
+          return $ writePandocWith writerOptions (walk wrapTables withTikz)

@@ -12,6 +12,7 @@ import Hakyll
 import Blog.Compilers (bibtexMathCompiler)
 import Blog.Context   (baseCtx, postCtx, hasFigure)
 import Blog.Feed      (feedConfiguration, feedCtx)
+import Blog.Metrics   (metricsCompiler)
 
 -- | Bibliography inputs for the post compiler.
 cslFile, bibFile :: String
@@ -53,6 +54,36 @@ siteRules previewDrafts = do
         compile copyFileCompiler
 
     match "downloads/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
+    -- Versioned, generated result artifacts are both compiler inputs and
+    -- reader-facing provenance.  Keeping them as Hakyll resources makes a
+    -- metrics change invalidate every post that loads it during watch/build.
+    match "research/*/metrics.json" $ do
+        route   idRoute
+        compile metricsCompiler
+
+    match "research/metrics.schema.json" $ do
+        route   idRoute
+        compile copyFileCompiler
+
+    match "LICENSE" $ do
+        route   idRoute
+        compile copyFileCompiler
+
+    -- Explicitly reviewed reader-facing files for the traceable-metrics
+    -- demonstration.  LICENSE, metrics.json, and the shared schema are routed
+    -- above; no other research directory is published wholesale.
+    match (fromList
+        [ "research/traceable-brewster-angle/README.md"
+        , "research/traceable-brewster-angle/environment.md"
+        , "research/traceable-brewster-angle/inputs.json"
+        , "research/traceable-brewster-angle/calculate.py"
+        , "research/traceable-brewster-angle/results.json"
+        , "research/traceable-brewster-angle/generate-metrics.mjs"
+        , "research/traceable-brewster-angle/PUBLIC_FILES.txt"
+        ]) $ do
         route   idRoute
         compile copyFileCompiler
 

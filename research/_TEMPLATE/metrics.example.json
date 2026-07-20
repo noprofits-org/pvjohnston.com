@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "experiment": "example-experiment",
+  "provenance": {
+    "generated_at": "2026-07-19T20:00:00Z",
+    "generator": "research/example-experiment/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/example-experiment/results/summary.json",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ]
+  },
+  "metrics": {
+    "accepted": {
+      "type": "integer",
+      "value": 35,
+      "description": "Accepted responses",
+      "unit": "responses"
+    },
+    "acceptance_rate": {
+      "type": "number",
+      "value": 0.954,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Accepted responses divided by scheduled responses",
+      "unit": "ratio"
+    },
+    "automatic_expansion": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether every preregistered expansion gate passed"
+    }
+  }
+}

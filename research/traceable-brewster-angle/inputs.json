@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "model": {
+    "incident_refractive_index": 1.0,
+    "transmitted_refractive_index": 1.5,
+    "sweep_start_degrees": 0.0,
+    "sweep_stop_degrees": 80.0,
+    "sweep_step_degrees": 0.1
+  },
+  "checks": {
+    "grid_angle_tolerance_degrees": 0.05,
+    "analytic_p_reflectance_max": 1e-24,
+    "energy_balance_error_max": 1e-12
+  }
+}

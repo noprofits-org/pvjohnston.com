@@ -22,6 +22,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -79,7 +80,10 @@ jobs:
     - name: Build, test, and verify generated output
       run: |
         stack test
+        # The checkout does not restore Hakyll's store; plain build is clean
+        # while preserving the separately restored content-addressed TikZ cache.
         stack exec site build
+        node scripts/verify-metrics.mjs
         node scripts/verify-site.mjs
 
     # Custom domain (the file GitHub Pages reads for the CNAME record) and a

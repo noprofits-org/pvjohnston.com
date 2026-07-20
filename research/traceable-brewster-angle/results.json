@@ -1,0 +1,39 @@
+{
+  "analytic": {
+    "brewster_angle_degrees": 56.309932474020215,
+    "index_ratio": 1.5,
+    "p_reflectance": 4.451038093694945e-33,
+    "s_reflectance": 0.14792899408284022,
+    "unpolarized_reflectance": 0.07396449704142011
+  },
+  "checks": {
+    "analytic_null_within_tolerance": true,
+    "energy_balance_within_tolerance": true,
+    "grid_angle_within_tolerance": true
+  },
+  "criteria": {
+    "analytic_p_reflectance_max": 1e-24,
+    "energy_balance_error_max": 1e-12,
+    "grid_angle_tolerance_degrees": 0.05
+  },
+  "model": {
+    "incident_refractive_index": 1.0,
+    "sweep_start_degrees": 0.0,
+    "sweep_step_degrees": 0.1,
+    "sweep_stop_degrees": 80.0,
+    "transmitted_refractive_index": 1.5
+  },
+  "normal_incidence": {
+    "reflectance": 0.04000000000000001
+  },
+  "schema_version": 1,
+  "sweep": {
+    "analytic_angle_error_degrees": 0.009932474020210691,
+    "maximum_energy_balance_angle_degrees": 57.1,
+    "maximum_energy_balance_error": 5.551115123125783e-16,
+    "maximum_energy_balance_polarization": "p",
+    "minimum_angle_degrees": 56.300000000000004,
+    "minimum_p_reflectance": 1.0880305492432454e-08,
+    "sample_count": 801
+  }
+}

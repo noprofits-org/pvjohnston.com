@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "experiment": "traceable-brewster-angle",
+  "provenance": {
+    "generated_at": "2026-07-20T14:32:12Z",
+    "generator": "research/traceable-brewster-angle/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/traceable-brewster-angle/inputs.json",
+        "sha256": "95da313db1b546e2bf5c2cc3f5dd77ee6226b75bfb3eb55bc6c533bdf988278c"
+      },
+      {
+        "path": "research/traceable-brewster-angle/calculate.py",
+        "sha256": "31f1528ea2902fa11f7d1fe6263655a37f603c1e17a44ed9e11591815e7f8159"
+      },
+      {
+        "path": "research/traceable-brewster-angle/results.json",
+        "sha256": "941671dd538f7be4dfb330386663803debad5f1867d038941581477d0a2437ba"
+      }
+    ]
+  },
+  "metrics": {
+    "incident_refractive_index": {
+      "type": "number",
+      "value": 1,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Incident-medium refractive index used by the ideal model",
+      "unit": "index"
+    },
+    "transmitted_refractive_index": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Transmitted-medium refractive index used by the ideal model",
+      "unit": "index"
+    },
+    "sweep_start_angle_deg": {
+      "type": "number",
+      "value": 0,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "First incident angle in the numerical sweep",
+      "unit": "degrees"
+    },
+    "sweep_stop_angle_deg": {
+      "type": "number",
+      "value": 80,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Last incident angle in the numerical sweep",
+      "unit": "degrees"
+    },
+    "sweep_step_angle_deg": {
+      "type": "number",
+      "value": 0.1,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Incident-angle spacing in the numerical sweep",
+      "unit": "degrees"
+    },
+    "index_ratio": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Ratio of transmitted to incident refractive index",
+      "unit": "ratio"
+    },
+    "analytic_brewster_angle_deg": {
+      "type": "number",
+      "value": 56.309932474020215,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Analytic Brewster angle",
+      "unit": "degrees"
+    },
+    "grid_minimum_angle_deg": {
+      "type": "number",
+      "value": 56.300000000000004,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Angle of minimum p-polarized reflectance on the numerical grid",
+      "unit": "degrees"
+    },
+    "grid_angle_error_deg": {
+      "type": "number",
+      "value": 0.009932474020210691,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Absolute difference between analytic and grid-minimum angles",
+      "unit": "degrees"
+    },
+    "normal_incidence_reflectance": {
+      "type": "number",
+      "value": 0.04000000000000001,
+      "format": {
+        "style": "percent",
+        "digits": 2
+      },
+      "description": "Power reflectance at normal incidence",
+      "unit": "fraction"
+    },
+    "analytic_p_reflectance": {
+      "type": "number",
+      "value": 4.451038093694945e-33,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "P-polarized power reflectance at the analytic Brewster angle",
+      "unit": "fraction"
+    },
+    "analytic_s_reflectance": {
+      "type": "number",
+      "value": 0.14792899408284022,
+      "format": {
+        "style": "percent",
+        "digits": 2
+      },
+      "description": "S-polarized power reflectance at the analytic Brewster angle",
+      "unit": "fraction"
+    },
+    "analytic_unpolarized_reflectance": {
+      "type": "number",
+      "value": 0.07396449704142011,
+      "format": {
+        "style": "percent",
+        "digits": 2
+      },
+      "description": "Mean s/p power reflectance at the analytic Brewster angle",
+      "unit": "fraction"
+    },
+    "grid_minimum_p_reflectance": {
+      "type": "number",
+      "value": 1.0880305492432454e-8,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "Minimum p-polarized power reflectance on the numerical grid",
+      "unit": "fraction"
+    },
+    "maximum_energy_balance_error": {
+      "type": "number",
+      "value": 5.551115123125783e-16,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "Maximum absolute R plus T minus one residual across the sweep",
+      "unit": "fraction"
+    },
+    "analytic_p_reflectance_tolerance": {
+      "type": "number",
+      "value": 1e-24,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "Maximum p-polarized reflectance accepted by the analytic-null check",
+      "unit": "fraction"
+    },
+    "grid_angle_tolerance_deg": {
+      "type": "number",
+      "value": 0.05,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Maximum angle error accepted by the grid check",
+      "unit": "degrees"
+    },
+    "energy_balance_tolerance": {
+      "type": "number",
+      "value": 1e-12,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "Maximum R plus T minus one residual accepted by the energy check",
+      "unit": "fraction"
+    },
+    "sweep_sample_count": {
+      "type": "integer",
+      "value": 801,
+      "description": "Number of incident angles in the numerical sweep",
+      "unit": "angles"
+    },
+    "analytic_null_within_tolerance": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether analytic p reflectance satisfies the declared null tolerance"
+    },
+    "grid_angle_within_tolerance": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the numerical minimum satisfies the declared angle tolerance"
+    },
+    "energy_balance_within_tolerance": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether every swept s/p result satisfies the declared energy tolerance"
+    }
+  }
+}

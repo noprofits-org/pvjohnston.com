@@ -27,6 +27,7 @@ library
   import:              warnings
   hs-source-dirs:      lib
   exposed-modules:     Blog.TikZ
+                       Blog.Metrics
                        Blog.Compilers
                        Blog.Context
                        Blog.Feed
@@ -34,13 +35,18 @@ library
   default-language:    Haskell2010
   default-extensions:  OverloadedStrings
   build-depends:       base == 4.*
+                     , aeson
+                     , bytestring
+                     , containers
                      , hakyll >= 4.15
                      , pandoc
                      , pandoc-types >= 1.22.2.1
                      , text
                      , directory
                      , process
+                     , scientific
                      , temporary
+                     , time
 
 executable site
   import:              warnings

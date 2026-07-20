@@ -34,7 +34,11 @@ import System.Directory (createDirectoryIfMissing, doesFileExist)
 import System.Exit (ExitCode (..))
 import System.IO (hPutStrLn, stderr)
 import System.IO.Temp (withSystemTempDirectory)
-import System.Process (readProcessWithExitCode)
+import System.Process
+  ( CreateProcess (cwd)
+  , proc
+  , readCreateProcessWithExitCode
+  )
 
 -- | Pandoc filter: replace @.tikzpicture@ code blocks with rendered inline SVG,
 -- leaving every other block untouched.
@@ -155,14 +159,21 @@ compileTikz tikzCode = withSystemTempDirectory "blog-tikz" $ \dir -> do
         | otherwise = "\\begin{tikzpicture}\n" ++ tikzCode ++ "\n\\end{tikzpicture}"
   writeFile texFile $ tikzPreamble ++ body ++ "\n\\end{document}\n"
 
-  (texCode, texOut, texErr) <- readProcessWithExitCode "lualatex"
-    ["-halt-on-error", "-interaction=nonstopmode", "-output-directory=" ++ dir, texFile]
+  (texCode, texOut, texErr) <- readCreateProcessWithExitCode
+    ( (proc "lualatex"
+        ["-halt-on-error", "-interaction=nonstopmode", "-output-directory=" ++ dir, texFile])
+        { cwd = Just dir }
+    )
     ""
   case texCode of
     ExitFailure _ -> bail "lualatex" (texOut ++ texErr)
     ExitSuccess -> do
-      (svgCode, svgOut, svgErr) <- readProcessWithExitCode "dvisvgm"
-        ["--pdf", "--no-fonts", "--output=" ++ svgFile, pdfFile]
+      -- dvisvgm's PDF backend may emit temporary font-*.cid/pfa files in its
+      -- working directory. Keep those inside the same disposable directory.
+      (svgCode, svgOut, svgErr) <- readCreateProcessWithExitCode
+        ( (proc "dvisvgm" ["--pdf", "--no-fonts", "--output=" ++ svgFile, pdfFile])
+            { cwd = Just dir }
+        )
         ""
       case svgCode of
         ExitFailure _ -> bail "dvisvgm" (svgOut ++ svgErr)
