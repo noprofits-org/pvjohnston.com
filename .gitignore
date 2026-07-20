@@ -47,6 +47,8 @@ images/2026-07-07-months-of-cash-at-scale-hero.png.png
 calcs/__pycache__/
 calcs/*.pyc
 calcs/*.npy
+research/**/__pycache__/
+research/**/*.pyc
 
 # Regenerable H2+ fit detail and local Python/Psi4 scratch
 calcs/h2plus-coulomb/predictions-*.csv

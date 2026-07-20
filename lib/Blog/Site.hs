@@ -72,9 +72,9 @@ siteRules previewDrafts = do
         route   idRoute
         compile copyFileCompiler
 
-    -- Explicitly reviewed reader-facing files for the traceable-metrics
-    -- demonstration.  LICENSE, metrics.json, and the shared schema are routed
-    -- above; no other research directory is published wholesale.
+    -- Explicitly reviewed reader-facing files for traceable experiments.
+    -- LICENSE, metrics.json, and the shared schema are routed above; no other
+    -- research directory is published wholesale.
     match (fromList
         [ "research/traceable-brewster-angle/README.md"
         , "research/traceable-brewster-angle/environment.md"
@@ -83,6 +83,13 @@ siteRules previewDrafts = do
         , "research/traceable-brewster-angle/results.json"
         , "research/traceable-brewster-angle/generate-metrics.mjs"
         , "research/traceable-brewster-angle/PUBLIC_FILES.txt"
+        , "research/microwave-debye-relaxation/README.md"
+        , "research/microwave-debye-relaxation/environment.md"
+        , "research/microwave-debye-relaxation/inputs.json"
+        , "research/microwave-debye-relaxation/calculate.py"
+        , "research/microwave-debye-relaxation/results.json"
+        , "research/microwave-debye-relaxation/generate-metrics.mjs"
+        , "research/microwave-debye-relaxation/PUBLIC_FILES.txt"
         ]) $ do
         route   idRoute
         compile copyFileCompiler

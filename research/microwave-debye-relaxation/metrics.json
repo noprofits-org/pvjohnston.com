@@ -1,0 +1,547 @@
+{
+  "schema_version": 1,
+  "experiment": "microwave-debye-relaxation",
+  "provenance": {
+    "generated_at": "2026-07-20T18:00:20Z",
+    "generator": "research/microwave-debye-relaxation/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/microwave-debye-relaxation/inputs.json",
+        "sha256": "70a25b140b760eb94a6d24b7a464a6dc8a9f66116d1afec858d9892ecc8132bd"
+      },
+      {
+        "path": "research/microwave-debye-relaxation/calculate.py",
+        "sha256": "cb6400098155f97f2a357e1fc2375cf3345a443ad4e9b32499e5ea2202d2476b"
+      },
+      {
+        "path": "research/microwave-debye-relaxation/results.json",
+        "sha256": "c5793fda777791ed79fc7055c2392451a89c1aed74d126f2c1623d3f56db2be1"
+      }
+    ]
+  },
+  "metrics": {
+    "water_temperature_c": {
+      "type": "integer",
+      "value": 25,
+      "description": "Temperature assigned to the liquid-water Debye parameters",
+      "unit": "°C"
+    },
+    "ice_temperature_c": {
+      "type": "integer",
+      "value": -10,
+      "description": "Temperature assigned to the ice Debye parameters",
+      "unit": "°C"
+    },
+    "room_temperature_k": {
+      "type": "number",
+      "value": 298.15,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Temperature used for the kBT comparison",
+      "unit": "K"
+    },
+    "water_static_relative_permittivity": {
+      "type": "number",
+      "value": 78.4,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Selected static relative permittivity of liquid water",
+      "unit": "relative permittivity"
+    },
+    "water_high_frequency_relative_permittivity": {
+      "type": "number",
+      "value": 5.2,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Selected effective one-pole background relative permittivity of liquid water",
+      "unit": "relative permittivity"
+    },
+    "water_relaxation_time_ps": {
+      "type": "number",
+      "value": 8.299999999999999,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Selected liquid-water relaxation time",
+      "unit": "ps"
+    },
+    "ice_static_relative_permittivity": {
+      "type": "number",
+      "value": 97,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Selected approximate static relative permittivity of ice",
+      "unit": "relative permittivity"
+    },
+    "ice_high_frequency_relative_permittivity": {
+      "type": "number",
+      "value": 3.2,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Selected approximate high-frequency relative permittivity of ice",
+      "unit": "relative permittivity"
+    },
+    "ice_relaxation_frequency_khz": {
+      "type": "number",
+      "value": 2.8,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Selected dielectric relaxation frequency of ice at minus 10 degrees Celsius",
+      "unit": "kHz"
+    },
+    "ice_relaxation_time_s": {
+      "type": "number",
+      "value": 0.00005684105110424834,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Ice relaxation time derived from the selected relaxation frequency",
+      "unit": "s"
+    },
+    "industrial_frequency_mhz": {
+      "type": "number",
+      "value": 915,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Selected industrial ISM evaluation frequency",
+      "unit": "MHz"
+    },
+    "oven_frequency_ghz": {
+      "type": "number",
+      "value": 2.45,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Selected kitchen-microwave ISM evaluation frequency",
+      "unit": "GHz"
+    },
+    "high_evaluation_frequency_ghz": {
+      "type": "number",
+      "value": 60,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Selected single-Debye extrapolation frequency above the liquid-water dielectric-loss-factor peak",
+      "unit": "GHz"
+    },
+    "speed_of_light_m_per_s": {
+      "type": "integer",
+      "value": 299800000,
+      "description": "Speed of light used by the attenuation calculation",
+      "unit": "m/s"
+    },
+    "planck_constant_j_s": {
+      "type": "number",
+      "value": 6.62607015e-34,
+      "format": {
+        "style": "scientific",
+        "digits": 8
+      },
+      "description": "Planck constant used by the photon-energy comparison",
+      "unit": "J s"
+    },
+    "elementary_charge_c": {
+      "type": "number",
+      "value": 1.602176634e-19,
+      "format": {
+        "style": "scientific",
+        "digits": 8
+      },
+      "description": "Elementary charge used to convert joules to electronvolts",
+      "unit": "C"
+    },
+    "boltzmann_constant_j_per_k": {
+      "type": "number",
+      "value": 1.380649e-23,
+      "format": {
+        "style": "scientific",
+        "digits": 6
+      },
+      "description": "Boltzmann constant used by the thermal-energy comparison",
+      "unit": "J/K"
+    },
+    "water_dielectric_loss_peak_frequency_ghz": {
+      "type": "number",
+      "value": 19.175294348421122,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Frequency of the liquid-water Debye dielectric-loss-factor maximum",
+      "unit": "GHz"
+    },
+    "photon_energy_microev": {
+      "type": "number",
+      "value": 10.132385857463456,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Photon energy at the selected oven frequency",
+      "unit": "μeV"
+    },
+    "thermal_energy_mev": {
+      "type": "number",
+      "value": 25.69257912108585,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "kBT at the selected room temperature",
+      "unit": "meV"
+    },
+    "photon_to_thermal_energy_ratio": {
+      "type": "number",
+      "value": 0.00039437013348137657,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "Photon energy divided by kBT at the selected oven frequency and temperature",
+      "unit": "ratio"
+    },
+    "thermal_to_photon_energy_ratio": {
+      "type": "number",
+      "value": 2535.688976171476,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "kBT divided by photon energy at the selected oven frequency and temperature",
+      "unit": "ratio"
+    },
+    "photon_energy_orders_below_kbt": {
+      "type": "number",
+      "value": 3.4040959825629145,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Base-10 orders by which photon energy is below kBT",
+      "unit": "orders of magnitude"
+    },
+    "ice_to_water_relaxation_ratio": {
+      "type": "number",
+      "value": 6848319.410150403,
+      "format": {
+        "style": "scientific",
+        "digits": 1
+      },
+      "description": "Ice relaxation time divided by liquid-water relaxation time",
+      "unit": "ratio"
+    },
+    "ice_to_water_relaxation_orders": {
+      "type": "number",
+      "value": 6.835584007923592,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Base-10 orders separating the selected ice and water relaxation times",
+      "unit": "orders of magnitude"
+    },
+    "water_oven_loss_angle_deg": {
+      "type": "number",
+      "value": 6.79561151998996,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Liquid-water dielectric loss angle at the oven frequency",
+      "unit": "degrees"
+    },
+    "water_dielectric_loss_peak_penetration_depth_mm": {
+      "type": "number",
+      "value": 0.474352987471582,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Liquid-water 1/e power penetration depth at the Debye dielectric-loss-factor peak",
+      "unit": "mm"
+    },
+    "water_0915_frequency_ghz": {
+      "type": "number",
+      "value": 0.915,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Display frequency for the 915 MHz liquid-water row",
+      "unit": "GHz"
+    },
+    "water_0915_relative_permittivity_real": {
+      "type": "number",
+      "value": 78.23370413999116,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Real relative permittivity of liquid water at 915 MHz",
+      "unit": "relative permittivity"
+    },
+    "water_0915_relative_permittivity_loss": {
+      "type": "number",
+      "value": 3.484996791905532,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Loss relative permittivity of liquid water at 915 MHz",
+      "unit": "relative permittivity"
+    },
+    "water_0915_loss_tangent": {
+      "type": "number",
+      "value": 0.04454597708513825,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Loss tangent of liquid water at 915 MHz",
+      "unit": "ratio"
+    },
+    "water_0915_penetration_depth_cm": {
+      "type": "number",
+      "value": 13.238319969083696,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Liquid-water 1/e power penetration depth at 915 MHz",
+      "unit": "cm"
+    },
+    "water_245_relative_permittivity_real": {
+      "type": "number",
+      "value": 77.22421844077682,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Real relative permittivity of liquid water at 2.45 GHz",
+      "unit": "relative permittivity"
+    },
+    "water_245_relative_permittivity_loss": {
+      "type": "number",
+      "value": 9.202431627571482,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Loss relative permittivity of liquid water at 2.45 GHz",
+      "unit": "relative permittivity"
+    },
+    "water_245_loss_tangent": {
+      "type": "number",
+      "value": 0.11916509889483462,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Loss tangent of liquid water at 2.45 GHz",
+      "unit": "ratio"
+    },
+    "water_245_penetration_depth_cm": {
+      "type": "number",
+      "value": 1.8630591966381522,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Liquid-water 1/e power penetration depth at 2.45 GHz",
+      "unit": "cm"
+    },
+    "water_dielectric_loss_peak_relative_permittivity_real": {
+      "type": "number",
+      "value": 41.80000000000001,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Real relative permittivity of liquid water at its Debye dielectric-loss-factor peak",
+      "unit": "relative permittivity"
+    },
+    "water_dielectric_loss_peak_relative_permittivity_loss": {
+      "type": "number",
+      "value": 36.6,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Loss relative permittivity of liquid water at its Debye dielectric-loss-factor peak",
+      "unit": "relative permittivity"
+    },
+    "water_dielectric_loss_peak_loss_tangent": {
+      "type": "number",
+      "value": 0.8755980861244017,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Loss tangent of liquid water at its Debye dielectric-loss-factor peak",
+      "unit": "ratio"
+    },
+    "water_dielectric_loss_peak_penetration_depth_cm": {
+      "type": "number",
+      "value": 0.0474352987471582,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Liquid-water 1/e power penetration depth at its Debye dielectric-loss-factor peak",
+      "unit": "cm"
+    },
+    "water_60_relative_permittivity_real": {
+      "type": "number",
+      "value": 11.983552918150224,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Real relative permittivity of liquid water at 60 GHz",
+      "unit": "relative permittivity"
+    },
+    "water_60_relative_permittivity_loss": {
+      "type": "number",
+      "value": 21.22591537284675,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Loss relative permittivity of liquid water at 60 GHz",
+      "unit": "relative permittivity"
+    },
+    "water_60_loss_tangent": {
+      "type": "number",
+      "value": 1.7712539442870983,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Loss tangent of liquid water at 60 GHz",
+      "unit": "ratio"
+    },
+    "water_60_penetration_depth_cm": {
+      "type": "number",
+      "value": 0.01597433976532108,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Liquid-water 1/e power penetration depth at 60 GHz",
+      "unit": "cm"
+    },
+    "ice_245_relative_permittivity_real": {
+      "type": "number",
+      "value": 3.2000000001225146,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Real relative permittivity of ice at 2.45 GHz",
+      "unit": "relative permittivity"
+    },
+    "ice_245_relative_permittivity_loss": {
+      "type": "number",
+      "value": 0.00010719999999985997,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Loss relative permittivity of ice at 2.45 GHz",
+      "unit": "relative permittivity"
+    },
+    "ice_245_loss_tangent": {
+      "type": "number",
+      "value": 0.00003349999999867366,
+      "format": {
+        "style": "scientific",
+        "digits": 0
+      },
+      "description": "Loss tangent of ice at 2.45 GHz",
+      "unit": "ratio"
+    },
+    "ice_245_penetration_depth_m": {
+      "type": "number",
+      "value": 324.98691829236583,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Ice 1/e power penetration depth at 2.45 GHz",
+      "unit": "m"
+    },
+    "ice_245_omega_tau": {
+      "type": "number",
+      "value": 875000.0000000001,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Dimensionless omega tau for ice at 2.45 GHz",
+      "unit": "dimensionless"
+    },
+    "peak_condition_absolute_tolerance": {
+      "type": "number",
+      "value": 1e-12,
+      "format": {
+        "style": "scientific",
+        "digits": 0
+      },
+      "description": "Absolute tolerance used by the omega tau peak-condition check",
+      "unit": "dimensionless"
+    },
+    "peak_loss_relative_tolerance": {
+      "type": "number",
+      "value": 1e-12,
+      "format": {
+        "style": "scientific",
+        "digits": 0
+      },
+      "description": "Relative tolerance used by the peak-loss identity check",
+      "unit": "fraction"
+    },
+    "water_dielectric_loss_peak_condition_within_tolerance": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the computed dielectric-loss-factor peak satisfies omega tau equals one within tolerance"
+    },
+    "water_dielectric_loss_peak_identity_within_tolerance": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether dielectric loss at its peak equals half the dielectric strength within tolerance"
+    },
+    "water_oven_rows_match": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether independent liquid-water evaluations at 2.45 GHz match exactly"
+    },
+    "all_evaluations_physical": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether every evaluated row has finite, positive loss and attenuation quantities"
+    },
+    "ice_relaxation_slower_than_water": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the selected ice relaxation time exceeds the liquid-water value"
+    }
+  }
+}

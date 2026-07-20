@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "constants": {
+    "speed_of_light_m_per_s": 299800000.0,
+    "planck_constant_j_s": 6.62607015e-34,
+    "elementary_charge_c": 1.602176634e-19,
+    "boltzmann_constant_j_per_k": 1.380649e-23
+  },
+  "conditions": {
+    "room_temperature_k": 298.15
+  },
+  "materials": {
+    "liquid_water_25_c": {
+      "temperature_c": 25.0,
+      "static_relative_permittivity": 78.4,
+      "high_frequency_relative_permittivity": 5.2,
+      "relaxation_time_s": 8.3e-12
+    },
+    "ice_minus_10_c": {
+      "temperature_c": -10.0,
+      "static_relative_permittivity": 97.0,
+      "high_frequency_relative_permittivity": 3.2,
+      "relaxation_frequency_hz": 2800.0
+    }
+  },
+  "frequencies_hz": {
+    "industrial_ism": 915000000.0,
+    "microwave_oven_ism": 2450000000.0,
+    "high_frequency_evaluation": 60000000000.0
+  },
+  "checks": {
+    "dimensionless_absolute_tolerance": 1e-12,
+    "relative_tolerance": 1e-12
+  }
+}
