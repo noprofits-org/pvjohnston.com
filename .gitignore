@@ -61,6 +61,11 @@ downloads/pulse_ci_sweep.json
 downloads/pulse_ci_exact_regimes.json
 downloads/__pycache__/
 
+# Obsolete one-off SIREN diagnostics (the publication data is tracked)
+/downloads/conv_sweep.json
+/downloads/sgd_equiv.json
+/downloads/sgd_sweep.log
+
 # Off-tonic experiment: regenerable score-page renders
 research/off-tonic-recapitulation/tmp/
 

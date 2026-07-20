@@ -130,7 +130,10 @@ the entire content of the experiment.
 
 The complete script, which reproduces every number in the Results section on
 the environment stated above and requires nothing but NumPy, is available as
-[siren-convention-adam.py](/downloads/siren-convention-adam.py). On a second
+[siren-convention-adam.py](/downloads/siren-convention-adam.py). The frozen raw
+records behind Table 1 and Table 2 are available as
+[conv_equiv.json](/downloads/conv_equiv.json) and
+[conv_range.json](/downloads/conv_range.json), respectively. On a second
 platform (arm64 macOS, CPython 3.13.12, NumPy 2.4.4) the initialization
 identity and every $\lambda = 10^{-5}$ figure reproduce to the precision
 printed here, while the $\lambda \ge 10^{-4}$ trainings move by 4–15% and the
