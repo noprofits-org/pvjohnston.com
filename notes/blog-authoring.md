@@ -24,6 +24,65 @@ subject.
 
 ---
 
+## The stance — exploration in the open, not exposé
+
+This is the governing voice of the site, and it outranks the vocabulary of every
+section below it. Words like *falsification*, *gap*, *target*, and *friction*
+appear throughout this document as names for an intellectual move; none of them
+licenses a tone. Where a rule sounds adversarial, this section is what it
+actually means.
+
+**We are outsiders learning in public by running experiments.** The honest
+description of nearly every post is the same: *we did not fully understand
+something, so we tried to test it on a computer; here is exactly what we ran,
+here is what came out, here is what we currently think it means, and here is
+where we might be wrong.* The last clause is not modesty for show — it is
+literally our epistemic position, and the writing must carry it. Write for a
+reader who knows the subject better than we do and is in a position to tell us
+what we missed. A post is an invitation to be corrected, not a conclusion
+delivered to an audience.
+
+**We test claims — most often our own. We do not catch people.** When a
+published number does not reproduce on our setup, the finding is *"it did not
+reproduce for us, under these conditions,"* never *"the authors were wrong."*
+The overwhelmingly likely cause of a discrepancy is something on our side — a
+library version, a dtype, an accumulator, a misread spec, a benchmark we set up
+differently — and the prose must reach for that before it reaches for the
+source's competence. A number that refuses to reconcile is an open question we
+raise with our hands up, not a verdict we are qualified to hand down. This is
+not only courtesy; it is calibration. We are usually the ones who are wrong, and
+writing that assumes so ages well.
+
+**Novelty is "new to us," not "missed by them."** The `contribution:` sentence
+(§0) records what this post contains that its source did not — nothing more. It
+does not assert that the authors overlooked something, could not see it, or
+should have run it. "Unknown to us" is the scope we can defend; "unknown to the
+field" is a claim we are almost never positioned to make, so we do not make it or
+imply it. If a result turns out to be genuinely new, that is for others to say;
+our job is to report plainly what we did and let reproducibility carry the
+weight. Cleverness is not a deliverable — a post that reads as a display of how
+clever the author is has left the stance, whatever its numbers say.
+
+**Concretely — banned and required framings.** These are testable, like the
+Results banned-word rule (§2):
+
+| Don't write | Write instead |
+| --- | --- |
+| "The authors are wrong / got this wrong" | "This did not reproduce for us under [conditions]" |
+| "The paper fails to / neglects to / should have" | "We could not find X in the source, so we ran it ourselves" |
+| "We caught / exposed / debunked" | "We tested it, and here is what we found" |
+| "This proves the claim is false" | "Our stated hypothesis was falsified; here is our setup" |
+| "Obviously / clearly / trivially / of course" | say the thing plainly, or show it |
+| any claim the finding is new to the field | "new to us; if this is already known, tell us" |
+
+**Close by inviting correction, and mean it.** A post may end by naming what
+would change our mind and where a knowledgeable reader should push. That is not a
+rhetorical flourish; it is the reason to publish at all. The verdict language
+this guide requires (*supported / falsified / inconclusive*, §2) is a verdict on
+**our own hypothesis and our own experiment** — never a grade on the source.
+
+---
+
 ## 0. Before you draft — choose the form
 
 Every post starts with a concrete question. Choose the form by asking what an
@@ -74,13 +133,17 @@ gate is the foundation. Everything else in this document is bookkeeping.
 
 | Type | The move |
 | --- | --- |
-| **Falsification** | a published claim does not hold |
+| **Falsification** | a published claim does not hold up under our stated test |
 | **Decay** | a result was true and quietly stopped being true |
 | **Unplotted line** | the analysis the source's own data supports, that the source never ran |
 | **Quantification** | someone wrote "negligible" and never measured it |
 | **Untested regime** | it holds at X — does it hold at Y? |
 | **Composition** | two known results nobody has connected |
 | **Negative result** | expected X, measured not-X |
+
+These name the intellectual move, not a tone. **Falsification** is a verdict on
+*our* hypothesis and *our* run — not on the author — and every type here is
+something we probe with our hands up, framed as the stance section requires.
 
 The site's research contributions came from friction with a *specific
 source*, not from choosing a subject: the unplotted regression in "a citation, a
@@ -140,11 +203,13 @@ paragraph. A reader must be able to name the source, identify the relationship
 to it, and tell whether the experiment is an independent implementation. If any
 of those still has to be inferred, the opening is not ready.
 
-**Where the gaps hide in a modern paper.** Read for friction, not for topic:
+**Where the gaps hide in a modern paper.** Read for friction, not for topic —
+these are places a literature is still *open*, not places its authors erred (the
+stance section governs how any of them gets written up):
 
 | Look at | What it yields |
 | --- | --- |
-| "Future work", "remains an open problem" | gaps the authors named themselves — free targets |
+| "Future work", "remains an open problem" | open questions the authors flagged for follow-up |
 | Hedged mechanisms: "suggests", "likely", "attributed to" | a cause asserted from a citation and never measured |
 | Two tables that were never joined | an **unplotted line** — the analysis their own data supports |
 | "negligible", "no meaningful difference", "comparable" | an unquantified null |
@@ -283,7 +348,10 @@ Prefer reproducing a published number yourself over quoting it.
   speculation lives here. Discrepancies with a source get chased before they get
   reported: check your own Methods first — version, dtype, accumulator, library
   defaults explain most of them. "I cannot account for this" is publishable, but
-  only after you have tried; it is a last resort, not a shrug.
+  only after you have tried; it is a last resort, not a shrug. Report the
+  discrepancy as the stance section requires — *did not reproduce for us*,
+  attributed to our conditions first — and keep the verdict a verdict on our own
+  hypothesis, never a grade on the source.
 - **Conclusion** points **forward, not back**. State what changed in what we
   know, and name the next experiment. Do *not* tie back to the problem that
   opened the note — that is circularity, and it is what an essay does. A post
@@ -586,6 +654,7 @@ site build && node scripts/verify-site.mjs`.
 
 **After drafting — every post:**
 
+- [ ] **Stance check:** no "the authors were wrong", no gotcha/exposé/"debunk" framing, no claim the finding is new to the field, no cleverness-for-its-own-sake; discrepancies read as "did not reproduce for us" and the post invites correction (stance section)
 - [ ] Front matter complete; title quoted if needed; links relative
 - [ ] Every external source cited as `[@key]` in ACS style — no inline links, no footnotes, no exceptions (§3)
 - [ ] Source's own BibTeX/DOI used where it publishes one; entry type matches Table 0
@@ -607,7 +676,7 @@ site build && node scripts/verify-site.mjs`.
 - [ ] Anything not run first-hand is declared as such in Methods and attributed at each use
 - [ ] No untested equivalence claims ("reproduces X's semantics exactly" is a claim — test it)
 - [ ] **Results passes the printed-output test sentence by sentence** (§2); no banned words; captions clean
-- [ ] Any discrepancy with a source was chased through your own Methods before being reported unresolved
+- [ ] Any discrepancy with a source was chased through your own Methods before being reported unresolved, and written as "did not reproduce for us" — not as an author error (stance section)
 - [ ] Discussion states the verdict — supported / falsified / inconclusive — in those words
 - [ ] Conclusion points forward and names the next experiment; that next step is now on the shelf
 
