@@ -1,0 +1,144 @@
+{
+  "checks": {
+    "all_evaluations_physical": true,
+    "ice_relaxation_slower_than_water": true,
+    "water_dielectric_loss_peak_condition_within_tolerance": true,
+    "water_dielectric_loss_peak_identity_within_tolerance": true,
+    "water_oven_rows_match": true
+  },
+  "consistency": {
+    "all_evaluations_physical": true,
+    "water_dielectric_loss_peak_identity_relative_error": 0.0,
+    "water_dielectric_loss_peak_omega_tau_absolute_error": 2.220446049250313e-16,
+    "water_oven_rows_match": true
+  },
+  "criteria": {
+    "dimensionless_absolute_tolerance": 1e-12,
+    "relative_tolerance": 1e-12
+  },
+  "derived_parameters": {
+    "ice_minus_10_c": {
+      "relaxation_time_s": 5.684105110424834e-05
+    }
+  },
+  "liquid_water": {
+    "dielectric_loss_factor_peak_frequency_hz": 19175294348.421124,
+    "evaluations": {
+      "dielectric_loss_factor_peak": {
+        "angular_frequency_rad_per_s": 120481927710.84335,
+        "attenuation_coefficient_per_m": 1054.067357444343,
+        "frequency_hz": 19175294348.421124,
+        "loss_angle_degrees": 41.20532773168422,
+        "loss_tangent": 0.8755980861244017,
+        "omega_tau": 0.9999999999999998,
+        "power_penetration_depth_m": 0.000474352987471582,
+        "relative_permittivity_loss": 36.6,
+        "relative_permittivity_real": 41.80000000000001
+      },
+      "high_frequency_60_ghz": {
+        "angular_frequency_rad_per_s": 376991118430.77515,
+        "attenuation_coefficient_per_m": 3130.0198151879617,
+        "frequency_hz": 60000000000.0,
+        "loss_angle_degrees": 60.55215313452264,
+        "loss_tangent": 1.7712539442870983,
+        "omega_tau": 3.129026282975434,
+        "power_penetration_depth_m": 0.00015974339765321082,
+        "relative_permittivity_loss": 21.22591537284675,
+        "relative_permittivity_real": 11.983552918150224
+      },
+      "industrial_ism_915_mhz": {
+        "angular_frequency_rad_per_s": 5749114556.069322,
+        "attenuation_coefficient_per_m": 3.776914300059844,
+        "frequency_hz": 915000000.0,
+        "loss_angle_degrees": 2.5506102769495,
+        "loss_tangent": 0.04454597708513825,
+        "omega_tau": 0.047717650815375365,
+        "power_penetration_depth_m": 0.13238319969083695,
+        "relative_permittivity_loss": 3.484996791905532,
+        "relative_permittivity_real": 78.23370413999116
+      },
+      "microwave_oven_245_ghz": {
+        "angular_frequency_rad_per_s": 15393804002.589987,
+        "attenuation_coefficient_per_m": 26.837579874125236,
+        "frequency_hz": 2450000000.0,
+        "loss_angle_degrees": 6.79561151998996,
+        "loss_tangent": 0.11916509889483462,
+        "omega_tau": 0.1277685732214969,
+        "power_penetration_depth_m": 0.018630591966381522,
+        "relative_permittivity_loss": 9.202431627571482,
+        "relative_permittivity_real": 77.22421844077682
+      }
+    }
+  },
+  "microwave_oven_comparison": {
+    "frequency_hz": 2450000000.0,
+    "ice": {
+      "angular_frequency_rad_per_s": 15393804002.589987,
+      "attenuation_coefficient_per_m": 0.0015385234661974558,
+      "frequency_hz": 2450000000.0,
+      "loss_angle_degrees": 0.0019194086128942456,
+      "loss_tangent": 3.349999999867366e-05,
+      "omega_tau": 875000.0000000001,
+      "power_penetration_depth_m": 324.98691829236583,
+      "relative_permittivity_loss": 0.00010719999999985997,
+      "relative_permittivity_real": 3.2000000001225146
+    },
+    "ice_to_water_relaxation_time_ratio": 6848319.410150403,
+    "liquid_water": {
+      "angular_frequency_rad_per_s": 15393804002.589987,
+      "attenuation_coefficient_per_m": 26.837579874125236,
+      "frequency_hz": 2450000000.0,
+      "loss_angle_degrees": 6.79561151998996,
+      "loss_tangent": 0.11916509889483462,
+      "omega_tau": 0.1277685732214969,
+      "power_penetration_depth_m": 0.018630591966381522,
+      "relative_permittivity_loss": 9.202431627571482,
+      "relative_permittivity_real": 77.22421844077682
+    },
+    "relaxation_time_order_difference": 6.835584007923592
+  },
+  "model": {
+    "conditions": {
+      "room_temperature_k": 298.15
+    },
+    "constants": {
+      "boltzmann_constant_j_per_k": 1.380649e-23,
+      "elementary_charge_c": 1.602176634e-19,
+      "planck_constant_j_s": 6.62607015e-34,
+      "speed_of_light_m_per_s": 299800000.0
+    },
+    "evaluation_frequencies_hz": {
+      "high_frequency_evaluation": 60000000000.0,
+      "industrial_ism": 915000000.0,
+      "microwave_oven_ism": 2450000000.0
+    },
+    "materials": {
+      "ice_minus_10_c": {
+        "high_frequency_relative_permittivity": 3.2,
+        "relaxation_frequency_hz": 2800.0,
+        "static_relative_permittivity": 97.0,
+        "temperature_c": -10.0
+      },
+      "liquid_water_25_c": {
+        "high_frequency_relative_permittivity": 5.2,
+        "relaxation_time_s": 8.3e-12,
+        "static_relative_permittivity": 78.4,
+        "temperature_c": 25.0
+      }
+    }
+  },
+  "photon_thermal_comparison": {
+    "frequency_hz": 2450000000.0,
+    "photon_energy_electronvolt": 1.0132385857463455e-05,
+    "photon_energy_j": 1.62338718675e-24,
+    "photon_energy_microelectronvolt": 10.132385857463456,
+    "photon_energy_orders_below_thermal": 3.4040959825629145,
+    "photon_to_thermal_energy_ratio": 0.00039437013348137657,
+    "temperature_k": 298.15,
+    "thermal_energy_electronvolt": 0.02569257912108585,
+    "thermal_energy_j": 4.1164049935e-21,
+    "thermal_energy_millielectronvolt": 25.69257912108585,
+    "thermal_to_photon_energy_ratio": 2535.688976171476
+  },
+  "schema_version": 1
+}
