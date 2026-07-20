@@ -256,8 +256,41 @@ Format:
 - **Contribution (candidate):** measure isolated and full-network convention
   gaps under SGD with momentum, including a direct velocity/displacement
   decomposition
-- **Falsifier:** momentum leaves both the full-network displacement balance and
-  best tested global learning-rate ratio unchanged from plain SGD
+- **Falsifier:** the isolated common-rate factor falls outside 800–1000 or the
+  ×900 trajectory differs by more than 1e-10 relative; the described
+  shared-to-hidden balance changes by more than a factor of two between β=0 and
+  β=0.9; or the conventions select different best rates on the refined grid
+- **Status:** published — `/posts/2026-07-19-the-momentum-control.html`.
+  Isolated ×900 survives (900.006 in the small-step limit; ×900 hidden-rate
+  reparameterization ends 6.4e-16 apart relative to the output scale over 200
+  steps at β=0.9), and the
+  linear-regime balance changes by less than 2% from β=0 to β=0.9. All three
+  registered falsifiers fired: F1 and F2 at settings where output displacement
+  had saturated, and F3 because one official repetition selected a rate two
+  grid steps below the described convention on the numerical error floor.
+  Unpredicted: the stability boundary and modal best rate move up by 1.995 ≈
+  1+β, and at β=0.9 the described convention reaches the official error floor
+  at exactly one tested rate, the last finite grid point before divergence.
+
+## How wide is the described convention's momentum recovery region in beta?
+- **Observed:** At β=0.9 the described SIREN convention reaches the official
+  convention's error floor (approximately 1e-28 normalized MSE on K1) at
+  exactly one tested 0.05-decade grid point, immediately below the divergence
+  boundary at 1.412538e-3. Two grid points below its best rate it remains about
+  twenty orders of magnitude above the official error. The official convention
+  stays below 2.5e-27 across the whole 0.6-decade finite grid. Whether the set
+  of rates at which the described convention recovers widens, narrows, or
+  vanishes as β varies is unmeasured; the quadratic heavy-ball bound
+  2(1+β)/L suggests a roughly 1+β boundary shift for this network (measured
+  1.995 at β=0.9).
+- **Source:** own next step; `/posts/2026-07-19-the-momentum-control.html`
+- **Type:** quantification
+- **Contribution (candidate):** the recovery-region width as a function of β ∈
+  {0, 0.3, 0.6, 0.9, 0.99}, at 0.05-decade or finer resolution — the curve that
+  says whether momentum's rescue of the described convention is usable or a
+  knife-edge
+- **Falsifier:** the width does not vary monotonically with β, or the described
+  convention reaches the floor at no tested rate for some β > 0.5
 - **Status:** ready
 
 ## Does nonlinear cross-correlation expose the SGD convention gap?
@@ -268,7 +301,9 @@ Format:
 - **Type:** untested regime
 - **Contribution (candidate):** repeat the direct decomposition and refined SGD
   sweep on a K-case whose high/low-fidelity correlation requires the nonlinear
-  branch
+  branch. Add the momentum control's β=0.9 arm to test whether the described
+  convention's one-point recovery at the edge of stability survives once the
+  affine branch can no longer carry the fit.
 - **Falsifier:** the two conventions still have no resolvable network-level
   learning-rate gap after the affine branch can no longer represent the target
 - **Status:** ready
