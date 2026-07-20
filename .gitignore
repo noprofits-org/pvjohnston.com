@@ -71,3 +71,6 @@ research/off-tonic-recapitulation/tmp/
 
 # DCML corpus clone (operator-only, reproducible from pinned commit)
 research/off-tonic-recapitulation/data/sources/dcml/
+
+# Source PDFs stay local unless a future artifact is explicitly force-added.
+*.pdf
