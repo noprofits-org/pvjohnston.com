@@ -1,17 +1,44 @@
 # Blog authoring conventions
 
 The single source of truth for producing a note on pvjohnston.com. Read this
-before drafting and follow it so every post comes out consistently. Pipeline
-order: **question → contribution gate → hypothesis → experiment → draft → bib →
-figures → branch → verify → PR → merge → auto-deploy.**
+before drafting and follow it so every post comes out consistently. Every new
+post declares one of two forms before drafting:
 
-**Every post is an experiment.** There is no second class of post here — no
-explainer, no tutorial, no roundup. A note that tests nothing is not published,
-however well it reads.
+- **Research** asks a falsifiable question and reports a computer experiment.
+- **Understanding** explains how a scientific or technical object works by
+  connecting its representations, mathematics, and physical meaning.
+
+The shared pipeline is **question → form → draft → bib → figures → branch →
+verify → PR → merge → auto-deploy**. Research inserts **contribution gate →
+hypothesis → experiment** before drafting. Understanding inserts **scope →
+explanatory route → computational demonstrations** instead.
+
+**Every experiment and computational demonstration is performed on a computer
+and involves no living subjects.** Acceptable procedures include simulations,
+calculations, benchmarks, software tests, and analyses of existing digital
+artifacts or published datasets. Do not recruit, observe, survey, interview,
+expose, or intervene on people, animals, plants, microorganisms, or any other
+living subjects. Existing recordings, texts, images, measurements, and datasets
+may be analysed, provided the post creates no new interaction with a living
+subject.
 
 ---
 
-## 0. Before you draft — the question, and what it contributes
+## 0. Before you draft — choose the form
+
+Every post starts with a concrete question. Choose the form by asking what an
+honest answer requires:
+
+| Form | The question asks | The post owes the reader |
+| --- | --- | --- |
+| **Research** | Is this claim true under a stated test? | A novel contribution, falsifier, executable experiment, results, and verdict |
+| **Understanding** | How does this object or mechanism work? | A bounded scope, a dependency-ordered explanation, reproducible demonstrations, and a clear account of where the model stops |
+
+Do not attach a decorative hypothesis to an explanation. Do not label an
+untested claim an Understanding note to escape the contribution gate. The form
+follows the intellectual job.
+
+### Research notes — the question and what it contributes
 
 **The bottleneck is not writing. It is question supply.** Nobody finds a novel
 question on demand at 9pm, and a post that starts from a *topic* instead of a
@@ -20,9 +47,9 @@ is the machine that produces triviality, and no amount of structure downstream
 will stop it. Real labs do not invent a hypothesis on the day they write; they
 keep a backlog of things that do not add up, and pull from it.
 
-So `notes/questions.md` is the shelf. **Nothing gets drafted that was not sitting
-on the shelf first.** Entries come from three places, all three already proven
-here:
+So `notes/questions.md` is the research shelf. **No Research note gets drafted
+unless its question was sitting on the shelf first.** Entries come from three
+places, all three already proven here:
 
 - **Anomalies.** Anything that did not reproduce, did not match, or surprised
   you. Log it the moment it happens, *before* you have an explanation — the
@@ -55,7 +82,7 @@ gate is the foundation. Everything else in this document is bookkeeping.
 | **Composition** | two known results nobody has connected |
 | **Negative result** | expected X, measured not-X |
 
-Both of this site's genuine contributions came from friction with a *specific
+The site's research contributions came from friction with a *specific
 source*, not from choosing a subject: the unplotted regression in "a citation, a
 slot, and the line nobody plots" (the source's own data, the author's own error
 method), and the Neumaier decay in the temperature-zero note (a number that
@@ -65,7 +92,8 @@ the questions live; go there deliberately.
 **What is not novelty:** "I explained a known thing well." Kramers-Kronig has
 been understood since 1926. A good explanation of it contributes nothing to
 collective knowledge, however well it reads. Exposition is not a lesser post
-here — it is not a post here.
+here, but it is not Research. Declare it as Understanding and satisfy that
+form's separate contract.
 
 **Anchor the hypothesis to a recent primary source — a journal article from this
 year or last.** This is the single most reliable way to find a question that is
@@ -74,9 +102,9 @@ only be *explained*; a live one can be *contributed to*. Kramers-Kronig has had 
 century of scrutiny and every accessible gap in it is closed. A paper from six
 months ago has unpriced claims, unreleased code, and mechanisms asserted but not
 measured — because that is what the edge of a literature looks like. Both of this
-site's genuine contributions came from 2025–2026 sources; none of its expository
-posts could have, because their sources were decades old and there was nothing
-left to find.
+site's measured research contributions came from 2025–2026 sources. Canonical,
+settled sources remain appropriate for Understanding notes because those notes
+do not claim to extend the literature.
 
 Recency is necessary, not sufficient: a modern paper still has to yield a
 `contribution:` sentence, and "recent" is not a synonym for "unexamined."
@@ -128,11 +156,28 @@ code is released before committing — an unreleased repository does not block t
 question, but it *bounds* what you may claim, and that boundary belongs in
 Methods (§2) from the start rather than being discovered late.
 
-**The honest failure mode.** When the shelf is empty, nothing ships that day. A
-gate that cannot fail is not a gate, and the only other way this resolves is
-stamping it to protect a streak — which produces precisely the trivial
+**The honest failure mode.** When the research shelf is empty, no Research note
+ships that day. A gate that cannot fail is not a gate, and the only other way
+this resolves is stamping it to protect a streak — which produces precisely the trivial
 restatement this section exists to prevent. Breaking the streak is the cheaper
 loss.
+
+### Understanding notes — scope and explanatory route
+
+An Understanding note does not claim novelty and does not need a hypothesis.
+Before drafting, write down:
+
+1. the one explanatory question the note will answer;
+2. the reader's assumed starting point;
+3. the sequence of representations or mechanisms that makes the answer legible;
+4. the boundary beyond which the explanation no longer reaches; and
+5. which figures or calculations will be generated on a computer.
+
+The standard is synthesis, not discovery. The note must connect ideas that are
+usually taught apart, make every mathematical step inspectable, and show the
+object in more than one useful representation. A collection of definitions is
+not enough. Neither is a plot gallery without a causal or mathematical route
+through it.
 
 ---
 
@@ -148,10 +193,19 @@ date: 2026-07-06
 author: Peter Johnston
 tags: quantum chemistry, spectroscopy      # comma-separated
 description: One or two sentences. Used for meta description and social cards.
-contribution: X, which is not in [source].        # required; see §0
-contribution-type: decay                          # required; one of §0's table
+post-type: research                              # research or understanding
+contribution: X, which is not in [source].        # required; Research only
+contribution-type: decay                          # required; Research only
 og-image: /images/YYYY-MM-DD-post-slug-hero.png   # optional; see §5
 ---
+```
+
+An Understanding note replaces the two contribution fields with its explanatory
+question:
+
+```yaml
+post-type: understanding
+question: What physical signal does a chord make, and what does a Fourier transform reveal about it?
 ```
 
 - **Title:** quote if it contains a colon or other YAML-significant punctuation.
@@ -160,13 +214,20 @@ og-image: /images/YYYY-MM-DD-post-slug-hero.png   # optional; see §5
 - **Description:** says how the post relates to its anchor source when that
   relationship is direct (§0); it cannot report only the result.
 - **Links:** use site-relative URLs for other notes in this repository.
+- **`post-type`:** required for every new post. Older posts without the field
+  predate this distinction; do not bulk-migrate them.
 - **`contribution` / `contribution-type`:** written *before* drafting, not after
-  (§0). They are not rendered — they exist so the gate leaves an artifact in the
-  file, where a reviewer can check it against what the post actually did.
+  (§0) and present only on Research notes. They are not rendered — they exist so
+  the gate leaves an artifact in the file, where a reviewer can check it against
+  what the post actually did.
+- **`question`:** required on Understanding notes. It is not rendered; it keeps
+  the explanation bounded during drafting and review.
 
-## 2. Structure — IMRaD, and voice within it
+## 2. Structure — form and voice
 
-**Every post uses the IMRaD skeleton**, in this order, as `##` headers:
+### Research notes — IMRaD
+
+**Every Research note uses the IMRaD skeleton**, in this order, as `##` headers:
 
 ```
 ## Abstract
@@ -204,6 +265,11 @@ Prefer reproducing a published number yourself over quoting it.
   Write it to be *used* during review, not filed — the 2026-07-16 note's whole
   phantom discrepancy was explained by the version number in its own Methods,
   three paragraphs above, and nobody read it.
+- **The experiment must run on a computer without living subjects.** Methods
+  must identify the executable computational procedure and its digital inputs.
+  A design that requires recruiting, observing, surveying, interviewing,
+  exposing, or intervening on a living subject is out of scope for this blog,
+  not a future implementation detail.
 - **Anything you did not run yourself must say so, in Methods, in those words,**
   and be attributed at every point of use in Discussion. Reporting someone
   else's result is legitimate; implying you reproduced it is not. If a claim
@@ -224,9 +290,9 @@ Prefer reproducing a published number yourself over quoting it.
   with no next step probably opened nothing. The next step goes on the shelf
   (§0).
 
-**There are no exceptions.** Every post is an experiment (see the top of this
-document), so every post has Methods and Results. A post that reaches for the
-exception is a post that failed §0 and should not be drafted.
+Research notes do not drop Methods or Results. If the intellectual job does not
+require them, change the declared form to Understanding and satisfy that form's
+contract instead.
 
 **Results are dry.** Every sentence in Results must survive one question: *what
 did the machine print?* If the answer is a number, a count, or a range, it is a
@@ -248,6 +314,32 @@ needs a test. Apply the printed-output test sentence by sentence.
 Dry usually means shorter, and often means a table. Prose narrating a
 reconciliation is a signal that the reconciliation belongs in Discussion and the
 data belongs in a table.
+
+### Understanding notes — dependency order
+
+Understanding notes have no fixed section names beyond a final `## References`.
+Their headings follow the dependency chain of the explanation: begin with the
+physical or technical object, introduce each representation when it becomes
+useful, and end at the declared boundary. The reader should never need a concept
+that the note has not yet built.
+
+Every Understanding note includes these elements, wherever they fit naturally:
+
+- an opening paragraph that names the explanatory question and the route through
+  it, without manufacturing a hook or knowledge gap;
+- equations worked far enough that each plotted quantity can be reconstructed;
+- computer-generated demonstrations that expose the same object in two or more
+  representations when that comparison does real explanatory work;
+- a short reproducibility section naming the interpreter, libraries, exact
+  procedure, and digital inputs used to make the demonstrations;
+- a section that states **where the model stops** — what the mathematics or
+  physical representation does not establish; and
+- a bare `## References` heading at the end.
+
+An Understanding note has observations, explanations, and limitations, not
+Results, Discussion, or a verdict. Never call a generated example evidence for a
+perceptual, historical, or cultural claim. If the post begins testing such a
+claim, it has become Research and must pass the Research gate.
 
 **Voice within the structure.** Prose, not bullet lists. Bold key terms on first
 use. Em-dashes are fine and characteristic. The section headers are fixed but the
@@ -397,13 +489,14 @@ defect.
 
 ## 6. Captions & numbering (required)
 
-**Every figure, table, and code block gets a numbered caption, and every one is
-referenced by number somewhere in the prose.** No exceptions — an uncaptioned or
-unreferenced element is a bug.
+**Every figure, table, code block, and audio player gets a numbered caption, and
+every one is referenced by number somewhere in the prose.** No exceptions — an
+uncaptioned or unreferenced element is a bug.
 
 - **Numbering** runs independently per type, in document order: Figure 1, 2, 3…;
-  Table 1, 2…; Code 1, 2…. A post can have Figure 1 and Table 1 and Code 1.
-- **Format:** the caption label is **bold** for all three types, followed by a
+  Table 1, 2…; Code 1, 2…; Audio 1, 2…. A post can have Figure 1, Table 1,
+  Code 1, and Audio 1.
+- **Format:** the caption label is **bold** for all four types, followed by a
   full sentence (not a bare label):
   - Figures — `**Figure 1.** Sentence describing what it shows.` directly
     **below** the `<figure>`.
@@ -411,6 +504,17 @@ unreferenced element is a bug.
     the table.
   - Code blocks — `**Code 1.** Sentence describing what the code does.` directly
     **below** the fenced block.
+  - Audio — keep the complete `<audio>` element on one source line, with a
+    useful fallback sentence and direct file link between its tags; put
+    `**Audio 1.** Sentence describing what the listener will hear.` directly
+    **below** the player. For example:
+
+    ```html
+    <audio controls preload="none" src="/downloads/clip.wav">Your browser cannot play this audio; <a href="/downloads/clip.wav">download the WAV file</a>.</audio>
+    ```
+
+    Do not wrap the element across source lines: Pandoc can otherwise consume
+    the following Markdown as raw HTML.
   - (Older posts used italic `*Figure N.*` / `*Table N.*` — that was a mistake;
     bold is the standard. Normalize when touching an old post.)
 - **Cross-reference:** point to each numbered element at least once in the body
@@ -457,7 +561,13 @@ site build && node scripts/verify-site.mjs`.
 
 ## 8. Per-post checklist
 
-**Before drafting (§0) — if any of these fails, there is no post:**
+**Before drafting — every post:**
+
+- [ ] `post-type:` declares `research` or `understanding`
+- [ ] One concrete question is written in front matter or on the research shelf
+- [ ] Every planned experiment or demonstration is executable on a computer and involves no living subjects
+
+**Before drafting — Research only (§0):**
 
 - [ ] The question came off `notes/questions.md`; it was not invented today
 - [ ] Anchored to a recent primary source (journal article, this year or last) — not a settled result (§0)
@@ -468,25 +578,44 @@ site build && node scripts/verify-site.mjs`.
 - [ ] The hypothesis has a falsifier, written down before the experiment ran
 - [ ] You would publish the other outcome
 
-**After drafting:**
+**Before drafting — Understanding only (§0):**
+
+- [ ] `question:` states the explanatory question
+- [ ] Audience, dependency order, generated demonstrations, and stopping point are written down
+- [ ] The planned synthesis connects representations or mechanisms rather than collecting definitions
+
+**After drafting — every post:**
 
 - [ ] Front matter complete; title quoted if needed; links relative
+- [ ] Every external source cited as `[@key]` in ACS style — no inline links, no footnotes, no exceptions (§3)
+- [ ] Source's own BibTeX/DOI used where it publishes one; entry type matches Table 0
+- [ ] New bib entries appended, keys unique & de-duped
+- [ ] Every `[@key]` grep-verified against `bib/bibliography.bib`; markers after punctuation; post ends with `## References`
+- [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional)
+- [ ] Every figure, table, code block, and audio player has a numbered caption (Figure/Table/Code/Audio N) and is referenced by number in the prose; each `<audio>` element stays on one source line and contains fallback text plus a direct file link
+- [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
+- [ ] Branch, build, verification, PR, and merge complete
+
+**After drafting — Research only:**
+
 - [ ] Direct source-response provenance passes the headline + description + first-Abstract-paragraph test: source, relationship, and independent status are explicit (§0)
-- [ ] IMRaD sections present and in order (§2) — no exceptions; every post is an experiment
+- [ ] IMRaD sections present and in order (§2)
 - [ ] Introduction funnels known → predicted → **gap** → hypothesis; no hook
 - [ ] Methods states interpreter/arch/versions/seeds precisely enough to re-run
 - [ ] Methods states whether source program/code/data were used and what was independently implemented
+- [ ] Methods identifies the computational procedure and digital inputs; no living subjects were recruited, observed, surveyed, interviewed, exposed, or acted upon
 - [ ] Anything not run first-hand is declared as such in Methods and attributed at each use
 - [ ] No untested equivalence claims ("reproduces X's semantics exactly" is a claim — test it)
 - [ ] **Results passes the printed-output test sentence by sentence** (§2); no banned words; captions clean
 - [ ] Any discrepancy with a source was chased through your own Methods before being reported unresolved
 - [ ] Discussion states the verdict — supported / falsified / inconclusive — in those words
 - [ ] Conclusion points forward and names the next experiment; that next step is now on the shelf
-- [ ] Every external source cited as `[@key]` in ACS style — no inline links, no footnotes, no exceptions (§3)
-- [ ] Source's own BibTeX/DOI used where it publishes one; entry type matches Table 0
-- [ ] New bib entries appended, keys unique & de-duped
-- [ ] Every `[@key]` grep-verified against `bib/bibliography.bib`; markers after punctuation; post ends with `## References`
-- [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional)
-- [ ] Every figure, table, and code block has a numbered caption (Figure/Table/Code N) and is referenced by number in the prose
-- [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
-- [ ] Branch, build, verification, PR, and merge complete
+
+**After drafting — Understanding only:**
+
+- [ ] Opening names the question and explanatory route without a manufactured gap or hypothesis
+- [ ] Headings follow conceptual dependency order; no IMRaD labels or verdict
+- [ ] Equations are sufficient to reconstruct every plotted quantity
+- [ ] Reproducibility note names the computer environment, procedure, and digital inputs
+- [ ] Every generated example is described as a demonstration, not perceptual or cultural evidence
+- [ ] A section explicitly states where the physical or mathematical model stops
