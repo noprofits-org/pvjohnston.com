@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "coulomb-force-training",
   "provenance": {
-    "generated_at": "2026-07-21T16:56:16Z",
+    "generated_at": "2026-07-21T21:03:30Z",
     "generator": "research/coulomb-force-training/generate-metrics.mjs",
     "inputs": [
       {
@@ -15,7 +15,7 @@
       },
       {
         "path": "research/coulomb-force-training/verify_analysis.py",
-        "sha256": "93ba9f2f80c46d1d789e68fab97697e17de92465dcdc94905a0ae2ffb4555102"
+        "sha256": "812f5272d463de1cbf00b5dde919cb41b275f6f98dc54b3d10012e4e1e6f06b0"
       },
       {
         "path": "research/coulomb-force-training/results.json",
