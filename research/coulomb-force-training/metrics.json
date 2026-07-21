@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "experiment": "coulomb-force-training",
+  "provenance": {
+    "generated_at": "2026-07-21T16:56:16Z",
+    "generator": "research/coulomb-force-training/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/coulomb-force-training/h2plus_model.py",
+        "sha256": "c5e1f129646c7e0c9ebc6fdba433859e5bedc7471c7eedec52679a19ba7fc265"
+      },
+      {
+        "path": "research/coulomb-force-training/run_experiment.py",
+        "sha256": "bc99a5e3f996055ca519b90dd4eb538fcd3cd01bd83b03b2b828ab7f1f42aa3a"
+      },
+      {
+        "path": "research/coulomb-force-training/verify_analysis.py",
+        "sha256": "93ba9f2f80c46d1d789e68fab97697e17de92465dcdc94905a0ae2ffb4555102"
+      },
+      {
+        "path": "research/coulomb-force-training/results.json",
+        "sha256": "4bb5ee68b07efdb55e4e8297dd82675ad208e5843b377109d0c6a252d2cc7c59"
+      }
+    ]
+  },
+  "metrics": {
+    "ratio_energy_015": {
+      "type": "number",
+      "value": 53.37147341422649,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 0.15 bohr under the energy-only loss",
+      "unit": "ratio"
+    },
+    "ratio_energy_025": {
+      "type": "number",
+      "value": 21.737513323081984,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 0.25 bohr under the energy-only loss",
+      "unit": "ratio"
+    },
+    "ratio_energy_040": {
+      "type": "number",
+      "value": 12.1580665288764,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 0.40 bohr under the energy-only loss",
+      "unit": "ratio"
+    },
+    "ratio_energy_070": {
+      "type": "number",
+      "value": 10.74609216341765,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 0.70 bohr under the energy-only loss",
+      "unit": "ratio"
+    },
+    "ratio_energy_100": {
+      "type": "number",
+      "value": 10.012280667930042,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 1.00 bohr under the energy-only loss",
+      "unit": "ratio"
+    },
+    "ratio_energy_150": {
+      "type": "number",
+      "value": 1.7787654780543778,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 1.50 bohr under the energy-only loss",
+      "unit": "ratio"
+    },
+    "ratio_energy_200": {
+      "type": "number",
+      "value": 1.6998562024318686,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 2.00 bohr under the energy-only loss",
+      "unit": "ratio"
+    },
+    "ratio_energy_300": {
+      "type": "number",
+      "value": 0.5830748627590062,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 3.00 bohr under the energy-only loss",
+      "unit": "ratio"
+    },
+    "ratio_force_015": {
+      "type": "number",
+      "value": 1830.353169878195,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 0.15 bohr under the energy-plus-force loss",
+      "unit": "ratio"
+    },
+    "ratio_force_025": {
+      "type": "number",
+      "value": 212.41231364530097,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 0.25 bohr under the energy-plus-force loss",
+      "unit": "ratio"
+    },
+    "ratio_force_040": {
+      "type": "number",
+      "value": 23.83692769195946,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 0.40 bohr under the energy-plus-force loss",
+      "unit": "ratio"
+    },
+    "ratio_force_070": {
+      "type": "number",
+      "value": 8.917971439289461,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 0.70 bohr under the energy-plus-force loss",
+      "unit": "ratio"
+    },
+    "ratio_force_100": {
+      "type": "number",
+      "value": 5.765386499732109,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 1.00 bohr under the energy-plus-force loss",
+      "unit": "ratio"
+    },
+    "ratio_force_150": {
+      "type": "number",
+      "value": 3.0723163796518107,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 1.50 bohr under the energy-plus-force loss",
+      "unit": "ratio"
+    },
+    "ratio_force_200": {
+      "type": "number",
+      "value": 0.26138315081088037,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 2.00 bohr under the energy-plus-force loss",
+      "unit": "ratio"
+    },
+    "ratio_force_300": {
+      "type": "number",
+      "value": 0.3339858983357665,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Median paired A/B out-of-fold energy-RMSE ratio at R_min = 3.00 bohr under the energy-plus-force loss",
+      "unit": "ratio"
+    },
+    "energy_crossover_bohr": {
+      "type": "number",
+      "value": 3,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Smallest cutoff at which the median A/B ratio falls to at most one under the energy-only loss",
+      "unit": "bohr"
+    },
+    "force_crossover_bohr": {
+      "type": "number",
+      "value": 2,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Smallest cutoff at which the median A/B ratio falls to at most one under the energy-plus-force loss",
+      "unit": "bohr"
+    },
+    "rmse_a_energy_015_cm": {
+      "type": "number",
+      "value": 27113.124984689613,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Median out-of-fold RMSE of the direct total-energy fit (Scheme A) at R_min = 0.15 bohr under the energy-only loss",
+      "unit": "cm^-1"
+    },
+    "rmse_b_energy_015_cm": {
+      "type": "number",
+      "value": 525.2642249746057,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Median out-of-fold RMSE of the Coulomb-subtraction fit (Scheme B) at R_min = 0.15 bohr under the energy-only loss",
+      "unit": "cm^-1"
+    }
+  }
+}

@@ -518,7 +518,7 @@ Format:
   chemistry calculation; fit identical one-hidden-layer networks to total and
   electronic energies across matched splits, initializations, and distance
   cutoffs. CPU-only and laptop-scale.
-- **Status:** drafting — `/posts/2026-07-18-where-coulomb-subtraction-helps.md`
+- **Status:** published — `/posts/2026-07-18-where-coulomb-subtraction-helps.html`
 
 ## Does force training move the Coulomb-subtraction crossover?
 - **Observed:** The H2+ cutoff experiment fits energies only. Its measured
@@ -536,6 +536,38 @@ Format:
   moves to a smaller $R_{\min}$ under the predeclared energy-plus-force loss
 - **Publish the other outcome?** Yes — it would separate an energy-conditioning
   effect from a general advantage under differentiation.
+- **Status:** published —
+  `/posts/2026-07-21-does-force-training-move-the-coulomb-subtraction-crossover.html`.
+  Hypothesis **falsified**: the crossover moved inward, 3.00 → 2.00 a0, while the
+  near-wall advantage widened (median A/B 53.37 → 1830.35 at R_min = 0.15 a0).
+  The subtraction range is set by the energy target's short-range curvature;
+  force labels amplify it locally without extending it. Next step below.
+
+## Is the inward crossover shift monotonic in the force weight λ?
+- **Observed:** Adding force labels at a single weight, λ = 1, moved the
+  Coulomb-subtraction crossover *inward* (3.00 → 2.00 a0) on the minimal-basis
+  H2+ curve, against the predeclared prediction, while widening the near-wall
+  A/B gap to 1830× at R_min = 0.15 a0. Whether the inward shift is monotonic in
+  λ — or whether at large force weight the direct scheme's near-wall failure
+  ever re-extends the range over which subtraction wins — is unmeasured, and the
+  8-point cutoff grid snaps the crossover to a grid point rather than
+  bracketing it.
+- **Source:** `/posts/2026-07-21-does-force-training-move-the-coulomb-subtraction-crossover.html`
+  (own next step)
+- **Type:** untested regime / quantification
+- **Contribution (candidate):** the crossover cutoff as a function of λ across
+  several decades on the same curve, with a finer cutoff grid so the crossover
+  is bracketed rather than snapped — which neither the λ = 1 post nor Rana et
+  al. measure
+- **Falsifier:** the crossover cutoff is flat in λ over the tested decades — the
+  λ = 1 shift is then a threshold effect, not a dose-response, and the
+  energy-target story needs revisiting
+- **Publish the other outcome?** Yes — a monotonic curve and a re-extension at
+  large λ are each directly usable rules for choosing the force weight.
+- **Also queued from the same Conclusion:** a curve whose high/low-fidelity
+  branches force the nonlinear part of the network to carry the fit, testing
+  whether the effect survives when the direct scheme cannot lean on a smooth
+  total potential.
 - **Status:** ready
 
 ## When do pulse-independent trajectories stop being pulse-independent?
