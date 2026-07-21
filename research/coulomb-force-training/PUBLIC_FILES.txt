@@ -1,0 +1,15 @@
+# One repository-relative path per line. A future bundle command must package
+# only this allowlist, never the whole experiment directory.
+LICENSE
+research/metrics.schema.json
+research/coulomb-force-training/README.md
+research/coulomb-force-training/environment.md
+research/coulomb-force-training/requirements.txt
+research/coulomb-force-training/sources.json
+research/coulomb-force-training/h2plus_model.py
+research/coulomb-force-training/run_experiment.py
+research/coulomb-force-training/verify_analysis.py
+research/coulomb-force-training/make_figure.py
+research/coulomb-force-training/results.json
+research/coulomb-force-training/generate-metrics.mjs
+research/coulomb-force-training/metrics.json

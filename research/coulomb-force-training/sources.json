@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "H2+ reference potential energy curve and its derivative",
+      "url": "research/coulomb-force-training/h2plus_model.py",
+      "version": "minimal-basis LCAO-MO, zeta = 1, 401 points on [0.15, 20] bohr",
+      "accessed": "2026-07-21",
+      "sha256": "generated",
+      "license": "MIT (this repository)",
+      "acquisition": "Generated analytically in-repo by h2plus_model.py; no external electronic-structure package or dataset is required.",
+      "committed": true,
+      "exclusion_reason": "Not excluded; the generator is committed and the curve is reproduced on demand."
+    }
+  ]
+}
