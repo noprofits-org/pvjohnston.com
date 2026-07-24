@@ -1,0 +1,200 @@
+{
+  "conditions": {
+    "pressure_atm": 1.0,
+    "temperature_k": 298.15
+  },
+  "method": {
+    "electronic_energy": "ccsd(t)/cc-pvtz",
+    "freeze_core": true,
+    "geometry_and_thermal": "b3lyp/def2-tzvp",
+    "note": "Geometry and ideal-gas RRHO thermal/ZPE corrections at B3LYP/def2-TZVP (298.15 K, 1 atm). Single-point HF and CCSD(T) energies at cc-pVTZ on the B3LYP geometry come from one CCSD(T) run per species (its SCF total is the HF baseline). The correlation contribution to a reaction enthalpy is dH(CCSD(T)) - dH(HF); the common thermal correction cancels, so it equals the correlation part of the electronic reaction energy."
+  },
+  "reactions": [
+    {
+      "bond_class": "cc",
+      "correlation_content_kj": 5.919134196260188,
+      "correlation_fraction": -0.03314922039006741,
+      "correlation_per_pi_bond_kj": 5.919134196260188,
+      "dh_ccsdt_kj": -178.56028366910718,
+      "dh_hf_kj": -184.47941786536737,
+      "equation": "C2H2 + H2 -> C2H4",
+      "pi_bonds_hydrogenated": 1,
+      "slug": "acetylene_hydrogenation"
+    },
+    {
+      "bond_class": "cc",
+      "correlation_content_kj": -1.7000646299626396,
+      "correlation_fraction": 0.012234643846763718,
+      "correlation_per_pi_bond_kj": -1.7000646299626396,
+      "dh_ccsdt_kj": -138.9549750083111,
+      "dh_hf_kj": -137.25491037834846,
+      "equation": "C2H4 + H2 -> C2H6",
+      "pi_bonds_hydrogenated": 1,
+      "slug": "ethylene_hydrogenation"
+    },
+    {
+      "bond_class": "nn",
+      "correlation_content_kj": -9.26374798459753,
+      "correlation_fraction": 0.12329720255246159,
+      "correlation_per_pi_bond_kj": -4.631873992298765,
+      "dh_ccsdt_kj": -75.13348066965192,
+      "dh_hf_kj": -65.86973268505439,
+      "equation": "N2 + 3 H2 -> 2 NH3",
+      "pi_bonds_hydrogenated": 2,
+      "slug": "ammonia_synthesis"
+    },
+    {
+      "bond_class": "co",
+      "correlation_content_kj": -21.636594075690056,
+      "correlation_fraction": 0.2702014321242917,
+      "correlation_per_pi_bond_kj": -10.818297037845028,
+      "dh_ccsdt_kj": -80.07579347594759,
+      "dh_hf_kj": -58.43919940025754,
+      "equation": "CO + 2 H2 -> CH3OH",
+      "pi_bonds_hydrogenated": 2,
+      "slug": "methanol_synthesis"
+    }
+  ],
+  "species": {
+    "c2h2": {
+      "ccsdt_energy_hartree": -77.18733369575659,
+      "enthalpy_correction_hartree": 0.030607939175479014,
+      "harmonic_frequencies_cm": [
+        620.1807371849355,
+        620.1807390200076,
+        764.2659956143981,
+        764.26602474495,
+        2072.4296545358607,
+        3417.8675689220922,
+        3515.96388296563
+      ],
+      "hf_energy_hartree": -76.8498887376082,
+      "is_true_minimum": true,
+      "n_imaginary_modes": 0
+    },
+    "c2h4": {
+      "ccsdt_energy_hartree": -78.43863204434908,
+      "enthalpy_correction_hartree": 0.05493585359049161,
+      "harmonic_frequencies_cm": [
+        836.9504414153508,
+        978.7628130247168,
+        983.3312888595489,
+        1063.1664052090089,
+        1246.6334486675746,
+        1383.106484709977,
+        1479.6114806955482,
+        1692.6741328008127,
+        3130.6700260642374,
+        3143.4603188463016,
+        3199.7246187985693,
+        3227.7901898637238
+      ],
+      "hf_energy_hartree": -78.06403390446577,
+      "is_true_minimum": true,
+      "n_imaginary_modes": 0
+    },
+    "c2h6": {
+      "ccsdt_energy_hartree": -79.67443860060452,
+      "enthalpy_correction_hartree": 0.07885684106521937,
+      "harmonic_frequencies_cm": [
+        306.2553914824757,
+        827.9809365162545,
+        828.0627753208041,
+        997.9571822712923,
+        1223.0844491872888,
+        1223.0975549081934,
+        1412.5016118898595,
+        1423.3366573923686,
+        1502.5966136725688,
+        1502.6487572568162,
+        1506.1583139430952,
+        1506.1763309728894,
+        3030.133453405611,
+        3031.2780729241613,
+        3074.1635999989408,
+        3074.269771221134,
+        3099.6543105689193,
+        3099.664539843699
+      ],
+      "hf_energy_hartree": -79.25978527941577,
+      "is_true_minimum": true,
+      "n_imaginary_modes": 0
+    },
+    "ch3oh": {
+      "ccsdt_energy_hartree": -115.5507244388783,
+      "enthalpy_correction_hartree": 0.05533298343210375,
+      "harmonic_frequencies_cm": [
+        303.0391524558872,
+        1043.7314030151572,
+        1080.6651215198642,
+        1170.5004329249762,
+        1368.8206848348023,
+        1481.7600193460705,
+        1495.40736780944,
+        1509.95405057947,
+        2991.328397126981,
+        3035.3457994148766,
+        3110.7250068835524,
+        3812.49046534129
+      ],
+      "hf_energy_hartree": -115.08907107490975,
+      "is_true_minimum": true,
+      "n_imaginary_modes": 0
+    },
+    "co": {
+      "ccsdt_energy_hartree": -113.15532132722663,
+      "enthalpy_correction_hartree": 0.008349958606282423,
+      "harmonic_frequencies_cm": [
+        2214.53510313505
+      ],
+      "hf_energy_hartree": -112.78072422848558,
+      "is_true_minimum": true,
+      "n_imaginary_modes": 0
+    },
+    "h2": {
+      "ccsdt_energy_hartree": -1.1723357961510128,
+      "enthalpy_correction_hartree": 0.013375382231809965,
+      "harmonic_frequencies_cm": [
+        4420.5423080205555
+      ],
+      "hf_energy_hartree": -1.1329281352658305,
+      "is_true_minimum": true,
+      "n_imaginary_modes": 0
+    },
+    "n2": {
+      "ccsdt_energy_hartree": -109.37349334235083,
+      "enthalpy_correction_hartree": 0.008892472337101828,
+      "harmonic_frequencies_cm": [
+        2452.7367977193085
+      ],
+      "hf_energy_hartree": -108.98466079227038,
+      "is_true_minimum": true,
+      "n_imaginary_modes": 0
+    },
+    "nh3": {
+      "ccsdt_energy_hartree": -56.473041251229276,
+      "enthalpy_correction_hartree": 0.037991779615825116,
+      "harmonic_frequencies_cm": [
+        1025.5643774740827,
+        1671.2575802933236,
+        1671.2678454270708,
+        3464.27323427805,
+        3584.7668444947317,
+        3584.787805947409
+      ],
+      "hf_energy_hartree": -56.21774929722908,
+      "is_true_minimum": true,
+      "n_imaginary_modes": 0
+    }
+  },
+  "summary": {
+    "all_species_true_minima": true,
+    "chemical_accuracy_threshold_kj": 4.184,
+    "cc_pi_rungs_within_chemical_accuracy": false,
+    "max_abs_correlation_content_kj": 21.636594075690056,
+    "mean_abs_correlation_content_kj": 9.629885221627603,
+    "pi_bond_correlation_transferability_gap_kj": 7.619198826222828,
+    "reaction_count": 4,
+    "temperature_k": 298.15
+  }
+}

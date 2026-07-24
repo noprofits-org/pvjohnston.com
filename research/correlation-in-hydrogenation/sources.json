@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "sources": [],
+  "note": "No external computational inputs. Every quantity is generated locally by psi4 1.9.1; the reference method is CCSD(T), not experiment, so there are no literature values to source or verify. Geometries are the starting Z-matrices in inputs.json, relaxed by the optimizer."
+}
