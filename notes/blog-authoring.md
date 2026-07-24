@@ -120,6 +120,12 @@ places, all three already proven here:
   is a queue entry. This is the loop that makes the blog a research programme
   rather than a series of posts.
 
+Deep research also starts a crash-resistant incremental journal before its
+first search or exploratory command. Record sources, pivots, exact intermediate
+results, and the next action as they happen; do not leave them only in an agent
+transcript. The workflow and recovery commands are in
+`notes/research-journal.md`.
+
 **The contribution gate.** Before drafting, write one sentence, and put it in the
 post's front matter:
 
