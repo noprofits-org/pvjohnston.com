@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "method": {
+    "geometry_and_thermal": "b3lyp/def2-tzvp",
+    "electronic_energy": "ccsd(t)/cc-pvtz",
+    "freeze_core": true,
+    "note": "Geometry and ideal-gas RRHO thermal/ZPE corrections at B3LYP/def2-TZVP (298.15 K, 1 atm). Single-point HF and CCSD(T) energies at cc-pVTZ on the B3LYP geometry come from one CCSD(T) run per species (its SCF total is the HF baseline). The correlation contribution to a reaction enthalpy is dH(CCSD(T)) - dH(HF); the common thermal correction cancels, so it equals the correlation part of the electronic reaction energy."
+  },
+  "conditions": {
+    "temperature_k": 298.15,
+    "pressure_atm": 1.0
+  },
+  "constants": {
+    "hartree_to_kj_per_mol": 2625.4996394799,
+    "atm_to_pa": 101325.0,
+    "kcal_to_kj": 4.184,
+    "chemical_accuracy_kcal_per_mol": 1.0
+  },
+  "convergence": {
+    "e_convergence": 1e-9,
+    "d_convergence": 1e-9,
+    "geom_maxiter": 100,
+    "g_convergence": "gau_tight"
+  },
+  "species": {
+    "h2":    { "charge": 0, "multiplicity": 1, "zmatrix": ["H", "H 1 0.74"] },
+    "n2":    { "charge": 0, "multiplicity": 1, "zmatrix": ["N", "N 1 1.10"] },
+    "co":    { "charge": 0, "multiplicity": 1, "zmatrix": ["C", "O 1 1.13"] },
+    "c2h2":  { "charge": 0, "multiplicity": 1, "zmatrix": [
+      "C", "C 1 1.20", "H 1 1.06 2 180.0", "H 2 1.06 1 180.0 3 0.0"
+    ] },
+    "c2h4":  { "charge": 0, "multiplicity": 1, "zmatrix": [
+      "C", "C 1 1.33", "H 1 1.08 2 121.0", "H 1 1.08 2 121.0 3 180.0",
+      "H 2 1.08 1 121.0 3 180.0", "H 2 1.08 1 121.0 4 180.0"
+    ] },
+    "c2h6":  { "charge": 0, "multiplicity": 1, "zmatrix": [
+      "C", "C 1 1.53", "H 1 1.09 2 111.0", "H 1 1.09 2 111.0 3 120.0",
+      "H 1 1.09 2 111.0 3 -120.0", "H 2 1.09 1 111.0 3 60.0",
+      "H 2 1.09 1 111.0 3 180.0", "H 2 1.09 1 111.0 3 -60.0"
+    ] },
+    "nh3":   { "charge": 0, "multiplicity": 1, "zmatrix": [
+      "N", "H 1 1.01", "H 1 1.01 2 107.0", "H 1 1.01 2 107.0 3 120.0"
+    ] },
+    "ch3oh": { "charge": 0, "multiplicity": 1, "zmatrix": [
+      "C", "O 1 1.42", "H 2 0.96 1 108.0", "H 1 1.09 2 110.0 3 180.0",
+      "H 1 1.09 2 110.0 4 120.0", "H 1 1.09 2 110.0 4 -120.0"
+    ] }
+  },
+  "reactions": [
+    {
+      "slug": "acetylene_hydrogenation",
+      "equation": "C2H2 + H2 -> C2H4",
+      "pi_bonds_hydrogenated": 1,
+      "bond_class": "cc",
+      "reactants": { "c2h2": 1, "h2": 1 },
+      "products": { "c2h4": 1 }
+    },
+    {
+      "slug": "ethylene_hydrogenation",
+      "equation": "C2H4 + H2 -> C2H6",
+      "pi_bonds_hydrogenated": 1,
+      "bond_class": "cc",
+      "reactants": { "c2h4": 1, "h2": 1 },
+      "products": { "c2h6": 1 }
+    },
+    {
+      "slug": "ammonia_synthesis",
+      "equation": "N2 + 3 H2 -> 2 NH3",
+      "pi_bonds_hydrogenated": 2,
+      "bond_class": "nn",
+      "reactants": { "n2": 1, "h2": 3 },
+      "products": { "nh3": 2 }
+    },
+    {
+      "slug": "methanol_synthesis",
+      "equation": "CO + 2 H2 -> CH3OH",
+      "pi_bonds_hydrogenated": 2,
+      "bond_class": "co",
+      "reactants": { "co": 1, "h2": 2 },
+      "products": { "ch3oh": 1 }
+    }
+  ],
+  "transferability_comparison": {
+    "note": "Worked comparison: whether the reaction-level correlation contributions for two single-C-C-pi-bond hydrogenations agree within chemical accuracy.",
+    "rung_a": "acetylene_hydrogenation",
+    "rung_b": "ethylene_hydrogenation"
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "experiment": "correlation-in-hydrogenation",
+  "provenance": {
+    "generated_at": "2026-07-24T04:07:46Z",
+    "generator": "research/correlation-in-hydrogenation/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/correlation-in-hydrogenation/inputs.json",
+        "sha256": "6f3c55c27f479d9b20555374cca7eb2c68b4c31d6e085c64cbb7173cb2985a5b"
+      },
+      {
+        "path": "research/correlation-in-hydrogenation/calculate.py",
+        "sha256": "456056225871198bf541267da9ae41fc324e7620ee168a841b27a42fd6c0f30e"
+      },
+      {
+        "path": "research/correlation-in-hydrogenation/results.json",
+        "sha256": "93334b5208bea9283ddbcb0cc24858dde48144687bb0a3174024d795585b8b8c"
+      }
+    ]
+  },
+  "metrics": {
+    "temperature_k": {
+      "type": "number",
+      "value": 298.15,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Temperature of the ideal-gas thermochemistry",
+      "unit": "K"
+    },
+    "chemical_accuracy_threshold_kj": {
+      "type": "number",
+      "value": 4.184,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Chemical-accuracy threshold (1 kcal/mol) used as the transferability bound",
+      "unit": "kJ/mol"
+    },
+    "reaction_count": {
+      "type": "integer",
+      "value": 4,
+      "description": "Number of hydrogenation reactions in the frozen set",
+      "unit": "reactions"
+    },
+    "mean_abs_correlation_content_kj": {
+      "type": "number",
+      "value": 9.629885221627603,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Mean absolute correlation contribution to the reaction enthalpies",
+      "unit": "kJ/mol"
+    },
+    "max_abs_correlation_content_kj": {
+      "type": "number",
+      "value": 21.636594075690056,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Largest absolute correlation contribution across the reaction set",
+      "unit": "kJ/mol"
+    },
+    "pi_bond_correlation_transferability_gap_kj": {
+      "type": "number",
+      "value": 7.619198826222828,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Difference in per-C-C-pi-bond correlation contribution between the acetylene and ethylene rungs",
+      "unit": "kJ/mol"
+    },
+    "cc_pi_rungs_within_chemical_accuracy": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the two single-C-C-pi-bond reaction residuals agree within the chemical-accuracy comparison scale"
+    },
+    "all_species_true_minima": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether every optimized species had no imaginary vibrational mode"
+    },
+    "dh_ccsdt_acetylene_hydrogenation_kj": {
+      "type": "number",
+      "value": -178.56028366910718,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "CCSD(T) reaction enthalpy at 298.15 K for C2H2 + H2 -> C2H4",
+      "unit": "kJ/mol"
+    },
+    "correlation_content_acetylene_hydrogenation_kj": {
+      "type": "number",
+      "value": 5.919134196260188,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Correlation contribution to the enthalpy (CCSD(T) - HF) for C2H2 + H2 -> C2H4",
+      "unit": "kJ/mol"
+    },
+    "correlation_fraction_acetylene_hydrogenation": {
+      "type": "number",
+      "value": -0.03314922039006741,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Correlation contribution as a fraction of the CCSD(T) enthalpy for C2H2 + H2 -> C2H4",
+      "unit": "ratio"
+    },
+    "dh_ccsdt_ethylene_hydrogenation_kj": {
+      "type": "number",
+      "value": -138.9549750083111,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "CCSD(T) reaction enthalpy at 298.15 K for C2H4 + H2 -> C2H6",
+      "unit": "kJ/mol"
+    },
+    "correlation_content_ethylene_hydrogenation_kj": {
+      "type": "number",
+      "value": -1.7000646299626396,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Correlation contribution to the enthalpy (CCSD(T) - HF) for C2H4 + H2 -> C2H6",
+      "unit": "kJ/mol"
+    },
+    "correlation_fraction_ethylene_hydrogenation": {
+      "type": "number",
+      "value": 0.012234643846763718,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Correlation contribution as a fraction of the CCSD(T) enthalpy for C2H4 + H2 -> C2H6",
+      "unit": "ratio"
+    },
+    "dh_ccsdt_ammonia_synthesis_kj": {
+      "type": "number",
+      "value": -75.13348066965192,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "CCSD(T) reaction enthalpy at 298.15 K for N2 + 3 H2 -> 2 NH3",
+      "unit": "kJ/mol"
+    },
+    "correlation_content_ammonia_synthesis_kj": {
+      "type": "number",
+      "value": -9.26374798459753,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Correlation contribution to the enthalpy (CCSD(T) - HF) for N2 + 3 H2 -> 2 NH3",
+      "unit": "kJ/mol"
+    },
+    "correlation_fraction_ammonia_synthesis": {
+      "type": "number",
+      "value": 0.12329720255246159,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Correlation contribution as a fraction of the CCSD(T) enthalpy for N2 + 3 H2 -> 2 NH3",
+      "unit": "ratio"
+    },
+    "dh_ccsdt_methanol_synthesis_kj": {
+      "type": "number",
+      "value": -80.07579347594759,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "CCSD(T) reaction enthalpy at 298.15 K for CO + 2 H2 -> CH3OH",
+      "unit": "kJ/mol"
+    },
+    "correlation_content_methanol_synthesis_kj": {
+      "type": "number",
+      "value": -21.636594075690056,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Correlation contribution to the enthalpy (CCSD(T) - HF) for CO + 2 H2 -> CH3OH",
+      "unit": "kJ/mol"
+    },
+    "correlation_fraction_methanol_synthesis": {
+      "type": "number",
+      "value": 0.2702014321242917,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Correlation contribution as a fraction of the CCSD(T) enthalpy for CO + 2 H2 -> CH3OH",
+      "unit": "ratio"
+    }
+  }
+}

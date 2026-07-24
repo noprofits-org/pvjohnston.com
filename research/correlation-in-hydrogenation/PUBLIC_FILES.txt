@@ -1,0 +1,13 @@
+# One repository-relative path per line. A future bundle command must package
+# only this allowlist, never the whole experiment directory.
+LICENSE
+research/metrics.schema.json
+research/correlation-in-hydrogenation/README.md
+research/correlation-in-hydrogenation/inputs.json
+research/correlation-in-hydrogenation/calculate.py
+research/correlation-in-hydrogenation/results.json
+research/correlation-in-hydrogenation/metrics.json
+research/correlation-in-hydrogenation/generate-metrics.mjs
+research/correlation-in-hydrogenation/sources.json
+research/correlation-in-hydrogenation/environment.md
+research/correlation-in-hydrogenation/conda-linux-64.lock

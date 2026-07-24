@@ -679,3 +679,26 @@ Format:
 - **Publish the other outcome?** Yes — numerical robustness after a majority of
   coherence-overlapping hops would materially strengthen the reuse method.
 - **Status:** ready
+
+## Is the correlation contribution transferable within one C–C bond-order class?
+- **Observed:** The acetylene→ethylene and ethylene→ethane rungs gave
+  opposite-signed reaction-level correlation contributions and did not share a
+  per-π-bond increment within chemical accuracy. Their starting bond orders
+  differ, so that comparison leaves bond order entangled with the rest of each
+  reaction-level correlation balance.
+- **Source:** `/posts/2026-07-23-is-hydrogenation-correlation-transferable.md`
+  (own next step; draft)
+- **Type:** untested regime / quantification
+- **Contribution (candidate):** a same-bond-order transferability test across a
+  frozen family of isolated C–C double-bond hydrogenations, separating the
+  cross-bond-order comparison from within-class variation
+- **Hypothesis:** the CCSD(T)−HF contribution per hydrogenated C–C π bond is
+  transferable within chemical accuracy across the frozen alkene family
+- **Falsifier:** after basis/geometry sensitivity checks, at least one pair of
+  predeclared alkene hydrogenations differs by more than 1 kcal/mol in its
+  reaction-level correlation contribution
+- **Publish the other outcome?** Yes — either a bounded transferable increment
+  or its within-class failure would answer the question.
+- **Gate before design:** identify a 2025–2026 primary source that makes the
+  transferability question live, then freeze the molecular series, conformers,
+  basis-convergence check, and pairwise decision rule before running it.
