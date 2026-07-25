@@ -690,12 +690,27 @@ metadata, and there is no second list to update. `scripts/verify-site.mjs` fails
 the build when a manifest lists something the site does not serve, so a manifest
 and the site cannot drift apart.
 
-Four kinds of path are the exception, because standing rules in `lib/Blog/Site.hs`
-route them whether or not any manifest names them: `LICENSE`,
-`research/metrics.schema.json`, every `research/*/metrics.json`, and everything
-under `downloads/`. Removing one of those from a manifest does **not** take it
-off the site — it stays served by its own rule. Taking one down means deleting
-its rule in `Site.hs`, in its own `fix/` branch.
+Five kinds of path are the exception, because standing rules in
+`lib/Blog/Site.hs` route them whether or not a manifest names them. Removing one
+of these from a manifest does **not** take it off the site, and how you withdraw
+one differs by kind:
+
+| Path | Routed by | To withdraw |
+|---|---|---|
+| `LICENSE` | its own rule | edit that rule — but the bundles promise it |
+| `research/metrics.schema.json` | its own rule | edit that rule |
+| `downloads/*` | one glob for the whole directory | delete the file, not the rule |
+| `research/*/metrics.json` | one glob for every experiment | see below |
+| `research/*/PUBLIC_FILES.txt` | added by the manifest reader itself | delete the manifest, which unroutes the whole bundle |
+
+Do not delete a glob rule to withdraw one file: `downloads/*` and
+`research/*/metrics.json` each cover a whole category, so removing the rule takes
+every file in that category off the site. `research/*/metrics.json` is worse than
+that — `Blog.Metrics` resolves each post's `experiment:` slug through
+`loadBody` on that path, so dropping the rule fails the build for every
+metric-bound post rather than merely unpublishing a file. An experiment's
+`metrics.json` is effectively not withdrawable while any post cites it; retiring
+the post comes first.
 
 For every other path, removing it from the manifest stops the site serving it at
 the next deploy. That is not the same as unpublishing it. The file remains in a
