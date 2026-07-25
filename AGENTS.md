@@ -17,11 +17,15 @@ any drafting.
    come off `notes/questions.md` and a `contribution:` sentence written up
    front. If you cannot write that sentence, there is no post.
 2. **Make a worktree** — never author in the primary checkout, and never on
-   `main`:
+   `main`. This resolves the primary checkout from wherever you are, rather
+   than assuming a clone location:
 
    ```sh
-   git -C ~/pvjohnston.com fetch origin
-   git worktree add -b post/<slug> ../pvjohnston-worktrees/<slug> origin/main
+   primary=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")
+   trees=$(dirname "$primary")/pvjohnston-worktrees
+
+   git -C "$primary" fetch origin
+   git -C "$primary" worktree add -b post/<slug> "$trees/<slug>" origin/main
    ```
 
 3. **Check who else is working** before touching anything shared:
@@ -53,7 +57,9 @@ any drafting.
 Not finished until every line passes:
 
 1. Close the research journal if one was opened.
-2. `git status --porcelain` is empty in **every** worktree (`git worktree list`).
+2. `git status --porcelain` is empty in every worktree **you created**
+   (`git worktree list`). Another session's worktree may be dirty; report it,
+   do not touch it.
 3. `git stash list` is empty.
 4. No orphan branches: each is merged and deleted, or pushed with an open PR,
    or recorded in the journal with a reason for being parked.
