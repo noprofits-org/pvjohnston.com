@@ -33,8 +33,8 @@ analytic minimal-basis LCAO H$_2^+$ curve with matched folds, seeds, and
 budgets, under an energy-only loss and under an energy-plus-force loss, for a
 direct total-energy target (Scheme A) and an electronic-energy target with exact
 $1/R$ restoration (Scheme B). The energy-only crossover cutoff is
-[energy_crossover_bohr]{.metric}~$a_0$. Under the energy-plus-force loss the
-crossover is [force_crossover_bohr]{.metric}~$a_0$. The predeclared hypothesis —
+[energy_crossover_bohr]{.metric}\ $a_0$. Under the energy-plus-force loss the
+crossover is [force_crossover_bohr]{.metric}\ $a_0$. The predeclared hypothesis —
 that force labels push the crossover to a larger cutoff — was falsified: the
 crossover moved to a smaller cutoff. Adding force labels widened the subtraction
 advantage against the wall, where the median direct-fit error ran to
@@ -216,10 +216,10 @@ Coulomb-subtraction (Scheme B) RMSE.
 
 Under the energy-only loss the median ratio ran from [ratio_energy_015]{.metric}
 at $R_{\min} = 0.15\,a_0$ to [ratio_energy_300]{.metric} at $3.00\,a_0$, first at
-or below one at a cutoff of [energy_crossover_bohr]{.metric}~$a_0$. Under the
+or below one at a cutoff of [energy_crossover_bohr]{.metric}\ $a_0$. Under the
 energy-plus-force loss the median ratio ran from [ratio_force_015]{.metric} at
 $0.15\,a_0$ to [ratio_force_300]{.metric} at $3.00\,a_0$, first at or below one at
-[force_crossover_bohr]{.metric}~$a_0$ (Figure 1). At $R_{\min} = 0.15\,a_0$ under
+[force_crossover_bohr]{.metric}\ $a_0$ (Figure 1). At $R_{\min} = 0.15\,a_0$ under
 the energy-only loss the median Scheme A RMSE was [rmse_a_energy_015_cm]{.metric}
 cm$^{-1}$ and the median Scheme B RMSE was [rmse_b_energy_015_cm]{.metric}
 cm$^{-1}$.
@@ -241,8 +241,8 @@ $R_{\min} = 3.00\,a_0$.
 The predeclared hypothesis was **falsified**. Force training did move the
 crossover, but in the direction the registered falsifier named: the smallest
 cutoff at which the direct fit caught the subtraction fit fell from
-[energy_crossover_bohr]{.metric}~$a_0$ under the energy-only loss to
-[force_crossover_bohr]{.metric}~$a_0$ under the energy-plus-force loss. The range
+[energy_crossover_bohr]{.metric}\ $a_0$ under the energy-only loss to
+[force_crossover_bohr]{.metric}\ $a_0$ under the energy-plus-force loss. The range
 of domains over which subtracting $1/R$ helps did not widen when force labels
 were added; it narrowed.
 
@@ -347,7 +347,7 @@ lowest-objective checkpoint across the whole schedule as claimed. Both trainers
 now score the final parameters, and the full sweep was re-run.
 
 Every conclusion survived. Both crossover cutoffs are unchanged at
-[energy_crossover_bohr]{.metric} and [force_crossover_bohr]{.metric}~$a_0$, so the
+[energy_crossover_bohr]{.metric} and [force_crossover_bohr]{.metric}\ $a_0$, so the
 falsified hypothesis, the inward shift, and the near-wall widening all stand. Of
 the twenty published numbers exactly one moved at the precision shown — the
 near-wall energy-plus-force ratio, in its last digit. That is what the mechanism
