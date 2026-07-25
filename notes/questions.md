@@ -702,3 +702,46 @@ Format:
 - **Gate before design:** identify a 2025–2026 primary source that makes the
   transferability question live, then freeze the molecular series, conformers,
   basis-convergence check, and pairwise decision rule before running it.
+
+## Does thermal correction reorder the four sulfamethoxazole conformers?
+- **Observed:** Blackmon and Closser optimise sulfamethoxazole to four unique
+  PCM minima (A–D) spanning 0.202 kJ/mol, with A the global minimum by
+  0.137 kJ/mol over B. Their Table 1 Boltzmann populations — 26.3 / 24.9 /
+  24.7 / 24.2 % — reproduce to within 0.05 percentage points from a Boltzmann
+  factor over the **electronic** energies alone (we compute 26.26 / 24.85 /
+  24.67 / 24.21 %), and the table's own footnote states that zero-point and
+  thermal corrections are excluded. The A–B gap is kT/18 at 298.15 K, or
+  0.033 kcal/mol against a 1 kcal/mol chemical-accuracy bar. The paper reports
+  that frequency calculations were run to confirm all four structures are
+  minima, so harmonic frequencies existed at the time; we could not find a
+  ZPE- or Gibbs-corrected ordering in either the paper or its supplement.
+- **Why this is live:** the paper's structural contribution is that its global
+  minimum differs from the geometry several earlier computational studies of
+  SMX used, and that identification rests on a separation well below the
+  0.5–2 kJ/mol range in which conformer zero-point energies routinely differ.
+- **Source:** Blackmon, H.; Closser, K. D. *Determination of ground-state
+  structure and electronic excitations of sulfamethoxazole using density
+  functional theory.* Comput. Theor. Chem. 2026, 1264, 115931.
+  doi:10.1016/j.comptc.2026.115931 — CC BY-NC-ND; the supplement supplies all
+  eight optimised ground-state geometries with energies, from which the
+  published relative energies reproduce to ±0.002 kJ/mol
+- **Type:** unplotted line
+- **Contribution (candidate):** the zero-point- and Gibbs-corrected ordering and
+  thermal populations of the four SMX minima, which is not in Blackmon and
+  Closser's paper or supplement
+- **Hypothesis:** including zero-point energy and thermal free energy changes
+  which of A–D is lowest
+- **Falsifier:** after the corrections A remains lowest and the four populations
+  stay within a few percentage points of the published electronic-only values,
+  making the published ordering robust to the correction
+- **Publish the other outcome?** Yes — "the ordering survives thermal
+  correction" bounds how much the near-degeneracy matters, and is directly
+  useful to anyone picking a single SMX conformer for excited-state work.
+- **Gate before design:** freeze the level of theory, the geometries, the
+  thermodynamic quantities, the temperature, the treatment of the primed
+  duplicate structures, and the decision rule before running anything. Absolute
+  energies will not reproduce on our setup — a gas-phase B3LYP/def2-TZVP single
+  point on structure A differs from supplement Table S1 by 1.8 mEh, and the PCM
+  discretisation and integration grid are not fully specified — so the design
+  must rest on relative quantities computed on one consistent surface.
+- **Status:** ready
