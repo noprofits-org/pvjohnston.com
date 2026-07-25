@@ -24,8 +24,21 @@ quantity.
   the mismatch legible; it is a comparison aid, not a preregistered decision
   rule.
 - What this experiment can establish: the correlation contribution (CCSD(T)
-  minus HF, cc-pVTZ) to each hydrogenation enthalpy in the frozen set, and
-  whether the two single-π-bond C–C rungs share it within chemical accuracy.
+  minus HF, cc-pVTZ) to each hydrogenation enthalpy in the frozen set, and two
+  distinct things about the two single-π-bond C–C rungs, which the committed
+  values answer in opposite directions:
+  - *transfer* — calibrate an increment on one rung and apply it to the other.
+    The error is the full gap, `pi_bond_correlation_transferability_gap_kj`,
+    and it exceeds chemical accuracy
+    (`cc_pi_rungs_within_chemical_accuracy` is false).
+  - *shared fit* — the single increment fitted to both rungs at once, their
+    midpoint. Its worst-case error is half the gap,
+    `pi_bond_increment_max_deviation_kj`, and it is inside chemical accuracy
+    (`cc_pi_best_increment_within_chemical_accuracy` is true).
+
+  Comparing the full gap with the threshold answers the first question only;
+  reading that answer as the second is the conflation the post was corrected
+  for in #36.
 - What it cannot establish: complete-basis-set correlation (cc-pVTZ is finite,
   not extrapolated); whether CCSD(T) itself is converged for these multiple
   bonds (no higher-order or multireference check); open-shell or
