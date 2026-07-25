@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "correlation-in-hydrogenation",
   "provenance": {
-    "generated_at": "2026-07-25T04:40:18Z",
+    "generated_at": "2026-07-25T04:47:18Z",
     "generator": "research/correlation-in-hydrogenation/generate-metrics.mjs",
     "inputs": [
       {
@@ -11,11 +11,11 @@
       },
       {
         "path": "research/correlation-in-hydrogenation/calculate.py",
-        "sha256": "85d7097b68d221144a149cc513b2c32df3e2ae38da77b7955d54ea9d1c0497bf"
+        "sha256": "561e7fc1a13dcb8ad01aed63965c3e0297f04d261cfad66f5b97638305c0fbd8"
       },
       {
         "path": "research/correlation-in-hydrogenation/results.json",
-        "sha256": "93334b5208bea9283ddbcb0cc24858dde48144687bb0a3174024d795585b8b8c"
+        "sha256": "77af1df3e18aedc7bce2c1c5daaf28dd28f787c7a0107a09981156fc21f2505e"
       }
     ]
   },
@@ -80,6 +80,31 @@
       "type": "boolean",
       "value": false,
       "description": "Whether the two single-C-C-pi-bond reaction residuals agree within the chemical-accuracy comparison scale"
+    },
+    "pi_bond_increment_midpoint_kj": {
+      "type": "number",
+      "value": 2.1095347831487743,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Single per-C-C-pi-bond increment fitted to both rungs at once: the midpoint of their correlation contributions",
+      "unit": "kJ/mol"
+    },
+    "pi_bond_increment_max_deviation_kj": {
+      "type": "number",
+      "value": 3.809599413111414,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Worst-case error of that midpoint increment across the two rungs, equal to half the transferability gap",
+      "unit": "kJ/mol"
+    },
+    "cc_pi_best_increment_within_chemical_accuracy": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the best single increment fitted to both rungs reproduces each within the chemical-accuracy comparison scale"
     },
     "all_species_true_minima": {
       "type": "boolean",

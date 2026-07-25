@@ -189,11 +189,14 @@
   },
   "summary": {
     "all_species_true_minima": true,
-    "chemical_accuracy_threshold_kj": 4.184,
+    "cc_pi_best_increment_within_chemical_accuracy": true,
     "cc_pi_rungs_within_chemical_accuracy": false,
+    "chemical_accuracy_threshold_kj": 4.184,
     "max_abs_correlation_content_kj": 21.636594075690056,
     "mean_abs_correlation_content_kj": 9.629885221627603,
     "pi_bond_correlation_transferability_gap_kj": 7.619198826222828,
+    "pi_bond_increment_max_deviation_kj": 3.809599413111414,
+    "pi_bond_increment_midpoint_kj": 2.1095347831487743,
     "reaction_count": 4,
     "temperature_k": 298.15
   }

@@ -152,6 +152,17 @@ def summarize(inputs: dict, reactions: list, all_true_minima: bool) -> dict:
     corr_a = by_slug[comparison["rung_a"]]["correlation_content_kj"]
     corr_b = by_slug[comparison["rung_b"]]["correlation_content_kj"]
     gap = abs(corr_a - corr_b)
+    # Two different questions can be asked of one threshold, and they have
+    # different answers here, so both are reported rather than one standing in
+    # for the other.
+    #
+    # Transfer: calibrate an increment on either rung and apply it to the other.
+    # The error is the full gap.
+    #
+    # Best fit: choose the single increment that minimises the worst-case error
+    # over both rungs. That is their midpoint, and its worst-case error is half
+    # the gap — which can clear the threshold while transfer fails.
+    midpoint = (corr_a + corr_b) / 2
     return {
         "temperature_k": inputs["conditions"]["temperature_k"],
         "chemical_accuracy_threshold_kj": threshold_kj,
@@ -160,6 +171,9 @@ def summarize(inputs: dict, reactions: list, all_true_minima: bool) -> dict:
         "max_abs_correlation_content_kj": max(abs(r["correlation_content_kj"]) for r in reactions),
         "pi_bond_correlation_transferability_gap_kj": gap,
         "cc_pi_rungs_within_chemical_accuracy": gap <= threshold_kj,
+        "pi_bond_increment_midpoint_kj": midpoint,
+        "pi_bond_increment_max_deviation_kj": gap / 2,
+        "cc_pi_best_increment_within_chemical_accuracy": gap / 2 <= threshold_kj,
         "all_species_true_minima": all_true_minima,
     }
 

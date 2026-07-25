@@ -65,8 +65,12 @@ the correlation contribution to a hydrogenation enthalpy were a transferable
 per-π-bond quantity, these two reaction-level residuals would be similar.
 
 That comparison gives the explanation a useful scale. Chemical accuracy,
-[chemical_accuracy_threshold_kj]{.metric} kJ/mol, is the tolerance within which
-the two residuals would behave like the same practical increment. The ammonia
+[chemical_accuracy_threshold_kj]{.metric} kJ/mol, is the tolerance a practical
+per-bond increment would have to hold to. Two tests can be built from that one
+number, and they need to be kept apart: whether *some* single increment fits both
+rungs within the tolerance, and whether an increment *calibrated on one* rung
+transfers to the other. This post reports both, because here they disagree. The
+ammonia
 and methanol reactions then show how the same subtraction behaves for N–N and
 C–O multiple bonds. Together these examples separate two ideas that are easy to
 conflate: correlation can cancel strongly in a reaction while the small
@@ -146,8 +150,13 @@ contributions. Their difference is
 [pi_bond_correlation_transferability_gap_kj]{.metric} kJ/mol, against a
 chemical-accuracy comparison scale of
 [chemical_accuracy_threshold_kj]{.metric} kJ/mol, and the two values carry
-opposite signs. The corresponding within-threshold check is
-[cc_pi_rungs_within_chemical_accuracy]{.metric}.
+opposite signs. Whether the two residuals agree within that scale is
+[cc_pi_rungs_within_chemical_accuracy]{.metric}. Whether the best single
+increment fitted to both — their midpoint,
+[pi_bond_increment_midpoint_kj]{.metric} kJ/mol, worst case
+[pi_bond_increment_max_deviation_kj]{.metric} kJ/mol — reproduces each within
+that scale is [cc_pi_best_increment_within_chemical_accuracy]{.metric}. The next
+section takes up why those two answers differ.
 
 For the two context reactions the correlation contribution is
 [correlation_content_ammonia_synthesis_kj]{.metric} kJ/mol (N₂ + 3 H₂ → 2 NH₃)
@@ -158,18 +167,30 @@ mode ([all_species_true_minima]{.metric}).
 
 ## Why the residual is reaction-specific
 
-The narrow comparison is straightforward. A reusable per-π-bond increment would
-have to describe both C–C rungs within
-[chemical_accuracy_threshold_kj]{.metric} kJ/mol. Instead, the residuals sit
+The narrow comparison needs more care than it first appears to, because the
+obvious criterion splits into two tests that disagree here.
+
+Fitted to both rungs at once, the best single increment is their midpoint,
+[pi_bond_increment_midpoint_kj]{.metric} kJ/mol, and it reproduces each rung to
+[pi_bond_increment_max_deviation_kj]{.metric} kJ/mol — inside chemical accuracy
+([cc_pi_best_increment_within_chemical_accuracy]{.metric}), though barely, and
+only because the two residuals straddle zero. So it is not true that no shared
+number describes both reactions.
+
+What fails is transfer. The residuals sit
 [pi_bond_correlation_transferability_gap_kj]{.metric} kJ/mol apart and on
-opposite sides of zero. On the acetylene rung correlation makes hydrogenation
-*less* exothermic
+opposite sides of zero, so an increment calibrated on either rung misses the
+other by nearly twice the [chemical_accuracy_threshold_kj]{.metric} kJ/mol
+tolerance. The midpoint that does work is available only to someone who already
+knows both answers, which is not what a transferable increment is for: the point
+of one is to predict the rung you have not calculated.
+
+On the acetylene rung correlation makes hydrogenation *less* exothermic
 (Δcorr positive); on the ethylene rung it makes hydrogenation slightly more
 exothermic (Δcorr negative). These are reaction-level balances. The calculation
 does not partition correlation energy among bonds, so their opposite signs do
 not establish that the triple bond itself is the cause. What they establish is
-narrower: a single per-π-bond increment cannot reproduce both rungs; calibrating
-on one would miss the other by
+narrower: calibrating a per-π-bond increment on one rung would miss the other by
 [pi_bond_correlation_transferability_gap_kj]{.metric} kJ/mol.
 
 The magnitudes put that difference in perspective. Both hydrocarbon
@@ -184,9 +205,10 @@ ratios to the CCSD(T) enthalpies are
 electron-count cancellation the isodesmic argument predicts; the transferability
 mismatch lives inside that small surviving residue, not in the bulk of the
 enthalpy. A gap of [pi_bond_correlation_transferability_gap_kj]{.metric} kJ/mol
-is minor next to the measured reaction enthalpies and decisive next to the
-[chemical_accuracy_threshold_kj]{.metric} kJ/mol accuracy target — which is why
-the per-bond question needs a number rather than an adjective.
+is minor next to the measured reaction enthalpies and, as a transfer error,
+close to twice the [chemical_accuracy_threshold_kj]{.metric} kJ/mol accuracy
+target — which is why the per-bond question needs a number rather than an
+adjective, and why it matters which question the number answers.
 
 The two non-C–C reactions show that the C–C rungs are, if anything, the
 *benign* end of the range. Ammonia synthesis carries
