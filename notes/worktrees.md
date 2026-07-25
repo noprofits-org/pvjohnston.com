@@ -35,20 +35,26 @@ still happened.
 Worktrees live **outside** the checkout, as siblings of it:
 
 ```sh
-git -C ~/pvjohnston.com fetch origin
-git worktree add -b post/<slug> ../pvjohnston-worktrees/<slug> origin/main
+# Resolves the primary checkout from any worktree, and does not assume a
+# particular clone location — agents run in containers where $HOME differs.
+primary=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")
+trees=$(dirname "$primary")/pvjohnston-worktrees
+
+git -C "$primary" fetch origin
+git -C "$primary" worktree add -b post/<slug> "$trees/<slug>" origin/main
 ```
 
 - **Outside, always.** A worktree nested inside the repository would be crawled
-  by Hakyll as site content and would show up in `git status`. Keep them in
-  `../pvjohnston-worktrees/`.
+  by Hakyll as site content and would show up in `git status`. A sibling
+  `pvjohnston-worktrees/` directory is the convention; anywhere outside the
+  checkout works.
 - **Branch from `origin/main`, not local `main`.** A new branch must not
   inherit whatever state the primary checkout happens to be in.
 - **Branch names** follow what the merged history already uses: `post/<slug>`
   for a note, `feature/<slug>` for site or tooling work, `fix/<slug>` for a
   repair.
-- The primary checkout at `~/pvjohnston.com` **stays on `main` and stays
-  clean.** It is the integration and verification tree; nothing is authored
+- The primary checkout — the one holding the shared `.git`, resolved above as
+  `$primary` — **stays on `main` and stays clean.** It is the integration and verification tree; nothing is authored
   there. Git enforces the other half of this for free — a branch checked out in
   one worktree cannot be checked out in another.
 
@@ -144,10 +150,12 @@ Run this before you stop, every time. It is the whole point of the note.
    (`notes/research-journal.md`, and AGENTS.md step 5). The journal lives in
    git's shared common directory, so it survives worktree removal and is
    visible from every tree.
-2. **Every worktree is clean.** `git worktree list`, then `git status
-   --porcelain` in each one — all empty. No "I'll pick this up tomorrow" files.
-   Uncommitted work either becomes a commit on its own branch or is discarded
-   deliberately.
+2. **Every worktree you own is clean.** `git worktree list`, then `git status
+   --porcelain` in each tree you created — all empty. No "I'll pick this up
+   tomorrow" files. Uncommitted work either becomes a commit on its own branch
+   or is discarded deliberately. A worktree belonging to another live session
+   will legitimately be dirty; §5 says it is not yours to commit or discard, so
+   report it and leave it alone.
 3. **No stashes.** `git stash list` is empty. A stash is invisible to the next
    session and belongs to nobody.
 4. **No orphan branches.** Every branch is either merged and deleted, or pushed
@@ -160,12 +168,16 @@ Run this before you stop, every time. It is the whole point of the note.
 6. **The primary checkout is on `main`, pulled, and clean.**
 
 ```sh
-# Close-out audit, from the primary checkout.
-git worktree list
-git branch -vv
-git stash list
-git -C ~/pvjohnston.com status --short
+# Close-out audit. Run from anywhere in the repository.
+primary=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")
+
+git worktree list          # inspect: your trees gone, foreign ones noted
+git branch -vv             # inspect: every branch merged, pushed, or journalled
+git stash list             # must be empty
+git -C "$primary" status --short   # must be empty
 ```
 
-Empty output from the last three, and a single `[main]` entry from the first,
-is a clean close.
+The last two must produce no output. The first two are read, not matched
+against empty: `git branch -vv` always prints at least `main`, and a pushed
+branch with an open PR or a branch parked with a journal entry are both allowed
+states. What is not allowed is a branch you cannot account for.
