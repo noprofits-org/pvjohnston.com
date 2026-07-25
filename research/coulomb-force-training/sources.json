@@ -7,7 +7,7 @@
       "version": "minimal-basis LCAO-MO, zeta = 1, 401 points on [0.15, 20] bohr",
       "accessed": "2026-07-21",
       "sha256": "generated",
-      "license": "MIT (this repository)",
+      "license": "BSD-3-Clause (this repository; see the LICENSE file shipped in the bundle)",
       "acquisition": "Generated analytically in-repo by h2plus_model.py; no external electronic-structure package or dataset is required.",
       "committed": true,
       "exclusion_reason": "Not excluded; the generator is committed and the curve is reproduced on demand."

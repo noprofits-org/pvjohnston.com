@@ -1,8 +1,16 @@
 # Environment
 
-The experiment is pure NumPy and has no native or paid dependencies. It is
-deterministic: every training is seeded, and rerunning `run_experiment.py`
-regenerates `results.json` bit-for-bit on the recorded interpreter.
+The experiment itself is pure NumPy and has no native or paid dependencies;
+`make_figure.py`, which draws the post's figure from the committed
+`results.json`, additionally needs Matplotlib. Both are pinned in
+`requirements.txt`. The experiment is deterministic: every training is seeded,
+and rerunning `run_experiment.py` regenerates `results.json` bit-for-bit on the
+recorded interpreter.
+
+The Matplotlib pin records a version compatible with the recorded interpreter
+and NumPy pin; the committed figure was drawn before the dependency was pinned,
+so a regenerated figure may differ cosmetically from it. Nothing in
+`results.json` or `metrics.json` depends on Matplotlib.
 
 - Operating system and version: Linux 6.18.5 (Anthropic cloud sandbox)
 - Architecture: x86_64
@@ -26,6 +34,7 @@ pip install -r research/coulomb-force-training/requirements.txt
 python3 research/coulomb-force-training/run_experiment.py          # writes results.json (~40 min, CPU)
 node research/coulomb-force-training/generate-metrics.mjs           # writes metrics.json
 node scripts/verify-metrics.mjs                                     # verifies fingerprints + projection
+python3 research/coulomb-force-training/make_figure.py              # redraws the post figure (needs Matplotlib)
 ```
 
 `run_experiment.py --check` runs the fast gates only (analytic-model self-test,
