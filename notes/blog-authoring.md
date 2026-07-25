@@ -476,8 +476,13 @@ Rules:
 
 1. **Append only.** Add new `@entries` at the end. Never reformat, reorder, or
    rewrite existing entries.
-2. **One writer at a time.** If another agent has uncommitted changes to this
-   file, don't touch it — coordinate first.
+2. **Concurrent appends are handled; duplicate keys are not.** The file is
+   marked `merge=union` in `.gitattributes`, so two branches appending at the
+   end both keep their entries instead of conflicting — which works only while
+   rule 1 holds. What union merge cannot catch is two sessions appending the
+   same source under one key, so run `node scripts/verify-bib.mjs` after
+   appending; it fails on duplicate keys and needs no build. Seven keys were
+   already duplicated when that check was added and are grandfathered in it.
 3. **Key scheme:** for authored works, `AuthorYYYY` with an optional trailing
    word (`Goldberg1991`, `Gregory2009Starvation`, `He2025Nondeterminism`). For
    sources with no clear author or year — standards, vendor docs, tool/library
@@ -695,11 +700,18 @@ will remain available.
 `.github/workflows/deploy.yml` builds the Hakyll site with Stack and publishes to
 GitHub Pages on **push to `main`** (also PR-to-main and manual dispatch). So:
 
-1. Work on a feature branch (`post/<slug>`), never commit straight to `main`.
-2. **Verify before merge:** `stack test && stack exec site rebuild && node scripts/verify-metrics.mjs && node scripts/verify-site.mjs` must succeed;
+1. Work on a `post/<slug>` branch in its own worktree, never commit straight to
+   `main`. `notes/worktrees.md` has the layout, the rule about which files a
+   post branch may touch, and the close-out checklist.
+2. **Verify before merge:** `node scripts/verify-bib.mjs && stack test && stack exec site rebuild && node scripts/verify-metrics.mjs && node scripts/verify-site.mjs` must succeed;
    check the post renders, citations resolve, figures load, and the card meta is
-   right.
+   right. The bib check is source-level and needs no build — run it in the
+   worktree as soon as you finish appending entries.
 3. Open a PR into `main`; merge triggers the deploy.
+
+The full build runs once, in the primary checkout or in CI on the pull request
+— not in every worktree, each of which would otherwise rebuild the site library
+into its own `.stack-work`.
 
 The verification script rejects missing internal assets/links and any generated
 `tikz-error` box, because a green Hakyll exit alone does not prove every diagram
@@ -757,12 +769,13 @@ sequence above deliberately uses `stack test && stack exec site rebuild`.
 - [ ] Front matter complete; title quoted if needed; links relative
 - [ ] Every external source cited as `[@key]` in ACS style — no inline links, no footnotes, no exceptions (§3)
 - [ ] Source's own BibTeX/DOI used where it publishes one; entry type matches Table 0
-- [ ] New bib entries appended, keys unique & de-duped
+- [ ] New bib entries appended, keys unique & de-duped; `node scripts/verify-bib.mjs` passes
 - [ ] Every `[@key]` grep-verified against `bib/bibliography.bib`; markers after punctuation; post ends with `## References`
 - [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional)
 - [ ] Every figure, table, code block, and audio player has a numbered caption (Figure/Table/Code/Audio N) and is referenced by number in the prose; each `<audio>` element stays on one source line and contains fallback text plus a direct file link
 - [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
 - [ ] Branch, build, verification, PR, and merge complete
+- [ ] Session closed out per `notes/worktrees.md` §6: no dirty worktree, no stash, no orphan branch, primary checkout clean on `main`
 
 **After drafting — Research only:**
 
