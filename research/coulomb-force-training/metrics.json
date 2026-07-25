@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "coulomb-force-training",
   "provenance": {
-    "generated_at": "2026-07-21T21:03:30Z",
+    "generated_at": "2026-07-25T15:28:33Z",
     "generator": "research/coulomb-force-training/generate-metrics.mjs",
     "inputs": [
       {
@@ -11,7 +11,7 @@
       },
       {
         "path": "research/coulomb-force-training/run_experiment.py",
-        "sha256": "bc99a5e3f996055ca519b90dd4eb538fcd3cd01bd83b03b2b828ab7f1f42aa3a"
+        "sha256": "37ce317e33da860d216a98e07defcc13e7abc800707c94f5cd4f5470e0c8a5b5"
       },
       {
         "path": "research/coulomb-force-training/verify_analysis.py",
@@ -19,14 +19,14 @@
       },
       {
         "path": "research/coulomb-force-training/results.json",
-        "sha256": "4bb5ee68b07efdb55e4e8297dd82675ad208e5843b377109d0c6a252d2cc7c59"
+        "sha256": "31524d698bbd712cf4eaf4d3dd6786ab5f3d9252bee0c95c49b545793dc67991"
       }
     ]
   },
   "metrics": {
     "ratio_energy_015": {
       "type": "number",
-      "value": 53.37147341422649,
+      "value": 53.37199398549832,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -36,7 +36,7 @@
     },
     "ratio_energy_025": {
       "type": "number",
-      "value": 21.737513323081984,
+      "value": 21.737604933891074,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -46,7 +46,7 @@
     },
     "ratio_energy_040": {
       "type": "number",
-      "value": 12.1580665288764,
+      "value": 12.158037803702033,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -56,7 +56,7 @@
     },
     "ratio_energy_070": {
       "type": "number",
-      "value": 10.74609216341765,
+      "value": 10.746000059531491,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -66,7 +66,7 @@
     },
     "ratio_energy_100": {
       "type": "number",
-      "value": 10.012280667930042,
+      "value": 10.012569059532506,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -76,7 +76,7 @@
     },
     "ratio_energy_150": {
       "type": "number",
-      "value": 1.7787654780543778,
+      "value": 1.7787827247767458,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -86,7 +86,7 @@
     },
     "ratio_energy_200": {
       "type": "number",
-      "value": 1.6998562024318686,
+      "value": 1.6998633136408334,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -96,7 +96,7 @@
     },
     "ratio_energy_300": {
       "type": "number",
-      "value": 0.5830748627590062,
+      "value": 0.5830810116582126,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -106,7 +106,7 @@
     },
     "ratio_force_015": {
       "type": "number",
-      "value": 1830.353169878195,
+      "value": 1830.3617893650776,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -116,7 +116,7 @@
     },
     "ratio_force_025": {
       "type": "number",
-      "value": 212.41231364530097,
+      "value": 212.4131116436014,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -126,7 +126,7 @@
     },
     "ratio_force_040": {
       "type": "number",
-      "value": 23.83692769195946,
+      "value": 23.836881521863074,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -136,7 +136,7 @@
     },
     "ratio_force_070": {
       "type": "number",
-      "value": 8.917971439289461,
+      "value": 8.918177227868519,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -146,7 +146,7 @@
     },
     "ratio_force_100": {
       "type": "number",
-      "value": 5.765386499732109,
+      "value": 5.765277215515388,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -156,7 +156,7 @@
     },
     "ratio_force_150": {
       "type": "number",
-      "value": 3.0723163796518107,
+      "value": 3.0722279902312923,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -166,7 +166,7 @@
     },
     "ratio_force_200": {
       "type": "number",
-      "value": 0.26138315081088037,
+      "value": 0.26139589183315365,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -176,7 +176,7 @@
     },
     "ratio_force_300": {
       "type": "number",
-      "value": 0.3339858983357665,
+      "value": 0.33399579524742645,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -206,7 +206,7 @@
     },
     "rmse_a_energy_015_cm": {
       "type": "number",
-      "value": 27113.124984689613,
+      "value": 27113.027248940227,
       "format": {
         "style": "fixed",
         "digits": 0
@@ -216,7 +216,7 @@
     },
     "rmse_b_energy_015_cm": {
       "type": "number",
-      "value": 525.2642249746057,
+      "value": 525.2572487266262,
       "format": {
         "style": "fixed",
         "digits": 0

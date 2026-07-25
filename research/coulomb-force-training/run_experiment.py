@@ -198,6 +198,13 @@ def adam_train(params0, u, t_std, s_target, lam):
                 p[k] = p[k] - float(upd[0])
             else:
                 p[k] = p[k] - upd
+    # The loss is evaluated before each update, so the loop alone scores the
+    # parameters after 0 .. STEPS-1 updates and the final ones are never
+    # considered. Score them here so "lowest objective over the whole schedule"
+    # means what it says.
+    final_loss, _ = loss_and_grad(p, u, t_std, s_target, lam)
+    if final_loss < best_loss:
+        best_p = {k: (p[k].copy() if k != "b2" else p[k]) for k in p}
     return best_p
 
 
@@ -269,6 +276,17 @@ def batched_adam(P0, U, T, S, W, lam):
             mhat = m[k] / (1 - b1c ** step)
             vhat = v[k] / (1 - b2c ** step)
             P[k] = P[k] - lr * mhat / (np.sqrt(vhat) + eps)
+    # See adam_train: the in-loop evaluation happens before each update, so the
+    # parameters after the final update need scoring here or they can never be
+    # selected.
+    final_loss, _ = batched_loss_grad(P, U, T, S, W, lam)
+    improved = final_loss < best_loss
+    if improved.any():
+        for k in P:
+            if P[k].ndim == 2:
+                best_P[k][improved, :] = P[k][improved, :]
+            else:
+                best_P[k][improved] = P[k][improved]
     return best_P
 
 

@@ -4,17 +4,24 @@ The experiment itself is pure NumPy and has no native or paid dependencies;
 `make_figure.py`, which draws the post's figure from the committed
 `results.json`, additionally needs Matplotlib. Both are pinned in
 `requirements.txt`. The experiment is deterministic: every training is seeded,
-and rerunning `run_experiment.py` regenerates `results.json` bit-for-bit on the
-recorded interpreter.
+and rerunning `run_experiment.py` regenerates `results.json` bit-for-bit.
 
-The Matplotlib pin records a version compatible with the recorded interpreter
-and NumPy pin; the committed figure was drawn before the dependency was pinned,
-so a regenerated figure may differ cosmetically from it. Nothing in
-`results.json` or `metrics.json` depends on Matplotlib.
+That claim is now tested across interpreters rather than asserted for one. The
+committed `results.json` was first produced under CPython 3.11.15. Re-running
+the then-current code under CPython 3.12.3, with the same pinned NumPy,
+reproduced its `derived` block bit-for-bit — so the checkpoint correction
+recorded below is the only cause of the small numeric differences in this
+version of the file, and the interpreter contributed none of them.
 
-- Operating system and version: Linux 6.18.5 (Anthropic cloud sandbox)
+The Matplotlib pin records a version compatible with both interpreters and the
+NumPy pin. Nothing in `results.json` or `metrics.json` depends on Matplotlib.
+
+- Operating system and version: Linux 6.18.5 (Anthropic cloud sandbox) for the
+  original run; Linux 7.0.0 (x86_64 workstation) for the current `results.json`
 - Architecture: x86_64
-- Interpreter/compiler and version: CPython 3.11.15
+- Interpreter/compiler and version: CPython 3.12.3 produced the current
+  `results.json`; CPython 3.11.15 produced the original and reproduces the
+  pre-correction values bit-for-bit
 - Dependency manager and version: pip; see `requirements.txt`
 - Hardware assumptions: any CPU; no GPU, no threads required
 - Locale/timezone: UTC
