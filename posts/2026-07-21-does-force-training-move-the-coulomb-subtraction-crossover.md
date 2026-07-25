@@ -11,6 +11,11 @@ experiment: coulomb-force-training
 og-image: /images/2026-07-21-does-force-training-move-the-coulomb-subtraction-crossover-hero.png
 ---
 
+*Revised twice since publication — once for a Methods description that did not
+match the committed code, once for a training-loop defect that required
+re-running the experiment. Both crossover cutoffs are unchanged. See
+[Revisions](#revisions) for what was wrong, how it surfaced, and what moved.*
+
 ## Abstract
 
 Rana, Manoj, Lourderaj, and Sathyamurthy, in *Artificial Neural Networks
@@ -307,5 +312,56 @@ so the crossover is bracketed rather than snapped to a grid point. A curve whose
 high- and low-fidelity branches force the nonlinear part of the network to carry
 the fit, rather than an affine branch, would test whether the effect survives when
 the direct scheme cannot lean on a smooth total potential.
+
+## Revisions
+
+This note has been corrected twice since it was published on 2026-07-21. Neither
+correction changed a conclusion, but both changed something a reader was entitled
+to rely on, so both are recorded here rather than quietly patched.
+
+Both were found the same way. Every change to this repository goes through a pull
+request that an automated reviewer reads alongside the committed code, and it
+flagged both defects against the experiment source rather than against the prose.
+Each finding was then checked by hand — in the second case by re-running the
+experiment — before anything was changed. Publishing the code next to the claims
+is what made that possible: neither defect was visible from the post alone.
+
+**2026-07-25 — Methods described a scoring step the code never performed.** The
+Methods section said Scheme B restores "the exact $1/R^2$ nuclear force" before
+scoring. It does not. The scoring path adds back only the $1/R$ energy term and
+computes an energy RMSE; no predicted force is evaluated anywhere. The physical
+advantage described was real but happens earlier and by a different route —
+Scheme B's slope label is
+$\mathrm{d}E_{\mathrm{el}}/\mathrm{d}R = \mathrm{d}V/\mathrm{d}R + 1/R^2$, so the
+exact nuclear force is subtracted out of the training target rather than restored
+afterwards. Three sentences were corrected, and the limitation the old wording
+concealed — that only total-potential energy is ever scored, so nothing here
+measures how well either scheme reproduces the force itself — was added to the
+cautions. No numbers changed.
+
+**2026-07-25 — the best checkpoint could never be the last one.** Both trainers
+evaluated the loss *before* applying each update and returned immediately after
+the final one, so the parameters after the 20,000th update were never scored. The
+sweep selected among the initial state through the 19,999th update, not the
+lowest-objective checkpoint across the whole schedule as claimed. Both trainers
+now score the final parameters, and the full sweep was re-run.
+
+Every conclusion survived. Both crossover cutoffs are unchanged at
+[energy_crossover_bohr]{.metric} and [force_crossover_bohr]{.metric}~$a_0$, so the
+falsified hypothesis, the inward shift, and the near-wall widening all stand. Of
+the twenty published numbers exactly one moved at the precision shown — the
+near-wall energy-plus-force ratio, in its last digit. That is what the mechanism
+predicts: the checkpoint that could never be selected follows the final step of a
+cosine-annealed schedule, where the learning rate has decayed to its floor and the
+parameters barely move. The defect was real and the numbers it produced were
+almost right, which is precisely the kind of error that survives unless someone
+reads the loop.
+
+The re-run also had to move interpreters, from CPython 3.11.15 to 3.12.3. To keep
+that from confounding the correction, the *uncorrected* code was run again under
+the new interpreter first; it reproduced the previously committed results
+bit-for-bit. All of the drift is therefore attributable to the fix and none to the
+environment — and the experiment's determinism claim, previously asserted for one
+interpreter, is now tested across two.
 
 ## References
