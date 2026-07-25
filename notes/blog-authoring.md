@@ -686,11 +686,28 @@ shared schema automatically.
 `PUBLIC_FILES.txt` **is** the routing table. The build reads every experiment's
 manifest and routes exactly what it lists, so adding a path there serves it on
 the live site at that path on the next deploy — it is not future-bundle
-metadata, and there is no second list to update. Removing a path stops serving
-it but does not unpublish it: the file is still in a public repository, and only
-deleting it from the repository removes it. `scripts/verify-site.mjs` fails the
-build when a manifest lists something the site does not serve, so a manifest and
-the site cannot drift apart.
+metadata, and there is no second list to update. `scripts/verify-site.mjs` fails
+the build when a manifest lists something the site does not serve, so a manifest
+and the site cannot drift apart.
+
+Four kinds of path are the exception, because standing rules in `lib/Blog/Site.hs`
+route them whether or not any manifest names them: `LICENSE`,
+`research/metrics.schema.json`, every `research/*/metrics.json`, and everything
+under `downloads/`. Removing one of those from a manifest does **not** take it
+off the site — it stays served by its own rule. Taking one down means deleting
+its rule in `Site.hs`, in its own `fix/` branch.
+
+For every other path, removing it from the manifest stops the site serving it at
+the next deploy. That is not the same as unpublishing it. The file remains in a
+public repository, and deleting it from the working tree does not remove it from
+Git history either — the blob stays reachable in earlier commits and in any
+clone or fork already taken. Withdrawing a file from the site is therefore a
+routing decision, not a confidentiality control. If something genuinely
+sensitive was committed — a credential, private data, an artifact that was never
+yours to publish — treat it as disclosed: revoke or rotate the credential first,
+because that is the only step fully under your control, and treat history
+rewriting (and asking GitHub to purge cached views) as damage limitation on top,
+not as erasure.
 
 Publish a curated, stable reader-facing bundle by default when the reviewed
 manifest and bundle step exist, but never package an entire research directory
