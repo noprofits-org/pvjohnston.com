@@ -1,0 +1,9 @@
+# The bibliography is append-only (notes/blog-authoring.md §4) and is written
+# by concurrent sessions on separate branches. Union merge keeps both sides'
+# appended entries instead of raising a conflict at the end of the file, where
+# every session writes. Its one failure mode — the same source appended twice
+# under one key — is caught by scripts/verify-bib.mjs.
+#
+# This is safe only while the file stays append-only. Do not reformat, reorder,
+# or rewrite existing entries.
+bib/bibliography.bib merge=union

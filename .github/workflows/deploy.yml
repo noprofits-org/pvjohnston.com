@@ -79,6 +79,9 @@ jobs:
 
     - name: Build, test, and verify generated output
       run: |
+        # Source-level and buildless, so a duplicate citation key fails in
+        # seconds rather than after the full Hakyll build. See notes/worktrees.md §3.
+        node scripts/verify-bib.mjs
         stack test
         # The checkout does not restore Hakyll's store; plain build is clean
         # while preserving the separately restored content-addressed TikZ cache.
