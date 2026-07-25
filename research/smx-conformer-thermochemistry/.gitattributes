@@ -1,0 +1,3 @@
+# Preserve xTB's fixed-width raw output verbatim. Its banners and geometry
+# tables intentionally contain trailing spaces.
+runs/**/xtb.out -whitespace

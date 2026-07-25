@@ -1,0 +1,10 @@
+runs/**/charges
+runs/**/.xtboptok
+runs/**/g98.out
+runs/**/hessian
+runs/**/vibspectrum
+runs/**/wbo
+runs/**/xtbopt.log
+runs/**/xtbtopo.mol
+runs/**/xtbout.json
+runs/**/xtbrestart
