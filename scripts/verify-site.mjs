@@ -11,6 +11,10 @@ function walk(dir) {
   });
 }
 
+function isFile(path) {
+  return existsSync(path) && statSync(path).isFile();
+}
+
 function targetExists(base, clean) {
   if (clean === '/' || clean === '') return existsSync(join(base, 'index.html'));
   if (existsSync(base)) return true;
@@ -192,9 +196,17 @@ if (existsSync(researchDir)) {
       .map((line) => line.trim())
       .filter((line) => line && !line.startsWith('#'));
     for (const path of [...listed, manifest]) {
-      if (!existsSync(path)) {
-        errors.push(`${manifest}: lists ${path}, which is not in the repository`);
-      } else if (!existsSync(join(root, path))) {
+      // Both sides must be regular files. Site.hs drops a directory entry via
+      // doesFileExist, so a manifest naming one is routed nowhere — but the
+      // directory exists under _site as soon as any sibling file is routed
+      // there, and an existence-only check would call that entry served.
+      if (!isFile(path)) {
+        errors.push(
+          existsSync(path)
+            ? `${manifest}: lists ${path}, which is not a regular file`
+            : `${manifest}: lists ${path}, which is not in the repository`,
+        );
+      } else if (!isFile(join(root, path))) {
         errors.push(`${manifest}: lists ${path}, which the build did not route into _site`);
       } else {
         bundleFiles += 1;

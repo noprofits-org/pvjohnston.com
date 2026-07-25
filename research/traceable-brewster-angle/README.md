@@ -44,6 +44,6 @@ exact comparison.
 
 ## Publication
 
-`PUBLIC_FILES.txt` records the reviewed reader-facing set. Hakyll's explicit
-route list mirrors the experiment files in that manifest; the build does not
-parse the manifest itself. No whole-directory auto-publication is used.
+`PUBLIC_FILES.txt` records the reviewed reader-facing set, and Hakyll routes
+exactly what it lists — the build parses the manifest, so adding a path here
+serves that file on the live site. No whole-directory auto-publication is used.
