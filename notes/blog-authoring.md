@@ -681,9 +681,16 @@ This GitHub repository is public: committing a file is already publication,
 even when Hakyll does not route it onto the website. Credentials, private data,
 and secrets must never be committed; excluding them from a bundle is not a
 confidentiality control. Hakyll publishes validated `metrics.json` files and the
-shared schema automatically. Other site/download artifacts need explicit
-routing. `PUBLIC_FILES.txt` is currently the reviewed manifest for an explicit
-or future reproduction-bundle step; the normal build does not consume it.
+shared schema automatically.
+
+`PUBLIC_FILES.txt` **is** the routing table. The build reads every experiment's
+manifest and routes exactly what it lists, so adding a path there serves it on
+the live site at that path on the next deploy — it is not future-bundle
+metadata, and there is no second list to update. Removing a path stops serving
+it but does not unpublish it: the file is still in a public repository, and only
+deleting it from the repository removes it. `scripts/verify-site.mjs` fails the
+build when a manifest lists something the site does not serve, so a manifest and
+the site cannot drift apart.
 
 Publish a curated, stable reader-facing bundle by default when the reviewed
 manifest and bundle step exist, but never package an entire research directory

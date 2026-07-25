@@ -48,11 +48,12 @@ manifest containing durable locations, versions, access dates, checksums,
 licenses, and acquisition steps. Literature citations remain in the shared
 bibliography.
 Rename `PUBLIC_FILES.example.txt` and list only files reviewed for reader-facing
-publication. The allowlist is a reviewed manifest for an explicit or future
-bundle command; the normal site build does not consume it. Never infer
-publication safety from `.gitignore`: this repository is public, so every
-committed file is already externally accessible, and secrets or private data
-must never be committed.
+publication. The site build reads this allowlist and routes exactly what it
+lists, so a path added here is served on the live site at that path — review
+each entry before adding it, and expect `scripts/verify-site.mjs` to fail if an
+entry names something that is not a file. Never infer publication safety from
+`.gitignore`: this repository is public, so every committed file is already
+externally accessible, and secrets or private data must never be committed.
 
 Document exclusions here, including the effect of rights, privacy, secrets,
 size, paid APIs, unavailable hardware, or disappearing upstream data on the

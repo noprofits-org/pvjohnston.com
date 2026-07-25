@@ -50,8 +50,8 @@ requirements file cannot lock them.
 
 ## Publication
 
-`PUBLIC_FILES.txt` is the reviewed manifest for a future or explicit
-reproduction-bundle step; the normal site build does not consume it. The three
-legacy artifacts were already public before this pilot; `metrics.json` adds a
-stable, machine-readable projection and is routed by Hakyll. No whole-directory
+`PUBLIC_FILES.txt` is the reviewed manifest, and the site build routes exactly
+what it lists, so every path here is served on the live site. The three legacy
+artifacts were already public before this pilot; `metrics.json` adds a stable,
+machine-readable projection and is routed by Hakyll. No whole-directory
 auto-packaging is used.
