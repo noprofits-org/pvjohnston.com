@@ -173,9 +173,11 @@ obvious criterion splits into two tests that disagree here.
 Fitted to both rungs at once, the best single increment is their midpoint,
 [pi_bond_increment_midpoint_kj]{.metric} kJ/mol, and it reproduces each rung to
 [pi_bond_increment_max_deviation_kj]{.metric} kJ/mol — inside chemical accuracy
-([cc_pi_best_increment_within_chemical_accuracy]{.metric}), though barely, and
-only because the two residuals straddle zero. So it is not true that no shared
-number describes both reactions.
+([cc_pi_best_increment_within_chemical_accuracy]{.metric}), though only just.
+That worst-case error is half the separation between the two residuals and
+depends on nothing else: it is the same for any pair this far apart, wherever
+they sit relative to zero. So it is not true that no shared number describes
+both reactions.
 
 What fails is transfer. The residuals sit
 [pi_bond_correlation_transferability_gap_kj]{.metric} kJ/mol apart and on

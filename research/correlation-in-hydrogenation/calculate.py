@@ -21,10 +21,17 @@ Because the thermal correction is shared, the correlation contribution to the
 enthalpy equals ``dcorr`` exactly.
 
 Worked comparison:
-    Compare |dcorr(acetylene->ethylene) - dcorr(ethylene->ethane)| with
-    1 kcal/mol (4.184 kJ/mol). This shows whether one reaction-level increment
-    describes both single-C-C-pi-bond hydrogenations at that practical scale;
-    it does not partition correlation energy among bonds.
+    Let gap = |dcorr(acetylene->ethylene) - dcorr(ethylene->ethane)| and compare
+    it with 1 kcal/mol (4.184 kJ/mol). Two different questions come off that one
+    threshold, and for the committed values they have opposite answers, so keep
+    them apart:
+      gap     is the transfer error: calibrate an increment on one rung, apply
+              it to the other, and this is what you are wrong by.
+      gap / 2 is the shared-fit error: the worst case of the single increment
+              fitted to both rungs at once, which is their midpoint.
+    Reporting gap alone as "whether one increment describes both reactions"
+    conflates the two -- here transfer fails while the shared fit succeeds.
+    Neither test partitions correlation energy among bonds.
 
 Usage:
     python3 research/correlation-in-hydrogenation/calculate.py          # full run -> results.json
