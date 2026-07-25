@@ -130,8 +130,13 @@ $0.15$ to $20\,a_0$.
 
 **Two schemes.** Scheme A fits the total potential $V(R)$ directly. Scheme B fits
 the electronic energy $E_{\mathrm{el}}(R) = V - 1/R$ and restores the exact $1/R$
-term — and, under force training, the exact $1/R^2$ nuclear force — before the
-prediction is scored. Both schemes are always scored on the total potential.
+term before the prediction is scored. Under force training the exact nuclear
+force enters earlier, and by subtraction rather than restoration: Scheme B's
+slope label is $\mathrm{d}E_{\mathrm{el}}/\mathrm{d}R = \mathrm{d}V/\mathrm{d}R +
+1/R^2$, so the $1/R^2$ term is removed from what the network has to learn instead
+of being added back afterwards. Both schemes are scored the same way, on the
+total potential, and the score is an energy RMSE — no predicted force is
+evaluated.
 
 **Two losses.** The energy-only loss is the mean squared error of the
 standardised value target. The energy-plus-force loss adds the mean squared error
@@ -139,9 +144,10 @@ of the standardised slope, $L = \mathrm{MSE}(\text{value}) + \lambda\,
 \mathrm{MSE}(\text{slope})$, with $\lambda = 1$ fixed in advance. Each scheme
 standardises and differentiates its own target: Scheme A trains on $V$ and
 $\mathrm{d}V/\mathrm{d}R$, Scheme B on $E_{\mathrm{el}}$ and
-$\mathrm{d}E_{\mathrm{el}}/\mathrm{d}R$, and the exact nuclear terms enter Scheme
-B only at scoring. Slopes are expressed in each target's standardised coordinates
-so the two error channels are comparable.
+$\mathrm{d}E_{\mathrm{el}}/\mathrm{d}R$, so the exact nuclear terms enter Scheme B
+twice: analytically in its labels during training, and as the $1/R$ energy
+restoration at scoring. Slopes are expressed in each target's standardised
+coordinates so the two error channels are comparable.
 
 **Network and optimisation.** Both schemes use a one-hidden-layer network with 15
 $\tanh$ units and a linear readout, float64 arithmetic, Xavier-uniform weights,
@@ -241,8 +247,8 @@ the direct scheme much worse relative to subtraction: at $R_{\min} = 0.15\,a_0$ 
 median ratio rose from [ratio_energy_015]{.metric} under energy-only training to
 [ratio_force_015]{.metric} under energy-plus-force training. A network asked to
 reproduce the $1/R^2$ nuclear force directly, on a domain that reaches the wall,
-pays a steep price that the subtraction scheme sidesteps by restoring that force
-exactly. That is the $1/R^2$ intuition, and it holds. What the intuition missed is
+pays a steep price that the subtraction scheme sidesteps by removing that force
+from its labels analytically. That is the $1/R^2$ intuition, and it holds. What the intuition missed is
 what happens past the minimum. On the wider domains the direct scheme improved
 *faster* under force labels than the subtraction scheme did, so the two curves in
 Figure 1 crossed sooner rather than later. The gradient information that hurts the
@@ -264,9 +270,14 @@ crossover fell between $0.7$ and $2.0\,a_0$; this cruder minimal-basis curve has
 its minimum further out at $2.49\,a_0$ and is shallower, so its crossover sits
 further out too. That difference is a property of the curve I chose here, not a
 disagreement with the parent measurement. The caution is that Scheme B is handed
-the exact $1/R^2$ force at scoring, an advantage a real system with only
-approximate forces would not enjoy; the comparison here isolates the conditioning
-question and is not a claim about production force fields.
+the exact $1/R^2$ force in its training labels, an advantage a real system with
+only approximate forces would not enjoy; the comparison here isolates the
+conditioning question and is not a claim about production force fields. A second
+limit belongs with it: what is scored throughout is the total-potential energy,
+never a predicted force. Force labels are a training signal in this experiment
+and not an evaluation target, so nothing here measures how well either scheme
+reproduces $\mathrm{d}V/\mathrm{d}R$ — a fit that scored well on energy while
+predicting the force poorly would not be distinguished.
 
 For someone fitting a small potential with energies and forces, the practical
 reading is narrow and, I think, useful: subtracting the known nuclear repulsion is
