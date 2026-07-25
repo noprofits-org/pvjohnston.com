@@ -177,10 +177,36 @@ for (const file of htmlFiles) {
   }
 }
 
+// Every path an experiment's PUBLIC_FILES.txt advertises must actually be
+// served. A manifest is a promise to the reader that the bundle is downloadable;
+// before Site.hs derived its routing table from these manifests, three of five
+// experiments listed files the build never routed, and each one 404'd.
+let bundleFiles = 0;
+const researchDir = 'research';
+if (existsSync(researchDir)) {
+  for (const entry of readdirSync(researchDir).sort()) {
+    const manifest = join(researchDir, entry, 'PUBLIC_FILES.txt');
+    if (!existsSync(manifest)) continue;
+    const listed = readFileSync(manifest, 'utf8')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith('#'));
+    for (const path of [...listed, manifest]) {
+      if (!existsSync(path)) {
+        errors.push(`${manifest}: lists ${path}, which is not in the repository`);
+      } else if (!existsSync(join(root, path))) {
+        errors.push(`${manifest}: lists ${path}, which the build did not route into _site`);
+      } else {
+        bundleFiles += 1;
+      }
+    }
+  }
+}
+
 if (errors.length) {
   console.error(`verify-site: ${errors.length} problem(s)`);
   for (const error of [...new Set(errors)]) console.error(`- ${error}`);
   process.exit(1);
 }
 
-console.log(`verify-site: ${htmlFiles.length} HTML pages, ${postFiles.length} posts, all internal targets present, no TikZ errors`);
+console.log(`verify-site: ${htmlFiles.length} HTML pages, ${postFiles.length} posts, ${bundleFiles} allowlisted experiment files served, all internal targets present, no TikZ errors`);

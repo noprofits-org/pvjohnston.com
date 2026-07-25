@@ -6,7 +6,10 @@ module Blog.Site
   ( siteRules
   ) where
 
-import Control.Monad (filterM, forM_)
+import Control.Monad     (filterM, forM_)
+import Data.Char         (isSpace)
+import Data.List         (dropWhileEnd, isPrefixOf, isSuffixOf, nub, sort)
+import System.Directory  (doesDirectoryExist, doesFileExist, listDirectory)
 import Hakyll
 
 import Blog.Compilers (bibtexMathCompiler)
@@ -30,6 +33,45 @@ writingPages = ["writing.html", "archive.html"]
 -- | True when the frontmatter sets @draft: true@.
 isDraft :: Metadata -> Bool
 isDraft md = lookupString "draft" md == Just "true"
+
+-- | Paths an experiment manifest may list that another rule already routes.
+-- Routing them twice would give one identifier two compilers.
+routedElsewhere :: FilePath -> Bool
+routedElsewhere path =
+       path == "LICENSE"
+    || path == "research/metrics.schema.json"
+    || "downloads/" `isPrefixOf` path
+    || ("research/" `isPrefixOf` path && "/metrics.json" `isSuffixOf` path)
+
+-- | Entries of a @PUBLIC_FILES.txt@: one repository-relative path per line,
+-- ignoring @#@ comments and blank lines.
+readManifest :: FilePath -> IO [FilePath]
+readManifest manifest = do
+    contents <- readFile manifest
+    pure [ trimmed
+         | line <- lines contents
+         , let trimmed = dropWhile isSpace (dropWhileEnd isSpace line)
+         , not (null trimmed)
+         , not ("#" `isPrefixOf` trimmed)
+         ]
+
+-- | Every reader-facing experiment file, collected from the @PUBLIC_FILES.txt@
+-- manifests under @research/@.  The manifests themselves are published too, so
+-- a reader can check what the bundle claims to contain against what it serves.
+-- Paths that do not exist are dropped rather than failing the build;
+-- @scripts/verify-site.mjs@ reports a manifest entry that never reached
+-- @_site@, which catches both a typo and a deleted file.
+publicExperimentFiles :: IO [Identifier]
+publicExperimentFiles = do
+    hasResearch <- doesDirectoryExist "research"
+    if not hasResearch then pure [] else do
+        entries <- listDirectory "research"
+        let candidates = [ "research/" ++ e ++ "/PUBLIC_FILES.txt" | e <- sort entries ]
+        manifests <- filterM doesFileExist candidates
+        listed <- concat <$> mapM readManifest manifests
+        present <- filterM doesFileExist
+            (filter (not . routedElsewhere) (nub (sort (manifests ++ listed))))
+        pure (map fromFilePath present)
 
 -- | The site rules. When the flag is 'True' (@PREVIEW_DRAFTS@ is set, see
 -- @app/site.hs@) draft posts are built and listed like any other post so they
@@ -72,25 +114,16 @@ siteRules previewDrafts = do
         route   idRoute
         compile copyFileCompiler
 
-    -- Explicitly reviewed reader-facing files for traceable experiments.
-    -- LICENSE, metrics.json, and the shared schema are routed above; no other
-    -- research directory is published wholesale.
-    match (fromList
-        [ "research/traceable-brewster-angle/README.md"
-        , "research/traceable-brewster-angle/environment.md"
-        , "research/traceable-brewster-angle/inputs.json"
-        , "research/traceable-brewster-angle/calculate.py"
-        , "research/traceable-brewster-angle/results.json"
-        , "research/traceable-brewster-angle/generate-metrics.mjs"
-        , "research/traceable-brewster-angle/PUBLIC_FILES.txt"
-        , "research/microwave-debye-relaxation/README.md"
-        , "research/microwave-debye-relaxation/environment.md"
-        , "research/microwave-debye-relaxation/inputs.json"
-        , "research/microwave-debye-relaxation/calculate.py"
-        , "research/microwave-debye-relaxation/results.json"
-        , "research/microwave-debye-relaxation/generate-metrics.mjs"
-        , "research/microwave-debye-relaxation/PUBLIC_FILES.txt"
-        ]) $ do
+    -- Explicitly reviewed reader-facing files for traceable experiments, read
+    -- from each experiment's own PUBLIC_FILES.txt at build time.  Hand-copying
+    -- the allowlist into this table is what let three of five bundles 404: the
+    -- manifest advertised files the build never routed.  Deriving the table
+    -- from the manifest makes that drift impossible.  LICENSE, metrics.json,
+    -- the shared schema, and downloads/ are routed by the rules above and are
+    -- filtered out here so no identifier gets two rules; no research directory
+    -- is published wholesale.
+    publicFiles <- preprocess publicExperimentFiles
+    match (fromList publicFiles) $ do
         route   idRoute
         compile copyFileCompiler
 

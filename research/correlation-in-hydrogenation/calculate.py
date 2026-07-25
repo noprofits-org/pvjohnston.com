@@ -223,6 +223,17 @@ def check() -> int:
     def close(a, b):
         return math.isclose(a, b, rel_tol=0, abs_tol=1e-6)
 
+    # Compare the reaction lists themselves before their numbers. zip() alone
+    # stops at the shorter list, so a results.json that lost trailing reactions
+    # would pass every numeric test while the summary — rebuilt from the still
+    # complete species data — silently disagreed about what it summarised.
+    committed_slugs = [r["slug"] for r in results["reactions"]]
+    rebuilt_slugs = [r["slug"] for r in rebuilt["reactions"]]
+    if committed_slugs != rebuilt_slugs:
+        print(f"reaction list mismatch: committed {committed_slugs} != "
+              f"rebuilt {rebuilt_slugs}", file=sys.stderr)
+        ok = False
+
     for committed, fresh in zip(results["reactions"], rebuilt["reactions"]):
         for field in ("dh_hf_kj", "dh_ccsdt_kj", "correlation_content_kj",
                       "correlation_fraction", "correlation_per_pi_bond_kj"):
