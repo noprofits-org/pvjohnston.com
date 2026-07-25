@@ -63,6 +63,20 @@ function build(generatedAt) {
       type: 'boolean', value: s.cc_pi_rungs_within_chemical_accuracy,
       description: 'Whether the two single-C-C-pi-bond reaction residuals agree within the chemical-accuracy comparison scale',
     },
+    pi_bond_increment_midpoint_kj: {
+      ...kj1(s.pi_bond_increment_midpoint_kj),
+      description: 'Single per-C-C-pi-bond increment fitted to both rungs at once: the midpoint of their correlation contributions',
+      unit: 'kJ/mol',
+    },
+    pi_bond_increment_max_deviation_kj: {
+      ...kj1(s.pi_bond_increment_max_deviation_kj),
+      description: 'Worst-case error of that midpoint increment across the two rungs, equal to half the transferability gap',
+      unit: 'kJ/mol',
+    },
+    cc_pi_best_increment_within_chemical_accuracy: {
+      type: 'boolean', value: s.cc_pi_best_increment_within_chemical_accuracy,
+      description: 'Whether the best single increment fitted to both rungs reproduces each within the chemical-accuracy comparison scale',
+    },
     all_species_true_minima: {
       type: 'boolean', value: s.all_species_true_minima,
       description: 'Whether every optimized species had no imaginary vibrational mode',
