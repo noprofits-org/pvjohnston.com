@@ -65,6 +65,16 @@ out to matter more than I expected at the time:
   flavor and became load-bearing: a message signed by a stable name is a
   message that can be attributed, addressed, and — much later — clustered.
 
+One mechanical detail made the difference between a shared folder and an
+actual message bus. At first, delivery was me: a session would post a message,
+and nothing happened until I switched to the recipient's terminal and told it
+that new mail existed. So each session was asked to **spin up a monitor on
+the inbox** — a background watcher that noticed a new message the moment it
+arrived and read it immediately, with no prompting from me. That one change
+made the team genuinely asynchronous. Sightline could post a contract and
+Shipwright would pick it up while I was looking at a different terminal, and
+my job shrank from being the message bus to being the supervisor.
+
 The cast that settled out, for app development:
 
 - **Bosun** provisions the worktree and manages GitHub branch health.
@@ -135,7 +145,9 @@ It is also, by now, close to product. Claude Code ships an experimental
 agent-teams feature in which one session leads, teammates run as separate
 sessions, and — the detail worth pausing on — each agent gets a **mailbox**, a
 per-agent message file on disk, as the inter-agent communication
-channel.[@ClaudeCodeAgentTeams] I hand-rolled a worse version of
+channel.[@ClaudeCodeAgentTeams] Delivery there is automatic as well: a
+teammate's message arrives without anyone polling, which is exactly the job
+the hand-rolled inbox monitors did here. I hand-rolled a worse version of
 a feature that was arriving anyway. I take that as convergence rather than
 invention: when independent people keep reaching for message files on disk,
 it's because separate context windows genuinely need an explicit, inspectable
