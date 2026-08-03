@@ -1,0 +1,9 @@
+key,value
+total_messages,1514
+total_bytes,6146603
+messages_with_parsed_date,1469
+messages_with_parsed_sender,1425
+distinct_sender_labels,48
+distinct_inbox_directories,32
+filenames_with_explicit_recipient,457
+filenames_with_allcaps_token,146
