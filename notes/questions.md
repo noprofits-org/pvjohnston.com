@@ -789,4 +789,37 @@ Format:
   point on structure A differs from supplement Table S1 by 1.8 mEh, and the PCM
   discretisation and integration grid are not fully specified — so the design
   must rest on relative quantities computed on one consistent surface.
+- **Status:** drafting — experiment run 2026-07-25 under a frozen
+  preregistration, post written 2026-08-03 (PR #47). Hypothesis **falsified**
+  in both arms: the composite GFN2-xTB/ALPB correction moves A from 26.3% to
+  45.9% (pure RRHO) / 39.0% (mRRHO-50), max shift 19.7 / 12.7 pp against a
+  10.0 pp ceiling, effective conformer count 4.00 → 3.00 / 3.57. All
+  method-fidelity gates passed. A stays lowest in both arms, so the source's
+  structural claim is strengthened rather than disturbed. Side finding: the
+  supplement's eight relaxation-energy magnitudes reproduce to 0.005 kJ/mol
+  but their signs oppose the table footnote's stated formula. Next step below.
+
+## Does the SMX ensemble concentrate under a same-level thermal correction?
+- **Observed:** Next step from the post above. The falsification used a
+  composite free energy — source hybrid-DFT/PCM electronic energies plus a
+  GFN2-xTB/ALPB thermochemical correction — which mixes two surfaces by
+  construction. Whether the concentration onto conformer A survives when the
+  correction and the electronic energies come from one surface is untested,
+  and the source's own same-level frequencies exist (the paper states they
+  were computed to confirm the minima) but were never published.
+- **Source:** own next step; Blackmon & Closser, *Comput. Theor. Chem.* **1264**
+  (2026) 115931
+- **Type:** untested regime
+- **Contribution (candidate):** hybrid-DFT harmonic frequencies with implicit
+  water on the four published SMX geometries, and the resulting single-surface
+  populations — testing whether the composite result's concentration is a
+  property of the thermochemistry or of the surface mixing
+- **Falsifier:** the single-surface correction leaves all four populations
+  within a few percentage points of the electronic-only baseline → the
+  concentration was an artifact of mixing two levels, not a thermal effect
+- **Publish the other outcome?** Yes — either result bounds how much the
+  published near-degeneracy survives correction.
+- **Feasibility:** medium. Four frequency calculations on a 20-heavy-atom
+  molecule with implicit solvent; hours per structure on 8 cores, and the
+  functional/basis/grid choices must be frozen before running.
 - **Status:** ready
