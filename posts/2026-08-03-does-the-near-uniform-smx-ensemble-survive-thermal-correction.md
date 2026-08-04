@@ -181,6 +181,7 @@ of the two registered thermochemistry arms.
     symbolic x coords={A,B,C,D},
     xtick=data,
     axis lines=left,
+    enlarge x limits=0.18,
     ylabel={population (\%)},
     ylabel style={font=\fontsize{6.6}{8}\selectfont},
     xticklabel style={font=\fontsize{6.6}{8}\selectfont},
