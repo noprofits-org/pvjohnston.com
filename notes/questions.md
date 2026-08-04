@@ -680,6 +680,40 @@ Format:
   coherence-overlapping hops would materially strengthen the reuse method.
 - **Status:** ready
 
+## How wide is the spread CEPB hides inside its C=C correlation increment?
+- **Observed:** Witkowski et al. fit 33 bond-type correlation-energy increments
+  to CCSD(T)/CBS correlation energies of 84 molecules ("Correlation Energy Per
+  Bond") and claim each increment applies "regardless of the bond length, bond
+  angle, sp-hybridization, π-electron conjugation, ionicity, noncovalent
+  interactions, etc." The fitted [C=C] increment is −0.205239 Eh. Their
+  22-reaction test contains only two hydrogenations and no alkene family, the
+  per-molecule residual of the C=C increment within a same-bond-order family is
+  never reported, and they concede that CEPB isomerization energies "collapse
+  to the HF reaction energies" for positional isomers without quantifying the
+  resulting error.
+- **Source:** Witkowski, Śmiga, Hirata, Dral & Grabowski, *J. Phys. Chem. A*
+  **129** (2025) 8877–8890, doi:10.1021/acs.jpca.5c04423 — CC BY, SI commits
+  the training correlation energies, fitted parameters, and a bond-counting
+  script
+- **Type:** quantification / falsification
+- **Contribution (candidate):** the distribution of the effective C=C
+  correlation increment across the C2–C4 alkene/diene family (ethylene,
+  propene, 1-butene, cis/trans-2-butene, isobutene, 1,3-butadiene), and the
+  CCSD(T)−HF correlation contribution to the positional isomerizations CEPB
+  sets to exactly zero — which is not in Witkowski et al.
+- **Falsifier:** the extracted per-C=C increments agree within ~1 kcal/mol
+  across the family AND the correlation contribution to
+  1-butene ↔ 2-butene/isobutene isomerization stays below the paper's stated
+  accuracy budget — conjugation-independence then survives the stress test.
+- **Publish the other outcome?** Yes — a measured within-family spread the
+  paper never reports strengthens their claim if small, bounds it if not.
+- **Feasibility:** high. DF-CCSD(T)(fc)/cc-pVTZ single points in Psi4 1.9.1 on
+  ≤4 heavy atoms (8 cores / 16 GB); TZ→QZ CBS check on the C2/C3 members only.
+  A day of wall time.
+- **Relation:** this is the live source the next entry's gate was waiting for;
+  the acetylene/ethylene/ethane correlation post is the prior work.
+- **Status:** ready
+
 ## Is the correlation contribution transferable within one C–C bond-order class?
 - **Observed:** The acetylene→ethylene and ethylene→ethane rungs gave
   opposite-signed reaction-level correlation contributions and did not share a
@@ -702,6 +736,17 @@ Format:
 - **Gate before design:** identify a 2025–2026 primary source that makes the
   transferability question live, then freeze the molecular series, conformers,
   basis-convergence check, and pairwise decision rule before running it.
+- **Gate status (2026-08-03):** the source requirement is satisfied twice over.
+  Witkowski et al. (*J. Phys. Chem. A* **129** (2025) 8877–8890,
+  doi:10.1021/acs.jpca.5c04423) fit bond-type correlation increments asserted
+  independent of conjugation and geometry; Vincent & Popelier (*Struct. Chem.*
+  2026, doi:10.1007/s11224-026-02730-8) report 2–7% fragment-level CCSD(T)
+  correlation spreads and declare "green-light" transferability without ever
+  propagating those spreads to reaction energies. The design-freeze half of the
+  gate (series, conformers, basis check, decision rule) still applies before
+  running.
+- **Status:** ready — see the CEPB entry above; the two experiments share the
+  alkene family and can be designed together.
 
 ## Does thermal correction reorder the four sulfamethoxazole conformers?
 - **Observed:** Blackmon and Closser optimise sulfamethoxazole to four unique
