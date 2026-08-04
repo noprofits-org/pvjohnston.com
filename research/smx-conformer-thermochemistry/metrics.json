@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "experiment": "smx-conformer-thermochemistry",
+  "provenance": {
+    "generated_at": "2026-08-04T01:53:56Z",
+    "generator": "research/smx-conformer-thermochemistry/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/smx-conformer-thermochemistry/PREREGISTRATION.md",
+        "sha256": "b04597226a5e9e26aede8353e0d1f085853907dc11c48add7c0b983770837e14"
+      },
+      {
+        "path": "research/smx-conformer-thermochemistry/inputs.json",
+        "sha256": "ea784763282fbeef15906a3d7f176f2ef48a90b9e07cb99bacef86bc81a10f3d"
+      },
+      {
+        "path": "research/smx-conformer-thermochemistry/run_experiment.py",
+        "sha256": "e5dca9c893b0fb87b2a58d87e0bc65ecf62a61d8cc974d7ae54397ee5f3b99c6"
+      },
+      {
+        "path": "research/smx-conformer-thermochemistry/verify_analysis.py",
+        "sha256": "ac5cd7611245ea99111860137c2025824de60e761e338d66043c3737c9347c64"
+      },
+      {
+        "path": "research/smx-conformer-thermochemistry/results.json",
+        "sha256": "c00affaa52b20526cac15c3c5628946ace2f88c6cef5a7fc49c7baf169db7853"
+      }
+    ]
+  },
+  "metrics": {
+    "source_population_a": {
+      "type": "number",
+      "value": 0.262637827066,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Source electronic-energy Boltzmann population of conformer A at 298.15 K",
+      "unit": "ratio"
+    },
+    "rrho_population_a": {
+      "type": "number",
+      "value": 0.459369121734,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Composite source-DFT plus pure-RRHO population of conformer A at 298.15 K",
+      "unit": "ratio"
+    },
+    "mrrho50_population_a": {
+      "type": "number",
+      "value": 0.390076693695,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Composite source-DFT plus 50 cm^-1 modified-RRHO population of conformer A at 298.15 K",
+      "unit": "ratio"
+    },
+    "source_population_b": {
+      "type": "number",
+      "value": 0.248564417981,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Source electronic-energy Boltzmann population of conformer B at 298.15 K",
+      "unit": "ratio"
+    },
+    "rrho_population_b": {
+      "type": "number",
+      "value": 0.307878707955,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Composite source-DFT plus pure-RRHO population of conformer B at 298.15 K",
+      "unit": "ratio"
+    },
+    "mrrho50_population_b": {
+      "type": "number",
+      "value": 0.257035589324,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Composite source-DFT plus 50 cm^-1 modified-RRHO population of conformer B at 298.15 K",
+      "unit": "ratio"
+    },
+    "source_population_c": {
+      "type": "number",
+      "value": 0.246728424742,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Source electronic-energy Boltzmann population of conformer C at 298.15 K",
+      "unit": "ratio"
+    },
+    "rrho_population_c": {
+      "type": "number",
+      "value": 0.122015249458,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Composite source-DFT plus pure-RRHO population of conformer C at 298.15 K",
+      "unit": "ratio"
+    },
+    "mrrho50_population_c": {
+      "type": "number",
+      "value": 0.177123436773,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Composite source-DFT plus 50 cm^-1 modified-RRHO population of conformer C at 298.15 K",
+      "unit": "ratio"
+    },
+    "source_population_d": {
+      "type": "number",
+      "value": 0.242069330211,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Source electronic-energy Boltzmann population of conformer D at 298.15 K",
+      "unit": "ratio"
+    },
+    "rrho_population_d": {
+      "type": "number",
+      "value": 0.110736920854,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Composite source-DFT plus pure-RRHO population of conformer D at 298.15 K",
+      "unit": "ratio"
+    },
+    "mrrho50_population_d": {
+      "type": "number",
+      "value": 0.175764280208,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Composite source-DFT plus 50 cm^-1 modified-RRHO population of conformer D at 298.15 K",
+      "unit": "ratio"
+    },
+    "rrho_max_population_shift_pp": {
+      "type": "number",
+      "value": 19.6731294668,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Maximum absolute conformer-population change from the source baseline in the pure-RRHO arm",
+      "unit": "percentage points"
+    },
+    "mrrho50_max_population_shift_pp": {
+      "type": "number",
+      "value": 12.7438866629,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Maximum absolute conformer-population change from the source baseline in the 50 cm^-1 modified-RRHO arm",
+      "unit": "percentage points"
+    },
+    "rrho_effective_conformer_count": {
+      "type": "number",
+      "value": 3.00336669398,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Effective conformer count in the pure-RRHO composite population",
+      "unit": "conformers"
+    },
+    "mrrho50_effective_conformer_count": {
+      "type": "number",
+      "value": 3.5651524364,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Effective conformer count in the 50 cm^-1 modified-RRHO composite population",
+      "unit": "conformers"
+    },
+    "rrho_arm_passed": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the pure-RRHO arm passed both preregistered robustness gates"
+    },
+    "mrrho50_arm_passed": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the 50 cm^-1 modified-RRHO arm passed both preregistered robustness gates"
+    },
+    "method_fidelity_passed": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether every preregistered run, minimum, arm-consistency, and distinct-conformer fidelity check passed"
+    },
+    "hypothesis_supported": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the preregistered near-uniform-population hypothesis was supported"
+    },
+    "hypothesis_falsified": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the preregistered near-uniform-population hypothesis was falsified"
+    },
+    "result_inconclusive": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the preregistered result was inconclusive"
+    },
+    "source_relaxation_sign_mismatch_count": {
+      "type": "integer",
+      "value": 8,
+      "description": "Rows whose printed relaxation-energy sign opposes the source table footnote formula",
+      "unit": "rows"
+    }
+  }
+}
