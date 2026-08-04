@@ -286,9 +286,8 @@ from the value that reaction differences demand, because whole-molecule
 residuals, not reaction residuals, are what the fit minimizes. This is not a
 claim that the source's fit is wrong — it is exactly what fitting to totals
 optimizes for — but it does mean that anyone forming reaction energies from
-CEPB increments inherits an offset of this size wherever this swap appears,
-and the source's own caution that reaction energies are harder for the model
-than total energies points the same way. The spread's growth from CBS to the
+CEPB increments inherits an offset of this size wherever this swap appears.
+The spread's growth from CBS to the
 finite bases ([swap_spread_qz]{.metric} and [swap_spread_tz]{.metric}\ kcal/mol),
 in step with the contrasts' molecular sizes, reads as basis-set
 incompleteness rather than chemistry, which is why the registered
@@ -364,10 +363,10 @@ model sets to zero.
 The next experiment is the one the offset points at directly: reprice the
 swap. Take the contrast-derived value of $e_{\mathrm{CC}} + 2e_{\mathrm{CH}}
 - e_{\mathrm{C=C}}$ measured here from the source's own CBS tables, and test
-— by arithmetic on the source's published reaction set, with no new quantum
+— by arithmetic on the source's published tables, with no new quantum
 chemistry — whether that single correction reduces CEPB's errors on the
-hydrogenation-type reactions it already reports, without degrading the
-total-energy accuracy the model was built for. That question is now on the
-research shelf.
+reactions in its published test set that contain this swap, without degrading
+the total-energy accuracy the model was built for. That question is now on
+the research shelf.
 
 ## References
