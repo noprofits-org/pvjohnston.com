@@ -836,7 +836,12 @@ Format:
 - **Status:** published —
   `/posts/2026-08-03-does-the-near-uniform-smx-ensemble-survive-thermal-correction.html`
   (experiment run 2026-07-25 under a frozen preregistration, merged
-  2026-08-03). Hypothesis **falsified**
+  2026-08-03). The frozen preregistration restated this entry's question as a
+  robustness hypothesis — no population moves more than 10 pp and the
+  effective conformer count stays at or above 3.5 — and that registered
+  hypothesis is what the verdict below names; the entry's original
+  reordering hypothesis also did not hold, since A stays lowest in both
+  arms. Registered hypothesis **falsified**
   in both arms: the composite GFN2-xTB/ALPB correction moves A from 26.3% to
   45.9% (pure RRHO) / 39.0% (mRRHO-50), max shift 19.7 / 12.7 pp against a
   10.0 pp ceiling, effective conformer count 4.00 → 3.00 / 3.57. All
