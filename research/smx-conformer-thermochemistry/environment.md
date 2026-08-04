@@ -36,8 +36,12 @@ conda create --name smx-conformer-thermochemistry \
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
 VECLIB_MAXIMUM_THREADS=1 \
 conda run -n smx-conformer-thermochemistry \
-  python research/smx-conformer-thermochemistry/run_experiment.py
+  python research/smx-conformer-thermochemistry/run_experiment.py --force
 ```
+
+`--force` is what makes this an end-to-end rerun. The repository ships the
+completed run directories, so without it the runner skips every xTB call and
+only rebuilds the analysis from the committed outputs.
 
 The explicit lock is platform-specific. On another architecture, pin xTB 6.7.1,
 Python 3.14.6, and NumPy 2.5.0, record the solved environment separately, and

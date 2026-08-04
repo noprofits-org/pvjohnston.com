@@ -134,7 +134,9 @@ is committed. The analysis layer regenerates deterministically from the
 committed raw xTB outputs without rerunning quantum chemistry, and its
 canonical serialization rounds floats to 12 significant digits so the
 regeneration check is architecture-independent; the committed analysis was
-re-verified on linux-x86_64. The experiment bundle — preregistration, frozen
+re-verified on linux-x86_64. The bars in Figure 1 are emitted from the same
+canonical result rather than typed by hand, and a check mode fails if the
+committed figure and the canonical populations disagree. The experiment bundle — preregistration, frozen
 inputs, raw outputs, runner, analysis, and metrics — is published under
 [`research/smx-conformer-thermochemistry/`](/research/smx-conformer-thermochemistry/README.md).
 The reproducibility level this earns is end-to-end reproducible on osx-arm64,
@@ -205,12 +207,13 @@ of the two registered thermochemistry arms.
 electronic-energy baseline in gray, the two composite thermochemistry arms in
 blue.
 
-The composite free-energy orderings are A < B < C < D in the `rrho` arm and
-A < B < D < C in the `mrrho50` arm, with C and D separated by less than
-0.1 kJ/mol in the latter. Conformer A has the lowest composite free energy in
-both arms. The native all-xTB energies — the secondary sensitivity result —
-order the re-optimized structures differently from the source's DFT energies
-in both arms.
+The composite free-energy ordering is A < B < C < D in both arms, with C and D
+separated by 0.02 kJ/mol in the `mrrho50` arm and 0.24 kJ/mol in the `rrho`
+arm. Conformer A has the lowest composite free energy in both arms. Among the
+secondary sensitivity results, the native all-xTB free energies also order the
+re-optimized structures A < B < C < D in both arms, matching the source's
+electronic ordering, while the native xTB electronic energies alone order them
+B < C < A < D, spanning 0.148 kJ/mol.
 
 As a separate audit of the transcribed source data: all eight
 relaxation-energy magnitudes recomputed from the supplement's energies agree
@@ -279,7 +282,9 @@ would measure.
 The published near-uniform SMX ensemble is a property of the electronic
 surface, not a demonstrated property of the molecule at temperature: an
 independent thermochemical correction concentrates the ensemble onto the
-source's own global minimum and roughly halves two of the four populations.
+source's own global minimum in both registered arms. How far it concentrates
+depends on the rotor treatment — pure RRHO roughly halves the C and D
+populations, while the modified-RRHO arm cuts them by about a quarter.
 For anyone using the paper's structures, the practical reading is that
 selecting conformer A alone is better supported after thermal correction than
 before it, while any workflow that weights all four conformers equally

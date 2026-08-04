@@ -8,6 +8,7 @@ research/smx-conformer-thermochemistry/PREREGISTRATION.md
 research/smx-conformer-thermochemistry/inputs.json
 research/smx-conformer-thermochemistry/run_experiment.py
 research/smx-conformer-thermochemistry/verify_analysis.py
+research/smx-conformer-thermochemistry/make-figure.py
 research/smx-conformer-thermochemistry/results.json
 research/smx-conformer-thermochemistry/generate-metrics.mjs
 research/smx-conformer-thermochemistry/metrics.json

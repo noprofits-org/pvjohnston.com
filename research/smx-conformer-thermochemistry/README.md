@@ -80,14 +80,21 @@ conda run -n qchem \
 ```
 
 Run all eight registered conformer/arm calculations serially and write the
-canonical result:
+canonical result. `--force` is required for a true rerun: this repository ships
+the completed run directories, and without it the runner recognizes them as
+complete, skips xTB entirely, and only rewrites the analysis. Passing `--force`
+deletes each committed run directory and regenerates it from the source
+geometry.
 
 ```sh
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
 VECLIB_MAXIMUM_THREADS=1 \
 conda run -n qchem \
-  python research/smx-conformer-thermochemistry/run_experiment.py
+  python research/smx-conformer-thermochemistry/run_experiment.py --force
 ```
+
+Without `--force` the same command is an analysis-only rebuild, equivalent to
+`--analyze` once every run directory is present.
 
 Rebuild the analysis from committed raw outputs without rerunning xTB:
 
@@ -148,6 +155,9 @@ but their signs oppose the table footnote's stated
 - `runs/` - source XYZ, thermostatistical control, raw xTB output, and optimized
   XYZ for every conformer/arm.
 - `results.json` - canonical detailed output and preregistered verdict.
+- `make-figure.py` - emits the post's Figure 1 TikZ body from `results.json`;
+  `--check` fails if the figure committed in the post disagrees with the
+  canonical populations, so a regenerated result cannot leave a stale plot.
 - `generate-metrics.mjs` and `metrics.json` - fingerprinted reader-facing
   projection.
 - `sources.json`, `environment.md`, `conda-osx-arm64-explicit.txt`, and
