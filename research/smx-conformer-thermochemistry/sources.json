@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "Blackmon and Closser SMX DFT article",
+      "url": "https://doi.org/10.1016/j.comptc.2026.115931",
+      "version": "Computational and Theoretical Chemistry 1264 (2026) 115931; accepted 2026-07-01",
+      "accessed": "2026-07-25",
+      "sha256": "22d057e40f95c9b9edb58afafd0f4d3128b95f9643c9ece768727b70413ffd7d",
+      "license": "CC BY-NC-ND 4.0 as stated in the article",
+      "acquisition": "Retrieve the open-access main article through DOI 10.1016/j.comptc.2026.115931. The reviewed local PDF had the recorded SHA-256.",
+      "committed": false,
+      "exclusion_reason": "The publisher PDF is not redistributed. It is literature evidence rather than an executable input."
+    },
+    {
+      "name": "Blackmon and Closser SMX supplementary data",
+      "url": "https://doi.org/10.1016/j.comptc.2026.115931",
+      "version": "Supplementary DOCX containing Tables S1-S3, NTO figures, and A-D Cartesian coordinates",
+      "accessed": "2026-07-25",
+      "sha256": "c7c0f04ae96b197802217e7c938e6aad077e140c125b18c7e088ac3e6c7799d2",
+      "license": "Associated with the CC BY-NC-ND 4.0 open-access article; publisher terms should be checked before redistributing the original file",
+      "acquisition": "Download the supplementary material linked from DOI 10.1016/j.comptc.2026.115931. Verify the recorded SHA-256. A-D numerical energies and coordinates used by this experiment are attributed and frozen in inputs.json.",
+      "committed": false,
+      "exclusion_reason": "The original DOCX is not redistributed. Only the attributed numerical inputs required for independent analysis are committed."
+    }
+  ]
+}
