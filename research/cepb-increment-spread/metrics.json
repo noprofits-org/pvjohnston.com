@@ -1,0 +1,465 @@
+{
+  "schema_version": 1,
+  "experiment": "cepb-increment-spread",
+  "provenance": {
+    "generated_at": "2026-08-04T03:35:38Z",
+    "generator": "research/cepb-increment-spread/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/cepb-increment-spread/PREREGISTRATION.md",
+        "sha256": "907f4b1ce2b241cb7cdccbaddfe8b1dc0a60def07c184322371416c8c7d3a447"
+      },
+      {
+        "path": "research/cepb-increment-spread/inputs.json",
+        "sha256": "1997a9c064206ae66da1f536a5a876cf26b2c1fe866001739a1392cb2448bc89"
+      },
+      {
+        "path": "research/cepb-increment-spread/run_armb.py",
+        "sha256": "b7dc08cd5a199a449915aab4102b55446e2d5733d24ba55167bd6ac8d46a7839"
+      },
+      {
+        "path": "research/cepb-increment-spread/analyze.py",
+        "sha256": "35cccf9fefc83afcdb8ae84bf133114fd454a56dd31ae9418441c9e4d6d376c5"
+      },
+      {
+        "path": "research/cepb-increment-spread/results.json",
+        "sha256": "dcd991c1398e1c3b00d53d0f4499535ae897efb61f8b7b1abecfdd9fc7f09180"
+      }
+    ]
+  },
+  "metrics": {
+    "swap_ethene_ethane_cbs": {
+      "type": "number",
+      "value": -26.517922864432574,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Measured correlation-energy change of the ethene to ethane swap from the source's published CBS energies",
+      "unit": "kcal/mol"
+    },
+    "swap_cyclohexadiene_cyclohexene_cbs": {
+      "type": "number",
+      "value": -26.952159420484186,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Measured correlation-energy change of the 1,4-cyclohexadiene to cyclohexene swap from the source's published CBS energies",
+      "unit": "kcal/mol"
+    },
+    "swap_cyclohexene_cyclohexane_cbs": {
+      "type": "number",
+      "value": -27.028088066845843,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Measured correlation-energy change of the cyclohexene to cyclohexane swap from the source's published CBS energies",
+      "unit": "kcal/mol"
+    },
+    "cepb_swap_cbs": {
+      "type": "number",
+      "value": -22.858915121170618,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "CEPB-predicted correlation-energy change of the C=C to C-C + 2 C-H swap at CBS",
+      "unit": "kcal/mol"
+    },
+    "swap_spread_cbs": {
+      "type": "number",
+      "value": 0.510165202413269,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Spread across the three measured swap values at CBS (primary Arm A statistic)",
+      "unit": "kcal/mol"
+    },
+    "swap_dev_nearest_cbs": {
+      "type": "number",
+      "value": -3.6590077432619554,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Smallest-magnitude deviation of a measured swap from the CEPB prediction at CBS",
+      "unit": "kcal/mol"
+    },
+    "swap_dev_farthest_cbs": {
+      "type": "number",
+      "value": -4.169172945675226,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Largest-magnitude deviation of a measured swap from the CEPB prediction at CBS",
+      "unit": "kcal/mol"
+    },
+    "raw_spread_cbs": {
+      "type": "number",
+      "value": 10.38214424837401,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Spread of the raw effective C=C increment across the seven-molecule set at CBS (secondary, descriptive statistic)",
+      "unit": "kcal/mol"
+    },
+    "arm_a_gate_passed_cbs": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the Arm A contrast spread stayed at or below the registered threshold at CBS"
+    },
+    "swap_ethene_ethane_qz": {
+      "type": "number",
+      "value": -26.658484986622675,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Measured correlation-energy change of the ethene to ethane swap from the source's published aug-cc-pVQZ energies",
+      "unit": "kcal/mol"
+    },
+    "swap_cyclohexadiene_cyclohexene_qz": {
+      "type": "number",
+      "value": -27.702033241989625,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Measured correlation-energy change of the 1,4-cyclohexadiene to cyclohexene swap from the source's published aug-cc-pVQZ energies",
+      "unit": "kcal/mol"
+    },
+    "swap_cyclohexene_cyclohexane_qz": {
+      "type": "number",
+      "value": -28.443121930858208,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Measured correlation-energy change of the cyclohexene to cyclohexane swap from the source's published aug-cc-pVQZ energies",
+      "unit": "kcal/mol"
+    },
+    "cepb_swap_qz": {
+      "type": "number",
+      "value": -22.88087795276283,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "CEPB-predicted correlation-energy change of the C=C to C-C + 2 C-H swap at aug-cc-pVQZ",
+      "unit": "kcal/mol"
+    },
+    "swap_spread_qz": {
+      "type": "number",
+      "value": 1.7846369442355332,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Spread across the three measured swap values at aug-cc-pVQZ (primary Arm A statistic)",
+      "unit": "kcal/mol"
+    },
+    "swap_dev_nearest_qz": {
+      "type": "number",
+      "value": -3.777607033859843,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Smallest-magnitude deviation of a measured swap from the CEPB prediction at aug-cc-pVQZ",
+      "unit": "kcal/mol"
+    },
+    "swap_dev_farthest_qz": {
+      "type": "number",
+      "value": -5.562243978095378,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Largest-magnitude deviation of a measured swap from the CEPB prediction at aug-cc-pVQZ",
+      "unit": "kcal/mol"
+    },
+    "raw_spread_qz": {
+      "type": "number",
+      "value": 10.349513755722626,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Spread of the raw effective C=C increment across the seven-molecule set at aug-cc-pVQZ (secondary, descriptive statistic)",
+      "unit": "kcal/mol"
+    },
+    "arm_a_gate_passed_qz": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the Arm A contrast spread stayed at or below the registered threshold at aug-cc-pVQZ"
+    },
+    "swap_ethene_ethane_tz": {
+      "type": "number",
+      "value": -26.851130395160045,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Measured correlation-energy change of the ethene to ethane swap from the source's published aug-cc-pVTZ energies",
+      "unit": "kcal/mol"
+    },
+    "swap_cyclohexadiene_cyclohexene_tz": {
+      "type": "number",
+      "value": -28.180822970699815,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Measured correlation-energy change of the 1,4-cyclohexadiene to cyclohexene swap from the source's published aug-cc-pVTZ energies",
+      "unit": "kcal/mol"
+    },
+    "swap_cyclohexene_cyclohexane_tz": {
+      "type": "number",
+      "value": -29.305319948220898,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Measured correlation-energy change of the cyclohexene to cyclohexane swap from the source's published aug-cc-pVTZ energies",
+      "unit": "kcal/mol"
+    },
+    "cepb_swap_tz": {
+      "type": "number",
+      "value": -22.910998407517855,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "CEPB-predicted correlation-energy change of the C=C to C-C + 2 C-H swap at aug-cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "swap_spread_tz": {
+      "type": "number",
+      "value": 2.4541895530608535,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Spread across the three measured swap values at aug-cc-pVTZ (primary Arm A statistic)",
+      "unit": "kcal/mol"
+    },
+    "swap_dev_nearest_tz": {
+      "type": "number",
+      "value": -3.9401319876421916,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Smallest-magnitude deviation of a measured swap from the CEPB prediction at aug-cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "swap_dev_farthest_tz": {
+      "type": "number",
+      "value": -6.394321540703045,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Largest-magnitude deviation of a measured swap from the CEPB prediction at aug-cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "raw_spread_tz": {
+      "type": "number",
+      "value": 11.378629293186235,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Spread of the raw effective C=C increment across the seven-molecule set at aug-cc-pVTZ (secondary, descriptive statistic)",
+      "unit": "kcal/mol"
+    },
+    "arm_a_gate_passed_tz": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the Arm A contrast spread stayed at or below the registered threshold at aug-cc-pVTZ"
+    },
+    "pair_cis2butene_minus_1butene_dz": {
+      "type": "number",
+      "value": 0.16837057258850377,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, cis-2-butene minus 1-butene, at cc-pVDZ",
+      "unit": "kcal/mol"
+    },
+    "pair_trans2butene_minus_1butene_dz": {
+      "type": "number",
+      "value": 0.472510260158453,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, trans-2-butene minus 1-butene, at cc-pVDZ",
+      "unit": "kcal/mol"
+    },
+    "pair_isobutene_minus_1butene_dz": {
+      "type": "number",
+      "value": -0.8845813001614918,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, isobutene minus 1-butene, at cc-pVDZ",
+      "unit": "kcal/mol"
+    },
+    "pair_trans2butene_minus_cis2butene_dz": {
+      "type": "number",
+      "value": 0.3041396875699492,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, trans-2-butene minus cis-2-butene, at cc-pVDZ",
+      "unit": "kcal/mol"
+    },
+    "pair_isobutene_minus_cis2butene_dz": {
+      "type": "number",
+      "value": -1.0529518727499956,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, isobutene minus cis-2-butene, at cc-pVDZ",
+      "unit": "kcal/mol"
+    },
+    "pair_isobutene_minus_trans2butene_dz": {
+      "type": "number",
+      "value": -1.357091560319945,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, isobutene minus trans-2-butene, at cc-pVDZ",
+      "unit": "kcal/mol"
+    },
+    "armb_max_abs_dz": {
+      "type": "number",
+      "value": 1.357091560319945,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Largest pairwise C4H8 correlation-energy difference magnitude at cc-pVDZ",
+      "unit": "kcal/mol"
+    },
+    "armb_max_t1_dz": {
+      "type": "number",
+      "value": 0.009133847915131839,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Largest T1 diagnostic across the four C4H8 isomers at cc-pVDZ"
+    },
+    "pair_cis2butene_minus_1butene_tz": {
+      "type": "number",
+      "value": -0.32851138715841754,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, cis-2-butene minus 1-butene, at cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "pair_trans2butene_minus_1butene_tz": {
+      "type": "number",
+      "value": 0.19892303960634705,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, trans-2-butene minus 1-butene, at cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "pair_isobutene_minus_1butene_tz": {
+      "type": "number",
+      "value": -1.1296752840362998,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, isobutene minus 1-butene, at cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "pair_trans2butene_minus_cis2butene_tz": {
+      "type": "number",
+      "value": 0.5274344267647646,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, trans-2-butene minus cis-2-butene, at cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "pair_isobutene_minus_cis2butene_tz": {
+      "type": "number",
+      "value": -0.8011638968778821,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, isobutene minus cis-2-butene, at cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "pair_isobutene_minus_trans2butene_tz": {
+      "type": "number",
+      "value": -1.3285983236426469,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCSD(T) correlation-energy difference, isobutene minus trans-2-butene, at cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "armb_max_abs_tz": {
+      "type": "number",
+      "value": 1.3285983236426469,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Largest pairwise C4H8 correlation-energy difference magnitude at cc-pVTZ",
+      "unit": "kcal/mol"
+    },
+    "armb_max_t1_tz": {
+      "type": "number",
+      "value": 0.00981413530341443,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Largest T1 diagnostic across the four C4H8 isomers at cc-pVTZ"
+    },
+    "armb_signs_consistent": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether every pairwise difference kept its sign between cc-pVDZ and cc-pVTZ"
+    },
+    "armb_t1_gate_passed": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the largest T1 diagnostic stayed at or below the registered ceiling at both bases"
+    },
+    "arm_a_inconclusive": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the registered Arm A verdict is inconclusive"
+    },
+    "arm_b_inconclusive": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the registered Arm B verdict is inconclusive"
+    }
+  }
+}
