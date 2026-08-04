@@ -39,8 +39,11 @@ amendment was recorded.
   aug-cc-pVTZ/aug-cc-pVQZ + CBS protocol would return for the butenes; the
   behavior of any bond type outside C–H, C–C, C=C; or any claim that the
   source's fit is incorrect.
-- Traceability: source transcription, protocol, raw Psi4 outputs, canonical
-  analysis, and reader-facing metrics are linked by SHA-256 fingerprints.
+- Traceability: source transcription, protocol, raw Psi4 outputs, run
+  records, optimized geometries, canonical analysis, and reader-facing
+  metrics are linked by SHA-256 fingerprints in the metrics provenance, and
+  `verify_gates.py` enforces the registered convergence, connectivity, and
+  T1 gates from the committed artifacts.
 - Highest reproduction level: end-to-end reproducible on linux-x86_64 with
   the committed explicit conda lock; analysis-reproducible from the committed
   run records everywhere (`analyze.py --check` byte-compares the committed
@@ -93,6 +96,7 @@ rerunning quantum chemistry:
 ```sh
 python3 research/cepb-increment-spread/analyze.py
 python3 research/cepb-increment-spread/analyze.py --check
+python3 research/cepb-increment-spread/verify_gates.py
 ```
 
 Generate and verify publication metrics:
@@ -145,6 +149,8 @@ or verdict, and is reported as a post-hoc caveat in the post's Discussion.
   canonical run record for the six computed molecules.
 - `analyze.py` — deterministic analysis of both arms; `--check` byte-compares
   the committed result.
+- `verify_gates.py` — checks the registered convergence, connectivity, and T1
+  fidelity gates against the committed run artifacts.
 - `results.json` — canonical detailed output and the registered verdicts.
 - `diagnostics/` — the post-hoc 1-butene frequency check and its outputs.
 - `generate-metrics.mjs` and `metrics.json` — fingerprinted reader-facing

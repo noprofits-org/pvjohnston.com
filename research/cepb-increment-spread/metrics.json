@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "cepb-increment-spread",
   "provenance": {
-    "generated_at": "2026-08-04T03:35:38Z",
+    "generated_at": "2026-08-04T04:12:16Z",
     "generator": "research/cepb-increment-spread/generate-metrics.mjs",
     "inputs": [
       {
@@ -22,8 +22,156 @@
         "sha256": "35cccf9fefc83afcdb8ae84bf133114fd454a56dd31ae9418441c9e4d6d376c5"
       },
       {
+        "path": "research/cepb-increment-spread/verify_gates.py",
+        "sha256": "b6081c1d923c55d0d3bf9a8dcdaba4c68b56c7a437f3b228741c7228e843ad3a"
+      },
+      {
         "path": "research/cepb-increment-spread/results.json",
         "sha256": "dcd991c1398e1c3b00d53d0f4499535ae897efb61f8b7b1abecfdd9fc7f09180"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/1-butene/cc-pVDZ/psi4.out",
+        "sha256": "ae6e5bd54ac01f7712fd9111b506dff79875974dc0fd79c5448a7384ec39032d"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/1-butene/cc-pVDZ/result.json",
+        "sha256": "f764ad0d2432918e4826d9f1ffed79419004e22ef5df56824544bfc1f8038d84"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/1-butene/cc-pVDZ/optimized.xyz",
+        "sha256": "abcaab0798fdbcd80933b3df5c68fddb3e9852e9a3b9a799ac7a29e17cd85deb"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/1-butene/cc-pVTZ/psi4.out",
+        "sha256": "40a0cf825497d593c2e822735b460d0f58e71e49bc3cce344ebdfc00c00ab28b"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/1-butene/cc-pVTZ/result.json",
+        "sha256": "572959dbb6d9758f03ffe13dfc0328c628659b676c43472754d5f6fca5b96e89"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/1-butene/cc-pVTZ/optimized.xyz",
+        "sha256": "3dd7a6b2d6726acb9613b45c7125f72370c98cb459b5e419ffe3a4ff18d57fce"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/cis-2-butene/cc-pVDZ/psi4.out",
+        "sha256": "bfc151601c3ce91fa197bbd367932a397f706a70a0c8bbe351a57c0926457090"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/cis-2-butene/cc-pVDZ/result.json",
+        "sha256": "0407141b5c2210cc31232914e0f86d0ac8a09eaf2593ca6b55211b91003ffbe9"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/cis-2-butene/cc-pVDZ/optimized.xyz",
+        "sha256": "2802d95b86697eb51c7da2da42b6da4627b40f32c56b1732d059024b841516e6"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/cis-2-butene/cc-pVTZ/psi4.out",
+        "sha256": "fb15e781ea599e2ea5398f9aff311d2fe03a9b12c08013bf76fb4e772141d412"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/cis-2-butene/cc-pVTZ/result.json",
+        "sha256": "37ec659473ed03f91372e2852e0f8d27b85e03617b5d84fe164dbfae3b66c783"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/cis-2-butene/cc-pVTZ/optimized.xyz",
+        "sha256": "9fc480861d520ba34e8b71aafe5337f12d585befbdc16e3342bd96c099a4a768"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/trans-2-butene/cc-pVDZ/psi4.out",
+        "sha256": "4da4171f9f62ea67d97558cf828cb5d0050370def2a61b7ef13b483cd70011b8"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/trans-2-butene/cc-pVDZ/result.json",
+        "sha256": "7c7860ae92ec35fb2a4e50e30b6dbd9ac8d7d41487267eef1646ca08f184ad59"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/trans-2-butene/cc-pVDZ/optimized.xyz",
+        "sha256": "8292f561e9b018e6d71b6ad944e3832b89c42952f6394d638f2262e1fce0869e"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/trans-2-butene/cc-pVTZ/psi4.out",
+        "sha256": "0b3918b333681467a884bef401fc9bcc9d9dba5ffed2722b9206af4b0230b636"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/trans-2-butene/cc-pVTZ/result.json",
+        "sha256": "e5f037e3762930c86d5ffceec69181e54fd681b34ae45cfe96fa39ddde6b0d5a"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/trans-2-butene/cc-pVTZ/optimized.xyz",
+        "sha256": "173f498f58c8dc1a1552ff212f82b99212615205900831f552697188b13ba054"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/isobutene/cc-pVDZ/psi4.out",
+        "sha256": "1e673de025a61341c3a3d6a1974cbf690f463b5cc2b7f68dd0e3aaebbaa8fe9b"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/isobutene/cc-pVDZ/result.json",
+        "sha256": "4a898e5fb4251a8959ae57ec405193facb0b49306dd32d533ab08f4512e5d82d"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/isobutene/cc-pVDZ/optimized.xyz",
+        "sha256": "545f1e58194e312c98e1239ea3259bee9ed3f22264efd39d498b172d241a56e4"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/isobutene/cc-pVTZ/psi4.out",
+        "sha256": "9c33453a6dfaa5a01ec2c17ceb825d53aace06bce37af5e135338d7535ebbb13"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/isobutene/cc-pVTZ/result.json",
+        "sha256": "b9f98aa627a7501e49c74c61b5047862afaa5c134c7ad0fb919b4c9f076c415e"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/isobutene/cc-pVTZ/optimized.xyz",
+        "sha256": "05692620ded0483a9b938a6a92651d4228f7eb3ff176d3a0b571f1090ec4e8a2"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/ethene/cc-pVDZ/psi4.out",
+        "sha256": "d61dca6b78e7e3093155622fe781c6f855a4e7292814688bc9690ef2550ac780"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/ethene/cc-pVDZ/result.json",
+        "sha256": "4590973209ae62d2dfe3206a930e161681ffebb3bc440f148a1da92da84cf38f"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/ethene/cc-pVDZ/optimized.xyz",
+        "sha256": "e67f54080b21535e9e85c08f9e089a55c4d81070963abf386026431bac35a691"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/ethene/cc-pVTZ/psi4.out",
+        "sha256": "e61353f55b7b59972e41a3309b6e5bc32b89aa7e5d9f9f2d76febd77172d34a6"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/ethene/cc-pVTZ/result.json",
+        "sha256": "d6941a3b8baa119d4fd33e364c0f52a2d5f50866c002617e51a11e9616efdcb1"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/ethene/cc-pVTZ/optimized.xyz",
+        "sha256": "410d5f9fdf217cbcb079743b6cc3875317f849f91ea6d24655767f90daa2df36"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/propene/cc-pVDZ/psi4.out",
+        "sha256": "195dc9701d5fccc21551073bdf6b1dfd95b68dae0578a3ec75c30332a0eb1196"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/propene/cc-pVDZ/result.json",
+        "sha256": "6b73f9f431bec40bd7c60282fa4664a323004761ff5884e6b2a0f7dc9fc9c68c"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/propene/cc-pVDZ/optimized.xyz",
+        "sha256": "d709ac74065109db9d58edef5d668095428d524a9a3a1535a357648d3b6cd3d2"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/propene/cc-pVTZ/psi4.out",
+        "sha256": "098ba08e4945e9c423592387f5dfc76b4c832460c24fed3539ecf274d399d5dc"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/propene/cc-pVTZ/result.json",
+        "sha256": "ecd14594e3d98ae3d90c3c8c9f0b0258f046d96b0f14f16f4c6d421581b81879"
+      },
+      {
+        "path": "research/cepb-increment-spread/runs/propene/cc-pVTZ/optimized.xyz",
+        "sha256": "04c62b6503b4a94ac6afce09f5b53d10a2a954343d73e230efad7d59355e6990"
       }
     ]
   },

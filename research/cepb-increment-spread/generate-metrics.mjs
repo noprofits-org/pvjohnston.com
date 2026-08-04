@@ -9,12 +9,21 @@ const experimentDir = dirname(fileURLToPath(import.meta.url));
 const root = resolve(experimentDir, '../..');
 const outputPath = resolve(experimentDir, 'metrics.json');
 const checkOnly = process.argv.includes('--check');
+const RUN_MOLECULES = [
+  '1-butene', 'cis-2-butene', 'trans-2-butene', 'isobutene', 'ethene', 'propene',
+];
 const inputPaths = [
   'research/cepb-increment-spread/PREREGISTRATION.md',
   'research/cepb-increment-spread/inputs.json',
   'research/cepb-increment-spread/run_armb.py',
   'research/cepb-increment-spread/analyze.py',
+  'research/cepb-increment-spread/verify_gates.py',
   'research/cepb-increment-spread/results.json',
+  ...RUN_MOLECULES.flatMap((molecule) =>
+    ['cc-pVDZ', 'cc-pVTZ'].flatMap((basis) =>
+      ['psi4.out', 'result.json', 'optimized.xyz'].map(
+        (file) => `research/cepb-increment-spread/runs/${molecule}/${basis}/${file}`,
+      ))),
 ];
 
 const sha256 = (path) => createHash('sha256')
