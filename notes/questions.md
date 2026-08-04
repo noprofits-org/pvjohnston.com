@@ -680,6 +680,40 @@ Format:
   coherence-overlapping hops would materially strengthen the reuse method.
 - **Status:** ready
 
+## How wide is the spread CEPB hides inside its C=C correlation increment?
+- **Observed:** Witkowski et al. fit 33 bond-type correlation-energy increments
+  to CCSD(T)/CBS correlation energies of 84 molecules ("Correlation Energy Per
+  Bond") and claim each increment applies "regardless of the bond length, bond
+  angle, sp-hybridization, π-electron conjugation, ionicity, noncovalent
+  interactions, etc." The fitted [C=C] increment is −0.205239 Eh. Their
+  22-reaction test contains only two hydrogenations and no alkene family, the
+  per-molecule residual of the C=C increment within a same-bond-order family is
+  never reported, and they concede that CEPB isomerization energies "collapse
+  to the HF reaction energies" for positional isomers without quantifying the
+  resulting error.
+- **Source:** Witkowski, Śmiga, Hirata, Dral & Grabowski, *J. Phys. Chem. A*
+  **129** (2025) 8877–8890, doi:10.1021/acs.jpca.5c04423 — CC BY, SI commits
+  the training correlation energies, fitted parameters, and a bond-counting
+  script
+- **Type:** quantification / falsification
+- **Contribution (candidate):** the distribution of the effective C=C
+  correlation increment across the C2–C4 alkene/diene family (ethylene,
+  propene, 1-butene, cis/trans-2-butene, isobutene, 1,3-butadiene), and the
+  CCSD(T)−HF correlation contribution to the positional isomerizations CEPB
+  sets to exactly zero — which is not in Witkowski et al.
+- **Falsifier:** the extracted per-C=C increments agree within ~1 kcal/mol
+  across the family AND the correlation contribution to
+  1-butene ↔ 2-butene/isobutene isomerization stays below the paper's stated
+  accuracy budget — conjugation-independence then survives the stress test.
+- **Publish the other outcome?** Yes — a measured within-family spread the
+  paper never reports strengthens their claim if small, bounds it if not.
+- **Feasibility:** high. DF-CCSD(T)(fc)/cc-pVTZ single points in Psi4 1.9.1 on
+  ≤4 heavy atoms (8 cores / 16 GB); TZ→QZ CBS check on the C2/C3 members only.
+  A day of wall time.
+- **Relation:** this is the live source the next entry's gate was waiting for;
+  the acetylene/ethylene/ethane correlation post is the prior work.
+- **Status:** ready
+
 ## Is the correlation contribution transferable within one C–C bond-order class?
 - **Observed:** The acetylene→ethylene and ethylene→ethane rungs gave
   opposite-signed reaction-level correlation contributions and did not share a
@@ -702,6 +736,17 @@ Format:
 - **Gate before design:** identify a 2025–2026 primary source that makes the
   transferability question live, then freeze the molecular series, conformers,
   basis-convergence check, and pairwise decision rule before running it.
+- **Gate status (2026-08-03):** the source requirement is satisfied twice over.
+  Witkowski et al. (*J. Phys. Chem. A* **129** (2025) 8877–8890,
+  doi:10.1021/acs.jpca.5c04423) fit bond-type correlation increments asserted
+  independent of conjugation and geometry; Vincent & Popelier (*Struct. Chem.*
+  2026, doi:10.1007/s11224-026-02730-8) report 2–7% fragment-level CCSD(T)
+  correlation spreads and declare "green-light" transferability without ever
+  propagating those spreads to reaction energies. The design-freeze half of the
+  gate (series, conformers, basis check, decision rule) still applies before
+  running.
+- **Status:** ready — see the CEPB entry above; the two experiments share the
+  alkene family and can be designed together.
 
 ## Does thermal correction reorder the four sulfamethoxazole conformers?
 - **Observed:** Blackmon and Closser optimise sulfamethoxazole to four unique
@@ -744,4 +789,37 @@ Format:
   point on structure A differs from supplement Table S1 by 1.8 mEh, and the PCM
   discretisation and integration grid are not fully specified — so the design
   must rest on relative quantities computed on one consistent surface.
+- **Status:** drafting — experiment run 2026-07-25 under a frozen
+  preregistration, post written 2026-08-03 (PR #47). Hypothesis **falsified**
+  in both arms: the composite GFN2-xTB/ALPB correction moves A from 26.3% to
+  45.9% (pure RRHO) / 39.0% (mRRHO-50), max shift 19.7 / 12.7 pp against a
+  10.0 pp ceiling, effective conformer count 4.00 → 3.00 / 3.57. All
+  method-fidelity gates passed. A stays lowest in both arms, so the source's
+  structural claim is strengthened rather than disturbed. Side finding: the
+  supplement's eight relaxation-energy magnitudes reproduce to 0.005 kJ/mol
+  but their signs oppose the table footnote's stated formula. Next step below.
+
+## Does the SMX ensemble concentrate under a same-level thermal correction?
+- **Observed:** Next step from the post above. The falsification used a
+  composite free energy — source hybrid-DFT/PCM electronic energies plus a
+  GFN2-xTB/ALPB thermochemical correction — which mixes two surfaces by
+  construction. Whether the concentration onto conformer A survives when the
+  correction and the electronic energies come from one surface is untested,
+  and the source's own same-level frequencies exist (the paper states they
+  were computed to confirm the minima) but were never published.
+- **Source:** own next step; Blackmon & Closser, *Comput. Theor. Chem.* **1264**
+  (2026) 115931
+- **Type:** untested regime
+- **Contribution (candidate):** hybrid-DFT harmonic frequencies with implicit
+  water on the four published SMX geometries, and the resulting single-surface
+  populations — testing whether the composite result's concentration is a
+  property of the thermochemistry or of the surface mixing
+- **Falsifier:** the single-surface correction leaves all four populations
+  within a few percentage points of the electronic-only baseline → the
+  concentration was an artifact of mixing two levels, not a thermal effect
+- **Publish the other outcome?** Yes — either result bounds how much the
+  published near-degeneracy survives correction.
+- **Feasibility:** medium. Four frequency calculations on a 20-heavy-atom
+  molecule with implicit solvent; hours per structure on 8 cores, and the
+  functional/basis/grid choices must be frozen before running.
 - **Status:** ready
