@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "experiment": "agent-inbox-corpus",
+  "provenance": {
+    "generated_at": "2026-08-03T00:00:00Z",
+    "generator": "research/agent-inbox-corpus/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/agent-inbox-corpus/corpus-totals.csv",
+        "sha256": "c842d4f657b7ecbe35f6d8a158ffa142495fe27d4b04ab39e99720ec499e8519"
+      },
+      {
+        "path": "research/agent-inbox-corpus/senders.csv",
+        "sha256": "e812d4806b1d2d6dc7b0900aebdfe5f32470f5b89892e22cbf09b768fdda2268"
+      },
+      {
+        "path": "research/agent-inbox-corpus/daily.csv",
+        "sha256": "a26f647446e65e9d897550f07d107cd7318f96b185a038cc3c7b5018faaf2f73"
+      },
+      {
+        "path": "research/agent-inbox-corpus/filename-tokens.csv",
+        "sha256": "7d57e596c1993f48acd63d975984d1a2478e358b5d625ff610fa8f3b11552447"
+      }
+    ]
+  },
+  "metrics": {
+    "total_messages": {
+      "type": "integer",
+      "value": 1514,
+      "description": "Message files in the corpus",
+      "unit": "messages"
+    },
+    "corpus_megabytes": {
+      "type": "number",
+      "value": 6.1,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Total size of the message files",
+      "unit": "MB"
+    },
+    "distinct_sender_labels": {
+      "type": "integer",
+      "value": 48,
+      "description": "Distinct sender labels parsed from message filenames",
+      "unit": "labels"
+    },
+    "distinct_inbox_directories": {
+      "type": "integer",
+      "value": 32,
+      "description": "Distinct inbox directories the messages are filed under",
+      "unit": "directories"
+    },
+    "surviving_role_count": {
+      "type": "integer",
+      "value": 4,
+      "description": "Roles the accompanying post names as the surviving cast",
+      "unit": "roles"
+    },
+    "corpus_span_days": {
+      "type": "integer",
+      "value": 87,
+      "description": "Days from the first dated message to the last",
+      "unit": "days"
+    },
+    "active_days": {
+      "type": "integer",
+      "value": 61,
+      "description": "Calendar days carrying at least one message",
+      "unit": "days"
+    },
+    "one_day_labels": {
+      "type": "integer",
+      "value": 23,
+      "description": "Sender labels whose first and last dated message fall on the same day",
+      "unit": "labels"
+    },
+    "fortnight_labels": {
+      "type": "integer",
+      "value": 9,
+      "description": "Sender labels whose first and last dated message are at least fourteen days apart",
+      "unit": "labels"
+    },
+    "survivor_message_share_percent": {
+      "type": "number",
+      "value": 38.3,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Share of dated messages written by the four surviving labels",
+      "unit": "%"
+    },
+    "busiest_day_messages": {
+      "type": "integer",
+      "value": 192,
+      "description": "Messages written on the busiest single day",
+      "unit": "messages"
+    },
+    "peak_week_messages": {
+      "type": "integer",
+      "value": 370,
+      "description": "Messages written in the busiest calendar week",
+      "unit": "messages"
+    },
+    "final_week_messages": {
+      "type": "integer",
+      "value": 3,
+      "description": "Messages written in the last calendar week of the corpus",
+      "unit": "messages"
+    },
+    "peak_to_final_week_ratio": {
+      "type": "number",
+      "value": 123.3,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Busiest calendar week divided by the last calendar week, by message count",
+      "unit": "ratio"
+    },
+    "first_four_weeks_share_percent": {
+      "type": "number",
+      "value": 77.4,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Share of dated messages written in the first four calendar weeks",
+      "unit": "%"
+    },
+    "joiner_messages": {
+      "type": "integer",
+      "value": 16,
+      "description": "Messages signed by the joiner label",
+      "unit": "messages"
+    },
+    "joiner_career_hours": {
+      "type": "number",
+      "value": 9.6,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Elapsed time from the joiner label’s first message to its last",
+      "unit": "h"
+    },
+    "filenames_with_explicit_recipient": {
+      "type": "integer",
+      "value": 457,
+      "description": "Filenames encoding an explicit recipient the filename convention never specified",
+      "unit": "filenames"
+    },
+    "filenames_with_allcaps_token": {
+      "type": "integer",
+      "value": 146,
+      "description": "Filenames carrying at least one all-capitals status token",
+      "unit": "filenames"
+    },
+    "distinct_filename_tokens": {
+      "type": "integer",
+      "value": 29,
+      "description": "Distinct status tokens counted in the filename vocabulary",
+      "unit": "tokens"
+    }
+  }
+}

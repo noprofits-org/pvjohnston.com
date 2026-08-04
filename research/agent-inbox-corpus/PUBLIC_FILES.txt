@@ -1,0 +1,11 @@
+LICENSE
+research/metrics.schema.json
+research/agent-inbox-corpus/README.md
+research/agent-inbox-corpus/environment.md
+research/agent-inbox-corpus/corpus-totals.csv
+research/agent-inbox-corpus/senders.csv
+research/agent-inbox-corpus/daily.csv
+research/agent-inbox-corpus/filename-tokens.csv
+research/agent-inbox-corpus/make-figures.py
+research/agent-inbox-corpus/generate-metrics.mjs
+research/agent-inbox-corpus/metrics.json
