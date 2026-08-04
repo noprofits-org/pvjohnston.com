@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "Witkowski et al. Ultrafast Correlation Energy Estimator article",
+      "url": "https://doi.org/10.1021/acs.jpca.5c04423",
+      "version": "Journal of Physical Chemistry A 129 (2025) 8877-8890",
+      "accessed": "2026-08-03",
+      "license": "CC BY 4.0 as stated in the article",
+      "acquisition": "Retrieve the open-access article and its Supporting Information through DOI 10.1021/acs.jpca.5c04423. The values this experiment uses were transcribed from main-text Tables 2-4 and SI Tables S1, S2, S4, S5 into inputs.json, whose SHA-256 fingerprint is recorded in the metrics provenance.",
+      "committed": false,
+      "exclusion_reason": "The publisher PDF and SI files are not redistributed and no local copy was retained after transcription, so no file checksum is recorded here; the frozen numerical transcription in inputs.json is the fingerprinted input. The article's tables are stable published values at a stable DOI."
+    }
+  ]
+}

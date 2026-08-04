@@ -1,0 +1,19 @@
+{
+  "molecule": "ethene",
+  "basis": "cc-pVTZ",
+  "bond_counts": {
+    "c_h": 4,
+    "c_c_single": 0,
+    "c_c_double": 1
+  },
+  "frozen_core": true,
+  "scf_total_energy_hartree": -78.06386549788522,
+  "ccsd_t_total_energy_hartree": -78.4389186941161,
+  "ccsd_t_correlation_energy_hartree": -0.3750531962308849,
+  "mp2_correlation_energy_hartree": -0.3353241920109993,
+  "t1_diagnostic": 0.010689914520528148,
+  "optimized_xyz": "0 1\n C    0.000000000000    0.000000000000    0.666105224988\n C    0.000000000000    0.000000000000   -0.666105224988\n H   -0.000000000000    0.922965043250    1.227605870983\n H    0.000000000000   -0.922965043250    1.227605870983\n H   -0.000000000000    0.922965043250   -1.227605870983\n H    0.000000000000   -0.922965043250   -1.227605870983\n",
+  "optimization_seconds": 6.5,
+  "energy_seconds": 22.8,
+  "psi4_version": "1.9.1"
+}

@@ -1,0 +1,176 @@
+{
+  "experiment": "cepb-increment-spread",
+  "source": {
+    "authors": "Witkowski, M.; Śmiga, S.; Hirata, S.; Dral, P. O.; Grabowski, I.",
+    "title": "Ultrafast Correlation Energy Estimator",
+    "journal": "Journal of Physical Chemistry A",
+    "year": 2025,
+    "volume": "129",
+    "issue": "38",
+    "pages": "8877-8890",
+    "doi": "10.1021/acs.jpca.5c04423",
+    "license": "CC BY 4.0",
+    "accessed": "2026-08-03",
+    "transcribed_from": [
+      "main-text Table 2 (fitted bond-type increments)",
+      "main-text Table 3 (84-molecule training set, CBS)",
+      "main-text Table 4 (18-molecule test set, CBS)",
+      "Supporting Information Tables S1, S2 (training set, aug-cc-pVQZ and aug-cc-pVTZ)",
+      "Supporting Information Tables S4, S5 (test set, aug-cc-pVQZ and aug-cc-pVTZ)"
+    ]
+  },
+  "notes": {
+    "core_treatment": "Every value transcribed here is all-electron. The source's frozen-core column (Table S3) covers only the 84 training molecules and has no test-set counterpart, so it cannot support the registered Arm A molecule set and is not used.",
+    "increment_model": "E_corr(X) = sum_j n_j(X) * e_j, the source's eq 1, with bond counts taken from the dominant Lewis structure.",
+    "effective_increment": "e_CC2_eff(X) = [E_corr(X) - n_CH*e_CH - n_CC*e_CC] / n_CC2, evaluated with the source's own fitted e_CH and e_CC at the same declared level as E_corr(X)."
+  },
+  "constants": {
+    "hartree_per_kcal_mol": 627.5094740631
+  },
+  "decision": {
+    "spread_threshold_kcal_mol": 1.0
+  },
+  "levels": ["cbs", "aug-cc-pvqz", "aug-cc-pvtz"],
+  "increments_hartree": {
+    "c_h": {
+      "cbs": -0.069244,
+      "aug-cc-pvqz": -0.065666,
+      "aug-cc-pvtz": -0.060762
+    },
+    "c_c_single": {
+      "cbs": -0.103179,
+      "aug-cc-pvqz": -0.097015,
+      "aug-cc-pvtz": -0.088570
+    },
+    "c_c_double": {
+      "cbs": -0.205239,
+      "aug-cc-pvqz": -0.191884,
+      "aug-cc-pvtz": -0.173583
+    }
+  },
+  "molecules": {
+    "ethene": {
+      "formula": "C2H4",
+      "set": "training",
+      "geometry_level": "CCSD/cc-pVTZ",
+      "bond_counts": {"c_h": 4, "c_c_single": 0, "c_c_double": 1},
+      "correlation_energy_hartree": {
+        "cbs": -0.481912,
+        "aug-cc-pvqz": -0.453982,
+        "aug-cc-pvtz": -0.415708
+      }
+    },
+    "cyclopropene": {
+      "formula": "C3H4",
+      "set": "training",
+      "geometry_level": "CCSD/cc-pVTZ",
+      "bond_counts": {"c_h": 4, "c_c_single": 2, "c_c_double": 1},
+      "correlation_energy_hartree": {
+        "cbs": -0.692103,
+        "aug-cc-pvqz": -0.651232,
+        "aug-cc-pvtz": -0.595222
+      }
+    },
+    "allene": {
+      "formula": "C3H4",
+      "set": "test",
+      "geometry_level": "CCSD(T)=FULL/cc-pVTZ",
+      "bond_counts": {"c_h": 4, "c_c_single": 0, "c_c_double": 2},
+      "correlation_energy_hartree": {
+        "cbs": -0.687131,
+        "aug-cc-pvqz": -0.646625,
+        "aug-cc-pvtz": -0.591117
+      }
+    },
+    "1,3-butadiene": {
+      "formula": "C4H6",
+      "set": "test",
+      "geometry_level": "CCSD=FULL/cc-pVTZ",
+      "bond_counts": {"c_h": 6, "c_c_single": 1, "c_c_double": 2},
+      "correlation_energy_hartree": {
+        "cbs": -0.932053,
+        "aug-cc-pvqz": -0.877860,
+        "aug-cc-pvtz": -0.803595
+      }
+    },
+    "cyclobutene": {
+      "formula": "C4H6",
+      "set": "test",
+      "geometry_level": "CCSD=FULL/cc-pVTZ",
+      "bond_counts": {"c_h": 6, "c_c_single": 3, "c_c_double": 1},
+      "correlation_energy_hartree": {
+        "cbs": -0.937166,
+        "aug-cc-pvqz": -0.883590,
+        "aug-cc-pvtz": -0.810170
+      }
+    },
+    "cyclohexene": {
+      "formula": "C6H10",
+      "set": "test",
+      "geometry_level": "QCISD/6-311G*",
+      "bond_counts": {"c_h": 10, "c_c_single": 5, "c_c_double": 1},
+      "correlation_energy_hartree": {
+        "cbs": -1.429816,
+        "aug-cc-pvqz": -1.349546,
+        "aug-cc-pvtz": -1.241263
+      }
+    },
+    "1,4-cyclohexadiene": {
+      "formula": "C6H8",
+      "set": "test",
+      "geometry_level": "QCISD/6-311G*",
+      "bond_counts": {"c_h": 8, "c_c_single": 4, "c_c_double": 2},
+      "correlation_energy_hartree": {
+        "cbs": -1.386865,
+        "aug-cc-pvqz": -1.305400,
+        "aug-cc-pvtz": -1.196354
+      }
+    }
+  },
+  "aromatic_reference": {
+    "benzene": {
+      "formula": "C6H6",
+      "set": "test",
+      "geometry_level": "CCSD(T)/cc-pVTZ",
+      "bond_counts_kekule": {"c_h": 6, "c_c_single": 3, "c_c_double": 3},
+      "correlation_energy_hartree": {
+        "cbs": -1.346083,
+        "aug-cc-pvqz": -1.265574,
+        "aug-cc-pvtz": -1.155246
+      },
+      "excluded_from_primary": "Dominant-Lewis-structure bond counts are convention-dependent for an aromatic ring; reported separately per the preregistration."
+    }
+  },
+  "saturated_reference": {
+    "methane": {
+      "formula": "CH4",
+      "set": "training",
+      "bond_counts": {"c_h": 4, "c_c_single": 0, "c_c_double": 0},
+      "correlation_energy_hartree": {
+        "cbs": -0.280463,
+        "aug-cc-pvqz": -0.266193,
+        "aug-cc-pvtz": -0.246639
+      }
+    },
+    "ethane": {
+      "formula": "C2H6",
+      "set": "training",
+      "bond_counts": {"c_h": 6, "c_c_single": 1, "c_c_double": 0},
+      "correlation_energy_hartree": {
+        "cbs": -0.524171,
+        "aug-cc-pvqz": -0.496465,
+        "aug-cc-pvtz": -0.458498
+      }
+    },
+    "cyclohexane": {
+      "formula": "C6H12",
+      "set": "test",
+      "bond_counts": {"c_h": 12, "c_c_single": 6, "c_c_double": 0},
+      "correlation_energy_hartree": {
+        "cbs": -1.472888,
+        "aug-cc-pvqz": -1.394873,
+        "aug-cc-pvtz": -1.287964
+      }
+    }
+  }
+}
