@@ -8,6 +8,7 @@ research/cepb-increment-spread/PREREGISTRATION.md
 research/cepb-increment-spread/inputs.json
 research/cepb-increment-spread/run_armb.py
 research/cepb-increment-spread/analyze.py
+research/cepb-increment-spread/verify_gates.py
 research/cepb-increment-spread/results.json
 research/cepb-increment-spread/generate-metrics.mjs
 research/cepb-increment-spread/metrics.json
