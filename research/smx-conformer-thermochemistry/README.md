@@ -30,7 +30,12 @@ parallel Claude branch, protocol, journal, or outputs.
   and reader-facing metrics are linked by SHA-256 fingerprints.
 - Highest reproduction level: end-to-end reproducible on osx-arm64 with the
   explicit conda environment; analysis is independently checkable from
-  committed xTB outputs without rerunning quantum chemistry.
+  committed xTB outputs without rerunning quantum chemistry. The canonical
+  `results.json` serializes floats at 12 significant digits (magnitudes below
+  1e-12 clamp to zero) so that the analysis byte-check is
+  architecture-independent: regeneration on linux-x86_64 and osx-arm64 differs
+  only in last-ulp accumulation noise, ten orders of magnitude below every
+  registered decision margin.
 
 ## Source relationship
 

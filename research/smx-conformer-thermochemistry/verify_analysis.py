@@ -21,7 +21,9 @@ SPEC.loader.exec_module(experiment)
 
 
 def close(actual: float, expected: float, tolerance: float = 1.0e-12) -> None:
-    assert math.isclose(actual, expected, abs_tol=tolerance, rel_tol=0.0)
+    # rel_tol admits the 12-significant-digit serialization rounding of
+    # results.json; abs_tol admits its clamp-to-zero below 1e-12.
+    assert math.isclose(actual, expected, abs_tol=tolerance, rel_tol=1.0e-11)
 
 
 def independently_verify_result(inputs: dict, result: dict) -> None:

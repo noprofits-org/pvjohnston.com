@@ -573,8 +573,32 @@ def build_results(inputs: dict, generated_at: str) -> dict:
     }
 
 
+def rounded(value, significant: int = 12):
+    """Round every float to `significant` digits before serialization.
+
+    Regenerating the analysis on a different architecture reproduces every
+    derived quantity only to within last-ulp accumulation differences
+    (observed at the 15th-16th significant digit between osx-arm64 and
+    linux-x86_64). Magnitudes below 1e-12 — the sign-audit residuals, which
+    are pure cancellation noise — are clamped to zero, since their leading
+    digits are themselves platform noise. All registered decision margins are
+    at least ten orders of magnitude above the discarded digits.
+    """
+    if isinstance(value, bool) or not isinstance(value, float):
+        if isinstance(value, dict):
+            return {key: rounded(item, significant) for key, item in value.items()}
+        if isinstance(value, list):
+            return [rounded(item, significant) for item in value]
+        return value
+    if value == 0.0 or not math.isfinite(value):
+        return value
+    if abs(value) < 1.0e-12:
+        return 0.0
+    return float(f"{value:.{significant}g}")
+
+
 def serialized(result: dict) -> str:
-    return json.dumps(result, indent=2, sort_keys=False, allow_nan=False) + "\n"
+    return json.dumps(rounded(result), indent=2, sort_keys=False, allow_nan=False) + "\n"
 
 
 def main() -> int:
