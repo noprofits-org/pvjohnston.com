@@ -712,7 +712,47 @@ Format:
   A day of wall time.
 - **Relation:** this is the live source the next entry's gate was waiting for;
   the acetylene/ethylene/ethane correlation post is the prior work.
-- **Status:** ready
+- **Status:** published —
+  `/posts/2026-08-03-does-one-cc-increment-fit-every-alkene.html`. Both
+  registered verdicts came out **inconclusive** under the frozen rules: the
+  Arm A contrast spread is 0.51 kcal/mol at CBS but 1.78/2.45 at
+  aug-cc-pVQZ/aug-cc-pVTZ (levels disagree about the 1 kcal/mol bar), and in
+  Arm B the smallest pair (cis-2-butene − 1-butene) changed sign between
+  cc-pVDZ and cc-pVTZ. Robust across everything run: all three published
+  C=C→C–C+2C–H contrasts miss the CEPB prediction the same way, −3.66 to
+  −4.17 kcal/mol at CBS (a systematic swap mispricing, not environment
+  dependence), and isobutene is the most correlated C₄H₈ isomer at both
+  bases, −1.36/−1.33 kcal/mol vs trans-2-butene against a predicted zero.
+  Post-hoc diagnostic: the committed 1-butene structure is a torsional
+  saddle (planar anti start, symmetry-trapped optimizer) — a candidate
+  our-side cause for the sign flip. Next step below.
+
+## Does repricing the C=C → C–C + 2 C–H swap reduce CEPB's reaction errors?
+- **Observed:** Next step from the post above. The three published contrasts
+  realizing the C=C → C–C + 2 C–H swap agree with each other to 0.51 kcal/mol
+  at CBS while all sitting −3.66 to −4.17 kcal/mol below the increment-predicted
+  price — the swap has a consistent price and CEPB charges the wrong one. The
+  source's own 22-reaction test set publishes reaction energies whose errors
+  a repriced swap would move directly.
+- **Source:** own next step; Witkowski et al., *J. Phys. Chem. A* **129**
+  (2025) 8877–8890, doi:10.1021/acs.jpca.5c04423
+- **Type:** unplotted line
+- **Contribution (candidate):** the change in CEPB's published reaction-set
+  errors when the contrast-derived CBS price of the C=C → C–C + 2 C–H swap
+  replaces the fitted-increment price, and the cost of that repricing to
+  total-energy accuracy — arithmetic on the source's published tables, no new
+  quantum chemistry
+- **Falsifier:** the repricing degrades the swap-containing reaction errors,
+  or buys reaction accuracy only at a total-energy cost larger than the gain —
+  the whole-molecule fit is then already the right compromise and the offset
+  is irreducible within the model form
+- **Publish the other outcome?** Yes — either a one-parameter fix to published
+  reaction errors or a demonstration that the model form cannot price both
+  totals and reactions is worth reporting.
+- **Feasibility:** high. Pure arithmetic on the frozen `inputs.json`
+  transcription plus the source's reaction table; an afternoon.
+- **Status:** observation — needs the reaction-table transcription frozen
+  before design.
 
 ## Is the correlation contribution transferable within one C–C bond-order class?
 - **Observed:** The acetylene→ethylene and ethylene→ethane rungs gave
@@ -745,8 +785,12 @@ Format:
   propagating those spreads to reaction energies. The design-freeze half of the
   gate (series, conformers, basis check, decision rule) still applies before
   running.
-- **Status:** ready — see the CEPB entry above; the two experiments share the
-  alkene family and can be designed together.
+- **Status:** partially addressed by the CEPB post
+  (`/posts/2026-08-03-does-one-cc-increment-fit-every-alkene.html`), whose
+  Arm A measured the same-swap spread on the source's own published data —
+  0.51 kcal/mol at CBS, above 1 kcal/mol at the finite bases, verdict
+  inconclusive across levels. A dedicated frozen alkene-hydrogenation family
+  at one consistent computed level remains undesigned and unrun.
 
 ## Does thermal correction reorder the four sulfamethoxazole conformers?
 - **Observed:** Blackmon and Closser optimise sulfamethoxazole to four unique
@@ -789,8 +833,10 @@ Format:
   point on structure A differs from supplement Table S1 by 1.8 mEh, and the PCM
   discretisation and integration grid are not fully specified — so the design
   must rest on relative quantities computed on one consistent surface.
-- **Status:** drafting — experiment run 2026-07-25 under a frozen
-  preregistration, post written 2026-08-03 (PR #47). Hypothesis **falsified**
+- **Status:** published —
+  `/posts/2026-08-03-does-the-near-uniform-smx-ensemble-survive-thermal-correction.html`
+  (experiment run 2026-07-25 under a frozen preregistration, merged
+  2026-08-03). Hypothesis **falsified**
   in both arms: the composite GFN2-xTB/ALPB correction moves A from 26.3% to
   45.9% (pure RRHO) / 39.0% (mRRHO-50), max shift 19.7 / 12.7 pp against a
   10.0 pp ceiling, effective conformer count 4.00 → 3.00 / 3.57. All
