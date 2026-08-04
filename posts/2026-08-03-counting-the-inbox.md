@@ -420,14 +420,14 @@ all-capitals status token, from a vocabulary of
 
 | Token | Filenames | What it marks |
 |---|---|---|
-| `deploy-live` | 89 | the deploy landed; downstream seats may proceed |
-| `pr-ready` | 83 | implementation is finished and offered to the gate |
-| `ack` | 68 | receipt, usually with a ruling attached |
-| `merge-ok` | 36 | the gate cleared it |
-| `GO` | 16 | scoping is locked; implementation may start |
-| `HOLD` | 9 | stop where you are, a correction is coming |
-| `MERGED` | 6 | it landed on the default branch |
-| `merge-block` | 1 | the gate refused it |
+| `deploy-live` | [token_deploy_live]{.metric} | the deploy landed; downstream seats may proceed |
+| `pr-ready` | [token_pr_ready]{.metric} | implementation is finished and offered to the gate |
+| `ack` | [token_ack]{.metric} | receipt, usually with a ruling attached |
+| `merge-ok` | [token_merge_ok]{.metric} | the gate cleared it |
+| `GO` | [token_go]{.metric} | scoping is locked; implementation may start |
+| `HOLD` | [token_hold]{.metric} | stop where you are, a correction is coming |
+| `MERGED` | [token_merged]{.metric} | it landed on the default branch |
+| `merge-block` | [token_merge_block]{.metric} | the gate refused it |
 
 **Table 1.** The most frequent status tokens appearing in message filenames,
 with counts over the whole corpus and the state each one marks. Case variants
@@ -579,9 +579,13 @@ site build time by the Hakyll and dvisvgm pipeline described in [an earlier
 note](/posts/2026-06-14-rich-tikz-with-dvisvgm.html); the source in the
 repository is the exact input.
 
-The reproducibility level this earns is **analysis-reproducible**: the
-committed tables regenerate every count and every figure coordinate in this
-post. It is not end-to-end reproducible, and cannot become so, because the
+The reproducibility level this earns is **analysis-reproducible**: every
+metric-referenced count resolves from the committed tables, the coordinates of
+Figures 1 and 2 are emitted from those tables, and the counts drawn into
+Figure 4's labels are checked against the token table by a committed script.
+The drawn structure of Figures 3 and 4 — which boxes exist and which arrows
+connect them — is editorial reading, not a generated artifact. The post is not
+end-to-end reproducible, and cannot become so, because the
 input corpus will not be published. This is the archived-evidence case — the
 upstream input exists and is withheld — and a reader who wants to check the
 step from messages to tables has no way to do it.

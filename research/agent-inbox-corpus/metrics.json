@@ -20,6 +20,10 @@
       {
         "path": "research/agent-inbox-corpus/filename-tokens.csv",
         "sha256": "7d57e596c1993f48acd63d975984d1a2478e358b5d625ff610fa8f3b11552447"
+      },
+      {
+        "path": "research/agent-inbox-corpus/joiner-window.csv",
+        "sha256": "67e0efb2d83329e2bdf79f30abc940f386f02a2d5d5ac93de1dc6949ac7a8573"
       }
     ]
   },
@@ -163,6 +167,54 @@
       "value": 29,
       "description": "Distinct status tokens counted in the filename vocabulary",
       "unit": "tokens"
+    },
+    "token_deploy_live": {
+      "type": "integer",
+      "value": 89,
+      "description": "Filenames carrying the deploy-live token, case variants merged",
+      "unit": "filenames"
+    },
+    "token_pr_ready": {
+      "type": "integer",
+      "value": 83,
+      "description": "Filenames carrying the pr-ready token, case variants merged",
+      "unit": "filenames"
+    },
+    "token_ack": {
+      "type": "integer",
+      "value": 68,
+      "description": "Filenames carrying the ack token, case variants merged",
+      "unit": "filenames"
+    },
+    "token_merge_ok": {
+      "type": "integer",
+      "value": 36,
+      "description": "Filenames carrying the merge-ok token, case variants merged",
+      "unit": "filenames"
+    },
+    "token_go": {
+      "type": "integer",
+      "value": 16,
+      "description": "Filenames carrying the GO token, case variants merged",
+      "unit": "filenames"
+    },
+    "token_hold": {
+      "type": "integer",
+      "value": 9,
+      "description": "Filenames carrying the HOLD token, case variants merged",
+      "unit": "filenames"
+    },
+    "token_merged": {
+      "type": "integer",
+      "value": 6,
+      "description": "Filenames carrying the MERGED token, case variants merged",
+      "unit": "filenames"
+    },
+    "token_merge_block": {
+      "type": "integer",
+      "value": 1,
+      "description": "Filenames carrying the merge-block token, case variants merged",
+      "unit": "filenames"
     }
   }
 }

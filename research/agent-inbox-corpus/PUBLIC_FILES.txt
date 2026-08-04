@@ -6,6 +6,8 @@ research/agent-inbox-corpus/corpus-totals.csv
 research/agent-inbox-corpus/senders.csv
 research/agent-inbox-corpus/daily.csv
 research/agent-inbox-corpus/filename-tokens.csv
+research/agent-inbox-corpus/joiner-window.csv
 research/agent-inbox-corpus/make-figures.py
+research/agent-inbox-corpus/check_figure_tokens.py
 research/agent-inbox-corpus/generate-metrics.mjs
 research/agent-inbox-corpus/metrics.json
