@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 const experimentDir = dirname(fileURLToPath(import.meta.url));
 const root = resolve(experimentDir, '../..');
 const metricsPath = resolve(experimentDir, 'metrics.json');
-const inputNames = ['corpus-totals.csv', 'senders.csv', 'daily.csv', 'filename-tokens.csv'];
+const inputNames = ['corpus-totals.csv', 'senders.csv', 'daily.csv', 'filename-tokens.csv', 'joiner-window.csv'];
 const arguments_ = process.argv.slice(2);
 const checkOnly = arguments_.length === 1 && arguments_[0] === '--check';
 
@@ -65,9 +65,28 @@ const spanDays = (a, b) => dayNumber(b) - dayNumber(a);
 
 // The four roles the accompanying post names as the surviving cast.
 const SURVIVORS = ['sightline', 'bosun', 'shipwright', 'drawbridge'];
-// joiner's first and last message timestamps, both on 2026-05-18 (11:40, 21:15).
-const JOINER_FIRST_MINUTES = 11 * 60 + 40;
-const JOINER_LAST_MINUTES = 21 * 60 + 15;
+// joiner's first and last message timestamps, transcribed from the withheld
+// corpus into the committed, fingerprinted joiner-window.csv.
+const joinerWindow = Object.fromEntries(readCsv('joiner-window.csv').map((r) => [r.key, r.value]));
+const hhmmToMinutes = (hhmm) => {
+  const [h, m] = hhmm.split(':').map(Number);
+  return h * 60 + m;
+};
+const JOINER_FIRST_MINUTES = hhmmToMinutes(joinerWindow.joiner_first_message_hhmm);
+const JOINER_LAST_MINUTES = hhmmToMinutes(joinerWindow.joiner_last_message_hhmm);
+
+// Table 1 merges case variants of one token: SCREAMING_SNAKE folds into the
+// kebab-lowercase spelling (PR_READY into pr-ready, DEPLOY_LIVE into
+// deploy-live).
+const mergedTokenCounts = new Map();
+for (const { token, filenames } of tokens) {
+  const canonical = token.toLowerCase().replace(/_/g, '-');
+  mergedTokenCounts.set(canonical, (mergedTokenCounts.get(canonical) ?? 0) + filenames);
+}
+const mergedToken = (canonical) => {
+  if (!mergedTokenCounts.has(canonical)) throw new Error(`no token ${canonical}`);
+  return mergedTokenCounts.get(canonical);
+};
 
 const firstDate = daily[0].date;
 const lastDate = daily.at(-1).date;
@@ -205,6 +224,46 @@ const metrics = {
     tokens.length,
     'Distinct status tokens counted in the filename vocabulary',
     'tokens',
+  ),
+  token_deploy_live: integerMetric(
+    mergedToken('deploy-live'),
+    'Filenames carrying the deploy-live token, case variants merged',
+    'filenames',
+  ),
+  token_pr_ready: integerMetric(
+    mergedToken('pr-ready'),
+    'Filenames carrying the pr-ready token, case variants merged',
+    'filenames',
+  ),
+  token_ack: integerMetric(
+    mergedToken('ack'),
+    'Filenames carrying the ack token, case variants merged',
+    'filenames',
+  ),
+  token_merge_ok: integerMetric(
+    mergedToken('merge-ok'),
+    'Filenames carrying the merge-ok token, case variants merged',
+    'filenames',
+  ),
+  token_go: integerMetric(
+    mergedToken('go'),
+    'Filenames carrying the GO token, case variants merged',
+    'filenames',
+  ),
+  token_hold: integerMetric(
+    mergedToken('hold'),
+    'Filenames carrying the HOLD token, case variants merged',
+    'filenames',
+  ),
+  token_merged: integerMetric(
+    mergedToken('merged'),
+    'Filenames carrying the MERGED token, case variants merged',
+    'filenames',
+  ),
+  token_merge_block: integerMetric(
+    mergedToken('merge-block'),
+    'Filenames carrying the merge-block token, case variants merged',
+    'filenames',
   ),
 };
 

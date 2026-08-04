@@ -49,6 +49,9 @@ business the messages discuss.
 - `filename-tokens.csv` — one row per status token counted in the filename
   vocabulary, with the number of filenames carrying it. Case variants are
   counted separately here; the post's table merges them and says so.
+- `joiner-window.csv` — the clock times bounding the `joiner` label's
+  messages, transcribed from the withheld corpus so the derived career length
+  rests on a fingerprinted input rather than a constant in code.
 
 ## Procedure
 
@@ -56,15 +59,19 @@ business the messages discuss.
    `YYYY-MM-DD_HHMM_from_<sender>[_to_<recipient>]` out of each filename, reads
    each file's size, and writes the four tables above. The corpus is not
    committed, so this step is not reproducible from this repository.
-2. `generate-metrics.mjs` reads the four tables and projects them into
-   `metrics.json`. Calendar weeks start on Monday. The four surviving role
-   names, and the two clock times bounding the `joiner` label's messages, are
-   declared as constants in the generator and are stated in the post.
+2. `generate-metrics.mjs` reads the five tables and projects them into
+   `metrics.json`, merging status-token case variants the way the post's
+   Table 1 documents. Calendar weeks start on Monday. The four surviving role
+   names are declared as constants in the generator and are stated in the
+   post.
 3. `generate-metrics.mjs --check` recomputes the projection from the committed
    tables and compares it to the committed `metrics.json`, failing on any
    difference. It writes nothing.
 4. `make-figures.py` emits the TikZ bodies for the post's first two figures
    from the same tables, so a drawn bar and a quoted metric cannot disagree.
+5. `check_figure_tokens.py` compares the token counts drawn into Figure 4's
+   transition labels with `filename-tokens.csv` under the same case-variant
+   merge, failing when the committed drawing and the committed table disagree.
 
 The `generated_at` stamp in `metrics.json` is fixed rather than taken from the
 wall clock, so a regeneration is byte-identical to the committed file.
