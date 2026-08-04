@@ -171,6 +171,50 @@
       },
       "max_t1_diagnostic": 0.009133847915131839,
       "t1_gate_passed": true
+    },
+    "cc-pVTZ": {
+      "correlation_energies_hartree": {
+        "1-butene": -0.7584768551529352,
+        "cis-2-butene": -0.7590003713717921,
+        "trans-2-butene": -0.7581598511110387,
+        "isobutene": -0.7602771073096424
+      },
+      "pairwise_differences": {
+        "1-butene vs cis-2-butene": {
+          "difference_hartree": -0.0005235162188569342,
+          "difference_kcal_per_mol": -0.32851138715841754
+        },
+        "1-butene vs trans-2-butene": {
+          "difference_hartree": 0.0003170040418964959,
+          "difference_kcal_per_mol": 0.19892303960634705
+        },
+        "1-butene vs isobutene": {
+          "difference_hartree": -0.001800252156707205,
+          "difference_kcal_per_mol": -1.1296752840362998
+        },
+        "cis-2-butene vs trans-2-butene": {
+          "difference_hartree": 0.0008405202607534301,
+          "difference_kcal_per_mol": 0.5274344267647646
+        },
+        "cis-2-butene vs isobutene": {
+          "difference_hartree": -0.0012767359378502707,
+          "difference_kcal_per_mol": -0.8011638968778821
+        },
+        "trans-2-butene vs isobutene": {
+          "difference_hartree": -0.002117256198603701,
+          "difference_kcal_per_mol": -1.3285983236426469
+        }
+      },
+      "max_absolute_difference_kcal_per_mol": 1.3285983236426469,
+      "cepb_predicted_difference_kcal_per_mol": 0.0,
+      "t1_diagnostics": {
+        "1-butene": 0.009629624129462284,
+        "cis-2-butene": 0.009677133565722904,
+        "trans-2-butene": 0.00958960561719172,
+        "isobutene": 0.00981413530341443
+      },
+      "max_t1_diagnostic": 0.00981413530341443,
+      "t1_gate_passed": true
     }
   },
   "verdicts": {
@@ -180,7 +224,7 @@
     },
     "arm_b": {
       "value": "inconclusive",
-      "reason": "the registered two-basis sensitivity check is not complete"
+      "reason": "a pairwise difference changed sign between the two bases"
     }
   }
 }
