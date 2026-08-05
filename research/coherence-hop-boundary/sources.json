@@ -32,6 +32,16 @@
       "exclusion_reason": "Publisher files are literature evidence and are not redistributed. They are not required at execution time because this experiment inherits and lineage-tests the prior independent implementation."
     },
     {
+      "name": "Mannouch and Kelly trajectory-ensemble coherence article",
+      "url": "https://doi.org/10.1021/acs.jpclett.4c02418",
+      "version": "Journal of Physical Chemistry Letters 15 (2024) 11617-11624; published 2024",
+      "accessed": "2026-08-04",
+      "license": "Publisher open-access terms; article bytes are not redistributed",
+      "acquisition": "Retrieve the article through DOI 10.1021/acs.jpclett.4c02418. It is the literature basis for distinguishing magnitude-outside-ensemble coherence, which includes phase cancellation, from magnitude-inside-ensemble measures.",
+      "committed": false,
+      "exclusion_reason": "The publisher article is literature evidence rather than an executable input. No local publisher file was retained, so no checksum is asserted."
+    },
+    {
       "name": "Prior independent pulse-independent trajectory experiment bundle",
       "url": "https://raw.githubusercontent.com/noprofits-org/pvjohnston.com/b527db4a4f31012f751981f580e27bca763f9e54/downloads/pulse-independent-ci-data.tar.gz",
       "version": "repository path downloads/pulse-independent-ci-data.tar.gz at commit b527db4a4f31012f751981f580e27bca763f9e54",

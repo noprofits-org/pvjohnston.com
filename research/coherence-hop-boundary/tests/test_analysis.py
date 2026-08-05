@@ -41,7 +41,10 @@ def exact_trace(grid_n: int) -> dict:
         "upper_population": [0.20, 0.24, 0.30, 0.34],
         "product_qx_lt_0": [0.10, 0.20, 0.40, 0.60],
         "centroid_x": [1.0, 0.5, 0.0, -0.5],
+        "ensemble_coherence_real": [1.0, 0.8, 0.3, 0.2],
+        "ensemble_coherence_imag": [0.0, 0.0, 0.0, 0.0],
         "coherence_amplitude": [1.0, 0.8, 0.3, 0.2],
+        "mean_trajectory_coherence_magnitude": [1.0, 0.8, 0.3, 0.2],
         "norm": [1.0, 1.0, 1.0, 1.0],
     }
 
@@ -52,13 +55,20 @@ def trajectory_run(scale: float, seed: int, rank: int, *, dt_fs: float = 0.025, 
         "upper_population": [0.20, 0.24, 0.30, 0.34],
         "product_qx_lt_0": [0.10, 0.20, 0.40, 0.60],
         "centroid_x": [1.0, 0.5, 0.0, -0.5],
+        "ensemble_coherence_real": [1.0, 0.8, 0.3, 0.2],
+        "ensemble_coherence_imag": [0.0, 0.0, 0.0, 0.0],
         "coherence_amplitude": [1.0, 0.8, 0.3, 0.2],
+        "mean_trajectory_coherence_magnitude": [1.0, 0.8, 0.3, 0.2],
     }
+    rp_coherence = [value - 0.7 * magnitude for value in full["coherence_amplitude"]]
     rp = {
         "upper_population": [value - magnitude for value in full["upper_population"]],
         "product_qx_lt_0": [value - 0.9 * magnitude for value in full["product_qx_lt_0"]],
         "centroid_x": [value - 8.035823190306067 * 1.5 * magnitude for value in full["centroid_x"]],
-        "coherence_amplitude": [value - 0.7 * magnitude for value in full["coherence_amplitude"]],
+        "ensemble_coherence_real": rp_coherence,
+        "ensemble_coherence_imag": [0.0, 0.0, 0.0, 0.0],
+        "coherence_amplitude": rp_coherence,
+        "mean_trajectory_coherence_magnitude": full["mean_trajectory_coherence_magnitude"],
     }
     records = []
     early_count = rank + 1
@@ -107,7 +117,7 @@ class AnalysisFixtureTest(unittest.TestCase):
     def test_full_projection_and_figure_are_deterministic(self) -> None:
         scales = analysis_module.DECLARED_SCALES
         runs = [
-            trajectory_run(scale, seed, rank)
+            trajectory_run(scale, seed, rank, dt_fs=0.0125, substeps=20)
             for rank, scale in enumerate(scales)
             for seed in (2701, 2702, 2703, 2704)
         ]
@@ -117,9 +127,17 @@ class AnalysisFixtureTest(unittest.TestCase):
             "tolerance": 1.0e-12,
             "passed": True,
         }}
-        convergence = {**FINGERPRINTS,
-            "coarse": trajectory_run(0.05, 2699, 6),
-            "fine": trajectory_run(0.05, 2699, 6, dt_fs=0.0125, substeps=20),
+        convergence = {
+            **FINGERPRINTS,
+            "complete": True,
+            "candidate": [
+                trajectory_run(0.05, seed, 6, dt_fs=0.0125, substeps=20)
+                for seed in (2687, 2688, 2689, 2690, 2691, 2692, 2693, 2694)
+            ],
+            "reference": [
+                trajectory_run(0.05, seed, 6, dt_fs=0.00625, substeps=40)
+                for seed in (2687, 2688, 2689, 2690, 2691, 2692, 2693, 2694)
+            ],
         }
         exact = {**FINGERPRINTS, "coarse": exact_trace(384), "fine": exact_trace(512)}
         document = analysis_module.build_analysis(
@@ -137,7 +155,7 @@ class AnalysisFixtureTest(unittest.TestCase):
         self.assertEqual(document["schema_version"], 1)
         self.assertEqual(len(document["regimes"]), 7)
         self.assertTrue(document["exact_grid_gate"]["coarse_grid_accepted"])
-        self.assertTrue(document["convergence_gate"]["coarse_setting_accepted"])
+        self.assertTrue(document["convergence_gate"]["candidate_setting_accepted"])
         self.assertEqual(document["hypothesis"]["verdict"], "supported")
         self.assertEqual(
             document["exploratory_spearman_early_hop_vs_error"]

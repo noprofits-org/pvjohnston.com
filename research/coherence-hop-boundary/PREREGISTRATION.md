@@ -1,5 +1,10 @@
 # Preregistration: coherence–hop boundary
 
+**Protocol status:** the original protocol below is retained as the historical
+record, but its coherence observable was superseded by the corrective amendment
+at the end of this file before any corrective canonical run. Results from the
+original run are not used to adjudicate the corrected question.
+
 Frozen at 2026-08-05T02:43:53Z, after the explicitly disclosed feasibility
 pilots below and before implementation, lineage validation, numerical
 convergence, exact-grid audit, or any confirmatory trajectory result. The
@@ -278,3 +283,214 @@ canonical `results/analysis.json` or validated `metrics.json` exists. The
 intended end state is end-to-end reproducibility after all commands pass,
 canonical artifacts are committed, analysis and metrics checks reproduce
 them, and the public manifest is verified.
+
+## Corrective protocol amendment: phase-sensitive ensemble coherence
+
+Frozen at 2026-08-05T05:37:38Z after review of the original canonical run and
+the explicitly disclosed diagnostic checks below, and before modifying the
+simulator or running the corrective lineage, fine/finer convergence, exact-grid,
+or 28-replicate production calculations. This amendment supersedes the original
+coherence observable, convergence gate, recrossing label, and artifact-timing
+policy. The Hamiltonian, launch distribution, PFM-rate scales, production seeds,
+geometry count, duration, FP–RP tolerances, and compound decision rule do not
+change.
+
+### Reason for amendment and disclosed diagnostics
+
+The original protocol used
+
+`mean[2 * abs(conj(c_minus) * c_plus)]`.
+
+That order of operations retains each trajectory's coherence magnitude before
+the ensemble average, so opposite phases cannot cancel. Mannouch and Kelly
+distinguish this local-magnitude measure from the ensemble off-diagonal density
+matrix whose decay includes pure dephasing. The original observable therefore
+cannot adjudicate the article's claim about surviving pump-generated or optical
+ensemble coherence.
+
+After finding the mismatch, read-only 250-geometry diagnostics at `s=0.075`
+and `s=0.05` indicated that phase-sensitive adiabatic and diabatic definitions
+could move the early-hop fractions below 0.5. Those checks establish that the
+correction can change the verdict. They make this amendment data-informed and
+are not treated as prospective evidence. Their trajectories, event counts, and
+estimates are excluded from the corrective canonical results.
+
+### Corrective question, contribution, and decision
+
+Question: at the fixed BMA[5,5] Hamiltonian and launch packet, can lowering the
+PFM rate multiplier create a finite-lifetime regime in which at least half of
+accepted FP hops occur while a phase-sensitive ensemble electronic coherence
+survives, and does RP-AXE remain equivalent to FP there under the three declared
+error limits?
+
+Corrective contribution: a gauge-defined, phase-sensitive reassessment of the
+RP-AXE trajectory-equivalence boundary, with real and imaginary ensemble
+density-matrix elements retained and multi-seed fine/finer convergence, which
+is not reported by Galiana et al. or Grell et al.
+
+The original directional hypothesis and falsifier are retained: the hypothesis
+is supported only if at least one of the seven unchanged scales has an
+uncensored phase-sensitive early-hop fraction at or above 0.5 and exceeds at
+least one FP–RP tolerance. It is falsified if no scale reaches 0.5 or every
+reached scale remains within all three tolerances. Because the correction was
+motivated by diagnostics that suggested the first falsifier branch, the final
+article must label the run a corrective confirmation rather than an outcome-
+blind preregistration.
+
+Exact wavepacket dynamics remains a secondary comparison. It does not enter the
+support/falsification rule, and any FP-versus-RP ranking must be described as a
+configured-method ranking rather than an equal-cost accuracy result.
+
+### Primary coherence observable and fixed gauge
+
+For each trajectory, convert the propagated diabatic amplitudes to the
+adiabatic basis using the implementation's explicit real gauge
+
+`theta = atan2(c * qy, kappa(qx))`,
+
+`|minus> = (cos(theta/2), -sin(theta/2))`, and
+
+`|plus> = (sin(theta/2), cos(theta/2))`.
+
+The primary ensemble density-matrix element is
+
+`rho_minus_plus(t) = mean[conj(c_minus(t)) * c_plus(t)]`,
+
+with the RP-AXE mean carrying its frozen trajectory weights. Every run must
+retain the two signed series
+
+`C_real(t) = 2 * Re(rho_minus_plus(t))` and
+
+`C_imag(t) = 2 * Im(rho_minus_plus(t))`.
+
+The primary amplitude is reconstructed from those stored components,
+
+`C_ens(t) = sqrt(C_real(t)^2 + C_imag(t)^2)`,
+
+before finding the first linearly interpolated `C_ens(0)/e` crossing. For a
+four-seed aggregate, average `C_real` and `C_imag` across seeds first and take
+the magnitude afterward. Averaging seed-level amplitudes is not permitted.
+
+The principal `atan2` range and the equations above fully specify the gauge.
+Crossing its branch cut changes both real eigenvectors by a common sign, leaving
+`conj(c_minus) * c_plus` unchanged. A geometry exactly at the conical
+intersection uses NumPy's `atan2(0, 0) = 0` convention.
+
+The original quantity is retained only as
+`mean_trajectory_coherence_magnitude` and cannot define a lifetime,
+classification, or optical-coherence claim. Exact propagation stores the same
+signed ensemble density-matrix components and the local-magnitude diagnostic.
+
+### Multi-seed fine/finer convergence gate
+
+The original one-seed coarse/fine comparison failed its early-hop-fraction
+tolerance and promoted the fine endpoint without demonstrating its convergence.
+The corrective gate therefore tests only the proposed production setting
+against a still finer reference at `s=0.05`, with four convergence-only seeds
+2691, 2692, 2693, and 2694, 4,000 geometries per seed, and 20 fs duration:
+
+- candidate: 0.0125 fs nuclear step and twenty electronic substeps;
+- reference: 0.00625 fs nuclear step and forty electronic substeps.
+
+Changing the substep count changes stochastic draw alignment, so individual
+paths are not treated as paired trajectories. Seed-level ensemble estimates are
+the paired replication unit. For early-hop fraction and coherence lifetime,
+compute the mean candidate-minus-reference difference and its two-sided 95%
+Student-t interval across the four seed pairs. For FP upper population, product
+probability, and centroid, compute the paired difference series for each seed,
+then the 95% interval of the mean difference at every candidate time point.
+
+The candidate is converged only if all of the following hold:
+
+- the largest absolute endpoint of the early-hop-fraction interval is at most
+  0.02;
+- the largest absolute endpoint of the coherence-lifetime interval is at most
+  0.15 fs;
+- the largest absolute endpoint over time is at most 0.02 for FP upper
+  population and 0.02 for FP product probability;
+- the largest absolute endpoint over time is at most `0.03 sigma_x` for the FP
+  centroid; and
+- pooled candidate and reference runs give the same majority-early-hop and
+  compound FP–RP robustness classifications.
+
+All four seeds must yield finite lifetimes and nonempty accepted-event
+denominators at both settings. If any requirement fails, the corrected
+experiment is inconclusive and the production sweep does not start. The finer
+endpoint is not automatically promoted without a further registered comparison.
+
+### Corrected event and artifact semantics
+
+A repeat accepted hop is any accepted event after a trajectory's first. A
+recrossing is narrower: a repeated accepted event whose target is the active
+state at that trajectory's initialization. The raw event record stores both
+labels. Neither changes the primary accepted-event denominator.
+
+Canonical scientific JSON excludes wall-clock runtimes and run-generation
+timestamps. Timing may be printed to the terminal but cannot enter an artifact
+whose hash authorizes a downstream stage. The metrics schema requires a
+`generated_at` field; its canonical value is pinned by the generator as a
+source-date epoch and is not read from the rerun wall clock. Given the same
+pinned environment and code, a clean rerun must reproduce canonical scientific
+bytes independently of worker count and machine speed.
+
+### Corrective run order and stopping
+
+Rerun the implementation-lineage gate after the observer and event-label fixes.
+The lineage comparison must still reproduce the ancestor's dynamics, accepted
+events, and original local-magnitude diagnostic. Then run the multi-seed
+fine/finer gate. Only a passing gate authorizes the exact-grid audit and the
+unchanged 28 scale-by-seed production replicates. Stop after those replicates;
+do not add scales or production seeds in response to the corrected outcome.
+
+## Fixed replication extension after an imprecise convergence result
+
+Frozen at 2026-08-05T06:31:07Z after the four-seed convergence gate completed
+and before running any additional seed. The first gate failed only its centroid
+interval criterion: at the worst time, 11.825 fs, the four paired differences
+were `0.00215562`, `-0.00519913`, `0.05779717`, and `-0.00143201 sigma_x`.
+Their mean, `0.01333041 sigma_x`, and the maximum absolute mean difference over
+time, `0.01666676 sigma_x`, were below the unchanged 0.03 tolerance, but the
+95% half-width was `0.04740576 sigma_x`, so the upper interval endpoint was
+`0.06073617 sigma_x`. The gate correctly blocked production because equivalence
+had not been demonstrated.
+
+To distinguish an unresolved stochastic-path interval from a persistent
+timestep shift, the replication count is doubled once by adding fresh
+convergence-only seeds 2687, 2688, 2689, and 2690. The final convergence set is
+therefore the eight pairs 2687–2694. Candidate and reference steps, 4,000
+geometries per seed, duration, observables, component-pooling rule, 95%
+two-sided Student-t interval, numerical tolerances, and classification
+requirements are unchanged. The final interval uses the `n=8` Student-t
+critical value 2.365.
+
+This extension is explicitly data-informed by interval width. It has one fixed
+stopping point: if the eight-pair gate fails any criterion, the correction is
+inconclusive and no further seed, tolerance, or numerical-setting extension is
+permitted. A pass validates only the 0.0125 fs/twenty-substep candidate already
+named in the amendment; the 0.00625 fs/forty-substep reference is never promoted
+without its own registered convergence comparison.
+
+## Corrective run closeout
+
+The eight-pair gate completed after the amendment above. This section records
+the terminal result; it does not amend the frozen protocol.
+
+Seven requirements passed. The maximum absolute 95% interval endpoints were
+`0.0059556574606134715` for accepted-event fraction,
+`0.01731191082246749 fs` for phase-sensitive lifetime,
+`0.007088787414513684` for FP upper population, and
+`0.00661291190962778` for FP product probability. Candidate and reference gave
+the same non-majority and nonrobust classifications.
+
+The FP centroid endpoint was `0.03860456796330737 sigma_x` at `14.2375 fs`,
+above the unchanged `0.03 sigma_x` limit. The gate therefore failed. In
+accordance with both the amendment and fixed replication extension, the
+corrective experiment is inconclusive, no exact-grid audit or 28-run
+phase-sensitive production sweep was started, and no additional seed,
+tolerance change, or endpoint promotion is permitted within this protocol.
+
+The pre-correction 28-run archive remains available only as descriptive
+evidence for mean single-trajectory coherence magnitude. Its production
+setting was selected after a coarse/fine early-event difference of
+`0.021625746684215907`, which exceeded the original `0.02` tolerance, without a
+fine/finer demonstration. It cannot adjudicate the phase-sensitive question.

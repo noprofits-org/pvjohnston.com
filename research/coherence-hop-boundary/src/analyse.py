@@ -37,6 +37,9 @@ CONVERGENCE_TOLERANCES = {
     "full_product_probability": 0.02,
     "full_centroid_x_sigma": 0.03,
 }
+CONVERGENCE_SEEDS = (2687, 2688, 2689, 2690, 2691, 2692, 2693, 2694)
+CONVERGENCE_CANDIDATE = (0.0125, 20)
+CONVERGENCE_REFERENCE = (0.00625, 40)
 EXACT_TOLERANCES = {
     "upper_population": 2.0e-4,
     "product_probability": 0.005,
@@ -47,9 +50,12 @@ OBSERVABLES = (
     "upper_population",
     "product_qx_lt_0",
     "centroid_x",
+    "ensemble_coherence_real",
+    "ensemble_coherence_imag",
     "coherence_amplitude",
+    "mean_trajectory_coherence_magnitude",
 )
-T_CRITICAL_95 = {2: 12.706, 3: 4.303, 4: 3.182}
+T_CRITICAL_95 = {2: 12.706, 3: 4.303, 4: 3.182, 8: 2.365}
 FINGERPRINT_FIELDS = (
     "model_fingerprint",
     "simulator_sha256",
@@ -133,6 +139,45 @@ def _trace_container(trace: dict[str, Any]) -> dict[str, Any]:
     return trace.get("observables", trace)
 
 
+def _reject_volatile_metadata(value: Any, path: str = "artifact") -> None:
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if key in ("runtime_seconds", "generated_at", "generated_at_utc"):
+                raise ValueError(f"{path}.{key} is volatile canonical metadata")
+            _reject_volatile_metadata(item, f"{path}.{key}")
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            _reject_volatile_metadata(item, f"{path}[{index}]")
+
+
+def _validate_coherence(container: dict[str, Any], time_size: int) -> None:
+    real = _array(container, "ensemble_coherence_real")
+    imag = _array(container, "ensemble_coherence_imag")
+    amplitude = _array(container, "coherence_amplitude")
+    local = _array(container, "mean_trajectory_coherence_magnitude")
+    if any(values.size != time_size for values in (real, imag, amplitude, local)):
+        raise ValueError("coherence series length differs from time grid")
+    if not np.allclose(amplitude, np.hypot(real, imag), rtol=0.0, atol=1e-12):
+        raise ValueError("coherence amplitude must be reconstructed from signed components")
+    if np.any(amplitude > local + 1e-12):
+        raise ValueError("ensemble coherence exceeds the local-magnitude upper bound")
+
+
+def _pool_observations(
+    runs: list[dict[str, Any]], method: str
+) -> dict[str, list[float]]:
+    pooled = {
+        field: np.mean([_array(run[method], field) for run in runs], axis=0).tolist()
+        for field in OBSERVABLES
+        if field != "coherence_amplitude"
+    }
+    pooled["coherence_amplitude"] = np.hypot(
+        _array(pooled, "ensemble_coherence_real"),
+        _array(pooled, "ensemble_coherence_imag"),
+    ).tolist()
+    return pooled
+
+
 def _sigma_x(*records: dict[str, Any]) -> float:
     for record in records:
         configuration = record.get("configuration", {})
@@ -159,8 +204,20 @@ def _first_crossing(time_fs: np.ndarray, coherence: np.ndarray) -> float | None:
 
 
 def _accepted_events(run: dict[str, Any]) -> list[dict[str, Any]]:
-    records = run["events"]["full"]
+    records = run.get("events", {}).get("full", [])
     return [event for event in records if event["outcome"] == "accepted"]
+
+
+def _accepted_event_times(run: dict[str, Any]) -> np.ndarray:
+    if "full_hop_time_fs" in run:
+        values = np.asarray(run["full_hop_time_fs"], dtype=float)
+    else:
+        values = np.asarray(
+            [event["time_fs"] for event in _accepted_events(run)], dtype=float
+        )
+    if values.ndim != 1 or not np.all(np.isfinite(values)):
+        raise ValueError("accepted event times must be a finite one-dimensional array")
+    return values
 
 
 def _event_diagnostics(
@@ -237,10 +294,12 @@ def _event_diagnostics(
         repeat += repeats_here
         trajectories_with_repeats += int(repeats_here > 0)
         initial_state = int(events[0]["from_state"])
-        recross_here = sum(
-            bool(event.get("recrossing", int(event["to_state"]) == initial_state))
-            for event in events[1:]
-        )
+        recross_here = 0
+        for event in events[1:]:
+            expected_recrossing = int(event["to_state"]) == initial_state
+            if "recrossing" in event and bool(event["recrossing"]) != expected_recrossing:
+                raise ValueError("stored recrossing label disagrees with the event sequence")
+            recross_here += int(expected_recrossing)
         recrossing += recross_here
         trajectories_with_recrossing += int(recross_here > 0)
 
@@ -332,15 +391,16 @@ def _run_outcomes(run: dict[str, Any]) -> dict[str, Any]:
         for field in OBSERVABLES:
             if _array(container, field).size != time_fs.size:
                 raise ValueError(f"{field} length differs from time grid")
+        _validate_coherence(container, time_fs.size)
     lifetime = _first_crossing(time_fs, _array(full, "coherence_amplitude"))
-    accepted = _accepted_events(run)
+    accepted_times = _accepted_event_times(run)
     early = None
-    if lifetime is not None and accepted:
-        early = sum(float(event["time_fs"]) <= lifetime for event in accepted) / len(accepted)
+    if lifetime is not None and accepted_times.size:
+        early = float(np.mean(accepted_times <= lifetime))
     errors = _max_errors(time_fs, full, rp, _sigma_x(run))
     return {
         "coherence_lifetime_fs": lifetime,
-        "accepted_hops": len(accepted),
+        "accepted_hops": int(accepted_times.size),
         "early_hop_fraction": early,
         "max_fp_rp_errors": errors,
         "classifications": _classifications(lifetime, early, errors),
@@ -414,6 +474,8 @@ def _analyse_exact(data: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]
         })
     time_fs = _time_grid(coarse)
     _time_grid(fine)
+    _validate_coherence(_trace_container(coarse), time_fs.size)
+    _validate_coherence(_trace_container(fine), _time_grid(fine).size)
     sigma = _sigma_x(coarse, fine)
     differences = {}
     for name, field, scale in (
@@ -444,57 +506,179 @@ def _analyse_exact(data: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]
     return summary, coarse if coarse_accepted else fine
 
 
-def _analyse_convergence(data: dict[str, Any]) -> dict[str, Any]:
-    coarse, fine = data["coarse"], data["fine"]
-    for label, record, dt_fs, substeps in (
-        ("coarse convergence", coarse, 0.025, 10),
-        ("fine convergence", fine, 0.0125, 20),
-    ):
-        _require_configuration(record, label, {
-            "pfm_rate_scale": 0.05,
-            "seed": 2699,
-            "geometry_count": FINAL_GEOMETRY_COUNT,
-            "dt_fs": dt_fs,
-            "electronic_substeps": substeps,
-            "total_fs": FINAL_TOTAL_FS,
-            "center_fraction": FINAL_CENTER_FRACTION,
-            "momentum_kick_toward_ci_sigma_px": FINAL_MOMENTUM_KICK_SIGMA,
+def _convergence_interval(values: np.ndarray) -> dict[str, Any]:
+    values = np.asarray(values, dtype=float)
+    if values.ndim not in (1, 2) or values.shape[0] != len(CONVERGENCE_SEEDS):
+        raise ValueError("convergence interval requires the eight frozen seed pairs")
+    if not np.all(np.isfinite(values)):
+        raise ValueError("convergence differences must be finite")
+    mean = np.mean(values, axis=0)
+    critical = T_CRITICAL_95[len(CONVERGENCE_SEEDS)]
+    half_width = critical * np.std(values, axis=0, ddof=1) / math.sqrt(values.shape[0])
+    lower, upper = mean - half_width, mean + half_width
+    endpoint = np.maximum(np.abs(lower), np.abs(upper))
+    output = {
+        "max_abs_interval_endpoint": float(np.max(endpoint)),
+        "n": int(values.shape[0]),
+    }
+    if values.ndim == 1:
+        output.update({
+            "paired_differences": values.tolist(),
+            "mean": float(mean),
+            "half_width": float(half_width),
+            "lower": float(lower),
+            "upper": float(upper),
         })
-    coarse_outcome, fine_outcome = _run_outcomes(coarse), _run_outcomes(fine)
-    coarse_time = _time_grid(coarse)
-    fine_time = _time_grid(fine)
-    sigma = _sigma_x(coarse, fine)
-    differences = {}
-    for name, field, scale in (
-        ("full_upper_population", "upper_population", 1.0),
-        ("full_product_probability", "product_qx_lt_0", 1.0),
-        ("full_centroid_x_sigma", "centroid_x", sigma),
+    else:
+        output["time_index_of_max_abs_interval_endpoint"] = int(np.argmax(endpoint))
+    return output
+
+
+def _pooled_outcomes(runs: list[dict[str, Any]]) -> dict[str, Any]:
+    time_fs = _time_grid(runs[0])
+    for run in runs[1:]:
+        if not np.allclose(time_fs, _time_grid(run), rtol=0.0, atol=1e-12):
+            raise ValueError("pooled convergence time grids differ")
+    full = _pool_observations(runs, "full")
+    rp = _pool_observations(runs, "reprop_axe")
+    lifetime = _first_crossing(time_fs, _array(full, "coherence_amplitude"))
+    accepted_times = np.concatenate([_accepted_event_times(run) for run in runs])
+    early = None
+    if lifetime is not None and accepted_times.size:
+        early = float(np.mean(accepted_times <= lifetime))
+    errors = _max_errors(time_fs, full, rp, _sigma_x(*runs))
+    return {
+        "coherence_lifetime_fs": lifetime,
+        "early_hop_fraction": early,
+        "classifications": _classifications(lifetime, early, errors),
+    }
+
+
+def _analyse_convergence(data: dict[str, Any]) -> dict[str, Any]:
+    if data.get("complete") is not True:
+        raise ValueError("convergence artifact must be complete")
+    candidate = sorted(
+        data["candidate"], key=lambda run: int(run["configuration"]["seed"])
+    )
+    reference = sorted(
+        data["reference"], key=lambda run: int(run["configuration"]["seed"])
+    )
+    if len(candidate) != len(CONVERGENCE_SEEDS) or len(reference) != len(CONVERGENCE_SEEDS):
+        raise ValueError("convergence artifact must contain eight runs per setting")
+    for label, records, (dt_fs, substeps) in (
+        ("candidate convergence", candidate, CONVERGENCE_CANDIDATE),
+        ("reference convergence", reference, CONVERGENCE_REFERENCE),
     ):
-        fine_values = np.interp(coarse_time, fine_time, _array(fine["full"], field))
-        differences[name] = float(np.max(np.abs(_array(coarse["full"], field) - fine_values)) / scale)
-    for key in ("early_hop_fraction", "coherence_lifetime_fs"):
-        a, b = coarse_outcome[key], fine_outcome[key]
-        differences[key] = None if a is None or b is None else abs(float(a) - float(b))
+        seeds = [int(record["configuration"]["seed"]) for record in records]
+        if tuple(seeds) != CONVERGENCE_SEEDS:
+            raise ValueError(f"{label} has off-protocol seeds")
+        for record in records:
+            _require_configuration(record, label, {
+                "pfm_rate_scale": 0.05,
+                "geometry_count": FINAL_GEOMETRY_COUNT,
+                "dt_fs": dt_fs,
+                "electronic_substeps": substeps,
+                "total_fs": FINAL_TOTAL_FS,
+                "center_fraction": FINAL_CENTER_FRACTION,
+                "momentum_kick_toward_ci_sigma_px": FINAL_MOMENTUM_KICK_SIGMA,
+            })
+
+    scalar_values = {"early_hop_fraction": [], "coherence_lifetime_fs": []}
+    series_values = {
+        "full_upper_population": [],
+        "full_product_probability": [],
+        "full_centroid_x_sigma": [],
+    }
+    candidate_time = _time_grid(candidate[0])
+    all_seed_values_finite = True
+    for candidate_run, reference_run in zip(candidate, reference, strict=True):
+        candidate_outcome = _run_outcomes(candidate_run)
+        reference_outcome = _run_outcomes(reference_run)
+        for key in scalar_values:
+            left, right = candidate_outcome[key], reference_outcome[key]
+            if left is None or right is None:
+                all_seed_values_finite = False
+                continue
+            scalar_values[key].append(float(left) - float(right))
+        if (
+            not _accepted_event_times(candidate_run).size
+            or not _accepted_event_times(reference_run).size
+        ):
+            all_seed_values_finite = False
+        reference_time = _time_grid(reference_run)
+        for output_name, field, scale in (
+            ("full_upper_population", "upper_population", 1.0),
+            ("full_product_probability", "product_qx_lt_0", 1.0),
+            ("full_centroid_x_sigma", "centroid_x", _sigma_x(candidate_run)),
+        ):
+            reference_values = np.interp(
+                candidate_time, reference_time, _array(reference_run["full"], field)
+            )
+            series_values[output_name].append(
+                (_array(candidate_run["full"], field) - reference_values) / scale
+            )
+
+    scalar_intervals = {}
+    if all_seed_values_finite:
+        scalar_intervals = {
+            key: _convergence_interval(np.asarray(values, dtype=float))
+            for key, values in scalar_values.items()
+        }
+    series_intervals = {
+        key: _convergence_interval(np.stack(values, axis=0))
+        for key, values in series_values.items()
+    }
+    for summary in series_intervals.values():
+        summary["time_fs_of_max_abs_interval_endpoint"] = float(
+            candidate_time[summary.pop("time_index_of_max_abs_interval_endpoint")]
+        )
+    candidate_outcome = _pooled_outcomes(candidate)
+    reference_outcome = _pooled_outcomes(reference)
     unchanged = {
-        name: coarse_outcome["classifications"][name] == fine_outcome["classifications"][name]
+        name: candidate_outcome["classifications"][name]
+        == reference_outcome["classifications"][name]
         for name in ("majority_early_hop", "compound_robust")
     }
     criteria = {
-        key: differences[key] is not None and differences[key] <= tolerance
-        for key, tolerance in CONVERGENCE_TOLERANCES.items()
+        "all_seed_lifetimes_and_event_denominators_finite": all_seed_values_finite,
+        "early_hop_fraction": bool(
+            all_seed_values_finite
+            and scalar_intervals["early_hop_fraction"]["max_abs_interval_endpoint"]
+            <= CONVERGENCE_TOLERANCES["early_hop_fraction"]
+        ),
+        "coherence_lifetime_fs": bool(
+            all_seed_values_finite
+            and scalar_intervals["coherence_lifetime_fs"]["max_abs_interval_endpoint"]
+            <= CONVERGENCE_TOLERANCES["coherence_lifetime_fs"]
+        ),
+        "full_upper_population": (
+            series_intervals["full_upper_population"]["max_abs_interval_endpoint"]
+            <= CONVERGENCE_TOLERANCES["full_upper_population"]
+        ),
+        "full_product_probability": (
+            series_intervals["full_product_probability"]["max_abs_interval_endpoint"]
+            <= CONVERGENCE_TOLERANCES["full_product_probability"]
+        ),
+        "full_centroid_x_sigma": (
+            series_intervals["full_centroid_x_sigma"]["max_abs_interval_endpoint"]
+            <= CONVERGENCE_TOLERANCES["full_centroid_x_sigma"]
+        ),
+        "majority_early_hop_unchanged": unchanged["majority_early_hop"],
+        "compound_robust_unchanged": unchanged["compound_robust"],
     }
-    criteria.update({f"{key}_unchanged": value for key, value in unchanged.items()})
-    coarse_accepted = all(criteria.values())
-    production = coarse if coarse_accepted else fine
+    passed = bool(all(criteria.values()))
     return {
         "tolerances": CONVERGENCE_TOLERANCES,
-        "differences": differences,
+        "paired_scalar_95_intervals": scalar_intervals,
+        "paired_time_series_95_envelopes": series_intervals,
         "classification_unchanged": unchanged,
+        "candidate_classification": candidate_outcome["classifications"],
+        "reference_classification": reference_outcome["classifications"],
         "criteria": criteria,
-        "coarse_setting_accepted": coarse_accepted,
-        "production_dt_fs": float(production["configuration"]["dt_fs"]),
-        "production_electronic_substeps": int(production["configuration"]["electronic_substeps"]),
-        "passed": True,
+        "candidate_setting_accepted": passed,
+        "production_dt_fs": CONVERGENCE_CANDIDATE[0],
+        "production_electronic_substeps": CONVERGENCE_CANDIDATE[1],
+        "passed": passed,
     }
 
 
@@ -526,11 +710,11 @@ def _analyse_regime(runs: list[dict[str, Any]], exact: dict[str, Any]) -> dict[s
     for run in runs[1:]:
         if not np.allclose(time_fs, _time_grid(run), rtol=0.0, atol=1e-12):
             raise ValueError("seed time grids differ")
+    for run in runs:
+        for method in ("full", "reprop_axe"):
+            _validate_coherence(run[method], time_fs.size)
     pooled = {
-        method: {
-            field: np.mean([_array(run[method], field) for run in runs], axis=0).tolist()
-            for field in OBSERVABLES
-        }
+        method: _pool_observations(runs, method)
         for method in ("full", "reprop_axe")
     }
     sigma = _sigma_x(*runs)
@@ -587,6 +771,8 @@ def build_analysis(
         "exact": exact,
         "sweep": sweep,
     }
+    for label, artifact in artifacts.items():
+        _reject_volatile_metadata(artifact, label)
     fingerprints = {}
     for field in FINGERPRINT_FIELDS:
         values = {label: artifact.get(field) for label, artifact in artifacts.items()}
@@ -724,7 +910,7 @@ def render_figure(analysis: dict[str, Any], output: Path) -> None:
         ("product_probability", ERROR_TOLERANCES["product_probability"],
          r"$P(q_x<0)$", "B", palette["lifted"], "s", (7, -20)),
         ("centroid_x_sigma", ERROR_TOLERANCES["centroid_x_sigma"],
-         r"$\langle q_x\rangle/\sigma_x$", "C", palette["deep"], "^", (7, 9)),
+         r"$\langle q_x\rangle/\sigma_x$", "C", palette["deep"], "^", (7, -20)),
     )
     for key, tolerance, label, letter, color, marker, offset in series:
         y = np.asarray([r["outcomes"]["max_fp_rp_errors"][key]["value"] / tolerance for r in analysis["regimes"]])
@@ -742,8 +928,12 @@ def render_figure(analysis: dict[str, Any], output: Path) -> None:
     ax.axvline(0.5, color=palette["ink2"], linewidth=1.3, linestyle=":")
     ax.set_xlim(0.0, 1.0)
     ax.set_ylim(bottom=0.0)
-    ax.set_xlabel(r"$f_{\mathrm{early}}$")
+    ax.set_xlabel(r"$f_{\mathrm{early}}$ from mean single-trajectory magnitude")
     ax.set_ylabel(r"$\max_t|\mathrm{FP}-\mathrm{RP}|\,/\,\mathrm{tol.}$")
+    ax.set_title(
+        "Archived local-magnitude comparison — not ensemble optical coherence",
+        color=palette["ink"], pad=14, fontweight="bold",
+    )
     ax.tick_params(colors=palette["ink"], width=1.2, length=6)
     for spine in ax.spines.values():
         spine.set_color(palette["ink"])

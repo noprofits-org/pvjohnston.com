@@ -8,6 +8,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import numpy as np
+
 
 SOURCE = Path(__file__).resolve().parents[1] / "src" / "simulate.py"
 SPEC = importlib.util.spec_from_file_location("coherence_hop_simulate", SOURCE)
@@ -57,16 +59,86 @@ class SimulatorContractTests(unittest.TestCase):
         self.assertEqual(len(observed_scales), 12)
         self.assertTrue(all(scale == 0.075 for scale in observed_scales))
 
-    def test_censoring_promotes_instead_of_crashing(self) -> None:
-        self.assertIsNone(simulate._finite_abs_difference(None, None))
-        self.assertIsNone(simulate._finite_abs_difference(None, 1.0))
+    def test_phase_cancellation_precedes_magnitude(self) -> None:
+        inverse_sqrt_two = 1.0 / np.sqrt(2.0)
+        coefficients = np.asarray([
+            [inverse_sqrt_two, inverse_sqrt_two],
+            [inverse_sqrt_two, -inverse_sqrt_two],
+        ], dtype=np.complex128)
+        observed = simulate.coherence_observables(coefficients)
+        self.assertAlmostEqual(observed["ensemble_coherence_real"], 0.0)
+        self.assertAlmostEqual(observed["ensemble_coherence_imag"], 0.0)
+        self.assertAlmostEqual(observed["coherence_amplitude"], 0.0)
+        self.assertAlmostEqual(
+            observed["mean_trajectory_coherence_magnitude"], 1.0
+        )
+
+    def test_recrossing_is_a_return_not_every_repeat(self) -> None:
+        recorder = simulate.HopRecorder(
+            1, keep_events=True, initial_state=np.asarray([0])
+        )
+        for index, from_state in enumerate((0, 1, 0), start=1):
+            recorder.record(
+                simulate.HopAttempt(
+                    proposed=np.asarray([True]),
+                    frustrated=np.asarray([False]),
+                    accepted=np.asarray([True]),
+                    from_state=np.asarray([from_state]),
+                ),
+                time_fs=float(index),
+                nuclear_step=index,
+                electronic_substep=1,
+            )
+        records = recorder.as_dict()["records"]
+        self.assertEqual(
+            [record["accepted_hop_class"] for record in records],
+            ["first", "repeat", "repeat"],
+        )
+        self.assertEqual(
+            [record["recrossing"] for record in records],
+            [False, True, False],
+        )
+
+    def test_component_pooling_preserves_cross_seed_phase_cancellation(self) -> None:
+        runs = [
+            {"full": {
+                "ensemble_coherence_real": [sign],
+                "ensemble_coherence_imag": [0.0],
+                "coherence_amplitude": [1.0],
+                "mean_trajectory_coherence_magnitude": [1.0],
+            }}
+            for sign in (1.0, -1.0)
+        ]
+        pooled = simulate.aggregate_observations(runs, "full")
+        self.assertEqual(pooled["coherence_amplitude"], [0.0])
+        self.assertEqual(pooled["mean_trajectory_coherence_magnitude"], [1.0])
+
+    def test_small_canonical_run_excludes_clock_and_reproduces_bytes(self) -> None:
+        controls = {
+            "pfm_rate_scale": 0.075,
+            "seed": 43,
+            "geometry_count": 6,
+            "dt_fs": 0.05,
+            "electronic_substeps": 2,
+            "total_fs": 0.10,
+        }
+        first = simulate.run_trajectory_regime(**controls)
+        second = simulate.run_trajectory_regime(**controls)
+        self.assertNotIn("runtime_seconds", first)
+        self.assertEqual(
+            simulate.canonical_json(simulate._json_safe(first)),
+            simulate.canonical_json(simulate._json_safe(second)),
+        )
 
     def test_exact_grid_failure_promotes_fine_reference(self) -> None:
         common = {
             "time_fs": [0.0, 1.0],
             "upper_population": [0.2, 0.3],
             "centroid_x": [0.0, 0.0],
+            "ensemble_coherence_real": [0.8, 0.4],
+            "ensemble_coherence_imag": [0.0, 0.0],
             "coherence_amplitude": [0.8, 0.4],
+            "mean_trajectory_coherence_magnitude": [0.8, 0.4],
             "norm": [1.0, 1.0],
         }
         coarse = {**common, "product_qx_lt_0": [0.1, 0.2]}

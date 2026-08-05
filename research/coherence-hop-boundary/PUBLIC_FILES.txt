@@ -12,11 +12,16 @@ research/coherence-hop-boundary/requirements.txt
 research/coherence-hop-boundary/sources.json
 research/coherence-hop-boundary/src/simulate.py
 research/coherence-hop-boundary/src/analyse.py
+research/coherence-hop-boundary/src/review_analysis.py
 research/coherence-hop-boundary/src/archive_json.py
+research/coherence-hop-boundary/src/correct_artifacts.py
 research/coherence-hop-boundary/tests/test_simulate.py
 research/coherence-hop-boundary/tests/test_analysis.py
 research/coherence-hop-boundary/tests/test_archive_json.py
+research/coherence-hop-boundary/tests/test_correct_artifacts.py
+research/coherence-hop-boundary/tests/test_review_analysis.py
 research/coherence-hop-boundary/results/lineage.json
+research/coherence-hop-boundary/results/legacy-convergence.json
 research/coherence-hop-boundary/results/convergence.json
 research/coherence-hop-boundary/results/exact.json
 research/coherence-hop-boundary/results/sweep.json.gz

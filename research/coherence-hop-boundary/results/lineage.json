@@ -9,8 +9,8 @@
     "openblas_num_threads": "1"
   },
   "model_fingerprint": "4813d56ecd4112a5703205ecbd72e609c95851c4b038e63bbe00ff805cd13235",
-  "simulator_sha256": "c2344ea4a8a820dcde46beebc72d4d4d12b71dc689dedea29b7a1ecf60e76185",
-  "config_sha256": "e8d95472f710539a710a43554bbbe7af2f58ebefa9c15bf28dc4dac8ff28366b",
+  "simulator_sha256": "bec0192c34373ed54ec2104071543718d0222a1ad7acc1298880074632cbaa5f",
+  "config_sha256": "2133bf50b4b0ddd122f1db4d27fe1a45fa1f18c22e96dfb2918e3e96059df37d",
   "environment_fingerprint": "a2fde8065689905201b5ed3b34f9776475e02bed482450c6cf50fd1bcc5edbf8",
   "legacy_source": {
     "path": "downloads/pulse-independent-ci.py",
@@ -315,8 +315,7 @@
       "axe_energy_drift_p99_hartree": 3.369911532469889e-05,
       "successful_axe_hops": 2,
       "max_full_internal_consistency_error": 0.059111930706300275
-    },
-    "runtime_seconds": 0.028546126995934173
+    }
   },
   "candidate": {
     "configuration": {
@@ -331,8 +330,8 @@
       "center_fraction": 0.5,
       "momentum_kick_toward_ci_sigma_px": 0.0,
       "model_fingerprint": "4813d56ecd4112a5703205ecbd72e609c95851c4b038e63bbe00ff805cd13235",
-      "simulator_sha256": "c2344ea4a8a820dcde46beebc72d4d4d12b71dc689dedea29b7a1ecf60e76185",
-      "config_sha256": "e8d95472f710539a710a43554bbbe7af2f58ebefa9c15bf28dc4dac8ff28366b",
+      "simulator_sha256": "bec0192c34373ed54ec2104071543718d0222a1ad7acc1298880074632cbaa5f",
+      "config_sha256": "2133bf50b4b0ddd122f1db4d27fe1a45fa1f18c22e96dfb2918e3e96059df37d",
       "environment_fingerprint": "a2fde8065689905201b5ed3b34f9776475e02bed482450c6cf50fd1bcc5edbf8",
       "dt_fs": 0.05,
       "n": 64,
@@ -349,11 +348,11 @@
         "center_fraction": 0.5,
         "momentum_kick_toward_ci_sigma_px": 0.0,
         "model_fingerprint": "4813d56ecd4112a5703205ecbd72e609c95851c4b038e63bbe00ff805cd13235",
-        "simulator_sha256": "c2344ea4a8a820dcde46beebc72d4d4d12b71dc689dedea29b7a1ecf60e76185",
-        "config_sha256": "e8d95472f710539a710a43554bbbe7af2f58ebefa9c15bf28dc4dac8ff28366b",
+        "simulator_sha256": "bec0192c34373ed54ec2104071543718d0222a1ad7acc1298880074632cbaa5f",
+        "config_sha256": "2133bf50b4b0ddd122f1db4d27fe1a45fa1f18c22e96dfb2918e3e96059df37d",
         "environment_fingerprint": "a2fde8065689905201b5ed3b34f9776475e02bed482450c6cf50fd1bcc5edbf8"
       },
-      "resume_key": "6df60c17287684d80c2699647462d12ccf9993a9f220b3bae48ab45cbd541a95",
+      "resume_key": "3e935632838375a786ecb6fbf2e533f511367dfea05ebdfb78b4771b86660afe",
       "model_contract": {
         "contract_version": 1,
         "model": {
@@ -452,7 +451,46 @@
         0.359375,
         0.359375
       ],
+      "ensemble_coherence_real": [
+        0.5524823375722101,
+        0.5507468959920706,
+        0.547291262888078,
+        0.541595475984798,
+        0.5297220799166746,
+        0.5090771332382865,
+        0.49996949494170423,
+        0.49093259178584736,
+        0.4796565997116135,
+        0.46624452754676887,
+        0.4508172163739519
+      ],
+      "ensemble_coherence_imag": [
+        0.0,
+        -0.026293232576049406,
+        -0.05253384387551633,
+        -0.07863842667950255,
+        -0.10449847014319405,
+        -0.12996244368651746,
+        -0.15482571018242516,
+        -0.17888753241100985,
+        -0.20186503266679104,
+        -0.22354198885397783,
+        -0.24368860810832932
+      ],
       "coherence_amplitude": [
+        0.5524823375722101,
+        0.5513741719777948,
+        0.5498068126041767,
+        0.5472747589262886,
+        0.539930932817815,
+        0.5254043817433228,
+        0.5233932521591725,
+        0.5225089079907342,
+        0.5204036366710667,
+        0.5170638067473894,
+        0.5124649259226757
+      ],
+      "mean_trajectory_coherence_magnitude": [
         0.7700452256988247,
         0.7717713552535483,
         0.7725901497040808,
@@ -532,7 +570,46 @@
         0.29677730533479074,
         0.29690976674822056
       ],
+      "ensemble_coherence_real": [
+        0.5524823375722101,
+        0.5507535315414014,
+        0.5466070824278754,
+        0.5396621271085362,
+        0.5260308149229791,
+        0.503600399588636,
+        0.4917169619657099,
+        0.4801257116641118,
+        0.46647119970289375,
+        0.4507795978914672,
+        0.4331915526770892
+      ],
+      "ensemble_coherence_imag": [
+        0.0,
+        -0.02629353625645653,
+        -0.05250547935925469,
+        -0.07850888798452728,
+        -0.10416546484960557,
+        -0.12927892617663586,
+        -0.15364338763100394,
+        -0.17704240156363515,
+        -0.1992368177109409,
+        -0.2199942632567356,
+        -0.23909224113170363
+      ],
       "coherence_amplitude": [
+        0.5524823375722101,
+        0.5513808144596573,
+        0.5491230535345054,
+        0.545342880147781,
+        0.5362451513215462,
+        0.5199292290487407,
+        0.5151619757392022,
+        0.5117271841053485,
+        0.5072382967440843,
+        0.5015971707865453,
+        0.4947929072654216
+      ],
+      "mean_trajectory_coherence_magnitude": [
         0.7700452256988247,
         0.7717883785032764,
         0.7720389903437039,
@@ -1346,8 +1423,7 @@
       "full_energy_drift_max_hartree": 1.559041858663129e-05,
       "axe_energy_drift_max_hartree": 9.38401152809137e-05,
       "max_full_internal_consistency_error": 0.059111930706300275
-    },
-    "runtime_seconds": 0.033508361026179045
+    }
   },
   "accepted_hop_record_comparison": {
     "fields": [
@@ -1384,18 +1460,18 @@
       "accepted_event_times_fs": 0.0,
       "full.upper_population": 0.0,
       "full.active_upper_fraction": 0.0,
-      "full.coherence_amplitude": 0.0,
       "full.centroid_x": 0.0,
       "full.centroid_y": 0.0,
       "full.product_qx_lt_0": 0.0,
       "full.electronic_norm_error": 0.0,
       "reprop_axe.upper_population": 0.0,
-      "reprop_axe.coherence_amplitude": 0.0,
       "reprop_axe.centroid_x": 0.0,
       "reprop_axe.centroid_y": 0.0,
       "reprop_axe.product_qx_lt_0": 0.0,
       "reprop_axe.electronic_norm_error": 0.0,
-      "reprop_axe.weight_sum_per_geometry": 0.0
+      "reprop_axe.weight_sum_per_geometry": 0.0,
+      "full.mean_trajectory_coherence_magnitude": 0.0,
+      "reprop_axe.mean_trajectory_coherence_magnitude": 0.0
     },
     "max_abs_observable_difference": 0.0,
     "rtol": 1e-12,

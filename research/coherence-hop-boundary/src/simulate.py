@@ -19,7 +19,6 @@ import math
 import os
 import platform
 import sys
-import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -43,7 +42,9 @@ COARSE_DT_FS = 0.025
 COARSE_SUBSTEPS = 10
 FINE_DT_FS = 0.0125
 FINE_SUBSTEPS = 20
-CONVERGENCE_SEED = 2699
+FINER_DT_FS = 0.00625
+FINER_SUBSTEPS = 40
+CONVERGENCE_SEEDS = (2687, 2688, 2689, 2690, 2691, 2692, 2693, 2694)
 LINEAGE_SEED = 2698
 LINEAGE_GEOMETRY_COUNT = 64
 LINEAGE_DT_FS = 0.05
@@ -76,15 +77,19 @@ ERROR_THRESHOLDS = {
 }
 LINEAGE_FIELDS = {
     "full": (
-        "upper_population", "active_upper_fraction", "coherence_amplitude",
+        "upper_population", "active_upper_fraction",
         "centroid_x", "centroid_y", "product_qx_lt_0",
         "electronic_norm_error",
     ),
     "reprop_axe": (
-        "upper_population", "coherence_amplitude", "centroid_x",
+        "upper_population", "centroid_x",
         "centroid_y", "product_qx_lt_0", "electronic_norm_error",
         "weight_sum_per_geometry",
     ),
+}
+LINEAGE_COHERENCE_FIELDS = {
+    "full": ("coherence_amplitude", "mean_trajectory_coherence_magnitude"),
+    "reprop_axe": ("coherence_amplitude", "mean_trajectory_coherence_magnitude"),
 }
 
 
@@ -361,12 +366,18 @@ def exact_observables(
     sine = np.sin(0.5 * theta)
     lower = cosine * psi[0] - sine * psi[1]
     upper_amplitude = sine * psi[0] + cosine * psi[1]
-    coherence = float(
-        np.sum(2.0 * np.abs(np.conj(lower) * upper_amplitude)) * volume_element
-    )
+    local_density_matrix = np.conj(lower) * upper_amplitude
+    ensemble_density_matrix = np.sum(local_density_matrix) * volume_element
+    coherence_real = float(2.0 * np.real(ensemble_density_matrix))
+    coherence_imag = float(2.0 * np.imag(ensemble_density_matrix))
     return {
         "upper_population": upper,
-        "coherence_amplitude": coherence,
+        "ensemble_coherence_real": coherence_real,
+        "ensemble_coherence_imag": coherence_imag,
+        "coherence_amplitude": math.hypot(coherence_real, coherence_imag),
+        "mean_trajectory_coherence_magnitude": float(
+            np.sum(2.0 * np.abs(local_density_matrix)) * volume_element
+        ),
         "centroid_x": float(np.sum(qx * density) * volume_element),
         "centroid_y": float(np.sum(qy * density) * volume_element),
         "product_qx_lt_0": float(np.sum(density[qx < 0.0]) * volume_element),
@@ -414,7 +425,6 @@ def run_bma_exact(
             observations.setdefault(name, []).append(value)
 
     observe(0)
-    started = time.monotonic()
     for step in range(1, steps + 1):
         apply_two_state_potential(psi, vbar, delta, kappa, 0.5 * dt)
         apply_kinetic(psi, kinetic)
@@ -444,7 +454,6 @@ def run_bma_exact(
         "configuration": configuration,
         "time_fs": time_fs,
         **observations,
-        "runtime_seconds": time.monotonic() - started,
     }
 
 
@@ -665,12 +674,21 @@ class HopAttempt:
 class HopRecorder:
     trajectory_count: int
     keep_events: bool
+    initial_state: np.ndarray | None = None
     proposed_counts: np.ndarray = field(init=False)
     frustrated_counts: np.ndarray = field(init=False)
     accepted_counts: np.ndarray = field(init=False)
     events: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
+        if self.initial_state is None:
+            self.initial_state = np.zeros(self.trajectory_count, dtype=np.int64)
+        else:
+            self.initial_state = np.asarray(self.initial_state, dtype=np.int64).copy()
+            if self.initial_state.shape != (self.trajectory_count,):
+                raise ValueError("initial_state must have one entry per trajectory")
+            if not np.all(np.isin(self.initial_state, (0, 1))):
+                raise ValueError("initial_state entries must be 0 or 1")
         self.proposed_counts = np.zeros(self.trajectory_count, dtype=np.int64)
         self.frustrated_counts = np.zeros(self.trajectory_count, dtype=np.int64)
         self.accepted_counts = np.zeros(self.trajectory_count, dtype=np.int64)
@@ -716,7 +734,11 @@ class HopRecorder:
                         if accepted else None
                     ),
                     "accepted_hops_before_event": accepted_before,
-                    "recrossing": bool(accepted and accepted_before > 0),
+                    "recrossing": bool(
+                        accepted
+                        and accepted_before > 0
+                        and to_state == int(self.initial_state[trajectory_id])
+                    ),
                 })
 
     def as_dict(self) -> dict[str, Any]:
@@ -1092,15 +1114,42 @@ def step_axe_ensemble(
     return attempts
 
 
+def coherence_observables(
+    c_ad: np.ndarray,
+    *,
+    weights: np.ndarray | None = None,
+    denominator: float | None = None,
+) -> dict[str, float]:
+    """Return signed ensemble coherence and the legacy local-magnitude proxy."""
+
+    local_density_matrix = np.conj(c_ad[:, 0]) * c_ad[:, 1]
+    if weights is None:
+        ensemble_density_matrix = np.mean(local_density_matrix)
+        local_magnitude = np.mean(2.0 * np.abs(local_density_matrix))
+    else:
+        if denominator is None or denominator <= 0.0:
+            raise ValueError("weighted coherence requires a positive denominator")
+        ensemble_density_matrix = np.sum(weights * local_density_matrix) / denominator
+        local_magnitude = (
+            np.sum(weights * 2.0 * np.abs(local_density_matrix)) / denominator
+        )
+    coherence_real = float(2.0 * np.real(ensemble_density_matrix))
+    coherence_imag = float(2.0 * np.imag(ensemble_density_matrix))
+    return {
+        "ensemble_coherence_real": coherence_real,
+        "ensemble_coherence_imag": coherence_imag,
+        "coherence_amplitude": math.hypot(coherence_real, coherence_imag),
+        "mean_trajectory_coherence_magnitude": float(local_magnitude),
+    }
+
+
 def observe_full_ensemble(state: dict[str, np.ndarray]) -> dict[str, float]:
     c_ad = diabatic_to_adiabatic(state["c"], state["q"])
     population = np.abs(c_ad) ** 2
     return {
         "upper_population": float(np.mean(population[:, 1])),
         "active_upper_fraction": float(np.mean(state["active"] == 1)),
-        "coherence_amplitude": float(np.mean(
-            2.0 * np.abs(np.conj(c_ad[:, 0]) * c_ad[:, 1])
-        )),
+        **coherence_observables(c_ad),
         "centroid_x": float(np.mean(state["q"][:, 0])),
         "centroid_y": float(np.mean(state["q"][:, 1])),
         "product_qx_lt_0": float(np.mean(state["q"][:, 0] < 0.0)),
@@ -1117,9 +1166,9 @@ def observe_axe_ensemble(state: dict[str, Any]) -> dict[str, float]:
     denominator = float(state["geometry_count"])
     return {
         "upper_population": float(np.sum(weight * population[:, 1]) / denominator),
-        "coherence_amplitude": float(np.sum(
-            weight * 2.0 * np.abs(np.conj(c_ad[:, 0]) * c_ad[:, 1])
-        ) / denominator),
+        **coherence_observables(
+            c_ad, weights=weight, denominator=denominator
+        ),
         "centroid_x": float(np.sum(weight * state["q"][:, 0]) / denominator),
         "centroid_y": float(np.sum(weight * state["q"][:, 1]) / denominator),
         "product_qx_lt_0": float(np.sum(
@@ -1250,9 +1299,12 @@ def run_trajectory_regime(
     reprop_observations: dict[str, list[float]] = {}
     append_observation(full_observations, observe_full_ensemble(full_state))
     append_observation(reprop_observations, observe_axe_ensemble(axe_state))
-    full_recorder = HopRecorder(geometry_count, keep_events=True)
-    axe_recorder = HopRecorder(2 * geometry_count, keep_events=False)
-    started = time.monotonic()
+    full_recorder = HopRecorder(
+        geometry_count, keep_events=True, initial_state=full_state["active"]
+    )
+    axe_recorder = HopRecorder(
+        2 * geometry_count, keep_events=False, initial_state=axe_state["active"]
+    )
     for step in range(steps):
         full_attempts = step_full_ensemble(
             full_state, dt, electronic_substeps, full_rng,
@@ -1353,7 +1405,6 @@ def run_trajectory_regime(
         "full_hop_time_fs": full_event_summary["accepted_event_time_fs"],
         "comparison": comparison,
         "diagnostics": diagnostics,
-        "runtime_seconds": time.monotonic() - started,
     }
 
 
@@ -1461,6 +1512,9 @@ def run_lineage_comparison(
         )
     finally:
         legacy.attempt_two_state_hops = original_hop_function
+    # Wall-clock timing is intentionally excluded from hash-bound scientific
+    # artifacts even though the checksummed ancestor returned it.
+    reference.pop("runtime_seconds", None)
     candidate = run_trajectory_regime(pfm_rate_scale=1.0, **common)
     candidate_accepted_records = [
         {
@@ -1486,6 +1540,10 @@ def run_lineage_comparison(
             differences[f"{method}.{observable}"] = _maximum_abs_difference(
                 reference[method][observable], candidate[method][observable]
             )
+    for method, (legacy_field, candidate_field) in LINEAGE_COHERENCE_FIELDS.items():
+        differences[f"{method}.{candidate_field}"] = _maximum_abs_difference(
+            reference[method][legacy_field], candidate[method][candidate_field]
+        )
     accepted_events_identical = bool(
         instrumentation_complete
         and legacy_accepted_records == candidate_accepted_records
@@ -1504,6 +1562,16 @@ def run_lineage_comparison(
         )
         for method, observables in LINEAGE_FIELDS.items()
         for observable in observables
+    )
+    arrays_close = arrays_close and all(
+        np.allclose(
+            np.asarray(reference[method][legacy_field]),
+            np.asarray(candidate[method][candidate_field]),
+            rtol=rtol,
+            atol=atol,
+            equal_nan=True,
+        )
+        for method, (legacy_field, candidate_field) in LINEAGE_COHERENCE_FIELDS.items()
     )
     fingerprints = runtime_fingerprints()
     result = {
@@ -1616,6 +1684,16 @@ def require_passing_lineage(path: Path) -> dict[str, Any]:
             for method, observables in LINEAGE_FIELDS.items()
             for observable in observables
         )
+        arrays_close = arrays_close and all(
+            np.allclose(
+                np.asarray(reference[method][legacy_field]),
+                np.asarray(candidate[method][candidate_field]),
+                rtol=1e-12,
+                atol=1e-12,
+                equal_nan=True,
+            )
+            for method, (legacy_field, candidate_field) in LINEAGE_COHERENCE_FIELDS.items()
+        )
         reference_records = record_comparison["reference_records"]
         candidate_records = record_comparison["candidate_records"]
         projected_candidate_records = [
@@ -1669,88 +1747,174 @@ def require_passing_lineage(path: Path) -> dict[str, Any]:
     }
 
 
-def _finite_abs_difference(a: float | None, b: float | None) -> float | None:
-    if a is None or b is None:
-        return None
-    if not (math.isfinite(float(a)) and math.isfinite(float(b))):
-        return None
-    return abs(float(a) - float(b))
+def _paired_interval(values: np.ndarray) -> dict[str, Any]:
+    """Return a two-sided 95% t interval for paired seed differences."""
+
+    values = np.asarray(values, dtype=float)
+    if values.ndim not in (1, 2) or values.shape[0] < 2:
+        raise ValueError("paired convergence values need at least two seed pairs")
+    if not np.all(np.isfinite(values)):
+        raise ValueError("paired convergence values must be finite")
+    critical = {4: 3.182, 8: 2.365}.get(values.shape[0], 1.96)
+    mean = np.mean(values, axis=0)
+    half_width = critical * np.std(values, axis=0, ddof=1) / math.sqrt(values.shape[0])
+    lower = mean - half_width
+    upper = mean + half_width
+    max_abs_endpoint = float(np.max(np.maximum(np.abs(lower), np.abs(upper))))
+    if values.ndim == 1:
+        return {
+            "paired_differences": values.tolist(),
+            "mean": float(mean),
+            "half_width": float(half_width),
+            "lower": float(lower),
+            "upper": float(upper),
+            "max_abs_interval_endpoint": max_abs_endpoint,
+            "n": int(values.shape[0]),
+        }
+    return {
+        "max_abs_interval_endpoint": max_abs_endpoint,
+        "time_index_of_max_abs_interval_endpoint": int(np.argmax(
+            np.maximum(np.abs(lower), np.abs(upper))
+        )),
+        "n": int(values.shape[0]),
+    }
 
 
-def compare_trajectory_settings(coarse: dict[str, Any], fine: dict[str, Any]) -> dict[str, Any]:
-    coarse_time = np.asarray(coarse["time_fs"], dtype=float)
-    fine_time = np.asarray(fine["time_fs"], dtype=float)
-    paired: dict[str, float] = {}
-    for observable, scale in (
-        ("upper_population", 1.0),
-        ("product_qx_lt_0", 1.0),
-        ("centroid_x", BMA_MODEL.initial_sigma_x),
-    ):
-        fine_values = np.interp(
-            coarse_time, fine_time, np.asarray(fine["full"][observable])
+def compare_trajectory_settings(
+    candidate_runs: list[dict[str, Any]],
+    reference_runs: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Compare fine/finer ensembles with paired-seed uncertainty intervals."""
+
+    candidate_runs = sorted(
+        candidate_runs, key=lambda run: int(run["configuration"]["seed"])
+    )
+    reference_runs = sorted(
+        reference_runs, key=lambda run: int(run["configuration"]["seed"])
+    )
+    candidate_seeds = [int(run["configuration"]["seed"]) for run in candidate_runs]
+    reference_seeds = [int(run["configuration"]["seed"]) for run in reference_runs]
+    if candidate_seeds != reference_seeds or tuple(candidate_seeds) != CONVERGENCE_SEEDS:
+        raise ValueError("convergence settings must contain the eight frozen seed pairs")
+
+    scalar_differences = {
+        "accepted_event_fraction": [],
+        "coherence_lifetime_fs": [],
+    }
+    series_differences: dict[str, list[np.ndarray]] = {
+        "upper_population": [],
+        "product_qx_lt_0": [],
+        "centroid_x_sigma": [],
+    }
+    all_seed_values_finite = True
+    candidate_time = np.asarray(candidate_runs[0]["time_fs"], dtype=float)
+    for candidate, reference in zip(candidate_runs, reference_runs, strict=True):
+        reference_time = np.asarray(reference["time_fs"], dtype=float)
+        for key in ("accepted_event_fraction", "coherence_lifetime_fs"):
+            field = (
+                "accepted_event_fraction_before_coherence_lifetime"
+                if key == "accepted_event_fraction" else key
+            )
+            left = candidate["comparison"].get(field)
+            right = reference["comparison"].get(field)
+            if left is None or right is None or not (
+                math.isfinite(float(left)) and math.isfinite(float(right))
+            ):
+                all_seed_values_finite = False
+                continue
+            scalar_differences[key].append(float(left) - float(right))
+        if not candidate["full_hop_time_fs"] or not reference["full_hop_time_fs"]:
+            all_seed_values_finite = False
+        for observable, output_name, scale in (
+            ("upper_population", "upper_population", 1.0),
+            ("product_qx_lt_0", "product_qx_lt_0", 1.0),
+            ("centroid_x", "centroid_x_sigma", BMA_MODEL.initial_sigma_x),
+        ):
+            reference_values = np.interp(
+                candidate_time,
+                reference_time,
+                np.asarray(reference["full"][observable], dtype=float),
+            )
+            series_differences[output_name].append(
+                (
+                    np.asarray(candidate["full"][observable], dtype=float)
+                    - reference_values
+                ) / scale
+            )
+
+    scalar_intervals = {}
+    if all_seed_values_finite:
+        scalar_intervals = {
+            key: _paired_interval(np.asarray(values, dtype=float))
+            for key, values in scalar_differences.items()
+        }
+    series_intervals = {
+        key: _paired_interval(np.stack(values, axis=0))
+        for key, values in series_differences.items()
+    }
+    for summary in series_intervals.values():
+        summary["time_fs_of_max_abs_interval_endpoint"] = float(
+            candidate_time[summary.pop("time_index_of_max_abs_interval_endpoint")]
         )
-        paired[observable] = float(np.max(np.abs(
-            np.asarray(coarse["full"][observable]) - fine_values
-        )) / scale)
-    fraction_difference = _finite_abs_difference(
-        coarse["comparison"]["accepted_event_fraction_before_coherence_lifetime"],
-        fine["comparison"]["accepted_event_fraction_before_coherence_lifetime"],
-    )
-    lifetime_difference = _finite_abs_difference(
-        coarse["comparison"]["coherence_lifetime_fs"],
-        fine["comparison"]["coherence_lifetime_fs"],
-    )
-    coarse_class = coarse["comparison"]["classification"]
-    fine_class = fine["comparison"]["classification"]
+
+    candidate_class = aggregate_scale_runs(candidate_runs)[
+        "comparison_of_replicate_means"
+    ]["classification"]
+    reference_class = aggregate_scale_runs(reference_runs)[
+        "comparison_of_replicate_means"
+    ]["classification"]
     checks = {
-        "accepted_event_fraction_difference_within_0_02": (
-            fraction_difference is not None
-            and fraction_difference <= TRAJECTORY_GATE_LIMITS["accepted_event_fraction"]
+        "all_seed_lifetimes_and_event_denominators_finite": all_seed_values_finite,
+        "accepted_event_fraction_95_interval_within_0_02": bool(
+            all_seed_values_finite
+            and scalar_intervals["accepted_event_fraction"]
+            ["max_abs_interval_endpoint"]
+            <= TRAJECTORY_GATE_LIMITS["accepted_event_fraction"]
         ),
-        "coherence_lifetime_difference_within_0_15_fs": (
-            lifetime_difference is not None
-            and lifetime_difference <= TRAJECTORY_GATE_LIMITS["coherence_lifetime_fs"]
+        "coherence_lifetime_95_interval_within_0_15_fs": bool(
+            all_seed_values_finite
+            and scalar_intervals["coherence_lifetime_fs"]
+            ["max_abs_interval_endpoint"]
+            <= TRAJECTORY_GATE_LIMITS["coherence_lifetime_fs"]
         ),
-        "full_upper_population_difference_within_0_02": (
-            paired["upper_population"] <= TRAJECTORY_GATE_LIMITS["upper_population"]
+        "full_upper_population_95_envelope_within_0_02": (
+            series_intervals["upper_population"]["max_abs_interval_endpoint"]
+            <= TRAJECTORY_GATE_LIMITS["upper_population"]
         ),
-        "full_product_difference_within_0_02": (
-            paired["product_qx_lt_0"] <= TRAJECTORY_GATE_LIMITS["product_qx_lt_0"]
+        "full_product_95_envelope_within_0_02": (
+            series_intervals["product_qx_lt_0"]["max_abs_interval_endpoint"]
+            <= TRAJECTORY_GATE_LIMITS["product_qx_lt_0"]
         ),
-        "full_centroid_difference_within_0_03_sigma": (
-            paired["centroid_x"] <= TRAJECTORY_GATE_LIMITS["centroid_x_sigma"]
+        "full_centroid_95_envelope_within_0_03_sigma": (
+            series_intervals["centroid_x_sigma"]["max_abs_interval_endpoint"]
+            <= TRAJECTORY_GATE_LIMITS["centroid_x_sigma"]
         ),
         "majority_classification_unchanged": (
-            coarse_class["majority_accepted_events_before_coherence_lifetime"]
-            == fine_class["majority_accepted_events_before_coherence_lifetime"]
+            candidate_class["majority_accepted_events_before_coherence_lifetime"]
+            == reference_class["majority_accepted_events_before_coherence_lifetime"]
         ),
         "compound_robustness_classification_unchanged": (
-            coarse_class["rp_axe_within_compound_error_thresholds"]
-            == fine_class["rp_axe_within_compound_error_thresholds"]
+            candidate_class["rp_axe_within_compound_error_thresholds"]
+            == reference_class["rp_axe_within_compound_error_thresholds"]
         ),
     }
     checks["passed"] = bool(all(checks.values()))
     return {
         "limits": TRAJECTORY_GATE_LIMITS,
-        "accepted_event_fraction_abs_difference": fraction_difference,
-        "coherence_lifetime_abs_difference_fs": lifetime_difference,
-        "maximum_paired_full_time_series_differences": {
-            "upper_population": paired["upper_population"],
-            "product_qx_lt_0": paired["product_qx_lt_0"],
-            "centroid_x_sigma": paired["centroid_x"],
-        },
-        "coarse_classification": coarse_class,
-        "fine_classification": fine_class,
+        "seeds": candidate_seeds,
+        "paired_scalar_95_intervals": scalar_intervals,
+        "paired_time_series_95_envelopes": series_intervals,
+        "candidate_classification": candidate_class,
+        "reference_classification": reference_class,
         "gate": checks,
         "selected_final_numerics": {
-            "dt_fs": COARSE_DT_FS if checks["passed"] else FINE_DT_FS,
-            "electronic_substeps": (
-                COARSE_SUBSTEPS if checks["passed"] else FINE_SUBSTEPS
-            ),
+            "dt_fs": FINE_DT_FS,
+            "electronic_substeps": FINE_SUBSTEPS,
+            "validated": checks["passed"],
             "reason": (
-                "coarse setting passed the frozen convergence gate"
+                "candidate passed every frozen multi-seed fine/finer criterion"
                 if checks["passed"]
-                else "one or more frozen checks failed; promote the fine setting"
+                else "candidate convergence was not demonstrated; production is blocked"
             ),
         },
     }
@@ -1759,34 +1923,117 @@ def compare_trajectory_settings(coarse: dict[str, Any], fine: dict[str, Any]) ->
 def run_trajectory_convergence(
     output: Path,
     lineage_path: Path,
+    workers: int = 1,
     progress: bool = False,
+    restart: bool = False,
 ) -> dict[str, Any]:
     lineage_gate = require_passing_lineage(lineage_path)
-    common = {
-        "pfm_rate_scale": 0.05,
-        "seed": CONVERGENCE_SEED,
-        "geometry_count": FINAL_GEOMETRY_COUNT,
-        "total_fs": FINAL_TOTAL_FS,
-        "progress": progress,
-    }
-    coarse = run_trajectory_regime(
-        dt_fs=COARSE_DT_FS, electronic_substeps=COARSE_SUBSTEPS, **common
+    if workers <= 0:
+        raise ValueError("workers must be positive")
+    settings = (
+        ("candidate", FINE_DT_FS, FINE_SUBSTEPS),
+        ("reference", FINER_DT_FS, FINER_SUBSTEPS),
     )
-    fine = run_trajectory_regime(
-        dt_fs=FINE_DT_FS, electronic_substeps=FINE_SUBSTEPS, **common
-    )
-    result = {
-        "schema_version": 1,
-        "artifact_type": "trajectory_convergence",
-        "environment": environment_record(),
-        **runtime_fingerprints(),
-        "lineage_gate": lineage_gate,
-        "coarse": coarse,
-        "fine": fine,
-        "comparison": compare_trajectory_settings(coarse, fine),
+    jobs = [
+        {
+            "setting": setting,
+            "pfm_rate_scale": 0.05,
+            "seed": seed,
+            "geometry_count": FINAL_GEOMETRY_COUNT,
+            "dt_fs": dt_fs,
+            "electronic_substeps": substeps,
+            "total_fs": FINAL_TOTAL_FS,
+            "progress": progress and workers == 1,
+        }
+        for setting, dt_fs, substeps in settings
+        for seed in CONVERGENCE_SEEDS
+    ]
+    fingerprints = runtime_fingerprints()
+    runs: list[dict[str, Any]] = []
+    if output.exists() and not restart:
+        with output.open(encoding="utf-8") as handle:
+            prior = json.load(handle)
+        if prior.get("artifact_type") != "trajectory_convergence":
+            raise ValueError("existing convergence artifact has the wrong type")
+        for name, expected in fingerprints.items():
+            if prior.get(name) != expected:
+                raise ValueError(f"existing convergence {name} is stale")
+        if prior.get("lineage_gate", {}).get("sha256") != lineage_gate["sha256"]:
+            raise ValueError("existing convergence used a different lineage artifact")
+        runs = list(prior.get("runs", []))
+
+    declared = {
+        (
+            job["setting"],
+            make_resume_key(**{
+                key: value for key, value in job.items()
+                if key not in ("setting", "progress")
+            }),
+        )
+        for job in jobs
     }
-    write_json(output, result)
-    return result
+    completed = {
+        (entry["setting"], entry["run"]["configuration"]["resume_key"])
+        for entry in runs
+    }
+    if len(completed) != len(runs) or not completed <= declared:
+        raise ValueError("existing convergence contains duplicate or off-protocol runs")
+
+    def checkpoint() -> dict[str, Any]:
+        runs.sort(key=lambda entry: (
+            0 if entry["setting"] == "candidate" else 1,
+            int(entry["run"]["configuration"]["seed"]),
+        ))
+        candidate = [entry["run"] for entry in runs if entry["setting"] == "candidate"]
+        reference = [entry["run"] for entry in runs if entry["setting"] == "reference"]
+        complete = len(runs) == len(jobs)
+        snapshot = {
+            "schema_version": 2,
+            "artifact_type": "trajectory_convergence",
+            "environment": environment_record(),
+            **fingerprints,
+            "lineage_gate": lineage_gate,
+            "seeds": list(CONVERGENCE_SEEDS),
+            "declared_runs": len(jobs),
+            "completed_runs": len(runs),
+            "complete": complete,
+            "runs": runs,
+            "candidate": candidate,
+            "reference": reference,
+            "comparison": (
+                compare_trajectory_settings(candidate, reference) if complete else None
+            ),
+        }
+        write_json(output, snapshot)
+        return snapshot
+
+    pending = []
+    for job in jobs:
+        key = make_resume_key(**{
+            name: value for name, value in job.items()
+            if name not in ("setting", "progress")
+        })
+        if (job["setting"], key) not in completed:
+            pending.append(job)
+
+    def execute(job: dict[str, Any]) -> dict[str, Any]:
+        setting = str(job["setting"])
+        controls = {key: value for key, value in job.items() if key != "setting"}
+        return {"setting": setting, "run": run_trajectory_regime(**controls)}
+
+    if workers == 1:
+        for job in pending:
+            runs.append(execute(job))
+            checkpoint()
+            print(f"completed convergence {len(runs)}/{len(jobs)}", flush=True)
+    else:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = {executor.submit(execute, job): job for job in pending}
+            for future in concurrent.futures.as_completed(futures):
+                runs.append(future.result())
+                checkpoint()
+                print(f"completed convergence {len(runs)}/{len(jobs)}", flush=True)
+    return checkpoint()
 
 
 def _exact_difference(coarse: dict[str, Any], fine: dict[str, Any]) -> dict[str, float]:
@@ -1865,6 +2112,27 @@ def run_exact_grid_audit(
     return result
 
 
+def aggregate_observations(
+    runs: list[dict[str, Any]], method: str
+) -> dict[str, list[float]]:
+    """Pool seed observables, reconstructing coherence after component pooling."""
+
+    fields = runs[0][method]
+    pooled = {
+        field_name: np.mean([
+            np.asarray(run[method][field_name], dtype=float) for run in runs
+        ], axis=0).tolist()
+        for field_name in fields
+        if field_name != "coherence_amplitude"
+    }
+    coherence_real = np.asarray(pooled["ensemble_coherence_real"], dtype=float)
+    coherence_imag = np.asarray(pooled["ensemble_coherence_imag"], dtype=float)
+    pooled["coherence_amplitude"] = np.hypot(
+        coherence_real, coherence_imag
+    ).tolist()
+    return pooled
+
+
 def aggregate_scale_runs(runs: list[dict[str, Any]]) -> dict[str, Any]:
     if not runs:
         raise ValueError("cannot aggregate an empty scale")
@@ -1872,18 +2140,8 @@ def aggregate_scale_runs(runs: list[dict[str, Any]]) -> dict[str, Any]:
     for run in runs[1:]:
         if not np.allclose(time_fs, np.asarray(run["time_fs"]), atol=1e-12):
             raise ValueError("replicate time grids differ")
-    full = {
-        field_name: np.mean([
-            np.asarray(run["full"][field_name], dtype=float) for run in runs
-        ], axis=0).tolist()
-        for field_name in runs[0]["full"]
-    }
-    reprop = {
-        field_name: np.mean([
-            np.asarray(run["reprop_axe"][field_name], dtype=float) for run in runs
-        ], axis=0).tolist()
-        for field_name in runs[0]["reprop_axe"]
-    }
+    full = aggregate_observations(runs, "full")
+    reprop = aggregate_observations(runs, "reprop_axe")
     accepted_times = np.concatenate([
         np.asarray(run["full_hop_time_fs"], dtype=float) for run in runs
     ])
@@ -1948,34 +2206,42 @@ def _selected_sweep_numerics(
             )
     if convergence.get("lineage_gate", {}).get("sha256") != lineage_sha256:
         raise ValueError("convergence was not authorized by the current lineage gate")
+    if convergence.get("complete") is not True:
+        raise ValueError("convergence artifact is incomplete")
     expected_runs = (
-        ("coarse", COARSE_DT_FS, COARSE_SUBSTEPS),
-        ("fine", FINE_DT_FS, FINE_SUBSTEPS),
+        ("candidate", FINE_DT_FS, FINE_SUBSTEPS),
+        ("reference", FINER_DT_FS, FINER_SUBSTEPS),
     )
     for label, dt_fs, substeps in expected_runs:
-        configuration = convergence[label]["configuration"]
-        expected = {
-            "pfm_rate_scale": 0.05,
-            "seed": CONVERGENCE_SEED,
-            "geometry_count": FINAL_GEOMETRY_COUNT,
-            "dt_fs": dt_fs,
-            "electronic_substeps": substeps,
-            "total_fs": FINAL_TOTAL_FS,
-        }
-        for name, value in expected.items():
-            if configuration.get(name) != value:
-                raise ValueError(f"convergence {label} has off-protocol {name}")
-        for name, value in fingerprints.items():
-            if configuration.get(name) != value:
-                raise ValueError(f"convergence {label} has foreign {name}")
+        records = convergence.get(label, [])
+        seeds = sorted(int(run["configuration"]["seed"]) for run in records)
+        if seeds != list(CONVERGENCE_SEEDS):
+            raise ValueError(f"convergence {label} has off-protocol seeds")
+        for run in records:
+            configuration = run["configuration"]
+            expected = {
+                "pfm_rate_scale": 0.05,
+                "geometry_count": FINAL_GEOMETRY_COUNT,
+                "dt_fs": dt_fs,
+                "electronic_substeps": substeps,
+                "total_fs": FINAL_TOTAL_FS,
+            }
+            for name, value in expected.items():
+                if configuration.get(name) != value:
+                    raise ValueError(f"convergence {label} has off-protocol {name}")
+            for name, value in fingerprints.items():
+                if configuration.get(name) != value:
+                    raise ValueError(f"convergence {label} has foreign {name}")
     recomputed = compare_trajectory_settings(
-        convergence["coarse"], convergence["fine"]
+        convergence["candidate"], convergence["reference"]
     )
     stored = convergence.get("comparison", {})
     for field in ("gate", "selected_final_numerics"):
         if canonical_json(stored.get(field)) != canonical_json(recomputed[field]):
             raise ValueError(f"stored convergence {field} is stale or edited")
     selected = recomputed["selected_final_numerics"]
+    if recomputed["gate"]["passed"] is not True or selected["validated"] is not True:
+        raise ValueError("multi-seed fine/finer convergence gate did not pass")
     return (
         float(selected["dt_fs"]),
         int(selected["electronic_substeps"]),
@@ -2213,7 +2479,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     lineage.add_argument("--total-fs", type=float, default=0.5)
 
     convergence = commands.add_parser(
-        "convergence", help="run the frozen 0.025/10 versus 0.0125/20 gate"
+        "convergence", help="run the frozen multi-seed fine/finer gate"
     )
     convergence.add_argument(
         "--output", type=Path, default=results_dir / "convergence.json"
@@ -2221,7 +2487,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     convergence.add_argument(
         "--lineage", type=Path, default=results_dir / "lineage.json"
     )
+    convergence.add_argument("--workers", type=int, default=1)
     convergence.add_argument("--progress", action="store_true")
+    convergence.add_argument(
+        "--restart", action="store_true",
+        help="discard an existing convergence checkpoint for this output path",
+    )
 
     exact = commands.add_parser(
         "exact-audit", help="run the frozen 384^2 versus 512^2 exact audit"
@@ -2266,10 +2537,11 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if result["comparison"]["passed"] else 2
     if args.command == "convergence":
         result = run_trajectory_convergence(
-            args.output, args.lineage, progress=args.progress
+            args.output, args.lineage, workers=args.workers,
+            progress=args.progress, restart=args.restart,
         )
         print(json.dumps(result["comparison"], indent=2))
-        return 0
+        return 0 if result["comparison"]["gate"]["passed"] else 2
     if args.command == "exact-audit":
         result = run_exact_grid_audit(
             args.output, args.lineage, args.convergence, progress=args.progress
