@@ -678,7 +678,28 @@ Format:
   $0.1\sigma_x$
 - **Publish the other outcome?** Yes — numerical robustness after a majority of
   coherence-overlapping hops would materially strengthen the reuse method.
-- **Status:** ready
+- **Status:** drafting — post PR #54
+
+## Does the FP--RP boundary follow coherence lifetime or the decoherence law?
+- **Observed:** In the BMA majority-hop experiment, slowing the PFM damping rate
+  produced two settings in which most accepted hops preceded the $C(0)/e$
+  lifetime and all three FP--RP tolerances were exceeded. RP-AXE was nevertheless
+  closer than FP to the selected numerical grid reference for population,
+  product probability, and centroid. Changing the PFM multiplier changes both
+  the lifetime and the damping algorithm's action, so that run cannot identify
+  which controls the boundary or the exact-reference ranking.
+- **Source:** own next step; post PR #54
+- **Type:** untested regime / composition
+- **Contribution (candidate):** a matched-coherence-lifetime comparison between
+  PFM and an independently implemented alternative decoherence law on the same
+  BMA Hamiltonian, testing whether the majority-hop FP--RP boundary and the
+  exact-reference ranking follow the lifetime or the law
+- **Falsifier:** after matching the pooled $C(0)/e$ lifetime, the alternative law
+  changes the majority classification, moves any registered FP--RP error beyond
+  its seed-level uncertainty interval, or reverses the FP-versus-RP ranking for
+  any registered observable
+- **Status:** observation — select and lineage-test the alternative decoherence
+  law before freezing thresholds or a sweep
 
 ## How wide is the spread CEPB hides inside its C=C correlation increment?
 - **Observed:** Witkowski et al. fit 33 bond-type correlation-energy increments
