@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "Galiana et al. pulse-independent trajectories article",
+      "url": "https://doi.org/10.1021/acs.jctc.5c01809",
+      "version": "Journal of Chemical Theory and Computation 22 (2026) 1224-1243; published 2026-01-20",
+      "accessed": "2026-08-04",
+      "license": "CC BY 4.0 as stated by the publisher",
+      "acquisition": "Retrieve the open-access article and the single supporting-information PDF through DOI 10.1021/acs.jctc.5c01809. They are literature and method evidence, not executable inputs.",
+      "committed": false,
+      "exclusion_reason": "Publisher article and SI bytes are not redistributed. At the access date the article linked no public patch for the locally modified SHARC program, raw glycine trajectory archive, or reusable RP-AXE implementation, so this bundle cannot reproduce the source at software or molecular-data level. No local publisher file was retained, so no checksum is asserted."
+    },
+    {
+      "name": "Grell et al. PFM advances article",
+      "url": "https://doi.org/10.1039/D6FD00086J",
+      "version": "Faraday Discussions accepted manuscript; first published 2026-06-04",
+      "accessed": "2026-08-04",
+      "license": "CC BY-NC 3.0 as stated on the open accepted manuscript",
+      "acquisition": "Retrieve the open accepted manuscript through DOI 10.1039/D6FD00086J. It is literature and method evidence, not an executable input.",
+      "committed": false,
+      "exclusion_reason": "The publisher manuscript is not redistributed. At the access date it linked no public patch for the authors' local SHARC modifications, raw LiH, glycine, or dithiane trajectories, or reusable pulse-independent workflow. No local publisher file was retained, so no checksum is asserted."
+    },
+    {
+      "name": "Grell et al. original projected-forces-and-momenta method article",
+      "url": "https://doi.org/10.1021/acs.jctc.5c00531",
+      "version": "Journal of Chemical Theory and Computation 21 (2025) 10645-10668; published 2025-10-20",
+      "accessed": "2026-08-04",
+      "license": "CC BY 4.0 as stated by the publisher",
+      "acquisition": "Retrieve the open-access article and supporting-information PDF through DOI 10.1021/acs.jctc.5c00531. The independently implemented equations are inherited through the checksummed prior bundle.",
+      "committed": false,
+      "exclusion_reason": "Publisher files are literature evidence and are not redistributed. They are not required at execution time because this experiment inherits and lineage-tests the prior independent implementation."
+    },
+    {
+      "name": "Prior independent pulse-independent trajectory experiment bundle",
+      "url": "https://raw.githubusercontent.com/noprofits-org/pvjohnston.com/b527db4a4f31012f751981f580e27bca763f9e54/downloads/pulse-independent-ci-data.tar.gz",
+      "version": "repository path downloads/pulse-independent-ci-data.tar.gz at commit b527db4a4f31012f751981f580e27bca763f9e54",
+      "accessed": "2026-08-04",
+      "sha256": "eb8a7ed3e13c0c02a6872da57f23317a541c764d44f060902b0874b8e99e29d0",
+      "license": "BSD-3-Clause; repository LICENSE",
+      "acquisition": "Use the committed downloads/pulse-independent-ci-data.tar.gz, or retrieve the exact blob from the pinned raw GitHub URL. Verify SHA-256 before extracting pulse-independent-ci.py for the lineage comparison.",
+      "committed": true,
+      "exclusion_reason": "Not excluded. The archive is already committed and publicly routed; the new bundle records rather than duplicates its bytes."
+    }
+  ]
+}

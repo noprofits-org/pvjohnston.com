@@ -1,0 +1,25 @@
+# One repository-relative path per line. This is the reviewed reader-facing
+# routing allowlist for the completed bundle. Publisher PDFs, scratch files,
+# caches, private transcripts, and the normally routed post image are excluded.
+LICENSE
+research/metrics.schema.json
+research/coherence-hop-boundary/LICENSE
+research/coherence-hop-boundary/README.md
+research/coherence-hop-boundary/PREREGISTRATION.md
+research/coherence-hop-boundary/config.json
+research/coherence-hop-boundary/environment.md
+research/coherence-hop-boundary/requirements.txt
+research/coherence-hop-boundary/sources.json
+research/coherence-hop-boundary/src/simulate.py
+research/coherence-hop-boundary/src/analyse.py
+research/coherence-hop-boundary/src/archive_json.py
+research/coherence-hop-boundary/tests/test_simulate.py
+research/coherence-hop-boundary/tests/test_analysis.py
+research/coherence-hop-boundary/tests/test_archive_json.py
+research/coherence-hop-boundary/results/lineage.json
+research/coherence-hop-boundary/results/convergence.json
+research/coherence-hop-boundary/results/exact.json
+research/coherence-hop-boundary/results/sweep.json.gz
+research/coherence-hop-boundary/results/analysis.json
+research/coherence-hop-boundary/generate-metrics.mjs
+research/coherence-hop-boundary/metrics.json
