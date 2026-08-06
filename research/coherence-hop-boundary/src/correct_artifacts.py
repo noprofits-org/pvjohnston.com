@@ -18,6 +18,8 @@ import subprocess
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
+from urllib.request import urlopen
 
 
 VOLATILE_KEYS = {"runtime_seconds", "generated_at", "generated_at_utc"}
@@ -45,6 +47,27 @@ def _load_bytes(path: Path) -> tuple[bytes, dict[str, Any]]:
     if not isinstance(value, dict):
         raise ValueError(f"{path}: top-level JSON value must be an object")
     return raw, value
+
+
+def _validate_source_url(url: str) -> None:
+    parsed = urlparse(url)
+    if (
+        parsed.scheme != "https"
+        or parsed.hostname != "raw.githubusercontent.com"
+        or not parsed.path.startswith("/noprofits-org/pvjohnston.com/")
+    ):
+        raise ValueError(
+            "artifact source URL must be an HTTPS raw.githubusercontent.com "
+            "path for noprofits-org/pvjohnston.com"
+        )
+
+
+def _decode_source(raw: bytes, label: str) -> dict[str, Any]:
+    payload = gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
+    value = json.loads(payload)
+    if not isinstance(value, dict):
+        raise ValueError(f"{label}: top-level JSON value must be an object")
+    return value
 
 
 def _strip_volatile(value: Any) -> Any:
@@ -234,19 +257,22 @@ def transform(
     input_path: Path | None,
     output_path: Path,
     git_object: str | None = None,
+    source_url: str | None = None,
 ) -> None:
-    if (input_path is None) == (git_object is None):
-        raise ValueError("provide exactly one of input_path or git_object")
+    if sum(source is not None for source in (input_path, git_object, source_url)) != 1:
+        raise ValueError("provide exactly one of input_path, git_object, or source_url")
     if git_object is not None:
         raw = subprocess.run(
             ["git", "show", git_object], check=True, capture_output=True
         ).stdout
-        payload = gzip.decompress(raw) if git_object.endswith(".gz") else raw
-        value = json.loads(payload)
-        if not isinstance(value, dict):
-            raise ValueError(f"{git_object}: top-level JSON value must be an object")
+        value = _decode_source(raw, git_object)
+    elif source_url is not None:
+        _validate_source_url(source_url)
+        with urlopen(source_url, timeout=60) as response:
+            raw = response.read()
+        value = _decode_source(raw, source_url)
     else:
-        assert input_path is not None
+        assert input_path is not None and git_object is None and source_url is None
         raw, value = _load_bytes(input_path)
     source_sha256 = value.get("artifact_correction", {}).get(
         "source_sha256",
@@ -275,13 +301,14 @@ def parse_args() -> argparse.Namespace:
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("--input", type=Path)
     source.add_argument("--git-object")
+    source.add_argument("--url")
     parser.add_argument("--output", type=Path, required=True)
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    transform(args.kind, args.input, args.output, args.git_object)
+    transform(args.kind, args.input, args.output, args.git_object, args.url)
     print(f"{args.output}: corrected {args.kind} artifact written")
     return 0
 

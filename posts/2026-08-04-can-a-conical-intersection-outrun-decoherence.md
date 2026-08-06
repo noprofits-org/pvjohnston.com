@@ -5,7 +5,7 @@ author: Peter Johnston
 tags: molecular photodynamics, surface hopping, electronic coherence, conical intersections, reproducibility
 description: A correction separates mean single-trajectory coherence magnitude from phase-sensitive ensemble coherence and stops the experiment at a failed convergence gate.
 post-type: research
-contribution: A phase-sensitive audit of my own coherence--hop experiment: it identifies the archived observable as only the mean magnitude of single-trajectory coherences, reconstructs true recrossings, and records a corrective fine/finer gate that blocks the optical-coherence claim.
+contribution: "A phase-sensitive audit of my own coherence--hop experiment: it identifies the archived observable as only the mean magnitude of single-trajectory coherences, reconstructs true recrossings, and records a corrective fine/finer gate that blocks the optical-coherence claim."
 contribution-type: falsification
 experiment: coherence-hop-boundary
 og-image: /images/2026-08-04-conical-intersection-outrun-decoherence-hero.png
@@ -75,8 +75,9 @@ C_{\mathrm{ens}}(t)
 $$
 
 The triangle inequality gives
-$C_{\mathrm{ens}}\le C_{\mathrm{local}}$. The first quantity can decay through
-phase cancellation; the second cannot. Mannouch and Kelly make this distinction
+$C_{\mathrm{ens}}\le C_{\mathrm{local}}$. The phase-sensitive
+$C_{\mathrm{ens}}$ can decay through phase cancellation;
+$C_{\mathrm{local}}$ cannot. Mannouch and Kelly make this distinction
 explicit when separating ensemble coherence, relevant to linear spectroscopy,
 from a magnitude-inside-ensemble measure that removes pure
 dephasing.[@MannouchKelly2024Coherence] A long-lived

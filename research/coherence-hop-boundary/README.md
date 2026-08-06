@@ -102,24 +102,27 @@ and validates corrected recrossing labels against event order.
 
 ## Reproduce the artifact corrections
 
-The original PR head is commit
-`77a27f6d06058067826b98130921229e31dfdb01`. The following commands recover
-and transform its legacy artifacts without rerunning production trajectories:
+The original PR head is permanent commit
+[`77a27f6d06058067826b98130921229e31dfdb01`](https://github.com/noprofits-org/pvjohnston.com/commit/77a27f6d06058067826b98130921229e31dfdb01).
+It is the direct parent of the corrective commit, but the commands below use
+commit-pinned raw GitHub URLs as well, so artifact recovery does not depend on
+the object already being present in a shallow local clone. They transform the
+legacy artifacts without rerunning production trajectories:
 
 ```sh
 python3 research/coherence-hop-boundary/src/correct_artifacts.py \
   legacy-convergence \
-  --git-object 77a27f6d06058067826b98130921229e31dfdb01:research/coherence-hop-boundary/results/convergence.json \
+  --url https://raw.githubusercontent.com/noprofits-org/pvjohnston.com/77a27f6d06058067826b98130921229e31dfdb01/research/coherence-hop-boundary/results/convergence.json \
   --output research/coherence-hop-boundary/results/legacy-convergence.json
 
 python3 research/coherence-hop-boundary/src/correct_artifacts.py \
   legacy-exact \
-  --git-object 77a27f6d06058067826b98130921229e31dfdb01:research/coherence-hop-boundary/results/exact.json \
+  --url https://raw.githubusercontent.com/noprofits-org/pvjohnston.com/77a27f6d06058067826b98130921229e31dfdb01/research/coherence-hop-boundary/results/exact.json \
   --output research/coherence-hop-boundary/results/exact.json
 
 python3 research/coherence-hop-boundary/src/correct_artifacts.py \
   legacy-sweep \
-  --git-object 77a27f6d06058067826b98130921229e31dfdb01:research/coherence-hop-boundary/results/sweep.json.gz \
+  --url https://raw.githubusercontent.com/noprofits-org/pvjohnston.com/77a27f6d06058067826b98130921229e31dfdb01/research/coherence-hop-boundary/results/sweep.json.gz \
   --output research/coherence-hop-boundary/results/sweep.json.gz
 ```
 

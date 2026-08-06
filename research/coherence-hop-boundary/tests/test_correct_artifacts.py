@@ -77,6 +77,14 @@ class CorrectArtifactsTest(unittest.TestCase):
         second = module._serialize({"a": 1, "b": 2}, True)
         self.assertEqual(first, second)
 
+    def test_permanent_source_url_is_repository_scoped(self) -> None:
+        module._validate_source_url(
+            "https://raw.githubusercontent.com/noprofits-org/"
+            "pvjohnston.com/77a27f6/results/example.json"
+        )
+        with self.assertRaises(ValueError):
+            module._validate_source_url("https://example.com/results/example.json")
+
 
 if __name__ == "__main__":
     unittest.main()
