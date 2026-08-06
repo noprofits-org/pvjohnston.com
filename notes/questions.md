@@ -678,7 +678,38 @@ Format:
   $0.1\sigma_x$
 - **Publish the other outcome?** Yes — numerical robustness after a majority of
   coherence-overlapping hops would materially strengthen the reuse method.
-- **Status:** ready
+- **Status:** inconclusive — post PR #54. The archived sweep measured mean
+  single-trajectory coherence magnitude, while the phase-sensitive corrective
+  sweep was blocked by its fine/finer centroid gate.
+
+## Which numerical endpoint stabilizes the phase-sensitive coherence--hop test?
+- **Observed:** The corrected BMA experiment retained signed ensemble
+  density-matrix components and compared 0.0125 fs / twenty electronic
+  substeps with 0.00625 fs / forty substeps at $s=0.05$ over eight paired
+  seeds. Their pooled phase-sensitive early-hop fractions were 0.25744 and
+  0.25711, and both were non-majority, but the centroid's maximum absolute 95%
+  interval endpoint was $0.03860\sigma_x$ against the frozen
+  $0.03\sigma_x$ limit. The gate therefore blocked the seven-scale production
+  sweep. The old 28-run archive cannot answer this question because it stores
+  only mean single-trajectory coherence magnitude.
+- **Source:** own next step; post PR #54
+- **Type:** quantification
+- **Contribution (candidate):** a preregistered multi-seed convergence map for
+  the signed ensemble-coherence components, accepted-event fraction, and FP
+  nuclear observables that either identifies the first stable trajectory
+  endpoint or quantifies the remaining numerical uncertainty under a fixed
+  compute ceiling
+- **Hypothesis:** one additional predeclared refinement level will bring every
+  paired 95% interval endpoint within the existing numerical tolerances without
+  changing the non-majority classification at $s=0.05$
+- **Falsifier:** no adjacent pair in the frozen refinement ladder satisfies all
+  existing lifetime, event-fraction, population, product, centroid, and
+  classification criteria before the compute ceiling is reached
+- **Publish the other outcome?** Yes — failure to obtain a stable endpoint would
+  show that this stochastic trajectory test is not yet suitable for adjudicating
+  the optical-coherence boundary on the present implementation.
+- **Status:** observation — requires a fresh protocol; the fixed extension in
+  PR #54 is exhausted and cannot be continued
 
 ## How wide is the spread CEPB hides inside its C=C correlation increment?
 - **Observed:** Witkowski et al. fit 33 bond-type correlation-energy increments
