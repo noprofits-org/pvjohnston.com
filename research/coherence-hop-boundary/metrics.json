@@ -1,0 +1,1290 @@
+{
+  "schema_version": 1,
+  "experiment": "coherence-hop-boundary",
+  "provenance": {
+    "generated_at": "2026-08-05T05:37:38Z",
+    "generator": "research/coherence-hop-boundary/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/coherence-hop-boundary/results/analysis.json",
+        "sha256": "2aa7f65d1c07a5f252f81b66cff73cbedc1c5cb4f80a768d2eb18768c5b403df"
+      },
+      {
+        "path": "research/coherence-hop-boundary/config.json",
+        "sha256": "2133bf50b4b0ddd122f1db4d27fe1a45fa1f18c22e96dfb2918e3e96059df37d"
+      }
+    ]
+  },
+  "metrics": {
+    "optical_coherence_claim_supported": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the archived production data support a phase-sensitive optical-coherence claim"
+    },
+    "corrective_hypothesis_inconclusive": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the phase-sensitive corrective experiment is inconclusive"
+    },
+    "corrective_production_run": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the 28-run phase-sensitive corrective production sweep was permitted"
+    },
+    "lineage_gate_passed": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the refactored simulator reproduced the frozen ancestor under the lineage test"
+    },
+    "lineage_max_observable_difference": {
+      "type": "number",
+      "value": 0,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Largest observable-array difference in the lineage comparison"
+    },
+    "corrective_convergence_passed": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the eight-paired-seed phase-sensitive fine/finer gate passed"
+    },
+    "corrective_convergence_seed_pairs": {
+      "type": "integer",
+      "value": 8,
+      "description": "Paired seeds in the corrective fine/finer gate",
+      "unit": "seed pairs"
+    },
+    "corrective_fraction_95_max_endpoint": {
+      "type": "number",
+      "value": 0.0059556574606134715,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum absolute endpoint of the paired 95% interval for corrected fraction",
+      "unit": "ratio"
+    },
+    "corrective_lifetime_95_max_endpoint": {
+      "type": "number",
+      "value": 0.01731191082246749,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Maximum absolute endpoint of the paired 95% interval for corrected lifetime",
+      "unit": "fs"
+    },
+    "corrective_population_95_max_endpoint": {
+      "type": "number",
+      "value": 0.007088787414513684,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum absolute paired 95% interval endpoint for corrected population",
+      "unit": "probability"
+    },
+    "corrective_population_95_max_endpoint_time_fs": {
+      "type": "number",
+      "value": 19.9875,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Time of the maximum corrected population interval endpoint",
+      "unit": "fs"
+    },
+    "corrective_product_95_max_endpoint": {
+      "type": "number",
+      "value": 0.00661291190962778,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum absolute paired 95% interval endpoint for corrected product",
+      "unit": "probability"
+    },
+    "corrective_product_95_max_endpoint_time_fs": {
+      "type": "number",
+      "value": 15.0875,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Time of the maximum corrected product interval endpoint",
+      "unit": "fs"
+    },
+    "corrective_centroid_95_max_endpoint": {
+      "type": "number",
+      "value": 0.03860456796330737,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum absolute paired 95% interval endpoint for corrected centroid",
+      "unit": "initial sigma_x"
+    },
+    "corrective_centroid_95_max_endpoint_time_fs": {
+      "type": "number",
+      "value": 14.2375,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Time of the maximum corrected centroid interval endpoint",
+      "unit": "fs"
+    },
+    "corrective_centroid_limit": {
+      "type": "number",
+      "value": 0.03,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Registered centroid convergence limit",
+      "unit": "initial sigma_x"
+    },
+    "corrective_candidate_ensemble_lifetime_fs": {
+      "type": "number",
+      "value": 3.1441598288534225,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Pooled phase-sensitive ensemble-coherence lifetime for the candidate setting",
+      "unit": "fs"
+    },
+    "corrective_candidate_early_hop_fraction": {
+      "type": "number",
+      "value": 0.25744300597184083,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Pooled accepted-event fraction before phase-sensitive ensemble coherence decays for the candidate setting",
+      "unit": "ratio"
+    },
+    "corrective_candidate_majority": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the candidate corrected convergence setting reaches the majority boundary"
+    },
+    "corrective_reference_ensemble_lifetime_fs": {
+      "type": "number",
+      "value": 3.146533114064405,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Pooled phase-sensitive ensemble-coherence lifetime for the reference setting",
+      "unit": "fs"
+    },
+    "corrective_reference_early_hop_fraction": {
+      "type": "number",
+      "value": 0.2571068964020659,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Pooled accepted-event fraction before phase-sensitive ensemble coherence decays for the reference setting",
+      "unit": "ratio"
+    },
+    "corrective_reference_majority": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the reference corrected convergence setting reaches the majority boundary"
+    },
+    "legacy_convergence_passed": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the archived local-magnitude coarse/fine gate passed"
+    },
+    "legacy_convergence_early_fraction_difference": {
+      "type": "number",
+      "value": 0.021625746684215907,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Archived coarse/fine difference in accepted-event fraction before the local-magnitude lifetime",
+      "unit": "ratio"
+    },
+    "legacy_convergence_early_fraction_limit": {
+      "type": "number",
+      "value": 0.02,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Archived convergence limit for the local-magnitude early-event fraction",
+      "unit": "ratio"
+    },
+    "legacy_local_magnitude_majority_regime_count": {
+      "type": "integer",
+      "value": 2,
+      "description": "Archived rate scales with a local-magnitude early-event majority",
+      "unit": "scales"
+    },
+    "legacy_local_magnitude_nonrobust_majority_regime_count": {
+      "type": "integer",
+      "value": 2,
+      "description": "Archived local-magnitude majority scales outside at least one FP-RP tolerance",
+      "unit": "scales"
+    },
+    "legacy_local_magnitude_numerically_converged": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the archived local-magnitude production setting was demonstrated converged"
+    },
+    "legacy_run_count": {
+      "type": "integer",
+      "value": 28,
+      "description": "Archived scale-by-seed trajectory runs",
+      "unit": "runs"
+    },
+    "legacy_geometry_count_per_seed": {
+      "type": "integer",
+      "value": 4000,
+      "description": "Archived Wigner geometries per seed and scale",
+      "unit": "geometries"
+    },
+    "legacy_fp_paths_per_seed": {
+      "type": "integer",
+      "value": 4000,
+      "description": "FP nuclear paths per seed and scale",
+      "unit": "paths"
+    },
+    "legacy_rp_axe_paths_per_seed": {
+      "type": "integer",
+      "value": 8000,
+      "description": "RP-AXE nuclear paths per seed and scale",
+      "unit": "paths"
+    },
+    "exact_spatial_grid_audit_passed": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the archived 384-versus-512 spatial-grid audit passed"
+    },
+    "exact_timestep_audited": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the selected exact trace received a timestep audit"
+    },
+    "exact_box_size_audited": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the selected exact trace received a box-size audit"
+    },
+    "exact_selected_grid_n": {
+      "type": "integer",
+      "value": 384,
+      "description": "Selected exact spatial-grid points per coordinate",
+      "unit": "grid points"
+    },
+    "exact_fine_max_norm_error": {
+      "type": "number",
+      "value": 1.8762769116165146e-13,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Maximum norm error on the 512-by-512 exact grid"
+    },
+    "s_1_rate_scale": {
+      "type": "number",
+      "value": 1,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "PFM-rate scale 1",
+      "unit": "rate multiplier"
+    },
+    "s_1_local_magnitude_lifetime_fs": {
+      "type": "number",
+      "value": 2.3619125678633734,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Pooled mean single-trajectory coherence-magnitude lifetime at PFM-rate scale 1",
+      "unit": "fs"
+    },
+    "s_1_local_magnitude_early_hop_fraction": {
+      "type": "number",
+      "value": 0.20318257956448912,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Archived accepted-event fraction before the local-magnitude lifetime at PFM-rate scale 1",
+      "unit": "ratio"
+    },
+    "s_1_max_upper_population_error": {
+      "type": "number",
+      "value": 0.017829496968805342,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP upper population difference at PFM-rate scale 1",
+      "unit": "probability"
+    },
+    "s_1_full_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.0264607707672299,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for upper population at PFM-rate scale 1",
+      "unit": "probability"
+    },
+    "s_1_reprop_axe_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.019198360218684003,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for upper population at PFM-rate scale 1",
+      "unit": "probability"
+    },
+    "s_1_max_product_probability_error": {
+      "type": "number",
+      "value": 0.02174627055550532,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP product probability difference at PFM-rate scale 1",
+      "unit": "probability"
+    },
+    "s_1_full_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.01838245984128143,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for product probability at PFM-rate scale 1",
+      "unit": "probability"
+    },
+    "s_1_reprop_axe_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.028900089035360805,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for product probability at PFM-rate scale 1",
+      "unit": "probability"
+    },
+    "s_1_max_centroid_x_sigma_error": {
+      "type": "number",
+      "value": 0.14858975788155687,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Maximum archived FP-RP centroid x sigma difference at PFM-rate scale 1",
+      "unit": "initial sigma_x"
+    },
+    "s_1_full_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.03680782732781771,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "FP RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 1",
+      "unit": "initial sigma_x"
+    },
+    "s_1_reprop_axe_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.12118387742821732,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 1",
+      "unit": "initial sigma_x"
+    },
+    "s_1_repeat_hop_events": {
+      "type": "integer",
+      "value": 5524,
+      "description": "Repeated accepted FP hops at PFM-rate scale 1",
+      "unit": "events"
+    },
+    "s_1_recrossing_events": {
+      "type": "integer",
+      "value": 5188,
+      "description": "True returns to the trajectory initial active state at PFM-rate scale 1",
+      "unit": "events"
+    },
+    "s_1_fp_consistency_error_max": {
+      "type": "number",
+      "value": 0.018022276190963138,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Largest seed-level FP coefficient-versus-active-state inconsistency at PFM-rate scale 1",
+      "unit": "probability"
+    },
+    "s_0_5_rate_scale": {
+      "type": "number",
+      "value": 0.5,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "PFM-rate scale 0.5",
+      "unit": "rate multiplier"
+    },
+    "s_0_5_local_magnitude_lifetime_fs": {
+      "type": "number",
+      "value": 3.464225121635417,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Pooled mean single-trajectory coherence-magnitude lifetime at PFM-rate scale 0.5",
+      "unit": "fs"
+    },
+    "s_0_5_local_magnitude_early_hop_fraction": {
+      "type": "number",
+      "value": 0.3286574799900982,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Archived accepted-event fraction before the local-magnitude lifetime at PFM-rate scale 0.5",
+      "unit": "ratio"
+    },
+    "s_0_5_max_upper_population_error": {
+      "type": "number",
+      "value": 0.030195781680608436,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP upper population difference at PFM-rate scale 0.5",
+      "unit": "probability"
+    },
+    "s_0_5_full_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.03200076433697967,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for upper population at PFM-rate scale 0.5",
+      "unit": "probability"
+    },
+    "s_0_5_reprop_axe_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.02050915413545242,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for upper population at PFM-rate scale 0.5",
+      "unit": "probability"
+    },
+    "s_0_5_max_product_probability_error": {
+      "type": "number",
+      "value": 0.027228041342515663,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP product probability difference at PFM-rate scale 0.5",
+      "unit": "probability"
+    },
+    "s_0_5_full_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.015696736983641206,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for product probability at PFM-rate scale 0.5",
+      "unit": "probability"
+    },
+    "s_0_5_reprop_axe_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.026843031517617102,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for product probability at PFM-rate scale 0.5",
+      "unit": "probability"
+    },
+    "s_0_5_max_centroid_x_sigma_error": {
+      "type": "number",
+      "value": 0.19570387669339806,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Maximum archived FP-RP centroid x sigma difference at PFM-rate scale 0.5",
+      "unit": "initial sigma_x"
+    },
+    "s_0_5_full_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.021907472345376097,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "FP RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.5",
+      "unit": "initial sigma_x"
+    },
+    "s_0_5_reprop_axe_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.11196463082350878,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.5",
+      "unit": "initial sigma_x"
+    },
+    "s_0_5_repeat_hop_events": {
+      "type": "integer",
+      "value": 5661,
+      "description": "Repeated accepted FP hops at PFM-rate scale 0.5",
+      "unit": "events"
+    },
+    "s_0_5_recrossing_events": {
+      "type": "integer",
+      "value": 5223,
+      "description": "True returns to the trajectory initial active state at PFM-rate scale 0.5",
+      "unit": "events"
+    },
+    "s_0_5_fp_consistency_error_max": {
+      "type": "number",
+      "value": 0.019724350488697806,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Largest seed-level FP coefficient-versus-active-state inconsistency at PFM-rate scale 0.5",
+      "unit": "probability"
+    },
+    "s_0_25_rate_scale": {
+      "type": "number",
+      "value": 0.25,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "PFM-rate scale 0.25",
+      "unit": "rate multiplier"
+    },
+    "s_0_25_local_magnitude_lifetime_fs": {
+      "type": "number",
+      "value": 4.886335635915746,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Pooled mean single-trajectory coherence-magnitude lifetime at PFM-rate scale 0.25",
+      "unit": "fs"
+    },
+    "s_0_25_local_magnitude_early_hop_fraction": {
+      "type": "number",
+      "value": 0.4264924756077394,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Archived accepted-event fraction before the local-magnitude lifetime at PFM-rate scale 0.25",
+      "unit": "ratio"
+    },
+    "s_0_25_max_upper_population_error": {
+      "type": "number",
+      "value": 0.0539005906113903,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP upper population difference at PFM-rate scale 0.25",
+      "unit": "probability"
+    },
+    "s_0_25_full_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.04597318333951625,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for upper population at PFM-rate scale 0.25",
+      "unit": "probability"
+    },
+    "s_0_25_reprop_axe_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.02777352527338665,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for upper population at PFM-rate scale 0.25",
+      "unit": "probability"
+    },
+    "s_0_25_max_product_probability_error": {
+      "type": "number",
+      "value": 0.04519635376875536,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP product probability difference at PFM-rate scale 0.25",
+      "unit": "probability"
+    },
+    "s_0_25_full_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.017788244924782703,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for product probability at PFM-rate scale 0.25",
+      "unit": "probability"
+    },
+    "s_0_25_reprop_axe_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.025777945601178073,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for product probability at PFM-rate scale 0.25",
+      "unit": "probability"
+    },
+    "s_0_25_max_centroid_x_sigma_error": {
+      "type": "number",
+      "value": 0.3276859299952754,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Maximum archived FP-RP centroid x sigma difference at PFM-rate scale 0.25",
+      "unit": "initial sigma_x"
+    },
+    "s_0_25_full_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.09905968613220885,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "FP RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.25",
+      "unit": "initial sigma_x"
+    },
+    "s_0_25_reprop_axe_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.1069524580314814,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.25",
+      "unit": "initial sigma_x"
+    },
+    "s_0_25_repeat_hop_events": {
+      "type": "integer",
+      "value": 5607,
+      "description": "Repeated accepted FP hops at PFM-rate scale 0.25",
+      "unit": "events"
+    },
+    "s_0_25_recrossing_events": {
+      "type": "integer",
+      "value": 5062,
+      "description": "True returns to the trajectory initial active state at PFM-rate scale 0.25",
+      "unit": "events"
+    },
+    "s_0_25_fp_consistency_error_max": {
+      "type": "number",
+      "value": 0.028989590155931305,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Largest seed-level FP coefficient-versus-active-state inconsistency at PFM-rate scale 0.25",
+      "unit": "probability"
+    },
+    "s_0_125_rate_scale": {
+      "type": "number",
+      "value": 0.125,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "PFM-rate scale 0.125",
+      "unit": "rate multiplier"
+    },
+    "s_0_125_local_magnitude_lifetime_fs": {
+      "type": "number",
+      "value": 6.8888248886671954,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Pooled mean single-trajectory coherence-magnitude lifetime at PFM-rate scale 0.125",
+      "unit": "fs"
+    },
+    "s_0_125_local_magnitude_early_hop_fraction": {
+      "type": "number",
+      "value": 0.47115384615384615,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Archived accepted-event fraction before the local-magnitude lifetime at PFM-rate scale 0.125",
+      "unit": "ratio"
+    },
+    "s_0_125_max_upper_population_error": {
+      "type": "number",
+      "value": 0.08483094946927913,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP upper population difference at PFM-rate scale 0.125",
+      "unit": "probability"
+    },
+    "s_0_125_full_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.06849314569127081,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for upper population at PFM-rate scale 0.125",
+      "unit": "probability"
+    },
+    "s_0_125_reprop_axe_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.04370330078024892,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for upper population at PFM-rate scale 0.125",
+      "unit": "probability"
+    },
+    "s_0_125_max_product_probability_error": {
+      "type": "number",
+      "value": 0.07111705174423624,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP product probability difference at PFM-rate scale 0.125",
+      "unit": "probability"
+    },
+    "s_0_125_full_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.028854023900529605,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for product probability at PFM-rate scale 0.125",
+      "unit": "probability"
+    },
+    "s_0_125_reprop_axe_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.025226867485944986,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for product probability at PFM-rate scale 0.125",
+      "unit": "probability"
+    },
+    "s_0_125_max_centroid_x_sigma_error": {
+      "type": "number",
+      "value": 0.509807544087658,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Maximum archived FP-RP centroid x sigma difference at PFM-rate scale 0.125",
+      "unit": "initial sigma_x"
+    },
+    "s_0_125_full_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.207231825510309,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "FP RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.125",
+      "unit": "initial sigma_x"
+    },
+    "s_0_125_reprop_axe_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.10450484771194841,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.125",
+      "unit": "initial sigma_x"
+    },
+    "s_0_125_repeat_hop_events": {
+      "type": "integer",
+      "value": 5480,
+      "description": "Repeated accepted FP hops at PFM-rate scale 0.125",
+      "unit": "events"
+    },
+    "s_0_125_recrossing_events": {
+      "type": "integer",
+      "value": 4766,
+      "description": "True returns to the trajectory initial active state at PFM-rate scale 0.125",
+      "unit": "events"
+    },
+    "s_0_125_fp_consistency_error_max": {
+      "type": "number",
+      "value": 0.04631844091927259,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Largest seed-level FP coefficient-versus-active-state inconsistency at PFM-rate scale 0.125",
+      "unit": "probability"
+    },
+    "s_0_10_rate_scale": {
+      "type": "number",
+      "value": 0.1,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "PFM-rate scale 0.1",
+      "unit": "rate multiplier"
+    },
+    "s_0_10_local_magnitude_lifetime_fs": {
+      "type": "number",
+      "value": 7.694489700028102,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Pooled mean single-trajectory coherence-magnitude lifetime at PFM-rate scale 0.1",
+      "unit": "fs"
+    },
+    "s_0_10_local_magnitude_early_hop_fraction": {
+      "type": "number",
+      "value": 0.48872495598960514,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Archived accepted-event fraction before the local-magnitude lifetime at PFM-rate scale 0.1",
+      "unit": "ratio"
+    },
+    "s_0_10_max_upper_population_error": {
+      "type": "number",
+      "value": 0.09322905890815658,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP upper population difference at PFM-rate scale 0.1",
+      "unit": "probability"
+    },
+    "s_0_10_full_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.07677237537101002,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for upper population at PFM-rate scale 0.1",
+      "unit": "probability"
+    },
+    "s_0_10_reprop_axe_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.05069459090194225,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for upper population at PFM-rate scale 0.1",
+      "unit": "probability"
+    },
+    "s_0_10_max_product_probability_error": {
+      "type": "number",
+      "value": 0.07889427259743934,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP product probability difference at PFM-rate scale 0.1",
+      "unit": "probability"
+    },
+    "s_0_10_full_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.032829614289372026,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for product probability at PFM-rate scale 0.1",
+      "unit": "probability"
+    },
+    "s_0_10_reprop_axe_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.025006165686113,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for product probability at PFM-rate scale 0.1",
+      "unit": "probability"
+    },
+    "s_0_10_max_centroid_x_sigma_error": {
+      "type": "number",
+      "value": 0.5658665632156753,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Maximum archived FP-RP centroid x sigma difference at PFM-rate scale 0.1",
+      "unit": "initial sigma_x"
+    },
+    "s_0_10_full_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.24086662076613835,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "FP RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.1",
+      "unit": "initial sigma_x"
+    },
+    "s_0_10_reprop_axe_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.10355439838214545,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.1",
+      "unit": "initial sigma_x"
+    },
+    "s_0_10_repeat_hop_events": {
+      "type": "integer",
+      "value": 5459,
+      "description": "Repeated accepted FP hops at PFM-rate scale 0.1",
+      "unit": "events"
+    },
+    "s_0_10_recrossing_events": {
+      "type": "integer",
+      "value": 4680,
+      "description": "True returns to the trajectory initial active state at PFM-rate scale 0.1",
+      "unit": "events"
+    },
+    "s_0_10_fp_consistency_error_max": {
+      "type": "number",
+      "value": 0.051635706072612,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Largest seed-level FP coefficient-versus-active-state inconsistency at PFM-rate scale 0.1",
+      "unit": "probability"
+    },
+    "s_0_075_rate_scale": {
+      "type": "number",
+      "value": 0.075,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "PFM-rate scale 0.075",
+      "unit": "rate multiplier"
+    },
+    "s_0_075_local_magnitude_lifetime_fs": {
+      "type": "number",
+      "value": 8.923965033325995,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Pooled mean single-trajectory coherence-magnitude lifetime at PFM-rate scale 0.075",
+      "unit": "fs"
+    },
+    "s_0_075_local_magnitude_early_hop_fraction": {
+      "type": "number",
+      "value": 0.5236731255265374,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Archived accepted-event fraction before the local-magnitude lifetime at PFM-rate scale 0.075",
+      "unit": "ratio"
+    },
+    "s_0_075_max_upper_population_error": {
+      "type": "number",
+      "value": 0.10485956923298581,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP upper population difference at PFM-rate scale 0.075",
+      "unit": "probability"
+    },
+    "s_0_075_full_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.08851394298277326,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for upper population at PFM-rate scale 0.075",
+      "unit": "probability"
+    },
+    "s_0_075_reprop_axe_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.06108167211556731,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for upper population at PFM-rate scale 0.075",
+      "unit": "probability"
+    },
+    "s_0_075_max_product_probability_error": {
+      "type": "number",
+      "value": 0.0917439709753507,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP product probability difference at PFM-rate scale 0.075",
+      "unit": "probability"
+    },
+    "s_0_075_full_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.03912646350399415,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for product probability at PFM-rate scale 0.075",
+      "unit": "probability"
+    },
+    "s_0_075_reprop_axe_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.024846344676129846,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for product probability at PFM-rate scale 0.075",
+      "unit": "probability"
+    },
+    "s_0_075_max_centroid_x_sigma_error": {
+      "type": "number",
+      "value": 0.6556585860002054,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Maximum archived FP-RP centroid x sigma difference at PFM-rate scale 0.075",
+      "unit": "initial sigma_x"
+    },
+    "s_0_075_full_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.29457062513578836,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "FP RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.075",
+      "unit": "initial sigma_x"
+    },
+    "s_0_075_reprop_axe_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.10276719517234828,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.075",
+      "unit": "initial sigma_x"
+    },
+    "s_0_075_repeat_hop_events": {
+      "type": "integer",
+      "value": 5411,
+      "description": "Repeated accepted FP hops at PFM-rate scale 0.075",
+      "unit": "events"
+    },
+    "s_0_075_recrossing_events": {
+      "type": "integer",
+      "value": 4559,
+      "description": "True returns to the trajectory initial active state at PFM-rate scale 0.075",
+      "unit": "events"
+    },
+    "s_0_075_fp_consistency_error_max": {
+      "type": "number",
+      "value": 0.05985931624600585,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Largest seed-level FP coefficient-versus-active-state inconsistency at PFM-rate scale 0.075",
+      "unit": "probability"
+    },
+    "s_0_05_rate_scale": {
+      "type": "number",
+      "value": 0.05,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "PFM-rate scale 0.05",
+      "unit": "rate multiplier"
+    },
+    "s_0_05_local_magnitude_lifetime_fs": {
+      "type": "number",
+      "value": 11.258340223640392,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Pooled mean single-trajectory coherence-magnitude lifetime at PFM-rate scale 0.05",
+      "unit": "fs"
+    },
+    "s_0_05_local_magnitude_early_hop_fraction": {
+      "type": "number",
+      "value": 0.5917049124596294,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Archived accepted-event fraction before the local-magnitude lifetime at PFM-rate scale 0.05",
+      "unit": "ratio"
+    },
+    "s_0_05_max_upper_population_error": {
+      "type": "number",
+      "value": 0.11335209111204561,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP upper population difference at PFM-rate scale 0.05",
+      "unit": "probability"
+    },
+    "s_0_05_full_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.10441577901517726,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for upper population at PFM-rate scale 0.05",
+      "unit": "probability"
+    },
+    "s_0_05_reprop_axe_rmse_selected_exact_upper_population": {
+      "type": "number",
+      "value": 0.07789227380549578,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for upper population at PFM-rate scale 0.05",
+      "unit": "probability"
+    },
+    "s_0_05_max_product_probability_error": {
+      "type": "number",
+      "value": 0.10277909194698187,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Maximum archived FP-RP product probability difference at PFM-rate scale 0.05",
+      "unit": "probability"
+    },
+    "s_0_05_full_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.04468000845086273,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "FP RMSE to the selected exact trace for product probability at PFM-rate scale 0.05",
+      "unit": "probability"
+    },
+    "s_0_05_reprop_axe_rmse_selected_exact_product_probability": {
+      "type": "number",
+      "value": 0.024502913780892054,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for product probability at PFM-rate scale 0.05",
+      "unit": "probability"
+    },
+    "s_0_05_max_centroid_x_sigma_error": {
+      "type": "number",
+      "value": 0.7310014050458201,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Maximum archived FP-RP centroid x sigma difference at PFM-rate scale 0.05",
+      "unit": "initial sigma_x"
+    },
+    "s_0_05_full_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.3413890802422986,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "FP RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.05",
+      "unit": "initial sigma_x"
+    },
+    "s_0_05_reprop_axe_rmse_selected_exact_centroid_x_sigma": {
+      "type": "number",
+      "value": 0.10164792514875702,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "RP-AXE RMSE to the selected exact trace for centroid x sigma at PFM-rate scale 0.05",
+      "unit": "initial sigma_x"
+    },
+    "s_0_05_repeat_hop_events": {
+      "type": "integer",
+      "value": 5353,
+      "description": "Repeated accepted FP hops at PFM-rate scale 0.05",
+      "unit": "events"
+    },
+    "s_0_05_recrossing_events": {
+      "type": "integer",
+      "value": 4448,
+      "description": "True returns to the trajectory initial active state at PFM-rate scale 0.05",
+      "unit": "events"
+    },
+    "s_0_05_fp_consistency_error_max": {
+      "type": "number",
+      "value": 0.07422842587228634,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Largest seed-level FP coefficient-versus-active-state inconsistency at PFM-rate scale 0.05",
+      "unit": "probability"
+    }
+  }
+}

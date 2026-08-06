@@ -1,0 +1,177 @@
+{
+  "schema_version": 2,
+  "experiment": "coherence-hop-boundary",
+  "status": "corrective_protocol_frozen_before_rerun",
+  "frozen_at_utc": "2026-08-05T02:43:53.883Z",
+  "corrective_amendment": {
+    "frozen_at_utc": "2026-08-05T05:37:38Z",
+    "reason": "replace_magnitude_inside_ensemble_with_phase_sensitive_density_matrix",
+    "diagnostic_runs_disclosed_and_excluded": true,
+    "canonical_metrics_source_date_epoch_utc": "2026-08-05T05:37:38Z",
+    "convergence_replication_extension": {
+      "frozen_at_utc": "2026-08-05T06:31:07Z",
+      "reason": "four_seed_centroid_interval_imprecise_while_mean_within_tolerance",
+      "added_seeds": [2687, 2688, 2689, 2690],
+      "no_further_extension": true
+    }
+  },
+  "post_type": "research",
+  "model": {
+    "name": "BMA-two-state-two-mode-LVC",
+    "units": "atomic_units",
+    "omega_x": 0.007743,
+    "omega_y": 0.00668,
+    "a": 31.05,
+    "c": 0.00008092,
+    "delta_p": 0.6,
+    "initial_diabatic_populations": [0.8, 0.2],
+    "qbar_x": 15.525,
+    "initial_sigma_x": 8.035823190306067,
+    "initial_sigma_y": 8.651606752574784
+  },
+  "launch": {
+    "center_fraction": 0.5,
+    "center_x": 7.7625,
+    "center_y": 0.0,
+    "momentum_kick_toward_ci_sigma_px": 0.0,
+    "mean_momentum_x": 0.0,
+    "mean_momentum_y": 0.0
+  },
+  "pfm": {
+    "rate_scale_role": "algorithmic_stress_dial_not_molecular_parameter",
+    "rate_scales": [1.0, 0.5, 0.25, 0.125, 0.1, 0.075, 0.05],
+    "pfm_omega": 0.007191887095887977,
+    "population_threshold": 0.0001,
+    "momentum_injection": true,
+    "apply_scale_to": [
+      "full_propagation",
+      "axe_base_paths",
+      "repropagated_coherent_coefficients"
+    ]
+  },
+  "confirmation": {
+    "seeds": [2701, 2702, 2703, 2704],
+    "pilot_excluded_seeds": [1701],
+    "geometry_count_per_seed_per_scale": 4000,
+    "total_fs": 20.0,
+    "planned_nuclear_dt_fs": 0.025,
+    "planned_electronic_substeps": 10,
+    "planned_electronic_dt_fs": 0.0025,
+    "nuclear_integrator": "velocity_verlet",
+    "electronic_propagator": "analytic_two_state_diabatic",
+    "hop_probability_basis": "adiabatic_density_flux",
+    "accepted_hop_rescaling": "isotropic"
+  },
+  "lineage_gate": {
+    "required_before": ["convergence", "exact_audit", "sweep"],
+    "archive_path": "downloads/pulse-independent-ci-data.tar.gz",
+    "archive_commit_short": "b527db4",
+    "archive_commit": "b527db4a4f31012f751981f580e27bca763f9e54",
+    "archive_sha256": "eb8a7ed3e13c0c02a6872da57f23317a541c764d44f060902b0874b8e99e29d0",
+    "ancestor_source_path": "downloads/pulse-independent-ci.py",
+    "ancestor_source_sha256": "9a62440a32f99057f699ec9de8c58fc2a19e0bf78f0848fd8826d1b23aa72350",
+    "rate_scale": 1.0,
+    "observable_rtol": 1e-12,
+    "observable_atol": 1e-12,
+    "requirements": [
+      "archive_checksum_matches",
+      "accepted_hop_records_identical",
+      "observable_arrays_match_frozen_floating_tolerance"
+    ],
+    "on_failure": "stop_before_confirmatory_data"
+  },
+  "coherence": {
+    "primary_basis": "adiabatic",
+    "gauge": "theta_equals_atan2(c_times_qy,kappa_qx)_principal_range",
+    "stored_components": [
+      "ensemble_coherence_real",
+      "ensemble_coherence_imag"
+    ],
+    "primary_amplitude": "hypot(mean_ensemble_coherence_real,mean_ensemble_coherence_imag)",
+    "secondary_local_magnitude": "mean_trajectory_coherence_magnitude",
+    "lifetime_threshold": "first_interpolated_primary_amplitude_C0_over_e_crossing"
+  },
+  "convergence_gate": {
+    "rate_scale": 0.05,
+    "seeds": [2687, 2688, 2689, 2690, 2691, 2692, 2693, 2694],
+    "geometry_count_per_seed": 4000,
+    "total_fs": 20.0,
+    "candidate": {
+      "nuclear_dt_fs": 0.0125,
+      "electronic_substeps": 20,
+      "electronic_dt_fs": 0.000625
+    },
+    "reference": {
+      "nuclear_dt_fs": 0.00625,
+      "electronic_substeps": 40,
+      "electronic_dt_fs": 0.00015625
+    },
+    "uncertainty": {
+      "replication_unit": "paired_seed_level_ensemble_estimate",
+      "interval": "two_sided_95_percent_student_t",
+      "time_series_rule": "maximum_absolute_interval_endpoint_over_candidate_time_grid"
+    },
+    "criteria": {
+      "max_abs_early_hop_fraction_95_interval_endpoint": 0.02,
+      "max_abs_coherence_lifetime_95_interval_endpoint_fs": 0.15,
+      "max_abs_full_population_95_interval_endpoint": 0.02,
+      "max_abs_full_product_95_interval_endpoint": 0.02,
+      "max_abs_full_centroid_95_interval_endpoint_sigma_x": 0.03,
+      "majority_classification_must_match": true,
+      "compound_robustness_classification_must_match": true,
+      "all_seed_lifetimes_and_event_denominators_must_be_finite": true
+    },
+    "on_any_failure": "stop_corrective_experiment_as_inconclusive",
+    "on_pass": "use_candidate_for_all_confirmatory_scales"
+  },
+  "exact_grid_audit": {
+    "bounds_per_axis_half_open": [-96.0, 96.0],
+    "production_candidate_points_per_axis": 384,
+    "audit_points_per_axis": 512,
+    "nuclear_dt_fs": 0.025,
+    "total_fs": 20.0,
+    "criteria": {
+      "max_abs_upper_population_difference": 0.0002,
+      "max_abs_product_probability_difference": 0.005,
+      "max_abs_centroid_difference_sigma_x": 0.01,
+      "fine_max_norm_error_strictly_below": 1e-10
+    },
+    "on_any_failure": "promote_512_grid_to_production_exact_reference"
+  },
+  "event_definition": {
+    "accepted": "a proposed FP state change with sufficient kinetic energy for isotropic momentum rescaling",
+    "frustrated": "a proposed state change rejected for insufficient kinetic energy",
+    "denominator": "all accepted FP hop events through 20 fs including repeated and backward hops",
+    "early_boundary": "accepted FP event time less than or equal to the aggregate coherence lifetime",
+    "no_crossing": "right_censored_fraction_null_and_ineligible",
+    "no_accepted_events": "fraction_null_and_ineligible",
+    "repeat": "accepted_event_after_the_trajectory_first_accepted_event",
+    "recrossing": "repeated_accepted_event_targeting_the_trajectory_initial_active_state"
+  },
+  "aggregation": {
+    "observable_series": "arithmetic_mean_across_four_confirmatory_seeds_except_primary_coherence",
+    "primary_coherence": "mean_real_and_imaginary_components_across_seeds_then_take_magnitude",
+    "accepted_event_times": "concatenate_across_four_confirmatory_seeds",
+    "coherence_lifetime": "first_linearly_interpolated_C0_over_e_crossing_of_mean_full_trace",
+    "uncertainty": "retain_per_seed_values_and_95_percent_intervals"
+  },
+  "decision": {
+    "majority_early_hop_fraction_minimum": 0.5,
+    "robustness_maxima": {
+      "upper_population": 0.05,
+      "product_probability": 0.05,
+      "centroid_sigma_x": 0.1
+    },
+    "hypothesis_supported": "at_least_one_uncensored_majority_regime_exceeds_at_least_one_robustness_maximum",
+    "hypothesis_falsified": "no_uncensored_majority_regime_or_all_majority_regimes_pass_all_robustness_maxima"
+  },
+  "outputs": {
+    "lineage": "research/coherence-hop-boundary/results/lineage.json",
+    "convergence": "research/coherence-hop-boundary/results/convergence.json",
+    "exact": "research/coherence-hop-boundary/results/exact.json",
+    "sweep": "research/coherence-hop-boundary/results/sweep.json",
+    "analysis": "research/coherence-hop-boundary/results/analysis.json",
+    "metrics": "research/coherence-hop-boundary/metrics.json",
+    "volatile_runtime_metadata_in_canonical_artifacts": false
+  }
+}

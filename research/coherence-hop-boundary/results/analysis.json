@@ -1,0 +1,2426 @@
+{
+  "artifact_fingerprints": {
+    "corrective_phase_sensitive": {
+      "config_sha256": "2133bf50b4b0ddd122f1db4d27fe1a45fa1f18c22e96dfb2918e3e96059df37d",
+      "environment_fingerprint": "a2fde8065689905201b5ed3b34f9776475e02bed482450c6cf50fd1bcc5edbf8",
+      "model_fingerprint": "4813d56ecd4112a5703205ecbd72e609c95851c4b038e63bbe00ff805cd13235",
+      "simulator_sha256": "bec0192c34373ed54ec2104071543718d0222a1ad7acc1298880074632cbaa5f"
+    },
+    "legacy_local_magnitude": {
+      "config_sha256": "e8d95472f710539a710a43554bbbe7af2f58ebefa9c15bf28dc4dac8ff28366b",
+      "environment_fingerprint": "a2fde8065689905201b5ed3b34f9776475e02bed482450c6cf50fd1bcc5edbf8",
+      "model_fingerprint": "4813d56ecd4112a5703205ecbd72e609c95851c4b038e63bbe00ff805cd13235",
+      "simulator_sha256": "c2344ea4a8a820dcde46beebc72d4d4d12b71dc689dedea29b7a1ecf60e76185"
+    }
+  },
+  "convergence_gate": {
+    "candidate_classification": {
+      "coherence_lifetime_censored": false,
+      "compound_robust": false,
+      "majority_early_hop": false,
+      "nonrobust_majority": false
+    },
+    "candidate_pooled_outcome": {
+      "classifications": {
+        "coherence_lifetime_censored": false,
+        "compound_robust": false,
+        "majority_early_hop": false,
+        "nonrobust_majority": false
+      },
+      "coherence_lifetime_fs": 3.1441598288534225,
+      "early_hop_fraction": 0.25744300597184083
+    },
+    "candidate_setting_accepted": false,
+    "classification_unchanged": {
+      "compound_robust": true,
+      "majority_early_hop": true
+    },
+    "criteria": {
+      "all_seed_lifetimes_and_event_denominators_finite": true,
+      "coherence_lifetime_fs": true,
+      "compound_robust_unchanged": true,
+      "early_hop_fraction": true,
+      "full_centroid_x_sigma": false,
+      "full_product_probability": true,
+      "full_upper_population": true,
+      "majority_early_hop_unchanged": true
+    },
+    "paired_scalar_95_intervals": {
+      "coherence_lifetime_fs": {
+        "half_width": 0.015118594943723663,
+        "lower": -0.01731191082246749,
+        "max_abs_interval_endpoint": 0.01731191082246749,
+        "mean": -0.002193315878743829,
+        "n": 8,
+        "paired_differences": [
+          0.0035342791756622915,
+          0.024215196476182754,
+          0.012830624854542005,
+          -0.022227943651048854,
+          -0.023603518551750025,
+          0.0040757557645418885,
+          0.005261810251887322,
+          -0.021632731349968015
+        ],
+        "upper": 0.012925279064979834
+      },
+      "early_hop_fraction": {
+        "half_width": 0.0057597550599848705,
+        "lower": -0.0055638526593562694,
+        "max_abs_interval_endpoint": 0.0059556574606134715,
+        "mean": 0.000195902400628601,
+        "n": 8,
+        "paired_differences": [
+          -0.009695994602312463,
+          0.0016899429233639962,
+          0.004201104381902354,
+          -0.0008718193664469798,
+          -0.00015377739328434337,
+          0.01173751058228939,
+          0.003036694000003337,
+          -0.008376441320486483
+        ],
+        "upper": 0.0059556574606134715
+      }
+    },
+    "paired_time_series_95_envelopes": {
+      "full_centroid_x_sigma": {
+        "max_abs_interval_endpoint": 0.03860456796330737,
+        "n": 8,
+        "time_fs_of_max_abs_interval_endpoint": 14.2375
+      },
+      "full_product_probability": {
+        "max_abs_interval_endpoint": 0.00661291190962778,
+        "n": 8,
+        "time_fs_of_max_abs_interval_endpoint": 15.0875
+      },
+      "full_upper_population": {
+        "max_abs_interval_endpoint": 0.007088787414513684,
+        "n": 8,
+        "time_fs_of_max_abs_interval_endpoint": 19.9875
+      }
+    },
+    "passed": false,
+    "production_blocked": true,
+    "production_dt_fs": 0.0125,
+    "production_electronic_substeps": 20,
+    "reference_classification": {
+      "coherence_lifetime_censored": false,
+      "compound_robust": false,
+      "majority_early_hop": false,
+      "nonrobust_majority": false
+    },
+    "reference_pooled_outcome": {
+      "classifications": {
+        "coherence_lifetime_censored": false,
+        "compound_robust": false,
+        "majority_early_hop": false,
+        "nonrobust_majority": false
+      },
+      "coherence_lifetime_fs": 3.146533114064405,
+      "early_hop_fraction": 0.2571068964020659
+    },
+    "tolerances": {
+      "coherence_lifetime_fs": 0.15,
+      "early_hop_fraction": 0.02,
+      "full_centroid_x_sigma": 0.03,
+      "full_product_probability": 0.02,
+      "full_upper_population": 0.02
+    }
+  },
+  "declared": {
+    "error_tolerances": {
+      "centroid_x_sigma": 0.1,
+      "product_probability": 0.05,
+      "upper_population": 0.05
+    },
+    "majority_early_hop_threshold": 0.5,
+    "pfm_rate_scales": [
+      1.0,
+      0.5,
+      0.25,
+      0.125,
+      0.1,
+      0.075,
+      0.05
+    ]
+  },
+  "exact_grid_gate": {
+    "box_size_audited": false,
+    "criteria": {
+      "centroid_x_sigma": true,
+      "fine_norm": true,
+      "product_probability": true,
+      "upper_population": true
+    },
+    "fine_max_norm_error": 1.8762769116165146e-13,
+    "interpretation": "secondary selected reference, not a complete exact convergence proof",
+    "maximum_time_series_differences": {
+      "centroid_x_sigma": 9.094192174497418e-13,
+      "mean_trajectory_coherence_magnitude": 0.0003445486385479368,
+      "product_probability": 0.0019118347604264452,
+      "upper_population": 6.008254213873965e-06
+    },
+    "selected_grid_n": 384,
+    "spatial_grid_audit_passed": true,
+    "timestep_audited": false
+  },
+  "experiment": "coherence-hop-boundary",
+  "exploratory_spearman_early_hop_vs_error": {
+    "centroid_x_sigma": {
+      "n": 7,
+      "rho": 1.0
+    },
+    "coherence_amplitude": {
+      "n": 7,
+      "rho": 0.9642857142857145
+    },
+    "product_probability": {
+      "n": 7,
+      "rho": 1.0
+    },
+    "upper_population": {
+      "n": 7,
+      "rho": 1.0
+    }
+  },
+  "hypothesis": {
+    "all_required_gates_passed": false,
+    "corrective_production_run": false,
+    "falsified": false,
+    "inconclusive": true,
+    "majority_regime_count": 0,
+    "majority_regime_reached": false,
+    "nonrobust_majority_regime_count": 0,
+    "optical_coherence_claim_supported": false,
+    "reason": "phase-sensitive production was blocked by the registered fine/finer centroid gate",
+    "supported": false,
+    "verdict": "inconclusive"
+  },
+  "input_sha256": {
+    "corrective_convergence": "5a6951b24419b4f6ab04ea58b875a49ffdac636f9ca82c06d06453dabada0387",
+    "legacy_convergence": "192d056c8b6f7e138812a3d2c821475e018ab2621ff7f809528a75fba0560fe5",
+    "legacy_exact": "aacb24e67cf9e571a828e94cf621d3aabc0dcb97ba1b4601b3d6d793239110c1",
+    "legacy_sweep": "3bd3021b157be0c6e32300730539b05df98d2369508b54f276ed87274bc24197",
+    "lineage": "739b5ba9307b86bfaafbee540924c447641ab015522c37c3eeca1c1ae8afc472"
+  },
+  "legacy_convergence_gate": {
+    "accepted_event_fraction_abs_difference": 0.021625746684215907,
+    "coarse_classification": {
+      "boundary_reached_and_robust": false,
+      "majority_accepted_events_before_coherence_lifetime": true,
+      "rp_axe_within_compound_error_thresholds": false
+    },
+    "coherence_lifetime_abs_difference_fs": 0.03127996685193324,
+    "fine_classification": {
+      "boundary_reached_and_robust": false,
+      "majority_accepted_events_before_coherence_lifetime": true,
+      "rp_axe_within_compound_error_thresholds": false
+    },
+    "gate": {
+      "accepted_event_fraction_difference_within_0_02": false,
+      "coherence_lifetime_difference_within_0_15_fs": true,
+      "compound_robustness_classification_unchanged": true,
+      "full_centroid_difference_within_0_03_sigma": true,
+      "full_product_difference_within_0_02": true,
+      "full_upper_population_difference_within_0_02": true,
+      "majority_classification_unchanged": true,
+      "passed": false
+    },
+    "limits": {
+      "accepted_event_fraction": 0.02,
+      "centroid_x_sigma": 0.03,
+      "coherence_lifetime_fs": 0.15,
+      "product_qx_lt_0": 0.02,
+      "upper_population": 0.02
+    },
+    "maximum_paired_full_time_series_differences": {
+      "centroid_x_sigma": 0.018476014843622147,
+      "product_qx_lt_0": 0.006500000000000006,
+      "upper_population": 0.007407994013195002
+    },
+    "selected_final_numerics": {
+      "dt_fs": 0.0125,
+      "electronic_substeps": 20,
+      "reason": "one or more frozen checks failed; promote the fine setting"
+    }
+  },
+  "legacy_local_magnitude_summary": {
+    "interpretation": "descriptive archived FP-RP comparison only",
+    "majority_regime_count": 2,
+    "nonrobust_majority_regime_count": 2,
+    "numerically_converged": false
+  },
+  "lineage_gate": {
+    "accepted_events_identical": true,
+    "archive_checksum_matches": true,
+    "atol": 1e-12,
+    "max_abs_observable_difference": 0.0,
+    "maximum_abs_difference_by_array": {
+      "accepted_event_times_fs": 0.0,
+      "full.active_upper_fraction": 0.0,
+      "full.centroid_x": 0.0,
+      "full.centroid_y": 0.0,
+      "full.electronic_norm_error": 0.0,
+      "full.mean_trajectory_coherence_magnitude": 0.0,
+      "full.product_qx_lt_0": 0.0,
+      "full.upper_population": 0.0,
+      "reprop_axe.centroid_x": 0.0,
+      "reprop_axe.centroid_y": 0.0,
+      "reprop_axe.electronic_norm_error": 0.0,
+      "reprop_axe.mean_trajectory_coherence_magnitude": 0.0,
+      "reprop_axe.product_qx_lt_0": 0.0,
+      "reprop_axe.upper_population": 0.0,
+      "reprop_axe.weight_sum_per_geometry": 0.0,
+      "time_fs": 0.0
+    },
+    "passed": true,
+    "rtol": 1e-12,
+    "source_checksum_matches": true
+  },
+  "observable_scope": {
+    "corrective_primary": "magnitude_of_ensemble_mean_signed_density_matrix_components",
+    "legacy_formula": "mean_over_trajectories_of_2_abs(c_minus_conjugate_times_c_plus)",
+    "legacy_not_equivalent_to": "phase_sensitive_ensemble_optical_coherence",
+    "legacy_primary": "mean_single_trajectory_coherence_magnitude"
+  },
+  "publication_status": "reframed_after_observable_correction",
+  "regimes": [
+    {
+      "event_diagnostics": {
+        "acceptance_fraction": 0.9264432029795159,
+        "accepted": 11940,
+        "accepted_early": 2426,
+        "accepted_late": 9514,
+        "directions": {
+          "lower_to_upper": {
+            "accepted": 5554,
+            "frustrated": 948,
+            "proposed": 6502
+          },
+          "upper_to_lower": {
+            "accepted": 6386,
+            "frustrated": 0,
+            "proposed": 6386
+          }
+        },
+        "early_first_hop_fraction": 0.3567643391521197,
+        "early_repeat_hop_fraction": 0.024800868935553947,
+        "first_hop_events": 6416,
+        "frustrated": 948,
+        "hopping_trajectory_fraction": 0.401,
+        "proposed": 12888,
+        "recrossing_events": 5188,
+        "recrossing_fraction_of_accepted": 0.43450586264656615,
+        "recrossing_trajectory_fraction": 0.323125,
+        "repeat_fraction_of_accepted": 0.4626465661641541,
+        "repeat_hop_events": 5524,
+        "repeat_hopping_trajectory_fraction": 0.323125,
+        "timing": {
+          "early": {
+            "accepted": 2426,
+            "first_accepted": 2289,
+            "frustrated": 359,
+            "proposed": 2785,
+            "repeat_accepted": 137
+          },
+          "late": {
+            "accepted": 9514,
+            "first_accepted": 4127,
+            "frustrated": 589,
+            "proposed": 10103,
+            "repeat_accepted": 5387
+          }
+        },
+        "trajectories_with_recrossing": 5170,
+        "trajectories_with_repeats": 5170,
+        "trajectory_count": 16000,
+        "unique_first_fraction_of_accepted": 0.5373534338358459,
+        "unique_hopping_trajectories": 6416
+      },
+      "fp_coefficient_active_state_inconsistency": {
+        "maximum": 0.018022276190963138,
+        "minimum": 0.009157177650681358,
+        "per_seed_maxima": [
+          0.009157177650681358,
+          0.018022276190963138,
+          0.0134365467845724,
+          0.009800809566028662
+        ]
+      },
+      "geometry_count_per_seed": 4000,
+      "intervals_95": {
+        "accepted_hops": {
+          "half_width": 89.70945356724303,
+          "lower": 2895.290546432757,
+          "mean": 2985.0,
+          "n": 4,
+          "upper": 3074.709453567243
+        },
+        "early_hop_fraction": {
+          "half_width": 0.009766585051014043,
+          "lower": 0.1935307386088418,
+          "mean": 0.20329732365985584,
+          "n": 4,
+          "upper": 0.2130639087108699
+        },
+        "local_magnitude_lifetime_fs": {
+          "half_width": 0.046479670929882734,
+          "lower": 2.3163177265302677,
+          "mean": 2.3627973974601506,
+          "n": 4,
+          "upper": 2.4092770683900335
+        },
+        "max_centroid_x_sigma_error": {
+          "half_width": 0.05074222532254188,
+          "lower": 0.09871401407884017,
+          "mean": 0.14945623940138206,
+          "n": 4,
+          "upper": 0.20019846472392394
+        },
+        "max_coherence_amplitude_error": {
+          "half_width": 0.0015092696025154658,
+          "lower": 0.006631221041578101,
+          "mean": 0.008140490644093567,
+          "n": 4,
+          "upper": 0.009649760246609032
+        },
+        "max_product_probability_error": {
+          "half_width": 0.008596189199870546,
+          "lower": 0.014404133034436288,
+          "mean": 0.023000322234306834,
+          "n": 4,
+          "upper": 0.03159651143417738
+        },
+        "max_upper_population_error": {
+          "half_width": 0.001868004298863554,
+          "lower": 0.01748212671332781,
+          "mean": 0.019350131012191366,
+          "n": 4,
+          "upper": 0.02121813531105492
+        }
+      },
+      "nuclear_paths_per_seed": {
+        "fp": 4000,
+        "rp_axe": 8000
+      },
+      "outcomes": {
+        "classifications": {
+          "coherence_lifetime_censored": false,
+          "compound_robust": false,
+          "majority_early_hop": false,
+          "nonrobust_majority": false
+        },
+        "coherence_lifetime_fs": 2.3619125678633734,
+        "early_hop_fraction": 0.20318257956448912,
+        "local_magnitude_lifetime_fs": 2.3619125678633734,
+        "max_fp_rp_errors": {
+          "centroid_x_sigma": {
+            "time_fs": 10.950000000000001,
+            "value": 0.14858975788155687
+          },
+          "coherence_amplitude": {
+            "time_fs": 17.9375,
+            "value": 0.0057577866261148
+          },
+          "product_probability": {
+            "time_fs": 9.1875,
+            "value": 0.02174627055550532
+          },
+          "upper_population": {
+            "time_fs": 19.0,
+            "value": 0.017829496968805342
+          }
+        }
+      },
+      "per_seed": [
+        {
+          "accepted_hops": 3023,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.21104862719153158,
+          "local_magnitude_lifetime_fs": 2.402149547024829,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.65,
+              "value": 0.1211929672699454
+            },
+            "coherence_amplitude": {
+              "time_fs": 17.650000000000002,
+              "value": 0.009386510838867851
+            },
+            "product_probability": {
+              "time_fs": 14.4625,
+              "value": 0.018427153998071988
+            },
+            "upper_population": {
+              "time_fs": 18.5625,
+              "value": 0.020435418303976494
+            }
+          },
+          "seed": 2701
+        },
+        {
+          "accepted_hops": 2908,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.20048143053645118,
+          "local_magnitude_lifetime_fs": 2.3665617847837406,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 10.700000000000001,
+              "value": 0.15272102288705658
+            },
+            "coherence_amplitude": {
+              "time_fs": 17.375,
+              "value": 0.007137748362097032
+            },
+            "product_probability": {
+              "time_fs": 8.425,
+              "value": 0.02389036469725192
+            },
+            "upper_population": {
+              "time_fs": 18.3625,
+              "value": 0.019015257684172587
+            }
+          },
+          "seed": 2702
+        },
+        {
+          "accepted_hops": 2978,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.19677635997313633,
+          "local_magnitude_lifetime_fs": 2.3354032520319383,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.350000000000001,
+              "value": 0.1308941542842267
+            },
+            "coherence_amplitude": {
+              "time_fs": 1.9375,
+              "value": 0.007782162496122902
+            },
+            "product_probability": {
+              "time_fs": 10.5625,
+              "value": 0.01940640878244257
+            },
+            "upper_population": {
+              "time_fs": 19.175,
+              "value": 0.020107185662226912
+            }
+          },
+          "seed": 2703
+        },
+        {
+          "accepted_hops": 3031,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.2048828769383042,
+          "local_magnitude_lifetime_fs": 2.3470750060000958,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 10.450000000000001,
+              "value": 0.19301681316429956
+            },
+            "coherence_amplitude": {
+              "time_fs": 1.2625000000000002,
+              "value": 0.008255540879286483
+            },
+            "product_probability": {
+              "time_fs": 8.55,
+              "value": 0.03027736145946086
+            },
+            "upper_population": {
+              "time_fs": 3.2875,
+              "value": 0.01784266239838947
+            }
+          },
+          "seed": 2704
+        }
+      ],
+      "pfm_rate_scale": 1.0,
+      "rmse_to_exact": {
+        "full": {
+          "centroid_x_sigma": 0.03680782732781771,
+          "coherence_amplitude": 0.3091550687667983,
+          "product_probability": 0.01838245984128143,
+          "upper_population": 0.0264607707672299
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.12118387742821732,
+          "coherence_amplitude": 0.3075769273208711,
+          "product_probability": 0.028900089035360805,
+          "upper_population": 0.019198360218684003
+        }
+      },
+      "rmse_to_selected_exact": {
+        "full": {
+          "centroid_x_sigma": 0.03680782732781771,
+          "coherence_amplitude": 0.3091550687667983,
+          "product_probability": 0.01838245984128143,
+          "upper_population": 0.0264607707672299
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.12118387742821732,
+          "coherence_amplitude": 0.3075769273208711,
+          "product_probability": 0.028900089035360805,
+          "upper_population": 0.019198360218684003
+        }
+      },
+      "seeds": [
+        2701,
+        2702,
+        2703,
+        2704
+      ]
+    },
+    {
+      "event_diagnostics": {
+        "acceptance_fraction": 0.9113400511355091,
+        "accepted": 12119,
+        "accepted_early": 3983,
+        "accepted_late": 8136,
+        "directions": {
+          "lower_to_upper": {
+            "accepted": 5592,
+            "frustrated": 1179,
+            "proposed": 6771
+          },
+          "upper_to_lower": {
+            "accepted": 6527,
+            "frustrated": 0,
+            "proposed": 6527
+          }
+        },
+        "early_first_hop_fraction": 0.570610096004955,
+        "early_repeat_hop_fraction": 0.05264087617028793,
+        "first_hop_events": 6458,
+        "frustrated": 1179,
+        "hopping_trajectory_fraction": 0.403625,
+        "proposed": 13298,
+        "recrossing_events": 5223,
+        "recrossing_fraction_of_accepted": 0.4309761531479495,
+        "recrossing_trajectory_fraction": 0.3248125,
+        "repeat_fraction_of_accepted": 0.4671177489891905,
+        "repeat_hop_events": 5661,
+        "repeat_hopping_trajectory_fraction": 0.3248125,
+        "timing": {
+          "early": {
+            "accepted": 3983,
+            "first_accepted": 3685,
+            "frustrated": 512,
+            "proposed": 4495,
+            "repeat_accepted": 298
+          },
+          "late": {
+            "accepted": 8136,
+            "first_accepted": 2773,
+            "frustrated": 667,
+            "proposed": 8803,
+            "repeat_accepted": 5363
+          }
+        },
+        "trajectories_with_recrossing": 5197,
+        "trajectories_with_repeats": 5197,
+        "trajectory_count": 16000,
+        "unique_first_fraction_of_accepted": 0.5328822510108094,
+        "unique_hopping_trajectories": 6458
+      },
+      "fp_coefficient_active_state_inconsistency": {
+        "maximum": 0.019724350488697806,
+        "minimum": 0.01202996083800889,
+        "per_seed_maxima": [
+          0.01202996083800889,
+          0.019724350488697806,
+          0.017815383590631673,
+          0.014003283915954956
+        ]
+      },
+      "geometry_count_per_seed": 4000,
+      "intervals_95": {
+        "accepted_hops": {
+          "half_width": 102.4302143164636,
+          "lower": 2927.3197856835363,
+          "mean": 3029.75,
+          "n": 4,
+          "upper": 3132.1802143164637
+        },
+        "early_hop_fraction": {
+          "half_width": 0.011452618056469221,
+          "lower": 0.31716593304741425,
+          "mean": 0.3286185511038835,
+          "n": 4,
+          "upper": 0.34007116916035274
+        },
+        "local_magnitude_lifetime_fs": {
+          "half_width": 0.07146683287934656,
+          "lower": 3.3948038014087416,
+          "mean": 3.466270634288088,
+          "n": 4,
+          "upper": 3.5377374671674344
+        },
+        "max_centroid_x_sigma_error": {
+          "half_width": 0.04875408297278301,
+          "lower": 0.14768155154778073,
+          "mean": 0.19643563452056373,
+          "n": 4,
+          "upper": 0.24518971749334673
+        },
+        "max_coherence_amplitude_error": {
+          "half_width": 0.004922825586857086,
+          "lower": 0.00547678156416587,
+          "mean": 0.010399607151022956,
+          "n": 4,
+          "upper": 0.015322432737880042
+        },
+        "max_product_probability_error": {
+          "half_width": 0.006916156634453446,
+          "lower": 0.021837597386152666,
+          "mean": 0.028753754020606113,
+          "n": 4,
+          "upper": 0.03566991065505956
+        },
+        "max_upper_population_error": {
+          "half_width": 0.0015837468712745092,
+          "lower": 0.029722645019052835,
+          "mean": 0.03130639189032734,
+          "n": 4,
+          "upper": 0.03289013876160185
+        }
+      },
+      "nuclear_paths_per_seed": {
+        "fp": 4000,
+        "rp_axe": 8000
+      },
+      "outcomes": {
+        "classifications": {
+          "coherence_lifetime_censored": false,
+          "compound_robust": false,
+          "majority_early_hop": false,
+          "nonrobust_majority": false
+        },
+        "coherence_lifetime_fs": 3.464225121635417,
+        "early_hop_fraction": 0.3286574799900982,
+        "local_magnitude_lifetime_fs": 3.464225121635417,
+        "max_fp_rp_errors": {
+          "centroid_x_sigma": {
+            "time_fs": 11.225000000000001,
+            "value": 0.19570387669339806
+          },
+          "coherence_amplitude": {
+            "time_fs": 17.95,
+            "value": 0.008893148637377252
+          },
+          "product_probability": {
+            "time_fs": 9.1875,
+            "value": 0.027228041342515663
+          },
+          "upper_population": {
+            "time_fs": 19.5,
+            "value": 0.030195781680608436
+          }
+        }
+      },
+      "per_seed": [
+        {
+          "accepted_hops": 3083,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.3386312033733377,
+          "local_magnitude_lifetime_fs": 3.526872130504728,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.9,
+              "value": 0.18017049118688566
+            },
+            "coherence_amplitude": {
+              "time_fs": 6.112500000000001,
+              "value": 0.014753059168832211
+            },
+            "product_probability": {
+              "time_fs": 14.175,
+              "value": 0.026435330831113796
+            },
+            "upper_population": {
+              "time_fs": 19.9875,
+              "value": 0.030414073767404404
+            }
+          },
+          "seed": 2701
+        },
+        {
+          "accepted_hops": 2943,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.32585796805980294,
+          "local_magnitude_lifetime_fs": 3.4701922860095014,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.2125,
+              "value": 0.20162667394097372
+            },
+            "coherence_amplitude": {
+              "time_fs": 17.975,
+              "value": 0.010465001865033463
+            },
+            "product_probability": {
+              "time_fs": 9.387500000000001,
+              "value": 0.02965494595460233
+            },
+            "upper_population": {
+              "time_fs": 19.9875,
+              "value": 0.031689695490084435
+            }
+          },
+          "seed": 2702
+        },
+        {
+          "accepted_hops": 3019,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.3282543888704869,
+          "local_magnitude_lifetime_fs": 3.422098352651343,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.100000000000001,
+              "value": 0.16687080384169442
+            },
+            "coherence_amplitude": {
+              "time_fs": 17.925,
+              "value": 0.008219788171694498
+            },
+            "product_probability": {
+              "time_fs": 10.7125,
+              "value": 0.024487481343640816
+            },
+            "upper_population": {
+              "time_fs": 19.175,
+              "value": 0.03253558065911097
+            }
+          },
+          "seed": 2703
+        },
+        {
+          "accepted_hops": 3074,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.3217306441119063,
+          "local_magnitude_lifetime_fs": 3.4459197679867803,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 10.8375,
+              "value": 0.23707456911270106
+            },
+            "coherence_amplitude": {
+              "time_fs": 1.5625,
+              "value": 0.008160579398531653
+            },
+            "product_probability": {
+              "time_fs": 14.6125,
+              "value": 0.03443725795306751
+            },
+            "upper_population": {
+              "time_fs": 19.0625,
+              "value": 0.030586217644709562
+            }
+          },
+          "seed": 2704
+        }
+      ],
+      "pfm_rate_scale": 0.5,
+      "rmse_to_exact": {
+        "full": {
+          "centroid_x_sigma": 0.021907472345376097,
+          "coherence_amplitude": 0.2859938393992102,
+          "product_probability": 0.015696736983641206,
+          "upper_population": 0.03200076433697967
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.11196463082350878,
+          "coherence_amplitude": 0.2830904263151604,
+          "product_probability": 0.026843031517617102,
+          "upper_population": 0.02050915413545242
+        }
+      },
+      "rmse_to_selected_exact": {
+        "full": {
+          "centroid_x_sigma": 0.021907472345376097,
+          "coherence_amplitude": 0.2859938393992102,
+          "product_probability": 0.015696736983641206,
+          "upper_population": 0.03200076433697967
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.11196463082350878,
+          "coherence_amplitude": 0.2830904263151604,
+          "product_probability": 0.026843031517617102,
+          "upper_population": 0.02050915413545242
+        }
+      },
+      "seeds": [
+        2701,
+        2702,
+        2703,
+        2704
+      ]
+    },
+    {
+      "event_diagnostics": {
+        "acceptance_fraction": 0.8963830418025497,
+        "accepted": 12094,
+        "accepted_early": 5158,
+        "accepted_late": 6936,
+        "directions": {
+          "lower_to_upper": {
+            "accepted": 5428,
+            "frustrated": 1398,
+            "proposed": 6826
+          },
+          "upper_to_lower": {
+            "accepted": 6666,
+            "frustrated": 0,
+            "proposed": 6666
+          }
+        },
+        "early_first_hop_fraction": 0.699090488669647,
+        "early_repeat_hop_fraction": 0.1111111111111111,
+        "first_hop_events": 6487,
+        "frustrated": 1398,
+        "hopping_trajectory_fraction": 0.4054375,
+        "proposed": 13492,
+        "recrossing_events": 5062,
+        "recrossing_fraction_of_accepted": 0.4185546552009261,
+        "recrossing_trajectory_fraction": 0.3136875,
+        "repeat_fraction_of_accepted": 0.46361832313543905,
+        "repeat_hop_events": 5607,
+        "repeat_hopping_trajectory_fraction": 0.3136875,
+        "timing": {
+          "early": {
+            "accepted": 5158,
+            "first_accepted": 4535,
+            "frustrated": 656,
+            "proposed": 5814,
+            "repeat_accepted": 623
+          },
+          "late": {
+            "accepted": 6936,
+            "first_accepted": 1952,
+            "frustrated": 742,
+            "proposed": 7678,
+            "repeat_accepted": 4984
+          }
+        },
+        "trajectories_with_recrossing": 5019,
+        "trajectories_with_repeats": 5019,
+        "trajectory_count": 16000,
+        "unique_first_fraction_of_accepted": 0.536381676864561,
+        "unique_hopping_trajectories": 6487
+      },
+      "fp_coefficient_active_state_inconsistency": {
+        "maximum": 0.028989590155931305,
+        "minimum": 0.01900092974773035,
+        "per_seed_maxima": [
+          0.01900092974773035,
+          0.028989590155931305,
+          0.02425665318349063,
+          0.019580318787048245
+        ]
+      },
+      "geometry_count_per_seed": 4000,
+      "intervals_95": {
+        "accepted_hops": {
+          "half_width": 122.47255792897717,
+          "lower": 2901.027442071023,
+          "mean": 3023.5,
+          "n": 4,
+          "upper": 3145.972557928977
+        },
+        "early_hop_fraction": {
+          "half_width": 0.014619821337319093,
+          "lower": 0.41150912864609146,
+          "mean": 0.42612894998341055,
+          "n": 4,
+          "upper": 0.44074877132072965
+        },
+        "local_magnitude_lifetime_fs": {
+          "half_width": 0.07949097800758885,
+          "lower": 4.808283926585075,
+          "mean": 4.887774904592663,
+          "n": 4,
+          "upper": 4.967265882600252
+        },
+        "max_centroid_x_sigma_error": {
+          "half_width": 0.067409696463111,
+          "lower": 0.26084524720170077,
+          "mean": 0.3282549436648118,
+          "n": 4,
+          "upper": 0.3956646401279228
+        },
+        "max_coherence_amplitude_error": {
+          "half_width": 0.00601690457983386,
+          "lower": 0.01802754838896288,
+          "mean": 0.02404445296879674,
+          "n": 4,
+          "upper": 0.030061357548630603
+        },
+        "max_product_probability_error": {
+          "half_width": 0.010736957403908403,
+          "lower": 0.03542358158819687,
+          "mean": 0.046160538992105274,
+          "n": 4,
+          "upper": 0.05689749639601368
+        },
+        "max_upper_population_error": {
+          "half_width": 0.004260641911042478,
+          "lower": 0.05067883083082539,
+          "mean": 0.05493947274186787,
+          "n": 4,
+          "upper": 0.05920011465291035
+        }
+      },
+      "nuclear_paths_per_seed": {
+        "fp": 4000,
+        "rp_axe": 8000
+      },
+      "outcomes": {
+        "classifications": {
+          "coherence_lifetime_censored": false,
+          "compound_robust": false,
+          "majority_early_hop": false,
+          "nonrobust_majority": false
+        },
+        "coherence_lifetime_fs": 4.886335635915746,
+        "early_hop_fraction": 0.4264924756077394,
+        "local_magnitude_lifetime_fs": 4.886335635915746,
+        "max_fp_rp_errors": {
+          "centroid_x_sigma": {
+            "time_fs": 11.65,
+            "value": 0.3276859299952754
+          },
+          "coherence_amplitude": {
+            "time_fs": 7.1875,
+            "value": 0.02361434899656531
+          },
+          "product_probability": {
+            "time_fs": 11.4875,
+            "value": 0.04519635376875536
+          },
+          "upper_population": {
+            "time_fs": 19.4875,
+            "value": 0.0539005906113903
+          }
+        }
+      },
+      "per_seed": [
+        {
+          "accepted_hops": 3082,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.43964957819597666,
+          "local_magnitude_lifetime_fs": 4.946048823919227,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 12.1125,
+              "value": 0.30923631931519063
+            },
+            "coherence_amplitude": {
+              "time_fs": 6.8125,
+              "value": 0.029431620920408894
+            },
+            "product_probability": {
+              "time_fs": 14.175,
+              "value": 0.043344277231774
+            },
+            "upper_population": {
+              "time_fs": 19.9875,
+              "value": 0.05136465019838099
+            }
+          },
+          "seed": 2701
+        },
+        {
+          "accepted_hops": 2930,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.42013651877133107,
+          "local_magnitude_lifetime_fs": 4.908413458153461,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.450000000000001,
+              "value": 0.31694627431185934
+            },
+            "coherence_amplitude": {
+              "time_fs": 6.5625,
+              "value": 0.022942983387333082
+            },
+            "product_probability": {
+              "time_fs": 11.075000000000001,
+              "value": 0.04578696996090212
+            },
+            "upper_population": {
+              "time_fs": 19.512500000000003,
+              "value": 0.054403959045439515
+            }
+          },
+          "seed": 2702
+        },
+        {
+          "accepted_hops": 2991,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.4205951186894015,
+          "local_magnitude_lifetime_fs": 4.831683071558767,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.512500000000001,
+              "value": 0.2963227908258906
+            },
+            "coherence_amplitude": {
+              "time_fs": 7.300000000000001,
+              "value": 0.02058090670886946
+            },
+            "product_probability": {
+              "time_fs": 11.4875,
+              "value": 0.039898268114950675
+            },
+            "upper_population": {
+              "time_fs": 19.1625,
+              "value": 0.05697316523643031
+            }
+          },
+          "seed": 2703
+        },
+        {
+          "accepted_hops": 3091,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.424134584276933,
+          "local_magnitude_lifetime_fs": 4.864954264739197,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.55,
+              "value": 0.3905143902063066
+            },
+            "coherence_amplitude": {
+              "time_fs": 7.1875,
+              "value": 0.02322230085857553
+            },
+            "product_probability": {
+              "time_fs": 13.137500000000001,
+              "value": 0.0556126406607943
+            },
+            "upper_population": {
+              "time_fs": 19.625,
+              "value": 0.05701611648722066
+            }
+          },
+          "seed": 2704
+        }
+      ],
+      "pfm_rate_scale": 0.25,
+      "rmse_to_exact": {
+        "full": {
+          "centroid_x_sigma": 0.09905968613220885,
+          "coherence_amplitude": 0.27942360548104955,
+          "product_probability": 0.017788244924782703,
+          "upper_population": 0.04597318333951625
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.1069524580314814,
+          "coherence_amplitude": 0.27305562960159063,
+          "product_probability": 0.025777945601178073,
+          "upper_population": 0.02777352527338665
+        }
+      },
+      "rmse_to_selected_exact": {
+        "full": {
+          "centroid_x_sigma": 0.09905968613220885,
+          "coherence_amplitude": 0.27942360548104955,
+          "product_probability": 0.017788244924782703,
+          "upper_population": 0.04597318333951625
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.1069524580314814,
+          "coherence_amplitude": 0.27305562960159063,
+          "product_probability": 0.025777945601178073,
+          "upper_population": 0.02777352527338665
+        }
+      },
+      "seeds": [
+        2701,
+        2702,
+        2703,
+        2704
+      ]
+    },
+    {
+      "event_diagnostics": {
+        "acceptance_fraction": 0.8845499593225353,
+        "accepted": 11960,
+        "accepted_early": 5635,
+        "accepted_late": 6325,
+        "directions": {
+          "lower_to_upper": {
+            "accepted": 5138,
+            "frustrated": 1561,
+            "proposed": 6699
+          },
+          "upper_to_lower": {
+            "accepted": 6822,
+            "frustrated": 0,
+            "proposed": 6822
+          }
+        },
+        "early_first_hop_fraction": 0.6967592592592593,
+        "early_repeat_hop_fraction": 0.20437956204379562,
+        "first_hop_events": 6480,
+        "frustrated": 1561,
+        "hopping_trajectory_fraction": 0.405,
+        "proposed": 13521,
+        "recrossing_events": 4766,
+        "recrossing_fraction_of_accepted": 0.398494983277592,
+        "recrossing_trajectory_fraction": 0.293625,
+        "repeat_fraction_of_accepted": 0.45819397993311034,
+        "repeat_hop_events": 5480,
+        "repeat_hopping_trajectory_fraction": 0.293625,
+        "timing": {
+          "early": {
+            "accepted": 5635,
+            "first_accepted": 4515,
+            "frustrated": 774,
+            "proposed": 6409,
+            "repeat_accepted": 1120
+          },
+          "late": {
+            "accepted": 6325,
+            "first_accepted": 1965,
+            "frustrated": 787,
+            "proposed": 7112,
+            "repeat_accepted": 4360
+          }
+        },
+        "trajectories_with_recrossing": 4698,
+        "trajectories_with_repeats": 4698,
+        "trajectory_count": 16000,
+        "unique_first_fraction_of_accepted": 0.5418060200668896,
+        "unique_hopping_trajectories": 6480
+      },
+      "fp_coefficient_active_state_inconsistency": {
+        "maximum": 0.04631844091927259,
+        "minimum": 0.030822275555629636,
+        "per_seed_maxima": [
+          0.032215785404453884,
+          0.04631844091927259,
+          0.03657382563208331,
+          0.030822275555629636
+        ]
+      },
+      "geometry_count_per_seed": 4000,
+      "intervals_95": {
+        "accepted_hops": {
+          "half_width": 123.01218564841453,
+          "lower": 2866.9878143515853,
+          "mean": 2990.0,
+          "n": 4,
+          "upper": 3113.0121856484147
+        },
+        "early_hop_fraction": {
+          "half_width": 0.014902974847396317,
+          "lower": 0.4561090151418974,
+          "mean": 0.4710119899892937,
+          "n": 4,
+          "upper": 0.48591496483669006
+        },
+        "local_magnitude_lifetime_fs": {
+          "half_width": 0.09182951386797825,
+          "lower": 6.797230007802507,
+          "mean": 6.889059521670485,
+          "n": 4,
+          "upper": 6.980889035538463
+        },
+        "max_centroid_x_sigma_error": {
+          "half_width": 0.05052429884444238,
+          "lower": 0.4593856093935386,
+          "mean": 0.509909908237981,
+          "n": 4,
+          "upper": 0.5604342070824234
+        },
+        "max_coherence_amplitude_error": {
+          "half_width": 0.005314659914869199,
+          "lower": 0.041206247831402754,
+          "mean": 0.046520907746271954,
+          "n": 4,
+          "upper": 0.051835567661141155
+        },
+        "max_product_probability_error": {
+          "half_width": 0.008808502005696611,
+          "lower": 0.06330675092818576,
+          "mean": 0.07211525293388237,
+          "n": 4,
+          "upper": 0.08092375493957897
+        },
+        "max_upper_population_error": {
+          "half_width": 0.0052783366119436795,
+          "lower": 0.08049747222234033,
+          "mean": 0.08577580883428401,
+          "n": 4,
+          "upper": 0.0910541454462277
+        }
+      },
+      "nuclear_paths_per_seed": {
+        "fp": 4000,
+        "rp_axe": 8000
+      },
+      "outcomes": {
+        "classifications": {
+          "coherence_lifetime_censored": false,
+          "compound_robust": false,
+          "majority_early_hop": false,
+          "nonrobust_majority": false
+        },
+        "coherence_lifetime_fs": 6.8888248886671954,
+        "early_hop_fraction": 0.47115384615384615,
+        "local_magnitude_lifetime_fs": 6.8888248886671954,
+        "max_fp_rp_errors": {
+          "centroid_x_sigma": {
+            "time_fs": 11.850000000000001,
+            "value": 0.509807544087658
+          },
+          "coherence_amplitude": {
+            "time_fs": 9.3125,
+            "value": 0.046140162610295424
+          },
+          "product_probability": {
+            "time_fs": 11.4875,
+            "value": 0.07111705174423624
+          },
+          "upper_population": {
+            "time_fs": 19.5,
+            "value": 0.08483094946927913
+          }
+        }
+      },
+      "per_seed": [
+        {
+          "accepted_hops": 3031,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.4813592873639063,
+          "local_magnitude_lifetime_fs": 6.963654291352435,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.9625,
+              "value": 0.5089567020476208
+            },
+            "coherence_amplitude": {
+              "time_fs": 9.05,
+              "value": 0.051106738890561346
+            },
+            "product_probability": {
+              "time_fs": 11.375,
+              "value": 0.0709192746643943
+            },
+            "upper_population": {
+              "time_fs": 19.9875,
+              "value": 0.08080741580892953
+            }
+          },
+          "seed": 2701
+        },
+        {
+          "accepted_hops": 2890,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.4716262975778547,
+          "local_magnitude_lifetime_fs": 6.897715369806994,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.762500000000001,
+              "value": 0.5034009074706373
+            },
+            "coherence_amplitude": {
+              "time_fs": 9.2125,
+              "value": 0.04489186019696127
+            },
+            "product_probability": {
+              "time_fs": 11.5625,
+              "value": 0.07228576808381809
+            },
+            "upper_population": {
+              "time_fs": 19.512500000000003,
+              "value": 0.08767894730963402
+            }
+          },
+          "seed": 2702
+        },
+        {
+          "accepted_hops": 2972,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.4586137281292059,
+          "local_magnitude_lifetime_fs": 6.826345059171945,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.9,
+              "value": 0.475207479034441
+            },
+            "coherence_amplitude": {
+              "time_fs": 8.637500000000001,
+              "value": 0.04339616532702334
+            },
+            "product_probability": {
+              "time_fs": 11.4875,
+              "value": 0.06592083088651576
+            },
+            "upper_population": {
+              "time_fs": 19.1625,
+              "value": 0.08739529602567986
+            }
+          },
+          "seed": 2703
+        },
+        {
+          "accepted_hops": 3067,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.472448646886208,
+          "local_magnitude_lifetime_fs": 6.868523366350566,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.775,
+              "value": 0.552074544399225
+            },
+            "coherence_amplitude": {
+              "time_fs": 9.4,
+              "value": 0.04668886657054186
+            },
+            "product_probability": {
+              "time_fs": 12.75,
+              "value": 0.07933513810080131
+            },
+            "upper_population": {
+              "time_fs": 19.625,
+              "value": 0.08722157619289261
+            }
+          },
+          "seed": 2704
+        }
+      ],
+      "pfm_rate_scale": 0.125,
+      "rmse_to_exact": {
+        "full": {
+          "centroid_x_sigma": 0.207231825510309,
+          "coherence_amplitude": 0.30233787980544863,
+          "product_probability": 0.028854023900529605,
+          "upper_population": 0.06849314569127081
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.10450484771194841,
+          "coherence_amplitude": 0.2915023142326484,
+          "product_probability": 0.025226867485944986,
+          "upper_population": 0.04370330078024892
+        }
+      },
+      "rmse_to_selected_exact": {
+        "full": {
+          "centroid_x_sigma": 0.207231825510309,
+          "coherence_amplitude": 0.30233787980544863,
+          "product_probability": 0.028854023900529605,
+          "upper_population": 0.06849314569127081
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.10450484771194841,
+          "coherence_amplitude": 0.2915023142326484,
+          "product_probability": 0.025226867485944986,
+          "upper_population": 0.04370330078024892
+        }
+      },
+      "seeds": [
+        2701,
+        2702,
+        2703,
+        2704
+      ]
+    },
+    {
+      "event_diagnostics": {
+        "acceptance_fraction": 0.8808240419404859,
+        "accepted": 11929,
+        "accepted_early": 5830,
+        "accepted_late": 6099,
+        "directions": {
+          "lower_to_upper": {
+            "accepted": 5058,
+            "frustrated": 1614,
+            "proposed": 6672
+          },
+          "upper_to_lower": {
+            "accepted": 6871,
+            "frustrated": 0,
+            "proposed": 6871
+          }
+        },
+        "early_first_hop_fraction": 0.70370942812983,
+        "early_repeat_hop_fraction": 0.2339256274042865,
+        "first_hop_events": 6470,
+        "frustrated": 1614,
+        "hopping_trajectory_fraction": 0.404375,
+        "proposed": 13543,
+        "recrossing_events": 4680,
+        "recrossing_fraction_of_accepted": 0.3923212339676419,
+        "recrossing_trajectory_fraction": 0.287875,
+        "repeat_fraction_of_accepted": 0.45762427697208485,
+        "repeat_hop_events": 5459,
+        "repeat_hopping_trajectory_fraction": 0.287875,
+        "timing": {
+          "early": {
+            "accepted": 5830,
+            "first_accepted": 4553,
+            "frustrated": 817,
+            "proposed": 6647,
+            "repeat_accepted": 1277
+          },
+          "late": {
+            "accepted": 6099,
+            "first_accepted": 1917,
+            "frustrated": 797,
+            "proposed": 6896,
+            "repeat_accepted": 4182
+          }
+        },
+        "trajectories_with_recrossing": 4606,
+        "trajectories_with_repeats": 4606,
+        "trajectory_count": 16000,
+        "unique_first_fraction_of_accepted": 0.5423757230279151,
+        "unique_hopping_trajectories": 6470
+      },
+      "fp_coefficient_active_state_inconsistency": {
+        "maximum": 0.051635706072612,
+        "minimum": 0.03809668813553624,
+        "per_seed_maxima": [
+          0.03809668813553624,
+          0.051635706072612,
+          0.041729267117745605,
+          0.03818500630935173
+        ]
+      },
+      "geometry_count_per_seed": 4000,
+      "intervals_95": {
+        "accepted_hops": {
+          "half_width": 137.70730754605339,
+          "lower": 2844.5426924539465,
+          "mean": 2982.25,
+          "n": 4,
+          "upper": 3119.9573075460535
+        },
+        "early_hop_fraction": {
+          "half_width": 0.010579245848033898,
+          "lower": 0.4773729999998006,
+          "mean": 0.4879522458478345,
+          "n": 4,
+          "upper": 0.49853149169586836
+        },
+        "local_magnitude_lifetime_fs": {
+          "half_width": 0.06792392696662487,
+          "lower": 7.625912668245858,
+          "mean": 7.693836595212483,
+          "n": 4,
+          "upper": 7.761760522179108
+        },
+        "max_centroid_x_sigma_error": {
+          "half_width": 0.037265899488736334,
+          "lower": 0.5286345606952173,
+          "mean": 0.5659004601839537,
+          "n": 4,
+          "upper": 0.6031663596726901
+        },
+        "max_coherence_amplitude_error": {
+          "half_width": 0.003529668391154232,
+          "lower": 0.05009290756374749,
+          "mean": 0.053622575954901726,
+          "n": 4,
+          "upper": 0.05715224434605596
+        },
+        "max_product_probability_error": {
+          "half_width": 0.007079755256944595,
+          "lower": 0.07302659027389025,
+          "mean": 0.08010634553083484,
+          "n": 4,
+          "upper": 0.08718610078777944
+        },
+        "max_upper_population_error": {
+          "half_width": 0.0060791965798745315,
+          "lower": 0.08810301662920868,
+          "mean": 0.09418221320908321,
+          "n": 4,
+          "upper": 0.10026140978895774
+        }
+      },
+      "nuclear_paths_per_seed": {
+        "fp": 4000,
+        "rp_axe": 8000
+      },
+      "outcomes": {
+        "classifications": {
+          "coherence_lifetime_censored": false,
+          "compound_robust": false,
+          "majority_early_hop": false,
+          "nonrobust_majority": false
+        },
+        "coherence_lifetime_fs": 7.694489700028102,
+        "early_hop_fraction": 0.48872495598960514,
+        "local_magnitude_lifetime_fs": 7.694489700028102,
+        "max_fp_rp_errors": {
+          "centroid_x_sigma": {
+            "time_fs": 11.912500000000001,
+            "value": 0.5658665632156753
+          },
+          "coherence_amplitude": {
+            "time_fs": 9.9,
+            "value": 0.0534219791121958
+          },
+          "product_probability": {
+            "time_fs": 11.387500000000001,
+            "value": 0.07889427259743934
+          },
+          "upper_population": {
+            "time_fs": 19.837500000000002,
+            "value": 0.09322905890815658
+          }
+        }
+      },
+      "per_seed": [
+        {
+          "accepted_hops": 3027,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.4965312190287413,
+          "local_magnitude_lifetime_fs": 7.749514270090362,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.9375,
+              "value": 0.560799291386428
+            },
+            "coherence_amplitude": {
+              "time_fs": 9.8375,
+              "value": 0.05676739344996079
+            },
+            "product_probability": {
+              "time_fs": 11.387500000000001,
+              "value": 0.07798391269658764
+            },
+            "upper_population": {
+              "time_fs": 19.9875,
+              "value": 0.08872093704024517
+            }
+          },
+          "seed": 2701
+        },
+        {
+          "accepted_hops": 2867,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.4827345657481688,
+          "local_magnitude_lifetime_fs": 7.689612930899768,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.8375,
+              "value": 0.5691769386710026
+            },
+            "coherence_amplitude": {
+              "time_fs": 9.912500000000001,
+              "value": 0.05214373032071326
+            },
+            "product_probability": {
+              "time_fs": 11.975000000000001,
+              "value": 0.08043800874630078
+            },
+            "upper_population": {
+              "time_fs": 19.6625,
+              "value": 0.09603681643600248
+            }
+          },
+          "seed": 2702
+        },
+        {
+          "accepted_hops": 2969,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.4826540922869653,
+          "local_magnitude_lifetime_fs": 7.645455959738976,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.9625,
+              "value": 0.5384624918918349
+            },
+            "coherence_amplitude": {
+              "time_fs": 9.850000000000001,
+              "value": 0.051983077142218226
+            },
+            "product_probability": {
+              "time_fs": 11.4875,
+              "value": 0.075844886230275
+            },
+            "upper_population": {
+              "time_fs": 19.3,
+              "value": 0.09740519397218869
+            }
+          },
+          "seed": 2703
+        },
+        {
+          "accepted_hops": 3066,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": false,
+            "nonrobust_majority": false
+          },
+          "early_hop_fraction": 0.48988910632746246,
+          "local_magnitude_lifetime_fs": 7.690763220120823,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.9,
+              "value": 0.5951631187865495
+            },
+            "coherence_amplitude": {
+              "time_fs": 9.625,
+              "value": 0.05359610290671463
+            },
+            "product_probability": {
+              "time_fs": 12.75,
+              "value": 0.08615857445017597
+            },
+            "upper_population": {
+              "time_fs": 19.625,
+              "value": 0.09456590538789647
+            }
+          },
+          "seed": 2704
+        }
+      ],
+      "pfm_rate_scale": 0.1,
+      "rmse_to_exact": {
+        "full": {
+          "centroid_x_sigma": 0.24086662076613835,
+          "coherence_amplitude": 0.31512154670748665,
+          "product_probability": 0.032829614289372026,
+          "upper_population": 0.07677237537101002
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.10355439838214545,
+          "coherence_amplitude": 0.3039230301930213,
+          "product_probability": 0.025006165686113,
+          "upper_population": 0.05069459090194225
+        }
+      },
+      "rmse_to_selected_exact": {
+        "full": {
+          "centroid_x_sigma": 0.24086662076613835,
+          "coherence_amplitude": 0.31512154670748665,
+          "product_probability": 0.032829614289372026,
+          "upper_population": 0.07677237537101002
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.10355439838214545,
+          "coherence_amplitude": 0.3039230301930213,
+          "product_probability": 0.025006165686113,
+          "upper_population": 0.05069459090194225
+        }
+      },
+      "seeds": [
+        2701,
+        2702,
+        2703,
+        2704
+      ]
+    },
+    {
+      "event_diagnostics": {
+        "acceptance_fraction": 0.8762087547058389,
+        "accepted": 11870,
+        "accepted_early": 6216,
+        "accepted_late": 5654,
+        "directions": {
+          "lower_to_upper": {
+            "accepted": 4942,
+            "frustrated": 1677,
+            "proposed": 6619
+          },
+          "upper_to_lower": {
+            "accepted": 6928,
+            "frustrated": 0,
+            "proposed": 6928
+          }
+        },
+        "early_first_hop_fraction": 0.7361820715281003,
+        "early_repeat_hop_fraction": 0.27000554426168916,
+        "first_hop_events": 6459,
+        "frustrated": 1677,
+        "hopping_trajectory_fraction": 0.4036875,
+        "proposed": 13547,
+        "recrossing_events": 4559,
+        "recrossing_fraction_of_accepted": 0.3840775063184499,
+        "recrossing_trajectory_fraction": 0.279375,
+        "repeat_fraction_of_accepted": 0.45585509688289805,
+        "repeat_hop_events": 5411,
+        "repeat_hopping_trajectory_fraction": 0.279375,
+        "timing": {
+          "early": {
+            "accepted": 6216,
+            "first_accepted": 4755,
+            "frustrated": 874,
+            "proposed": 7090,
+            "repeat_accepted": 1461
+          },
+          "late": {
+            "accepted": 5654,
+            "first_accepted": 1704,
+            "frustrated": 803,
+            "proposed": 6457,
+            "repeat_accepted": 3950
+          }
+        },
+        "trajectories_with_recrossing": 4470,
+        "trajectories_with_repeats": 4470,
+        "trajectory_count": 16000,
+        "unique_first_fraction_of_accepted": 0.544144903117102,
+        "unique_hopping_trajectories": 6459
+      },
+      "fp_coefficient_active_state_inconsistency": {
+        "maximum": 0.05985931624600585,
+        "minimum": 0.04456247805042271,
+        "per_seed_maxima": [
+          0.04456247805042271,
+          0.05985931624600585,
+          0.052126486442394315,
+          0.04801351438343904
+        ]
+      },
+      "geometry_count_per_seed": 4000,
+      "intervals_95": {
+        "accepted_hops": {
+          "half_width": 133.19815512611277,
+          "lower": 2834.301844873887,
+          "mean": 2967.5,
+          "n": 4,
+          "upper": 3100.698155126113
+        },
+        "early_hop_fraction": {
+          "half_width": 0.0203941875840098,
+          "lower": 0.5037854673313383,
+          "mean": 0.5241796549153481,
+          "n": 4,
+          "upper": 0.5445738424993579
+        },
+        "local_magnitude_lifetime_fs": {
+          "half_width": 0.12930855033281705,
+          "lower": 8.798079880040124,
+          "mean": 8.927388430372941,
+          "n": 4,
+          "upper": 9.056696980705759
+        },
+        "max_centroid_x_sigma_error": {
+          "half_width": 0.0379485165870219,
+          "lower": 0.6177707311246868,
+          "mean": 0.6557192477117088,
+          "n": 4,
+          "upper": 0.6936677642987307
+        },
+        "max_coherence_amplitude_error": {
+          "half_width": 0.005000919742966926,
+          "lower": 0.055049662821999794,
+          "mean": 0.06005058256496672,
+          "n": 4,
+          "upper": 0.06505150230793365
+        },
+        "max_product_probability_error": {
+          "half_width": 0.006712177212867761,
+          "lower": 0.08608762435152126,
+          "mean": 0.09279980156438902,
+          "n": 4,
+          "upper": 0.09951197877725679
+        },
+        "max_upper_population_error": {
+          "half_width": 0.0021418188367950735,
+          "lower": 0.10367312365805773,
+          "mean": 0.10581494249485279,
+          "n": 4,
+          "upper": 0.10795676133164786
+        }
+      },
+      "nuclear_paths_per_seed": {
+        "fp": 4000,
+        "rp_axe": 8000
+      },
+      "outcomes": {
+        "classifications": {
+          "coherence_lifetime_censored": false,
+          "compound_robust": false,
+          "majority_early_hop": true,
+          "nonrobust_majority": true
+        },
+        "coherence_lifetime_fs": 8.923965033325995,
+        "early_hop_fraction": 0.5236731255265374,
+        "local_magnitude_lifetime_fs": 8.923965033325995,
+        "max_fp_rp_errors": {
+          "centroid_x_sigma": {
+            "time_fs": 11.975000000000001,
+            "value": 0.6556585860002054
+          },
+          "coherence_amplitude": {
+            "time_fs": 10.4375,
+            "value": 0.059649002345000035
+          },
+          "product_probability": {
+            "time_fs": 12.625,
+            "value": 0.0917439709753507
+          },
+          "upper_population": {
+            "time_fs": 19.837500000000002,
+            "value": 0.10485956923298581
+          }
+        }
+      },
+      "per_seed": [
+        {
+          "accepted_hops": 3020,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": true,
+            "nonrobust_majority": true
+          },
+          "early_hop_fraction": 0.5387417218543047,
+          "local_magnitude_lifetime_fs": 9.048681800947284,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.9625,
+              "value": 0.6699053836940351
+            },
+            "coherence_amplitude": {
+              "time_fs": 10.1875,
+              "value": 0.0646659437366201
+            },
+            "product_probability": {
+              "time_fs": 12.4625,
+              "value": 0.09285104883839829
+            },
+            "upper_population": {
+              "time_fs": 19.9875,
+              "value": 0.10603387142508083
+            }
+          },
+          "seed": 2701
+        },
+        {
+          "accepted_hops": 2854,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": true,
+            "nonrobust_majority": true
+          },
+          "early_hop_fraction": 0.5185704274702172,
+          "local_magnitude_lifetime_fs": 8.896607927414546,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.887500000000001,
+              "value": 0.6521185737232544
+            },
+            "coherence_amplitude": {
+              "time_fs": 10.512500000000001,
+              "value": 0.059313902729908885
+            },
+            "product_probability": {
+              "time_fs": 11.975000000000001,
+              "value": 0.0926194298445597
+            },
+            "upper_population": {
+              "time_fs": 19.6625,
+              "value": 0.10715136488631849
+            }
+          },
+          "seed": 2702
+        },
+        {
+          "accepted_hops": 2956,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": true,
+            "nonrobust_majority": true
+          },
+          "early_hop_fraction": 0.5094722598105548,
+          "local_magnitude_lifetime_fs": 8.88765802271209,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 12.025,
+              "value": 0.6236261900796751
+            },
+            "coherence_amplitude": {
+              "time_fs": 11.3625,
+              "value": 0.057741223039445205
+            },
+            "product_probability": {
+              "time_fs": 11.4875,
+              "value": 0.08769946397453046
+            },
+            "upper_population": {
+              "time_fs": 19.3,
+              "value": 0.10613118732393861
+            }
+          },
+          "seed": 2703
+        },
+        {
+          "accepted_hops": 3040,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": true,
+            "nonrobust_majority": true
+          },
+          "early_hop_fraction": 0.5299342105263158,
+          "local_magnitude_lifetime_fs": 8.876605970417849,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 12.037500000000001,
+              "value": 0.6772268433498704
+            },
+            "coherence_amplitude": {
+              "time_fs": 10.4375,
+              "value": 0.05848126075389268
+            },
+            "product_probability": {
+              "time_fs": 12.75,
+              "value": 0.09802926360006767
+            },
+            "upper_population": {
+              "time_fs": 19.625,
+              "value": 0.1039433463440732
+            }
+          },
+          "seed": 2704
+        }
+      ],
+      "pfm_rate_scale": 0.075,
+      "rmse_to_exact": {
+        "full": {
+          "centroid_x_sigma": 0.29457062513578836,
+          "coherence_amplitude": 0.33470411628597413,
+          "product_probability": 0.03912646350399415,
+          "upper_population": 0.08851394298277326
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.10276719517234828,
+          "coherence_amplitude": 0.3239003052818098,
+          "product_probability": 0.024846344676129846,
+          "upper_population": 0.06108167211556731
+        }
+      },
+      "rmse_to_selected_exact": {
+        "full": {
+          "centroid_x_sigma": 0.29457062513578836,
+          "coherence_amplitude": 0.33470411628597413,
+          "product_probability": 0.03912646350399415,
+          "upper_population": 0.08851394298277326
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.10276719517234828,
+          "coherence_amplitude": 0.3239003052818098,
+          "product_probability": 0.024846344676129846,
+          "upper_population": 0.06108167211556731
+        }
+      },
+      "seeds": [
+        2701,
+        2702,
+        2703,
+        2704
+      ]
+    },
+    {
+      "event_diagnostics": {
+        "acceptance_fraction": 0.8691091741763923,
+        "accepted": 11766,
+        "accepted_early": 6962,
+        "accepted_late": 4804,
+        "directions": {
+          "lower_to_upper": {
+            "accepted": 4831,
+            "frustrated": 1772,
+            "proposed": 6603
+          },
+          "upper_to_lower": {
+            "accepted": 6935,
+            "frustrated": 0,
+            "proposed": 6935
+          }
+        },
+        "early_first_hop_fraction": 0.8029003586464993,
+        "early_repeat_hop_fraction": 0.33868858583971606,
+        "first_hop_events": 6413,
+        "frustrated": 1772,
+        "hopping_trajectory_fraction": 0.4008125,
+        "proposed": 13538,
+        "recrossing_events": 4448,
+        "recrossing_fraction_of_accepted": 0.37803841577426484,
+        "recrossing_trajectory_fraction": 0.270875,
+        "repeat_fraction_of_accepted": 0.45495495495495497,
+        "repeat_hop_events": 5353,
+        "repeat_hopping_trajectory_fraction": 0.270875,
+        "timing": {
+          "early": {
+            "accepted": 6962,
+            "first_accepted": 5149,
+            "frustrated": 942,
+            "proposed": 7904,
+            "repeat_accepted": 1813
+          },
+          "late": {
+            "accepted": 4804,
+            "first_accepted": 1264,
+            "frustrated": 830,
+            "proposed": 5634,
+            "repeat_accepted": 3540
+          }
+        },
+        "trajectories_with_recrossing": 4334,
+        "trajectories_with_repeats": 4334,
+        "trajectory_count": 16000,
+        "unique_first_fraction_of_accepted": 0.545045045045045,
+        "unique_hopping_trajectories": 6413
+      },
+      "fp_coefficient_active_state_inconsistency": {
+        "maximum": 0.07422842587228634,
+        "minimum": 0.06113059127754722,
+        "per_seed_maxima": [
+          0.06113059127754722,
+          0.07422842587228634,
+          0.06484020282390826,
+          0.06361918954941856
+        ]
+      },
+      "geometry_count_per_seed": 4000,
+      "intervals_95": {
+        "accepted_hops": {
+          "half_width": 151.00537410414682,
+          "lower": 2790.494625895853,
+          "mean": 2941.5,
+          "n": 4,
+          "upper": 3092.505374104147
+        },
+        "early_hop_fraction": {
+          "half_width": 0.014429356030757888,
+          "lower": 0.5771120425204754,
+          "mean": 0.5915413985512333,
+          "n": 4,
+          "upper": 0.6059707545819912
+        },
+        "local_magnitude_lifetime_fs": {
+          "half_width": 0.12880061057140363,
+          "lower": 11.131587104825066,
+          "mean": 11.260387715396469,
+          "n": 4,
+          "upper": 11.389188325967872
+        },
+        "max_centroid_x_sigma_error": {
+          "half_width": 0.023030118474355658,
+          "lower": 0.7080847250699686,
+          "mean": 0.7311148435443242,
+          "n": 4,
+          "upper": 0.7541449620186799
+        },
+        "max_coherence_amplitude_error": {
+          "half_width": 0.003344028374459298,
+          "lower": 0.05611925910079456,
+          "mean": 0.059463287475253854,
+          "n": 4,
+          "upper": 0.06280731584971315
+        },
+        "max_product_probability_error": {
+          "half_width": 0.004581673342286196,
+          "lower": 0.09872307458889826,
+          "mean": 0.10330474793118445,
+          "n": 4,
+          "upper": 0.10788642127347065
+        },
+        "max_upper_population_error": {
+          "half_width": 0.005754208858121976,
+          "lower": 0.10833639702771139,
+          "mean": 0.11409060588583336,
+          "n": 4,
+          "upper": 0.11984481474395534
+        }
+      },
+      "nuclear_paths_per_seed": {
+        "fp": 4000,
+        "rp_axe": 8000
+      },
+      "outcomes": {
+        "classifications": {
+          "coherence_lifetime_censored": false,
+          "compound_robust": false,
+          "majority_early_hop": true,
+          "nonrobust_majority": true
+        },
+        "coherence_lifetime_fs": 11.258340223640392,
+        "early_hop_fraction": 0.5917049124596294,
+        "local_magnitude_lifetime_fs": 11.258340223640392,
+        "max_fp_rp_errors": {
+          "centroid_x_sigma": {
+            "time_fs": 12.025,
+            "value": 0.7310014050458201
+          },
+          "coherence_amplitude": {
+            "time_fs": 11.9375,
+            "value": 0.05922625460212336
+          },
+          "product_probability": {
+            "time_fs": 12.625,
+            "value": 0.10277909194698187
+          },
+          "upper_population": {
+            "time_fs": 19.900000000000002,
+            "value": 0.11335209111204561
+          }
+        }
+      },
+      "per_seed": [
+        {
+          "accepted_hops": 3014,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": true,
+            "nonrobust_majority": true
+          },
+          "early_hop_fraction": 0.6045122760451228,
+          "local_magnitude_lifetime_fs": 11.351268911434873,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 12.05,
+              "value": 0.7409211694949844
+            },
+            "coherence_amplitude": {
+              "time_fs": 11.537500000000001,
+              "value": 0.061543258803586076
+            },
+            "product_probability": {
+              "time_fs": 13.3375,
+              "value": 0.1031069805884344
+            },
+            "upper_population": {
+              "time_fs": 19.9875,
+              "value": 0.11255738200489407
+            }
+          },
+          "seed": 2701
+        },
+        {
+          "accepted_hops": 2819,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": true,
+            "nonrobust_majority": true
+          },
+          "early_hop_fraction": 0.5838949982263214,
+          "local_magnitude_lifetime_fs": 11.233118670374104,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 11.912500000000001,
+              "value": 0.7095949341757005
+            },
+            "coherence_amplitude": {
+              "time_fs": 11.2375,
+              "value": 0.05754571576144349
+            },
+            "product_probability": {
+              "time_fs": 11.975000000000001,
+              "value": 0.09985316917932807
+            },
+            "upper_population": {
+              "time_fs": 19.975,
+              "value": 0.11571066559508109
+            }
+          },
+          "seed": 2702
+        },
+        {
+          "accepted_hops": 2914,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": true,
+            "nonrobust_majority": true
+          },
+          "early_hop_fraction": 0.58716540837337,
+          "local_magnitude_lifetime_fs": 11.294290309969663,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 12.0625,
+              "value": 0.7363700506149831
+            },
+            "coherence_amplitude": {
+              "time_fs": 12.162500000000001,
+              "value": 0.06100021200531869
+            },
+            "product_probability": {
+              "time_fs": 11.4875,
+              "value": 0.10335919328307053
+            },
+            "upper_population": {
+              "time_fs": 19.3,
+              "value": 0.11818620667191806
+            }
+          },
+          "seed": 2703
+        },
+        {
+          "accepted_hops": 3019,
+          "classifications": {
+            "coherence_lifetime_censored": false,
+            "compound_robust": false,
+            "majority_early_hop": true,
+            "nonrobust_majority": true
+          },
+          "early_hop_fraction": 0.5905929115601193,
+          "local_magnitude_lifetime_fs": 11.162872969807239,
+          "max_fp_rp_errors": {
+            "centroid_x_sigma": {
+              "time_fs": 12.1125,
+              "value": 0.7375732198916287
+            },
+            "coherence_amplitude": {
+              "time_fs": 11.637500000000001,
+              "value": 0.05776396333066716
+            },
+            "product_probability": {
+              "time_fs": 12.75,
+              "value": 0.10689964867390483
+            },
+            "upper_population": {
+              "time_fs": 19.625,
+              "value": 0.10990816927144023
+            }
+          },
+          "seed": 2704
+        }
+      ],
+      "pfm_rate_scale": 0.05,
+      "rmse_to_exact": {
+        "full": {
+          "centroid_x_sigma": 0.3413890802422986,
+          "coherence_amplitude": 0.36509274268611613,
+          "product_probability": 0.04468000845086273,
+          "upper_population": 0.10441577901517726
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.10164792514875702,
+          "coherence_amplitude": 0.35712026930801843,
+          "product_probability": 0.024502913780892054,
+          "upper_population": 0.07789227380549578
+        }
+      },
+      "rmse_to_selected_exact": {
+        "full": {
+          "centroid_x_sigma": 0.3413890802422986,
+          "coherence_amplitude": 0.36509274268611613,
+          "product_probability": 0.04468000845086273,
+          "upper_population": 0.10441577901517726
+        },
+        "reprop_axe": {
+          "centroid_x_sigma": 0.10164792514875702,
+          "coherence_amplitude": 0.35712026930801843,
+          "product_probability": 0.024502913780892054,
+          "upper_population": 0.07789227380549578
+        }
+      },
+      "seeds": [
+        2701,
+        2702,
+        2703,
+        2704
+      ]
+    }
+  ],
+  "schema_version": 2
+}
