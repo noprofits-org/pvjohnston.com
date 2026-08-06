@@ -31,6 +31,7 @@ FS_TO_AU = 1.0 / AU_TO_FS
 PFM_POPULATION_THRESHOLD = 1e-4
 FROZEN_PYTHON_VERSION = "3.12.9"
 FROZEN_NUMPY_VERSION = "2.2.5"
+ENVIRONMENT_FINGERPRINT_SCHEMA_VERSION = 2
 
 FINAL_SCALES = (1.0, 0.5, 0.25, 0.125, 0.10, 0.075, 0.05)
 FINAL_SEEDS = (2701, 2702, 2703, 2704)
@@ -208,11 +209,23 @@ def runtime_fingerprints() -> dict[str, str]:
     }
 
 
-def environment_record() -> dict[str, str]:
+def environment_record() -> dict[str, str | int]:
+    """Return the versioned, declared numerical execution boundary.
+
+    Kernel releases and libc build strings are host provenance, not frozen
+    numerical controls.  Including ``platform.platform()`` here made resume
+    identities differ across otherwise conforming Linux x86-64 hosts.
+    ``require_frozen_environment`` checks these declared values before any CLI
+    run; the record is also kept in each artifact so its fingerprint remains
+    independently auditable.
+    """
+
     return {
+        "schema_version": ENVIRONMENT_FINGERPRINT_SCHEMA_VERSION,
+        "python_implementation": platform.python_implementation(),
         "python": platform.python_version(),
         "numpy": np.__version__,
-        "platform": platform.platform(),
+        "operating_system": platform.system(),
         "machine": platform.machine(),
         "openblas_num_threads": os.environ.get("OPENBLAS_NUM_THREADS", ""),
     }
@@ -220,6 +233,7 @@ def environment_record() -> dict[str, str]:
 
 def require_frozen_environment() -> None:
     checks = {
+        "Python implementation": (platform.python_implementation(), "CPython"),
         "Python": (platform.python_version(), FROZEN_PYTHON_VERSION),
         "NumPy": (np.__version__, FROZEN_NUMPY_VERSION),
         "operating system": (platform.system(), "Linux"),

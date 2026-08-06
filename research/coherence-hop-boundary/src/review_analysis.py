@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import importlib.util
 import json
 import math
@@ -31,6 +32,62 @@ LEGACY_OBSERVABLES = (
     "centroid_x",
     "coherence_amplitude",
 )
+LEGACY_ENVIRONMENT_FIELDS = frozenset({
+    "python", "numpy", "platform", "machine", "openblas_num_threads",
+})
+STABLE_ENVIRONMENT_FIELDS = frozenset({
+    "schema_version", "python_implementation", "python", "numpy",
+    "operating_system", "machine", "openblas_num_threads",
+})
+LEGACY_CONVERGENCE_LIMITS = {
+    "accepted_event_fraction": 0.02,
+    "coherence_lifetime_fs": 0.15,
+    "upper_population": 0.02,
+    "product_qx_lt_0": 0.02,
+    "centroid_x_sigma": 0.03,
+}
+LEGACY_INITIAL_SIGMA_X = 8.035823190306067
+
+
+def _canonical_json(value: Any) -> str:
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), allow_nan=False
+    )
+
+
+def _validate_environment_fingerprint(
+    artifact: dict[str, Any], label: str
+) -> None:
+    """Verify either the historical host record or the stable v2 contract.
+
+    Existing artifacts retain their schema-v1 host provenance, including the
+    kernel/libc string.  Future artifacts use a schema-v2 record containing
+    only declared numerical controls.  Both are verified from their embedded
+    record, so changing the runtime policy never silently rewrites history.
+    """
+
+    environment = artifact.get("environment")
+    if not isinstance(environment, dict):
+        raise ValueError(f"{label} lacks an environment record")
+    schema_version = environment.get("schema_version", 1)
+    expected_fields = (
+        LEGACY_ENVIRONMENT_FIELDS
+        if schema_version == 1 else STABLE_ENVIRONMENT_FIELDS
+        if schema_version == 2 else None
+    )
+    if expected_fields is None:
+        raise ValueError(
+            f"{label} has unsupported environment schema {schema_version!r}"
+        )
+    if set(environment) != expected_fields:
+        raise ValueError(
+            f"{label} environment fields do not match schema {schema_version}"
+        )
+    recomputed = hashlib.sha256(
+        _canonical_json(environment).encode("utf-8")
+    ).hexdigest()
+    if artifact.get("environment_fingerprint") != recomputed:
+        raise ValueError(f"{label} environment fingerprint is stale or edited")
 
 
 def _require_local_contract(artifact: dict[str, Any], label: str) -> None:
@@ -44,6 +101,8 @@ def _require_local_contract(artifact: dict[str, Any], label: str) -> None:
 
 
 def _fingerprint_group(artifacts: dict[str, dict[str, Any]]) -> dict[str, str]:
+    for name, artifact in artifacts.items():
+        _validate_environment_fingerprint(artifact, name)
     output = {}
     for field in core.FINGERPRINT_FIELDS:
         values = {name: artifact.get(field) for name, artifact in artifacts.items()}
@@ -96,14 +155,195 @@ def _legacy_run_outcome(run: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _validate_embedded_fingerprints(
+    artifact: dict[str, Any], trace: dict[str, Any], label: str
+) -> None:
+    configuration = trace.get("configuration", {})
+    for field in core.FINGERPRINT_FIELDS:
+        if configuration.get(field) != artifact.get(field):
+            raise ValueError(f"{label} has foreign {field}")
+    contract = configuration.get("model_contract")
+    if not isinstance(contract, dict):
+        raise ValueError(f"{label} lacks its frozen model contract")
+    contract_fingerprint = hashlib.sha256(
+        _canonical_json(contract).encode("utf-8")
+    ).hexdigest()
+    if contract_fingerprint != configuration.get("model_fingerprint"):
+        raise ValueError(f"{label} model contract fingerprint is stale or edited")
+
+
+def _validate_legacy_convergence_run(
+    artifact: dict[str, Any], label: str, run: dict[str, Any],
+    *, dt_fs: float, electronic_substeps: int,
+) -> None:
+    core._require_configuration(run, label, {
+        "pfm_rate_scale": 0.05,
+        "seed": 2699,
+        "geometry_count": 4000,
+        "n": 4000,
+        "dt_fs": dt_fs,
+        "requested_dt_fs": dt_fs,
+        "actual_dt_fs": dt_fs,
+        "electronic_substeps": electronic_substeps,
+        "electronic_dt_fs": dt_fs / electronic_substeps,
+        "total_fs": 20.0,
+        "center_fraction": 0.5,
+        "momentum_kick_toward_ci_sigma_px": 0.0,
+        "initial_sigma_x": LEGACY_INITIAL_SIGMA_X,
+    })
+    _validate_embedded_fingerprints(artifact, run, label)
+    hop_times = run.get("full_hop_time_fs")
+    full_summary = run.get("event_summary", {}).get("full", {})
+    retained_times = full_summary.get("accepted_event_time_fs")
+    accepted_count = full_summary.get("counts", {}).get("accepted")
+    if (
+        not isinstance(hop_times, list)
+        or hop_times != retained_times
+        or accepted_count != len(hop_times)
+    ):
+        raise ValueError(f"{label} retained accepted-event inputs disagree")
+
+
+def _legacy_gate_classification(outcome: dict[str, Any]) -> dict[str, bool]:
+    classifications = outcome["classifications"]
+    majority = bool(classifications["majority_early_hop"])
+    robust = bool(classifications["compound_robust"])
+    return {
+        "boundary_reached_and_robust": majority and robust,
+        "majority_accepted_events_before_coherence_lifetime": majority,
+        "rp_axe_within_compound_error_thresholds": robust,
+    }
+
+
+def _finite_abs_difference(
+    left: float | None, right: float | None
+) -> float | None:
+    if left is None or right is None:
+        return None
+    if not (math.isfinite(float(left)) and math.isfinite(float(right))):
+        return None
+    return abs(float(left) - float(right))
+
+
+def _legacy_convergence(artifact: dict[str, Any]) -> dict[str, Any]:
+    """Rebuild the archived one-seed gate solely from retained inputs."""
+
+    coarse, fine = artifact["coarse"], artifact["fine"]
+    _validate_legacy_convergence_run(
+        artifact, "legacy coarse convergence", coarse,
+        dt_fs=0.025, electronic_substeps=10,
+    )
+    _validate_legacy_convergence_run(
+        artifact, "legacy fine convergence", fine,
+        dt_fs=0.0125, electronic_substeps=20,
+    )
+    coarse_outcome = _legacy_run_outcome(coarse)
+    fine_outcome = _legacy_run_outcome(fine)
+    coarse_time = core._time_grid(coarse)
+    fine_time = core._time_grid(fine)
+    paired: dict[str, float] = {}
+    for observable, output_name, scale in (
+        ("upper_population", "upper_population", 1.0),
+        ("product_qx_lt_0", "product_qx_lt_0", 1.0),
+        ("centroid_x", "centroid_x_sigma", LEGACY_INITIAL_SIGMA_X),
+    ):
+        fine_values = np.interp(
+            coarse_time, fine_time, core._array(fine["full"], observable)
+        )
+        paired[output_name] = float(np.max(np.abs(
+            core._array(coarse["full"], observable) - fine_values
+        )) / scale)
+
+    fraction_difference = _finite_abs_difference(
+        coarse_outcome["early_hop_fraction"],
+        fine_outcome["early_hop_fraction"],
+    )
+    lifetime_difference = _finite_abs_difference(
+        coarse_outcome["local_magnitude_lifetime_fs"],
+        fine_outcome["local_magnitude_lifetime_fs"],
+    )
+    coarse_class = _legacy_gate_classification(coarse_outcome)
+    fine_class = _legacy_gate_classification(fine_outcome)
+    checks = {
+        "accepted_event_fraction_difference_within_0_02": bool(
+            fraction_difference is not None
+            and fraction_difference
+            <= LEGACY_CONVERGENCE_LIMITS["accepted_event_fraction"]
+        ),
+        "coherence_lifetime_difference_within_0_15_fs": bool(
+            lifetime_difference is not None
+            and lifetime_difference
+            <= LEGACY_CONVERGENCE_LIMITS["coherence_lifetime_fs"]
+        ),
+        "full_upper_population_difference_within_0_02": (
+            paired["upper_population"]
+            <= LEGACY_CONVERGENCE_LIMITS["upper_population"]
+        ),
+        "full_product_difference_within_0_02": (
+            paired["product_qx_lt_0"]
+            <= LEGACY_CONVERGENCE_LIMITS["product_qx_lt_0"]
+        ),
+        "full_centroid_difference_within_0_03_sigma": (
+            paired["centroid_x_sigma"]
+            <= LEGACY_CONVERGENCE_LIMITS["centroid_x_sigma"]
+        ),
+        "majority_classification_unchanged": (
+            coarse_class["majority_accepted_events_before_coherence_lifetime"]
+            == fine_class["majority_accepted_events_before_coherence_lifetime"]
+        ),
+        "compound_robustness_classification_unchanged": (
+            coarse_class["rp_axe_within_compound_error_thresholds"]
+            == fine_class["rp_axe_within_compound_error_thresholds"]
+        ),
+    }
+    checks["passed"] = bool(all(checks.values()))
+    return {
+        "limits": LEGACY_CONVERGENCE_LIMITS,
+        "accepted_event_fraction_abs_difference": fraction_difference,
+        "coherence_lifetime_abs_difference_fs": lifetime_difference,
+        "maximum_paired_full_time_series_differences": paired,
+        "coarse_classification": coarse_class,
+        "fine_classification": fine_class,
+        "gate": checks,
+        "selected_final_numerics": {
+            "dt_fs": 0.025 if checks["passed"] else 0.0125,
+            "electronic_substeps": 10 if checks["passed"] else 20,
+            "reason": (
+                "coarse setting passed the frozen convergence gate"
+                if checks["passed"]
+                else "one or more frozen checks failed; promote the fine setting"
+            ),
+        },
+    }
+
+
+def _verified_legacy_convergence(artifact: dict[str, Any]) -> dict[str, Any]:
+    recomputed = _legacy_convergence(artifact)
+    if _canonical_json(artifact.get("comparison")) != _canonical_json(recomputed):
+        raise ValueError("stored legacy convergence summary is stale or edited")
+    return recomputed
+
+
 def _legacy_exact(exact: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
     coarse, fine = exact["coarse"], exact["fine"]
     for label, trace, expected_grid in (
         ("coarse", coarse, 384), ("fine", fine, 512)
     ):
-        configuration = trace["configuration"]
-        if int(configuration["grid_n"]) != expected_grid:
-            raise ValueError(f"legacy {label} exact grid is off protocol")
+        core._require_configuration(trace, f"legacy {label} exact", {
+            "grid_n": expected_grid,
+            "half_width": 96.0,
+            "dx": 192.0 / expected_grid,
+            "requested_dt_fs": 0.025,
+            "actual_dt_fs": 0.025,
+            "sample_every_fs": 0.025,
+            "total_fs": 20.0,
+            "center_fraction": 0.5,
+            "center_x": 7.7625,
+            "momentum_kick_toward_ci_sigma_px": 0.0,
+            "mean_momentum_x": 0.0,
+            "initial_sigma_x": LEGACY_INITIAL_SIGMA_X,
+        })
+        _validate_embedded_fingerprints(exact, trace, f"legacy {label} exact")
         time_fs = core._time_grid(trace)
         _validate_legacy_trace(trace, time_fs.size)
     time_fs = core._time_grid(coarse)
@@ -284,7 +524,7 @@ def build(
         regime for regime in local_majority
         if not regime["outcomes"]["classifications"]["compound_robust"]
     ]
-    legacy_gate = legacy_convergence["comparison"]
+    legacy_gate = _verified_legacy_convergence(legacy_convergence)
     if legacy_gate["gate"]["passed"] is not False:
         raise ValueError("legacy convergence gate was expected to fail")
 

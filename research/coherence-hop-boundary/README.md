@@ -96,7 +96,8 @@ node scripts/verify-metrics.mjs
 ```
 
 The analysis verifies both artifact fingerprint groups, independently
-recomputes the corrective convergence gate, checks the source-hash link from
+recomputes the corrective and recovered legacy convergence gates, checks the
+full frozen legacy exact-grid configuration, checks the source-hash link from
 the archived exact and sweep files to the recovered legacy convergence gate,
 and validates corrected recrossing labels against event order.
 

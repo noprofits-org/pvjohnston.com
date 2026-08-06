@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import numpy as np
 
@@ -187,6 +188,73 @@ class SimulatorContractTests(unittest.TestCase):
             variants.append(variant)
         keys = [simulate.make_resume_key(**variant) for variant in variants]
         self.assertEqual(len(keys), len(set(keys)))
+
+    def test_kernel_release_does_not_change_environment_or_resume_identity(self) -> None:
+        controls = {
+            "pfm_rate_scale": 0.05,
+            "seed": 2701,
+            "geometry_count": 6,
+            "dt_fs": 0.05,
+            "electronic_substeps": 2,
+            "total_fs": 0.10,
+        }
+        with mock.patch.dict(
+            simulate.os.environ, {"OPENBLAS_NUM_THREADS": "1"}
+        ):
+            with mock.patch.object(
+                simulate.platform, "platform", return_value="Linux-kernel-A"
+            ):
+                first_record = simulate.environment_record()
+                first_fingerprint = simulate.runtime_fingerprints()[
+                    "environment_fingerprint"
+                ]
+                first_key = simulate.make_resume_key(**controls)
+            with mock.patch.object(
+                simulate.platform, "platform", return_value="Linux-kernel-B"
+            ):
+                second_record = simulate.environment_record()
+                second_fingerprint = simulate.runtime_fingerprints()[
+                    "environment_fingerprint"
+                ]
+                second_key = simulate.make_resume_key(**controls)
+        self.assertEqual(first_record["schema_version"], 2)
+        self.assertNotIn("platform", first_record)
+        self.assertEqual(first_record, second_record)
+        self.assertEqual(first_fingerprint, second_fingerprint)
+        self.assertEqual(first_key, second_key)
+
+    def test_each_declared_environment_control_changes_v2_fingerprint(self) -> None:
+        with mock.patch.dict(
+            simulate.os.environ, {"OPENBLAS_NUM_THREADS": "1"}
+        ):
+            baseline = simulate.runtime_fingerprints()["environment_fingerprint"]
+            replacements = (
+                (simulate.platform, "python_implementation", "PyPy"),
+                (simulate.platform, "python_version", "3.12.8"),
+                (simulate.platform, "system", "Darwin"),
+                (simulate.platform, "machine", "aarch64"),
+            )
+            for owner, name, replacement in replacements:
+                with self.subTest(control=name):
+                    with mock.patch.object(owner, name, return_value=replacement):
+                        observed = simulate.runtime_fingerprints()[
+                            "environment_fingerprint"
+                        ]
+                    self.assertNotEqual(observed, baseline)
+            with self.subTest(control="numpy"):
+                with mock.patch.object(simulate.np, "__version__", "2.2.4"):
+                    observed = simulate.runtime_fingerprints()[
+                        "environment_fingerprint"
+                    ]
+                self.assertNotEqual(observed, baseline)
+            with self.subTest(control="openblas_num_threads"):
+                with mock.patch.dict(
+                    simulate.os.environ, {"OPENBLAS_NUM_THREADS": "2"}
+                ):
+                    observed = simulate.runtime_fingerprints()[
+                        "environment_fingerprint"
+                    ]
+                self.assertNotEqual(observed, baseline)
 
 
 if __name__ == "__main__":
