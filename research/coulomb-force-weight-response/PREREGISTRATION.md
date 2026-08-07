@@ -148,8 +148,9 @@ lambda times sigma_R squared multipliers, and wall-clock runtime.
 
 One registered optimization-sensitivity audit follows the primary sweep. For
 lambda in {0, 1, 100}, rerun at 40,000 steps the two tested cutoffs bracketing
-that weight's first crossing. If no crossing exists, rerun the last two tested
-cutoffs. The 40,000-step result is a control only. If any audited endpoint
+that weight's first crossing. If parity is already reached at the first tested
+cutoff, rerun the first two cutoffs; if no crossing exists, rerun the last two
+tested cutoffs. The 40,000-step result is a control only. If any audited endpoint
 changes which side of A/B = 1 it occupies, the primary result is classified as
 optimization-sensitive and the scientific verdict is inconclusive. The
 cutoff-selection rule is frozen here and is not a new search after inspection.
