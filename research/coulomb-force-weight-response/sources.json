@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "Validated H2+ analytic curve and neural-network trainer",
+      "url": "research/coulomb-force-training/",
+      "version": "repository commit 90e9048; runtime SHA-256 fingerprints recorded in results.json",
+      "accessed": "2026-08-06",
+      "sha256": "generated-and-verified-at-runtime",
+      "license": "BSD-3-Clause (this repository; see LICENSE)",
+      "acquisition": "Committed predecessor code imported directly by research/coulomb-force-weight-response/run_experiment.py.",
+      "committed": true,
+      "exclusion_reason": "Not excluded; the exact source files are committed and routed by their existing research bundle."
+    }
+  ]
+}
