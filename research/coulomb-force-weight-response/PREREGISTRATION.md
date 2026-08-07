@@ -39,11 +39,13 @@ The hypothesis is that increasing positive force weight moves C monotonically
 inward, and that at least one weight above lambda = 1 moves it farther inward
 than the lambda = 1 result. Operationally, the hypothesis is supported only if
 
-1. C(0.01), C(0.1), C(1), C(10), and C(100) are nonincreasing in that order;
-   and
-2. either C(10) or C(100) is strictly smaller than C(1).
+1. C(0), C(0.01), C(0.1), C(1), C(10), and C(100) are nonincreasing in that
+   order;
+2. either C(10) or C(100) is strictly smaller than C(1); and
+3. none of the positive-weight curves crosses back from A/B <= 1 to A/B > 1
+   at a larger tested cutoff.
 
-The hypothesis is falsified if either condition fails. A flat response above
+The hypothesis is falsified if any condition fails. A flat response above
 lambda = 1 therefore falsifies the continuing-dose-response prediction, as
 does any outward reversal. A missing crossing through 3.5 bohr is ordered as
 greater than 3.5 bohr for this rule, not discarded.
@@ -86,6 +88,13 @@ The force weights are frozen at
 Lambda = 0 is the energy-only baseline. The positive panel spans four decades
 and includes the previously tested lambda = 1 exactly.
 
+Because the slope is taken with respect to fold-standardized distance, lambda
+is a standardized-coordinate weight, not one fixed physical energy/force
+coefficient. In physical coordinates the relative multiplier is proportional
+to lambda times sigma_R squared. The experiment retains this convention for
+continuity and records sigma_R and lambda times sigma_R squared for every fold
+and cutoff.
+
 The lower-distance cutoffs are frozen at
 
     R_min in {0.15, 1.00, 1.25, 1.50, 1.75, 2.00, 2.25, 2.50,
@@ -94,6 +103,10 @@ The lower-distance cutoffs are frozen at
 The isolated 0.15-bohr point retains the near-wall control. The 0.25-bohr grid
 from 1.0 through 3.5 brackets the two precursor crossovers and permits an
 outward reversal beyond 3.0 bohr to be observed.
+
+The three additional precursor cutoffs 0.25, 0.40, and 0.70 bohr are rerun only
+for lambda = 0 and lambda = 1 as implementation-continuity controls. They do
+not enter the new dose-response analysis.
 
 Every fit uses the precursor's architecture and optimization:
 
@@ -128,8 +141,18 @@ reported as a secondary descriptive estimate only. It does not enter the
 verdict because linearity between cutoffs is not established.
 
 Secondary outputs are the per-seed ratios, median Scheme A and Scheme B RMSEs,
-the near-wall ratio at 0.15 bohr as a function of lambda, whether a ratio rises
-back above one after its first crossing, and wall-clock runtime.
+the near-wall ratio at 0.15 bohr as a function of lambda, all forward and
+reverse parity crossings, held-out total-force RMSE in hartree/bohr after the
+exact Scheme B derivative is restored, fold distance scales and their implied
+lambda times sigma_R squared multipliers, and wall-clock runtime.
+
+One registered optimization-sensitivity audit follows the primary sweep. For
+lambda in {0, 1, 100}, rerun at 40,000 steps the two tested cutoffs bracketing
+that weight's first crossing. If no crossing exists, rerun the last two tested
+cutoffs. The 40,000-step result is a control only. If any audited endpoint
+changes which side of A/B = 1 it occupies, the primary result is classified as
+optimization-sensitive and the scientific verdict is inconclusive. The
+cutoff-selection rule is frozen here and is not a new search after inspection.
 
 ## Method-fidelity gates
 
@@ -139,11 +162,13 @@ The scientific verdict is inconclusive if any of these gates fails:
    and repulsive-wall self-tests;
 2. finite-difference agreement for the unbatched analytic training gradients;
 3. agreement between batched and unbatched objectives and gradients;
-4. exact equality of all regenerated lambda = 0 and lambda = 1 per-seed RMSEs
-   at the overlapping cutoffs 0.15, 1.00, 1.50, 2.00, and 3.00 bohr with the
-   committed precursor results, under its pinned CPython and NumPy versions;
-5. completeness and finiteness of every registered result; or
-6. deterministic re-derivation of the full analysis from the canonical result
+4. exact equality of all regenerated lambda = 0 and lambda = 1 per-seed energy
+   RMSEs at all eight precursor cutoffs with the committed precursor results,
+   under its pinned CPython and NumPy versions;
+5. unchanged A/B side classification at every registered 40,000-step audit
+   endpoint;
+6. completeness and finiteness of every registered energy and force result; or
+7. deterministic re-derivation of the full analysis from the canonical result
    artifact.
 
 The overlap gate tests implementation continuity; it does not treat the old
@@ -153,8 +178,9 @@ outcomes as new evidence.
 
 No architecture, seed, fold, distance, lambda, optimizer, step count, decision
 threshold, or gate will be changed after output is viewed. There is no adaptive
-extension. If a crossing lies outside the registered grid, it is reported as
-bounded rather than followed with more cutoffs. If the sweep exceeds three
+extension beyond the mechanical convergence audit frozen above. If a crossing
+lies outside the registered grid, it is reported as bounded rather than
+followed with more cutoffs. If the sweep exceeds three
 wall-clock hours, the current lambda finishes, the run stops cleanly, and the
 result is reported incomplete and therefore inconclusive rather than resumed
 with a reduced panel.
