@@ -66,6 +66,7 @@ FINAL_GEOMETRY_COUNT = 4000
 FINAL_TOTAL_FS = 20.0
 FINAL_CENTER_FRACTION = 0.5
 FINAL_MOMENTUM_KICK_SIGMA = 0.0
+ENVIRONMENT_FINGERPRINT_SCHEMA_VERSION = 2
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -89,10 +90,18 @@ def _sha256(path: Path) -> str:
 
 
 def _current_runtime_fingerprints() -> dict[str, str]:
+    """Fingerprint new schema-v2 runs against the declared environment.
+
+    The committed schema-v1 artifacts keep their historical host fingerprints
+    and are validated by ``review_analysis.py`` rather than migrated here.
+    """
+
     environment = {
+        "schema_version": ENVIRONMENT_FINGERPRINT_SCHEMA_VERSION,
+        "python_implementation": platform.python_implementation(),
         "python": platform.python_version(),
         "numpy": np.__version__,
-        "platform": platform.platform(),
+        "operating_system": platform.system(),
         "machine": platform.machine(),
         "openblas_num_threads": os.environ.get("OPENBLAS_NUM_THREADS", ""),
     }

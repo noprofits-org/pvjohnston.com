@@ -39,6 +39,15 @@ source-date epoch from the corrective amendment in `config.json` instead of the
 execution clock. Corrected legacy artifacts retain source hashes, and the
 corrective convergence artifact records the hash of its uncompacted source.
 
+The committed trajectory artifacts retain their original schema-1 environment
+record, including the producing host's kernel/libc string, as historical
+provenance. Reviewed analysis rehashes that embedded record and rejects edits;
+the artifacts and scientific results are not migrated. New runs use environment
+fingerprint schema 2, which hashes only the declared numerical boundary above:
+CPython and NumPy versions, operating-system family, architecture, and
+`OPENBLAS_NUM_THREADS`. Kernel-release and libc build strings are intentionally
+excluded, so two hosts satisfying the frozen boundary share a resume identity.
+
 The exact split-operator propagation contains no stochastic operation. The
 lineage gate checks the bytes of the inherited archive and compares the
 parameterized `s=1` path with its archived ancestor before any confirmatory
