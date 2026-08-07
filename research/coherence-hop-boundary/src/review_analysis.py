@@ -35,10 +35,16 @@ LEGACY_OBSERVABLES = (
 LEGACY_ENVIRONMENT_FIELDS = frozenset({
     "python", "numpy", "platform", "machine", "openblas_num_threads",
 })
-STABLE_ENVIRONMENT_FIELDS = frozenset({
-    "schema_version", "python_implementation", "python", "numpy",
-    "operating_system", "machine", "openblas_num_threads",
-})
+FROZEN_STABLE_ENVIRONMENT = {
+    "schema_version": 2,
+    "python_implementation": "CPython",
+    "python": "3.12.9",
+    "numpy": "2.2.5",
+    "operating_system": "Linux",
+    "machine": "x86_64",
+    "openblas_num_threads": "1",
+}
+STABLE_ENVIRONMENT_FIELDS = frozenset(FROZEN_STABLE_ENVIRONMENT)
 LEGACY_CONVERGENCE_LIMITS = {
     "accepted_event_fraction": 0.02,
     "coherence_lifetime_fs": 0.15,
@@ -83,6 +89,18 @@ def _validate_environment_fingerprint(
         raise ValueError(
             f"{label} environment fields do not match schema {schema_version}"
         )
+    if schema_version == 2:
+        mismatches = [
+            f"{field}={environment[field]!r} (required {expected!r})"
+            for field, expected in FROZEN_STABLE_ENVIRONMENT.items()
+            if type(environment[field]) is not type(expected)
+            or environment[field] != expected
+        ]
+        if mismatches:
+            raise ValueError(
+                f"{label} environment violates frozen schema 2: "
+                + "; ".join(mismatches)
+            )
     recomputed = hashlib.sha256(
         _canonical_json(environment).encode("utf-8")
     ).hexdigest()

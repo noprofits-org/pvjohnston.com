@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
 import unittest
@@ -16,6 +17,25 @@ SPEC = importlib.util.spec_from_file_location("review_analysis", MODULE_PATH)
 assert SPEC and SPEC.loader
 module = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(module)
+
+FROZEN_SCHEMA_V2_ENVIRONMENT = {
+    "schema_version": 2,
+    "python_implementation": "CPython",
+    "python": "3.12.9",
+    "numpy": "2.2.5",
+    "operating_system": "Linux",
+    "machine": "x86_64",
+    "openblas_num_threads": "1",
+}
+
+
+def environment_artifact(environment: dict[str, object]) -> dict[str, object]:
+    return {
+        "environment": environment,
+        "environment_fingerprint": hashlib.sha256(
+            module._canonical_json(environment).encode("utf-8")
+        ).hexdigest(),
+    }
 
 
 class ReviewAnalysisIntegrationTest(unittest.TestCase):
@@ -117,7 +137,7 @@ class ReviewAnalysisIntegrationTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "foreign environment_fingerprint"):
             module._legacy_exact(artifact)
 
-    def test_historical_environment_fingerprint_is_self_verifying(self) -> None:
+    def test_schema_v1_environment_remains_accepted_and_self_verifying(self) -> None:
         module._validate_environment_fingerprint(
             self.legacy_convergence, "legacy convergence"
         )
@@ -127,6 +147,41 @@ class ReviewAnalysisIntegrationTest(unittest.TestCase):
             module._validate_environment_fingerprint(
                 artifact, "legacy convergence"
             )
+
+    def test_complete_frozen_schema_v2_environment_is_accepted(self) -> None:
+        artifact = environment_artifact(
+            copy.deepcopy(FROZEN_SCHEMA_V2_ENVIRONMENT)
+        )
+        module._validate_environment_fingerprint(artifact, "schema-v2 fixture")
+        self.assertEqual(
+            module.FROZEN_STABLE_ENVIRONMENT,
+            FROZEN_SCHEMA_V2_ENVIRONMENT,
+        )
+
+    def test_schema_v2_rejects_self_consistent_tamper_of_every_frozen_value(
+        self,
+    ) -> None:
+        replacements = {
+            "schema_version": 3,
+            "python_implementation": "PyPy",
+            "python": "3.12.8",
+            "numpy": "2.2.4",
+            "operating_system": "Darwin",
+            "machine": "aarch64",
+            "openblas_num_threads": "2",
+        }
+        self.assertEqual(
+            set(replacements), set(FROZEN_SCHEMA_V2_ENVIRONMENT)
+        )
+        for field, replacement in replacements.items():
+            with self.subTest(field=field):
+                environment = copy.deepcopy(FROZEN_SCHEMA_V2_ENVIRONMENT)
+                environment[field] = replacement
+                artifact = environment_artifact(environment)
+                with self.assertRaises(ValueError):
+                    module._validate_environment_fingerprint(
+                        artifact, f"tampered {field}"
+                    )
 
 
 if __name__ == "__main__":
