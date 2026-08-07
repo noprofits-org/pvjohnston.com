@@ -51,9 +51,13 @@ use that pump-generated coherence when motivating pulse-independent
 trajectories and identify near-intersection dynamics, where hopping overlaps
 surviving coherence, as a useful stress test.[@Galiana2026PulseIndependent]
 
-My initial experiment appeared to supply that test. It varied a dimensionless
-multiplier on projected-forces-and-momenta decoherence in the two-state BMA[5,5]
-model, compared full propagation (**FP**) with repropagated AXE trajectories
+My initial experiment appeared to supply that test (that manuscript did not
+survive the review process, which is why this one reads like a followup to an
+experiment that doesn't exist in public—you can
+[read it here](https://github.com/noprofits-org/pvjohnston.com/blob/77a27f6d06058067826b98130921229e31dfdb01/posts/2026-08-04-can-a-conical-intersection-outrun-decoherence.md)
+if you'd like). It varied a dimensionless multiplier on
+projected-forces-and-momenta decoherence in the two-state BMA[5,5] model,
+compared full propagation (**FP**) with repropagated AXE trajectories
 (**RP-AXE**), and counted accepted hops before a reported $C(0)/e$ lifetime.
 The question came from the blog's research shelf after an earlier launch-control
 study failed to reach a majority boundary:
