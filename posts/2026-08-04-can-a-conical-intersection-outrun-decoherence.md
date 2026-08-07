@@ -1,9 +1,9 @@
 ---
-title: "Can conical-intersection hops outrun coherence? An observable correction"
+title: "Can conical-intersection hops outrun coherence? An independent extension of Galiana et al."
 date: 2026-08-04
 author: Peter Johnston
 tags: molecular photodynamics, surface hopping, electronic coherence, conical intersections, reproducibility
-description: A correction separates mean single-trajectory coherence magnitude from phase-sensitive ensemble coherence and stops the experiment at a failed convergence gate.
+description: An independent sensitivity extension of Galiana et al.'s pulse-independent trajectories separates mean single-trajectory coherence magnitude from phase-sensitive ensemble coherence and stops at a failed convergence gate.
 post-type: research
 contribution: "A phase-sensitive audit of my own coherence--hop experiment: it identifies the archived observable as only the mean magnitude of single-trajectory coherences, reconstructs true recrossings, and records a corrective fine/finer gate that blocks the optical-coherence claim."
 contribution-type: falsification
@@ -13,11 +13,14 @@ og-image: /images/2026-08-04-conical-intersection-outrun-decoherence-hero.png
 
 ## Abstract
 
-I set out to test whether surface hops near a conical intersection could occur
-before pump-generated electronic coherence decayed, and whether Galiana and
-co-workers' RP-AXE trajectory-reuse approximation remained equivalent to full
-propagation in that regime.[@Galiana2026PulseIndependent] The first analysis
-did not measure that coherence. It averaged
+Galiana and co-workers' 2026 article, *Accounting for Electronic Coherences
+Induced by Broadband Pulses by Using Pulse-Independent Trajectories*, motivates
+near-intersection dynamics, where hopping overlaps surviving coherence, as a
+stress test for RP-AXE.[@Galiana2026PulseIndependent] I independently
+implemented a sensitivity extension in the BMA[5,5] model to test whether
+surface hops could occur before pump-generated electronic coherence decayed and
+whether RP-AXE remained equivalent to full propagation in that regime. The
+first analysis did not measure that coherence. It averaged
 $2|c_-^*c_+|$ over trajectories, putting the magnitude inside the ensemble and
 therefore removing phase cancellation. The archived coefficient phases were
 not retained, so the production runs cannot be repaired after the fact.
@@ -51,9 +54,13 @@ use that pump-generated coherence when motivating pulse-independent
 trajectories and identify near-intersection dynamics, where hopping overlaps
 surviving coherence, as a useful stress test.[@Galiana2026PulseIndependent]
 
-My initial experiment appeared to supply that test. It varied a dimensionless
-multiplier on projected-forces-and-momenta decoherence in the two-state BMA[5,5]
-model, compared full propagation (**FP**) with repropagated AXE trajectories
+My initial experiment appeared to supply that test (that manuscript did not
+survive the review process, which is why this one reads like a followup to an
+experiment that doesn't exist in public—you can
+[read it here](https://github.com/noprofits-org/pvjohnston.com/blob/77a27f6d06058067826b98130921229e31dfdb01/posts/2026-08-04-can-a-conical-intersection-outrun-decoherence.md)
+if you'd like). It varied a dimensionless multiplier on
+projected-forces-and-momenta decoherence in the two-state BMA[5,5] model,
+compared full propagation (**FP**) with repropagated AXE trajectories
 (**RP-AXE**), and counted accepted hops before a reported $C(0)/e$ lifetime.
 The question came from the blog's research shelf after an earlier launch-control
 study failed to reach a majority boundary:
@@ -123,14 +130,17 @@ explicit laser field, or detector simulation.
 
 ### Archived local-magnitude lane
 
-The archived sweep used PFM-rate multipliers
-$s=1,0.5,0.25,0.125,0.10,0.075,$ and $0.05$, four seeds per scale, and
-4,000 matched Wigner geometries per seed. FP propagated one nuclear path per
-geometry. RP-AXE propagated pure lower- and upper-state AXE paths, so it used
-twice as many nuclear paths. Nuclei used velocity Verlet; the electronic state
-used an analytic midpoint two-state propagator; accepted hops used isotropic
-momentum rescaling. The stored `coherence_amplitude` field is now bound by an
-artifact contract to $C_{\mathrm{local}}$ and excluded from optical-coherence
+The archived sweep used the projected-forces-and-momenta decoherence rate and
+momentum-injection procedure from Grell and co-workers' original TSH-PFMi method
+and later advances, implemented independently here.[@Grell2025PFM;
+@Grell2026PFMAdvances] It applied rate multipliers
+$s=1,0.5,0.25,0.125,0.10,0.075,$ and $0.05$, four seeds per scale, and 4,000
+matched Wigner geometries per seed. FP propagated one nuclear path per geometry.
+RP-AXE propagated pure lower- and upper-state AXE paths, so it used twice as
+many nuclear paths. Nuclei used velocity Verlet; the electronic state used an
+analytic midpoint two-state propagator; accepted hops used isotropic momentum
+rescaling. The stored `coherence_amplitude` field is now bound by an artifact
+contract to $C_{\mathrm{local}}$ and excluded from optical-coherence
 interpretation.
 
 The archived numerical check compared 0.025 fs with ten electronic substeps
@@ -186,6 +196,27 @@ trajectory's initial active state. The original artifact marked every repeat as
 a recrossing; the correction reconstructs labels from each ordered event
 sequence without changing the registered denominator.
 
+### Environment and implementation lineage
+
+The frozen execution boundary is Linux x86-64 with CPython 3.12.9, NumPy 2.2.5,
+and `OPENBLAS_NUM_THREADS=1`; Figure 1 generation and validation additionally
+use Matplotlib 3.10.8 and Pillow 12.1.0. The direct third-party dependencies are pinned in
+`research/coherence-hop-boundary/requirements.txt`, and the declared seeds above
+determine each Wigner-sampling and hopping stream independently of worker order.
+
+At the access date, the cited articles supplied no public patch for the source
+authors' locally modified SHARC program, raw molecular trajectory archive, or
+reusable RP-AXE implementation. I did not run that program or the authors'
+glycine, LiH, or dithiane calculations, and none of their code or molecular data
+is an executable input here. The reduced BMA[5,5] FP, TSH-PFMi, and RP-AXE
+workflow was implemented independently from the published equations. This
+correction refactored my checksum-bound archived implementation at repository
+commit `b527db4a4f31012f751981f580e27bca763f9e54`; before the corrective gate, a
+lineage comparison required identical accepted-hop records and observable
+arrays within `rtol=1e-12` and `atol=1e-12`. This experiment is therefore an
+independent sensitivity extension, not a software-level or molecular-data
+reproduction of Galiana and co-workers.[@Galiana2026PulseIndependent]
+
 Canonical scientific JSON now excludes wall-clock runtimes and generation
 timestamps. The required metric timestamp is pinned to the corrective
 preregistration epoch, and gzip output fixes its metadata. The original source
@@ -215,10 +246,11 @@ The maximum absolute 95% interval endpoints were
 [corrective_lifetime_95_max_endpoint]{.metric} fs for lifetime,
 [corrective_population_95_max_endpoint]{.metric} for upper population,
 [corrective_product_95_max_endpoint]{.metric} for product probability, and
-[corrective_centroid_95_max_endpoint]{.metric}$\sigma_x$ for centroid. Only the
-centroid exceeded its registered limit, at
-[corrective_centroid_95_max_endpoint_time_fs]{.metric} fs. The corrective
-production run was [corrective_production_run]{.metric}.
+[corrective_centroid_95_max_endpoint]{.metric}$\sigma_x$ for centroid. The
+centroid endpoint occurred at
+[corrective_centroid_95_max_endpoint_time_fs]{.metric} fs; its registered limit
+was [corrective_centroid_limit]{.metric}$\sigma_x$. The corrective production
+run was [corrective_production_run]{.metric}.
 
 Table 2 gives the archived sweep under its corrected local-magnitude scope.
 The two smallest rate multipliers cross the half-event line descriptively.
@@ -239,7 +271,12 @@ The two smallest rate multipliers cross the half-event line descriptively.
   <img src="/images/2026-08-04-conical-intersection-outrun-decoherence-hero.png" alt="Archived local-magnitude early-event fractions on the horizontal axis and normalized FP minus RP errors on the vertical axis, explicitly labeled as not ensemble optical coherence.">
 </figure>
 
-**Figure 1.** Archived maximum FP--RP errors normalized by their registered tolerances versus the local-magnitude early-event fraction. The plot preserves the narrower trajectory-level result while excluding an optical-coherence interpretation.
+**Figure 1.** Archived maximum FP--RP errors normalized by their registered
+tolerances versus the local-magnitude early-event fraction. A marks the maximum
+normalized upper-population difference across rate multipliers, B the maximum
+normalized product-probability difference, and C the maximum normalized
+centroid difference. The horizontal coordinate uses local-magnitude timing, not
+ensemble optical coherence.
 
 The recrossing reconstruction found
 [s_0_075_recrossing_events]{.metric} true returns among
