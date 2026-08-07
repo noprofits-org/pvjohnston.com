@@ -1,0 +1,14 @@
+# One repository-relative path per line. Package only this reviewed allowlist.
+LICENSE
+research/metrics.schema.json
+research/coulomb-force-weight-response/README.md
+research/coulomb-force-weight-response/PREREGISTRATION.md
+research/coulomb-force-weight-response/environment.md
+research/coulomb-force-weight-response/requirements.txt
+research/coulomb-force-weight-response/sources.json
+research/coulomb-force-weight-response/run_experiment.py
+research/coulomb-force-weight-response/verify_analysis.py
+research/coulomb-force-weight-response/make_figure.py
+research/coulomb-force-weight-response/results.json
+research/coulomb-force-weight-response/generate-metrics.mjs
+research/coulomb-force-weight-response/metrics.json
