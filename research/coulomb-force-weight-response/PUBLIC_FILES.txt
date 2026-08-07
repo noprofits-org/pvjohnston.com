@@ -4,7 +4,9 @@ research/metrics.schema.json
 research/coulomb-force-weight-response/README.md
 research/coulomb-force-weight-response/PREREGISTRATION.md
 research/coulomb-force-weight-response/environment.md
+research/coulomb-force-weight-response/environment-linux-64.lock
 research/coulomb-force-weight-response/requirements.txt
+research/coulomb-force-weight-response/requirements-lock.txt
 research/coulomb-force-weight-response/sources.json
 research/coulomb-force-weight-response/run_experiment.py
 research/coulomb-force-weight-response/verify_analysis.py

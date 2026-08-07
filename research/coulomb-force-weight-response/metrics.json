@@ -1,0 +1,1085 @@
+{
+  "schema_version": 1,
+  "experiment": "coulomb-force-weight-response",
+  "provenance": {
+    "generated_at": "2026-08-07T04:53:39Z",
+    "generator": "research/coulomb-force-weight-response/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/coulomb-force-weight-response/PREREGISTRATION.md",
+        "sha256": "cf4d71ec52a15286ac05c4692f06460533c7c2a7bfed57eabfac475fc2f0350b"
+      },
+      {
+        "path": "research/coulomb-force-weight-response/run_experiment.py",
+        "sha256": "c9fad9baad1e0261d0ae0634c5451b272ba9fbf3dcc58ca23196b01e116750dd"
+      },
+      {
+        "path": "research/coulomb-force-weight-response/verify_analysis.py",
+        "sha256": "fc29ff0080ef6f2614e44d0dd25ec7beea6749ca08cdc1d9af032096d521104d"
+      },
+      {
+        "path": "research/coulomb-force-weight-response/results.json",
+        "sha256": "1dbcd22dd5653e733e5cc70ab1c40df3db6c2bcd1d485b8c7af453ea53be7ed1"
+      },
+      {
+        "path": "research/coulomb-force-training/h2plus_model.py",
+        "sha256": "c5e1f129646c7e0c9ebc6fdba433859e5bedc7471c7eedec52679a19ba7fc265"
+      },
+      {
+        "path": "research/coulomb-force-training/run_experiment.py",
+        "sha256": "37ce317e33da860d216a98e07defcc13e7abc800707c94f5cd4f5470e0c8a5b5"
+      },
+      {
+        "path": "research/coulomb-force-training/results.json",
+        "sha256": "31524d698bbd712cf4eaf4d3dd6786ab5f3d9252bee0c95c49b545793dc67991"
+      }
+    ]
+  },
+  "metrics": {
+    "crossover_lambda_0_bohr": {
+      "type": "number",
+      "value": 3,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "First tested cutoff at which the median energy A/B ratio is at most one for lambda = 0",
+      "unit": "bohr"
+    },
+    "crossover_lower_lambda_0_bohr": {
+      "type": "number",
+      "value": 2.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of the first parity bracket for lambda = 0",
+      "unit": "bohr"
+    },
+    "crossover_upper_lambda_0_bohr": {
+      "type": "number",
+      "value": 3,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of the first parity bracket for lambda = 0",
+      "unit": "bohr"
+    },
+    "crossover_interpolated_lambda_0_bohr": {
+      "type": "number",
+      "value": 2.7500445092548516,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Descriptive log-ratio interpolation inside the first parity bracket for lambda = 0; not used for the verdict",
+      "unit": "bohr"
+    },
+    "crossing_count_lambda_0": {
+      "type": "integer",
+      "value": 1,
+      "description": "Number of forward and reverse median-energy parity crossings for lambda = 0"
+    },
+    "reverse_crossing_lambda_0": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the median energy A/B curve crosses from at most one back above one for lambda = 0"
+    },
+    "crossing_1_lower_lambda_0_bohr": {
+      "type": "number",
+      "value": 2.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of parity crossing 1 for lambda = 0",
+      "unit": "bohr"
+    },
+    "crossing_1_upper_lambda_0_bohr": {
+      "type": "number",
+      "value": 3,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of parity crossing 1 for lambda = 0",
+      "unit": "bohr"
+    },
+    "nearwall_energy_ratio_lambda_0": {
+      "type": "number",
+      "value": 53.37199398549832,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired energy-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 0",
+      "unit": "ratio"
+    },
+    "nearwall_force_ratio_lambda_0": {
+      "type": "number",
+      "value": 156.56141706748826,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired held-out total-force-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 0",
+      "unit": "ratio"
+    },
+    "nearwall_energy_rmse_a_lambda_0_cm": {
+      "type": "number",
+      "value": 27113.027248940227,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median direct-fit energy RMSE at R_min = 0.15 bohr for lambda = 0",
+      "unit": "cm^-1"
+    },
+    "nearwall_energy_rmse_b_lambda_0_cm": {
+      "type": "number",
+      "value": 525.2572487266262,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median Coulomb-subtracted energy RMSE at R_min = 0.15 bohr for lambda = 0",
+      "unit": "cm^-1"
+    },
+    "nearwall_force_rmse_a_lambda_0_hartree_per_bohr": {
+      "type": "number",
+      "value": 4.083466344178045,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median direct-fit total-force RMSE at R_min = 0.15 bohr for lambda = 0",
+      "unit": "hartree/bohr"
+    },
+    "nearwall_force_rmse_b_lambda_0_hartree_per_bohr": {
+      "type": "number",
+      "value": 0.026470731690749507,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median Coulomb-subtracted total-force RMSE at R_min = 0.15 bohr for lambda = 0",
+      "unit": "hartree/bohr"
+    },
+    "crossover_lambda_001_bohr": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "First tested cutoff at which the median energy A/B ratio is at most one for lambda = 0.01",
+      "unit": "bohr"
+    },
+    "crossover_lower_lambda_001_bohr": {
+      "type": "number",
+      "value": 1.25,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of the first parity bracket for lambda = 0.01",
+      "unit": "bohr"
+    },
+    "crossover_upper_lambda_001_bohr": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of the first parity bracket for lambda = 0.01",
+      "unit": "bohr"
+    },
+    "crossover_interpolated_lambda_001_bohr": {
+      "type": "number",
+      "value": 1.2856667021687547,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Descriptive log-ratio interpolation inside the first parity bracket for lambda = 0.01; not used for the verdict",
+      "unit": "bohr"
+    },
+    "crossing_count_lambda_001": {
+      "type": "integer",
+      "value": 1,
+      "description": "Number of forward and reverse median-energy parity crossings for lambda = 0.01"
+    },
+    "reverse_crossing_lambda_001": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the median energy A/B curve crosses from at most one back above one for lambda = 0.01"
+    },
+    "crossing_1_lower_lambda_001_bohr": {
+      "type": "number",
+      "value": 1.25,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of parity crossing 1 for lambda = 0.01",
+      "unit": "bohr"
+    },
+    "crossing_1_upper_lambda_001_bohr": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of parity crossing 1 for lambda = 0.01",
+      "unit": "bohr"
+    },
+    "nearwall_energy_ratio_lambda_001": {
+      "type": "number",
+      "value": 108.14757035079656,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired energy-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 0.01",
+      "unit": "ratio"
+    },
+    "nearwall_force_ratio_lambda_001": {
+      "type": "number",
+      "value": 233.75447144143013,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired held-out total-force-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 0.01",
+      "unit": "ratio"
+    },
+    "nearwall_energy_rmse_a_lambda_001_cm": {
+      "type": "number",
+      "value": 26914.97286857679,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median direct-fit energy RMSE at R_min = 0.15 bohr for lambda = 0.01",
+      "unit": "cm^-1"
+    },
+    "nearwall_energy_rmse_b_lambda_001_cm": {
+      "type": "number",
+      "value": 238.28801854644104,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median Coulomb-subtracted energy RMSE at R_min = 0.15 bohr for lambda = 0.01",
+      "unit": "cm^-1"
+    },
+    "nearwall_force_rmse_a_lambda_001_hartree_per_bohr": {
+      "type": "number",
+      "value": 1.5627223650875754,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median direct-fit total-force RMSE at R_min = 0.15 bohr for lambda = 0.01",
+      "unit": "hartree/bohr"
+    },
+    "nearwall_force_rmse_b_lambda_001_hartree_per_bohr": {
+      "type": "number",
+      "value": 0.006548623058271947,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median Coulomb-subtracted total-force RMSE at R_min = 0.15 bohr for lambda = 0.01",
+      "unit": "hartree/bohr"
+    },
+    "crossover_lambda_01_bohr": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "First tested cutoff at which the median energy A/B ratio is at most one for lambda = 0.1",
+      "unit": "bohr"
+    },
+    "crossover_lower_lambda_01_bohr": {
+      "type": "number",
+      "value": 1.25,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of the first parity bracket for lambda = 0.1",
+      "unit": "bohr"
+    },
+    "crossover_upper_lambda_01_bohr": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of the first parity bracket for lambda = 0.1",
+      "unit": "bohr"
+    },
+    "crossover_interpolated_lambda_01_bohr": {
+      "type": "number",
+      "value": 1.4088026389783879,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Descriptive log-ratio interpolation inside the first parity bracket for lambda = 0.1; not used for the verdict",
+      "unit": "bohr"
+    },
+    "crossing_count_lambda_01": {
+      "type": "integer",
+      "value": 1,
+      "description": "Number of forward and reverse median-energy parity crossings for lambda = 0.1"
+    },
+    "reverse_crossing_lambda_01": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the median energy A/B curve crosses from at most one back above one for lambda = 0.1"
+    },
+    "crossing_1_lower_lambda_01_bohr": {
+      "type": "number",
+      "value": 1.25,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of parity crossing 1 for lambda = 0.1",
+      "unit": "bohr"
+    },
+    "crossing_1_upper_lambda_01_bohr": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of parity crossing 1 for lambda = 0.1",
+      "unit": "bohr"
+    },
+    "nearwall_energy_ratio_lambda_01": {
+      "type": "number",
+      "value": 299.9331075085178,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired energy-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 0.1",
+      "unit": "ratio"
+    },
+    "nearwall_force_ratio_lambda_01": {
+      "type": "number",
+      "value": 810.0981947143414,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired held-out total-force-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 0.1",
+      "unit": "ratio"
+    },
+    "nearwall_energy_rmse_a_lambda_01_cm": {
+      "type": "number",
+      "value": 28480.971128576864,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median direct-fit energy RMSE at R_min = 0.15 bohr for lambda = 0.1",
+      "unit": "cm^-1"
+    },
+    "nearwall_energy_rmse_b_lambda_01_cm": {
+      "type": "number",
+      "value": 94.95774362877907,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median Coulomb-subtracted energy RMSE at R_min = 0.15 bohr for lambda = 0.1",
+      "unit": "cm^-1"
+    },
+    "nearwall_force_rmse_a_lambda_01_hartree_per_bohr": {
+      "type": "number",
+      "value": 1.530771688901345,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median direct-fit total-force RMSE at R_min = 0.15 bohr for lambda = 0.1",
+      "unit": "hartree/bohr"
+    },
+    "nearwall_force_rmse_b_lambda_01_hartree_per_bohr": {
+      "type": "number",
+      "value": 0.0018763100463491328,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median Coulomb-subtracted total-force RMSE at R_min = 0.15 bohr for lambda = 0.1",
+      "unit": "hartree/bohr"
+    },
+    "crossover_lambda_1_bohr": {
+      "type": "number",
+      "value": 1.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "First tested cutoff at which the median energy A/B ratio is at most one for lambda = 1",
+      "unit": "bohr"
+    },
+    "crossover_lower_lambda_1_bohr": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of the first parity bracket for lambda = 1",
+      "unit": "bohr"
+    },
+    "crossover_upper_lambda_1_bohr": {
+      "type": "number",
+      "value": 1.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of the first parity bracket for lambda = 1",
+      "unit": "bohr"
+    },
+    "crossover_interpolated_lambda_1_bohr": {
+      "type": "number",
+      "value": 1.6944998597096124,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Descriptive log-ratio interpolation inside the first parity bracket for lambda = 1; not used for the verdict",
+      "unit": "bohr"
+    },
+    "crossing_count_lambda_1": {
+      "type": "integer",
+      "value": 1,
+      "description": "Number of forward and reverse median-energy parity crossings for lambda = 1"
+    },
+    "reverse_crossing_lambda_1": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the median energy A/B curve crosses from at most one back above one for lambda = 1"
+    },
+    "crossing_1_lower_lambda_1_bohr": {
+      "type": "number",
+      "value": 1.5,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of parity crossing 1 for lambda = 1",
+      "unit": "bohr"
+    },
+    "crossing_1_upper_lambda_1_bohr": {
+      "type": "number",
+      "value": 1.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of parity crossing 1 for lambda = 1",
+      "unit": "bohr"
+    },
+    "nearwall_energy_ratio_lambda_1": {
+      "type": "number",
+      "value": 1830.3617893650776,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired energy-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 1",
+      "unit": "ratio"
+    },
+    "nearwall_force_ratio_lambda_1": {
+      "type": "number",
+      "value": 1818.5367201465717,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired held-out total-force-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 1",
+      "unit": "ratio"
+    },
+    "nearwall_energy_rmse_a_lambda_1_cm": {
+      "type": "number",
+      "value": 76036.3087561029,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median direct-fit energy RMSE at R_min = 0.15 bohr for lambda = 1",
+      "unit": "cm^-1"
+    },
+    "nearwall_energy_rmse_b_lambda_1_cm": {
+      "type": "number",
+      "value": 41.54168274157353,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median Coulomb-subtracted energy RMSE at R_min = 0.15 bohr for lambda = 1",
+      "unit": "cm^-1"
+    },
+    "nearwall_force_rmse_a_lambda_1_hartree_per_bohr": {
+      "type": "number",
+      "value": 1.7966421679639584,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median direct-fit total-force RMSE at R_min = 0.15 bohr for lambda = 1",
+      "unit": "hartree/bohr"
+    },
+    "nearwall_force_rmse_b_lambda_1_hartree_per_bohr": {
+      "type": "number",
+      "value": 0.0009749058254462188,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median Coulomb-subtracted total-force RMSE at R_min = 0.15 bohr for lambda = 1",
+      "unit": "hartree/bohr"
+    },
+    "crossover_lambda_10_bohr": {
+      "type": "number",
+      "value": 2,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "First tested cutoff at which the median energy A/B ratio is at most one for lambda = 10",
+      "unit": "bohr"
+    },
+    "crossover_lower_lambda_10_bohr": {
+      "type": "number",
+      "value": 1.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of the first parity bracket for lambda = 10",
+      "unit": "bohr"
+    },
+    "crossover_upper_lambda_10_bohr": {
+      "type": "number",
+      "value": 2,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of the first parity bracket for lambda = 10",
+      "unit": "bohr"
+    },
+    "crossover_interpolated_lambda_10_bohr": {
+      "type": "number",
+      "value": 1.822581425771958,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Descriptive log-ratio interpolation inside the first parity bracket for lambda = 10; not used for the verdict",
+      "unit": "bohr"
+    },
+    "crossing_count_lambda_10": {
+      "type": "integer",
+      "value": 1,
+      "description": "Number of forward and reverse median-energy parity crossings for lambda = 10"
+    },
+    "reverse_crossing_lambda_10": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the median energy A/B curve crosses from at most one back above one for lambda = 10"
+    },
+    "crossing_1_lower_lambda_10_bohr": {
+      "type": "number",
+      "value": 1.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of parity crossing 1 for lambda = 10",
+      "unit": "bohr"
+    },
+    "crossing_1_upper_lambda_10_bohr": {
+      "type": "number",
+      "value": 2,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of parity crossing 1 for lambda = 10",
+      "unit": "bohr"
+    },
+    "nearwall_energy_ratio_lambda_10": {
+      "type": "number",
+      "value": 23534.4469944038,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired energy-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 10",
+      "unit": "ratio"
+    },
+    "nearwall_force_ratio_lambda_10": {
+      "type": "number",
+      "value": 1959.3395150645515,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired held-out total-force-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 10",
+      "unit": "ratio"
+    },
+    "nearwall_energy_rmse_a_lambda_10_cm": {
+      "type": "number",
+      "value": 1188110.472726976,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median direct-fit energy RMSE at R_min = 0.15 bohr for lambda = 10",
+      "unit": "cm^-1"
+    },
+    "nearwall_energy_rmse_b_lambda_10_cm": {
+      "type": "number",
+      "value": 47.45735888285046,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median Coulomb-subtracted energy RMSE at R_min = 0.15 bohr for lambda = 10",
+      "unit": "cm^-1"
+    },
+    "nearwall_force_rmse_a_lambda_10_hartree_per_bohr": {
+      "type": "number",
+      "value": 1.8175932161832813,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median direct-fit total-force RMSE at R_min = 0.15 bohr for lambda = 10",
+      "unit": "hartree/bohr"
+    },
+    "nearwall_force_rmse_b_lambda_10_hartree_per_bohr": {
+      "type": "number",
+      "value": 0.0009276560811480391,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median Coulomb-subtracted total-force RMSE at R_min = 0.15 bohr for lambda = 10",
+      "unit": "hartree/bohr"
+    },
+    "crossover_lambda_100_bohr": {
+      "type": "number",
+      "value": 2,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "First tested cutoff at which the median energy A/B ratio is at most one for lambda = 100",
+      "unit": "bohr"
+    },
+    "crossover_lower_lambda_100_bohr": {
+      "type": "number",
+      "value": 1.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of the first parity bracket for lambda = 100",
+      "unit": "bohr"
+    },
+    "crossover_upper_lambda_100_bohr": {
+      "type": "number",
+      "value": 2,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of the first parity bracket for lambda = 100",
+      "unit": "bohr"
+    },
+    "crossover_interpolated_lambda_100_bohr": {
+      "type": "number",
+      "value": 1.9706056015544198,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Descriptive log-ratio interpolation inside the first parity bracket for lambda = 100; not used for the verdict",
+      "unit": "bohr"
+    },
+    "crossing_count_lambda_100": {
+      "type": "integer",
+      "value": 3,
+      "description": "Number of forward and reverse median-energy parity crossings for lambda = 100"
+    },
+    "reverse_crossing_lambda_100": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the median energy A/B curve crosses from at most one back above one for lambda = 100"
+    },
+    "crossing_1_lower_lambda_100_bohr": {
+      "type": "number",
+      "value": 1.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of parity crossing 1 for lambda = 100",
+      "unit": "bohr"
+    },
+    "crossing_1_upper_lambda_100_bohr": {
+      "type": "number",
+      "value": 2,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of parity crossing 1 for lambda = 100",
+      "unit": "bohr"
+    },
+    "crossing_2_lower_lambda_100_bohr": {
+      "type": "number",
+      "value": 2.75,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of parity crossing 2 for lambda = 100",
+      "unit": "bohr"
+    },
+    "crossing_2_upper_lambda_100_bohr": {
+      "type": "number",
+      "value": 3,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of parity crossing 2 for lambda = 100",
+      "unit": "bohr"
+    },
+    "crossing_3_lower_lambda_100_bohr": {
+      "type": "number",
+      "value": 3,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lower endpoint of parity crossing 3 for lambda = 100",
+      "unit": "bohr"
+    },
+    "crossing_3_upper_lambda_100_bohr": {
+      "type": "number",
+      "value": 3.25,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Upper endpoint of parity crossing 3 for lambda = 100",
+      "unit": "bohr"
+    },
+    "nearwall_energy_ratio_lambda_100": {
+      "type": "number",
+      "value": 99928.15672813676,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired energy-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 100",
+      "unit": "ratio"
+    },
+    "nearwall_force_ratio_lambda_100": {
+      "type": "number",
+      "value": 2065.365320271542,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median paired held-out total-force-RMSE A/B ratio at R_min = 0.15 bohr for lambda = 100",
+      "unit": "ratio"
+    },
+    "nearwall_energy_rmse_a_lambda_100_cm": {
+      "type": "number",
+      "value": 6909482.480475706,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median direct-fit energy RMSE at R_min = 0.15 bohr for lambda = 100",
+      "unit": "cm^-1"
+    },
+    "nearwall_energy_rmse_b_lambda_100_cm": {
+      "type": "number",
+      "value": 71.68500572324449,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median Coulomb-subtracted energy RMSE at R_min = 0.15 bohr for lambda = 100",
+      "unit": "cm^-1"
+    },
+    "nearwall_force_rmse_a_lambda_100_hartree_per_bohr": {
+      "type": "number",
+      "value": 1.8401025002313596,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median direct-fit total-force RMSE at R_min = 0.15 bohr for lambda = 100",
+      "unit": "hartree/bohr"
+    },
+    "nearwall_force_rmse_b_lambda_100_hartree_per_bohr": {
+      "type": "number",
+      "value": 0.0009266460202041504,
+      "format": {
+        "style": "scientific",
+        "digits": 3
+      },
+      "description": "Median Coulomb-subtracted total-force RMSE at R_min = 0.15 bohr for lambda = 100",
+      "unit": "hartree/bohr"
+    },
+    "audit_lambda_0_cutoff_275_primary_ratio": {
+      "type": "number",
+      "value": 1.0000960600721915,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 20,000 steps at lambda = 0, R_min = 2.75 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_0_cutoff_275_extended_ratio": {
+      "type": "number",
+      "value": 0.7769287067704808,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 40,000 steps at lambda = 0, R_min = 2.75 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_0_cutoff_275_same_side": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the 20,000- and 40,000-step ratios remain on the same side of parity at lambda = 0, R_min = 2.75 bohr"
+    },
+    "audit_lambda_0_cutoff_300_primary_ratio": {
+      "type": "number",
+      "value": 0.5830810116582126,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 20,000 steps at lambda = 0, R_min = 3 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_0_cutoff_300_extended_ratio": {
+      "type": "number",
+      "value": 0.6206300282909872,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 40,000 steps at lambda = 0, R_min = 3 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_0_cutoff_300_same_side": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the 20,000- and 40,000-step ratios remain on the same side of parity at lambda = 0, R_min = 3 bohr"
+    },
+    "audit_lambda_1_cutoff_150_primary_ratio": {
+      "type": "number",
+      "value": 3.0722279902312923,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 20,000 steps at lambda = 1, R_min = 1.5 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_1_cutoff_150_extended_ratio": {
+      "type": "number",
+      "value": 2.206582524794192,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 40,000 steps at lambda = 1, R_min = 1.5 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_1_cutoff_150_same_side": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the 20,000- and 40,000-step ratios remain on the same side of parity at lambda = 1, R_min = 1.5 bohr"
+    },
+    "audit_lambda_1_cutoff_175_primary_ratio": {
+      "type": "number",
+      "value": 0.7259490639287145,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 20,000 steps at lambda = 1, R_min = 1.75 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_1_cutoff_175_extended_ratio": {
+      "type": "number",
+      "value": 1.3677327203848522,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 40,000 steps at lambda = 1, R_min = 1.75 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_1_cutoff_175_same_side": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the 20,000- and 40,000-step ratios remain on the same side of parity at lambda = 1, R_min = 1.75 bohr"
+    },
+    "audit_lambda_100_cutoff_175_primary_ratio": {
+      "type": "number",
+      "value": 9.30786652388092,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 20,000 steps at lambda = 100, R_min = 1.75 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_100_cutoff_175_extended_ratio": {
+      "type": "number",
+      "value": 4.339432661860846,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 40,000 steps at lambda = 100, R_min = 1.75 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_100_cutoff_175_same_side": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the 20,000- and 40,000-step ratios remain on the same side of parity at lambda = 100, R_min = 1.75 bohr"
+    },
+    "audit_lambda_100_cutoff_200_primary_ratio": {
+      "type": "number",
+      "value": 0.742859049495671,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 20,000 steps at lambda = 100, R_min = 2 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_100_cutoff_200_extended_ratio": {
+      "type": "number",
+      "value": 1.3569746123190758,
+      "format": {
+        "style": "fixed",
+        "digits": 4
+      },
+      "description": "Median energy A/B ratio after 40,000 steps at lambda = 100, R_min = 2 bohr",
+      "unit": "ratio"
+    },
+    "audit_lambda_100_cutoff_200_same_side": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the 20,000- and 40,000-step ratios remain on the same side of parity at lambda = 100, R_min = 2 bohr"
+    },
+    "crossover_sequence_nonincreasing": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the registered first-parity cutoff sequence is nonincreasing with force weight"
+    },
+    "high_weight_strictly_inward": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether lambda = 10 or 100 has a first-parity cutoff strictly inward of lambda = 1"
+    },
+    "no_positive_weight_reverse_crossing": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether every positive-weight curve avoids a reverse parity crossing"
+    },
+    "optimization_audit_passed": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether every registered 40,000-step audit endpoint remains on the same side of parity as its 20,000-step result"
+    },
+    "audit_flip_count": {
+      "type": "integer",
+      "value": 3,
+      "description": "Number of registered endpoints whose parity classification changed at 40,000 steps"
+    },
+    "audit_endpoint_count": {
+      "type": "integer",
+      "value": 6,
+      "description": "Number of endpoints in the registered 40,000-step optimization audit"
+    },
+    "verdict_inconclusive": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the frozen scientific verdict is inconclusive"
+    },
+    "legacy_overlap_passed": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether all lambda = 0 and lambda = 1 predecessor results were reproduced exactly"
+    },
+    "legacy_overlap_comparison_count": {
+      "type": "integer",
+      "value": 160,
+      "description": "Number of exact predecessor-result comparisons"
+    },
+    "legacy_maximum_absolute_difference_cm": {
+      "type": "number",
+      "value": 0,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Largest absolute difference from a predecessor energy RMSE",
+      "unit": "cm^-1"
+    },
+    "completeness_passed": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether every registered energy and force result is finite and complete"
+    },
+    "runtime_within_ceiling": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the full production and audit run stayed within the registered three-hour ceiling"
+    },
+    "total_runtime_minutes": {
+      "type": "number",
+      "value": 70.74681808931636,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Total wall time for the primary sweep and optimization audit",
+      "unit": "minutes"
+    }
+  }
+}

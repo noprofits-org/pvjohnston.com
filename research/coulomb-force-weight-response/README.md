@@ -17,13 +17,16 @@ monotonic response to the standardized force-loss weight.
 - What it cannot establish: the response for ab initio curves, different loss
   normalizations or optimizers, larger networks, many-atom potentials, or
   molecular dynamics.
-- Traceability: not yet established until the production run and metrics
-  projection are committed.
-- Highest reproduction level: not yet established.
+- Traceability: preregistration, deterministic source, raw per-seed results,
+  independently rebuilt analysis, typed publication metrics, and the figure
+  source are committed together.
+- Highest reproduction level: end-to-end reproducible on linux-x86_64 from the
+  explicit Conda and Python package locks; analysis-reproducible with the Python
+  standard library alone.
 - Archived-evidence or rerun constraints: none; the analytic curve and all code
   are committed, and the calculation needs only CPU NumPy.
 
-The protocol and its pre-outcome amendment are frozen in
+The protocol and its pre-outcome amendments are frozen in
 `PREREGISTRATION.md`. The experiment is an independent extension of Rana et
 al., *Artificial Neural Networks Fitting of Potential Energy Curves and
 Surfaces: The 1/R Conundrum* (2025), and of the repository's lambda = 1
@@ -41,20 +44,27 @@ optimization-sensitivity audit.
 
 ## Preflight and run
 
-Create an isolated environment with the pinned requirements, then run the cheap
-analytic, gradient, batch-consistency, and process-isolation checks:
+Recreate the production Linux environment, then run the cheap analytic,
+gradient, batch-consistency, and process-isolation checks:
 
 ```sh
-python3 -m venv /tmp/coulomb-force-weight-venv
-/tmp/coulomb-force-weight-venv/bin/pip install -r research/coulomb-force-weight-response/requirements.txt
-/tmp/coulomb-force-weight-venv/bin/python research/coulomb-force-weight-response/run_experiment.py --check
+conda create --prefix /tmp/coulomb-force-weight-env \
+  --file research/coulomb-force-weight-response/environment-linux-64.lock
+/tmp/coulomb-force-weight-env/bin/python -m pip install --no-deps \
+  -r research/coulomb-force-weight-response/requirements-lock.txt
+/tmp/coulomb-force-weight-env/bin/python \
+  research/coulomb-force-weight-response/run_experiment.py --check
 ```
 
+`requirements.txt` contains the smaller direct-dependency set for a compatible
+pip/venv rerun when exact production-environment reconstruction is unnecessary.
+
 The frozen production command uses two scalar-lambda workers and writes
-`results.json` only after the primary panel and convergence audit finish:
+`results.json` after the registered run ends, including an incomplete,
+inconclusive artifact if the wall-clock ceiling stops the panel:
 
 ```sh
-/usr/bin/time -v /tmp/coulomb-force-weight-venv/bin/python \
+/usr/bin/time -v /tmp/coulomb-force-weight-env/bin/python \
   research/coulomb-force-weight-response/run_experiment.py --workers 2
 ```
 
@@ -77,6 +87,24 @@ node scripts/verify-metrics.mjs
 The accompanying post binds this directory with
 `experiment: coulomb-force-weight-response`.
 
+## Result
+
+The 20,000-step primary first-parity cutoffs were 3.00, 1.50, 1.50, 1.75,
+2.00, and 2.00 bohr at lambda = 0, 0.01, 0.1, 1, 10, and 100. That sequence was
+not monotonically inward, and lambda = 100 crossed parity three times.
+
+The registered 40,000-step audit changed the parity classification at three of
+six endpoints: lambda = 0 at 2.75 bohr, lambda = 1 at 1.75 bohr, and lambda =
+100 at 2.00 bohr. The optimization-sensitivity gate therefore failed, making
+the frozen scientific verdict **inconclusive**. This precedence matters: the
+fixed-budget primary pattern contradicts the monotonic hypothesis, but the
+experiment did not establish a training-budget-stable crossover sequence.
+
+The production and audit run completed in 4,244.81 seconds (70.7 minutes),
+inside the registered three-hour ceiling. All 160 predecessor comparisons were
+bit-exact, every registered result was finite and complete, and the independent
+standard-library verifier accepted the canonical artifact.
+
 ## Files and publication
 
 - `PREREGISTRATION.md` freezes the question, panel, controls, gates, and verdict
@@ -84,11 +112,14 @@ The accompanying post binds this directory with
 - `run_experiment.py` is the deterministic production wrapper.
 - `verify_analysis.py` independently re-derives the analysis from raw RMSEs
   using the Python standard library.
-- `results.json` is the canonical raw and derived result artifact.
+- `results.json` is the canonical raw and derived result artifact, including
+  the registered optimization audit.
 - `generate-metrics.mjs` and `metrics.json` own the typed publication
   projection.
 - `make_figure.py` generates the reader-facing figure from `results.json`.
 - `sources.json`, `environment.md`, and `requirements.txt` record provenance.
+- `environment-linux-64.lock` and `requirements-lock.txt` reproduce the actual
+  production package set.
 - `PUBLIC_FILES.txt` is the reviewed reader-facing allowlist.
 
 The bundle contains no credentials, private data, third-party datasets, model

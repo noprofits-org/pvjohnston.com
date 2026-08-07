@@ -3,8 +3,12 @@
 - Operating system and version: Ubuntu 24.04.4 LTS, Linux 7.0.0-28-generic.
 - Architecture: x86_64.
 - Interpreter/compiler and version: CPython 3.12.3.
-- Dependency manager and version: `venv` plus pip; exact direct dependencies in
-  `requirements.txt`.
+- Dependency manager and version: the production run used a temporary Conda
+  25.3.1 environment; the same direct Python dependencies can be installed
+  from `requirements.txt` with pip in an ordinary virtual environment.
+- Exact production solve: `environment-linux-64.lock` records the explicit
+  Conda base URLs and builds; `requirements-lock.txt` records every pip-installed
+  Python package. Install the second with `--no-deps` after creating the first.
 - Numerical dependency: NumPy 2.4.4. Matplotlib 3.11.1 is used only to generate
   the figure and does not affect `results.json`.
 - Hardware assumptions: any x86_64 CPU; no GPU. The registered machine has an
