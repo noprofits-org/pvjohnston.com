@@ -1,100 +1,80 @@
-# Runner prompt — periodic-compute-cost
+# Run-and-monitor handoff — periodic-compute-cost
 
-Paste or point a fresh session at this file. It executes the experiment
-specified in `design.md` in this directory. The design doc is the contract;
-this file is the order of operations.
+This session runs the fixed representative panel in `design.md`. It does not
+change the protocol, analyze the results, make figures, or draft the post.
 
-## Standing instructions
+## Before running
 
-1. Read `AGENTS.md` at the repo root and follow it — worktree discipline,
-   journal discipline, close-out checklist. Work happens on the existing
-   `post/periodic-compute-cost` branch in its worktree
-   (`../pvjohnston-worktrees/periodic-compute-cost`); if that worktree is
-   gone, recreate it from the branch per the AGENTS.md recipe.
-2. Read `research/periodic-compute-cost/design.md` **in full** before
-   writing any code. Every protocol decision (basis, spin table, timeouts,
-   stop rule, repeat policy, recorded fields) is specified there — do not
-   re-derive or silently change them. If a protocol item proves impossible
-   as written, log the deviation with `research-log.mjs decision` before
-   working around it.
-3. Resume the research journal session
-   `20260808T021400Z-compute-cost-of-the-periodic-table-e-f247`
-   (`node scripts/research-log.mjs resume --session ...`); checkpoint after
-   environment setup, after the pilot, after each completed tier, and
-   before any context compaction.
+1. Read the repository `AGENTS.md` and this directory's `design.md` in full.
+2. Work only in the existing `post/periodic-compute-cost` worktree. Confirm it
+   is clean with `git worktree list`, `git branch -vv`, and `git status`. If the
+   worktree is missing but the branch exists, attach it with
+   `git worktree add <worktree-path> post/periodic-compute-cost` rather than
+   trying to create the branch again.
+3. Recover the research journal before doing work:
 
-## Order of operations
+   ```sh
+   node scripts/research-log.mjs list
+   node scripts/research-log.mjs show --session 20260808T021400Z-compute-cost-of-the-periodic-table-e-f247
+   node scripts/research-log.mjs verify --session 20260808T021400Z-compute-cost-of-the-periodic-table-e-f247
+   node scripts/research-log.mjs resume --session 20260808T021400Z-compute-cost-of-the-periodic-table-e-f247
+   ```
 
-### 1. Environment (checkpoint when done)
+4. Use the existing `.venv` and verify its pinned packages against
+   `requirements.lock.txt`. Confirm AC power, a quiet machine, and adequate
+   free memory; do not overlap this run with another CPU-heavy experiment.
 
-- Create a venv under `research/periodic-compute-cost/.venv` (git-ignored;
-  add to `.gitignore` inside the experiment dir if needed). Install
-  `pyscf` and `numpy` via pip, then freeze: `pip freeze >
-  research/periodic-compute-cost/requirements.lock.txt`.
-- Copy `research/_TEMPLATE/environment.example.md` to `environment.md` and
-  fill it for this machine (Linux x86_64, i7-1165G7, 16 GB, single-thread
-  env vars, CPython version, pyscf version). Note AC power and CPU
-  governor at sweep time.
-- Smoke test: UHF on H and on O (spin 2) completes and matches literature
-  ballpark (O UHF/def2-SVP ≈ −74.8 Eh region).
+## Validate the setup
 
-### 2. Runner implementation
+From the worktree root:
 
-Two scripts in this directory:
+```sh
+research/periodic-compute-cost/.venv/bin/python \
+  research/periodic-compute-cost/sweep.py --dry-run --phase all
+```
 
-- `probe_one.py` — child process. Args: symbol, Z, spin, tier, basis.
-  Runs the single probe per design §3, prints one JSON object to stdout
-  (all fields from design §3 "Recorded per run", including peak RSS from
-  `resource.getrusage` and UHF ⟨S²⟩). Never writes files.
-- `sweep.py` — parent. Owns the element/spin table (design §6, with the
-  parity sanity check), the tier list, the per-run timeout (900 s), the
-  repeat policy, and the two-consecutive-failures stop rule. Appends one
-  line per run to `results/runs.jsonl`. **Resumable:** on start it reads
-  the JSONL and skips (element, tier, repeat) triples already recorded, so
-  a killed sweep continues rather than restarts.
+The dry run's pending plus already-recorded counts must total exactly 70 unique
+jobs, and its spin/ECP parity checks must pass. Run one noncanonical Be/UHF
+smoke probe to a temporary location if the environment has changed; do not
+append smoke output to `results/runs.jsonl`.
 
-Run everything with `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
-OPENBLAS_NUM_THREADS=1`.
+## Production run
 
-### 3. Pilot before committing to the sweep
+Use the same output for all phases; the runner is append-only and resumable.
+Run phases separately so each result can be inspected and journaled before the
+next long command:
 
-Run tiers UHF and CCSD(T) for Z ∈ {1, 2, 6, 10, 18} only. Check: JSONL
-fields all populated, timings plausible, repeats consistent to ~10%.
-Checkpoint with the pilot numbers. Only then launch the full sweep.
+```sh
+research/periodic-compute-cost/.venv/bin/python \
+  research/periodic-compute-cost/sweep.py --phase survey
 
-### 4. Full sweep
+research/periodic-compute-cost/.venv/bin/python \
+  research/periodic-compute-cost/sweep.py --phase correlation
 
-Tier order: UHF, PBE, MP2, CCSD, CCSD(T), FCI — cheapest first, so partial
-results are useful early. Expect HF/DFT to finish all 54 elements and the
-expensive tiers to hit the stop rule; a tier dying is a result, not an
-error. The whole sweep may take hours of wall time — run it in the
-background, monitor, and checkpoint per tier with: last surviving Z, total
-tier wall time, any unconverged elements.
+research/periodic-compute-cost/.venv/bin/python \
+  research/periodic-compute-cost/sweep.py --phase deep
+```
 
-### 5. Analysis
+After each phase, checkpoint exact counts grouped by `outcome` plus the phase
+wall time. Then run the next phase. A failed atom is data; do not adjust its
+guess, threshold, grid, timeout, memory setting, or method and rerun it. Stop
+and report if total elapsed time approaches three hours or the host becomes
+memory-constrained.
 
-`analyze.py` producing the four figures of design §5 into `results/`
-(post-ready copies later go to `images/periodic-compute-cost-*.png` per
-authoring guide). Fit α per tier as specified. Then `generate-metrics.mjs`
-(copy from `research/_TEMPLATE`) projecting: last surviving Z per tier,
-total sweep CPU time, fitted α per tier vs formal exponent — validated
-against `research/metrics.schema.json`.
+## Handoff
 
-### 6. Wrap up
-
-- Compare outcomes against the five predictions in design §4; record hits
-  and misses in the journal — misses are the interesting part.
-- Fill `PUBLIC_FILES.txt` (template in `research/_TEMPLATE`).
-- Commit on `post/periodic-compute-cost`. Do **not** draft the post unless
-  asked; the deliverable of the run session is data, figures, metrics, and
-  an updated journal. Close out per AGENTS.md.
+- Confirm the JSONL has one row for every planned job and no duplicate job keys.
+- Record environment changes, if any, in `environment.md`.
+- Commit the raw results and any strictly necessary runner correction on
+  `post/periodic-compute-cost`. Do not create plots, metrics, or post prose.
+- Close the journal with the exact result path and the next step: a separate
+  review/write session audits the data before interpreting it.
+- Complete the repository close-out checklist. Leave both this worktree and the
+  primary checkout clean; do not touch another session's worktree.
 
 ## Guardrails
 
-- Nothing here touches shared files: stay inside
-  `research/periodic-compute-cost/**` (and later `images/` +
-  `posts/` only when drafting is requested).
-- The 900 s timeout and 4 GB `max_memory` are hard limits — do not raise
-  them to rescue a struggling run; the failure is data.
-- If total sweep time is heading past ~6 h, stop, checkpoint, and report
-  rather than trimming the protocol silently.
+- All changes stay under `research/periodic-compute-cost/**`.
+- Thread count is one; timeout is 180 s; PySCF's 3000 MB setting is advisory.
+- Do not expand the element panel, add methods, add repeats, or rescue failed
+  calculations without a new journaled design decision from the user.
