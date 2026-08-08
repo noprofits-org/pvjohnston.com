@@ -1,0 +1,591 @@
+{
+  "schema_version": 1,
+  "experiment": "periodic-compute-cost",
+  "protocol_id": "periodic-compute-cost-phase1-v1",
+  "source": {
+    "path": "research/periodic-compute-cost/results/runs.jsonl",
+    "sha256": "01bc2b04195bd24aa1629e825abb8e8b09b6bda6918fdc19db6c081eb7b65579"
+  },
+  "aggregation": {
+    "survey_wall_time": "median of the two fixed repeats",
+    "correlation_and_deep_wall_time": "the single fixed attempt",
+    "nonconvergence": "retained at the fixed 80-cycle boundary; not treated as a completed timing"
+  },
+  "counts": {
+    "atoms": 14,
+    "jobs": 70,
+    "ok": 66,
+    "unconverged": 4,
+    "survey_ok": 52,
+    "survey_unconverged": 4,
+    "correlation_ok": 10,
+    "deep_ok": 4
+  },
+  "atoms": [
+    {
+      "panel": "halogens",
+      "symbol": "F",
+      "atomic_number": 9,
+      "spin_2s": 1,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 9,
+      "basis_functions": 14,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.08328733849339187,
+          "minimum_wall_seconds": 0.08202262799022719,
+          "maximum_wall_seconds": 0.08455204899655655,
+          "scf_cycles": 8
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.21402792551089078,
+          "minimum_wall_seconds": 0.21124959702137858,
+          "maximum_wall_seconds": 0.216806254000403,
+          "scf_cycles": 8
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.08231973001966253,
+          "minimum_wall_seconds": 0.08231973001966253,
+          "maximum_wall_seconds": 0.08231973001966253,
+          "scf_cycles": 8
+        },
+        "CCSD(T)": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.15683685900876299,
+          "minimum_wall_seconds": 0.15683685900876299,
+          "maximum_wall_seconds": 0.15683685900876299,
+          "scf_cycles": 8
+        }
+      }
+    },
+    {
+      "panel": "halogens",
+      "symbol": "Cl",
+      "atomic_number": 17,
+      "spin_2s": 1,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 17,
+      "basis_functions": 18,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.08273673499934375,
+          "minimum_wall_seconds": 0.08235645201057196,
+          "maximum_wall_seconds": 0.08311701798811555,
+          "scf_cycles": 7
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.26578700251411647,
+          "minimum_wall_seconds": 0.25987788499332964,
+          "maximum_wall_seconds": 0.2716961200349033,
+          "scf_cycles": 6
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.08962103701196611,
+          "minimum_wall_seconds": 0.08962103701196611,
+          "maximum_wall_seconds": 0.08962103701196611,
+          "scf_cycles": 7
+        },
+        "CCSD(T)": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.21935856103664264,
+          "minimum_wall_seconds": 0.21935856103664264,
+          "maximum_wall_seconds": 0.21935856103664264,
+          "scf_cycles": 7
+        }
+      }
+    },
+    {
+      "panel": "halogens",
+      "symbol": "Br",
+      "atomic_number": 35,
+      "spin_2s": 1,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 35,
+      "basis_functions": 32,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.12622000247938558,
+          "minimum_wall_seconds": 0.1252450509928167,
+          "maximum_wall_seconds": 0.12719495396595448,
+          "scf_cycles": 8
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.6004377939971164,
+          "minimum_wall_seconds": 0.5978554420289584,
+          "maximum_wall_seconds": 0.6030201459652744,
+          "scf_cycles": 9
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.14414923096774146,
+          "minimum_wall_seconds": 0.14414923096774146,
+          "maximum_wall_seconds": 0.14414923096774146,
+          "scf_cycles": 8
+        }
+      }
+    },
+    {
+      "panel": "halogens",
+      "symbol": "I",
+      "atomic_number": 53,
+      "spin_2s": 1,
+      "ecp_core_electrons": 28,
+      "explicit_electrons": 25,
+      "basis_functions": 26,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.11751600599382073,
+          "minimum_wall_seconds": 0.11745755799347535,
+          "maximum_wall_seconds": 0.1175744539941661,
+          "scf_cycles": 9
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "unconverged",
+          "median_wall_seconds": 3.119104877463542,
+          "minimum_wall_seconds": 3.0971945409546606,
+          "maximum_wall_seconds": 3.1410152139724232,
+          "scf_cycles": 80
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.12778500700369477,
+          "minimum_wall_seconds": 0.12778500700369477,
+          "maximum_wall_seconds": 0.12778500700369477,
+          "scf_cycles": 9
+        }
+      }
+    },
+    {
+      "panel": "alkaline_earths",
+      "symbol": "Be",
+      "atomic_number": 4,
+      "spin_2s": 0,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 4,
+      "basis_functions": 9,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.0746219324937556,
+          "minimum_wall_seconds": 0.07435230299597606,
+          "maximum_wall_seconds": 0.07489156199153513,
+          "scf_cycles": 4
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.15670961450086907,
+          "minimum_wall_seconds": 0.15614856098545715,
+          "maximum_wall_seconds": 0.15727066801628098,
+          "scf_cycles": 4
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.07618245499907061,
+          "minimum_wall_seconds": 0.07618245499907061,
+          "maximum_wall_seconds": 0.07618245499907061,
+          "scf_cycles": 4
+        },
+        "CCSD(T)": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.12424440297763795,
+          "minimum_wall_seconds": 0.12424440297763795,
+          "maximum_wall_seconds": 0.12424440297763795,
+          "scf_cycles": 4
+        }
+      }
+    },
+    {
+      "panel": "alkaline_earths",
+      "symbol": "Mg",
+      "atomic_number": 12,
+      "spin_2s": 0,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 12,
+      "basis_functions": 18,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.08462881503510289,
+          "minimum_wall_seconds": 0.08115560503210872,
+          "maximum_wall_seconds": 0.08810202503809705,
+          "scf_cycles": 5
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.23448457001359202,
+          "minimum_wall_seconds": 0.23216745001263916,
+          "maximum_wall_seconds": 0.23680169001454487,
+          "scf_cycles": 5
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.08262525004101917,
+          "minimum_wall_seconds": 0.08262525004101917,
+          "maximum_wall_seconds": 0.08262525004101917,
+          "scf_cycles": 5
+        },
+        "CCSD(T)": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.2121197070227936,
+          "minimum_wall_seconds": 0.2121197070227936,
+          "maximum_wall_seconds": 0.2121197070227936,
+          "scf_cycles": 5
+        }
+      }
+    },
+    {
+      "panel": "alkaline_earths",
+      "symbol": "Ca",
+      "atomic_number": 20,
+      "spin_2s": 0,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 20,
+      "basis_functions": 24,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.09543137048603967,
+          "minimum_wall_seconds": 0.09537806396838278,
+          "maximum_wall_seconds": 0.09548467700369656,
+          "scf_cycles": 5
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.2826599969994277,
+          "minimum_wall_seconds": 0.28073168999981135,
+          "maximum_wall_seconds": 0.284588303999044,
+          "scf_cycles": 4
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.09990769997239113,
+          "minimum_wall_seconds": 0.09990769997239113,
+          "maximum_wall_seconds": 0.09990769997239113,
+          "scf_cycles": 5
+        }
+      }
+    },
+    {
+      "panel": "alkaline_earths",
+      "symbol": "Sr",
+      "atomic_number": 38,
+      "spin_2s": 0,
+      "ecp_core_electrons": 28,
+      "explicit_electrons": 10,
+      "basis_functions": 23,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.09645123800146393,
+          "minimum_wall_seconds": 0.09628455701749772,
+          "maximum_wall_seconds": 0.09661791898543015,
+          "scf_cycles": 6
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.35333127502235584,
+          "minimum_wall_seconds": 0.3498310270369984,
+          "maximum_wall_seconds": 0.35683152300771326,
+          "scf_cycles": 7
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.09720653702970594,
+          "minimum_wall_seconds": 0.09720653702970594,
+          "maximum_wall_seconds": 0.09720653702970594,
+          "scf_cycles": 6
+        }
+      }
+    },
+    {
+      "panel": "transition_neighbors",
+      "symbol": "Cr",
+      "atomic_number": 24,
+      "spin_2s": 6,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 24,
+      "basis_functions": 31,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.131217422982445,
+          "minimum_wall_seconds": 0.1307557089603506,
+          "maximum_wall_seconds": 0.13167913700453937,
+          "scf_cycles": 8
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.5669423450017348,
+          "minimum_wall_seconds": 0.5632930070278235,
+          "maximum_wall_seconds": 0.5705916829756461,
+          "scf_cycles": 9
+        }
+      }
+    },
+    {
+      "panel": "transition_neighbors",
+      "symbol": "Mn",
+      "atomic_number": 25,
+      "spin_2s": 5,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 25,
+      "basis_functions": 31,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.14288713000132702,
+          "minimum_wall_seconds": 0.13912297401111573,
+          "maximum_wall_seconds": 0.14665128599153832,
+          "scf_cycles": 12
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.6812901810044423,
+          "minimum_wall_seconds": 0.680952184018679,
+          "maximum_wall_seconds": 0.6816281779902056,
+          "scf_cycles": 12
+        }
+      }
+    },
+    {
+      "panel": "transition_neighbors",
+      "symbol": "Fe",
+      "atomic_number": 26,
+      "spin_2s": 4,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 26,
+      "basis_functions": 31,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.136935740505578,
+          "minimum_wall_seconds": 0.13682222500210628,
+          "maximum_wall_seconds": 0.1370492560090497,
+          "scf_cycles": 10
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "unconverged",
+          "median_wall_seconds": 3.4650979799916968,
+          "minimum_wall_seconds": 3.4583625239902176,
+          "maximum_wall_seconds": 3.471833435993176,
+          "scf_cycles": 80
+        }
+      }
+    },
+    {
+      "panel": "transition_neighbors",
+      "symbol": "Zn",
+      "atomic_number": 30,
+      "spin_2s": 0,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 30,
+      "basis_functions": 31,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.12601867047487758,
+          "minimum_wall_seconds": 0.1251315779518336,
+          "maximum_wall_seconds": 0.12690576299792156,
+          "scf_cycles": 6
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.4670907355030067,
+          "minimum_wall_seconds": 0.46678941597929224,
+          "maximum_wall_seconds": 0.4673920550267212,
+          "scf_cycles": 6
+        }
+      }
+    },
+    {
+      "panel": "ecp_boundary",
+      "symbol": "Kr",
+      "atomic_number": 36,
+      "spin_2s": 0,
+      "ecp_core_electrons": 0,
+      "explicit_electrons": 36,
+      "basis_functions": 32,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.12545960050192662,
+          "minimum_wall_seconds": 0.12524879002012312,
+          "maximum_wall_seconds": 0.1256704109837301,
+          "scf_cycles": 6
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.4345340354775544,
+          "minimum_wall_seconds": 0.43011649895925075,
+          "maximum_wall_seconds": 0.4389515719958581,
+          "scf_cycles": 6
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.13368919596541673,
+          "minimum_wall_seconds": 0.13368919596541673,
+          "maximum_wall_seconds": 0.13368919596541673,
+          "scf_cycles": 6
+        }
+      }
+    },
+    {
+      "panel": "ecp_boundary",
+      "symbol": "Rb",
+      "atomic_number": 37,
+      "spin_2s": 1,
+      "ecp_core_electrons": 28,
+      "explicit_electrons": 9,
+      "basis_functions": 24,
+      "tiers": {
+        "UHF": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.09401896150666289,
+          "minimum_wall_seconds": 0.09335854998789728,
+          "maximum_wall_seconds": 0.0946793730254285,
+          "scf_cycles": 8
+        },
+        "PBE": {
+          "attempts": 2,
+          "outcome": "ok",
+          "median_wall_seconds": 0.3179220059828367,
+          "minimum_wall_seconds": 0.3137731829774566,
+          "maximum_wall_seconds": 0.3220708289882168,
+          "scf_cycles": 6
+        },
+        "MP2": {
+          "attempts": 1,
+          "outcome": "ok",
+          "median_wall_seconds": 0.09665806096745655,
+          "minimum_wall_seconds": 0.09665806096745655,
+          "maximum_wall_seconds": 0.09665806096745655,
+          "scf_cycles": 8
+        }
+      }
+    }
+  ],
+  "contrasts": {
+    "successful_survey_repeat_timing": {
+      "median_relative_range_percent": 1.3258878474729021,
+      "maximum": {
+        "symbol": "Mg",
+        "tier": "UHF",
+        "relative_range_percent": 8.208102645779748
+      }
+    },
+    "kr_to_rb_ecp_boundary": {
+      "atomic_number_change": 1,
+      "ecp_core_electrons": 28,
+      "explicit_electron_change": -27,
+      "basis_function_change": -8,
+      "wall_time_decrease_percent": {
+        "UHF": 25.060369130364723,
+        "PBE": 26.836109481403614,
+        "MP2": 27.699422328442715
+      }
+    },
+    "transition_pbe": {
+      "Cr": {
+        "median_wall_seconds": 0.5669423450017348,
+        "scf_cycles": 9,
+        "outcome": "ok"
+      },
+      "Mn": {
+        "median_wall_seconds": 0.6812901810044423,
+        "scf_cycles": 12,
+        "outcome": "ok"
+      },
+      "Fe": {
+        "median_wall_seconds": 3.4650979799916968,
+        "scf_cycles": 80,
+        "outcome": "unconverged"
+      },
+      "Zn": {
+        "median_wall_seconds": 0.4670907355030067,
+        "scf_cycles": 6,
+        "outcome": "ok"
+      }
+    },
+    "iodine_pbe": {
+      "median_wall_seconds_at_cap": 3.119104877463542,
+      "scf_cycles": 80,
+      "outcome": "unconverged"
+    },
+    "light_method_timing": {
+      "atoms": {
+        "F": {
+          "mp2_over_uhf": 0.9883822860565281,
+          "ccsd_t_over_uhf": 1.8830816525756389,
+          "pbe_over_uhf": 2.5697534509146553
+        },
+        "Cl": {
+          "mp2_over_uhf": 1.0832073203357246,
+          "ccsd_t_over_uhf": 2.651283750058333,
+          "pbe_over_uhf": 3.212442484178577
+        },
+        "Be": {
+          "mp2_over_uhf": 1.0209123839756575,
+          "ccsd_t_over_uhf": 1.6649850630447662,
+          "pbe_over_uhf": 2.100047657087715
+        },
+        "Mg": {
+          "mp2_over_uhf": 0.976325262344124,
+          "ccsd_t_over_uhf": 2.5064714297938497,
+          "pbe_over_uhf": 2.770741501181731
+        }
+      },
+      "ccsd_t_over_uhf_minimum": 1.6649850630447662,
+      "ccsd_t_over_uhf_maximum": 2.651283750058333,
+      "pbe_slower_than_ccsd_t_count": 4
+    }
+  }
+}

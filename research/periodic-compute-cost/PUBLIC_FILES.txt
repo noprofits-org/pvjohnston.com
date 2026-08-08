@@ -1,0 +1,16 @@
+# One repository-relative path per line. The site publishes only this reviewed bundle.
+LICENSE
+research/metrics.schema.json
+research/periodic-compute-cost/README.md
+research/periodic-compute-cost/design.md
+research/periodic-compute-cost/environment.md
+research/periodic-compute-cost/requirements.lock.txt
+research/periodic-compute-cost/requirements-analysis.txt
+research/periodic-compute-cost/probe_one.py
+research/periodic-compute-cost/sweep.py
+research/periodic-compute-cost/analyze.py
+research/periodic-compute-cost/results/runs.jsonl
+research/periodic-compute-cost/results/summary.json
+research/periodic-compute-cost/generate-metrics.mjs
+research/periodic-compute-cost/metrics.json
+research/periodic-compute-cost/sources.json

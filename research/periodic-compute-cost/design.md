@@ -9,8 +9,9 @@ benchmark of every element and not a claim of new quantum chemistry.
 **Audience.** A reader who knows periods, groups, and electron shells but does
 not need prior experience running electronic-structure software.
 
-**Status.** Protocol frozen; the runner is prepared in phase one. `PROMPT.md`
-hands the production timings to a separate run-and-monitor session.
+**Status.** Protocol frozen before production. The separate run-and-monitor
+session completed all 70 fixed attempts without retries or protocol changes;
+the raw JSONL is commit `ca1e5bf`.
 
 ## 1. Explanatory route
 
@@ -84,13 +85,13 @@ old pilot rows cannot silently become production data.
 
 ## 5. What the post may conclude
 
-Expected observations, not hypotheses:
+Expected observations written before production, not hypotheses:
 
 - Cost usually grows down a group, but the ECP can reverse that trend by
   replacing core electrons with an effective potential.
 - Transition-metal SCF iteration counts need not vary smoothly with Z.
-- Going from mean field or PBE to MP2 and CCSD(T) raises cost sharply even for
-  light atoms.
+- Going from mean field or PBE to MP2 and CCSD(T) was expected to raise cost
+  sharply even for light atoms.
 
 The post should show all planned atoms, then use the clearest neighboring
 contrasts to explain basis size, explicit electron count, occupation, and SCF
@@ -104,6 +105,12 @@ Two figures should be enough:
    iterations available for explanation;
 2. the method-depth comparison for the four light representatives.
 
+> **Post-run review note.** The second figure was not made. On the four tiny
+> atoms, PBE took longer than CCSD(T), while MP2 was comparable to UHF; these
+> singleton correlation timings do not expose asymptotic method scaling. The
+> post therefore keeps one figure and treats this failed ladder as a boundary,
+> not as a cost trend.
+
 This experiment does not price the whole periodic table, establish universal
 hardware-independent timings, rank method accuracy, or produce term-resolved
 atomic spectroscopy. Those are outside the post's boundary.
@@ -114,5 +121,6 @@ atomic spectroscopy. Those are outside the post's boundary.
   environment and runner; perform only tiny noncanonical smoke checks.
 - **Run session:** execute the three fixed phases, monitor them, checkpoint each
   phase, and commit the raw JSONL. Do not analyze or draft.
-- **Review/write session:** audit the completed rows, generate the two figures
-  and metrics, add citations, and write the Understanding post.
+- **Review/write session:** audit the completed rows, generate only the figures
+  warranted by the data plus metrics, add citations, and write the
+  Understanding post.
