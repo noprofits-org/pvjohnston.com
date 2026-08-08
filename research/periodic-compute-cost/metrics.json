@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "experiment": "periodic-compute-cost",
+  "provenance": {
+    "generated_at": "2026-08-08T04:04:13Z",
+    "generator": "research/periodic-compute-cost/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/periodic-compute-cost/design.md",
+        "sha256": "a0b0a364979dcb73f0cded724673bd0e57428bacaf817d5f368dedd0074c715e"
+      },
+      {
+        "path": "research/periodic-compute-cost/environment.md",
+        "sha256": "e8da5d1dc4919aa1b14245c6758c0aea16a076bed8e4401782841e4a785f5c07"
+      },
+      {
+        "path": "research/periodic-compute-cost/requirements.lock.txt",
+        "sha256": "75b7ef17dcef4bbe22d0786b41bda9a64a4b5b6a26f6635205b65d8cfb02465f"
+      },
+      {
+        "path": "research/periodic-compute-cost/requirements-analysis.txt",
+        "sha256": "a42721ffd269583bd6042aa3a900afe8303181f12c55f62e8d53bcfb362a8618"
+      },
+      {
+        "path": "research/periodic-compute-cost/probe_one.py",
+        "sha256": "021c4b8de423cb8ff2507964d3f43838f96f96811b7bf7d637f9a3c07d06839c"
+      },
+      {
+        "path": "research/periodic-compute-cost/sweep.py",
+        "sha256": "d151c30cf5fe7d0382f05f57bbf630b1594647b4086c45c6b34db0e5d366a586"
+      },
+      {
+        "path": "research/periodic-compute-cost/results/runs.jsonl",
+        "sha256": "01bc2b04195bd24aa1629e825abb8e8b09b6bda6918fdc19db6c081eb7b65579"
+      },
+      {
+        "path": "research/periodic-compute-cost/analyze.py",
+        "sha256": "ebf3d8ea2114e374de13239da682d3f8a6005d8d279c9420a0e6c4bc01289797"
+      },
+      {
+        "path": "research/periodic-compute-cost/results/summary.json",
+        "sha256": "cae4ed15b3fb17dbdf0afeafb3b333df4552341782588246b82c2aa76e8c87e0"
+      }
+    ]
+  },
+  "metrics": {
+    "atom_count": {
+      "type": "integer",
+      "value": 14,
+      "description": "Number of atoms in the fixed representative panel",
+      "unit": "atoms"
+    },
+    "job_count": {
+      "type": "integer",
+      "value": 70,
+      "description": "Number of fixed production attempts",
+      "unit": "attempts"
+    },
+    "ok_job_count": {
+      "type": "integer",
+      "value": 66,
+      "description": "Number of production attempts with an ok outcome",
+      "unit": "attempts"
+    },
+    "unconverged_job_count": {
+      "type": "integer",
+      "value": 4,
+      "description": "Number of production attempts that reached the SCF cycle cap",
+      "unit": "attempts"
+    },
+    "max_successful_survey_repeat_range": {
+      "type": "number",
+      "value": 0.08208102645779748,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Largest repeat-to-repeat wall-time range relative to the pair median among successful survey pairs",
+      "unit": "ratio"
+    },
+    "kr_explicit_electrons": {
+      "type": "integer",
+      "value": 36,
+      "description": "Explicit electrons in the all-electron krypton calculation",
+      "unit": "electrons"
+    },
+    "rb_explicit_electrons": {
+      "type": "integer",
+      "value": 9,
+      "description": "Explicit electrons in the rubidium calculation with the def2 effective core potential",
+      "unit": "electrons"
+    },
+    "kr_basis_functions": {
+      "type": "integer",
+      "value": 32,
+      "description": "Spherical def2-SVP basis functions in the krypton calculation",
+      "unit": "basis functions"
+    },
+    "rb_basis_functions": {
+      "type": "integer",
+      "value": 24,
+      "description": "Spherical def2-SVP basis functions in the rubidium calculation",
+      "unit": "basis functions"
+    },
+    "rb_uhf_time_decrease": {
+      "type": "number",
+      "value": 0.25060369130364724,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Kr-to-Rb decrease in median UHF calculation wall time",
+      "unit": "ratio"
+    },
+    "rb_pbe_time_decrease": {
+      "type": "number",
+      "value": 0.26836109481403614,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Kr-to-Rb decrease in median PBE calculation wall time",
+      "unit": "ratio"
+    },
+    "rb_mp2_time_decrease": {
+      "type": "number",
+      "value": 0.27699422328442713,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Kr-to-Rb decrease in MP2 calculation wall time",
+      "unit": "ratio"
+    },
+    "transition_basis_functions": {
+      "type": "integer",
+      "value": 31,
+      "description": "Spherical def2-SVP basis functions shared by Cr, Mn, Fe, and Zn",
+      "unit": "basis functions"
+    },
+    "cr_pbe_cycles": {
+      "type": "integer",
+      "value": 9,
+      "description": "PBE SCF cycles for chromium",
+      "unit": "cycles"
+    },
+    "mn_pbe_cycles": {
+      "type": "integer",
+      "value": 12,
+      "description": "PBE SCF cycles for manganese",
+      "unit": "cycles"
+    },
+    "fe_pbe_cycles": {
+      "type": "integer",
+      "value": 80,
+      "description": "PBE SCF cycles attempted for iron",
+      "unit": "cycles"
+    },
+    "zn_pbe_cycles": {
+      "type": "integer",
+      "value": 6,
+      "description": "PBE SCF cycles for zinc",
+      "unit": "cycles"
+    },
+    "fe_pbe_unconverged_attempt_count": {
+      "type": "integer",
+      "value": 2,
+      "description": "Fixed iron PBE attempts that reached the SCF cycle cap without convergence",
+      "unit": "attempts"
+    },
+    "i_pbe_cycles": {
+      "type": "integer",
+      "value": 80,
+      "description": "PBE SCF cycles attempted for iodine",
+      "unit": "cycles"
+    },
+    "i_pbe_unconverged_attempt_count": {
+      "type": "integer",
+      "value": 2,
+      "description": "Fixed iodine PBE attempts that reached the SCF cycle cap without convergence",
+      "unit": "attempts"
+    },
+    "light_method_atom_count": {
+      "type": "integer",
+      "value": 4,
+      "description": "Number of light atoms with UHF, PBE, MP2, and CCSD(T) timings",
+      "unit": "atoms"
+    },
+    "ccsd_t_over_uhf_min": {
+      "type": "number",
+      "value": 1.6649850630447662,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Smallest CCSD(T)-to-UHF wall-time ratio in the light-atom subset",
+      "unit": "ratio"
+    },
+    "ccsd_t_over_uhf_max": {
+      "type": "number",
+      "value": 2.651283750058333,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Largest CCSD(T)-to-UHF wall-time ratio in the light-atom subset",
+      "unit": "ratio"
+    },
+    "pbe_slower_than_ccsd_t_count": {
+      "type": "integer",
+      "value": 4,
+      "description": "Light-atom cases in which PBE took longer than CCSD(T)",
+      "unit": "atoms"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+h5py==3.16.0
+numpy==2.5.1
+pyscf==2.13.1
+scipy==1.18.0
+setuptools==83.0.0

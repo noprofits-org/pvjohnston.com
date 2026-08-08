@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "sources": [],
+  "note": "No external computational inputs. The fixed atomic specifications are embedded in sweep.py, and every result was generated locally with PySCF; literature sources remain in bib/bibliography.bib."
+}
