@@ -65,7 +65,10 @@ reports interrupted workflow-ledger recovery, use
 `node scripts/research-workflow.mjs repair --experiment <experiment-slug>`;
 never edit the ledger or evidence snapshots by hand. Repair does not cure a
 changed active receipt: restore it or take a reviewed backward route and submit
-a new version. If a killed process left `workflow/.transition.lock`, inspect it
+a new version. Repository attributes disable Git text conversion for the graph,
+ledger, receipts, and snapshots so those exact bytes survive across
+`core.autocrlf` settings. If a killed process left `workflow/.transition.lock`,
+inspect it
 and use `repair --experiment <experiment-slug> --unlock-stale` only when its
 same-host owner process is gone; never delete or replace a live lock by hand.
 The lock records its owning post branch. If initialization died before

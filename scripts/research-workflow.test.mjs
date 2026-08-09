@@ -1184,3 +1184,89 @@ test('pins each ledger to an immutable graph digest and rejects invalid graph st
   );
   assertFailed(result, /must declare.*approve|cannot reach.*terminal|trapped.*terminal|no terminal path/i);
 });
+
+test('preserves graph, ledger, and evidence bytes across autocrlf checkouts', (context) => {
+  const flow = fixture('portable-line-endings');
+  context.after(() => flow.cleanup());
+
+  const portableGraph = 'research/workflow.graph.v1.json';
+  flow.write('.gitattributes', readFileSync(resolve('.gitattributes')));
+  flow.write(portableGraph, readFileSync(graphPath));
+  flow.git('config', 'core.autocrlf', 'true');
+  flow.git('add', '.gitattributes', portableGraph);
+  flow.git(
+    '-c', 'user.name=Workflow Tests',
+    '-c', 'user.email=workflow-tests@example.invalid',
+    'commit', '-m', 'Track portable workflow graph',
+  );
+
+  rmSync(join(flow.root, portableGraph));
+  flow.git('checkout', '--', portableGraph);
+  assert.equal(readFileSync(join(flow.root, portableGraph), 'utf8').includes('\r\n'), false);
+
+  const graphEnvironment = { RESEARCH_WORKFLOW_GRAPH: join(flow.root, portableGraph) };
+  let result = flow.runWithEnv(
+    graphEnvironment,
+    'init',
+    '--experiment', flow.experiment,
+    '--post-type', 'research',
+    '--question', 'Do workflow fingerprints survive line-ending conversion?',
+    '--journal', flow.session,
+    '--actor', 'coordinator',
+    '--shelf-entry', 'Frozen workflow handoffs',
+  );
+  assert.equal(result.status, 0, result.stderr);
+
+  const receipt = flow.receipt(
+    'portable-handoff-v1.md',
+    '# Portable handoff\r\n\r\nThe authored receipt uses CRLF.\r\n',
+  );
+  assert.equal(readFileSync(join(flow.root, receipt), 'utf8').includes('\r\n'), true);
+  flow.checkpoint();
+  result = flow.runWithEnv(
+    graphEnvironment,
+    'submit',
+    '--experiment', flow.experiment,
+    '--actor', 'experiment-engineer',
+    '--artifact', receipt,
+  );
+  assert.equal(result.status, 0, result.stderr);
+
+  const snapshot = flow.events()[1].artifacts[0].snapshot_path;
+  const managed = [
+    portableGraph,
+    `research/${flow.experiment}/workflow.jsonl`,
+    receipt,
+    snapshot,
+  ];
+  const attributes = flow.git('check-attr', 'text', '--', ...managed).split('\n');
+  assert.deepEqual(attributes, managed.map((path) => `${path}: text: unset`));
+
+  flow.git('add', 'research');
+  flow.git(
+    '-c', 'user.name=Workflow Tests',
+    '-c', 'user.email=workflow-tests@example.invalid',
+    'commit', '-m', 'Record portable workflow evidence',
+  );
+
+  const verifier = join(flow.sandbox, 'verifier');
+  runGit(
+    flow.sandbox,
+    '-c', 'core.autocrlf=false',
+    'clone', '--quiet', '--branch', `post/${flow.experiment}`, flow.root, verifier,
+  );
+  for (const path of managed) {
+    assert.deepEqual(readFileSync(join(verifier, path)), readFileSync(join(flow.root, path)));
+  }
+
+  result = spawnSync(process.execPath, [script, 'verify', '--experiment', flow.experiment], {
+    cwd: resolve('.'),
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      RESEARCH_WORKFLOW_ROOT: verifier,
+      RESEARCH_WORKFLOW_GRAPH: join(verifier, portableGraph),
+    },
+  });
+  assert.equal(result.status, 0, result.stderr);
+});

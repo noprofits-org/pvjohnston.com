@@ -531,6 +531,11 @@ that changed or disappeared as stale, and `verify`, `submit`, and `review` block
 until it is restored or a valid reviewed backward route permits a new version.
 Evidence snapshots never make an active source receipt disposable.
 
+Repository attributes disable Git text conversion for the versioned graph,
+workflow logs, receipts, and evidence snapshots. This preserves the exact bytes
+the ledger fingerprints across `core.autocrlf` settings, including intentionally
+CRLF or binary receipts; line-ending-only edits therefore still count as drift.
+
 The append-only `workflow.jsonl`, receipts, and `workflow/evidence/` snapshots
 are a tracked public ledger even when the site does not serve them. They must
 not contain credentials, private transcripts, raw secret values, or local

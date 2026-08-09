@@ -7,3 +7,10 @@
 # This is safe only while the file stays append-only. Do not reformat, reorder,
 # or rewrite existing entries.
 bib/bibliography.bib merge=union
+
+# The computational-authoring ledger fingerprints exact bytes. Keep Git from
+# rewriting line endings for the immutable graph, append-only logs, source
+# receipts, and evidence snapshots; this also preserves binary receipts.
+research/workflow.graph.v*.json -text
+research/*/workflow.jsonl -text
+research/*/workflow/** -text
