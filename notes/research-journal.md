@@ -116,11 +116,14 @@ For a computationally heavy or multi-session post, the journal and
   stores hashed snapshots of small handoff packets, not raw logs or large
   outputs.
 
-Checkpoint the journal immediately before each workflow `submit` or `review`.
-Then commit the tracked workflow event and its evidence snapshots with the
-stage's artifacts. Never put credentials, private data, or sensitive
-transcripts in either record; every tracked workflow file is public even when
-it is absent from `PUBLIC_FILES.txt`.
+Checkpoint the open journal immediately before each workflow `submit` or
+`review`, include an explicit next action, and leave that checkpoint as the
+journal's final event. The workflow event records the checkpoint event ID and
+will not accept the same checkpoint for another handoff. Then commit the
+tracked workflow event and its evidence snapshots with the stage's artifacts.
+Never put credentials, private data, or sensitive transcripts in either
+record; every tracked workflow file is public even when it is absent from
+`PUBLIC_FILES.txt`.
 
 The two logs also have separate recovery commands. `research-log.mjs repair`
 repairs only the clone-private journal; an interrupted tracked handoff uses

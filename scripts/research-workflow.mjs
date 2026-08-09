@@ -30,10 +30,12 @@ const maxEvidenceBytes = 1024 * 1024;
 const maxEvidenceTotalBytes = 4 * 1024 * 1024;
 const maxWorkflowLogBytes = 64 * 1024 * 1024;
 const maxJournalBytes = 64 * 1024 * 1024;
+const maxNoteCharacters = 10_000;
 const workflowRecoveryReserveBytes = maxRecordBytes;
 const maxNormalWorkflowLogBytes = maxWorkflowLogBytes - workflowRecoveryReserveBytes;
 const maxArtifacts = 16;
 const experimentPattern = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
+const postBranchPattern = /^post\/[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const identifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:@-]{0,127}$/;
 const statePattern = /^[a-z][a-z0-9_]*$/;
 const sha256Pattern = /^[a-f0-9]{64}$/;
@@ -106,6 +108,14 @@ function required(options, key) {
 function optional(options, key) {
   const value = options[key];
   return typeof value === 'string' && value.trim() ? value.trim() : undefined;
+}
+
+function optionalNote(options) {
+  const note = optional(options, 'note');
+  if (note && note.length > maxNoteCharacters) {
+    fail(`--note is too long; maximum ${maxNoteCharacters} characters`);
+  }
+  return note;
 }
 
 function validateIdentifier(value, label) {
@@ -327,6 +337,35 @@ function repositoryContext(root) {
   } catch {
     return { branch: null, parent_commit: null };
   }
+}
+
+function requireOwningPostWorktree(root, action, expectedBranch = undefined) {
+  let branch;
+  let topLevel;
+  let gitDirectory;
+  let commonDirectory;
+  try {
+    branch = gitOutput(root, ['branch', '--show-current']);
+    topLevel = realpathSync(gitOutput(root, [
+      'rev-parse', '--path-format=absolute', '--show-toplevel',
+    ]));
+    gitDirectory = realpathSync(gitOutput(root, [
+      'rev-parse', '--path-format=absolute', '--git-dir',
+    ]));
+    commonDirectory = realpathSync(gitOutput(root, [
+      'rev-parse', '--path-format=absolute', '--git-common-dir',
+    ]));
+  } catch {
+    fail(`${action} requires an owning post/<slug> branch in a linked non-primary worktree`);
+  }
+  if (!postBranchPattern.test(branch) || topLevel !== root
+    || topLevel === dirname(commonDirectory) || gitDirectory === commonDirectory) {
+    fail(`${action} requires an owning post/<slug> branch in a linked non-primary worktree`);
+  }
+  if (expectedBranch && branch !== expectedBranch) {
+    fail(`${action} belongs to ${expectedBranch}; current worktree is on ${branch}`);
+  }
+  return branch;
 }
 
 function experimentDirectory(root, experiment) {
@@ -666,6 +705,28 @@ function requireJournal(root, session) {
   }
   if (events[0]?.type !== 'start') fail(`journal session ${session} has no valid start record`);
   if (state !== 'open') fail(`journal session is closed: ${session}; run research-log.mjs resume first`);
+  return events;
+}
+
+function requireFreshJournalCheckpoint(root, loaded) {
+  const session = loaded.metadata.journal_session;
+  const journalEvents = requireJournal(root, session);
+  let lastBoundEventId = loaded.metadata.journal_anchor_event_id;
+  for (const event of loaded.events) {
+    if (event.type === 'submit' || event.type === 'review') {
+      lastBoundEventId = event.journal_checkpoint_event_id;
+    }
+  }
+  const lastBoundIndex = journalEvents.findIndex(({ event_id: eventId }) => eventId === lastBoundEventId);
+  if (lastBoundIndex < 0) {
+    fail(`journal session ${session} no longer contains its last workflow-bound event`);
+  }
+  const checkpoint = journalEvents.at(-1);
+  if (journalEvents.length - 1 <= lastBoundIndex || checkpoint.type !== 'checkpoint'
+    || typeof checkpoint.next !== 'string' || !checkpoint.next.trim()) {
+    fail(`journal session ${session} requires a fresh checkpoint with --next immediately before this handoff`);
+  }
+  return checkpoint.event_id;
 }
 
 function requireReadyShelfEntry(root, heading) {
@@ -1147,15 +1208,15 @@ function validateEventKeys(event) {
     'sequence', 'type', 'actor', 'role', 'from', 'to', 'context',
   ];
   const extras = {
-    init: ['post_type', 'question', 'journal_session', 'shelf_entry'],
-    submit: ['artifacts', 'note'],
-    review: ['decision', 'submission_sequence', 'artifacts', 'note'],
+    init: ['post_type', 'question', 'journal_session', 'journal_anchor_event_id', 'shelf_entry'],
+    submit: ['artifacts', 'journal_checkpoint_event_id', 'note'],
+    review: ['decision', 'submission_sequence', 'artifacts', 'journal_checkpoint_event_id', 'note'],
     recovery: ['discarded_bytes', 'reason', 'quarantined_snapshots'],
   };
   if (!Object.hasOwn(extras, event.type)) fail(`workflow event ${event.sequence} has invalid type ${event.type}`);
   exactKeys(event, new Set([...common, ...extras[event.type]]), `workflow event ${event.sequence}`);
   if (Object.hasOwn(event, 'note') && (typeof event.note !== 'string' || !event.note.trim()
-    || event.note.length > 10000)) {
+    || event.note.length > maxNoteCharacters)) {
     fail(`workflow event ${event.sequence} has invalid note`);
   }
 }
@@ -1180,6 +1241,7 @@ function replay(root, paths, experiment, graph, events, { verifyEvidence = true 
   const supersededLineage = [];
   const routedReviews = [];
   const eventIds = new Set();
+  const journalEventIds = new Set();
   const globalSnapshots = new Set();
 
   for (const [index, event] of events.entries()) {
@@ -1191,7 +1253,9 @@ function replay(root, paths, experiment, graph, events, { verifyEvidence = true 
         || event.role !== 'coordinator') fail('workflow must begin with a coordinator init event');
       if (!['research', 'understanding'].includes(event.post_type)
         || typeof event.question !== 'string' || !event.question.trim() || event.question.length > 10000
-        || !identifierPattern.test(event.journal_session || '')) {
+        || !identifierPattern.test(event.journal_session || '')
+        || !uuidPattern.test(event.journal_anchor_event_id || '')
+        || typeof event.context.branch !== 'string' || !postBranchPattern.test(event.context.branch)) {
         fail('workflow init event has invalid metadata');
       }
       if (event.post_type === 'research'
@@ -1207,10 +1271,17 @@ function replay(root, paths, experiment, graph, events, { verifyEvidence = true 
         question: event.question,
         shelf_entry: event.shelf_entry,
         journal_session: event.journal_session,
+        journal_anchor_event_id: event.journal_anchor_event_id,
+        owning_branch: event.context.branch,
         created_at: event.timestamp,
         created_by: event.actor,
       };
+      journalEventIds.add(event.journal_anchor_event_id);
       continue;
+    }
+
+    if (event.context.branch !== metadata.owning_branch) {
+      fail(`workflow event ${sequence} was recorded on non-owning branch ${event.context.branch}`);
     }
 
     if (event.type === 'recovery') {
@@ -1231,6 +1302,12 @@ function replay(root, paths, experiment, graph, events, { verifyEvidence = true 
       });
       continue;
     }
+
+    if (!uuidPattern.test(event.journal_checkpoint_event_id || '')
+      || journalEventIds.has(event.journal_checkpoint_event_id)) {
+      fail(`workflow event ${sequence} has an invalid or reused journal checkpoint`);
+    }
+    journalEventIds.add(event.journal_checkpoint_event_id);
 
     const node = graph.states[state];
     if (!node || node.kind === 'terminal') fail(`workflow event ${sequence} follows terminal state ${state}`);
@@ -1522,9 +1599,9 @@ function initialize(options, root, graph) {
   const shelfEntry = optional(options, 'shelf-entry');
   if (postType === 'research' && !shelfEntry) fail('--shelf-entry is required for a research workflow');
   if (postType === 'understanding' && shelfEntry) fail('--shelf-entry is only valid for a research workflow');
-  requireJournal(root, journal);
+  requireOwningPostWorktree(root, 'workflow initialization');
+  const journalEvents = requireJournal(root, journal);
   if (postType === 'research') requireReadyShelfEntry(root, shelfEntry);
-  if (repositoryContext(root).branch === 'main') fail('workflow initialization is forbidden on main; use the post worktree');
 
   const experimentDir = experimentDirectory(root, experiment);
   const paths = managedPaths(experimentDir, { create: true });
@@ -1542,6 +1619,7 @@ function initialize(options, root, graph) {
       post_type: postType,
       question,
       journal_session: journal,
+      journal_anchor_event_id: journalEvents.at(-1).event_id,
     };
     if (shelfEntry) fields.shelf_entry = shelfEntry;
     createLog(paths.logPath, experimentDir, baseEvent(root, experiment, graph, 1, fields));
@@ -1554,24 +1632,40 @@ function initialize(options, root, graph) {
 }
 
 function mutateWorkflow(root, experiment, preferredGraph, callback) {
-  if (repositoryContext(root).branch === 'main') {
-    fail('workflow mutation is forbidden on main; use the owning post worktree');
+  const branch = requireOwningPostWorktree(root, 'workflow mutation');
+  const observed = loadWorkflow(root, experiment, preferredGraph, {
+    allowLock: true,
+    allowOrphans: true,
+  });
+  requireOwningPostWorktree(root, 'workflow mutation', observed.metadata.owning_branch);
+  if (observed.warnings.length) {
+    fail(`workflow has an incomplete final record; run repair for ${experiment} before another transition`);
   }
-  const experimentDir = experimentDirectory(root, experiment);
-  const paths = managedPaths(experimentDir);
+  if (observed.orphanSnapshots.length) {
+    fail(`${observed.orphanSnapshots.length} unreferenced evidence snapshot(s) require an explicit repair`);
+  }
+  assertFresh(observed);
+  const { experimentDir, paths } = observed;
   const release = acquireLock(paths);
   try {
+    requireOwningPostWorktree(root, 'workflow mutation', branch);
     cleanupStaleRecoveryTemps(root, experimentDir);
-    let loaded = loadWorkflow(root, experiment, preferredGraph, {
+    const loaded = loadWorkflow(root, experiment, preferredGraph, {
       allowLock: true,
       allowOrphans: true,
     });
-    if (loaded.warnings.length) loaded = repairLoaded(root, experiment, loaded);
-    else if (loaded.orphanSnapshots.length) {
+    if (loaded.metadata.owning_branch !== branch) {
+      fail(`workflow mutation belongs to ${loaded.metadata.owning_branch}; current worktree is on ${branch}`);
+    }
+    if (loaded.warnings.length) {
+      fail(`workflow has an incomplete final record; run repair for ${experiment} before another transition`);
+    }
+    if (loaded.orphanSnapshots.length) {
       fail(`${loaded.orphanSnapshots.length} unreferenced evidence snapshot(s) require an explicit repair`);
     }
     assertFresh(loaded);
-    return callback(loaded);
+    const journalCheckpointEventId = requireFreshJournalCheckpoint(root, loaded);
+    return callback(loaded, journalCheckpointEventId);
   } finally {
     release();
   }
@@ -1581,7 +1675,8 @@ function submit(options, root, graph) {
   requireOnly(options, new Set(['actor', 'artifact', 'experiment', 'note']));
   const experiment = validateExperiment(required(options, 'experiment'));
   const actor = validateIdentifier(required(options, 'actor'), 'actor');
-  mutateWorkflow(root, experiment, graph, (loaded) => {
+  const note = optionalNote(options);
+  mutateWorkflow(root, experiment, graph, (loaded, journalCheckpointEventId) => {
     if (loaded.node.kind !== 'work') fail(`cannot submit from ${loaded.state}; current role is ${loaded.node.role}`);
     const sequence = loaded.events.length + 1;
     const eventId = randomUUID();
@@ -1593,8 +1688,8 @@ function submit(options, root, graph) {
       from: loaded.state,
       to: loaded.node.submit_to,
       artifacts: prepared.map(({ evidence }) => evidence),
+      journal_checkpoint_event_id: journalCheckpointEventId,
     };
-    const note = optional(options, 'note');
     if (note) fields.note = note;
     const event = baseEvent(root, experiment, loaded.graph, sequence, fields);
     event.event_id = eventId;
@@ -1610,7 +1705,8 @@ function review(options, root, graph) {
   const experiment = validateExperiment(required(options, 'experiment'));
   const actor = validateIdentifier(required(options, 'actor'), 'actor');
   const decision = required(options, 'decision');
-  mutateWorkflow(root, experiment, graph, (loaded) => {
+  const note = optionalNote(options);
+  mutateWorkflow(root, experiment, graph, (loaded, journalCheckpointEventId) => {
     if (loaded.node.kind !== 'review') fail(`cannot review from ${loaded.state}; current role is ${loaded.node.role}`);
     if (!Object.hasOwn(loaded.node.decisions, decision)) {
       fail(`decision for ${loaded.state} must be one of: ${Object.keys(loaded.node.decisions).join(', ')}`);
@@ -1631,8 +1727,8 @@ function review(options, root, graph) {
       decision,
       submission_sequence: loaded.pendingSubmission.sequence,
       artifacts: prepared.map(({ evidence }) => evidence),
+      journal_checkpoint_event_id: journalCheckpointEventId,
     };
-    const note = optional(options, 'note');
     if (note) fields.note = note;
     const event = baseEvent(root, experiment, loaded.graph, sequence, fields);
     event.event_id = eventId;
@@ -1755,18 +1851,21 @@ function verify(options, root, graph) {
 function repair(options, root, graph) {
   requireOnly(options, new Set(['experiment', 'unlock-stale']));
   const experiment = validateExperiment(required(options, 'experiment'));
-  if (repositoryContext(root).branch === 'main') {
-    fail('workflow repair is forbidden on main; use the owning post worktree');
-  }
-  const experimentDir = experimentDirectory(root, experiment);
-  const paths = managedPaths(experimentDir);
+  const branch = requireOwningPostWorktree(root, 'workflow repair');
+  const observed = loadWorkflow(root, experiment, graph, { allowLock: true, allowOrphans: true });
+  requireOwningPostWorktree(root, 'workflow repair', observed.metadata.owning_branch);
+  const { experimentDir, paths } = observed;
   if (options['unlock-stale']) {
     if (clearStaleLock(paths)) console.error(`Removed a stale transition lock for research/${experiment}`);
   }
   const release = acquireLock(paths);
   try {
+    requireOwningPostWorktree(root, 'workflow repair', branch);
     cleanupStaleRecoveryTemps(root, experimentDir);
     const loaded = loadWorkflow(root, experiment, graph, { allowLock: true, allowOrphans: true });
+    if (loaded.metadata.owning_branch !== branch) {
+      fail(`workflow repair belongs to ${loaded.metadata.owning_branch}; current worktree is on ${branch}`);
+    }
     if (!loaded.warnings.length && !loaded.orphanSnapshots.length) {
       console.log(`No repair needed for research/${experiment}/workflow.jsonl`);
       return;

@@ -19,7 +19,11 @@ node scripts/research-workflow.mjs init \
 ```
 
 Understanding posts use `--post-type understanding` and omit
-`--shelf-entry`. `workflow/HANDOFF.example.md` and
+`--shelf-entry`. Run initialization and all later mutations from the exact
+owning `post/<slug>` branch in its linked worktree. Immediately before each
+`submit` or `review`, leave the open research journal on a fresh checkpoint
+with an explicit next action; the ledger binds and consumes its event ID.
+`workflow/HANDOFF.example.md` and
 `workflow/REVIEW.example.md` are small receipt templates;
 `workflow/AMENDMENT.example.md` covers a post-exposure protocol change and
 `workflow/PULL_REQUEST_RECEIPT.example.md` covers PR/CI evidence. Copy them to versioned

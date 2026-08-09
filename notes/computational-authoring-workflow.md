@@ -570,7 +570,10 @@ node scripts/research-workflow.mjs init \
 ```
 
 Use `--post-type understanding` with its explanatory question and omit
-`--shelf-entry` for an Understanding note.
+`--shelf-entry` for an Understanding note. Initialization binds the ledger to
+the current `post/<slug>` branch. The CLI permits initialization, transitions,
+and repair only from a linked non-primary worktree, and later mutations must
+remain on that exact owning branch.
 
 Inspect the current node, pending submission, accepted lineage, stale status,
 and next allowed actions. JSON status additionally exposes the event count,
@@ -595,6 +598,12 @@ node scripts/research-workflow.mjs submit \
   --artifact research/<experiment-slug>/workflow/setup-v1.md \
   --note "Implementation packet ready for independent review"
 ```
+
+Immediately before every `submit` or `review`, append a journal checkpoint
+with an explicit next action and leave it as the open journal's final event.
+The workflow records that checkpoint's event ID and rejects reuse. Optional
+workflow notes are limited to 10,000 characters; put larger details in the
+versioned handoff artifact.
 
 After an independent reviewer returns findings, the coordinator saves or
 references the report and records its decision, attributing `--actor` to that

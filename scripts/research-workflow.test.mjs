@@ -19,8 +19,29 @@ import test from 'node:test';
 const script = resolve('scripts/research-workflow.mjs');
 const graphPath = resolve('research/workflow.graph.v1.json');
 
+function runGit(directory, ...args) {
+  const result = spawnSync('git', args, { cwd: directory, encoding: 'utf8' });
+  if (result.status !== 0) {
+    throw new Error(`git ${args.join(' ')} failed:\n${result.stderr}\n${result.stdout}`);
+  }
+  return result.stdout.trim();
+}
+
 function fixture(experiment = 'demo-experiment') {
-  const root = mkdtempSync(join(tmpdir(), 'research-workflow-test-'));
+  const sandbox = mkdtempSync(join(tmpdir(), 'research-workflow-test-'));
+  const primary = join(sandbox, 'primary');
+  const root = join(sandbox, 'post-worktree');
+  mkdirSync(primary);
+  runGit(primary, 'init', '--initial-branch=main');
+  writeFileSync(join(primary, '.gitkeep'), '');
+  runGit(primary, 'add', '.gitkeep');
+  runGit(
+    primary,
+    '-c', 'user.name=Workflow Tests',
+    '-c', 'user.email=workflow-tests@example.invalid',
+    'commit', '-m', 'Initialize fixture',
+  );
+  runGit(primary, 'worktree', 'add', '-b', `post/${experiment}`, root);
   const journalDirectory = join(root, 'journal');
   const experimentDirectory = join(root, 'research', experiment);
   mkdirSync(journalDirectory, { recursive: true });
@@ -58,17 +79,36 @@ function fixture(experiment = 'demo-experiment') {
   }
 
   return {
+    sandbox,
+    primary,
     root,
     experiment,
     session,
     experimentDirectory,
     journalDirectory,
-    run(...args) {
+    checkpoint(summary = 'Checkpoint immediately before the workflow handoff.') {
+      const event = journalEvent(this, 'checkpoint', {
+        summary,
+        next: 'Record the workflow handoff.',
+      });
+      appendFileSync(this.journalPath(), `${JSON.stringify(event)}\n`);
+      return event;
+    },
+    journalEvent(type, overrides = {}) {
+      const event = journalEvent(this, type, overrides);
+      appendFileSync(this.journalPath(), `${JSON.stringify(event)}\n`);
+      return event;
+    },
+    runWithoutCheckpoint(...args) {
       return spawnSync(process.execPath, [script, ...args], {
         cwd: resolve('.'),
         encoding: 'utf8',
         env: environment(),
       });
+    },
+    run(...args) {
+      if (args[0] === 'submit' || args[0] === 'review') this.checkpoint();
+      return this.runWithoutCheckpoint(...args);
     },
     runWithEnv(extra, ...args) {
       return spawnSync(process.execPath, [script, ...args], {
@@ -78,6 +118,7 @@ function fixture(experiment = 'demo-experiment') {
       });
     },
     runAsync(...args) {
+      if (args[0] === 'submit' || args[0] === 'review') this.checkpoint();
       return new Promise((complete) => {
         const child = spawnProcess(process.execPath, [script, ...args], {
           cwd: resolve('.'),
@@ -116,8 +157,11 @@ function fixture(experiment = 'demo-experiment') {
     snapshots() {
       return readdirSync(this.evidenceDirectory()).sort();
     },
+    git(...args) {
+      return runGit(root, ...args);
+    },
     cleanup() {
-      rmSync(root, { recursive: true, force: true });
+      rmSync(sandbox, { recursive: true, force: true });
     },
   };
 }
@@ -320,6 +364,141 @@ test('rejects closed, mixed-session, and corrupt research journals at init', (co
   ].join('\n'));
   assertFailed(initialize(malformedResume), /malformed common fields|missing message/i);
   assert.equal(existsSync(malformedResume.logPath()), false);
+});
+
+test('allows workflow writes only from the exact owning linked post worktree', (context) => {
+  const primaryFlow = fixture('primary-guard');
+  const featureFlow = fixture('feature-guard');
+  const detachedFlow = fixture('detached-guard');
+  const ownerFlow = fixture('owner-guard');
+  context.after(() => {
+    primaryFlow.cleanup();
+    featureFlow.cleanup();
+    detachedFlow.cleanup();
+    ownerFlow.cleanup();
+  });
+
+  runGit(primaryFlow.primary, 'switch', '-c', 'post/primary-only');
+  let result = primaryFlow.runWithEnv(
+    { RESEARCH_WORKFLOW_ROOT: primaryFlow.primary },
+    'init', '--experiment', primaryFlow.experiment,
+    '--post-type', 'understanding', '--question', 'Can primary mutate?',
+    '--journal', primaryFlow.session, '--actor', 'coordinator',
+  );
+  assertFailed(result, /linked non-primary worktree/i);
+
+  featureFlow.git('switch', '-c', 'feature/not-a-post');
+  assertFailed(initialize(featureFlow), /post\/<slug>.*linked non-primary worktree/i);
+
+  detachedFlow.git('switch', '--detach');
+  assertFailed(initialize(detachedFlow), /post\/<slug>.*linked non-primary worktree/i);
+
+  assert.equal(initialize(ownerFlow).status, 0);
+  const originalLog = readFileSync(ownerFlow.logPath());
+  const originalSnapshots = ownerFlow.snapshots();
+  const receipt = ownerFlow.receipt('wrong-post-branch.md');
+  ownerFlow.git('switch', '-c', 'post/another-owner');
+  result = ownerFlow.runWithoutCheckpoint(
+    'submit', '--experiment', ownerFlow.experiment,
+    '--actor', 'designer', '--artifact', receipt,
+  );
+  assertFailed(result, /belongs to post\/owner-guard/i);
+  assert.deepEqual(readFileSync(ownerFlow.logPath()), originalLog);
+  assert.deepEqual(ownerFlow.snapshots(), originalSnapshots);
+  assert.equal(existsSync(join(ownerFlow.experimentDirectory, 'workflow', '.transition.lock')), false);
+  result = ownerFlow.runWithoutCheckpoint('repair', '--experiment', ownerFlow.experiment);
+  assertFailed(result, /belongs to post\/owner-guard/i);
+  assert.deepEqual(readFileSync(ownerFlow.logPath()), originalLog);
+
+  ownerFlow.git('switch', 'post/owner-guard');
+  result = ownerFlow.run(
+    'submit', '--experiment', ownerFlow.experiment,
+    '--actor', 'designer', '--artifact', receipt,
+  );
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('binds every transition to a fresh final checkpoint in the open journal', (context) => {
+  const flow = fixture('journal-handoff-gate');
+  context.after(() => flow.cleanup());
+  assert.equal(initialize(flow).status, 0);
+  const handoff = flow.receipt('checkpointed-handoff.md');
+  const initialLog = readFileSync(flow.logPath());
+
+  let result = flow.runWithoutCheckpoint(
+    'submit', '--experiment', flow.experiment,
+    '--actor', 'designer', '--artifact', handoff,
+  );
+  assertFailed(result, /fresh checkpoint.*--next/i);
+  assert.deepEqual(readFileSync(flow.logPath()), initialLog);
+  assert.deepEqual(flow.snapshots(), []);
+
+  flow.journalEvent('checkpoint', { summary: 'Missing the explicit next action.' });
+  result = flow.runWithoutCheckpoint(
+    'submit', '--experiment', flow.experiment,
+    '--actor', 'designer', '--artifact', handoff,
+  );
+  assertFailed(result, /fresh checkpoint.*--next/i);
+
+  flow.checkpoint('Checkpoint followed by more journal work.');
+  flow.journalEvent('note', { message: 'This makes the checkpoint no longer final.' });
+  result = flow.runWithoutCheckpoint(
+    'submit', '--experiment', flow.experiment,
+    '--actor', 'designer', '--artifact', handoff,
+  );
+  assertFailed(result, /fresh checkpoint.*immediately before/i);
+
+  const submitCheckpoint = flow.checkpoint('Final checkpoint for submission.');
+  result = flow.runWithoutCheckpoint(
+    'submit', '--experiment', flow.experiment,
+    '--actor', 'designer', '--artifact', handoff,
+  );
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(flow.events()[1].journal_checkpoint_event_id, submitCheckpoint.event_id);
+
+  const review = flow.receipt('checkpointed-review.md');
+  result = flow.runWithoutCheckpoint(
+    'review', '--experiment', flow.experiment,
+    '--actor', 'reviewer', '--decision', 'approve', '--artifact', review,
+  );
+  assertFailed(result, /fresh checkpoint.*--next/i);
+
+  flow.checkpoint('Checkpoint before closing the journal.');
+  flow.journalEvent('close', { summary: 'Temporarily closed.' });
+  result = flow.runWithoutCheckpoint(
+    'review', '--experiment', flow.experiment,
+    '--actor', 'reviewer', '--decision', 'approve', '--artifact', review,
+  );
+  assertFailed(result, /journal session is closed.*resume/i);
+  flow.journalEvent('resume', { message: 'Resume for the review handoff.' });
+  result = flow.runWithoutCheckpoint(
+    'review', '--experiment', flow.experiment,
+    '--actor', 'reviewer', '--decision', 'approve', '--artifact', review,
+  );
+  assertFailed(result, /fresh checkpoint.*immediately before/i);
+
+  const reviewCheckpoint = flow.checkpoint('Final checkpoint for review.');
+  result = flow.runWithoutCheckpoint(
+    'review', '--experiment', flow.experiment,
+    '--actor', 'reviewer', '--decision', 'approve', '--artifact', review,
+  );
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(flow.events()[2].journal_checkpoint_event_id, reviewCheckpoint.event_id);
+  assert.notEqual(submitCheckpoint.event_id, reviewCheckpoint.event_id);
+  result = flow.run('verify', '--experiment', flow.experiment);
+  assert.equal(result.status, 0, result.stderr);
+
+  const validLog = readFileSync(flow.logPath(), 'utf8');
+  const reusedCheckpointEvents = flow.events();
+  reusedCheckpointEvents[2].journal_checkpoint_event_id =
+    reusedCheckpointEvents[1].journal_checkpoint_event_id;
+  writeFileSync(
+    flow.logPath(),
+    `${reusedCheckpointEvents.map((event) => JSON.stringify(event)).join('\n')}\n`,
+  );
+  result = flow.run('verify', '--experiment', flow.experiment);
+  assertFailed(result, /invalid or reused journal checkpoint/i);
+  writeFileSync(flow.logPath(), validLog);
 });
 
 test('reaches ready_to_merge through independent review and reports null terminal iteration', (context) => {
@@ -530,6 +709,52 @@ test('multi-artifact failure is transactional and can be retried without orphan 
   assert.equal(existsSync(staleRecovery), false);
 });
 
+test('validates submit and review note length before persisting any transition', (context) => {
+  const flow = fixture('bounded-notes');
+  context.after(() => flow.cleanup());
+  assert.equal(initialize(flow).status, 0);
+  const handoff = flow.receipt('bounded-note-handoff.md');
+  const tooLong = 'x'.repeat(10_001);
+  const maximum = 'y'.repeat(10_000);
+
+  let beforeLog = readFileSync(flow.logPath());
+  let beforeSnapshots = flow.snapshots();
+  let result = flow.run(
+    'submit', '--experiment', flow.experiment,
+    '--actor', 'designer', '--artifact', handoff, '--note', tooLong,
+  );
+  assertFailed(result, /--note is too long.*10000/i);
+  assert.deepEqual(readFileSync(flow.logPath()), beforeLog);
+  assert.deepEqual(flow.snapshots(), beforeSnapshots);
+
+  result = flow.run(
+    'submit', '--experiment', flow.experiment,
+    '--actor', 'designer', '--artifact', handoff, '--note', maximum,
+  );
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(flow.events()[1].note.length, 10_000);
+
+  const review = flow.receipt('bounded-note-review.md');
+  beforeLog = readFileSync(flow.logPath());
+  beforeSnapshots = flow.snapshots();
+  result = flow.run(
+    'review', '--experiment', flow.experiment,
+    '--actor', 'reviewer', '--decision', 'approve', '--artifact', review, '--note', tooLong,
+  );
+  assertFailed(result, /--note is too long.*10000/i);
+  assert.deepEqual(readFileSync(flow.logPath()), beforeLog);
+  assert.deepEqual(flow.snapshots(), beforeSnapshots);
+
+  result = flow.run(
+    'review', '--experiment', flow.experiment,
+    '--actor', 'reviewer', '--decision', 'approve', '--artifact', review, '--note', maximum,
+  );
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(flow.events()[2].note.length, 10_000);
+  result = flow.run('verify', '--experiment', flow.experiment);
+  assert.equal(result.status, 0, result.stderr);
+});
+
 test('serializes concurrent transitions without duplicate sequences or orphan snapshots', async (context) => {
   const flow = fixture('concurrent-transition');
   context.after(() => flow.cleanup());
@@ -624,18 +849,30 @@ test('newline-terminated junk is corruption, while a partial tail is recoverable
   assert.deepEqual(corrupt.snapshots(), []);
 
   assert.equal(initialize(partial).status, 0);
+  submitCurrent(partial, 'brainstorm', 1);
   appendFileSync(partial.logPath(), '{"schema":1,"cut');
   result = partial.run('status', '--experiment', partial.experiment, '--json');
   assert.equal(result.status, 0, result.stderr);
   assert.match(JSON.parse(result.stdout).recovery_warnings[0], /incomplete final record/i);
-  const recoveredReceipt = partial.receipt('recovered-handoff.md');
+  const partialBytes = readFileSync(partial.logPath());
+  const partialSnapshots = partial.snapshots();
+  const recoveredReview = partial.receipt('recovered-review.md');
   result = partial.run(
-    'submit', '--experiment', partial.experiment,
-    '--actor', 'designer', '--artifact', recoveredReceipt,
+    'review', '--experiment', partial.experiment,
+    '--actor', 'reviewer', '--decision', 'approve', '--artifact', recoveredReview,
+  );
+  assertFailed(result, /incomplete final record.*repair/i);
+  assert.deepEqual(readFileSync(partial.logPath()), partialBytes);
+  assert.deepEqual(partial.snapshots(), partialSnapshots);
+  result = partial.run('repair', '--experiment', partial.experiment);
+  assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(partial.events().map(({ type }) => type), ['init', 'submit', 'recovery']);
+  result = partial.run(
+    'review', '--experiment', partial.experiment,
+    '--actor', 'reviewer', '--decision', 'approve', '--artifact', recoveredReview,
   );
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stderr, /Recovered .* incomplete byte/i);
-  assert.deepEqual(partial.events().map(({ type }) => type), ['init', 'recovery', 'submit']);
+  assert.deepEqual(partial.events().map(({ type }) => type), ['init', 'submit', 'recovery', 'review']);
   result = partial.run('verify', '--experiment', partial.experiment);
   assert.equal(result.status, 0, result.stderr);
 
@@ -650,7 +887,19 @@ test('newline-terminated junk is corruption, while a partial tail is recoverable
   assert.equal(delimiterStatus.state, 'brainstorm');
   assert.match(delimiterStatus.recovery_warnings[0], /incomplete final record/i);
   assert.equal(delimiterStatus.recovery_orphan_snapshots.length, 1);
+  const delimiterBytes = readFileSync(missingDelimiter.logPath());
+  const delimiterSnapshots = missingDelimiter.snapshots();
   const replacement = missingDelimiter.receipt('replacement-after-missing-delimiter.md');
+  result = missingDelimiter.run(
+    'submit', '--experiment', missingDelimiter.experiment,
+    '--actor', 'replacement-designer', '--artifact', replacement,
+  );
+  assertFailed(result, /incomplete final record.*repair/i);
+  assert.deepEqual(readFileSync(missingDelimiter.logPath()), delimiterBytes);
+  assert.deepEqual(missingDelimiter.snapshots(), delimiterSnapshots);
+  result = missingDelimiter.run('repair', '--experiment', missingDelimiter.experiment);
+  assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(missingDelimiter.events().map(({ type }) => type), ['init', 'recovery']);
   result = missingDelimiter.run(
     'submit', '--experiment', missingDelimiter.experiment,
     '--actor', 'replacement-designer', '--artifact', replacement,
@@ -772,7 +1021,14 @@ test('rejects snapshot tampering, path escape, missing evidence, and middle corr
   assertFailed(result, /snapshot.*exceeds 1048576 bytes/i);
 
   writeFileSync(snapshot, readFileSync(join(flow.root, handoff)));
-  const lines = readFileSync(flow.logPath(), 'utf8').trim().split('\n');
+  let lines = readFileSync(flow.logPath(), 'utf8').trim().split('\n');
+  const wrongBranchEvent = JSON.parse(lines[1]);
+  wrongBranchEvent.context.branch = 'post/not-the-owner';
+  writeFileSync(flow.logPath(), `${lines[0]}\n${JSON.stringify(wrongBranchEvent)}\n`);
+  result = flow.run('verify', '--experiment', flow.experiment);
+  assertFailed(result, /recorded on non-owning branch/i);
+
+  lines = [lines[0], lines[1]];
   writeFileSync(flow.logPath(), `${lines[0]}\nnot-json\n${lines[1]}\n`);
   result = flow.run('verify', '--experiment', flow.experiment);
   assertFailed(result, /invalid JSON at line 2/i);
