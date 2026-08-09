@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pvjohnston.com/research/muon-survival-two-frames/schemas/completion.schema.json",
+  "title": "Run completion marker",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment", "run_id", "status", "completed_at", "exit_status", "run_manifest", "checksums"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "experiment": {"const": "muon-survival-two-frames"},
+    "run_id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "status": {"const": "complete"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "exit_status": {"const": 0},
+    "run_manifest": {"$ref": "#/$defs/digest"},
+    "checksums": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

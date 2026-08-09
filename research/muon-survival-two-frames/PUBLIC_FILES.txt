@@ -1,0 +1,75 @@
+# One repository-relative path per line: the reviewed reader-facing routing
+# allowlist for the completed bundle, including the frozen trial ledger,
+# receipts, and the retired-engine specimen under graph/. Excluded: external
+# PDG PDFs, the sealed raw sample and run logs, workflow/evidence/ byte
+# duplicates, caches, the virtual environment, and the normally routed post
+# images.
+LICENSE
+research/metrics.schema.json
+research/muon-survival-two-frames/AMENDED-PROTOCOL-v2.md
+research/muon-survival-two-frames/constants.json
+research/muon-survival-two-frames/environment.json
+research/muon-survival-two-frames/environment.md
+research/muon-survival-two-frames/generate-metrics.mjs
+research/muon-survival-two-frames/graph/computational-authoring-workflow.md
+research/muon-survival-two-frames/graph/hardened-generate-metrics.mjs
+research/muon-survival-two-frames/graph/research-workflow.mjs
+research/muon-survival-two-frames/graph/research-workflow.test.mjs
+research/muon-survival-two-frames/graph/workflow.graph.v1.json
+research/muon-survival-two-frames/inputs.json
+research/muon-survival-two-frames/metrics.json
+research/muon-survival-two-frames/PREREGISTRATION-v1.md
+research/muon-survival-two-frames/README.md
+research/muon-survival-two-frames/requirements.lock.txt
+research/muon-survival-two-frames/results/summary.json
+research/muon-survival-two-frames/schemas/analysis-result.schema.json
+research/muon-survival-two-frames/schemas/completion.schema.json
+research/muon-survival-two-frames/schemas/constants.schema.json
+research/muon-survival-two-frames/schemas/inputs.schema.json
+research/muon-survival-two-frames/schemas/run-manifest.schema.json
+research/muon-survival-two-frames/schemas/sources.schema.json
+research/muon-survival-two-frames/setup-manifest.json
+research/muon-survival-two-frames/sources.json
+research/muon-survival-two-frames/src/analyze.py
+research/muon-survival-two-frames/src/bundle.py
+research/muon-survival-two-frames/src/contract.py
+research/muon-survival-two-frames/src/reconstruct.py
+research/muon-survival-two-frames/src/render_figure.py
+research/muon-survival-two-frames/src/render_figure_v2.mjs
+research/muon-survival-two-frames/src/run.py
+research/muon-survival-two-frames/src/validate_result.py
+research/muon-survival-two-frames/src/validate_run.py
+research/muon-survival-two-frames/src/verify_setup.py
+research/muon-survival-two-frames/workflow/AMENDMENT.example.md
+research/muon-survival-two-frames/workflow/amendment-review-v1.md
+research/muon-survival-two-frames/workflow/amendment-v1.md
+research/muon-survival-two-frames/workflow/analysis-review-v1.md
+research/muon-survival-two-frames/workflow/analysis-review-v2.md
+research/muon-survival-two-frames/workflow/analysis-v1.md
+research/muon-survival-two-frames/workflow/analysis-v2.md
+research/muon-survival-two-frames/workflow/brainstorm-v1.md
+research/muon-survival-two-frames/workflow/brainstorm-v2.md
+research/muon-survival-two-frames/workflow/HANDOFF.example.md
+research/muon-survival-two-frames/workflow.jsonl
+research/muon-survival-two-frames/workflow/PULL_REQUEST_RECEIPT.example.md
+research/muon-survival-two-frames/workflow/question-review-v1.md
+research/muon-survival-two-frames/workflow/question-review-v2.md
+research/muon-survival-two-frames/WORKFLOW_RETROSPECTIVE.md
+research/muon-survival-two-frames/workflow/REVIEW.example.md
+research/muon-survival-two-frames/workflow/run-review-attempt-v1.md
+research/muon-survival-two-frames/workflow/run-review-v1.md
+research/muon-survival-two-frames/workflow/run-v1.md
+research/muon-survival-two-frames/workflow/setup-review-v1.md
+research/muon-survival-two-frames/workflow/setup-review-v2.md
+research/muon-survival-two-frames/workflow/setup-review-v3.md
+research/muon-survival-two-frames/workflow/setup-review-v4.md
+research/muon-survival-two-frames/workflow/setup-review-v5.md
+research/muon-survival-two-frames/workflow/setup-review-v6.md
+research/muon-survival-two-frames/workflow/setup-review-v7.md
+research/muon-survival-two-frames/workflow/setup-v1.md
+research/muon-survival-two-frames/workflow/setup-v2.md
+research/muon-survival-two-frames/workflow/setup-v3.md
+research/muon-survival-two-frames/workflow/setup-v4.md
+research/muon-survival-two-frames/workflow/setup-v5.md
+research/muon-survival-two-frames/workflow/setup-v6.md
+research/muon-survival-two-frames/workflow/setup-v7.md

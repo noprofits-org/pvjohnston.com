@@ -1,0 +1,904 @@
+"""Frozen setup contract, deterministic serialization, and provenance checks."""
+
+from __future__ import annotations
+
+import hashlib
+import importlib.metadata
+import json
+import locale
+import os
+import platform
+import re
+import stat
+import subprocess
+import tempfile
+import time
+from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Callable, Mapping
+from uuid import uuid4
+
+
+EXPERIMENT = "muon-survival-two-frames"
+EXPERIMENT_DIR = Path(__file__).resolve().parents[1]
+REPOSITORY_ROOT = EXPERIMENT_DIR.parents[1]
+INPUTS_PATH = EXPERIMENT_DIR / "inputs.json"
+CONSTANTS_PATH = EXPERIMENT_DIR / "constants.json"
+SOURCES_PATH = EXPERIMENT_DIR / "sources.json"
+ENVIRONMENT_PATH = EXPERIMENT_DIR / "environment.json"
+SETUP_MANIFEST_PATH = EXPERIMENT_DIR / "setup-manifest.json"
+WORKFLOW_PATH = EXPERIMENT_DIR / "workflow.jsonl"
+WORKFLOW_GRAPH_PATH = REPOSITORY_ROOT / "research/workflow.graph.v1.json"
+WORKFLOW_CLI_PATH = REPOSITORY_ROOT / "scripts/research-workflow.mjs"
+
+EXPECTED_PYTHON = "3.12.3"
+EXPECTED_NUMPY = "2.5.1"
+EXPECTED_MATPLOTLIB = "3.11.1"
+EXPECTED_PIP = "26.2.1"
+EXPECTED_NODE = "24.18.0"
+EXPECTED_WORKFLOW_GRAPH_SHA256 = "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404"
+EXPECTED_WORKFLOW_CLI_SHA256 = "f8b931150fe5c31f574fa6303cd1d9b629ad02b0e05233025288e30275515f2c"
+ADMITTED_RUN_SELECTION_RULE = (
+    "Require exactly one column-zero immutable run_review approval-artifact line "
+    "matching - **Admitted run:** `run-001` or - **Admitted run:** `run-002`; "
+    "--run-id and --run-review-event must select that same marker and approval."
+)
+SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+RUN_ID_RE = re.compile(r"^run-[0-9]{3}$")
+DERIVED_STAGE_NONCE_RE = re.compile(r"^[0-9a-f]{32}$")
+MAX_DERIVED_OUTPUT_BYTES = 10 * 1024 * 1024
+MAX_DERIVED_STAGES_PER_TARGET = 16
+
+
+class ContractError(RuntimeError):
+    """Raised when a frozen input, environment, or artifact contract fails."""
+
+
+def canonical_json_bytes(value: Any) -> bytes:
+    """Serialize JSON without locale, timezone, key-order, or NaN ambiguity."""
+
+    return (
+        json.dumps(
+            value,
+            allow_nan=False,
+            ensure_ascii=True,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n"
+    ).encode("utf-8")
+
+
+def load_json(path: Path) -> Any:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise ContractError(f"cannot read valid JSON at {path.name}") from exc
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    try:
+        with path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+    except OSError as exc:
+        raise ContractError(f"cannot hash {path.name}") from exc
+    return digest.hexdigest()
+
+
+def relative_repository_path(path: Path) -> str:
+    try:
+        relative = path.resolve(strict=True).relative_to(REPOSITORY_ROOT.resolve(strict=True))
+    except (OSError, ValueError) as exc:
+        raise ContractError("artifact is outside the repository") from exc
+    return relative.as_posix()
+
+
+def digest_record(path: Path, *, public_path: str | None = None) -> dict[str, Any]:
+    if not path.is_file() or path.is_symlink():
+        raise ContractError(f"expected a regular, non-symlink file: {path.name}")
+    return {
+        "path": public_path if public_path is not None else relative_repository_path(path),
+        "bytes": path.stat().st_size,
+        "sha256": sha256_file(path),
+    }
+
+
+def write_bytes_exclusive(path: Path, payload: bytes) -> None:
+    try:
+        with path.open("xb") as handle:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+    except FileExistsError as exc:
+        raise ContractError(f"refusing to overwrite {path.name}") from exc
+
+
+def derived_stage_path(
+    final_path: Path,
+    payload_sha256: str,
+    nonce: str,
+    kind: str,
+) -> Path:
+    """Return one exact target-scoped same-directory publication stage path."""
+
+    _require(SHA256_RE.fullmatch(payload_sha256) is not None, "derived stage digest is invalid")
+    _require(DERIVED_STAGE_NONCE_RE.fullmatch(nonce) is not None, "derived stage nonce is invalid")
+    _require(kind in {"tmp", "ready"}, "derived stage kind is invalid")
+    return final_path.parent / f".{final_path.name}.publish-{payload_sha256}-{nonce}.{kind}"
+
+
+def _sync_directory(path: Path) -> None:
+    descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_DIRECTORY", 0))
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _derived_stage_pattern(final_path: Path) -> re.Pattern[str]:
+    return re.compile(
+        rf"^\.{re.escape(final_path.name)}\.publish-([0-9a-f]{{64}})-([0-9a-f]{{32}})\.(tmp|ready)$"
+    )
+
+
+def _owned_derived_stages(final_path: Path) -> list[tuple[Path, str, str, os.stat_result]]:
+    pattern = _derived_stage_pattern(final_path)
+    matches: list[tuple[Path, str, str, os.stat_result]] = []
+    for entry in final_path.parent.iterdir():
+        match = pattern.fullmatch(entry.name)
+        if match is None:
+            continue
+        try:
+            identity = entry.lstat()
+        except FileNotFoundError:
+            continue
+        if (
+            not stat.S_ISREG(identity.st_mode)
+            or stat.S_ISLNK(identity.st_mode)
+            or identity.st_uid != os.geteuid()
+            or identity.st_size > MAX_DERIVED_OUTPUT_BYTES
+            or identity.st_nlink not in {1, 2}
+        ):
+            raise ContractError(f"unsafe derived-output staging artifact: {entry.name}")
+        matches.append((entry, match.group(1), match.group(3), identity))
+    if len(matches) > MAX_DERIVED_STAGES_PER_TARGET:
+        raise ContractError("too many derived-output staging artifacts; manual quarantine is required")
+    return sorted(matches, key=lambda item: item[0].name)
+
+
+def _unlink_same_file(path: Path, identity: os.stat_result) -> None:
+    try:
+        current = path.lstat()
+    except FileNotFoundError:
+        return
+    if current.st_dev != identity.st_dev or current.st_ino != identity.st_ino:
+        raise ContractError("derived-output staging artifact changed during cleanup")
+    path.unlink()
+
+
+def _quarantine_derived_stage(
+    final_path: Path,
+    stage_path: Path,
+    identity: os.stat_result,
+) -> Path:
+    quarantine = final_path.parent / f".{final_path.name}.quarantine-{uuid4().hex}.stage"
+    try:
+        os.link(stage_path, quarantine, follow_symlinks=False)
+    except FileExistsError as exc:
+        raise ContractError("derived-output quarantine collision") from exc
+    try:
+        _unlink_same_file(stage_path, identity)
+    except BaseException:
+        try:
+            quarantine.unlink()
+        except FileNotFoundError:
+            pass
+        raise
+    _sync_directory(final_path.parent)
+    return quarantine
+
+
+def install_derived_bytes_atomic(
+    final_path: Path,
+    payload: bytes,
+    *,
+    nonce_factory: Callable[[], str] = lambda: uuid4().hex,
+    before_install: Callable[[Path], None] | None = None,
+) -> list[Path]:
+    """Stage, recover, and atomically install an immutable derived output."""
+
+    if not isinstance(payload, bytes) or len(payload) > MAX_DERIVED_OUTPUT_BYTES:
+        raise ContractError("derived output exceeds the registered byte boundary")
+    parent = final_path.parent
+    if not parent.is_dir() or parent.is_symlink():
+        raise ContractError("derived-output parent must be a real directory")
+    stages = _owned_derived_stages(final_path)
+    if final_path.exists() or final_path.is_symlink():
+        try:
+            final_identity = final_path.lstat()
+        except FileNotFoundError:
+            final_identity = None
+        if final_identity is not None and stat.S_ISREG(final_identity.st_mode) and not stat.S_ISLNK(final_identity.st_mode):
+            for stage_path, _digest, kind, identity in stages:
+                if kind == "ready" and identity.st_dev == final_identity.st_dev and identity.st_ino == final_identity.st_ino:
+                    _unlink_same_file(stage_path, identity)
+                    _sync_directory(parent)
+        raise ContractError(f"refusing to overwrite {final_path.name}")
+
+    expected_digest = hashlib.sha256(payload).hexdigest()
+    quarantined: list[Path] = []
+    ready_path: Path | None = None
+    ready_identity: os.stat_result | None = None
+    for stage_path, claimed_digest, kind, identity in stages:
+        if kind == "tmp":
+            quarantined.append(_quarantine_derived_stage(final_path, stage_path, identity))
+            continue
+        try:
+            stage_payload = stage_path.read_bytes()
+        except OSError as exc:
+            raise ContractError("derived-output ready stage is unreadable") from exc
+        exact_ready = claimed_digest == expected_digest and stage_payload == payload
+        if exact_ready and ready_path is None:
+            ready_path, ready_identity = stage_path, identity
+        else:
+            quarantined.append(_quarantine_derived_stage(final_path, stage_path, identity))
+
+    temporary_path: Path | None = None
+    temporary_identity: os.stat_result | None = None
+    if ready_path is None:
+        nonce = nonce_factory()
+        temporary_path = derived_stage_path(final_path, expected_digest, nonce, "tmp")
+        ready_path = derived_stage_path(final_path, expected_digest, nonce, "ready")
+        descriptor: int | None = None
+        try:
+            flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+            descriptor = os.open(temporary_path, flags, 0o644)
+            temporary_identity = os.fstat(descriptor)
+            view = memoryview(payload)
+            offset = 0
+            while offset < len(view):
+                written = os.write(descriptor, view[offset:])
+                if written <= 0:
+                    raise ContractError("short derived-output staging write")
+                offset += written
+            os.fsync(descriptor)
+            os.close(descriptor)
+            descriptor = None
+            os.link(temporary_path, ready_path, follow_symlinks=False)
+            ready_identity = ready_path.lstat()
+            _unlink_same_file(temporary_path, temporary_identity)
+            temporary_path = None
+            _sync_directory(parent)
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+            if temporary_path is not None and temporary_identity is not None:
+                _unlink_same_file(temporary_path, temporary_identity)
+    if ready_path is None or ready_identity is None:
+        raise ContractError("derived output did not reach the ready stage")
+
+    try:
+        if before_install is not None:
+            before_install(ready_path)
+        os.link(ready_path, final_path, follow_symlinks=False)
+        _sync_directory(parent)
+    except FileExistsError as exc:
+        raise ContractError(f"refusing to overwrite {final_path.name}") from exc
+    finally:
+        _unlink_same_file(ready_path, ready_identity)
+        _sync_directory(parent)
+    return quarantined
+
+
+def write_json_exclusive(path: Path, value: Any) -> None:
+    write_bytes_exclusive(path, canonical_json_bytes(value))
+
+
+def set_deterministic_process_environment() -> None:
+    os.environ["LC_ALL"] = "C"
+    os.environ["LANG"] = "C"
+    os.environ["TZ"] = "UTC"
+    try:
+        locale.setlocale(locale.LC_ALL, "C")
+    except locale.Error as exc:
+        raise ContractError("the required C locale is unavailable") from exc
+    if hasattr(time, "tzset"):
+        time.tzset()
+
+
+def _require(condition: bool, message: str) -> None:
+    if not condition:
+        raise ContractError(message)
+
+
+def _validate_digest_link(link: Mapping[str, Any], label: str) -> None:
+    _require(set(link) == {"path", "sha256"}, f"{label} digest link has unexpected fields")
+    path_text = link["path"]
+    digest = link["sha256"]
+    _require(isinstance(path_text, str) and path_text, f"{label} path is invalid")
+    _require(not Path(path_text).is_absolute() and ".." not in Path(path_text).parts, f"{label} path is not repository-relative")
+    _require(isinstance(digest, str) and SHA256_RE.fullmatch(digest) is not None, f"{label} SHA-256 is invalid")
+    resolved = REPOSITORY_ROOT / path_text
+    _require(resolved.is_file() and not resolved.is_symlink(), f"{label} source is missing or a symlink")
+    _require(sha256_file(resolved) == digest, f"{label} SHA-256 does not match")
+
+
+def validate_digest_record(record: Mapping[str, Any], *, repository_root: Path = REPOSITORY_ROOT) -> bool:
+    """Resolve a repository-relative byte/size/hash record and fail closed."""
+
+    capture_digest_record(record, repository_root=repository_root)
+    return True
+
+
+def capture_digest_record(
+    record: Mapping[str, Any],
+    *,
+    repository_root: Path = REPOSITORY_ROOT,
+) -> tuple[Path, bytes]:
+    """Return the exact bytes validated by a repository-relative digest record."""
+
+    _require(set(record) == {"path", "bytes", "sha256"}, "artifact digest record fields mismatch")
+    path_text = record.get("path")
+    _require(isinstance(path_text, str) and path_text, "artifact digest path is invalid")
+    relative = Path(path_text)
+    _require(not relative.is_absolute() and ".." not in relative.parts, "artifact digest path is not repository-relative")
+    _require(isinstance(record.get("bytes"), int) and not isinstance(record.get("bytes"), bool) and record["bytes"] >= 0, "artifact byte count is invalid")
+    _require(isinstance(record.get("sha256"), str) and SHA256_RE.fullmatch(record["sha256"]) is not None, "artifact SHA-256 is invalid")
+    path = repository_root / relative
+    _require(path.is_file() and not path.is_symlink(), "artifact digest target is missing or linked")
+    try:
+        payload = path.read_bytes()
+    except OSError as exc:
+        raise ContractError("artifact digest target is unreadable") from exc
+    _require(len(payload) == record["bytes"], "artifact byte count does not match")
+    _require(hashlib.sha256(payload).hexdigest() == record["sha256"], "artifact SHA-256 does not match")
+    return path, payload
+
+
+def _schema_type_matches(value: Any, expected: str) -> bool:
+    if expected == "object":
+        return isinstance(value, dict)
+    if expected == "array":
+        return isinstance(value, list)
+    if expected == "string":
+        return isinstance(value, str)
+    if expected == "boolean":
+        return isinstance(value, bool)
+    if expected == "integer":
+        return isinstance(value, int) and not isinstance(value, bool)
+    if expected == "number":
+        return isinstance(value, (int, float)) and not isinstance(value, bool)
+    return False
+
+
+def _resolve_local_schema_reference(root: Mapping[str, Any], reference: str) -> Mapping[str, Any]:
+    _require(reference.startswith("#/"), "only local JSON Schema references are supported")
+    value: Any = root
+    for raw_piece in reference[2:].split("/"):
+        piece = raw_piece.replace("~1", "/").replace("~0", "~")
+        _require(isinstance(value, dict) and piece in value, "JSON Schema reference does not resolve")
+        value = value[piece]
+    _require(isinstance(value, dict), "JSON Schema reference must resolve to an object")
+    return value
+
+
+def _validate_schema_value(value: Any, rule: Mapping[str, Any], root: Mapping[str, Any], location: str) -> None:
+    if "$ref" in rule:
+        _validate_schema_value(value, _resolve_local_schema_reference(root, rule["$ref"]), root, location)
+        return
+    if "const" in rule:
+        _require(value == rule["const"], f"schema const mismatch at {location}")
+    if "enum" in rule:
+        _require(value in rule["enum"], f"schema enum mismatch at {location}")
+    expected_type = rule.get("type")
+    if expected_type is not None:
+        _require(isinstance(expected_type, str) and _schema_type_matches(value, expected_type), f"schema type mismatch at {location}")
+    if expected_type == "object":
+        required = rule.get("required", [])
+        _require(isinstance(required, list) and all(isinstance(key, str) for key in required), f"invalid required list at {location}")
+        for key in required:
+            _require(key in value, f"schema required field missing at {location}.{key}")
+        properties = rule.get("properties", {})
+        _require(isinstance(properties, dict), f"invalid properties at {location}")
+        if rule.get("additionalProperties") is False:
+            unexpected = set(value) - set(properties)
+            if unexpected:
+                raise ContractError(f"schema unexpected field at {location}.{sorted(unexpected)[0]}")
+        for key, child_rule in properties.items():
+            if key in value:
+                _require(isinstance(child_rule, dict), f"invalid property schema at {location}.{key}")
+                _validate_schema_value(value[key], child_rule, root, f"{location}.{key}")
+    elif expected_type == "array":
+        if "minItems" in rule:
+            _require(len(value) >= rule["minItems"], f"schema array too short at {location}")
+        if "maxItems" in rule:
+            _require(len(value) <= rule["maxItems"], f"schema array too long at {location}")
+        if rule.get("uniqueItems") is True:
+            _require(len({json.dumps(item, sort_keys=True) for item in value}) == len(value), f"schema array is not unique at {location}")
+        item_rule = rule.get("items")
+        if item_rule is not None:
+            _require(isinstance(item_rule, dict), f"invalid item schema at {location}")
+            for index, item in enumerate(value):
+                _validate_schema_value(item, item_rule, root, f"{location}[{index}]")
+    elif expected_type in {"integer", "number"}:
+        numeric = float(value)
+        _require(numeric == numeric and numeric not in {float("inf"), float("-inf")}, f"schema number is nonfinite at {location}")
+        if "minimum" in rule:
+            _require(value >= rule["minimum"], f"schema minimum violated at {location}")
+        if "maximum" in rule:
+            _require(value <= rule["maximum"], f"schema maximum violated at {location}")
+        if "exclusiveMinimum" in rule:
+            _require(value > rule["exclusiveMinimum"], f"schema exclusive minimum violated at {location}")
+        if "exclusiveMaximum" in rule:
+            _require(value < rule["exclusiveMaximum"], f"schema exclusive maximum violated at {location}")
+    elif expected_type == "string":
+        if "minLength" in rule:
+            _require(len(value) >= rule["minLength"], f"schema string too short at {location}")
+        if "pattern" in rule:
+            _require(re.search(rule["pattern"], value) is not None, f"schema pattern mismatch at {location}")
+        if rule.get("format") == "date-time":
+            try:
+                parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+            except ValueError as exc:
+                raise ContractError(f"schema date-time mismatch at {location}") from exc
+            _require(parsed.tzinfo is not None, f"schema date-time lacks timezone at {location}")
+
+
+def validate_json_schema(instance: Any, schema_path: Path) -> bool:
+    """Validate the bounded JSON-Schema subset used by this experiment."""
+
+    schema = load_json(schema_path)
+    _require(schema.get("$schema") == "https://json-schema.org/draft/2020-12/schema", "unsupported JSON Schema draft")
+    _validate_schema_value(instance, schema, schema, "$")
+    return True
+
+
+def load_and_validate_constants() -> dict[str, Any]:
+    data = load_json(CONSTANTS_PATH)
+    validate_json_schema(data, EXPERIMENT_DIR / "schemas/constants.schema.json")
+    _require(data.get("schema_version") == 1, "constants schema version mismatch")
+    constants = data.get("constants")
+    _require(isinstance(constants, dict), "constants object is missing")
+    expected = {
+        "speed_of_light_m_s": (299792458, "m/s"),
+        "muon_mass_energy_mev": (105.6583755, "MeV"),
+        "muon_proper_mean_lifetime_s": (2.1969811e-6, "s"),
+    }
+    _require(set(constants) == set(expected), "constants keys differ from the frozen protocol")
+    for name, (value, unit) in expected.items():
+        entry = constants[name]
+        _require(entry.get("value") == value and entry.get("unit") == unit, f"frozen constant mismatch: {name}")
+    _require(constants["muon_mass_energy_mev"].get("source_id") == "pdg-2024-muon-listing", "muon mass source mismatch")
+    _require(constants["muon_proper_mean_lifetime_s"].get("source_id") == "pdg-2024-muon-listing", "muon lifetime source mismatch")
+    return data
+
+
+def load_and_validate_sources() -> dict[str, Any]:
+    data = load_json(SOURCES_PATH)
+    validate_json_schema(data, EXPERIMENT_DIR / "schemas/sources.schema.json")
+    _require(data.get("schema_version") == 1, "source manifest schema version mismatch")
+    sources = data.get("sources")
+    _require(isinstance(sources, list) and len(sources) == 2, "source manifest must contain exactly two registered sources")
+    by_id = {entry.get("id"): entry for entry in sources if isinstance(entry, dict)}
+    expected = {
+        "pdg-2024-muon-listing": (135593, "a3653f756a670b41a215b4a9746e6b5d872fe798a478e233acfc0bc1715eeb03"),
+        "pdg-2024-cosmic-ray-review": (2588758, "c8f0620d58d3d61a7b0eae5d2606ce65bbe581a9000c5435299d88ca9ea0125e"),
+    }
+    _require(set(by_id) == set(expected), "source IDs differ from the frozen protocol")
+    for source_id, (size, digest) in expected.items():
+        entry = by_id[source_id]
+        _require(entry.get("accessed") == "2026-08-08", f"access date mismatch for {source_id}")
+        _require(entry.get("bytes") == size and entry.get("sha256") == digest, f"source digest mismatch for {source_id}")
+        _require(entry.get("committed") is False, f"external source must not be bundled: {source_id}")
+        for field in ("url", "license", "acquisition", "exclusion_reason"):
+            _require(isinstance(entry.get(field), str) and entry[field], f"missing {field} for {source_id}")
+    return data
+
+
+def load_and_validate_inputs() -> dict[str, Any]:
+    data = load_json(INPUTS_PATH)
+    validate_json_schema(data, EXPERIMENT_DIR / "schemas/inputs.schema.json")
+    _require(data.get("schema_version") == 1, "input manifest schema version mismatch")
+    _require(data.get("experiment") == EXPERIMENT, "input manifest experiment mismatch")
+    _require(data.get("post_type") == "understanding", "post type must remain Understanding")
+    production = data.get("production", {})
+    _require(production.get("normal_run_id") == "run-001", "normal run ID mismatch")
+    _require(production.get("momentum_mev_c") == 3000.0, "momentum mismatch")
+    grid = production.get("laboratory_grid", {})
+    _require((grid.get("index_start"), grid.get("index_stop_inclusive"), grid.get("step_m")) == (0, 200, 100), "grid mismatch")
+    _require(production.get("focal_index") == 150, "focal index mismatch")
+    rng = production.get("rng", {})
+    _require(rng.get("library") == "numpy" and rng.get("bit_generator") == "PCG64", "RNG implementation mismatch")
+    _require(rng.get("seed") == 20260808 and rng.get("draw_count") == 100000, "RNG seed or draw count mismatch")
+    _require(rng.get("dtype") == "float64", "RNG dtype mismatch")
+    _require(production.get("canonical_command") == production_command("run-001"), "canonical command mismatch")
+    raw = production.get("raw_output", {})
+    _require(raw.get("shape") == [100000] and raw.get("dtype") == "float64" and raw.get("unit") == "s", "raw sample contract mismatch")
+    checks = data.get("checks", {})
+    _require(checks.get("frame_relative_tolerance") == 1e-12, "frame tolerance mismatch")
+    _require(checks.get("focal_monte_carlo_standard_error_multiplier") == 4.0, "focal error multiplier mismatch")
+    _require(checks.get("maximum_grid_absolute_discrepancy") == 0.01, "grid discrepancy tolerance mismatch")
+    analysis = data.get("analysis", {})
+    _require(analysis.get("canonical_result_path") == "research/muon-survival-two-frames/results/summary.json", "canonical result path mismatch")
+    _require(analysis.get("figure_path") == "images/muon-survival-two-frames-hero.png", "figure path mismatch")
+    _require(analysis.get("metrics_path") == "research/muon-survival-two-frames/metrics.json", "metrics path mismatch")
+    for name in ("canonical_result_command", "canonical_result_check_command", "figure_command", "figure_check_command", "metrics_command", "metrics_check_command"):
+        _require(isinstance(analysis.get(name), str) and analysis[name], f"missing frozen analysis command: {name}")
+    expected_run_commands = {
+        run_id: {
+            "write": analysis_command(run_id, check=False),
+            "check": analysis_command(run_id, check=True),
+        }
+        for run_id in ("run-001", "run-002")
+    }
+    _require(analysis.get("result_commands_by_admitted_run") == expected_run_commands, "admitted-run analysis commands mismatch")
+    _require(analysis.get("admitted_run_selection") == ADMITTED_RUN_SELECTION_RULE, "admitted-run analysis selection rule mismatch")
+    _require(analysis.get("canonical_result_command") == expected_run_commands["run-001"]["write"], "normal analysis command alias mismatch")
+    _require(analysis.get("canonical_result_check_command") == expected_run_commands["run-001"]["check"], "normal analysis check alias mismatch")
+    restart = data.get("restart", {})
+    _require(restart.get("same_run_resume") is False, "same-run resume must remain disabled")
+    _require(restart.get("registered_infrastructure_retries") == 1, "retry authorization mismatch")
+    _require(restart.get("only_registered_run_ids") == ["run-001", "run-002"], "registered run-ID contract mismatch")
+    _require(restart.get("normal_execution_authorization") == "current setup_review or amended_setup_review approve event into execute", "normal authorization contract mismatch")
+    _require(restart.get("retry_execution_authorization") == "current run_review registered_retry event into execute plus preserved incomplete run-001", "retry authorization contract mismatch")
+    _require(restart.get("registered_analysis_reruns") == 0, "analysis rerun must remain unauthorized")
+    lineage = data.get("lineage", {})
+    _require(set(lineage) == {"protocol", "constants", "sources", "environment", "requirements", "workflow_graph", "workflow_cli"}, "input lineage fields mismatch")
+    for label, link in lineage.items():
+        _require(isinstance(link, dict), f"{label} lineage link is invalid")
+        _validate_digest_link(link, label)
+    return data
+
+
+def production_command(run_id: str) -> str:
+    if run_id not in {"run-001", "run-002"}:
+        raise ContractError("only run-001 or the single authorized run-002 retry can be requested")
+    return (
+        "research/muon-survival-two-frames/.venv/bin/python "
+        "research/muon-survival-two-frames/src/run.py --run-id "
+        f"{run_id}"
+    )
+
+
+def analysis_command(run_id: str, *, check: bool) -> str:
+    if run_id not in {"run-001", "run-002"}:
+        raise ContractError("analysis accepts only an admitted run-001 or registered-retry run-002")
+    command = (
+        "research/muon-survival-two-frames/.venv/bin/python "
+        "research/muon-survival-two-frames/src/analyze.py "
+        f"--run-id {run_id} --run-review-event <approved-event-id>"
+    )
+    return f"{command} --check" if check else command
+
+
+@dataclass(frozen=True)
+class VerifiedWorkflowLedger:
+    """Exact ledger and evidence bytes replayed by the bound verifier."""
+
+    records: tuple[tuple[dict[str, Any], str], ...]
+    ledger_bytes: bytes
+    snapshot_bytes: Mapping[str, bytes]
+
+
+def _workflow_records_from_bytes(payload: bytes) -> list[tuple[dict[str, Any], str]]:
+    try:
+        text = payload.decode("utf-8")
+    except UnicodeError as exc:
+        raise ContractError("workflow ledger is unreadable") from exc
+    _require(payload.endswith(b"\n"), "workflow ledger lacks its final newline")
+    lines = text.splitlines()
+    records: list[tuple[dict[str, Any], str]] = []
+    for index, line in enumerate(lines, start=1):
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise ContractError("workflow ledger contains invalid JSON") from exc
+        _require(record.get("sequence") == index, "workflow ledger sequence mismatch")
+        records.append((record, line))
+    _require(bool(records), "workflow ledger is empty")
+    return records
+
+
+def _safe_workflow_relative_path(path_text: Any, *, evidence: bool) -> Path:
+    _require(isinstance(path_text, str) and path_text, "workflow artifact path is invalid")
+    relative = Path(path_text)
+    _require(not relative.is_absolute() and ".." not in relative.parts, "workflow artifact path is not repository-relative")
+    expected_prefix = Path("research") / EXPERIMENT / "workflow"
+    _require(relative.is_relative_to(expected_prefix), "workflow artifact path is outside the managed workflow")
+    if evidence:
+        _require(relative.is_relative_to(expected_prefix / "evidence"), "workflow snapshot path is outside evidence")
+    else:
+        _require(not relative.is_relative_to(expected_prefix / "evidence"), "workflow source path is inside evidence")
+    return relative
+
+
+def _read_bound_regular_file(path: Path, *, byte_count: Any, digest: Any, label: str) -> bytes:
+    _require(isinstance(byte_count, int) and not isinstance(byte_count, bool) and byte_count >= 0, f"{label} byte count is invalid")
+    _require(isinstance(digest, str) and SHA256_RE.fullmatch(digest) is not None, f"{label} SHA-256 is invalid")
+    _require(path.is_file() and not path.is_symlink(), f"{label} is missing or linked")
+    try:
+        payload = path.read_bytes()
+    except OSError as exc:
+        raise ContractError(f"{label} is unreadable") from exc
+    _require(len(payload) == byte_count, f"{label} byte count does not match")
+    _require(hashlib.sha256(payload).hexdigest() == digest, f"{label} SHA-256 does not match")
+    return payload
+
+
+def _read_expected_sha256(path: Path, *, digest: str, label: str) -> bytes:
+    _require(path.is_file() and not path.is_symlink(), f"{label} is missing or linked")
+    try:
+        payload = path.read_bytes()
+    except OSError as exc:
+        raise ContractError(f"{label} is unreadable") from exc
+    _require(hashlib.sha256(payload).hexdigest() == digest, f"{label} digest mismatch")
+    return payload
+
+
+def validate_workflow_ledger(
+    *,
+    workflow_path: Path = WORKFLOW_PATH,
+    graph_path: Path = WORKFLOW_GRAPH_PATH,
+    repository_root: Path = REPOSITORY_ROOT,
+    workflow_cli_path: Path = WORKFLOW_CLI_PATH,
+) -> VerifiedWorkflowLedger:
+    """Replay an immutable byte snapshot with the repository's bound verifier."""
+
+    expected_path = repository_root / "research" / EXPERIMENT / "workflow.jsonl"
+    try:
+        _require(workflow_path.resolve(strict=True) == expected_path.resolve(strict=True), "workflow path is not the managed experiment ledger")
+        _require(workflow_path.is_file() and not workflow_path.is_symlink(), "workflow ledger is missing or linked")
+        _require(graph_path.is_file() and not graph_path.is_symlink(), "workflow graph is missing or linked")
+        _require(workflow_cli_path.is_file() and not workflow_cli_path.is_symlink(), "workflow verifier is missing or linked")
+    except OSError as exc:
+        raise ContractError("workflow contract path cannot be resolved") from exc
+    graph_bytes = _read_expected_sha256(
+        graph_path,
+        digest=EXPECTED_WORKFLOW_GRAPH_SHA256,
+        label="workflow graph",
+    )
+    workflow_cli_bytes = _read_expected_sha256(
+        workflow_cli_path,
+        digest=EXPECTED_WORKFLOW_CLI_SHA256,
+        label="workflow verifier",
+    )
+    try:
+        ledger_bytes = workflow_path.read_bytes()
+    except OSError as exc:
+        raise ContractError("workflow ledger is unreadable") from exc
+    records = _workflow_records_from_bytes(ledger_bytes)
+    snapshot_bytes: dict[str, bytes] = {}
+    source_bytes: dict[str, bytes] = {}
+    for event, _raw_line in records:
+        artifacts = event.get("artifacts", [])
+        _require(isinstance(artifacts, list), "workflow event artifacts are invalid")
+        for artifact in artifacts:
+            _require(isinstance(artifact, dict), "workflow artifact is invalid")
+            snapshot_relative = _safe_workflow_relative_path(artifact.get("snapshot_path"), evidence=True)
+            snapshot_text = snapshot_relative.as_posix()
+            _require(snapshot_text not in snapshot_bytes, "workflow snapshot is referenced more than once")
+            snapshot_bytes[snapshot_text] = _read_bound_regular_file(
+                repository_root / snapshot_relative,
+                byte_count=artifact.get("bytes"),
+                digest=artifact.get("sha256"),
+                label="workflow snapshot",
+            )
+            source_path = artifact.get("source_path")
+            if source_path is not None:
+                source_relative = _safe_workflow_relative_path(source_path, evidence=False)
+                source_text = source_relative.as_posix()
+                payload = _read_bound_regular_file(
+                    repository_root / source_relative,
+                    byte_count=artifact.get("bytes"),
+                    digest=artifact.get("sha256"),
+                    label="workflow source",
+                )
+                if source_text in source_bytes:
+                    _require(source_bytes[source_text] == payload, "workflow source path has conflicting bytes")
+                source_bytes[source_text] = payload
+    environment = os.environ.copy()
+    try:
+        with tempfile.TemporaryDirectory(prefix="muon-setup-workflow-verification-") as temporary:
+            verification_root = Path(temporary)
+            staged_experiment = verification_root / "research" / EXPERIMENT
+            (staged_experiment / "workflow" / "evidence").mkdir(parents=True)
+            (staged_experiment / "workflow.jsonl").write_bytes(ledger_bytes)
+            staged_graph = verification_root / "research/workflow.graph.v1.json"
+            staged_graph.write_bytes(graph_bytes)
+            staged_cli = verification_root / "scripts/research-workflow.mjs"
+            staged_cli.parent.mkdir(parents=True)
+            staged_cli.write_bytes(workflow_cli_bytes)
+            for path_text, payload in source_bytes.items():
+                target = verification_root / path_text
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(payload)
+            for path_text, payload in snapshot_bytes.items():
+                target = verification_root / path_text
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(payload)
+            environment["RESEARCH_WORKFLOW_ROOT"] = str(verification_root)
+            environment["RESEARCH_WORKFLOW_GRAPH"] = str(staged_graph)
+            verified = subprocess.run(
+                ["node", str(staged_cli), "verify", "--experiment", EXPERIMENT],
+                cwd=verification_root,
+                env=environment,
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise ContractError("workflow graph verification could not run") from exc
+    _require(verified.returncode == 0, "workflow graph replay or evidence verification failed")
+    return VerifiedWorkflowLedger(tuple(records), ledger_bytes, dict(snapshot_bytes))
+
+
+def run_namespaces(runs_dir: Path) -> list[str]:
+    """Return every entry in the production runs namespace, including links."""
+
+    if not runs_dir.exists() and not runs_dir.is_symlink():
+        return []
+    _require(runs_dir.is_dir() and not runs_dir.is_symlink(), "runs path must be a real directory")
+    return sorted(entry.name for entry in runs_dir.iterdir())
+
+
+def _authorization_record(event: Mapping[str, Any], raw_line: str, kind: str) -> dict[str, Any]:
+    return {
+        "kind": kind,
+        "workflow_path": "research/muon-survival-two-frames/workflow.jsonl",
+        "event_id": event["event_id"],
+        "sequence": event["sequence"],
+        "submission_sequence": event["submission_sequence"],
+        "decision": event["decision"],
+        "graph_version": event["graph_version"],
+        "graph_sha256": event["graph_sha256"],
+        "event_sha256": hashlib.sha256(f"{raw_line}\n".encode("utf-8")).hexdigest(),
+    }
+
+
+def authorize_run_request(
+    run_id: str,
+    *,
+    workflow_path: Path = WORKFLOW_PATH,
+    runs_dir: Path | None = None,
+    graph_path: Path = WORKFLOW_GRAPH_PATH,
+    repository_root: Path = REPOSITORY_ROOT,
+    workflow_cli_path: Path = WORKFLOW_CLI_PATH,
+) -> dict[str, Any]:
+    """Bind normal execution or the sole retry to the current graph event."""
+
+    if run_id not in {"run-001", "run-002"}:
+        raise ContractError("unregistered run ID")
+    verified_ledger = validate_workflow_ledger(
+        workflow_path=workflow_path,
+        graph_path=graph_path,
+        repository_root=repository_root,
+        workflow_cli_path=workflow_cli_path,
+    )
+    event, raw_line = verified_ledger.records[-1]
+    namespaces = run_namespaces(runs_dir if runs_dir is not None else EXPERIMENT_DIR / "runs")
+    if run_id == "run-001":
+        _require(namespaces == [], "normal execution requires an empty runs namespace")
+        valid = (
+            event.get("type") == "review"
+            and event.get("from") in {"setup_review", "amended_setup_review"}
+            and event.get("to") == "execute"
+            and event.get("decision") == "approve"
+        )
+        _require(valid, "run-001 requires the current recorded setup approval into execute")
+        return _authorization_record(event, raw_line, "normal")
+
+    _require(namespaces == ["run-001"], "registered retry requires only the preserved run-001 namespace")
+    prior = (runs_dir if runs_dir is not None else EXPERIMENT_DIR / "runs") / "run-001"
+    _require(prior.is_dir() and not prior.is_symlink(), "retry predecessor must be a real run-001 directory")
+    _require(not (prior / "COMPLETE.json").exists() and not (prior / "COMPLETE.json").is_symlink(), "a complete run-001 cannot be retried")
+    valid = (
+        event.get("type") == "review"
+        and event.get("from") == "run_review"
+        and event.get("to") == "execute"
+        and event.get("decision") == "registered_retry"
+    )
+    _require(valid, "run-002 requires the current recorded registered_retry event")
+    return _authorization_record(event, raw_line, "registered_retry")
+
+
+def validate_recorded_run_authorization(
+    run_id: str,
+    authorization: Mapping[str, Any],
+    *,
+    workflow_path: Path = WORKFLOW_PATH,
+    graph_path: Path = WORKFLOW_GRAPH_PATH,
+    repository_root: Path = REPOSITORY_ROOT,
+    workflow_cli_path: Path = WORKFLOW_CLI_PATH,
+) -> None:
+    expected_kind = "normal" if run_id == "run-001" else "registered_retry" if run_id == "run-002" else None
+    _require(expected_kind is not None and authorization.get("kind") == expected_kind, "run authorization kind mismatch")
+    _require(authorization.get("workflow_path") == "research/muon-survival-two-frames/workflow.jsonl", "run authorization workflow path mismatch")
+    verified_ledger = validate_workflow_ledger(
+        workflow_path=workflow_path,
+        graph_path=graph_path,
+        repository_root=repository_root,
+        workflow_cli_path=workflow_cli_path,
+    )
+    matches = [(event, raw) for event, raw in verified_ledger.records if event.get("event_id") == authorization.get("event_id")]
+    _require(len(matches) == 1, "recorded run authorization event is missing or duplicated")
+    event, raw_line = matches[0]
+    expected = _authorization_record(event, raw_line, expected_kind)
+    _require(dict(authorization) == expected, "recorded run authorization does not match its workflow event")
+    if expected_kind == "normal":
+        _require(event.get("from") in {"setup_review", "amended_setup_review"} and event.get("to") == "execute" and event.get("decision") == "approve", "normal authorization event is invalid")
+    else:
+        _require(event.get("from") == "run_review" and event.get("to") == "execute" and event.get("decision") == "registered_retry", "retry authorization event is invalid")
+
+
+def verify_environment(*, require_node: bool = True) -> dict[str, str]:
+    _require(platform.python_implementation() == "CPython", "CPython is required")
+    _require(platform.python_version() == EXPECTED_PYTHON, f"Python {EXPECTED_PYTHON} is required")
+    versions = {
+        "python_implementation": platform.python_implementation(),
+        "python_version": platform.python_version(),
+        "numpy_version": importlib.metadata.version("numpy"),
+        "matplotlib_version": importlib.metadata.version("matplotlib"),
+        "pip_version": importlib.metadata.version("pip"),
+    }
+    _require(versions["numpy_version"] == EXPECTED_NUMPY, f"NumPy {EXPECTED_NUMPY} is required")
+    _require(versions["matplotlib_version"] == EXPECTED_MATPLOTLIB, f"Matplotlib {EXPECTED_MATPLOTLIB} is required")
+    _require(versions["pip_version"] == EXPECTED_PIP, f"pip {EXPECTED_PIP} is required")
+    _require(platform.system() == "Linux" and platform.machine() == "x86_64", "Linux x86-64 is required by the wheel lock")
+    node_version = "not-checked"
+    if require_node:
+        try:
+            node_version = subprocess.run(
+                ["node", "--version"],
+                check=True,
+                capture_output=True,
+                text=True,
+                timeout=5,
+            ).stdout.strip().removeprefix("v")
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise ContractError("cannot verify the registered Node.js version") from exc
+        _require(node_version == EXPECTED_NODE, f"Node.js {EXPECTED_NODE} is required")
+    versions["node_version"] = node_version
+    return versions
+
+
+def verify_setup_manifest() -> dict[str, Any]:
+    manifest = load_json(SETUP_MANIFEST_PATH)
+    _require(manifest.get("schema_version") == 1, "setup manifest schema version mismatch")
+    _require(manifest.get("experiment") == EXPERIMENT, "setup manifest experiment mismatch")
+    artifacts = manifest.get("artifacts")
+    _require(isinstance(artifacts, list) and artifacts, "setup manifest has no artifact inventory")
+    seen: set[str] = set()
+    for entry in artifacts:
+        _require(isinstance(entry, dict) and set(entry) == {"path", "bytes", "sha256"}, "invalid setup artifact entry")
+        path_text = entry["path"]
+        _require(isinstance(path_text, str) and path_text not in seen, "duplicate or invalid setup artifact path")
+        _require(not Path(path_text).is_absolute() and ".." not in Path(path_text).parts, "setup artifact path is not repository-relative")
+        seen.add(path_text)
+        path = REPOSITORY_ROOT / path_text
+        _require(path.is_file() and not path.is_symlink(), f"setup artifact missing or symlinked: {path_text}")
+        _require(path.stat().st_size == entry["bytes"], f"setup artifact size mismatch: {path_text}")
+        _require(SHA256_RE.fullmatch(entry["sha256"]) is not None, f"invalid setup artifact digest: {path_text}")
+        _require(sha256_file(path) == entry["sha256"], f"setup artifact digest mismatch: {path_text}")
+    return manifest
+
+
+def setup_validation() -> dict[str, Any]:
+    """Validate all prospective setup bytes without performing science."""
+
+    set_deterministic_process_environment()
+    versions = verify_environment(require_node=True)
+    load_and_validate_constants()
+    load_and_validate_sources()
+    load_and_validate_inputs()
+    manifest = verify_setup_manifest()
+    for schema in sorted((EXPERIMENT_DIR / "schemas").glob("*.json")):
+        document = load_json(schema)
+        _require(document.get("$schema") == "https://json-schema.org/draft/2020-12/schema", f"schema draft mismatch: {schema.name}")
+        _require(document.get("type") == "object", f"schema root must be an object: {schema.name}")
+    namespaces = run_namespaces(EXPERIMENT_DIR / "runs")
+    _require(namespaces == [], f"production run namespace exists: {', '.join(namespaces)}")
+    return {"versions": versions, "artifact_count": len(manifest["artifacts"]), "production_absent": True, "run_namespaces": []}

@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pvjohnston.com/research/muon-survival-two-frames/schemas/analysis-result.schema.json",
+  "title": "Canonical two-frame Understanding result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment", "post_type", "outcome_kind", "generated_at", "analysis_admission", "provenance", "source_run", "primitive_inputs", "grid_m", "detector_frame", "muon_frame", "same_speed_no_lifetime_dilation_counterfactual", "empirical", "focal", "checks"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "experiment": {"const": "muon-survival-two-frames"},
+    "post_type": {"const": "understanding"},
+    "outcome_kind": {"const": "understanding-observations-no-verdict"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "analysis_admission": {"$ref": "#/$defs/admission"},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generator", "schema", "inputs"],
+      "properties": {
+        "generator": {"$ref": "#/$defs/digest"},
+        "schema": {"$ref": "#/$defs/digest"},
+        "inputs": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/digest"}}
+      }
+    },
+    "source_run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "manifest", "sample", "completion"],
+      "properties": {
+        "run_id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+        "manifest": {"$ref": "#/$defs/digest"},
+        "sample": {"$ref": "#/$defs/digest"},
+        "completion": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "primitive_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["momentum_mev_c", "mass_energy_mev", "tau0_s", "c_m_s", "units"],
+      "properties": {
+        "momentum_mev_c": {"type": "number", "exclusiveMinimum": 0},
+        "mass_energy_mev": {"type": "number", "exclusiveMinimum": 0},
+        "tau0_s": {"type": "number", "exclusiveMinimum": 0},
+        "c_m_s": {"type": "number", "exclusiveMinimum": 0},
+        "units": {"$ref": "#/$defs/primitiveUnits"}
+      }
+    },
+    "grid_m": {"$ref": "#/$defs/numberArray"},
+    "detector_frame": {"$ref": "#/$defs/detectorFrame"},
+    "muon_frame": {"$ref": "#/$defs/muonFrame"},
+    "same_speed_no_lifetime_dilation_counterfactual": {"$ref": "#/$defs/counterfactual"},
+    "empirical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["counts", "survival_probability", "inclusive_comparison"],
+      "properties": {
+        "counts": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0}},
+        "survival_probability": {"$ref": "#/$defs/probabilityArray"},
+        "inclusive_comparison": {"const": "proper_lifetime_s >= proper_elapsed_time_s"}
+      }
+    },
+    "focal": {"$ref": "#/$defs/focal"},
+    "checks": {"$ref": "#/$defs/checks"}
+  },
+  "$defs": {
+    "digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "sequence", "submission_sequence", "decision", "graph_version", "graph_sha256", "workflow_path", "event_sha256"],
+      "properties": {
+        "event_id": {"type": "string", "minLength": 1},
+        "sequence": {"type": "integer", "minimum": 1},
+        "submission_sequence": {"type": "integer", "minimum": 1},
+        "decision": {"const": "approve"},
+        "graph_version": {"const": 1},
+        "graph_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "workflow_path": {"const": "research/muon-survival-two-frames/workflow.jsonl"},
+        "event_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "numberArray": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+    "probabilityArray": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0, "maximum": 1}},
+    "primitiveUnits": {
+      "type": "object", "additionalProperties": false,
+      "required": ["momentum_mev_c", "mass_energy_mev", "tau0_s", "c_m_s", "paths_m"],
+      "properties": {
+        "momentum_mev_c": {"const": "MeV/c"}, "mass_energy_mev": {"const": "MeV"},
+        "tau0_s": {"const": "s"}, "c_m_s": {"const": "m/s"}, "paths_m": {"const": "m"}
+      }
+    },
+    "detectorUnits": {
+      "type": "object", "additionalProperties": false,
+      "required": ["beta", "gamma", "laboratory_distance_m", "elapsed_time_s", "mean_lifetime_s", "decay_exponent", "survival_probability"],
+      "properties": {
+        "beta": {"const": "1"}, "gamma": {"const": "1"}, "laboratory_distance_m": {"const": "m"},
+        "elapsed_time_s": {"const": "s"}, "mean_lifetime_s": {"const": "s"},
+        "decay_exponent": {"const": "1"}, "survival_probability": {"const": "1"}
+      }
+    },
+    "muonUnits": {
+      "type": "object", "additionalProperties": false,
+      "required": ["beta", "gamma", "contracted_distance_m", "elapsed_time_s", "mean_lifetime_s", "decay_exponent", "survival_probability"],
+      "properties": {
+        "beta": {"const": "1"}, "gamma": {"const": "1"}, "contracted_distance_m": {"const": "m"},
+        "elapsed_time_s": {"const": "s"}, "mean_lifetime_s": {"const": "s"},
+        "decay_exponent": {"const": "1"}, "survival_probability": {"const": "1"}
+      }
+    },
+    "counterfactualUnits": {
+      "type": "object", "additionalProperties": false,
+      "required": ["laboratory_distance_m", "elapsed_time_s", "decay_exponent", "survival_probability"],
+      "properties": {
+        "laboratory_distance_m": {"const": "m"}, "elapsed_time_s": {"const": "s"},
+        "decay_exponent": {"const": "1"}, "survival_probability": {"const": "1"}
+      }
+    },
+    "detectorFrame": {
+      "type": "object", "additionalProperties": false,
+      "required": ["beta", "gamma", "laboratory_distance_m", "elapsed_time_s", "mean_lifetime_s", "decay_exponent", "survival_probability", "units"],
+      "properties": {
+        "beta": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "gamma": {"type": "number", "minimum": 1},
+        "laboratory_distance_m": {"$ref": "#/$defs/numberArray"}, "elapsed_time_s": {"$ref": "#/$defs/numberArray"},
+        "mean_lifetime_s": {"type": "number", "exclusiveMinimum": 0}, "decay_exponent": {"$ref": "#/$defs/numberArray"},
+        "survival_probability": {"$ref": "#/$defs/probabilityArray"}, "units": {"$ref": "#/$defs/detectorUnits"}
+      }
+    },
+    "muonFrame": {
+      "type": "object", "additionalProperties": false,
+      "required": ["beta", "gamma", "contracted_distance_m", "elapsed_time_s", "mean_lifetime_s", "decay_exponent", "survival_probability", "units"],
+      "properties": {
+        "beta": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "gamma": {"type": "number", "minimum": 1},
+        "contracted_distance_m": {"$ref": "#/$defs/numberArray"}, "elapsed_time_s": {"$ref": "#/$defs/numberArray"},
+        "mean_lifetime_s": {"type": "number", "exclusiveMinimum": 0}, "decay_exponent": {"$ref": "#/$defs/numberArray"},
+        "survival_probability": {"$ref": "#/$defs/probabilityArray"}, "units": {"$ref": "#/$defs/muonUnits"}
+      }
+    },
+    "counterfactual": {
+      "type": "object", "additionalProperties": false,
+      "required": ["label", "laboratory_distance_m", "elapsed_time_s", "decay_exponent", "survival_probability", "units"],
+      "properties": {
+        "label": {"const": "same-speed, no-lifetime-dilation counterfactual"},
+        "laboratory_distance_m": {"$ref": "#/$defs/numberArray"}, "elapsed_time_s": {"$ref": "#/$defs/numberArray"},
+        "decay_exponent": {"$ref": "#/$defs/numberArray"}, "survival_probability": {"$ref": "#/$defs/probabilityArray"},
+        "units": {"$ref": "#/$defs/counterfactualUnits"}
+      }
+    },
+    "detectorFocal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["beta", "gamma", "laboratory_distance_m", "elapsed_time_s", "mean_lifetime_s", "decay_exponent", "survival_probability", "units"],
+      "properties": {
+        "beta": {"type": "number"}, "gamma": {"type": "number"}, "laboratory_distance_m": {"type": "number"},
+        "elapsed_time_s": {"type": "number"}, "mean_lifetime_s": {"type": "number"}, "decay_exponent": {"type": "number"},
+        "survival_probability": {"type": "number", "minimum": 0, "maximum": 1}, "units": {"$ref": "#/$defs/detectorUnits"}
+      }
+    },
+    "muonFocal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["beta", "gamma", "contracted_distance_m", "elapsed_time_s", "mean_lifetime_s", "decay_exponent", "survival_probability", "units"],
+      "properties": {
+        "beta": {"type": "number"}, "gamma": {"type": "number"}, "contracted_distance_m": {"type": "number"},
+        "elapsed_time_s": {"type": "number"}, "mean_lifetime_s": {"type": "number"}, "decay_exponent": {"type": "number"},
+        "survival_probability": {"type": "number", "minimum": 0, "maximum": 1}, "units": {"$ref": "#/$defs/muonUnits"}
+      }
+    },
+    "counterfactualFocal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["label", "laboratory_distance_m", "elapsed_time_s", "decay_exponent", "survival_probability", "units"],
+      "properties": {
+        "label": {"const": "same-speed, no-lifetime-dilation counterfactual"}, "laboratory_distance_m": {"type": "number"},
+        "elapsed_time_s": {"type": "number"}, "decay_exponent": {"type": "number"},
+        "survival_probability": {"type": "number", "minimum": 0, "maximum": 1}, "units": {"$ref": "#/$defs/counterfactualUnits"}
+      }
+    },
+    "focal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["index", "detector", "muon", "counterfactual", "empirical_count", "empirical_survival_probability"],
+      "properties": {
+        "index": {"type": "integer", "minimum": 0}, "detector": {"$ref": "#/$defs/detectorFocal"},
+        "muon": {"$ref": "#/$defs/muonFocal"}, "counterfactual": {"$ref": "#/$defs/counterfactualFocal"},
+        "empirical_count": {"type": "integer", "minimum": 0},
+        "empirical_survival_probability": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "checks": {
+      "type": "object", "additionalProperties": false,
+      "required": ["frame_agreement", "focal_monte_carlo_within_four_standard_errors", "maximum_grid_discrepancy_at_most_threshold", "counts_valid_and_monotonic", "numeric_shapes_dtypes_units_valid", "schema_manifest_provenance_and_hashes_valid", "all_passed", "details", "diagnostics"],
+      "properties": {
+        "frame_agreement": {"type": "boolean"}, "focal_monte_carlo_within_four_standard_errors": {"type": "boolean"},
+        "maximum_grid_discrepancy_at_most_threshold": {"type": "boolean"}, "counts_valid_and_monotonic": {"type": "boolean"},
+        "numeric_shapes_dtypes_units_valid": {"type": "boolean"}, "schema_manifest_provenance_and_hashes_valid": {"type": "boolean"},
+        "all_passed": {"type": "boolean"}, "details": {"type": "object"}, "diagnostics": {"type": "object"}
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "constants": {
+    "speed_of_light_m_s": {
+      "value": 299792458,
+      "unit": "m/s",
+      "status": "exact SI definition"
+    },
+    "muon_mass_energy_mev": {
+      "value": 105.6583755,
+      "unit": "MeV",
+      "source_id": "pdg-2024-muon-listing",
+      "source_field": "central value of muon mass energy"
+    },
+    "muon_proper_mean_lifetime_s": {
+      "value": 2.1969811e-06,
+      "unit": "s",
+      "source_id": "pdg-2024-muon-listing",
+      "source_field": "central value of mean proper lifetime"
+    }
+  },
+  "uncertainty_policy": "PDG uncertainties are recorded in sources.json but are not propagated in this explanatory demonstration."
+}

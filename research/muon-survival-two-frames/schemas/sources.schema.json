@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pvjohnston.com/research/muon-survival-two-frames/schemas/sources.schema.json",
+  "title": "External source provenance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "sources"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "role", "url", "version", "accessed", "bytes", "sha256", "license", "acquisition", "committed", "exclusion_reason"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "name": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "minLength": 1},
+          "url": {"type": "string", "pattern": "^https://"},
+          "version": {"type": "string", "minLength": 1},
+          "accessed": {"const": "2026-08-08"},
+          "bytes": {"type": "integer", "minimum": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "license": {"type": "string", "minLength": 1},
+          "acquisition": {"type": "string", "minLength": 1},
+          "committed": {"const": false},
+          "exclusion_reason": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

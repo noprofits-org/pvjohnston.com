@@ -1,0 +1,10 @@
+{
+  "purpose": "setup-toy",
+  "seed": 0,
+  "draw_count": 16,
+  "momentum_mev_c": 250.0,
+  "mass_energy_mev": 100.0,
+  "proper_mean_lifetime_s": 1e-06,
+  "speed_of_light_m_s": 300000000.0,
+  "paths_m": [0.0, 12.0, 25.0]
+}

@@ -1,0 +1,18 @@
+{
+  "checksums": {
+    "bytes": 327,
+    "path": "research/muon-survival-two-frames/runs/run-001/checksums.sha256",
+    "sha256": "a66ccf91a5e5deaee8c76c1e005e506b08ee4bed667c17e81160f31ec79bb715"
+  },
+  "completed_at": "2026-08-09T08:35:02Z",
+  "exit_status": 0,
+  "experiment": "muon-survival-two-frames",
+  "run_id": "run-001",
+  "run_manifest": {
+    "bytes": 3935,
+    "path": "research/muon-survival-two-frames/runs/run-001/run-manifest.json",
+    "sha256": "63fb2d8399f6a3bc8f15d6cc54e75a9270b3e145abc5afd0dcee4276c1817f9a"
+  },
+  "schema_version": 1,
+  "status": "complete"
+}

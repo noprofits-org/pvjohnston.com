@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "experiment": "muon-survival-two-frames",
+  "post_type": "understanding",
+  "lineage": {
+    "protocol": {
+      "path": "research/muon-survival-two-frames/PREREGISTRATION-v1.md",
+      "sha256": "501f57ab496229a7e3d2f04ae0a087681718bf0792438edfc6eed0920d7ac377"
+    },
+    "constants": {
+      "path": "research/muon-survival-two-frames/constants.json",
+      "sha256": "62b7812bd19b50a189cf6b515f09b376d1f2be7334ccd44deb515063b7c56e87"
+    },
+    "sources": {
+      "path": "research/muon-survival-two-frames/sources.json",
+      "sha256": "dc11e517d7927efb19efec490cbd8668ee205ea397282cd2356b3d188d14707f"
+    },
+    "environment": {
+      "path": "research/muon-survival-two-frames/environment.json",
+      "sha256": "d27e216c106d13c513247aa78e3eb15186db516e47672b6f5acb0028a1ad0904"
+    },
+    "requirements": {
+      "path": "research/muon-survival-two-frames/requirements.lock.txt",
+      "sha256": "1cf5dcf8ff7f0d797b1adaaf473ae652dcbf031ca072cbb92fe6700ba1a0c782"
+    },
+    "workflow_graph": {
+      "path": "research/workflow.graph.v1.json",
+      "sha256": "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404"
+    },
+    "workflow_cli": {
+      "path": "scripts/research-workflow.mjs",
+      "sha256": "f8b931150fe5c31f574fa6303cd1d9b629ad02b0e05233025288e30275515f2c"
+    }
+  },
+  "production": {
+    "normal_run_id": "run-001",
+    "canonical_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/run.py --run-id run-001",
+    "momentum_mev_c": 3000.0,
+    "laboratory_grid": {
+      "index_start": 0,
+      "index_stop_inclusive": 200,
+      "step_m": 100,
+      "ordering": "ascending integer index"
+    },
+    "focal_index": 150,
+    "rng": {
+      "library": "numpy",
+      "bit_generator": "PCG64",
+      "seed": 20260808,
+      "draw_count": 100000,
+      "operation": "Generator.exponential(scale=tau0_s, size=100000)",
+      "dtype": "float64",
+      "draw_order": "retained; never sorted in the sealed raw artifact"
+    },
+    "raw_output": {
+      "path_template": "research/muon-survival-two-frames/runs/{run_id}/proper_lifetimes_s.npy",
+      "shape": [100000],
+      "dtype": "float64",
+      "unit": "s"
+    }
+  },
+  "checks": {
+    "frame_relative_tolerance": 1e-12,
+    "focal_monte_carlo_standard_error_multiplier": 4.0,
+    "maximum_grid_absolute_discrepancy": 0.01,
+    "inclusive_survival_comparison": true,
+    "counts_monotonically_nonincreasing": true,
+    "zero_distance_count_equals_draw_count": true,
+    "finite_nonnegative_raw_lifetimes": true
+  },
+  "analysis": {
+    "canonical_result_path": "research/muon-survival-two-frames/results/summary.json",
+    "canonical_result_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-001 --run-review-event <approved-event-id>",
+    "canonical_result_check_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-001 --run-review-event <approved-event-id> --check",
+    "admitted_run_selection": "Require exactly one column-zero immutable run_review approval-artifact line matching - **Admitted run:** `run-001` or - **Admitted run:** `run-002`; --run-id and --run-review-event must select that same marker and approval.",
+    "result_commands_by_admitted_run": {
+      "run-001": {
+        "write": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-001 --run-review-event <approved-event-id>",
+        "check": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-001 --run-review-event <approved-event-id> --check"
+      },
+      "run-002": {
+        "write": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-002 --run-review-event <approved-event-id>",
+        "check": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-002 --run-review-event <approved-event-id> --check"
+      }
+    },
+    "figure_path": "images/muon-survival-two-frames-hero.png",
+    "figure_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/render_figure.py",
+    "figure_check_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/render_figure.py --check",
+    "metrics_path": "research/muon-survival-two-frames/metrics.json",
+    "metrics_command": "node research/muon-survival-two-frames/generate-metrics.mjs",
+    "metrics_check_command": "node research/muon-survival-two-frames/generate-metrics.mjs --check"
+  },
+  "restart": {
+    "same_run_resume": false,
+    "partial_namespace_action": "preserve and quarantine",
+    "registered_infrastructure_retries": 1,
+    "retry_requires_new_run_id": true,
+    "retry_requires_identical_seed_and_draw_count": true,
+    "normal_execution_authorization": "current setup_review or amended_setup_review approve event into execute",
+    "retry_execution_authorization": "current run_review registered_retry event into execute plus preserved incomplete run-001",
+    "only_registered_run_ids": ["run-001", "run-002"],
+    "registered_analysis_reruns": 0
+  }
+}
