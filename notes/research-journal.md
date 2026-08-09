@@ -103,6 +103,32 @@ node scripts/research-log.mjs close \
 
 Use `resume` before adding to a closed session.
 
+## Journal versus tracked workflow
+
+For a computationally heavy or multi-session post, the journal and
+`scripts/research-workflow.mjs` have different jobs and both are required:
+
+- The journal is private-to-the-clone, fine-grained, append-only crash recovery:
+  searches, sources, commands, pivots, intermediate numbers, failures, and the
+  next action.
+- `research/<experiment-slug>/workflow.jsonl` is a tracked, public,
+  coarse-grained audit of role handoffs and independent review decisions. It
+  stores hashed snapshots of small handoff packets, not raw logs or large
+  outputs.
+
+Checkpoint the journal immediately before each workflow `submit` or `review`.
+Then commit the tracked workflow event and its evidence snapshots with the
+stage's artifacts. Never put credentials, private data, or sensitive
+transcripts in either record; every tracked workflow file is public even when
+it is absent from `PUBLIC_FILES.txt`.
+
+The two logs also have separate recovery commands. `research-log.mjs repair`
+repairs only the clone-private journal; an interrupted tracked handoff uses
+`research-workflow.mjs repair --experiment <slug>`. Never edit either JSONL log
+by hand. If a killed tracked transition left its managed lock, inspect it and
+add `--unlock-stale` only after confirming that the same-host owner process is
+gone; the workflow CLI refuses live, cross-host, malformed, or replaced locks.
+
 ## Checkpoint cadence
 
 The durability rule is simple: **write the result before starting the next
