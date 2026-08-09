@@ -12,8 +12,10 @@ og-image: /images/2026-08-09-muon-survival-two-frames-hero.png
 
 This note explains two machines with one demonstration. The first machine is
 special relativity's simplest working example: a muon created high in the
-atmosphere survives to a detector that its own proper lifetime says it should
-never reach, and two reference frames give two different accounts — time
+atmosphere survives to a detector that a naive calculation — the full
+laboratory path against the undilated lifetime, with no relativity in it —
+says it should essentially never reach, and two reference frames give two
+different accounts of why it does — time
 dilation in one, length contraction in the other — that must and do agree. The
 second machine is the research workflow that this site briefly ran: an
 append-only ledger of reviewed handoffs between separated roles, built to make
@@ -59,9 +61,12 @@ $t_M =$ [muon_elapsed_time_s]{.metric} against the undilated lifetime
 $\tau_0$. The exponent is $t_M/\tau_0 =$ [muon_decay_exponent]{.metric}.
 
 The two exponents are the same physical quantity computed along two routes —
-one proper time, two coordinate descriptions, not two causal mechanisms. In
-binary64 arithmetic they agree to the last representable digit:
-[detector_decay_exponent]{.metric} against [muon_decay_exponent]{.metric}.
+one proper time, two coordinate descriptions, not two causal mechanisms. At
+the eight digits displayed here they coincide —
+[detector_decay_exponent]{.metric} against [muon_decay_exponent]{.metric} —
+and the stored binary64 values differ by exactly one representable step, at
+the sixteenth digit, within the registered relative tolerance; Figure 2
+prints both in full.
 Analytic survival is [analytic_survival]{.metric}. A registered Monte Carlo
 sample of 100,000 proper lifetimes (PCG64, seed 20260808) gives
 [survivor_count]{.metric} survivors at the focal distance, an empirical
@@ -265,14 +270,20 @@ manifests are committed under `runs/run-001/`. From the committed outputs,
 stock Node.js regenerates everything this note displays:
 `research/muon-survival-two-frames/generate-metrics.mjs` rebuilds
 `metrics.json` from `results/summary.json` and `workflow.jsonl`, and
-`src/render_figure_v2.mjs` rebuilds Figure 2 from `results/summary.json`;
-both support `--check`, which continuous integration runs on every build.
+`src/render_figure_v2.mjs` rebuilds Figure 2 from `results/summary.json`.
+Both support `--check`, and the metrics generator's check also replays the
+figure check, so continuous integration exercises both on every build.
 Figure 1 is the byte-preserved v1 PNG and is deliberately not regenerated.
-The ledger replay reported above used the retired engine preserved under
-`graph/`; it resolves its graph relative to the repository layout it was
-built for, so replay runs from a checkout of the retirement commit, as the
-experiment README describes. Re-executing the muon run itself requires
-rebuilding the pinned Python environment; the analysis and presentation
-layers above the committed outputs do not.
+
+Those are projection- and presentation-level regenerations, and the earned
+label is **traceable** — not analysis-reproducible. Regenerating
+`results/summary.json` itself from the sealed sample requires the pinned
+Python environment *and* a checkout of the retirement commit, because
+`src/analyze.py` invokes the hash-bound workflow verifier at its original
+repository paths, which now exist only in history and under `graph/`. The
+ledger replay reported above has the same boundary: the retired engine
+resolves its graph relative to the layout it was built for, so replay runs
+from a checkout of the retirement commit, as the experiment README
+describes.
 
 ## References

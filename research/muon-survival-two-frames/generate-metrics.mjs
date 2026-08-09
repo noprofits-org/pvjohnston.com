@@ -7,6 +7,7 @@
 // physics metrics are unchanged; the ledger metrics are new and derive from
 // workflow.jsonl, which is frozen at the trial's terminal parked state.
 
+import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, relative, resolve } from 'node:path';
@@ -140,4 +141,17 @@ if (checkOnly) {
   }
 } else {
   writeFileSync(outputPath, expected);
+}
+
+// CI reaches this generator through verify-metrics, so chain the figure
+// renderer here: a stale committed Figure 2 fails the same check that guards
+// the metrics projection.
+try {
+  execFileSync(
+    process.execPath,
+    [resolve(experimentDir, 'src/render_figure_v2.mjs'), ...(checkOnly ? ['--check'] : [])],
+    { stdio: 'inherit' },
+  );
+} catch (error) {
+  process.exit(error.status ?? 1);
 }

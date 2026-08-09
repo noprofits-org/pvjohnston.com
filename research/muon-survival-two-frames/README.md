@@ -29,14 +29,21 @@ was completed and published under the successor pipeline:
   commit (`567fa4e`).
 - `generate-metrics.mjs` is the current plain generator; it derives the
   physics metrics from `results/summary.json` and the ledger metrics from
-  `workflow.jsonl`, and runs in CI with `--check`.
+  `workflow.jsonl`, and runs in CI with `--check`, which also chains
+  `src/render_figure_v2.mjs --check` so a stale committed Figure 2 fails the
+  build.
 - `src/render_figure_v2.mjs` renders the corrected panel-B presentation the
   parked amendment specified, reading every printed value from the unchanged
   canonical summary. Figure 1's v1 PNG is byte-preserved in Git history.
 
-Traceability: traceable and analysis-reproducible from committed outputs with
-stock Node.js. Re-executing the run itself requires rebuilding the pinned
-Python environment below.
+Traceability: **traceable**. The metrics projection and Figure 2 regenerate
+from committed outputs with stock Node.js; those are projection- and
+presentation-level regenerations, not analysis reproduction. Regenerating
+`results/summary.json` from the sealed sample requires the pinned Python
+environment *and* a checkout of the retirement commit, because
+`src/analyze.py` invokes the hash-bound workflow verifier at its original
+repository paths (`scripts/research-workflow.mjs`,
+`research/workflow.graph.v1.json`), which the retirement removed.
 
 The immutable protocol is `PREREGISTRATION-v1.md`. The sections below are the
 graph-era operating contract, preserved as provenance for how `run-001` and
