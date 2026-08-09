@@ -1,0 +1,110 @@
+{
+  "artifacts": [
+    {
+      "bytes": 800128,
+      "path": "research/muon-survival-two-frames/runs/run-001/proper_lifetimes_s.npy",
+      "sha256": "6d21310c0f887a9fdf874d4178214857423d455ab08ef3d6171894f32f9e8229"
+    },
+    {
+      "bytes": 115,
+      "path": "research/muon-survival-two-frames/runs/run-001/stdout.log",
+      "sha256": "2f62a24bcc18d083cefee98d98605fa64534c467bd70705e6c520ef4a69f8367"
+    },
+    {
+      "bytes": 0,
+      "path": "research/muon-survival-two-frames/runs/run-001/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "authorization": {
+    "decision": "approve",
+    "event_id": "971711e0-b446-4d4b-ba08-154396a0b3e0",
+    "event_sha256": "8c09285d4b2078eeea348916bcb90044987917519ec5a8527df0b20612e1269f",
+    "graph_sha256": "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404",
+    "graph_version": 1,
+    "kind": "normal",
+    "sequence": 19,
+    "submission_sequence": 18,
+    "workflow_path": "research/muon-survival-two-frames/workflow.jsonl"
+  },
+  "command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/run.py --run-id run-001",
+  "completed_at": "2026-08-09T08:35:02Z",
+  "experiment": "muon-survival-two-frames",
+  "lineage": {
+    "constants": {
+      "path": "research/muon-survival-two-frames/constants.json",
+      "sha256": "62b7812bd19b50a189cf6b515f09b376d1f2be7334ccd44deb515063b7c56e87"
+    },
+    "environment": {
+      "path": "research/muon-survival-two-frames/environment.json",
+      "sha256": "d27e216c106d13c513247aa78e3eb15186db516e47672b6f5acb0028a1ad0904"
+    },
+    "inputs": {
+      "bytes": 5338,
+      "path": "research/muon-survival-two-frames/inputs.json",
+      "sha256": "8e2d98f35f86678a7a018a13562ee4c9aa7b900a11ee58deb8b2007de4f82de1"
+    },
+    "protocol": {
+      "path": "research/muon-survival-two-frames/PREREGISTRATION-v1.md",
+      "sha256": "501f57ab496229a7e3d2f04ae0a087681718bf0792438edfc6eed0920d7ac377"
+    },
+    "requirements": {
+      "path": "research/muon-survival-two-frames/requirements.lock.txt",
+      "sha256": "1cf5dcf8ff7f0d797b1adaaf473ae652dcbf031ca072cbb92fe6700ba1a0c782"
+    },
+    "setup_manifest": {
+      "bytes": 5548,
+      "path": "research/muon-survival-two-frames/setup-manifest.json",
+      "sha256": "faa3b3c470c552125261a1874b8a53ae458e6b4f374dd24ef25260e34a7e9619"
+    },
+    "sources": {
+      "path": "research/muon-survival-two-frames/sources.json",
+      "sha256": "dc11e517d7927efb19efec490cbd8668ee205ea397282cd2356b3d188d14707f"
+    },
+    "workflow_cli": {
+      "path": "scripts/research-workflow.mjs",
+      "sha256": "f8b931150fe5c31f574fa6303cd1d9b629ad02b0e05233025288e30275515f2c"
+    },
+    "workflow_graph": {
+      "path": "research/workflow.graph.v1.json",
+      "sha256": "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404"
+    }
+  },
+  "platform": {
+    "architecture": "x86_64",
+    "matplotlib_version": "3.11.1",
+    "node_version": "24.18.0",
+    "numpy_version": "2.5.1",
+    "os": "Linux",
+    "pip_version": "26.2.1",
+    "python_implementation": "CPython",
+    "python_version": "3.12.3",
+    "release": "7.0.0-28-generic"
+  },
+  "purpose": "canonical-production",
+  "rng": {
+    "bit_generator": "PCG64",
+    "draw_count": 100000,
+    "draw_order": "retained; not sorted",
+    "dtype": "float64",
+    "library": "numpy",
+    "operation": "Generator.exponential(scale=tau0_s, size=100000)",
+    "seed": 20260808
+  },
+  "run_id": "run-001",
+  "sample": {
+    "bytes": 800128,
+    "dtype": "float64",
+    "finite": true,
+    "nonnegative": true,
+    "path": "research/muon-survival-two-frames/runs/run-001/proper_lifetimes_s.npy",
+    "sha256": "6d21310c0f887a9fdf874d4178214857423d455ab08ef3d6171894f32f9e8229",
+    "shape": [
+      100000
+    ],
+    "unit": "s"
+  },
+  "schema_version": 1,
+  "started_at": "2026-08-09T08:35:02Z",
+  "status": "complete"
+}
