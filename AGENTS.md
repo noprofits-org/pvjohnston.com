@@ -43,14 +43,72 @@ any drafting.
    build-free self-check in §8 of the authoring guide — grep every `[@key]`
    against `bib/bibliography.bib`, confirm the bare `## References`, confirm
    internal post links end in `.html`.
-6. **Open a PR into `main`.** The PR runs the same build the deploy uses. The
-   full §8 sequence (`stack test && stack exec site rebuild && node
-   scripts/verify-metrics.mjs && node scripts/verify-site.mjs`) runs there or in
-   the primary checkout — not in every worktree, which would rebuild the site
-   library each time.
+6. **Open a PR into `main`.** The PR runs the same pipeline the deploy uses. In
+   the primary checkout, the full §8 sequence uses `stack exec site rebuild`;
+   CI uses `stack exec site build` on a clean checkout with no restored Hakyll
+   store, which is equivalent there. Run the full verification once in one of
+   those places — not in every worktree, which would rebuild the site library
+   each time.
 7. **Close out** per the checklist below.
 
 `notes/worktrees.md` has the full protocol and the reasoning behind it.
+
+## Computationally heavy or multi-session posts
+
+When a requested post is described as computationally heavy, long-running,
+multi-session, or split across roles, follow
+`notes/computational-authoring-workflow.md` in addition to the rules above. The
+tracked workflow is a coordination and review graph; it never replaces the
+research journal or runs expensive science by itself.
+
+1. Complete new-post steps 1–3 above. A Research question must already be
+   `ready` on `notes/questions.md`; adding or changing a shelf entry is shared
+   work and therefore belongs on a separate `feature/` branch and PR.
+2. Start the research journal before the first search, pilot, or exploratory
+   command. Copy `research/_TEMPLATE/` into the post's experiment directory,
+   then initialize `scripts/research-workflow.mjs` there. Use `--shelf-entry`
+   for Research; omit it for Understanding.
+3. Advance only through `submit` and `review`. The CLI derives the current node,
+   snapshots small versioned receipts under
+   `research/<experiment-slug>/workflow/`, rejects skipped gates, and rejects an
+   identical review/submission actor-ID string. Actor IDs are self-asserted
+   process labels, not authentication; the coordinator must ensure the reviewer
+   is actually a different session or person. One coordinator owns graph state
+   and only one role writes the post worktree at a time. The tracked ledger is
+   public: receipts and workflow events use repository-relative paths or durable
+   external identifiers, never local absolute checkout, home, scratch, cache,
+   or mounted-data paths.
+4. No canonical execution starts before `setup_review` approves the frozen
+   protocol, code, tests, environment, and exact run command. The run operator
+   does not tune, analyze, plot, or draft. A failed scientific gate is a valid
+   result routed to analysis. `resume` continues only the same incomplete run
+   under its frozen restart contract. `registered_retry` starts a fresh run ID
+   only for an infrastructure attempt authorized before execution, while
+   `registered_rerun` starts a fresh run ID only under a rerun rule frozen in
+   the analysis plan before exposure. Every other post-result protocol or setup
+   change goes through `protocol_amendment`, `amendment_review`,
+   `amended_setup`, and `amended_setup_review` before execution.
+5. At every role handoff, checkpoint the journal, submit or review the graph
+   packet, commit and push the owned branch, and leave the session clean. A
+   resumed session recovers the journal first, then runs workflow `status` and
+   `verify` before doing more work. If workflow status reports interrupted
+   ledger recovery, use the workflow CLI's `repair` command; never edit
+   `workflow.jsonl` or evidence snapshots by hand. If a crashed transition left
+   a lock, inspect it and use `repair --unlock-stale` only for a dead same-host
+   owner; the CLI refuses live, cross-host, malformed, or replaced locks.
+6. `ready_for_pr` is a work node: run cheap checks, open or update the PR, collect
+   full CI and human-review evidence for the candidate content commit, and
+   submit a small PR receipt. Independent `pr_review` records a merge
+   recommendation and advances the graph to `ready_to_merge`. Because recording
+   that review creates the final attestation-only descendant, the human
+   integrator must confirm that the cumulative delta from the candidate content
+   commit contains only the PR/review receipts, their evidence snapshots, and
+   corresponding ledger events; no post or scientific artifact changed; and CI
+   is green on the resulting head. Deploy, journal close, and repository
+   close-out still follow. `parked` is the other terminal state.
+7. `node scripts/research-workflow.mjs verify --all` validates every experiment
+   directory that opted in by containing `workflow.jsonl`; it intentionally
+   says nothing about experiments without a tracked workflow.
 
 ## Closing out a session
 

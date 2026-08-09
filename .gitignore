@@ -50,6 +50,11 @@ calcs/*.npy
 research/**/__pycache__/
 research/**/*.pyc
 
+# Ephemeral locks and atomic-init staging for the tracked research workflow.
+research/**/workflow/.transition.lock
+research/**/.workflow-init.*.tmp
+research/**/.workflow-recovery.*.tmp
+
 # Regenerable H2+ fit detail and local Python/Psi4 scratch
 calcs/h2plus-coulomb/predictions-*.csv
 calcs/**/__pycache__/

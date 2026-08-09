@@ -118,11 +118,12 @@ every post worktree means paying a site-library rebuild per note. Don't.
   build-free self-check in §8 (grep every `[@key]`, confirm the bare
   `## References`, confirm every internal post link ends in `.html` and not
   `.md`).
-- **Before merge:** the full §8 sequence — `stack test && stack exec site
-  rebuild && node scripts/verify-metrics.mjs && node scripts/verify-site.mjs` —
-  runs once, in the primary checkout or in CI on the pull request. A
-  PR into `main` triggers the same build the deploy uses, so opening the PR is
-  a legitimate way to run it.
+- **Before merge:** the full §8 checks run once, in the primary checkout or in
+  CI on the pull request. The primary checkout uses `stack test && stack exec
+  site rebuild && node scripts/verify-metrics.mjs && node
+  scripts/verify-site.mjs`; CI uses `site build` on a clean checkout with no
+  restored Hakyll store. A PR into `main` triggers the same pipeline the deploy
+  uses, so opening the PR is a legitimate way to run it.
 
 This is the §8 "author in a sandbox and cannot run the build" path promoted
 from exception to normal practice. It is only safe because of the build-free

@@ -635,6 +635,37 @@ source manifest, canonical results, generated `metrics.json`, cheap metrics
 generator, and public-bundle allowlist together. `metrics.json` is a small
 publication projection; it does not replace the experiment's richer outputs.
 
+For an explicitly computationally heavy, long-running, role-separated, or
+multi-session post, also use the tracked graph in
+`notes/computational-authoring-workflow.md`. Its append-only
+`research/<experiment-slug>/workflow.jsonl` records reviewed phase handoffs and
+immutable evidence snapshots of small versioned receipts under
+`research/<experiment-slug>/workflow/`; raw outputs and large logs stay in their
+owned artifact paths and are referenced by checksum. This tracked ledger is
+public and must contain repository-relative paths or durable external
+identifiers, never local absolute checkout, home, scratch, cache, or mounted-data
+paths. The common-directory research journal continues to hold fine-grained
+searches, commands, pivots, and intermediate results. The graph coordinates work
+and review but never runs the expensive experiment.
+
+After any production result has been exposed, a change to the protocol,
+implementation contract, input set, cases, seeds, thresholds, exclusions, or
+stopping rule goes through `protocol_amendment` and `amendment_review`.
+`resume` is limited to the same incomplete run under its frozen restart rule;
+`registered_retry` is a fresh infrastructure attempt authorized before
+execution, and `registered_rerun` is a fresh analysis-plan rerun authorized
+before exposure. An approved amendment returns through `amended_setup` and
+`amended_setup_review`, so it cannot use the prospective `redesign` edge.
+Editorial approval leads to `ready_for_pr`, where the PR and full CI evidence
+for the candidate content commit are collected. Independent `pr_review` records
+the merge recommendation and reaches `ready_to_merge`; because that transition
+creates the final attestation-only descendant, the human integrator confirms
+that the cumulative delta from the candidate content commit contains only the
+PR/review receipts, their evidence snapshots, and corresponding ledger events;
+no post or scientific artifact changed; and CI is green on the resulting head
+before merge. `verify --all` checks only experiment directories that opted in
+by containing `workflow.jsonl`.
+
 The post declares the binding:
 
 ```yaml
@@ -742,10 +773,11 @@ GitHub Pages on **push to `main`** (also PR-to-main and manual dispatch). So:
 1. Work on a `post/<slug>` branch in its own worktree, never commit straight to
    `main`. `notes/worktrees.md` has the layout, the rule about which files a
    post branch may touch, and the close-out checklist.
-2. **Verify before merge:** `node scripts/verify-bib.mjs && stack test && stack exec site rebuild && node scripts/verify-metrics.mjs && node scripts/verify-site.mjs` must succeed;
+2. **Verify before merge:** locally, `node scripts/verify-bib.mjs && stack test && stack exec site rebuild && node scripts/verify-metrics.mjs && node scripts/verify-site.mjs` must succeed;
    check the post renders, citations resolve, figures load, and the card meta is
    right. The bib check is source-level and needs no build — run it in the
-   worktree as soon as you finish appending entries.
+   worktree as soon as you finish appending entries. CI runs the same checks but
+   uses `site build` on a clean checkout with no restored Hakyll store.
 3. Open a PR into `main`; merge triggers the deploy.
 
 The full build runs once, in the primary checkout or in CI on the pull request
@@ -771,11 +803,13 @@ that the build still needs to run:
    ends in `.html`, not `.md` (grep the draft for `/posts/[^)]*\.md` — it should
    return nothing; the source `.md` extension ships as a 404, see §3).
 
-Note: `stack exec site build` alone is not enough — it runs the **already-compiled**
-`site` binary, and Hakyll's cache does not know when compiler semantics change.
-After any change under `lib/`, run `stack test` and use `site rebuild` so cached
-posts cannot retain old formatting or validation behavior. The full pre-merge
-sequence above deliberately uses `stack test && stack exec site rebuild`.
+Note: `stack exec site build` alone is not enough in a reused local checkout —
+it runs the **already-compiled** `site` binary, and Hakyll's cache does not know
+when compiler semantics change. After any change under `lib/`, run `stack test`
+and use `site rebuild` so cached posts cannot retain old formatting or
+validation behavior. The local pre-merge sequence deliberately uses
+`stack test && stack exec site rebuild`; CI's plain `build` is safe because the
+checkout does not restore the Hakyll store.
 
 ## 9. Per-post checklist
 
@@ -813,6 +847,7 @@ sequence above deliberately uses `stack test && stack exec site rebuild`.
 - [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional)
 - [ ] Every figure, table, code block, and audio player has a numbered caption (Figure/Table/Code/Audio N) and is referenced by number in the prose; each `<audio>` element stays on one source line and contains fallback text plus a direct file link
 - [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
+- [ ] If the experiment opted into the multi-session graph, its small public workflow receipts contain no local absolute paths, `node scripts/research-workflow.mjs verify --experiment <slug>` passes, independent PR review reaches `ready_to_merge`, the cumulative candidate-to-head delta contains only PR/review receipts, evidence snapshots, and ledger events (not post or scientific artifacts), and CI is green on the resulting head before merge (`verify --all` covers only opted-in experiments)
 - [ ] Branch, build, verification, PR, and merge complete
 - [ ] Session closed out per `notes/worktrees.md` §6: no dirty worktree, no stash, no orphan branch, primary checkout clean on `main`
 
