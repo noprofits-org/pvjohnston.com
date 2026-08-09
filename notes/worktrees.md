@@ -177,5 +177,6 @@ git -C "$primary" status --short   # must be empty
 
 The last two must produce no output. The first two are read, not matched
 against empty: `git branch -vv` always prints at least `main`, and a pushed
-branch with an open PR or a branch parked with a journal entry are both allowed
-states. What is not allowed is a branch you cannot account for.
+branch with an open PR or a branch parked with its reason in a PR or commit
+message are both allowed states. What is not allowed is a branch you cannot
+account for.

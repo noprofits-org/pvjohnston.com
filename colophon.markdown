@@ -59,8 +59,10 @@ Published numbers travel from that directory into sentences **by name, not by
 copy and paste**. The analysis writes a small typed `metrics.json`; the
 Markdown cites a value as a named metric reference; the site build resolves the
 name and refuses to build if the metric, its file, or its experiment is
-missing. A hand-edited number in the prose cannot silently drift from the
-committed artifact it claims to report.
+missing. A value cited this way cannot silently drift from the committed
+artifact it claims to report. The guarantee covers metric references only — the
+build cannot classify every numeral in prose, so a number typed by hand is
+still just a number.
 
 Each experiment earns its reproducibility label rather than asserting it:
 
