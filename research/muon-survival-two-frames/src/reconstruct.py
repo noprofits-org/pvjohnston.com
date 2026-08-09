@@ -240,11 +240,14 @@ def evaluate_checks(
     tau0 = primitives.get("tau0_s")
     c_m_s = primitives.get("c_m_s")
     primitive_values = np.asarray([momentum, mass, tau0, c_m_s], dtype=np.float64)
-    primitives_valid = (
-        primitives.get("units") == PRIMITIVE_UNITS
-        and bool(np.all(np.isfinite(primitive_values)))
-        and bool(np.all(primitive_values > 0.0))
-    )
+    primitive_field_valid = {
+        "primitive_momentum_mev_c_valid": bool(np.isfinite(momentum) and momentum > 0.0),
+        "primitive_mass_energy_mev_valid": bool(np.isfinite(mass) and mass > 0.0),
+        "primitive_tau0_s_valid": bool(np.isfinite(tau0) and tau0 > 0.0),
+        "primitive_c_m_s_valid": bool(np.isfinite(c_m_s) and c_m_s > 0.0),
+        "primitive_units_valid": primitives.get("units") == PRIMITIVE_UNITS,
+    }
+    primitives_valid = all(primitive_field_valid.values())
     grid_valid = (
         paths.dtype == np.dtype("float64")
         and bool(np.all(np.isfinite(paths)))
@@ -271,31 +274,35 @@ def evaluate_checks(
     def close(actual: Any, expected: Any) -> bool:
         return bool(np.allclose(np.asarray(actual), np.asarray(expected), rtol=frame_relative_tolerance, atol=0.0, equal_nan=False))
 
-    derived_fields_valid = all([
-        close(detector["beta"], expected_detector_beta),
-        close(detector["gamma"], expected_detector_gamma),
-        np.array_equal(np.asarray(detector["laboratory_distance_m"]), paths),
-        close(detector["elapsed_time_s"], expected_detector_time),
-        close(detector["mean_lifetime_s"], expected_detector_lifetime),
-        close(detector_exponent, expected_detector_exponent),
-        close(detector_probability, np.exp(-expected_detector_exponent)),
-        close(muon["beta"], expected_muon_beta),
-        close(muon["gamma"], expected_muon_gamma),
-        close(muon["contracted_distance_m"], expected_contracted_distance),
-        close(muon["elapsed_time_s"], expected_muon_time),
-        close(muon["mean_lifetime_s"], tau0),
-        close(muon_exponent, expected_muon_exponent),
-        close(muon_probability, np.exp(-expected_muon_exponent)),
-    ])
-    counterfactual_valid = all([
-        counterfactual.get("label") == "same-speed, no-lifetime-dilation counterfactual",
-        counterfactual.get("units") == COUNTERFACTUAL_UNITS,
-        np.array_equal(np.asarray(counterfactual["laboratory_distance_m"]), paths),
-        close(counterfactual["elapsed_time_s"], expected_counter_time),
-        close(counterfactual["decay_exponent"], expected_counter_exponent),
-        close(counterfactual["survival_probability"], np.exp(-expected_counter_exponent)),
-    ])
-    units_valid = detector.get("units") == DETECTOR_UNITS and muon.get("units") == MUON_UNITS
+    derived_field_valid = {
+        "detector_beta_valid": close(detector["beta"], expected_detector_beta),
+        "detector_gamma_valid": close(detector["gamma"], expected_detector_gamma),
+        "detector_laboratory_distance_valid": bool(np.array_equal(np.asarray(detector["laboratory_distance_m"]), paths)),
+        "detector_elapsed_time_valid": close(detector["elapsed_time_s"], expected_detector_time),
+        "detector_mean_lifetime_valid": close(detector["mean_lifetime_s"], expected_detector_lifetime),
+        "detector_decay_exponent_valid": close(detector_exponent, expected_detector_exponent),
+        "detector_survival_probability_valid": close(detector_probability, np.exp(-expected_detector_exponent)),
+        "muon_beta_valid": close(muon["beta"], expected_muon_beta),
+        "muon_gamma_valid": close(muon["gamma"], expected_muon_gamma),
+        "muon_contracted_distance_valid": close(muon["contracted_distance_m"], expected_contracted_distance),
+        "muon_elapsed_time_valid": close(muon["elapsed_time_s"], expected_muon_time),
+        "muon_mean_lifetime_valid": close(muon["mean_lifetime_s"], tau0),
+        "muon_decay_exponent_valid": close(muon_exponent, expected_muon_exponent),
+        "muon_survival_probability_valid": close(muon_probability, np.exp(-expected_muon_exponent)),
+    }
+    derived_fields_valid = all(derived_field_valid.values())
+    counterfactual_field_valid = {
+        "counterfactual_label_valid": counterfactual.get("label") == "same-speed, no-lifetime-dilation counterfactual",
+        "counterfactual_units_valid": counterfactual.get("units") == COUNTERFACTUAL_UNITS,
+        "counterfactual_laboratory_distance_valid": bool(np.array_equal(np.asarray(counterfactual["laboratory_distance_m"]), paths)),
+        "counterfactual_elapsed_time_valid": close(counterfactual["elapsed_time_s"], expected_counter_time),
+        "counterfactual_decay_exponent_valid": close(counterfactual["decay_exponent"], expected_counter_exponent),
+        "counterfactual_survival_probability_valid": close(counterfactual["survival_probability"], np.exp(-expected_counter_exponent)),
+    }
+    counterfactual_valid = all(counterfactual_field_valid.values())
+    detector_units_valid = detector.get("units") == DETECTOR_UNITS
+    muon_units_valid = muon.get("units") == MUON_UNITS
+    units_valid = detector_units_valid and muon_units_valid
     dtype_valid = (
         all(array.dtype == np.dtype("float64") for array in required_arrays)
         and counts_array.dtype == np.dtype("int64")
@@ -320,13 +327,14 @@ def evaluate_checks(
     focal_within_error = abs(focal_empirical - focal_analytic) <= standard_error_multiplier * standard_error
     max_grid_discrepancy = float(np.max(np.abs(empirical_array - detector_probability)))
     max_grid_ok = max_grid_discrepancy <= maximum_grid_discrepancy
-    counts_valid = (
-        counts_array.dtype == np.dtype("int64")
-        and bool(np.all((0 <= counts_array) & (counts_array <= expected_draw_count)))
-        and int(counts_array[0]) == expected_draw_count
-        and bool(np.all(np.diff(counts_array) <= 0))
-        and bool(np.array_equal(empirical_array, counts_array.astype(np.float64) / expected_draw_count))
-    )
+    count_field_valid = {
+        "count_dtype_valid": counts_array.dtype == np.dtype("int64"),
+        "count_bounds_valid": bool(np.all((0 <= counts_array) & (counts_array <= expected_draw_count))),
+        "zero_distance_count_valid": int(counts_array[0]) == expected_draw_count,
+        "counts_monotonic": bool(np.all(np.diff(counts_array) <= 0)),
+        "empirical_matches_counts": bool(np.array_equal(empirical_array, counts_array.astype(np.float64) / expected_draw_count)),
+    }
+    counts_valid = all(count_field_valid.values())
     numeric_valid = (
         shapes_ok
         and dtype_valid
@@ -359,8 +367,13 @@ def evaluate_checks(
             "derived_fields_valid": bool(derived_fields_valid),
             "counterfactual_valid": bool(counterfactual_valid),
             "units_valid": bool(units_valid),
+            "detector_units_valid": bool(detector_units_valid),
+            "muon_units_valid": bool(muon_units_valid),
             "raw_lifetimes_finite_nonnegative": bool(np.all(np.isfinite(lifetimes)) and not np.any(lifetimes < 0.0)),
-            "empirical_matches_counts": bool(np.array_equal(empirical_array, counts_array.astype(np.float64) / expected_draw_count)),
+            **primitive_field_valid,
+            **derived_field_valid,
+            **counterfactual_field_valid,
+            **count_field_valid,
         },
         "diagnostics": {
             "frame_probability_max_relative_error": frame_probability_error,

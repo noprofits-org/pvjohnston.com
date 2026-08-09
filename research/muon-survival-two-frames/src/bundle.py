@@ -15,10 +15,12 @@ import numpy as np
 
 from contract import (
     ContractError,
+    EXPERIMENT_DIR,
     digest_record,
     load_json,
     SHA256_RE,
     sha256_file,
+    validate_json_schema,
     write_bytes_exclusive,
     write_json_exclusive,
 )
@@ -312,6 +314,14 @@ def validate_run_bundle(run_dir: Path, spec: RunSpec) -> dict[str, Any]:
 
     manifest = load_json(run_dir / MANIFEST_NAME)
     completion = load_json(run_dir / COMPLETION_NAME)
+    manifest_schema_valid = validate_json_schema(
+        manifest,
+        EXPERIMENT_DIR / "schemas/run-manifest.schema.json",
+    )
+    completion_schema_valid = validate_json_schema(
+        completion,
+        EXPERIMENT_DIR / "schemas/completion.schema.json",
+    )
     expected_manifest_keys = {
         "schema_version", "experiment", "purpose", "run_id", "status",
         "started_at", "completed_at", "command", "lineage", "authorization", "platform",
@@ -412,5 +422,9 @@ def validate_run_bundle(run_dir: Path, spec: RunSpec) -> dict[str, Any]:
         "manifest_sha256": sha256_file(run_dir / MANIFEST_NAME),
         "completion_sha256": sha256_file(run_dir / COMPLETION_NAME),
         "checksums_sha256": sha256_file(run_dir / CHECKSUMS_NAME),
+        "schema_valid": bool(manifest_schema_valid and completion_schema_valid),
+        "manifest_valid": manifest["artifacts"] == expected_artifacts,
+        "provenance_valid": manifest["lineage"] == dict(spec.lineage) and manifest["authorization"] == dict(spec.authorization),
+        "hashes_valid": all(sha256_file(run_dir / name) == digest for name, digest in parsed.items()),
         "valid": True,
     }

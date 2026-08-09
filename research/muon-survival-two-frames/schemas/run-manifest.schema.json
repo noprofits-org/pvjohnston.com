@@ -16,11 +16,35 @@
     "command": {"type": "string", "minLength": 1},
     "lineage": {
       "type": "object",
-      "required": ["protocol", "setup_manifest", "inputs", "constants", "sources", "environment", "requirements"]
+      "additionalProperties": false,
+      "required": ["protocol", "setup_manifest", "inputs", "constants", "sources", "environment", "requirements", "workflow_graph", "workflow_cli"],
+      "properties": {
+        "protocol": {"$ref": "#/$defs/digestLink"},
+        "setup_manifest": {"$ref": "#/$defs/digestLink"},
+        "inputs": {"$ref": "#/$defs/digestLink"},
+        "constants": {"$ref": "#/$defs/digestLink"},
+        "sources": {"$ref": "#/$defs/digestLink"},
+        "environment": {"$ref": "#/$defs/digestLink"},
+        "requirements": {"$ref": "#/$defs/digestLink"},
+        "workflow_graph": {"$ref": "#/$defs/digestLink"},
+        "workflow_cli": {"$ref": "#/$defs/digestLink"}
+      }
     },
     "authorization": {
       "type": "object",
-      "required": ["kind"]
+      "additionalProperties": false,
+      "required": ["kind", "workflow_path", "event_id", "sequence", "submission_sequence", "decision", "graph_version", "graph_sha256", "event_sha256"],
+      "properties": {
+        "kind": {"enum": ["normal", "registered_retry", "setup-toy"]},
+        "workflow_path": {"type": "string", "minLength": 1},
+        "event_id": {"type": "string", "minLength": 1},
+        "sequence": {"type": "integer", "minimum": 1},
+        "submission_sequence": {"type": "integer", "minimum": 1},
+        "decision": {"type": "string", "minLength": 1},
+        "graph_version": {"const": 1},
+        "graph_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "event_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
     },
     "platform": {
       "type": "object",
@@ -45,6 +69,17 @@
           "bytes": {"type": "integer", "minimum": 0},
           "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
         }
+      }
+    }
+  },
+  "$defs": {
+    "digestLink": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
       }
     }
   }

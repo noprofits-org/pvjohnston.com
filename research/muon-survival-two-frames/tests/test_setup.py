@@ -21,6 +21,8 @@ from contract import (  # noqa: E402
     load_and_validate_constants,
     load_and_validate_inputs,
     load_and_validate_sources,
+    load_json,
+    validate_json_schema,
     verify_environment,
 )
 
@@ -31,6 +33,13 @@ class ReconstructionContractTests(unittest.TestCase):
         cls.toy = json.loads((EXPERIMENT_DIR / "tests/fixtures/toy-inputs.json").read_text(encoding="utf-8"))
 
     def toy_spec(self) -> RunSpec:
+        lineage = {
+            name: {"path": f"setup-toy/{name}", "sha256": "0" * 64}
+            for name in (
+                "protocol", "setup_manifest", "inputs", "constants", "sources",
+                "environment", "requirements", "workflow_graph", "workflow_cli",
+            )
+        }
         return RunSpec(
             experiment="muon-survival-two-frames",
             purpose="setup-toy",
@@ -39,9 +48,19 @@ class ReconstructionContractTests(unittest.TestCase):
             seed=0,
             draw_count=16,
             scale_s=1e-6,
-            lineage={},
-            authorization={"kind": "setup-toy"},
-            platform={"environment": "setup-toy"},
+            lineage=lineage,
+            authorization={
+                "kind": "setup-toy", "workflow_path": "setup-toy/workflow.jsonl",
+                "event_id": "00000000-0000-4000-8000-000000000001",
+                "sequence": 1, "submission_sequence": 1, "decision": "setup-toy",
+                "graph_version": 1, "graph_sha256": "0" * 64, "event_sha256": "0" * 64,
+            },
+            platform={
+                "os": "setup-toy", "release": "setup-toy", "architecture": "setup-toy",
+                "python_implementation": "setup-toy", "python_version": "setup-toy",
+                "numpy_version": "setup-toy", "matplotlib_version": "setup-toy",
+                "pip_version": "setup-toy", "node_version": "setup-toy",
+            },
             path_prefix="setup-toy/toy-run",
         )
 
@@ -109,7 +128,14 @@ class ReconstructionContractTests(unittest.TestCase):
         lifetimes = np.linspace(0.0, 1.0, 16, dtype=np.float64)
         return detector, muon, counterfactual, paths, primitives, counts, empirical, lifetimes
 
-    def checks(self, packet, *, integrity_overrides=None):
+    def checks(
+        self,
+        packet,
+        *,
+        integrity_overrides=None,
+        standard_error_multiplier=4.0,
+        maximum_grid_discrepancy=0.01,
+    ):
         integrity = {"schema": True, "manifest": True, "provenance": True, "hashes": True, "run_bundle": True, "run_admission": True}
         if integrity_overrides:
             integrity.update(integrity_overrides)
@@ -119,8 +145,8 @@ class ReconstructionContractTests(unittest.TestCase):
             expected_grid_size=3,
             expected_draw_count=16,
             frame_relative_tolerance=1e-12,
-            standard_error_multiplier=4.0,
-            maximum_grid_discrepancy=0.01,
+            standard_error_multiplier=standard_error_multiplier,
+            maximum_grid_discrepancy=maximum_grid_discrepancy,
             integrity_flags=integrity,
         )
 
@@ -144,43 +170,63 @@ class ReconstructionContractTests(unittest.TestCase):
                 self.assertFalse(self.checks(tuple(packet))["frame_agreement"])
 
     def test_focal_and_grid_discrepancy_fail_separately(self) -> None:
-        packet = list(self.packet(focal_probability=0.75))
-        packet[5] = np.asarray([16, 0, 4], dtype=np.int64)
+        packet = list(self.packet(focal_probability=0.9))
+        packet[5] = np.asarray([16, 8, 4], dtype=np.int64)
         packet[6] = packet[5].astype(np.float64) / 16
-        self.assertFalse(self.checks(tuple(packet))["focal_monte_carlo_within_four_standard_errors"])
+        checks = self.checks(tuple(packet), maximum_grid_discrepancy=0.5)
+        self.assertFalse(checks["focal_monte_carlo_within_four_standard_errors"])
+        self.assertTrue(checks["maximum_grid_discrepancy_at_most_threshold"])
+        self.assertTrue(checks["counts_valid_and_monotonic"])
         packet = list(self.packet())
         packet[5] = np.asarray([16, 7, 4], dtype=np.int64)
         packet[6] = packet[5].astype(np.float64) / 16
-        self.assertFalse(self.checks(tuple(packet))["maximum_grid_discrepancy_at_most_threshold"])
+        checks = self.checks(tuple(packet))
+        self.assertFalse(checks["maximum_grid_discrepancy_at_most_threshold"])
+        self.assertTrue(checks["focal_monte_carlo_within_four_standard_errors"])
+        self.assertTrue(checks["counts_valid_and_monotonic"])
 
     def test_each_count_and_dtype_branch_fails(self) -> None:
         mutations = [
-            ("upper_bound", lambda packet: packet.__setitem__(5, np.asarray([16, 17, 4], dtype=np.int64))),
-            ("zero_count", lambda packet: packet.__setitem__(5, np.asarray([15, 8, 4], dtype=np.int64))),
-            ("monotonic", lambda packet: packet.__setitem__(5, np.asarray([16, 4, 8], dtype=np.int64))),
-            ("count_dtype", lambda packet: packet.__setitem__(5, packet[5].astype(np.int32))),
-            ("empirical_equality", lambda packet: packet[6].__setitem__(1, 0.4)),
+            ("upper_bound", lambda packet: packet.__setitem__(5, np.asarray([17, 17, 4], dtype=np.int64)), "count_bounds_valid", {"counts_monotonic": True}),
+            ("lower_bound", lambda packet: packet.__setitem__(5, np.asarray([16, 8, -1], dtype=np.int64)), "count_bounds_valid", {"counts_monotonic": True}),
+            ("zero_count", lambda packet: packet.__setitem__(5, np.asarray([15, 8, 4], dtype=np.int64)), "zero_distance_count_valid", {"count_bounds_valid": True, "counts_monotonic": True}),
+            ("monotonic", lambda packet: packet.__setitem__(5, np.asarray([16, 4, 8], dtype=np.int64)), "counts_monotonic", {"count_bounds_valid": True, "zero_distance_count_valid": True}),
+            ("count_dtype", lambda packet: packet.__setitem__(5, packet[5].astype(np.int32)), "count_dtype_valid", {"count_bounds_valid": True, "counts_monotonic": True}),
+            ("empirical_equality", lambda packet: packet[6].__setitem__(1, 0.4), "empirical_matches_counts", {"count_bounds_valid": True, "counts_monotonic": True}),
         ]
-        for name, mutate in mutations:
+        for name, mutate, detail, independent in mutations:
             with self.subTest(name=name):
                 packet = list(copy.deepcopy(self.packet()))
                 mutate(packet)
                 if name != "empirical_equality":
                     packet[6] = packet[5].astype(np.float64) / 16
-                self.assertFalse(self.checks(tuple(packet))["counts_valid_and_monotonic"])
+                checks = self.checks(tuple(packet))
+                self.assertFalse(checks["counts_valid_and_monotonic"])
+                self.assertFalse(checks["details"][detail])
+                for independent_detail, expected in independent.items():
+                    self.assertEqual(checks["details"][independent_detail], expected)
 
-    def test_numeric_derived_units_counterfactual_and_integrity_branches(self) -> None:
+    def test_every_bound_derived_and_counterfactual_field_fails_independently(self) -> None:
         mutations = [
-            ("raw_dtype", lambda packet: packet.__setitem__(7, packet[7].astype(np.float32)), "dtypes_valid"),
-            ("raw_finite", lambda packet: packet[7].__setitem__(1, np.nan), "raw_lifetimes_finite_nonnegative"),
-            ("primitive", lambda packet: packet[4].__setitem__("momentum_mev_c", 1.1), "derived_fields_valid"),
-            ("grid", lambda packet: packet[3].__setitem__(1, packet[3][1] + 0.1), "derived_fields_valid"),
-            ("distance", lambda packet: packet[0]["laboratory_distance_m"].__setitem__(1, 99.0), "derived_fields_valid"),
-            ("elapsed", lambda packet: packet[1]["elapsed_time_s"].__setitem__(1, 99.0), "derived_fields_valid"),
-            ("mean_lifetime", lambda packet: packet[0].__setitem__("mean_lifetime_s", 99.0), "derived_fields_valid"),
-            ("units", lambda packet: packet[0]["units"].__setitem__("elapsed_time_s", "ms"), "units_valid"),
-            ("counter_label", lambda packet: packet[2].__setitem__("label", "third frame"), "counterfactual_valid"),
-            ("counter_value", lambda packet: packet[2]["decay_exponent"].__setitem__(1, 99.0), "counterfactual_valid"),
+            ("detector_beta", lambda p: p[0].__setitem__("beta", p[0]["beta"] * 0.99), "detector_beta_valid"),
+            ("detector_gamma", lambda p: p[0].__setitem__("gamma", p[0]["gamma"] * 1.01), "detector_gamma_valid"),
+            ("detector_distance", lambda p: p[0].__setitem__("laboratory_distance_m", np.asarray([0.0, 99.0, p[0]["laboratory_distance_m"][2]], dtype=np.float64)), "detector_laboratory_distance_valid"),
+            ("detector_time", lambda p: p[0]["elapsed_time_s"].__setitem__(1, 99.0), "detector_elapsed_time_valid"),
+            ("detector_lifetime", lambda p: p[0].__setitem__("mean_lifetime_s", 99.0), "detector_mean_lifetime_valid"),
+            ("detector_exponent", lambda p: p[0]["decay_exponent"].__setitem__(1, 99.0), "detector_decay_exponent_valid"),
+            ("detector_survival", lambda p: p[0]["survival_probability"].__setitem__(1, 0.4), "detector_survival_probability_valid"),
+            ("muon_beta", lambda p: p[1].__setitem__("beta", p[1]["beta"] * 0.99), "muon_beta_valid"),
+            ("muon_gamma", lambda p: p[1].__setitem__("gamma", p[1]["gamma"] * 1.01), "muon_gamma_valid"),
+            ("muon_distance", lambda p: p[1]["contracted_distance_m"].__setitem__(1, 99.0), "muon_contracted_distance_valid"),
+            ("muon_time", lambda p: p[1]["elapsed_time_s"].__setitem__(1, 99.0), "muon_elapsed_time_valid"),
+            ("muon_lifetime", lambda p: p[1].__setitem__("mean_lifetime_s", 99.0), "muon_mean_lifetime_valid"),
+            ("muon_exponent", lambda p: p[1]["decay_exponent"].__setitem__(1, 99.0), "muon_decay_exponent_valid"),
+            ("muon_survival", lambda p: p[1]["survival_probability"].__setitem__(1, 0.4), "muon_survival_probability_valid"),
+            ("counter_label", lambda p: p[2].__setitem__("label", "third frame"), "counterfactual_label_valid"),
+            ("counter_distance", lambda p: p[2].__setitem__("laboratory_distance_m", np.asarray([0.0, 99.0, p[2]["laboratory_distance_m"][2]], dtype=np.float64)), "counterfactual_laboratory_distance_valid"),
+            ("counter_time", lambda p: p[2]["elapsed_time_s"].__setitem__(1, 99.0), "counterfactual_elapsed_time_valid"),
+            ("counter_exponent", lambda p: p[2]["decay_exponent"].__setitem__(1, 99.0), "counterfactual_decay_exponent_valid"),
+            ("counter_survival", lambda p: p[2]["survival_probability"].__setitem__(1, 0.4), "counterfactual_survival_probability_valid"),
         ]
         for name, mutate, detail in mutations:
             with self.subTest(name=name):
@@ -189,6 +235,39 @@ class ReconstructionContractTests(unittest.TestCase):
                 checks = self.checks(tuple(packet))
                 self.assertFalse(checks["numeric_shapes_dtypes_units_valid"])
                 self.assertFalse(checks["details"][detail])
+
+    def test_every_bound_unit_primitive_grid_and_raw_field_fails(self) -> None:
+        for namespace, units, detail in (
+            (0, reconstruct.DETECTOR_UNITS, "detector_units_valid"),
+            (1, reconstruct.MUON_UNITS, "muon_units_valid"),
+            (2, reconstruct.COUNTERFACTUAL_UNITS, "counterfactual_units_valid"),
+            (4, reconstruct.PRIMITIVE_UNITS, "primitive_units_valid"),
+        ):
+            for key in units:
+                with self.subTest(namespace=namespace, unit=key):
+                    packet = list(copy.deepcopy(self.packet()))
+                    packet[namespace]["units"][key] = "setup-toy-wrong-unit"
+                    checks = self.checks(tuple(packet))
+                    self.assertFalse(checks["numeric_shapes_dtypes_units_valid"])
+                    self.assertFalse(checks["details"][detail])
+        mutations = [
+            ("raw_dtype", lambda p: p.__setitem__(7, p[7].astype(np.float32)), "dtypes_valid"),
+            ("raw_finite", lambda p: p[7].__setitem__(1, np.nan), "raw_lifetimes_finite_nonnegative"),
+            ("grid", lambda p: p.__setitem__(3, np.asarray([0.0, 0.0, p[3][2]], dtype=np.float64)), "grid_valid"),
+            ("momentum", lambda p: p[4].__setitem__("momentum_mev_c", 1.1), "derived_fields_valid"),
+            ("mass", lambda p: p[4].__setitem__("mass_energy_mev", 1.1), "derived_fields_valid"),
+            ("tau0", lambda p: p[4].__setitem__("tau0_s", 1.1), "derived_fields_valid"),
+            ("c", lambda p: p[4].__setitem__("c_m_s", 1.1), "derived_fields_valid"),
+        ]
+        for name, mutate, detail in mutations:
+            with self.subTest(name=name):
+                packet = list(copy.deepcopy(self.packet()))
+                mutate(packet)
+                checks = self.checks(tuple(packet))
+                self.assertFalse(checks["numeric_shapes_dtypes_units_valid"])
+                self.assertFalse(checks["details"][detail])
+
+    def test_each_integrity_branch_fails_independently(self) -> None:
         for key in ("schema", "manifest", "provenance", "hashes", "run_bundle", "run_admission"):
             with self.subTest(integrity=key):
                 self.assertFalse(self.checks(self.packet(), integrity_overrides={key: False})["schema_manifest_provenance_and_hashes_valid"])
@@ -204,6 +283,15 @@ class ReconstructionContractTests(unittest.TestCase):
             document = json.loads(path.read_text(encoding="utf-8"))
             self.assertEqual(document["$schema"], "https://json-schema.org/draft/2020-12/schema")
             self.assertEqual(document["type"], "object")
+        for document_name, schema_name in (
+            ("inputs.json", "inputs.schema.json"),
+            ("constants.json", "constants.schema.json"),
+            ("sources.json", "sources.schema.json"),
+        ):
+            self.assertTrue(validate_json_schema(
+                load_json(EXPERIMENT_DIR / document_name),
+                EXPERIMENT_DIR / "schemas" / schema_name,
+            ))
 
 
 if __name__ == "__main__":

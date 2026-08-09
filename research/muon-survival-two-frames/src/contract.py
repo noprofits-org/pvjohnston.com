@@ -11,6 +11,7 @@ import platform
 import re
 import subprocess
 import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -24,12 +25,16 @@ SOURCES_PATH = EXPERIMENT_DIR / "sources.json"
 ENVIRONMENT_PATH = EXPERIMENT_DIR / "environment.json"
 SETUP_MANIFEST_PATH = EXPERIMENT_DIR / "setup-manifest.json"
 WORKFLOW_PATH = EXPERIMENT_DIR / "workflow.jsonl"
+WORKFLOW_GRAPH_PATH = REPOSITORY_ROOT / "research/workflow.graph.v1.json"
+WORKFLOW_CLI_PATH = REPOSITORY_ROOT / "scripts/research-workflow.mjs"
 
 EXPECTED_PYTHON = "3.12.3"
 EXPECTED_NUMPY = "2.5.1"
 EXPECTED_MATPLOTLIB = "3.11.1"
 EXPECTED_PIP = "26.2.1"
 EXPECTED_NODE = "24.18.0"
+EXPECTED_WORKFLOW_GRAPH_SHA256 = "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404"
+EXPECTED_WORKFLOW_CLI_SHA256 = "f8b931150fe5c31f574fa6303cd1d9b629ad02b0e05233025288e30275515f2c"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 RUN_ID_RE = re.compile(r"^run-[0-9]{3}$")
 
@@ -132,8 +137,124 @@ def _validate_digest_link(link: Mapping[str, Any], label: str) -> None:
     _require(sha256_file(resolved) == digest, f"{label} SHA-256 does not match")
 
 
+def validate_digest_record(record: Mapping[str, Any], *, repository_root: Path = REPOSITORY_ROOT) -> bool:
+    """Resolve a repository-relative byte/size/hash record and fail closed."""
+
+    _require(set(record) == {"path", "bytes", "sha256"}, "artifact digest record fields mismatch")
+    path_text = record.get("path")
+    _require(isinstance(path_text, str) and path_text, "artifact digest path is invalid")
+    relative = Path(path_text)
+    _require(not relative.is_absolute() and ".." not in relative.parts, "artifact digest path is not repository-relative")
+    _require(isinstance(record.get("bytes"), int) and not isinstance(record.get("bytes"), bool) and record["bytes"] >= 0, "artifact byte count is invalid")
+    _require(isinstance(record.get("sha256"), str) and SHA256_RE.fullmatch(record["sha256"]) is not None, "artifact SHA-256 is invalid")
+    path = repository_root / relative
+    _require(path.is_file() and not path.is_symlink(), "artifact digest target is missing or linked")
+    _require(path.stat().st_size == record["bytes"], "artifact byte count does not match")
+    _require(sha256_file(path) == record["sha256"], "artifact SHA-256 does not match")
+    return True
+
+
+def _schema_type_matches(value: Any, expected: str) -> bool:
+    if expected == "object":
+        return isinstance(value, dict)
+    if expected == "array":
+        return isinstance(value, list)
+    if expected == "string":
+        return isinstance(value, str)
+    if expected == "boolean":
+        return isinstance(value, bool)
+    if expected == "integer":
+        return isinstance(value, int) and not isinstance(value, bool)
+    if expected == "number":
+        return isinstance(value, (int, float)) and not isinstance(value, bool)
+    return False
+
+
+def _resolve_local_schema_reference(root: Mapping[str, Any], reference: str) -> Mapping[str, Any]:
+    _require(reference.startswith("#/"), "only local JSON Schema references are supported")
+    value: Any = root
+    for raw_piece in reference[2:].split("/"):
+        piece = raw_piece.replace("~1", "/").replace("~0", "~")
+        _require(isinstance(value, dict) and piece in value, "JSON Schema reference does not resolve")
+        value = value[piece]
+    _require(isinstance(value, dict), "JSON Schema reference must resolve to an object")
+    return value
+
+
+def _validate_schema_value(value: Any, rule: Mapping[str, Any], root: Mapping[str, Any], location: str) -> None:
+    if "$ref" in rule:
+        _validate_schema_value(value, _resolve_local_schema_reference(root, rule["$ref"]), root, location)
+        return
+    if "const" in rule:
+        _require(value == rule["const"], f"schema const mismatch at {location}")
+    if "enum" in rule:
+        _require(value in rule["enum"], f"schema enum mismatch at {location}")
+    expected_type = rule.get("type")
+    if expected_type is not None:
+        _require(isinstance(expected_type, str) and _schema_type_matches(value, expected_type), f"schema type mismatch at {location}")
+    if expected_type == "object":
+        required = rule.get("required", [])
+        _require(isinstance(required, list) and all(isinstance(key, str) for key in required), f"invalid required list at {location}")
+        for key in required:
+            _require(key in value, f"schema required field missing at {location}.{key}")
+        properties = rule.get("properties", {})
+        _require(isinstance(properties, dict), f"invalid properties at {location}")
+        if rule.get("additionalProperties") is False:
+            unexpected = set(value) - set(properties)
+            if unexpected:
+                raise ContractError(f"schema unexpected field at {location}.{sorted(unexpected)[0]}")
+        for key, child_rule in properties.items():
+            if key in value:
+                _require(isinstance(child_rule, dict), f"invalid property schema at {location}.{key}")
+                _validate_schema_value(value[key], child_rule, root, f"{location}.{key}")
+    elif expected_type == "array":
+        if "minItems" in rule:
+            _require(len(value) >= rule["minItems"], f"schema array too short at {location}")
+        if "maxItems" in rule:
+            _require(len(value) <= rule["maxItems"], f"schema array too long at {location}")
+        if rule.get("uniqueItems") is True:
+            _require(len({json.dumps(item, sort_keys=True) for item in value}) == len(value), f"schema array is not unique at {location}")
+        item_rule = rule.get("items")
+        if item_rule is not None:
+            _require(isinstance(item_rule, dict), f"invalid item schema at {location}")
+            for index, item in enumerate(value):
+                _validate_schema_value(item, item_rule, root, f"{location}[{index}]")
+    elif expected_type in {"integer", "number"}:
+        numeric = float(value)
+        _require(numeric == numeric and numeric not in {float("inf"), float("-inf")}, f"schema number is nonfinite at {location}")
+        if "minimum" in rule:
+            _require(value >= rule["minimum"], f"schema minimum violated at {location}")
+        if "maximum" in rule:
+            _require(value <= rule["maximum"], f"schema maximum violated at {location}")
+        if "exclusiveMinimum" in rule:
+            _require(value > rule["exclusiveMinimum"], f"schema exclusive minimum violated at {location}")
+        if "exclusiveMaximum" in rule:
+            _require(value < rule["exclusiveMaximum"], f"schema exclusive maximum violated at {location}")
+    elif expected_type == "string":
+        if "minLength" in rule:
+            _require(len(value) >= rule["minLength"], f"schema string too short at {location}")
+        if "pattern" in rule:
+            _require(re.search(rule["pattern"], value) is not None, f"schema pattern mismatch at {location}")
+        if rule.get("format") == "date-time":
+            try:
+                parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+            except ValueError as exc:
+                raise ContractError(f"schema date-time mismatch at {location}") from exc
+            _require(parsed.tzinfo is not None, f"schema date-time lacks timezone at {location}")
+
+
+def validate_json_schema(instance: Any, schema_path: Path) -> bool:
+    """Validate the bounded JSON-Schema subset used by this experiment."""
+
+    schema = load_json(schema_path)
+    _require(schema.get("$schema") == "https://json-schema.org/draft/2020-12/schema", "unsupported JSON Schema draft")
+    _validate_schema_value(instance, schema, schema, "$")
+    return True
+
+
 def load_and_validate_constants() -> dict[str, Any]:
     data = load_json(CONSTANTS_PATH)
+    validate_json_schema(data, EXPERIMENT_DIR / "schemas/constants.schema.json")
     _require(data.get("schema_version") == 1, "constants schema version mismatch")
     constants = data.get("constants")
     _require(isinstance(constants, dict), "constants object is missing")
@@ -153,6 +274,7 @@ def load_and_validate_constants() -> dict[str, Any]:
 
 def load_and_validate_sources() -> dict[str, Any]:
     data = load_json(SOURCES_PATH)
+    validate_json_schema(data, EXPERIMENT_DIR / "schemas/sources.schema.json")
     _require(data.get("schema_version") == 1, "source manifest schema version mismatch")
     sources = data.get("sources")
     _require(isinstance(sources, list) and len(sources) == 2, "source manifest must contain exactly two registered sources")
@@ -174,6 +296,7 @@ def load_and_validate_sources() -> dict[str, Any]:
 
 def load_and_validate_inputs() -> dict[str, Any]:
     data = load_json(INPUTS_PATH)
+    validate_json_schema(data, EXPERIMENT_DIR / "schemas/inputs.schema.json")
     _require(data.get("schema_version") == 1, "input manifest schema version mismatch")
     _require(data.get("experiment") == EXPERIMENT, "input manifest experiment mismatch")
     _require(data.get("post_type") == "understanding", "post type must remain Understanding")
@@ -208,7 +331,7 @@ def load_and_validate_inputs() -> dict[str, Any]:
     _require(restart.get("retry_execution_authorization") == "current run_review registered_retry event into execute plus preserved incomplete run-001", "retry authorization contract mismatch")
     _require(restart.get("registered_analysis_reruns") == 0, "analysis rerun must remain unauthorized")
     lineage = data.get("lineage", {})
-    _require(set(lineage) == {"protocol", "constants", "sources", "environment", "requirements"}, "input lineage fields mismatch")
+    _require(set(lineage) == {"protocol", "constants", "sources", "environment", "requirements", "workflow_graph", "workflow_cli"}, "input lineage fields mismatch")
     for label, link in lineage.items():
         _require(isinstance(link, dict), f"{label} lineage link is invalid")
         _validate_digest_link(link, label)
@@ -242,6 +365,51 @@ def _workflow_records(path: Path) -> list[tuple[dict[str, Any], str]]:
     return records
 
 
+def validate_workflow_ledger(
+    *,
+    workflow_path: Path = WORKFLOW_PATH,
+    graph_path: Path = WORKFLOW_GRAPH_PATH,
+    repository_root: Path = REPOSITORY_ROOT,
+    workflow_cli_path: Path = WORKFLOW_CLI_PATH,
+) -> list[tuple[dict[str, Any], str]]:
+    """Use the repository's hash-bound verifier for complete graph replay."""
+
+    expected_path = repository_root / "research" / EXPERIMENT / "workflow.jsonl"
+    try:
+        _require(workflow_path.resolve(strict=True) == expected_path.resolve(strict=True), "workflow path is not the managed experiment ledger")
+        _require(graph_path.is_file() and not graph_path.is_symlink(), "workflow graph is missing or linked")
+        _require(workflow_cli_path.is_file() and not workflow_cli_path.is_symlink(), "workflow verifier is missing or linked")
+    except OSError as exc:
+        raise ContractError("workflow contract path cannot be resolved") from exc
+    _require(sha256_file(graph_path) == EXPECTED_WORKFLOW_GRAPH_SHA256, "workflow graph digest mismatch")
+    _require(sha256_file(workflow_cli_path) == EXPECTED_WORKFLOW_CLI_SHA256, "workflow verifier digest mismatch")
+    try:
+        ledger_before = workflow_path.read_bytes()
+    except OSError as exc:
+        raise ContractError("workflow ledger is unreadable") from exc
+    environment = os.environ.copy()
+    environment["RESEARCH_WORKFLOW_ROOT"] = str(repository_root)
+    environment["RESEARCH_WORKFLOW_GRAPH"] = str(graph_path)
+    try:
+        verified = subprocess.run(
+            ["node", str(workflow_cli_path), "verify", "--experiment", EXPERIMENT],
+            cwd=repository_root,
+            env=environment,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise ContractError("workflow graph verification could not run") from exc
+    _require(verified.returncode == 0, "workflow graph replay or evidence verification failed")
+    try:
+        _require(workflow_path.read_bytes() == ledger_before, "workflow ledger changed during verification")
+    except OSError as exc:
+        raise ContractError("workflow ledger became unreadable during verification") from exc
+    return _workflow_records(workflow_path)
+
+
 def run_namespaces(runs_dir: Path) -> list[str]:
     """Return every entry in the production runs namespace, including links."""
 
@@ -257,7 +425,10 @@ def _authorization_record(event: Mapping[str, Any], raw_line: str, kind: str) ->
         "workflow_path": "research/muon-survival-two-frames/workflow.jsonl",
         "event_id": event["event_id"],
         "sequence": event["sequence"],
+        "submission_sequence": event["submission_sequence"],
         "decision": event["decision"],
+        "graph_version": event["graph_version"],
+        "graph_sha256": event["graph_sha256"],
         "event_sha256": hashlib.sha256(f"{raw_line}\n".encode("utf-8")).hexdigest(),
     }
 
@@ -267,12 +438,20 @@ def authorize_run_request(
     *,
     workflow_path: Path = WORKFLOW_PATH,
     runs_dir: Path | None = None,
+    graph_path: Path = WORKFLOW_GRAPH_PATH,
+    repository_root: Path = REPOSITORY_ROOT,
+    workflow_cli_path: Path = WORKFLOW_CLI_PATH,
 ) -> dict[str, Any]:
     """Bind normal execution or the sole retry to the current graph event."""
 
     if run_id not in {"run-001", "run-002"}:
         raise ContractError("unregistered run ID")
-    records = _workflow_records(workflow_path)
+    records = validate_workflow_ledger(
+        workflow_path=workflow_path,
+        graph_path=graph_path,
+        repository_root=repository_root,
+        workflow_cli_path=workflow_cli_path,
+    )
     event, raw_line = records[-1]
     namespaces = run_namespaces(runs_dir if runs_dir is not None else EXPERIMENT_DIR / "runs")
     if run_id == "run-001":
@@ -305,11 +484,19 @@ def validate_recorded_run_authorization(
     authorization: Mapping[str, Any],
     *,
     workflow_path: Path = WORKFLOW_PATH,
+    graph_path: Path = WORKFLOW_GRAPH_PATH,
+    repository_root: Path = REPOSITORY_ROOT,
+    workflow_cli_path: Path = WORKFLOW_CLI_PATH,
 ) -> None:
     expected_kind = "normal" if run_id == "run-001" else "registered_retry" if run_id == "run-002" else None
     _require(expected_kind is not None and authorization.get("kind") == expected_kind, "run authorization kind mismatch")
     _require(authorization.get("workflow_path") == "research/muon-survival-two-frames/workflow.jsonl", "run authorization workflow path mismatch")
-    records = _workflow_records(workflow_path)
+    records = validate_workflow_ledger(
+        workflow_path=workflow_path,
+        graph_path=graph_path,
+        repository_root=repository_root,
+        workflow_cli_path=workflow_cli_path,
+    )
     matches = [(event, raw) for event, raw in records if event.get("event_id") == authorization.get("event_id")]
     _require(len(matches) == 1, "recorded run authorization event is missing or duplicated")
     event, raw_line = matches[0]

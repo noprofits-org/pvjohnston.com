@@ -55,6 +55,8 @@ def build_spec(run_id: str, *, recorded_authorization: dict | None = None) -> Ru
         "sources": dict(inputs["lineage"]["sources"]),
         "environment": dict(inputs["lineage"]["environment"]),
         "requirements": dict(inputs["lineage"]["requirements"]),
+        "workflow_graph": dict(inputs["lineage"]["workflow_graph"]),
+        "workflow_cli": dict(inputs["lineage"]["workflow_cli"]),
     }
     platform_record = {
         "os": platform.system(),

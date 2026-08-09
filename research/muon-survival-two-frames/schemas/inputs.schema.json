@@ -9,7 +9,20 @@
     "schema_version": {"const": 1},
     "experiment": {"const": "muon-survival-two-frames"},
     "post_type": {"const": "understanding"},
-    "lineage": {"type": "object", "required": ["protocol", "constants", "sources", "environment", "requirements"]},
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "constants", "sources", "environment", "requirements", "workflow_graph", "workflow_cli"],
+      "properties": {
+        "protocol": {"$ref": "#/$defs/link"},
+        "constants": {"$ref": "#/$defs/link"},
+        "sources": {"$ref": "#/$defs/link"},
+        "environment": {"$ref": "#/$defs/link"},
+        "requirements": {"$ref": "#/$defs/link"},
+        "workflow_graph": {"$ref": "#/$defs/link"},
+        "workflow_cli": {"$ref": "#/$defs/link"}
+      }
+    },
     "production": {
       "type": "object",
       "required": ["normal_run_id", "canonical_command", "momentum_mev_c", "laboratory_grid", "focal_index", "rng", "raw_output"],
@@ -44,5 +57,16 @@
     "checks": {"type": "object"},
     "analysis": {"type": "object", "required": ["canonical_result_path", "canonical_result_command", "canonical_result_check_command", "figure_path", "figure_command", "figure_check_command", "metrics_path", "metrics_command", "metrics_check_command"]},
     "restart": {"type": "object"}
+  },
+  "$defs": {
+    "link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
   }
 }

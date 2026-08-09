@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 
+from analyze import validate_analysis_result
 from contract import EXPERIMENT_DIR, REPOSITORY_ROOT, ContractError, load_json, write_bytes_exclusive
 
 
@@ -115,6 +116,7 @@ def main() -> int:
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     result = load_json(EXPERIMENT_DIR / "results/summary.json")
+    validate_analysis_result(result, verify_provenance=True, enforce_frozen_inputs=True)
     payload = render_png_bytes(result)
     output = REPOSITORY_ROOT / "images/muon-survival-two-frames-hero.png"
     write_or_check_png(output, payload, check=args.check)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import subprocess
 import sys
@@ -20,7 +21,13 @@ sys.path.insert(0, str(EXPERIMENT_DIR / "src"))
 
 import contract  # noqa: E402
 import reconstruct  # noqa: E402
-from analyze import AnalysisSpec, build_analysis_result, write_or_check_result  # noqa: E402
+from analyze import (  # noqa: E402
+    AnalysisSpec,
+    analysis_admission,
+    build_analysis_result,
+    validate_analysis_result,
+    write_or_check_result,
+)
 from bundle import (  # noqa: E402
     RunExecutionError,
     RunSpec,
@@ -30,25 +37,27 @@ from bundle import (  # noqa: E402
     save_array_exclusive,
     validate_run_bundle,
 )
-from contract import ContractError, authorize_run_request, run_namespaces, validate_recorded_run_authorization  # noqa: E402
+from contract import (  # noqa: E402
+    WORKFLOW_CLI_PATH,
+    WORKFLOW_GRAPH_PATH,
+    ContractError,
+    authorize_run_request,
+    run_namespaces,
+    validate_recorded_run_authorization,
+)
 from render_figure import HEIGHT_PX, WIDTH_PX, render_png_bytes, write_or_check_png  # noqa: E402
+from workflow_fixture import WorkflowFixture  # noqa: E402
 
 
 class PipelineContractTests(unittest.TestCase):
-    def workflow_event(self, *, decision: str, from_state: str, event_id: str = "event-1") -> dict:
-        return {
-            "sequence": 1,
-            "event_id": event_id,
-            "type": "review",
-            "from": from_state,
-            "to": "execute",
-            "decision": decision,
-        }
-
-    def write_ledger(self, path: Path, event: dict) -> None:
-        path.write_text(f"{json.dumps(event, separators=(',', ':'))}\n", encoding="utf-8")
-
     def toy_spec(self) -> RunSpec:
+        lineage = {
+            name: {"path": f"setup-toy/{name}", "sha256": "0" * 64}
+            for name in (
+                "protocol", "setup_manifest", "inputs", "constants", "sources",
+                "environment", "requirements", "workflow_graph", "workflow_cli",
+            )
+        }
         return RunSpec(
             experiment="muon-survival-two-frames",
             purpose="setup-toy",
@@ -57,35 +66,97 @@ class PipelineContractTests(unittest.TestCase):
             seed=0,
             draw_count=16,
             scale_s=1e-6,
-            lineage={"fixture": {"path": "setup-toy/input", "sha256": "0" * 64}},
-            authorization={"kind": "setup-toy"},
-            platform={"environment": "setup-toy"},
+            lineage=lineage,
+            authorization={
+                "kind": "setup-toy",
+                "workflow_path": "setup-toy/workflow.jsonl",
+                "event_id": "00000000-0000-4000-8000-000000000001",
+                "sequence": 1,
+                "submission_sequence": 1,
+                "decision": "setup-toy",
+                "graph_version": 1,
+                "graph_sha256": "0" * 64,
+                "event_sha256": "0" * 64,
+            },
+            platform={
+                "os": "setup-toy", "release": "setup-toy", "architecture": "setup-toy",
+                "python_implementation": "setup-toy", "python_version": "setup-toy",
+                "numpy_version": "setup-toy", "matplotlib_version": "setup-toy",
+                "pip_version": "setup-toy", "node_version": "setup-toy",
+            },
             path_prefix="setup-toy/toy-run",
         )
 
     def test_only_graph_authorized_normal_and_retry_run_ids_are_accepted(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
             base = Path(temporary)
-            ledger = base / "setup-toy-workflow.jsonl"
+            fixture = WorkflowFixture(base, EXPERIMENT_DIR)
+            fixture.approve_setup()
+            ledger = fixture.workflow_path
             runs = base / "setup-toy-runs"
-            self.write_ledger(ledger, self.workflow_event(decision="approve", from_state="setup_review"))
-            normal = authorize_run_request("run-001", workflow_path=ledger, runs_dir=runs)
+            verifier = {
+                "workflow_path": ledger,
+                "runs_dir": runs,
+                "graph_path": WORKFLOW_GRAPH_PATH,
+                "repository_root": fixture.repository_root,
+                "workflow_cli_path": WORKFLOW_CLI_PATH,
+            }
+            normal = authorize_run_request("run-001", **verifier)
             self.assertEqual(normal["kind"], "normal")
-            validate_recorded_run_authorization("run-001", normal, workflow_path=ledger)
+            validate_recorded_run_authorization("run-001", normal, **{key: value for key, value in verifier.items() if key != "runs_dir"})
             with self.assertRaises(ContractError):
-                authorize_run_request("run-002", workflow_path=ledger, runs_dir=runs)
+                authorize_run_request("run-002", **verifier)
             with self.assertRaises(ContractError):
-                authorize_run_request("run-003", workflow_path=ledger, runs_dir=runs)
+                authorize_run_request("run-003", **verifier)
 
             prior = runs / "run-001"
             prior.mkdir(parents=True)
-            self.write_ledger(ledger, self.workflow_event(decision="registered_retry", from_state="run_review", event_id="retry-1"))
-            retry = authorize_run_request("run-002", workflow_path=ledger, runs_dir=runs)
+            fixture.register_retry()
+            retry = authorize_run_request("run-002", **verifier)
             self.assertEqual(retry["kind"], "registered_retry")
-            validate_recorded_run_authorization("run-002", retry, workflow_path=ledger)
+            recorded_verifier = {key: value for key, value in verifier.items() if key != "runs_dir"}
+            validate_recorded_run_authorization("run-002", retry, **recorded_verifier)
+            validate_recorded_run_authorization("run-001", normal, **recorded_verifier)
             (prior / "COMPLETE.json").write_text("{}\n", encoding="utf-8")
             with self.assertRaisesRegex(ContractError, "complete run-001"):
-                authorize_run_request("run-002", workflow_path=ledger, runs_dir=runs)
+                authorize_run_request("run-002", **verifier)
+
+    def test_underspecified_event_is_rejected_by_full_graph_replay(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
+            fixture = WorkflowFixture(Path(temporary), EXPERIMENT_DIR)
+            fixture.workflow_path.write_text(
+                '{"sequence":1,"event_id":"event-1","type":"review","from":"setup_review","to":"execute","decision":"approve"}\n',
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ContractError, "graph replay"):
+                authorize_run_request(
+                    "run-001",
+                    workflow_path=fixture.workflow_path,
+                    runs_dir=Path(temporary) / "setup-toy-runs",
+                    graph_path=WORKFLOW_GRAPH_PATH,
+                    repository_root=fixture.repository_root,
+                    workflow_cli_path=WORKFLOW_CLI_PATH,
+                )
+
+    def test_historical_run_approval_remains_valid_after_analysis_submission(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
+            fixture = WorkflowFixture(Path(temporary), EXPERIMENT_DIR)
+            fixture.approve_setup()
+            approval = fixture.approve_run("run-001")
+            fixture.submit_analysis()
+            admission = analysis_admission(
+                approval["event_id"],
+                "run-001",
+                workflow_path=fixture.workflow_path,
+                graph_path=WORKFLOW_GRAPH_PATH,
+                repository_root=fixture.repository_root,
+                workflow_cli_path=WORKFLOW_CLI_PATH,
+            )
+            self.assertEqual(admission["sequence"], approval["sequence"])
+            self.assertLess(admission["sequence"], fixture.sequence)
+            self.assertEqual(admission["event_sha256"], hashlib.sha256(
+                (json.dumps(approval, separators=(",", ":")) + "\n").encode("utf-8")
+            ).hexdigest())
 
     def test_production_absence_detects_every_namespace(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
@@ -137,7 +208,9 @@ class PipelineContractTests(unittest.TestCase):
             )
             self.assertIn("draw-stdout-sentinel", (run_dir / "stdout.log").read_text(encoding="utf-8"))
             self.assertIn("draw-stderr-sentinel", (run_dir / "stderr.log").read_text(encoding="utf-8"))
-            self.assertTrue(validate_run_bundle(run_dir, spec)["valid"])
+            integrity = validate_run_bundle(run_dir, spec)
+            self.assertTrue(integrity["valid"])
+            self.assertTrue(all(integrity[name] for name in ("schema_valid", "manifest_valid", "provenance_valid", "hashes_valid")))
             (run_dir / "stdout.log").write_text("tampered\n", encoding="utf-8")
             with self.assertRaisesRegex(ContractError, "checksum mismatch"):
                 validate_run_bundle(run_dir, spec)
@@ -191,7 +264,16 @@ class PipelineContractTests(unittest.TestCase):
             },
             integrity_flags={"schema": True, "manifest": True, "provenance": True, "hashes": True, "run_bundle": True, "run_admission": True},
             generated_at="2000-01-01T00:00:00Z",
-            analysis_admission={"event_id": "setup-toy", "sequence": 1, "decision": "approve", "event_sha256": "4" * 64},
+            analysis_admission={
+                "event_id": "00000000-0000-4000-8000-000000000001",
+                "sequence": 2,
+                "submission_sequence": 1,
+                "decision": "approve",
+                "graph_version": 1,
+                "graph_sha256": "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404",
+                "workflow_path": "research/muon-survival-two-frames/workflow.jsonl",
+                "event_sha256": "4" * 64,
+            },
         )
         return build_analysis_result(sample, spec)
 
@@ -203,8 +285,8 @@ class PipelineContractTests(unittest.TestCase):
             summary = base / "setup-toy-summary.json"
             figure = base / "setup-toy-figure.png"
             metrics = base / "setup-toy-metrics.json"
-            write_or_check_result(summary, result, check=False)
-            write_or_check_result(summary, result, check=True)
+            write_or_check_result(summary, result, check=False, verify_provenance=False, enforce_frozen_inputs=False)
+            write_or_check_result(summary, result, check=True, verify_provenance=False, enforce_frozen_inputs=False)
             png_first = render_png_bytes(result)
             png_second = render_png_bytes(copy.deepcopy(result))
             self.assertEqual(png_first, png_second)
@@ -229,7 +311,25 @@ class PipelineContractTests(unittest.TestCase):
             self.assertIn("pass_numeric_shapes_dtypes_units_valid", projection["metrics"])
             summary.write_text("{}\n", encoding="utf-8")
             with self.assertRaises(ContractError):
-                write_or_check_result(summary, result, check=True)
+                write_or_check_result(summary, result, check=True, verify_provenance=False, enforce_frozen_inputs=False)
+
+    def test_result_schema_and_cross_field_validation_reject_stale_content(self) -> None:
+        result = self.synthetic_result()
+        self.assertTrue(validate_analysis_result(result, verify_provenance=False, enforce_frozen_inputs=False))
+        mutations = [
+            lambda value: value.pop("muon_frame"),
+            lambda value: value["detector_frame"].__setitem__("beta", "not-a-number"),
+            lambda value: value["grid_m"].append(99.0),
+            lambda value: value["focal"].__setitem__("empirical_count", -1),
+            lambda value: value["provenance"]["generator"].__setitem__("sha256", "bad"),
+            lambda value: value["checks"].__setitem__("all_passed", not value["checks"]["all_passed"]),
+        ]
+        for mutate in mutations:
+            with self.subTest(mutation=mutate):
+                changed = copy.deepcopy(result)
+                mutate(changed)
+                with self.assertRaises(ContractError):
+                    validate_analysis_result(changed, verify_provenance=False, enforce_frozen_inputs=False)
 
 
 if __name__ == "__main__":

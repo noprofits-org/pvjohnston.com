@@ -11,8 +11,8 @@ energy loss, air, scattering, zenith angle, showers, detector response,
 capture, sea-level flux, or a historical experiment. The Monte Carlo is an
 implementation check of the assumed decay law, not evidence for relativity.
 
-Current status: revised prospective setup implemented; production has not run
-and reproducibility is not yet established. The immutable protocol is
+Current status: prospective setup iteration 3 implemented for review;
+production has not run and reproducibility is not yet established. The immutable protocol is
 `PREREGISTRATION-v1.md`.
 
 ## Environment and setup-only verification
@@ -33,7 +33,8 @@ research/muon-survival-two-frames/.venv/bin/python \
 ```
 
 `setup-manifest.json` hash-binds the reviewed protocol, constants, sources,
-environment, schemas, implementation, tests, and fixtures. `inputs.json`
+environment, schemas, implementation, tests, fixtures, workflow graph, and
+read-only workflow verifier. `inputs.json`
 contains the frozen scientific parameters and digests. No runtime parameter
 overrides for seed, draw count, momentum, grid, threshold, or tolerances exist.
 
@@ -46,8 +47,11 @@ Do not execute this command until an independent `setup_review` (or
 research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/run.py --run-id run-001
 ```
 
-The runner first verifies the current workflow authorization and rejects
-environment, setup, or namespace drift, then exclusively creates
+The runner first invokes the hash-bound repository workflow verifier for a
+complete replay of experiment identity, graph version and digest, sequence,
+roles, transitions, submission/review linkage, evidence snapshots, and the
+current authorization. It rejects graph, environment, setup, or namespace
+drift, then exclusively creates
 `runs/run-001/`. It makes the registered PCG64 exponential draw in one call
 and writes only the unsorted float64 proper-lifetime sample plus integrity
 metadata. It does not reconstruct survival, calculate the focal example,
@@ -93,7 +97,10 @@ counts, and every registered pass/fail branch. Synthetic fixtures exercise the
 result, figure, and metrics contracts without touching canonical paths.
 
 After a `run_review --approve--> analyze` event admits the sealed sample, the
-analyst supplies that event ID and writes the deterministic canonical result:
+analyst supplies that immutable historical event ID and writes the deterministic
+canonical result. The approval remains valid for byte checking after later
+valid events such as submission to `analysis_review`; admission never depends
+on the approval remaining the ledger's final line.
 
 ```sh
 research/muon-survival-two-frames/.venv/bin/python \
@@ -117,8 +124,11 @@ node research/muon-survival-two-frames/generate-metrics.mjs --check
 ```
 
 Each writer refuses to overwrite an existing output; its check mode regenerates
-the bytes in memory and requires an exact match. These production commands have
-not been executed during setup.
+the bytes in memory and requires an exact match. Run and result JSON are checked
+against their bound schemas plus strict cross-field invariants. Manifest,
+provenance, hash, bundle, and admission flags are derived from those validations
+rather than asserted constants. These production commands have not been
+executed during setup.
 
 ## Sources and publication
 

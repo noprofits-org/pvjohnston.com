@@ -22,6 +22,14 @@
     "requirements": {
       "path": "research/muon-survival-two-frames/requirements.lock.txt",
       "sha256": "1cf5dcf8ff7f0d797b1adaaf473ae652dcbf031ca072cbb92fe6700ba1a0c782"
+    },
+    "workflow_graph": {
+      "path": "research/workflow.graph.v1.json",
+      "sha256": "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404"
+    },
+    "workflow_cli": {
+      "path": "scripts/research-workflow.mjs",
+      "sha256": "f8b931150fe5c31f574fa6303cd1d9b629ad02b0e05233025288e30275515f2c"
     }
   },
   "production": {
