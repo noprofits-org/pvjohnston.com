@@ -112,7 +112,12 @@ class WorkflowFixture:
         )
         return self.review(
             from_state="run_review", to_state="analyze", decision="approve",
-            actor="setup-toy-run-reviewer", stem="run-toy-review-v1", content=f"# Approved immutable setup-toy run\n\n{run_id}\n",
+            actor="setup-toy-run-reviewer", stem="run-toy-review-v1",
+            content=(
+                "# Approved immutable setup-toy run\n\n"
+                "The registered identities run-001 and run-002 are both mentioned here incidentally.\n\n"
+                f"- **Admitted run:** `{run_id}`\n"
+            ),
         )
 
     def submit_analysis(self) -> dict:

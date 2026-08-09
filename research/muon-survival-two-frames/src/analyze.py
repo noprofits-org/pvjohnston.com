@@ -7,11 +7,12 @@ import argparse
 import hashlib
 import io
 import json
+import re
 import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Callable, Iterable, Mapping
 
 import numpy as np
 
@@ -37,6 +38,7 @@ from contract import (
     load_and_validate_inputs,
     load_json,
     set_deterministic_process_environment,
+    validate_digest_record,
     validate_json_schema,
     validate_workflow_ledger,
     write_bytes_exclusive,
@@ -67,8 +69,45 @@ class AnalysisSpec:
     analysis_admission: Mapping[str, Any]
 
 
+ADMITTED_RUN_MARKER_PREFIX = "- **Admitted run:**"
+ADMITTED_RUN_MARKER_RE = re.compile(r"^- \*\*Admitted run:\*\* `([a-z][a-z0-9-]*)`$")
+REGISTERED_ANALYSIS_RUN_IDS = frozenset({"run-001", "run-002"})
+
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def parse_admitted_run_evidence(
+    payloads: Iterable[bytes],
+    *,
+    allowed_run_ids: frozenset[str] = REGISTERED_ANALYSIS_RUN_IDS,
+) -> str:
+    """Return the sole exact admitted-run marker across approval artifacts."""
+
+    markers: list[str] = []
+    for payload in payloads:
+        try:
+            text = payload.decode("utf-8")
+        except UnicodeError as exc:
+            raise ContractError("immutable run-review evidence is not UTF-8") from exc
+        for line in text.splitlines():
+            if not line.startswith(ADMITTED_RUN_MARKER_PREFIX):
+                continue
+            match = ADMITTED_RUN_MARKER_RE.fullmatch(line)
+            if match is None:
+                raise ContractError("immutable run-review admitted-run marker is malformed")
+            marker = match.group(1)
+            if marker not in allowed_run_ids:
+                raise ContractError("immutable run-review admitted-run marker names an unregistered run")
+            markers.append(marker)
+    if not markers:
+        raise ContractError("immutable run-review evidence lacks an admitted-run marker")
+    if len(markers) != 1:
+        if len(set(markers)) == 1:
+            raise ContractError("immutable run-review admitted-run marker is duplicated")
+        raise ContractError("immutable run-review admitted-run markers conflict")
+    return markers[0]
 
 
 def analysis_admission(
@@ -79,6 +118,7 @@ def analysis_admission(
     graph_path: Path = REPOSITORY_ROOT / "research/workflow.graph.v1.json",
     repository_root: Path = REPOSITORY_ROOT,
     workflow_cli_path: Path = REPOSITORY_ROOT / "scripts/research-workflow.mjs",
+    allowed_run_ids: frozenset[str] = REGISTERED_ANALYSIS_RUN_IDS,
 ) -> dict[str, Any]:
     """Bind an immutable historical run approval after complete graph replay."""
 
@@ -100,18 +140,20 @@ def analysis_admission(
     ):
         raise ContractError("analysis requires a validated historical run_review approval")
     artifacts = event.get("artifacts", [])
-    receipt_mentions_run = False
+    evidence_payloads: list[bytes] = []
     for artifact in artifacts:
         snapshot_path = artifact.get("snapshot_path")
         if isinstance(snapshot_path, str):
             payload = verified_ledger.snapshot_bytes.get(snapshot_path)
-            if payload is not None:
-                try:
-                    receipt_mentions_run = receipt_mentions_run or run_id in payload.decode("utf-8")
-                except UnicodeError as exc:
-                    raise ContractError("immutable run-review evidence is not UTF-8") from exc
-    if not receipt_mentions_run:
-        raise ContractError("immutable run-review evidence does not name the requested run ID")
+            if payload is None:
+                raise ContractError("immutable run-review approval artifact bytes are missing")
+            evidence_payloads.append(payload)
+    admitted_run_id = parse_admitted_run_evidence(
+        evidence_payloads,
+        allowed_run_ids=allowed_run_ids,
+    )
+    if admitted_run_id != run_id:
+        raise ContractError("immutable run-review admitted run differs from the requested run ID")
     return {
         "event_id": event_id,
         "sequence": event["sequence"],
@@ -488,6 +530,7 @@ def validate_analysis_result(
         graph_path=repository_root / "research/workflow.graph.v1.json",
         repository_root=repository_root,
         workflow_cli_path=repository_root / "scripts/research-workflow.mjs",
+        allowed_run_ids=(REGISTERED_ANALYSIS_RUN_IDS if enforce_frozen_inputs else frozenset({"toy-run"})),
     )
     if result["analysis_admission"] != expected_admission:
         raise ContractError("analysis admission does not match the replayed run-review approval")
@@ -584,14 +627,38 @@ def derive_integrity_flags(
     }
 
 
-def registered_analysis_spec(run_id: str, run_review_event: str, generated_at: str) -> tuple[np.ndarray, AnalysisSpec]:
-    run_dir = EXPERIMENT_DIR / "runs" / run_id
+def registered_analysis_spec(
+    run_id: str,
+    run_review_event: str,
+    generated_at: str,
+    *,
+    runs_dir: Path = EXPERIMENT_DIR / "runs",
+    repository_root: Path = REPOSITORY_ROOT,
+    workflow_path: Path = EXPERIMENT_DIR / "workflow.jsonl",
+    graph_path: Path = REPOSITORY_ROOT / "research/workflow.graph.v1.json",
+    workflow_cli_path: Path = REPOSITORY_ROOT / "scripts/research-workflow.mjs",
+    run_spec_builder: Callable[..., RunSpec] = build_spec,
+    inputs_loader: Callable[[], Mapping[str, Any]] = load_and_validate_inputs,
+    constants_loader: Callable[[], Mapping[str, Any]] = load_and_validate_constants,
+) -> tuple[np.ndarray, AnalysisSpec]:
+    """Load one registered run; injectable paths keep setup tests nonproduction."""
+
+    if run_id not in REGISTERED_ANALYSIS_RUN_IDS:
+        raise ContractError("analysis run ID is not registered")
+    run_dir = runs_dir / run_id
     manifest = load_json(run_dir / "run-manifest.json")
-    run_spec = build_spec(run_id, recorded_authorization=manifest.get("authorization"))
+    run_spec = run_spec_builder(run_id, recorded_authorization=manifest.get("authorization"))
     integrity = validate_run_bundle(run_dir, run_spec)
-    admission = analysis_admission(run_review_event, run_id)
-    inputs = load_and_validate_inputs()
-    constants = load_and_validate_constants()["constants"]
+    admission = analysis_admission(
+        run_review_event,
+        run_id,
+        workflow_path=workflow_path,
+        graph_path=graph_path,
+        repository_root=repository_root,
+        workflow_cli_path=workflow_cli_path,
+    )
+    inputs = inputs_loader()
+    constants = constants_loader()["constants"]
     grid = inputs["production"]["laboratory_grid"]
     integer_indices = np.arange(grid["index_start"], grid["index_stop_inclusive"] + 1, dtype=np.int64)
     paths = (integer_indices * grid["step_m"]).astype(np.float64)
@@ -603,13 +670,26 @@ def registered_analysis_spec(run_id: str, run_review_event: str, generated_at: s
         "units": dict(PRIMITIVE_UNITS),
     }
     sample = np.load(run_dir / RAW_NAME, allow_pickle=False)
+
+    def source_record(path: Path) -> dict[str, Any]:
+        try:
+            relative = path.resolve(strict=True).relative_to(repository_root.resolve(strict=True))
+        except (OSError, ValueError) as exc:
+            raise ContractError("analysis source artifact is outside the selected repository") from exc
+        return digest_record(path, public_path=relative.as_posix())
+
     source_run = {
         "run_id": run_id,
-        "manifest": digest_record(run_dir / "run-manifest.json"),
-        "sample": digest_record(run_dir / RAW_NAME),
-        "completion": digest_record(run_dir / "COMPLETE.json"),
+        "manifest": source_record(run_dir / "run-manifest.json"),
+        "sample": source_record(run_dir / RAW_NAME),
+        "completion": source_record(run_dir / "COMPLETE.json"),
     }
-    integrity_flags = derive_integrity_flags(integrity, source_run, admission)
+    integrity_flags = derive_integrity_flags(
+        integrity,
+        source_run,
+        admission,
+        repository_root=repository_root,
+    )
     checks = inputs["checks"]
     return sample, AnalysisSpec(
         paths_m=paths,
@@ -625,24 +705,33 @@ def registered_analysis_spec(run_id: str, run_review_event: str, generated_at: s
     )
 
 
-def main() -> int:
+def main(
+    argv: list[str] | None = None,
+    *,
+    output_path: Path = EXPERIMENT_DIR / "results/summary.json",
+    spec_loader: Callable[[str, str, str], tuple[np.ndarray, AnalysisSpec]] = registered_analysis_spec,
+    result_builder: Callable[[np.ndarray, AnalysisSpec], dict[str, Any]] = build_analysis_result,
+    result_writer: Callable[..., None] = write_or_check_result,
+    existing_loader: Callable[[Path], Any] = load_json,
+    now: Callable[[], str] = utc_now,
+    environment_setter: Callable[[], None] = set_deterministic_process_environment,
+) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--run-review-event", required=True)
     parser.add_argument("--check", action="store_true")
-    args = parser.parse_args()
-    set_deterministic_process_environment()
-    output = EXPERIMENT_DIR / "results/summary.json"
+    args = parser.parse_args(argv)
+    environment_setter()
     if args.check:
-        existing = load_json(output)
+        existing = existing_loader(output_path)
         generated_at = existing.get("generated_at")
         if not isinstance(generated_at, str):
             raise ContractError("canonical result lacks its frozen generation timestamp")
     else:
-        generated_at = utc_now()
-    sample, spec = registered_analysis_spec(args.run_id, args.run_review_event, generated_at)
-    result = build_analysis_result(sample, spec)
-    write_or_check_result(output, result, check=args.check)
+        generated_at = now()
+    sample, spec = spec_loader(args.run_id, args.run_review_event, generated_at)
+    result = result_builder(sample, spec)
+    result_writer(output_path, result, check=args.check)
     return 0
 
 

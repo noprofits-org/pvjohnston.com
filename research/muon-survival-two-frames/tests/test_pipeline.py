@@ -11,6 +11,7 @@ import threading
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import Any, Mapping
 from unittest import mock
 
 import numpy as np
@@ -25,7 +26,10 @@ import reconstruct  # noqa: E402
 from analyze import (  # noqa: E402
     AnalysisSpec,
     analysis_admission,
+    main as analyze_main,
     build_analysis_result,
+    parse_admitted_run_evidence,
+    registered_analysis_spec,
     validate_analysis_result,
     write_or_check_result,
 )
@@ -94,6 +98,7 @@ class PipelineContractTests(unittest.TestCase):
             graph_path=graph,
             repository_root=repository_root,
             workflow_cli_path=workflow_cli,
+            allowed_run_ids=frozenset({"toy-run"}),
         )
 
         run_dir = create_new_run_directory(repository_root / "setup-toy", "toy-run")
@@ -138,7 +143,12 @@ class PipelineContractTests(unittest.TestCase):
     def synthetic_sample() -> np.ndarray:
         return np.linspace(0.0, 3.0, 16, dtype=np.float64)
 
-    def toy_spec(self) -> RunSpec:
+    def toy_spec(
+        self,
+        run_id: str = "toy-run",
+        path_prefix: str = "setup-toy/toy-run",
+        scale_s: float = 1e-6,
+    ) -> RunSpec:
         lineage = {
             name: {"path": f"setup-toy/{name}", "sha256": "0" * 64}
             for name in (
@@ -149,11 +159,11 @@ class PipelineContractTests(unittest.TestCase):
         return RunSpec(
             experiment="muon-survival-two-frames",
             purpose="setup-toy",
-            run_id="toy-run",
+            run_id=run_id,
             command="setup-only toy runner",
             seed=0,
             draw_count=16,
-            scale_s=1e-6,
+            scale_s=scale_s,
             lineage=lineage,
             authorization={
                 "kind": "setup-toy",
@@ -172,8 +182,169 @@ class PipelineContractTests(unittest.TestCase):
                 "numpy_version": "setup-toy", "matplotlib_version": "setup-toy",
                 "pip_version": "setup-toy", "node_version": "setup-toy",
             },
-            path_prefix="setup-toy/toy-run",
+            path_prefix=path_prefix,
         )
+
+    def test_admitted_run_marker_requires_one_exact_structured_field(self) -> None:
+        valid = (
+            b"Both run-001 and run-002 are discussed incidentally.\n"
+            b"- **Admitted run:** `run-001`\n"
+        )
+        self.assertEqual(parse_admitted_run_evidence([valid]), "run-001")
+
+        invalid = {
+            "missing": [b"Incidental run-001 and run-002 only.\n"],
+            "duplicate": [
+                b"- **Admitted run:** `run-001`\n",
+                b"- **Admitted run:** `run-001`\n",
+            ],
+            "conflicting_artifacts": [
+                b"- **Admitted run:** `run-001`\n",
+                b"- **Admitted run:** `run-002`\n",
+            ],
+            "malformed": [b"- **Admitted run:** run-001\n"],
+            "both_ids_in_one_field": [
+                b"- **Admitted run:** `run-001` and `run-002`\n",
+            ],
+            "both_ids_as_fields": [
+                b"- **Admitted run:** `run-001`\n- **Admitted run:** `run-002`\n",
+            ],
+            "unregistered": [b"- **Admitted run:** `run-003`\n"],
+            "leading_space": [b" - **Admitted run:** `run-001`\n"],
+            "trailing_text": [b"- **Admitted run:** `run-001` approved\n"],
+        }
+        for name, payloads in invalid.items():
+            with self.subTest(case=name), self.assertRaises(ContractError):
+                parse_admitted_run_evidence(payloads)
+
+    def test_registered_analysis_entrypoint_uses_real_integrity_plumbing_for_both_runs(self) -> None:
+        cases = (("run-001", False, False), ("run-002", True, True))
+        for run_id, register_retry, check_mode in cases:
+            with self.subTest(run_id=run_id), tempfile.TemporaryDirectory(
+                prefix="muon-setup-nonproduction-"
+            ) as temporary:
+                fixture = WorkflowFixture(Path(temporary), EXPERIMENT_DIR)
+                repository_root = fixture.repository_root
+                graph = repository_root / "research/workflow.graph.v1.json"
+                graph.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(WORKFLOW_GRAPH_PATH, graph)
+                workflow_cli = repository_root / "scripts/research-workflow.mjs"
+                workflow_cli.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(WORKFLOW_CLI_PATH, workflow_cli)
+
+                fixture.approve_setup()
+                if register_retry:
+                    fixture.register_retry()
+                approval = fixture.approve_run(run_id)
+                other_run_id = "run-002" if run_id == "run-001" else "run-001"
+                with self.assertRaisesRegex(ContractError, "differs from the requested"):
+                    analysis_admission(
+                        approval["event_id"],
+                        other_run_id,
+                        workflow_path=fixture.workflow_path,
+                        graph_path=graph,
+                        repository_root=repository_root,
+                        workflow_cli_path=workflow_cli,
+                    )
+
+                runs_dir = repository_root / "setup-toy-analysis-runs"
+                run_dir = create_new_run_directory(runs_dir, run_id)
+                path_prefix = run_dir.relative_to(repository_root).as_posix()
+                run_spec = self.toy_spec(run_id=run_id, path_prefix=path_prefix, scale_s=1.0)
+                sample = self.synthetic_sample()
+                execute_and_seal(
+                    run_dir,
+                    run_spec,
+                    started_at="2000-01-01T00:00:00Z",
+                    completed_at="2000-01-01T00:00:01Z",
+                    draw=lambda _spec: sample,
+                )
+                toy_inputs = {
+                    "production": {
+                        "momentum_mev_c": 1.0,
+                        "laboratory_grid": {
+                            "index_start": 0,
+                            "index_stop_inclusive": 2,
+                            "step_m": float(np.log(2.0)),
+                        },
+                        "focal_index": 1,
+                    },
+                    "checks": {
+                        "frame_relative_tolerance": 1e-12,
+                        "focal_monte_carlo_standard_error_multiplier": 4.0,
+                        "maximum_grid_absolute_discrepancy": 0.5,
+                    },
+                }
+                toy_constants = {
+                    "constants": {
+                        "muon_mass_energy_mev": {"value": 1.0},
+                        "muon_proper_mean_lifetime_s": {"value": 1.0},
+                        "speed_of_light_m_s": {"value": 1.0},
+                    },
+                }
+                builder_calls: list[tuple[str, Mapping[str, Any] | None]] = []
+
+                def run_spec_builder(selected_run_id: str, *, recorded_authorization=None):
+                    builder_calls.append((selected_run_id, recorded_authorization))
+                    return run_spec
+
+                def spec_loader(selected_run_id: str, event_id: str, generated_at: str):
+                    return registered_analysis_spec(
+                        selected_run_id,
+                        event_id,
+                        generated_at,
+                        runs_dir=runs_dir,
+                        repository_root=repository_root,
+                        workflow_path=fixture.workflow_path,
+                        graph_path=graph,
+                        workflow_cli_path=workflow_cli,
+                        run_spec_builder=run_spec_builder,
+                        inputs_loader=lambda: toy_inputs,
+                        constants_loader=lambda: toy_constants,
+                    )
+
+                output = repository_root / f"setup-toy-analysis-{run_id}.json"
+                generated_at = "2000-01-01T00:00:09Z"
+                if check_mode:
+                    output.write_text(json.dumps({"generated_at": generated_at}) + "\n", encoding="utf-8")
+                writer_calls: list[tuple[Path, dict, bool]] = []
+
+                def result_writer(path: Path, result: dict, *, check: bool) -> None:
+                    writer_calls.append((path, result, check))
+
+                arguments = ["--run-id", run_id, "--run-review-event", approval["event_id"]]
+                if check_mode:
+                    arguments.append("--check")
+                self.assertEqual(analyze_main(
+                    arguments,
+                    output_path=output,
+                    spec_loader=spec_loader,
+                    result_writer=result_writer,
+                    now=lambda: generated_at,
+                    environment_setter=lambda: None,
+                ), 0)
+                self.assertEqual(builder_calls, [(run_id, run_spec.authorization)])
+                self.assertEqual(len(writer_calls), 1)
+                written_path, result, observed_check = writer_calls[0]
+                self.assertEqual(written_path, output)
+                self.assertEqual(observed_check, check_mode)
+                self.assertEqual(result["source_run"]["run_id"], run_id)
+                self.assertTrue(all(result["checks"][name] for name in (
+                    "frame_agreement",
+                    "focal_monte_carlo_within_four_standard_errors",
+                    "maximum_grid_discrepancy_at_most_threshold",
+                    "counts_valid_and_monotonic",
+                    "numeric_shapes_dtypes_units_valid",
+                    "schema_manifest_provenance_and_hashes_valid",
+                    "all_passed",
+                )))
+                expected_command = (
+                    "research/muon-survival-two-frames/.venv/bin/python "
+                    "research/muon-survival-two-frames/src/analyze.py "
+                    f"--run-id {run_id} --run-review-event <approved-event-id>"
+                    + (" --check" if check_mode else "")
+                )
+                self.assertEqual(contract.analysis_command(run_id, check=check_mode), expected_command)
 
     def test_only_graph_authorized_normal_and_retry_run_ids_are_accepted(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:

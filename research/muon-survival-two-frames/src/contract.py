@@ -38,8 +38,9 @@ EXPECTED_NODE = "24.18.0"
 EXPECTED_WORKFLOW_GRAPH_SHA256 = "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404"
 EXPECTED_WORKFLOW_CLI_SHA256 = "f8b931150fe5c31f574fa6303cd1d9b629ad02b0e05233025288e30275515f2c"
 ADMITTED_RUN_SELECTION_RULE = (
-    "Use exactly the run ID named by the immutable run_review approve event; "
-    "--run-review-event must name that same approval."
+    "Require exactly one column-zero immutable run_review approval-artifact line "
+    "matching - **Admitted run:** `run-001` or - **Admitted run:** `run-002`; "
+    "--run-id and --run-review-event must select that same marker and approval."
 )
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 RUN_ID_RE = re.compile(r"^run-[0-9]{3}$")

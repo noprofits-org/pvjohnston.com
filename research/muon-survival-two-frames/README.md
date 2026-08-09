@@ -106,6 +106,18 @@ The approval remains valid for byte checking after later valid events such as
 submission to `analysis_review`; admission never depends on the approval
 remaining the ledger's final line.
 
+The independent run-review approval artifact set must contain exactly one
+column-zero marker using this literal syntax (with the applicable ID):
+
+```text
+- **Admitted run:** `run-001`
+```
+
+For a registered retry, replace only the value with `run-002`. A missing,
+duplicated, conflicting, malformed, or unregistered marker is rejected.
+Incidental prose may discuss either or both registered IDs but does not admit
+one; only the sole exact marker binds the immutable event to the command pair.
+
 ```sh
 # Admitted normal run-001: write, then exact check.
 research/muon-survival-two-frames/.venv/bin/python \

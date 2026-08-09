@@ -72,7 +72,7 @@
     "canonical_result_path": "research/muon-survival-two-frames/results/summary.json",
     "canonical_result_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-001 --run-review-event <approved-event-id>",
     "canonical_result_check_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-001 --run-review-event <approved-event-id> --check",
-    "admitted_run_selection": "Use exactly the run ID named by the immutable run_review approve event; --run-review-event must name that same approval.",
+    "admitted_run_selection": "Require exactly one column-zero immutable run_review approval-artifact line matching - **Admitted run:** `run-001` or - **Admitted run:** `run-002`; --run-id and --run-review-event must select that same marker and approval.",
     "result_commands_by_admitted_run": {
       "run-001": {
         "write": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-001 --run-review-event <approved-event-id>",
