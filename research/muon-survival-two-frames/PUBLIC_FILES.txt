@@ -1,0 +1,33 @@
+# One repository-relative path per line. This is the reviewed reader-facing
+# routing allowlist for the completed Understanding bundle. External PDG PDFs,
+# the sealed raw sample, logs, workflow receipts, caches, the virtual
+# environment, and the normally routed post image are excluded.
+LICENSE
+research/metrics.schema.json
+research/muon-survival-two-frames/README.md
+research/muon-survival-two-frames/PREREGISTRATION-v1.md
+research/muon-survival-two-frames/environment.md
+research/muon-survival-two-frames/environment.json
+research/muon-survival-two-frames/requirements.lock.txt
+research/muon-survival-two-frames/constants.json
+research/muon-survival-two-frames/sources.json
+research/muon-survival-two-frames/inputs.json
+research/muon-survival-two-frames/setup-manifest.json
+research/muon-survival-two-frames/schemas/analysis-result.schema.json
+research/muon-survival-two-frames/schemas/completion.schema.json
+research/muon-survival-two-frames/schemas/run-manifest.schema.json
+research/muon-survival-two-frames/schemas/constants.schema.json
+research/muon-survival-two-frames/schemas/inputs.schema.json
+research/muon-survival-two-frames/schemas/sources.schema.json
+research/muon-survival-two-frames/src/analyze.py
+research/muon-survival-two-frames/src/bundle.py
+research/muon-survival-two-frames/src/contract.py
+research/muon-survival-two-frames/src/reconstruct.py
+research/muon-survival-two-frames/src/render_figure.py
+research/muon-survival-two-frames/src/run.py
+research/muon-survival-two-frames/src/validate_run.py
+research/muon-survival-two-frames/src/validate_result.py
+research/muon-survival-two-frames/src/verify_setup.py
+research/muon-survival-two-frames/results/summary.json
+research/muon-survival-two-frames/metrics.json
+research/muon-survival-two-frames/generate-metrics.mjs

@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "experiment": "muon-survival-two-frames",
+  "provenance": {
+    "generated_at": "2026-08-09T08:54:19Z",
+    "generator": "research/muon-survival-two-frames/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/muon-survival-two-frames/results/summary.json",
+        "sha256": "26d979a9ceebf573f9c23e8522bfd5ad173b6f537bb2ae44066dd416a5f690b0"
+      }
+    ]
+  },
+  "metrics": {
+    "detector_beta": {
+      "type": "number",
+      "value": 0.9993803712573206,
+      "format": {
+        "style": "fixed",
+        "digits": 8
+      },
+      "description": "Detector-frame beta",
+      "unit": "1"
+    },
+    "detector_gamma": {
+      "type": "number",
+      "value": 28.410999360495726,
+      "format": {
+        "style": "fixed",
+        "digits": 8
+      },
+      "description": "Detector-frame gamma",
+      "unit": "1"
+    },
+    "muon_beta": {
+      "type": "number",
+      "value": 0.9993803712573205,
+      "format": {
+        "style": "fixed",
+        "digits": 8
+      },
+      "description": "Independently reconstructed muon-frame beta",
+      "unit": "1"
+    },
+    "muon_gamma": {
+      "type": "number",
+      "value": 28.410999360495726,
+      "format": {
+        "style": "fixed",
+        "digits": 8
+      },
+      "description": "Independently reconstructed muon-frame gamma",
+      "unit": "1"
+    },
+    "detector_distance_m": {
+      "type": "number",
+      "value": 15000,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Detector-frame laboratory distance at the focal index",
+      "unit": "m"
+    },
+    "detector_elapsed_time_s": {
+      "type": "number",
+      "value": 0.00005006563638704876,
+      "format": {
+        "style": "scientific",
+        "digits": 6
+      },
+      "description": "Detector-frame laboratory travel time at the focal index",
+      "unit": "s"
+    },
+    "detector_mean_lifetime_s": {
+      "type": "number",
+      "value": 0.0000624184286271212,
+      "format": {
+        "style": "scientific",
+        "digits": 6
+      },
+      "description": "Dilated mean lifetime in the detector frame",
+      "unit": "s"
+    },
+    "detector_decay_exponent": {
+      "type": "number",
+      "value": 0.8020970326909981,
+      "format": {
+        "style": "fixed",
+        "digits": 8
+      },
+      "description": "Detector-frame dimensionless decay exponent",
+      "unit": "1"
+    },
+    "muon_contracted_distance_m": {
+      "type": "number",
+      "value": 527.964532668177,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Contracted path in the muon frame at the focal index",
+      "unit": "m"
+    },
+    "muon_elapsed_time_s": {
+      "type": "number",
+      "value": 0.000001762192021188205,
+      "format": {
+        "style": "scientific",
+        "digits": 6
+      },
+      "description": "Proper elapsed time in the muon frame",
+      "unit": "s"
+    },
+    "muon_mean_lifetime_s": {
+      "type": "number",
+      "value": 0.0000021969811,
+      "format": {
+        "style": "scientific",
+        "digits": 6
+      },
+      "description": "Proper mean lifetime in the muon frame",
+      "unit": "s"
+    },
+    "muon_decay_exponent": {
+      "type": "number",
+      "value": 0.8020970326909982,
+      "format": {
+        "style": "fixed",
+        "digits": 8
+      },
+      "description": "Muon-frame dimensionless decay exponent",
+      "unit": "1"
+    },
+    "analytic_survival": {
+      "type": "number",
+      "value": 0.4483876938726324,
+      "format": {
+        "style": "percent",
+        "digits": 3
+      },
+      "description": "Analytic survival probability at the focal index",
+      "unit": "ratio"
+    },
+    "empirical_survival": {
+      "type": "number",
+      "value": 0.44859,
+      "format": {
+        "style": "percent",
+        "digits": 3
+      },
+      "description": "Empirical survival from the registered sample at the focal index",
+      "unit": "ratio"
+    },
+    "counterfactual_survival": {
+      "type": "number",
+      "value": 1.268040311737765e-10,
+      "format": {
+        "style": "percent",
+        "digits": 3
+      },
+      "description": "Same-speed no-lifetime-dilation counterfactual survival",
+      "unit": "ratio"
+    },
+    "survivor_count": {
+      "type": "integer",
+      "value": 44859,
+      "description": "Registered-sample survivors at the focal index",
+      "unit": "muons"
+    },
+    "focal_binomial_standard_error": {
+      "type": "number",
+      "value": 0.0015726924996839495,
+      "format": {
+        "style": "scientific",
+        "digits": 6
+      },
+      "description": "Prospective analytic-probability binomial standard error",
+      "unit": "ratio"
+    },
+    "focal_standardized_discrepancy": {
+      "type": "number",
+      "value": 0.1286367979806972,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Focal absolute discrepancy in prospective standard-error units",
+      "unit": "1"
+    },
+    "maximum_grid_absolute_discrepancy": {
+      "type": "number",
+      "value": 0.0018888456407246679,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Maximum empirical-versus-analytic discrepancy over the frozen grid",
+      "unit": "ratio"
+    },
+    "pass_frame_agreement": {
+      "type": "boolean",
+      "value": true,
+      "description": "Registered fidelity check: frame_agreement"
+    },
+    "pass_focal_monte_carlo_within_four_standard_errors": {
+      "type": "boolean",
+      "value": true,
+      "description": "Registered fidelity check: focal_monte_carlo_within_four_standard_errors"
+    },
+    "pass_maximum_grid_discrepancy_at_most_threshold": {
+      "type": "boolean",
+      "value": true,
+      "description": "Registered fidelity check: maximum_grid_discrepancy_at_most_threshold"
+    },
+    "pass_counts_valid_and_monotonic": {
+      "type": "boolean",
+      "value": true,
+      "description": "Registered fidelity check: counts_valid_and_monotonic"
+    },
+    "pass_numeric_shapes_dtypes_units_valid": {
+      "type": "boolean",
+      "value": true,
+      "description": "Registered fidelity check: numeric_shapes_dtypes_units_valid"
+    },
+    "pass_schema_manifest_provenance_and_hashes_valid": {
+      "type": "boolean",
+      "value": true,
+      "description": "Registered fidelity check: schema_manifest_provenance_and_hashes_valid"
+    },
+    "all_registered_checks_pass": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether every registered fidelity check passed"
+    }
+  }
+}
