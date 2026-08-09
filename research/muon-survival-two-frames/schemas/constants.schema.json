@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pvjohnston.com/research/muon-survival-two-frames/schemas/constants.schema.json",
+  "title": "Muon demonstration constants",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "constants", "uncertainty_policy"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "constants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["speed_of_light_m_s", "muon_mass_energy_mev", "muon_proper_mean_lifetime_s"],
+      "properties": {
+        "speed_of_light_m_s": {
+          "type": "object",
+          "required": ["value", "unit", "status"],
+          "properties": {
+            "value": {"const": 299792458},
+            "unit": {"const": "m/s"},
+            "status": {"type": "string"}
+          }
+        },
+        "muon_mass_energy_mev": {
+          "type": "object",
+          "required": ["value", "unit", "source_id"],
+          "properties": {
+            "value": {"const": 105.6583755},
+            "unit": {"const": "MeV"},
+            "source_id": {"const": "pdg-2024-muon-listing"}
+          }
+        },
+        "muon_proper_mean_lifetime_s": {
+          "type": "object",
+          "required": ["value", "unit", "source_id"],
+          "properties": {
+            "value": {"const": 2.1969811e-06},
+            "unit": {"const": "s"},
+            "source_id": {"const": "pdg-2024-muon-listing"}
+          }
+        }
+      }
+    },
+    "uncertainty_policy": {"type": "string", "minLength": 1}
+  }
+}

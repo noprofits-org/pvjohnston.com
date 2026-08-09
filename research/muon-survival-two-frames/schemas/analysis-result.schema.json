@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pvjohnston.com/research/muon-survival-two-frames/schemas/analysis-result.schema.json",
+  "title": "Canonical two-frame Understanding result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment", "post_type", "outcome_kind", "source_run", "primitive_inputs", "grid_m", "detector_frame", "muon_frame", "same_speed_no_lifetime_dilation_counterfactual", "empirical", "focal", "checks"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "experiment": {"const": "muon-survival-two-frames"},
+    "post_type": {"const": "understanding"},
+    "outcome_kind": {"const": "understanding-observations-no-verdict"},
+    "source_run": {"type": "object", "required": ["run_id", "manifest_sha256", "sample_sha256"]},
+    "primitive_inputs": {"type": "object"},
+    "grid_m": {"type": "array", "items": {"type": "number"}},
+    "detector_frame": {"$ref": "#/$defs/frame"},
+    "muon_frame": {"$ref": "#/$defs/frame"},
+    "same_speed_no_lifetime_dilation_counterfactual": {"type": "object"},
+    "empirical": {"type": "object", "required": ["counts", "survival_probability", "inclusive_comparison"]},
+    "focal": {"type": "object"},
+    "checks": {"type": "object", "required": ["all_passed"]}
+  },
+  "$defs": {
+    "frame": {
+      "type": "object",
+      "required": ["beta", "gamma", "elapsed_time_s", "decay_exponent", "survival_probability"]
+    }
+  }
+}

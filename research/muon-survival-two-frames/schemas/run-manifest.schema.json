@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pvjohnston.com/research/muon-survival-two-frames/schemas/run-manifest.schema.json",
+  "title": "Sealed proper-lifetime run manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment", "purpose", "run_id", "status", "started_at", "completed_at", "command", "lineage", "platform", "rng", "sample", "artifacts"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "experiment": {"const": "muon-survival-two-frames"},
+    "purpose": {"enum": ["canonical-production", "setup-toy"]},
+    "run_id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "status": {"const": "complete"},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "command": {"type": "string", "minLength": 1},
+    "lineage": {
+      "type": "object",
+      "required": ["protocol", "setup_manifest", "inputs", "constants", "sources", "environment", "requirements"]
+    },
+    "platform": {
+      "type": "object",
+      "required": ["os", "release", "architecture", "python_implementation", "python_version", "numpy_version", "matplotlib_version", "pip_version", "node_version"]
+    },
+    "rng": {
+      "type": "object",
+      "required": ["library", "bit_generator", "seed", "draw_count", "operation", "dtype", "draw_order"]
+    },
+    "sample": {
+      "type": "object",
+      "required": ["path", "bytes", "sha256", "shape", "dtype", "unit", "finite", "nonnegative"]
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["path", "bytes", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

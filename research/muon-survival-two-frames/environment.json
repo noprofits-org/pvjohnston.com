@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "platform_contract": {
+    "operating_system": "Linux",
+    "architecture": "x86_64",
+    "python_implementation": "CPython",
+    "python_version": "3.12.3",
+    "wheel_platform": "manylinux-compatible Linux x86_64",
+    "numeric_dtype": "IEEE-754 binary64"
+  },
+  "locked_tools": {
+    "pip": "26.2.1",
+    "numpy": "2.5.1",
+    "matplotlib": "3.11.1",
+    "node": "24.18.0"
+  },
+  "setup_host": {
+    "distribution": "Ubuntu 24.04.4 LTS",
+    "kernel": "7.0.0-28-generic",
+    "architecture": "x86_64",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz",
+    "logical_cpus": 8
+  },
+  "serialization": {
+    "locale": "C",
+    "timezone": "UTC",
+    "json": "UTF-8, sorted keys, two-space indentation, LF final newline, allow_nan=false",
+    "array": "NumPy .npy v1-compatible serialization from numpy.save with allow_pickle=false"
+  },
+  "randomness": {
+    "production_owner": "numpy.random.Generator with numpy.random.PCG64",
+    "nondeterministic_operations": "none registered"
+  },
+  "services": {
+    "network_during_execution": false,
+    "gpu": false,
+    "paid_services": false,
+    "required_environment_variables": []
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "pdg-2024-muon-listing",
+      "name": "Particle Data Group 2024 muon listing",
+      "role": "physical-constant source",
+      "url": "https://pdg.lbl.gov/2024/listings/rpp2024-list-muon.pdf",
+      "version": "Review of Particle Physics 2024 listing",
+      "accessed": "2026-08-08",
+      "bytes": 135593,
+      "sha256": "a3653f756a670b41a215b4a9746e6b5d872fe798a478e233acfc0bc1715eeb03",
+      "license": "Particle Data Group publication; no redistribution license is asserted here.",
+      "acquisition": "Download the URL with HTTPS, verify the byte count and SHA-256 above, and transcribe only the reviewed central values in constants.json.",
+      "committed": false,
+      "exclusion_reason": "The PDF is external source evidence, not a runtime input, and is not redistributed in this bundle.",
+      "registered_values": {
+        "muon_mass_energy_mev": {
+          "value": 105.6583755,
+          "reported_uncertainty": 0.0000023,
+          "unit": "MeV"
+        },
+        "muon_proper_mean_lifetime_microseconds": {
+          "value": 2.1969811,
+          "reported_uncertainty": 0.0000022,
+          "unit": "microsecond"
+        }
+      }
+    },
+    {
+      "id": "pdg-2024-cosmic-ray-review",
+      "name": "Particle Data Group 2024 cosmic-ray review",
+      "role": "bounded context only; not a computational input",
+      "url": "https://pdg.lbl.gov/2024/reviews/rpp2024-rev-cosmic-rays.pdf",
+      "version": "Review of Particle Physics 2024 review",
+      "accessed": "2026-08-08",
+      "bytes": 2588758,
+      "sha256": "c8f0620d58d3d61a7b0eae5d2606ce65bbe581a9000c5435299d88ca9ea0125e",
+      "license": "Particle Data Group publication; no redistribution license is asserted here.",
+      "acquisition": "Download the URL with HTTPS and verify the byte count and SHA-256 above; do not feed the PDF or its atmospheric quantities into the computation.",
+      "committed": false,
+      "exclusion_reason": "Context-only literature source; the PDF is not redistributed and supplies no numerical runtime input."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pvjohnston.com/research/muon-survival-two-frames/schemas/inputs.schema.json",
+  "title": "Frozen production inputs",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment", "post_type", "lineage", "production", "checks", "restart"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "experiment": {"const": "muon-survival-two-frames"},
+    "post_type": {"const": "understanding"},
+    "lineage": {"type": "object", "required": ["protocol", "constants", "sources", "environment", "requirements"]},
+    "production": {
+      "type": "object",
+      "required": ["normal_run_id", "canonical_command", "momentum_mev_c", "laboratory_grid", "focal_index", "rng", "raw_output"],
+      "properties": {
+        "normal_run_id": {"const": "run-001"},
+        "canonical_command": {"const": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/run.py --run-id run-001"},
+        "momentum_mev_c": {"const": 3000.0},
+        "laboratory_grid": {
+          "type": "object",
+          "properties": {
+            "index_start": {"const": 0},
+            "index_stop_inclusive": {"const": 200},
+            "step_m": {"const": 100}
+          },
+          "required": ["index_start", "index_stop_inclusive", "step_m"]
+        },
+        "focal_index": {"const": 150},
+        "rng": {
+          "type": "object",
+          "properties": {
+            "library": {"const": "numpy"},
+            "bit_generator": {"const": "PCG64"},
+            "seed": {"const": 20260808},
+            "draw_count": {"const": 100000},
+            "dtype": {"const": "float64"}
+          },
+          "required": ["library", "bit_generator", "seed", "draw_count", "dtype"]
+        },
+        "raw_output": {"type": "object", "required": ["path_template", "shape", "dtype", "unit"]}
+      }
+    },
+    "checks": {"type": "object"},
+    "restart": {"type": "object"}
+  }
+}

@@ -1,0 +1,278 @@
+"""Independent frame reconstructions and frozen Understanding checks.
+
+This module has no command-line entry point. Setup tests use only visibly toy
+inputs. The analyst later calls these functions on an admitted sealed sample.
+"""
+
+from __future__ import annotations
+
+from typing import Any, Mapping
+
+import numpy as np
+
+from contract import ContractError
+
+
+def _validated_paths(paths_m: np.ndarray) -> np.ndarray:
+    paths = np.asarray(paths_m, dtype=np.float64)
+    if paths.ndim != 1 or paths.size == 0:
+        raise ContractError("path grid must be a nonempty one-dimensional array")
+    if not bool(np.all(np.isfinite(paths))) or bool(np.any(paths < 0.0)):
+        raise ContractError("path grid must contain finite nonnegative distances")
+    if bool(np.any(np.diff(paths) < 0.0)):
+        raise ContractError("path grid must be monotonically nondecreasing")
+    return paths
+
+
+def _positive_primitives(momentum_mev_c: float, mass_energy_mev: float, tau0_s: float, c_m_s: float) -> None:
+    values = np.asarray([momentum_mev_c, mass_energy_mev, tau0_s, c_m_s], dtype=np.float64)
+    if not bool(np.all(np.isfinite(values))) or bool(np.any(values <= 0.0)):
+        raise ContractError("frame primitives must be finite and positive")
+
+
+def detector_frame(
+    paths_m: np.ndarray,
+    *,
+    momentum_mev_c: float,
+    mass_energy_mev: float,
+    tau0_s: float,
+    c_m_s: float,
+) -> dict[str, Any]:
+    """Detector route: laboratory time divided by the dilated mean lifetime."""
+
+    paths = _validated_paths(paths_m)
+    _positive_primitives(momentum_mev_c, mass_energy_mev, tau0_s, c_m_s)
+    energy_mev = np.sqrt(momentum_mev_c * momentum_mev_c + mass_energy_mev * mass_energy_mev)
+    gamma = energy_mev / mass_energy_mev
+    beta = momentum_mev_c / energy_mev
+    laboratory_time_s = paths / (beta * c_m_s)
+    dilated_lifetime_s = gamma * tau0_s
+    exponent = laboratory_time_s / dilated_lifetime_s
+    survival = np.exp(-exponent)
+    return {
+        "beta": float(beta),
+        "gamma": float(gamma),
+        "laboratory_distance_m": paths,
+        "elapsed_time_s": laboratory_time_s,
+        "mean_lifetime_s": float(dilated_lifetime_s),
+        "decay_exponent": exponent,
+        "survival_probability": survival,
+    }
+
+
+def muon_frame(
+    paths_m: np.ndarray,
+    *,
+    momentum_mev_c: float,
+    mass_energy_mev: float,
+    tau0_s: float,
+    c_m_s: float,
+) -> dict[str, Any]:
+    """Muon route, independently deriving kinematics and contracted distance."""
+
+    paths = _validated_paths(paths_m)
+    _positive_primitives(momentum_mev_c, mass_energy_mev, tau0_s, c_m_s)
+    momentum_to_mass_ratio = momentum_mev_c / mass_energy_mev
+    gamma = np.sqrt(1.0 + momentum_to_mass_ratio * momentum_to_mass_ratio)
+    beta = np.sqrt(1.0 - 1.0 / (gamma * gamma))
+    contracted_distance_m = paths / gamma
+    proper_elapsed_time_s = contracted_distance_m / (beta * c_m_s)
+    exponent = proper_elapsed_time_s / tau0_s
+    survival = np.exp(-exponent)
+    return {
+        "beta": float(beta),
+        "gamma": float(gamma),
+        "contracted_distance_m": contracted_distance_m,
+        "elapsed_time_s": proper_elapsed_time_s,
+        "mean_lifetime_s": float(tau0_s),
+        "decay_exponent": exponent,
+        "survival_probability": survival,
+    }
+
+
+def same_speed_no_lifetime_dilation_counterfactual(
+    paths_m: np.ndarray,
+    *,
+    detector_beta: float,
+    tau0_s: float,
+    c_m_s: float,
+) -> dict[str, Any]:
+    paths = _validated_paths(paths_m)
+    values = np.asarray([detector_beta, tau0_s, c_m_s], dtype=np.float64)
+    if not bool(np.all(np.isfinite(values))) or not 0.0 < detector_beta < 1.0 or tau0_s <= 0.0 or c_m_s <= 0.0:
+        raise ContractError("counterfactual primitives are invalid")
+    laboratory_time_s = paths / (detector_beta * c_m_s)
+    exponent = laboratory_time_s / tau0_s
+    return {
+        "label": "same-speed, no-lifetime-dilation counterfactual",
+        "laboratory_distance_m": paths,
+        "elapsed_time_s": laboratory_time_s,
+        "decay_exponent": exponent,
+        "survival_probability": np.exp(-exponent),
+    }
+
+
+def empirical_survival(proper_lifetimes_s: np.ndarray, proper_time_thresholds_s: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    lifetimes = np.asarray(proper_lifetimes_s)
+    thresholds = np.asarray(proper_time_thresholds_s, dtype=np.float64)
+    if lifetimes.ndim != 1 or lifetimes.dtype != np.dtype("float64") or lifetimes.size == 0:
+        raise ContractError("proper lifetimes must be a nonempty one-dimensional float64 array")
+    if thresholds.ndim != 1 or thresholds.size == 0:
+        raise ContractError("proper-time thresholds must be one-dimensional and nonempty")
+    if not bool(np.all(np.isfinite(lifetimes))) or bool(np.any(lifetimes < 0.0)):
+        raise ContractError("proper lifetimes contain an invalid value")
+    if not bool(np.all(np.isfinite(thresholds))) or bool(np.any(thresholds < 0.0)) or bool(np.any(np.diff(thresholds) < 0.0)):
+        raise ContractError("proper-time thresholds are invalid or unordered")
+    counts = np.asarray([np.count_nonzero(lifetimes >= threshold) for threshold in thresholds], dtype=np.int64)
+    return counts, counts.astype(np.float64) / lifetimes.size
+
+
+def _relative_error(left: np.ndarray | float, right: np.ndarray | float) -> np.ndarray:
+    left_array = np.asarray(left, dtype=np.float64)
+    right_array = np.asarray(right, dtype=np.float64)
+    denominator = np.maximum(np.abs(left_array), np.abs(right_array))
+    return np.divide(
+        np.abs(left_array - right_array),
+        denominator,
+        out=np.where(np.abs(left_array - right_array) == 0.0, 0.0, np.inf),
+        where=denominator != 0.0,
+    )
+
+
+def evaluate_checks(
+    detector: Mapping[str, Any],
+    muon: Mapping[str, Any],
+    counts: np.ndarray,
+    empirical_probability: np.ndarray,
+    proper_lifetimes_s: np.ndarray,
+    *,
+    focal_index: int,
+    expected_grid_size: int,
+    expected_draw_count: int,
+    frame_relative_tolerance: float,
+    standard_error_multiplier: float,
+    maximum_grid_discrepancy: float,
+    integrity_flags: Mapping[str, bool],
+) -> dict[str, Any]:
+    """Evaluate the frozen branches; tests inject only tiny synthetic dimensions."""
+
+    detector_probability = np.asarray(detector["survival_probability"], dtype=np.float64)
+    muon_probability = np.asarray(muon["survival_probability"], dtype=np.float64)
+    detector_exponent = np.asarray(detector["decay_exponent"], dtype=np.float64)
+    muon_exponent = np.asarray(muon["decay_exponent"], dtype=np.float64)
+    counts_array = np.asarray(counts)
+    empirical_array = np.asarray(empirical_probability, dtype=np.float64)
+    lifetimes = np.asarray(proper_lifetimes_s)
+    shapes_ok = all(
+        array.shape == (expected_grid_size,)
+        for array in (detector_probability, muon_probability, detector_exponent, muon_exponent, counts_array, empirical_array)
+    ) and lifetimes.shape == (expected_draw_count,)
+    if not shapes_ok or not 0 <= focal_index < expected_grid_size:
+        raise ContractError("analysis arrays do not match the frozen dimensional contract")
+    frame_probability_error = float(np.max(_relative_error(detector_probability, muon_probability)))
+    nonzero = np.arange(expected_grid_size) != 0
+    exponent_error = float(np.max(_relative_error(detector_exponent[nonzero], muon_exponent[nonzero]))) if bool(np.any(nonzero)) else 0.0
+    beta_error = float(_relative_error(detector["beta"], muon["beta"]))
+    gamma_error = float(_relative_error(detector["gamma"], muon["gamma"]))
+    zero_exponents_exact = detector_exponent[0] == 0.0 and muon_exponent[0] == 0.0
+    frame_agreement = (
+        frame_probability_error <= frame_relative_tolerance
+        and exponent_error <= frame_relative_tolerance
+        and beta_error <= frame_relative_tolerance
+        and gamma_error <= frame_relative_tolerance
+        and zero_exponents_exact
+    )
+    focal_analytic = float(detector_probability[focal_index])
+    focal_empirical = float(empirical_array[focal_index])
+    standard_error = float(np.sqrt(focal_analytic * (1.0 - focal_analytic) / expected_draw_count))
+    focal_within_error = abs(focal_empirical - focal_analytic) <= standard_error_multiplier * standard_error
+    max_grid_discrepancy = float(np.max(np.abs(empirical_array - detector_probability)))
+    max_grid_ok = max_grid_discrepancy <= maximum_grid_discrepancy
+    counts_valid = (
+        np.issubdtype(counts_array.dtype, np.integer)
+        and bool(np.all((0 <= counts_array) & (counts_array <= expected_draw_count)))
+        and int(counts_array[0]) == expected_draw_count
+        and bool(np.all(np.diff(counts_array) <= 0))
+        and bool(np.array_equal(empirical_array, counts_array.astype(np.float64) / expected_draw_count))
+    )
+    numeric_valid = (
+        lifetimes.dtype == np.dtype("float64")
+        and bool(np.all(np.isfinite(lifetimes)))
+        and not bool(np.any(lifetimes < 0.0))
+        and all(bool(np.all(np.isfinite(array))) for array in (detector_probability, muon_probability, detector_exponent, muon_exponent, empirical_array))
+    )
+    integrity_ok = bool(integrity_flags) and all(value is True for value in integrity_flags.values())
+    passes = {
+        "frame_agreement": bool(frame_agreement),
+        "focal_monte_carlo_within_four_standard_errors": bool(focal_within_error),
+        "maximum_grid_discrepancy_at_most_threshold": bool(max_grid_ok),
+        "counts_valid_and_monotonic": bool(counts_valid),
+        "numeric_shapes_dtypes_units_valid": bool(numeric_valid),
+        "schema_manifest_provenance_and_hashes_valid": bool(integrity_ok),
+    }
+    return {
+        **passes,
+        "all_passed": all(passes.values()),
+        "diagnostics": {
+            "frame_probability_max_relative_error": frame_probability_error,
+            "frame_exponent_max_relative_error_nonzero_path": exponent_error,
+            "beta_relative_error": beta_error,
+            "gamma_relative_error": gamma_error,
+            "focal_binomial_standard_error": standard_error,
+            "focal_absolute_discrepancy": abs(focal_empirical - focal_analytic),
+            "maximum_grid_absolute_discrepancy": max_grid_discrepancy,
+        },
+    }
+
+
+def to_json_value(value: Any) -> Any:
+    if isinstance(value, np.ndarray):
+        return value.tolist()
+    if isinstance(value, np.generic):
+        return value.item()
+    if isinstance(value, dict):
+        return {key: to_json_value(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [to_json_value(item) for item in value]
+    return value
+
+
+def assemble_understanding_result(
+    *,
+    source_run: Mapping[str, Any],
+    primitive_inputs: Mapping[str, Any],
+    paths_m: np.ndarray,
+    detector: Mapping[str, Any],
+    muon: Mapping[str, Any],
+    counterfactual: Mapping[str, Any],
+    counts: np.ndarray,
+    empirical_probability: np.ndarray,
+    focal_index: int,
+    checks: Mapping[str, Any],
+) -> dict[str, Any]:
+    return to_json_value({
+        "schema_version": 1,
+        "experiment": "muon-survival-two-frames",
+        "post_type": "understanding",
+        "outcome_kind": "understanding-observations-no-verdict",
+        "source_run": dict(source_run),
+        "primitive_inputs": dict(primitive_inputs),
+        "grid_m": np.asarray(paths_m, dtype=np.float64),
+        "detector_frame": dict(detector),
+        "muon_frame": dict(muon),
+        "same_speed_no_lifetime_dilation_counterfactual": dict(counterfactual),
+        "empirical": {
+            "counts": counts,
+            "survival_probability": empirical_probability,
+            "inclusive_comparison": "proper_lifetime_s >= proper_elapsed_time_s",
+        },
+        "focal": {
+            "index": focal_index,
+            "detector": {key: value[focal_index] if isinstance(value, np.ndarray) else value for key, value in detector.items()},
+            "muon": {key: value[focal_index] if isinstance(value, np.ndarray) else value for key, value in muon.items()},
+            "counterfactual": {key: value[focal_index] if isinstance(value, np.ndarray) else value for key, value in counterfactual.items()},
+            "empirical_count": counts[focal_index],
+            "empirical_survival_probability": empirical_probability[focal_index],
+        },
+        "checks": dict(checks),
+    })

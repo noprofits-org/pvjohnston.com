@@ -1,132 +1,101 @@
-# Experiment title
+# One muon, two frames
 
-Copy this directory to `research/<experiment-slug>/` before running a new
-computer experiment. The slug must begin with a lowercase letter and contain
-only lowercase letters, digits, and single hyphens.
+This directory owns a reviewed, decay-only Understanding demonstration. It
+asks how detector-frame time dilation and muon-frame length contraction give
+the same survival probability for the stipulated momentum and path. Both are
+coordinate descriptions of one proper-time interval, not two causal effects.
 
-For a computationally heavy, role-separated, or multi-session experiment,
-rename and complete `PREREGISTRATION.example.md`, start the research journal,
-and initialize the tracked workflow before production work:
+The model holds momentum and speed fixed and includes only exponential decay.
+It does not model atmospheric production, momentum or height distributions,
+energy loss, air, scattering, zenith angle, showers, detector response,
+capture, sea-level flux, or a historical experiment. The Monte Carlo is an
+implementation check of the assumed decay law, not evidence for relativity.
 
-```sh
-node scripts/research-workflow.mjs init \
-  --experiment <experiment-slug> \
-  --post-type research \
-  --question "<question already ready on notes/questions.md>" \
-  --shelf-entry "<notes/questions.md heading>" \
-  --journal "<research journal session>" \
-  --actor "<stable actor id>"
-```
+Current status: prospective setup implemented; production has not run and
+reproducibility is not yet established. The immutable protocol is
+`PREREGISTRATION-v1.md`.
 
-Understanding posts use `--post-type understanding` and omit
-`--shelf-entry`. Run initialization and all later mutations from the exact
-owning `post/<slug>` branch in its linked worktree. Immediately before each
-`submit` or `review`, leave the open research journal on a fresh checkpoint
-with an explicit next action; the ledger binds and consumes its event ID.
-`workflow/HANDOFF.example.md` and
-`workflow/REVIEW.example.md` are small receipt templates;
-`workflow/AMENDMENT.example.md` covers a post-exposure protocol change and
-`workflow/PULL_REQUEST_RECEIPT.example.md` covers PR/CI evidence. Copy them to versioned
-names under `workflow/` instead of overwriting a packet that has already been
-submitted. The CLI snapshots those packets under `workflow/evidence/` and
-writes the append-only `workflow.jsonl`. It never runs the experiment.
+## Environment and setup-only verification
 
-The ledger, receipts, and evidence snapshots are tracked public files. They
-contain only repository-relative paths or durable external identifiers plus
-sizes and checksums—never local absolute checkout, home, scratch, cache, or
-mounted-data paths. Large/raw artifacts and full logs do not belong in workflow
-receipts. Actor IDs are self-asserted process labels: the CLI rejects an equal
-submission/review string, but the coordinator must establish that the reviewer
-is really a different session or person.
+The approved Linux x86-64 environment is CPython 3.12.3, NumPy 2.5.1,
+Matplotlib 3.11.1, and Node.js 24.18.0. Reconstruct the ignored `.venv` as
+documented in `environment.md`; package installation must use
+`requirements.lock.txt` with `--require-hashes`.
 
-After any result exposure, use the `amend` edge through
-`protocol_amendment -> amendment_review` for a scientific or setup change.
-Approval continues through `amended_setup -> amended_setup_review`, never the
-prospective `redesign` edge. `resume` continues only the same incomplete run;
-`registered_retry` starts a fresh infrastructure attempt authorized before
-execution; and `registered_rerun` starts a fresh analysis-plan rerun authorized
-before exposure. After editorial approval, `ready_for_pr` collects PR/CI
-evidence for the candidate content commit. `pr_review` creates an
-attestation-only descendant, and a human must confirm that the cumulative delta
-from the candidate contains only the PR/review receipts, their evidence
-snapshots, and corresponding ledger events, then require green CI on the
-resulting head. `ready_to_merge` is the successful terminal state and `parked`
-is the other terminal. Before merge, run:
+Before production, these commands are safe because they perform manifest and
+environment checks plus only seed-0, at-most-16-draw toy work:
 
 ```sh
-node scripts/research-workflow.mjs verify --experiment <experiment-slug>
+research/muon-survival-two-frames/.venv/bin/python -m unittest discover \
+  -s research/muon-survival-two-frames/tests -p 'test_*.py' -v
+research/muon-survival-two-frames/.venv/bin/python \
+  research/muon-survival-two-frames/src/verify_setup.py
 ```
 
-CI uses `verify --all`, which validates only experiment directories that opted
-in by containing `workflow.jsonl`.
+`setup-manifest.json` hash-binds the reviewed protocol, constants, sources,
+environment, schemas, implementation, tests, and fixtures. `inputs.json`
+contains the frozen scientific parameters and digests. No runtime parameter
+overrides for seed, draw count, momentum, grid, threshold, or tolerances exist.
 
-Keep every active submitted receipt present and byte-identical. If `status`
-reports interrupted workflow-ledger recovery, use
-`node scripts/research-workflow.mjs repair --experiment <experiment-slug>`;
-never edit the ledger or evidence snapshots by hand. Repair does not cure a
-changed active receipt: restore it or take a reviewed backward route and submit
-a new version. Repository attributes disable Git text conversion for the graph,
-ledger, receipts, and snapshots so those exact bytes survive across
-`core.autocrlf` settings. If a killed process left `workflow/.transition.lock`,
-inspect it
-and use `repair --experiment <experiment-slug> --unlock-stale` only when its
-same-host owner process is gone; never delete or replace a live lock by hand.
-The lock records its owning post branch. If initialization died before
-installing `workflow.jsonl`, the verified unlock runs before ledger loading and
-then instructs you to retry `init`.
+## Canonical execution
 
-## Question and boundary
-
-- Post type: research / understanding
-- Question:
-- Research falsifier (Research only):
-- Demonstration mechanism or observation (Understanding only):
-- What this experiment can establish:
-- What it cannot establish:
-- Traceability: not yet established / traceable
-- Highest reproduction level: none / analysis-reproducible / end-to-end reproducible
-- Archived-evidence or rerun constraints:
-- Workflow state: not initialized / active / ready_to_merge / parked
-
-## Run
-
-Document one exact command that creates the canonical result artifacts. Keep
-the native dependency lockfile for the chosen ecosystem in this directory; use
-`environment.example.md` only when no lockfile can represent the environment.
+Do not execute this command until an independent `setup_review` approves the
+exact committed setup:
 
 ```sh
-# Replace with the real command.
+research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/run.py --run-id run-001
 ```
 
-## Generate publication metrics
+The runner first rejects environment or setup drift, then exclusively creates
+`runs/run-001/`. It makes the registered PCG64 exponential draw in one call
+and writes only the unsorted float64 proper-lifetime sample plus integrity
+metadata. It does not reconstruct survival, calculate the focal example,
+plot, generate metrics, or print scientific values.
 
-Rename and implement `generate-metrics.example.mjs`, then generate and check
-the committed projection:
+A complete namespace contains exactly:
+
+- `proper_lifetimes_s.npy`;
+- `stdout.log` and `stderr.log`;
+- `run-manifest.json`;
+- `checksums.sha256`; and
+- `COMPLETE.json`, written last.
+
+The checksum file covers the sample, logs, and run manifest. It excludes
+itself; `COMPLETE.json` binds the checksum file and manifest and is itself
+bound by the later run-review receipt. The read-only integrity command is:
 
 ```sh
-node research/<experiment-slug>/generate-metrics.mjs
-node research/<experiment-slug>/generate-metrics.mjs --check
-node scripts/verify-metrics.mjs
+research/muon-survival-two-frames/.venv/bin/python \
+  research/muon-survival-two-frames/src/validate_run.py --run-id run-001
 ```
 
-The post binds this directory with `experiment: <experiment-slug>` and cites a
-value as `[metric_name]{.metric}`. The site build resolves the value from
-`metrics.json` and fails on missing or invalid references.
+Any pre-existing run directory is rejected before writing. There is no
+same-run resume. An interrupted namespace lacks a valid completion marker and
+is preserved for quarantine. The only prospectively registered retry is one
+fresh run ID after an objective pre-completion infrastructure failure; it must
+use the same reviewed bytes, seed, draw count, and runner. No scientific-check
+retry and no analysis rerun are authorized.
 
-## Data and publication
+## Analysis handoff
 
-For external computational inputs, replace `sources.example.json` with a source
-manifest containing durable locations, versions, access dates, checksums,
-licenses, and acquisition steps. Literature citations remain in the shared
-bibliography.
-Rename `PUBLIC_FILES.example.txt` and list only files reviewed for reader-facing
-publication. The site build reads this allowlist and routes exactly what it
-lists, so a path added here is served on the live site at that path — review
-each entry before adding it, and expect `scripts/verify-site.mjs` to fail if an
-entry names something that is not a file. Never infer publication safety from
-`.gitignore`: this repository is public, so every committed file is already
-externally accessible, and secrets or private data must never be committed.
+`src/reconstruct.py` is a tested analysis contract, not an executed production
+analysis. It contains visibly separate detector-frame and muon-frame functions;
+neither consumes the other's derived kinematics or arrays. It also provides
+the explicitly labelled same-speed/no-lifetime-dilation counterfactual,
+inclusive nested survivor counts, every registered pass/fail branch, and the
+Understanding result skeleton with no hypothesis or verdict.
 
-Document exclusions here, including the effect of rights, privacy, secrets,
-size, paid APIs, unavailable hardware, or disappearing upstream data on the
-reproducibility claim.
+After run review admits the sealed sample, the analyst owns the deterministic
+canonical result, the one 1200 by 630 PNG, and the metrics projection. Those
+later artifacts must be generated from the admitted sample without changing
+the frozen checks or adding a seed, curve, or diagnostic.
+
+## Sources and publication
+
+`sources.json` records the two PDG URLs, access date, byte counts, hashes,
+rights boundary, and acquisition instructions. `constants.json` transcribes
+only the reviewed central values; neither PDF is committed or needed at
+runtime. `PUBLIC_FILES.prospective.txt` is deliberately not a live routing
+manifest. Editorial review must create the final `PUBLIC_FILES.txt` only after
+all listed artifacts exist and have passed publication review. Every committed
+file remains public even when it is not served by the site.

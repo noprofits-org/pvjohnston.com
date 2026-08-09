@@ -1,0 +1,352 @@
+"""Immutable new-run creation and byte-level completion verification."""
+
+from __future__ import annotations
+
+import os
+import re
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Mapping
+
+import numpy as np
+
+from contract import (
+    ContractError,
+    digest_record,
+    load_json,
+    SHA256_RE,
+    sha256_file,
+    write_bytes_exclusive,
+    write_json_exclusive,
+)
+
+
+SAFE_ID_RE = re.compile(r"^[a-z][a-z0-9-]*$")
+RAW_NAME = "proper_lifetimes_s.npy"
+STDOUT_NAME = "stdout.log"
+STDERR_NAME = "stderr.log"
+MANIFEST_NAME = "run-manifest.json"
+CHECKSUMS_NAME = "checksums.sha256"
+COMPLETION_NAME = "COMPLETE.json"
+COMPLETE_FILES = {
+    RAW_NAME,
+    STDOUT_NAME,
+    STDERR_NAME,
+    MANIFEST_NAME,
+    CHECKSUMS_NAME,
+    COMPLETION_NAME,
+}
+
+
+@dataclass(frozen=True)
+class RunSpec:
+    experiment: str
+    purpose: str
+    run_id: str
+    command: str
+    seed: int
+    draw_count: int
+    scale_s: float
+    lineage: Mapping[str, Mapping[str, Any]]
+    platform: Mapping[str, str]
+    path_prefix: str
+
+
+def generate_lifetimes(spec: RunSpec) -> np.ndarray:
+    """Perform the one registered draw call, or a strictly bounded setup toy."""
+
+    if spec.purpose == "setup-toy":
+        if spec.seed != 0 or not 1 <= spec.draw_count <= 16:
+            raise ContractError("setup toy generation is limited to PCG64 seed 0 and at most 16 draws")
+    elif spec.purpose == "canonical-production":
+        if spec.seed != 20260808 or spec.draw_count != 100000:
+            raise ContractError("production RNG parameters differ from the frozen protocol")
+    else:
+        raise ContractError("unknown run purpose")
+    if not np.isfinite(spec.scale_s) or spec.scale_s <= 0.0:
+        raise ContractError("exponential scale must be finite and positive")
+    generator = np.random.Generator(np.random.PCG64(spec.seed))
+    sample = generator.exponential(scale=spec.scale_s, size=spec.draw_count)
+    if sample.dtype != np.dtype("float64") or sample.shape != (spec.draw_count,):
+        raise ContractError("NumPy returned an unexpected sample dtype or shape")
+    if not bool(np.all(np.isfinite(sample))) or bool(np.any(sample < 0.0)):
+        raise ContractError("proper-lifetime sample contains an invalid value")
+    return sample
+
+
+def create_new_run_directory(parent: Path, run_id: str) -> Path:
+    """Claim a new namespace once; an existing or linked path is never reused."""
+
+    if SAFE_ID_RE.fullmatch(run_id) is None:
+        raise ContractError("unsafe run ID")
+    if parent.exists() and (not parent.is_dir() or parent.is_symlink()):
+        raise ContractError("runs parent must be a real directory")
+    parent.mkdir(parents=True, exist_ok=True)
+    if parent.is_symlink():
+        raise ContractError("runs parent must not be a symlink")
+    run_dir = parent / run_id
+    if run_dir.exists() or run_dir.is_symlink():
+        raise ContractError("run namespace already exists; resume and overwrite are forbidden")
+    try:
+        run_dir.mkdir(mode=0o755)
+    except FileExistsError as exc:
+        raise ContractError("run namespace was claimed concurrently") from exc
+    return run_dir
+
+
+def _artifact(run_dir: Path, name: str, path_prefix: str) -> dict[str, Any]:
+    return digest_record(run_dir / name, public_path=f"{path_prefix}/{name}")
+
+
+def _save_array_exclusive(path: Path, values: np.ndarray) -> None:
+    temporary = path.parent / f".tmp-{path.name}"
+    if path.exists() or temporary.exists() or path.is_symlink() or temporary.is_symlink():
+        raise ContractError("raw sample target or temporary path already exists")
+    try:
+        with temporary.open("xb") as handle:
+            np.save(handle, values, allow_pickle=False)
+            handle.flush()
+            os.fsync(handle.fileno())
+        if path.exists() or path.is_symlink():
+            raise ContractError("raw sample target appeared during serialization")
+        os.replace(temporary, path)
+    except Exception:
+        # A temporary file is intentionally retained as evidence of interruption.
+        raise
+
+
+def seal_run_bundle(
+    run_dir: Path,
+    sample: np.ndarray,
+    spec: RunSpec,
+    *,
+    started_at: str,
+    completed_at: str,
+) -> dict[str, Any]:
+    """Write a complete namespace once, placing COMPLETE.json last."""
+
+    if run_dir.is_symlink() or not run_dir.is_dir():
+        raise ContractError("run namespace must be a real directory")
+    if any(run_dir.iterdir()):
+        raise ContractError("new run namespace is not empty")
+    if sample.dtype != np.dtype("float64") or sample.shape != (spec.draw_count,):
+        raise ContractError("sample does not match its run specification")
+    if not bool(np.all(np.isfinite(sample))) or bool(np.any(sample < 0.0)):
+        raise ContractError("sample contains nonfinite or negative lifetimes")
+
+    _save_array_exclusive(run_dir / RAW_NAME, sample)
+    write_bytes_exclusive(
+        run_dir / STDOUT_NAME,
+        b"purpose=proper-lifetime-generation\nstatus=complete\nscientific-values-not-printed=true\n",
+    )
+    write_bytes_exclusive(run_dir / STDERR_NAME, b"")
+
+    raw_record = _artifact(run_dir, RAW_NAME, spec.path_prefix)
+    stdout_record = _artifact(run_dir, STDOUT_NAME, spec.path_prefix)
+    stderr_record = _artifact(run_dir, STDERR_NAME, spec.path_prefix)
+    manifest = {
+        "schema_version": 1,
+        "experiment": spec.experiment,
+        "purpose": spec.purpose,
+        "run_id": spec.run_id,
+        "status": "complete",
+        "started_at": started_at,
+        "completed_at": completed_at,
+        "command": spec.command,
+        "lineage": dict(spec.lineage),
+        "platform": dict(spec.platform),
+        "rng": {
+            "library": "numpy",
+            "bit_generator": "PCG64",
+            "seed": spec.seed,
+            "draw_count": spec.draw_count,
+            "operation": f"Generator.exponential(scale=tau0_s, size={spec.draw_count})",
+            "dtype": "float64",
+            "draw_order": "retained; not sorted",
+        },
+        "sample": {
+            **raw_record,
+            "shape": [spec.draw_count],
+            "dtype": "float64",
+            "unit": "s",
+            "finite": True,
+            "nonnegative": True,
+        },
+        "artifacts": [raw_record, stdout_record, stderr_record],
+    }
+    write_json_exclusive(run_dir / MANIFEST_NAME, manifest)
+    manifest_record = _artifact(run_dir, MANIFEST_NAME, spec.path_prefix)
+
+    checksum_records = [raw_record, stdout_record, stderr_record, manifest_record]
+    checksum_payload = "".join(
+        f"{entry['sha256']}  {Path(entry['path']).name}\n" for entry in checksum_records
+    ).encode("ascii")
+    write_bytes_exclusive(run_dir / CHECKSUMS_NAME, checksum_payload)
+    checksums_record = _artifact(run_dir, CHECKSUMS_NAME, spec.path_prefix)
+
+    completion = {
+        "schema_version": 1,
+        "experiment": spec.experiment,
+        "run_id": spec.run_id,
+        "status": "complete",
+        "completed_at": completed_at,
+        "exit_status": 0,
+        "run_manifest": manifest_record,
+        "checksums": checksums_record,
+    }
+    write_json_exclusive(run_dir / COMPLETION_NAME, completion)
+    return completion
+
+
+def record_failure_without_completion(run_dir: Path, exc: BaseException) -> None:
+    """Leave an incomplete namespace inspectable without exposing local paths."""
+
+    if not run_dir.is_dir() or run_dir.is_symlink():
+        return
+    stderr_path = run_dir / STDERR_NAME
+    if stderr_path.exists() or stderr_path.is_symlink():
+        return
+    payload = (
+        f"status=incomplete\nfailure_type={type(exc).__name__}\n"
+        "completion_record_written=false\nnamespace_must_be_quarantined=true\n"
+    ).encode("ascii", errors="replace")
+    try:
+        write_bytes_exclusive(stderr_path, payload)
+    except ContractError:
+        pass
+
+
+def _parse_checksums(path: Path) -> dict[str, str]:
+    try:
+        lines = path.read_text(encoding="ascii").splitlines()
+    except (OSError, UnicodeError) as exc:
+        raise ContractError("checksums file is unreadable") from exc
+    parsed: dict[str, str] = {}
+    for line in lines:
+        pieces = line.split("  ", 1)
+        if len(pieces) != 2 or SHA256_RE.fullmatch(pieces[0]) is None:
+            raise ContractError("malformed checksums line")
+        name = pieces[1]
+        if name in parsed or name not in {RAW_NAME, STDOUT_NAME, STDERR_NAME, MANIFEST_NAME}:
+            raise ContractError("checksums file has an unexpected or duplicate path")
+        parsed[name] = pieces[0]
+    if set(parsed) != {RAW_NAME, STDOUT_NAME, STDERR_NAME, MANIFEST_NAME}:
+        raise ContractError("checksums file is incomplete")
+    return parsed
+
+
+def validate_run_bundle(run_dir: Path, spec: RunSpec) -> dict[str, Any]:
+    """Validate schema-level fields, completeness, hashes, and raw-array integrity."""
+
+    if not run_dir.is_dir() or run_dir.is_symlink():
+        raise ContractError("run namespace is missing or linked")
+    entries = {entry.name for entry in run_dir.iterdir()}
+    if entries != COMPLETE_FILES:
+        raise ContractError("complete run namespace has missing or unexpected files")
+    for name in COMPLETE_FILES:
+        path = run_dir / name
+        if not path.is_file() or path.is_symlink():
+            raise ContractError(f"run artifact is missing, non-regular, or linked: {name}")
+
+    manifest = load_json(run_dir / MANIFEST_NAME)
+    completion = load_json(run_dir / COMPLETION_NAME)
+    expected_manifest_keys = {
+        "schema_version", "experiment", "purpose", "run_id", "status",
+        "started_at", "completed_at", "command", "lineage", "platform",
+        "rng", "sample", "artifacts",
+    }
+    if set(manifest) != expected_manifest_keys:
+        raise ContractError("run manifest fields do not match schema contract")
+    if manifest["schema_version"] != 1 or manifest["experiment"] != spec.experiment:
+        raise ContractError("run manifest identity mismatch")
+    if manifest["purpose"] != spec.purpose or manifest["run_id"] != spec.run_id:
+        raise ContractError("run manifest purpose or ID mismatch")
+    if manifest["status"] != "complete" or manifest["command"] != spec.command:
+        raise ContractError("run manifest state or command mismatch")
+    if manifest["lineage"] != dict(spec.lineage):
+        raise ContractError("run lineage mismatch")
+    platform_record = manifest["platform"]
+    if spec.purpose == "setup-toy":
+        if platform_record != dict(spec.platform):
+            raise ContractError("toy run platform record mismatch")
+    else:
+        expected_platform = {
+            "os": "Linux",
+            "architecture": "x86_64",
+            "python_implementation": "CPython",
+            "python_version": "3.12.3",
+            "numpy_version": "2.5.1",
+            "matplotlib_version": "3.11.1",
+            "pip_version": "26.2.1",
+            "node_version": "24.18.0",
+        }
+        if not isinstance(platform_record, dict) or any(platform_record.get(key) != value for key, value in expected_platform.items()):
+            raise ContractError("production platform record violates the locked environment")
+        if not isinstance(platform_record.get("release"), str) or not platform_record["release"]:
+            raise ContractError("production kernel release is missing")
+    rng = manifest["rng"]
+    if rng.get("library") != "numpy" or rng.get("bit_generator") != "PCG64":
+        raise ContractError("run RNG implementation mismatch")
+    if rng.get("seed") != spec.seed or rng.get("draw_count") != spec.draw_count or rng.get("dtype") != "float64":
+        raise ContractError("run RNG parameters mismatch")
+
+    parsed = _parse_checksums(run_dir / CHECKSUMS_NAME)
+    for name, expected_digest in parsed.items():
+        if sha256_file(run_dir / name) != expected_digest:
+            raise ContractError(f"artifact checksum mismatch: {name}")
+    manifest_record = _artifact(run_dir, MANIFEST_NAME, spec.path_prefix)
+    checksums_record = _artifact(run_dir, CHECKSUMS_NAME, spec.path_prefix)
+    expected_completion_keys = {
+        "schema_version", "experiment", "run_id", "status", "completed_at",
+        "exit_status", "run_manifest", "checksums",
+    }
+    if set(completion) != expected_completion_keys:
+        raise ContractError("completion fields do not match schema contract")
+    if (
+        completion["schema_version"] != 1
+        or completion["experiment"] != spec.experiment
+        or completion["run_id"] != spec.run_id
+        or completion["status"] != "complete"
+        or completion["exit_status"] != 0
+        or completion["completed_at"] != manifest["completed_at"]
+        or completion["run_manifest"] != manifest_record
+        or completion["checksums"] != checksums_record
+    ):
+        raise ContractError("completion marker does not bind the manifest and checksums")
+
+    raw_record = _artifact(run_dir, RAW_NAME, spec.path_prefix)
+    if manifest["sample"] != {
+        **raw_record,
+        "shape": [spec.draw_count],
+        "dtype": "float64",
+        "unit": "s",
+        "finite": True,
+        "nonnegative": True,
+    }:
+        raise ContractError("sample metadata mismatch")
+    expected_artifacts = [
+        raw_record,
+        _artifact(run_dir, STDOUT_NAME, spec.path_prefix),
+        _artifact(run_dir, STDERR_NAME, spec.path_prefix),
+    ]
+    if manifest["artifacts"] != expected_artifacts:
+        raise ContractError("manifest artifact inventory mismatch")
+
+    try:
+        sample = np.load(run_dir / RAW_NAME, allow_pickle=False)
+    except (OSError, ValueError) as exc:
+        raise ContractError("raw sample is not a valid non-pickle NumPy array") from exc
+    if sample.dtype != np.dtype("float64") or sample.shape != (spec.draw_count,):
+        raise ContractError("raw sample dtype or shape mismatch")
+    if not bool(np.all(np.isfinite(sample))) or bool(np.any(sample < 0.0)):
+        raise ContractError("raw sample has nonfinite or negative values")
+    return {
+        "run_id": spec.run_id,
+        "file_count": len(COMPLETE_FILES),
+        "sample_shape": list(sample.shape),
+        "sample_dtype": str(sample.dtype),
+        "manifest_sha256": sha256_file(run_dir / MANIFEST_NAME),
+        "completion_sha256": sha256_file(run_dir / COMPLETION_NAME),
+        "checksums_sha256": sha256_file(run_dir / CHECKSUMS_NAME),
+        "valid": True,
+    }

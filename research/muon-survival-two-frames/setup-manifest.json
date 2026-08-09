@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "experiment": "muon-survival-two-frames",
+  "protocol_status": "prospective; production not executed",
+  "artifacts": [
+    {"path": "research/muon-survival-two-frames/.gitignore", "bytes": 59, "sha256": "9bb60f123a0623508a7a11bef4406e2624fdd87eb5717b7d2b735b323ca202f8"},
+    {"path": "research/muon-survival-two-frames/PREREGISTRATION-v1.md", "bytes": 19383, "sha256": "501f57ab496229a7e3d2f04ae0a087681718bf0792438edfc6eed0920d7ac377"},
+    {"path": "research/muon-survival-two-frames/PUBLIC_FILES.prospective.txt", "bytes": 1460, "sha256": "cb52896e6bc875b15683b03ae3f8618e995d66ec105ef0a7010ff6b7f8c551b2"},
+    {"path": "research/muon-survival-two-frames/README.md", "bytes": 4758, "sha256": "9cf685e6dfdd2d1fa4aa10e03b44dcd9c9a886a95f7a336f81114369e51dbc09"},
+    {"path": "research/muon-survival-two-frames/constants.json", "bytes": 686, "sha256": "62b7812bd19b50a189cf6b515f09b376d1f2be7334ccd44deb515063b7c56e87"},
+    {"path": "research/muon-survival-two-frames/environment.json", "bytes": 1172, "sha256": "d27e216c106d13c513247aa78e3eb15186db516e47672b6f5acb0028a1ad0904"},
+    {"path": "research/muon-survival-two-frames/environment.md", "bytes": 2052, "sha256": "33b6f36453b88bb891a580091ece87a801aaf4d97ec184c3fa64aef479eea4be"},
+    {"path": "research/muon-survival-two-frames/inputs.json", "bytes": 2543, "sha256": "2559e87370bd4f50903b557645b8f30ac640430c5d1b7ec4739aed68cbc4ac62"},
+    {"path": "research/muon-survival-two-frames/requirements.lock.txt", "bytes": 1314, "sha256": "1cf5dcf8ff7f0d797b1adaaf473ae652dcbf031ca072cbb92fe6700ba1a0c782"},
+    {"path": "research/muon-survival-two-frames/schemas/analysis-result.schema.json", "bytes": 1479, "sha256": "1e56d471fc3428a4e1c110d3d875bf003c94e818021dd9c4cc7fddc7ed3e3170"},
+    {"path": "research/muon-survival-two-frames/schemas/completion.schema.json", "bytes": 1136, "sha256": "625005172660e77bc2bdca7a093c9e3bf2fcd86ef7628edb7a9465ade474053c"},
+    {"path": "research/muon-survival-two-frames/schemas/constants.schema.json", "bytes": 1566, "sha256": "02200f03e65b59704b8502b2cd8a96eb28d5eaefed88113574d6005243b29604"},
+    {"path": "research/muon-survival-two-frames/schemas/inputs.schema.json", "bytes": 2007, "sha256": "15894b217e46d6a951aeb43a7616a0519baf69a6052f9776856daf36c43be3e9"},
+    {"path": "research/muon-survival-two-frames/schemas/run-manifest.schema.json", "bytes": 1948, "sha256": "7f694ce84c8eb27d720448b0643ca590d701004bac0bb9818ae0446e3d709a69"},
+    {"path": "research/muon-survival-two-frames/schemas/sources.schema.json", "bytes": 1356, "sha256": "00c03757f5529f5680dbcbb7bcb342e5a20e509b010f29687ce0da7c4c775cb3"},
+    {"path": "research/muon-survival-two-frames/sources.json", "bytes": 2105, "sha256": "dc11e517d7927efb19efec490cbd8668ee205ea397282cd2356b3d188d14707f"},
+    {"path": "research/muon-survival-two-frames/src/__init__.py", "bytes": 73, "sha256": "6eabb98466c87d9e5dc35eb072dd063145151514acaceb1de3548beb77d374b4"},
+    {"path": "research/muon-survival-two-frames/src/bundle.py", "bytes": 14341, "sha256": "a35e2b4bde88467b732fd320521c2d91851ff43f42961610216db8d8d68a293e"},
+    {"path": "research/muon-survival-two-frames/src/contract.py", "bytes": 13576, "sha256": "012d178c7f89612ea4d23a3d66e41dadb34229ba90604c007551c006b8490ceb"},
+    {"path": "research/muon-survival-two-frames/src/reconstruct.py", "bytes": 12325, "sha256": "85610ce539a19d9d6f58f22b7116dbb4e5e58492eeb91a434c83bfdcd9bd96fb"},
+    {"path": "research/muon-survival-two-frames/src/run.py", "bytes": 3159, "sha256": "e626c9b12465f7a5c7f192f40c8cdceb57131ef9d27d24267985998ebd8b11cf"},
+    {"path": "research/muon-survival-two-frames/src/validate_run.py", "bytes": 756, "sha256": "f898b9cdde19a36af4a1533b297e190692aaa221edbd372346517fe91c325e5a"},
+    {"path": "research/muon-survival-two-frames/src/verify_setup.py", "bytes": 377, "sha256": "5a5a068103b18efece6e2c29d7329969b097f6900971911f94cd4a79966f4d29"},
+    {"path": "research/muon-survival-two-frames/tests/fixtures/toy-inputs.json", "bytes": 221, "sha256": "d2c437f4f8f8430b09e8068ebf119552a9eeb7836b2a8ddaa6098e87a19cb71f"},
+    {"path": "research/muon-survival-two-frames/tests/test_setup.py", "bytes": 7953, "sha256": "aee6526559830e18b325bf47269453fa6bcbbd961e7f771efabe420b92334e0e"}
+  ]
+}
