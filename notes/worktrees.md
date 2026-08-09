@@ -71,10 +71,11 @@ A **`post/<slug>` branch may create or modify only**:
 | `images/<its-slug>-*.png` | its figures (§5) |
 | `research/<its-experiment-slug>/**` | its experiment directory (§7) |
 | `bib/bibliography.bib` | append-only, and see §3 below |
+| `notes/questions.md` | only the entry for its own question — add or update it in the same PR |
 
-Everything else is shared: `index.html`, `notes/questions.md`, `css/`,
-`templates/`, `lib/`, `app/`, `scripts/`, `.github/`, and the standalone
-`*.markdown` pages. A post branch does not touch them. If writing a note
+Everything else is shared: `index.html`, `css/`, `templates/`, `lib/`, `app/`,
+`scripts/`, `.github/`, and the standalone `*.markdown` pages. A post branch
+does not touch them. If writing a note
 reveals that a shared file needs to change, that change gets **its own
 `feature/` or `fix/` branch and its own PR**, which may of course run in its
 own worktree.
@@ -147,33 +148,29 @@ local branch you did not create is presumed live too, whatever its date.
 
 Run this before you stop, every time. It is the whole point of the note.
 
-1. **Close the research journal** if one was opened
-   (`notes/research-journal.md`, and AGENTS.md step 5). The journal lives in
-   git's shared common directory, so it survives worktree removal and is
-   visible from every tree.
-2. **Every worktree you own is clean.** `git worktree list`, then `git status
+1. **Every worktree you own is clean.** `git worktree list`, then `git status
    --porcelain` in each tree you created — all empty. No "I'll pick this up
    tomorrow" files. Uncommitted work either becomes a commit on its own branch
    or is discarded deliberately. A worktree belonging to another live session
    will legitimately be dirty; §5 says it is not yours to commit or discard, so
    report it and leave it alone.
-3. **No stashes.** `git stash list` is empty. A stash is invisible to the next
+2. **No stashes.** `git stash list` is empty. A stash is invisible to the next
    session and belongs to nobody.
-4. **No orphan branches.** Every branch is either merged and deleted, or pushed
-   with an open PR, or — if it is genuinely parked — recorded in the journal
-   with a sentence saying why it still exists. A local unpushed branch with no
-   note is the failure this rule names.
-5. **Finished worktrees removed.** `git worktree remove
+3. **No orphan branches.** Every branch is either merged and deleted, or pushed
+   with an open PR, or — if it is genuinely parked — pushed with a sentence in
+   its PR or commit message saying why it still exists. A local unpushed branch
+   with no note is the failure this rule names.
+4. **Finished worktrees removed.** `git worktree remove
    ../pvjohnston-worktrees/<slug>` then `git worktree prune`, and `git branch
    -d post/<slug>` once it is merged.
-6. **The primary checkout is on `main`, pulled, and clean.**
+5. **The primary checkout is on `main`, pulled, and clean.**
 
 ```sh
 # Close-out audit. Run from anywhere in the repository.
 primary=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")
 
 git worktree list          # inspect: your trees gone, foreign ones noted
-git branch -vv             # inspect: every branch merged, pushed, or journalled
+git branch -vv             # inspect: every branch merged, pushed, or accounted for
 git stash list             # must be empty
 git -C "$primary" status --short   # must be empty
 ```

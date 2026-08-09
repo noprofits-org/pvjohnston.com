@@ -106,9 +106,11 @@ is the machine that produces triviality, and no amount of structure downstream
 will stop it. Real labs do not invent a hypothesis on the day they write; they
 keep a backlog of things that do not add up, and pull from it.
 
-So `notes/questions.md` is the research shelf. **No Research note gets drafted
-unless its question was sitting on the shelf first.** Entries come from three
-places, all three already proven here:
+So `notes/questions.md` is the research shelf. A Research note starts from a
+question on the shelf — and logging the question in the same PR as its post is
+fine; the point is that the question exists in writing with a contribution
+sentence and a falsifier before drafting starts, not that it aged on a queue.
+Entries come from three places, all three already proven here:
 
 - **Anomalies.** Anything that did not reproduce, did not match, or surprised
   you. Log it the moment it happens, *before* you have an explanation — the
@@ -119,12 +121,6 @@ places, all three already proven here:
 - **Next steps.** Every Conclusion names the next experiment (§2). That sentence
   is a queue entry. This is the loop that makes the blog a research programme
   rather than a series of posts.
-
-Deep research also starts a crash-resistant incremental journal before its
-first search or exploratory command. Record sources, pivots, exact intermediate
-results, and the next action as they happen; do not leave them only in an agent
-transcript. The workflow and recovery commands are in
-`notes/research-journal.md`.
 
 **The contribution gate.** Before drafting, write one sentence, and put it in the
 post's front matter:
@@ -635,36 +631,11 @@ source manifest, canonical results, generated `metrics.json`, cheap metrics
 generator, and public-bundle allowlist together. `metrics.json` is a small
 publication projection; it does not replace the experiment's richer outputs.
 
-For an explicitly computationally heavy, long-running, role-separated, or
-multi-session post, also use the tracked graph in
-`notes/computational-authoring-workflow.md`. Its append-only
-`research/<experiment-slug>/workflow.jsonl` records reviewed phase handoffs and
-immutable evidence snapshots of small versioned receipts under
-`research/<experiment-slug>/workflow/`; raw outputs and large logs stay in their
-owned artifact paths and are referenced by checksum. This tracked ledger is
-public and must contain repository-relative paths or durable external
-identifiers, never local absolute checkout, home, scratch, cache, or mounted-data
-paths. The common-directory research journal continues to hold fine-grained
-searches, commands, pivots, and intermediate results. The graph coordinates work
-and review but never runs the expensive experiment.
-
-After any production result has been exposed, a change to the protocol,
-implementation contract, input set, cases, seeds, thresholds, exclusions, or
-stopping rule goes through `protocol_amendment` and `amendment_review`.
-`resume` is limited to the same incomplete run under its frozen restart rule;
-`registered_retry` is a fresh infrastructure attempt authorized before
-execution, and `registered_rerun` is a fresh analysis-plan rerun authorized
-before exposure. An approved amendment returns through `amended_setup` and
-`amended_setup_review`, so it cannot use the prospective `redesign` edge.
-Editorial approval leads to `ready_for_pr`, where the PR and full CI evidence
-for the candidate content commit are collected. Independent `pr_review` records
-the merge recommendation and reaches `ready_to_merge`; because that transition
-creates the final attestation-only descendant, the human integrator confirms
-that the cumulative delta from the candidate content commit contains only the
-PR/review receipts, their evidence snapshots, and corresponding ledger events;
-no post or scientific artifact changed; and CI is green on the resulting head
-before merge. `verify --all` checks only experiment directories that opted in
-by containing `workflow.jsonl`.
+For an experiment whose outcome you could be tempted to tune, freeze a short
+`PREREGISTRATION.md` (the template ships an example) before the canonical run:
+hypothesis, falsifier, and protocol. If the protocol changes after results have
+been seen, amend the file datedly and disclose the change in Methods. This is a
+discipline you apply to yourself, not a review gate.
 
 The post declares the binding:
 
@@ -821,7 +792,7 @@ checkout does not restore the Hakyll store.
 
 **Before drafting — Research only (§0):**
 
-- [ ] The question came off `notes/questions.md`; it was not invented today
+- [ ] The question is on `notes/questions.md` with a contribution sentence and falsifier (added in this same PR is fine)
 - [ ] Anchored to a recent primary source (journal article, this year or last) — not a settled result (§0)
 - [ ] Checked whether the source's code/data is released; if not, the claim boundary is already written into Methods
 - [ ] For a direct source-response post, recorded the source's full title and classified the relationship: independent benchmark, reproduction, reanalysis, falsification, or extension (§0)
@@ -847,7 +818,6 @@ checkout does not restore the Hakyll store.
 - [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional)
 - [ ] Every figure, table, code block, and audio player has a numbered caption (Figure/Table/Code/Audio N) and is referenced by number in the prose; each `<audio>` element stays on one source line and contains fallback text plus a direct file link
 - [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
-- [ ] If the experiment opted into the multi-session graph, its small public workflow receipts contain no local absolute paths, `node scripts/research-workflow.mjs verify --experiment <slug>` passes, independent PR review reaches `ready_to_merge`, the cumulative candidate-to-head delta contains only PR/review receipts, evidence snapshots, and ledger events (not post or scientific artifacts), and CI is green on the resulting head before merge (`verify --all` covers only opted-in experiments)
 - [ ] Branch, build, verification, PR, and merge complete
 - [ ] Session closed out per `notes/worktrees.md` §6: no dirty worktree, no stash, no orphan branch, primary checkout clean on `main`
 

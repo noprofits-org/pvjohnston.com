@@ -79,10 +79,6 @@ jobs:
 
     - name: Build, test, and verify generated output
       run: |
-        # Exercise the dependency-free journal and role-graph replay contracts,
-        # then validate every experiment that opted into tracked handoffs.
-        node --test scripts/*.test.mjs
-        node scripts/research-workflow.mjs verify --all
         # Source-level and buildless, so a duplicate citation key fails in
         # seconds rather than after the full Hakyll build. See notes/worktrees.md §3.
         node scripts/verify-bib.mjs
