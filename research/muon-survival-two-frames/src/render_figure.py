@@ -16,7 +16,7 @@ import numpy as np
 from PIL import Image
 
 from analyze import validate_analysis_result
-from contract import EXPERIMENT_DIR, REPOSITORY_ROOT, ContractError, load_json, write_bytes_exclusive
+from contract import EXPERIMENT_DIR, REPOSITORY_ROOT, ContractError, install_derived_bytes_atomic, load_json
 
 
 WIDTH_PX = 1200
@@ -108,7 +108,7 @@ def write_or_check_png(path: Path, payload: bytes, *, check: bool) -> None:
             raise ContractError("registered PNG is missing or stale")
     else:
         path.parent.mkdir(parents=True, exist_ok=True)
-        write_bytes_exclusive(path, payload)
+        install_derived_bytes_atomic(path, payload)
 
 
 def main() -> int:

@@ -1,8 +1,21 @@
 #!/usr/bin/env node
 
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import {
+  closeSync,
+  constants as fsConstants,
+  existsSync,
+  fstatSync,
+  fsyncSync,
+  linkSync,
+  lstatSync,
+  openSync,
+  readFileSync,
+  readdirSync,
+  unlinkSync,
+  writeSync,
+} from 'node:fs';
 import { basename, dirname, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -16,6 +29,170 @@ const fixtureMode = fixtureIndex >= 0;
 
 function fail(message) {
   throw new Error(message);
+}
+
+const maxDerivedOutputBytes = 10 * 1024 * 1024;
+const maxDerivedStagesPerTarget = 16;
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+function syncDirectory(path) {
+  const descriptor = openSync(path, fsConstants.O_RDONLY | (fsConstants.O_DIRECTORY ?? 0));
+  try {
+    fsyncSync(descriptor);
+  } finally {
+    closeSync(descriptor);
+  }
+}
+
+function lstatMaybe(path) {
+  try {
+    return lstatSync(path);
+  } catch (error) {
+    if (error.code === 'ENOENT') return null;
+    throw error;
+  }
+}
+
+function stagePath(finalPath, digest, nonce, kind) {
+  if (!/^[0-9a-f]{64}$/.test(digest) || !/^[0-9a-f]{32}$/.test(nonce) || !['tmp', 'ready'].includes(kind)) {
+    fail('derived staging identity is invalid');
+  }
+  return resolve(dirname(finalPath), `.${basename(finalPath)}.publish-${digest}-${nonce}.${kind}`);
+}
+
+function ownedStages(finalPath) {
+  const parent = dirname(finalPath);
+  const pattern = new RegExp(`^\\.${escapeRegex(basename(finalPath))}\\.publish-([0-9a-f]{64})-([0-9a-f]{32})\\.(tmp|ready)$`);
+  const stages = [];
+  for (const entry of readdirSync(parent, { withFileTypes: true })) {
+    const match = pattern.exec(entry.name);
+    if (!match) continue;
+    const path = resolve(parent, entry.name);
+    const identity = lstatMaybe(path);
+    if (!identity) continue;
+    if (!entry.isFile() || entry.isSymbolicLink() || !identity.isFile() || identity.isSymbolicLink()
+      || identity.uid !== process.geteuid() || identity.size > maxDerivedOutputBytes
+      || ![1, 2].includes(identity.nlink)) {
+      fail(`unsafe derived-output staging artifact: ${entry.name}`);
+    }
+    stages.push({ path, digest: match[1], kind: match[3], identity });
+  }
+  if (stages.length > maxDerivedStagesPerTarget) {
+    fail('too many derived-output staging artifacts; manual quarantine is required');
+  }
+  return stages.sort((left, right) => left.path.localeCompare(right.path));
+}
+
+function unlinkSameFile(path, identity) {
+  const current = lstatMaybe(path);
+  if (!current) return;
+  if (current.dev !== identity.dev || current.ino !== identity.ino) {
+    fail('derived-output staging artifact changed during cleanup');
+  }
+  unlinkSync(path);
+}
+
+function quarantineStage(finalPath, stage) {
+  const quarantine = resolve(
+    dirname(finalPath),
+    `.${basename(finalPath)}.quarantine-${randomUUID().replaceAll('-', '')}.stage`,
+  );
+  linkSync(stage.path, quarantine);
+  try {
+    unlinkSameFile(stage.path, stage.identity);
+  } catch (error) {
+    try { unlinkSync(quarantine); } catch (cleanupError) {
+      if (cleanupError.code !== 'ENOENT') throw cleanupError;
+    }
+    throw error;
+  }
+  syncDirectory(dirname(finalPath));
+  return quarantine;
+}
+
+function writeBuffer(descriptor, payload) {
+  let offset = 0;
+  while (offset < payload.length) {
+    const written = writeSync(descriptor, payload, offset, payload.length - offset);
+    if (written <= 0) fail('short derived-output staging write');
+    offset += written;
+  }
+}
+
+function installDerivedBytesAtomic(finalPath, payload) {
+  if (!Buffer.isBuffer(payload) || payload.length > maxDerivedOutputBytes) {
+    fail('derived output exceeds the registered byte boundary');
+  }
+  const parent = dirname(finalPath);
+  const parentIdentity = lstatMaybe(parent);
+  if (!parentIdentity?.isDirectory() || parentIdentity.isSymbolicLink()) {
+    fail('derived-output parent must be a real directory');
+  }
+  const stages = ownedStages(finalPath);
+  const finalIdentity = lstatMaybe(finalPath);
+  if (finalIdentity) {
+    if (finalIdentity.isFile() && !finalIdentity.isSymbolicLink()) {
+      for (const stage of stages) {
+        if (stage.kind === 'ready' && stage.identity.dev === finalIdentity.dev && stage.identity.ino === finalIdentity.ino) {
+          unlinkSameFile(stage.path, stage.identity);
+          syncDirectory(parent);
+        }
+      }
+    }
+    fail('refusing to overwrite metrics output');
+  }
+
+  const expectedDigest = createHash('sha256').update(payload).digest('hex');
+  let ready;
+  for (const stage of stages) {
+    if (stage.kind === 'tmp') {
+      quarantineStage(finalPath, stage);
+      continue;
+    }
+    const exact = stage.digest === expectedDigest && readFileSync(stage.path).equals(payload);
+    if (exact && !ready) ready = stage;
+    else quarantineStage(finalPath, stage);
+  }
+
+  let temporary;
+  if (!ready) {
+    const nonce = randomUUID().replaceAll('-', '');
+    const temporaryPath = stagePath(finalPath, expectedDigest, nonce, 'tmp');
+    const readyPath = stagePath(finalPath, expectedDigest, nonce, 'ready');
+    let descriptor;
+    try {
+      descriptor = openSync(
+        temporaryPath,
+        fsConstants.O_WRONLY | fsConstants.O_CREAT | fsConstants.O_EXCL | (fsConstants.O_NOFOLLOW ?? 0),
+        0o644,
+      );
+      const identity = fstatSync(descriptor);
+      temporary = { path: temporaryPath, identity };
+      writeBuffer(descriptor, payload);
+      fsyncSync(descriptor);
+      closeSync(descriptor);
+      descriptor = undefined;
+      linkSync(temporaryPath, readyPath);
+      ready = { path: readyPath, identity: lstatSync(readyPath), digest: expectedDigest, kind: 'ready' };
+      unlinkSameFile(temporaryPath, identity);
+      temporary = undefined;
+      syncDirectory(parent);
+    } finally {
+      if (descriptor !== undefined) closeSync(descriptor);
+      if (temporary) unlinkSameFile(temporary.path, temporary.identity);
+    }
+  }
+
+  try {
+    linkSync(ready.path, finalPath);
+    syncDirectory(parent);
+  } catch (error) {
+    if (error.code === 'EEXIST') fail('refusing to overwrite metrics output');
+    throw error;
+  } finally {
+    unlinkSameFile(ready.path, ready.identity);
+    syncDirectory(parent);
+  }
 }
 
 if ((fixtureIndex >= 0) !== (outputIndex >= 0)) fail('setup fixture and output must be supplied together');
@@ -110,6 +287,5 @@ const expected = `${JSON.stringify(projection, null, 2)}\n`;
 if (checkOnly) {
   if (!existsSync(outputPath) || readFileSync(outputPath, 'utf8') !== expected) fail('metrics projection is missing or stale');
 } else {
-  if (existsSync(outputPath)) fail('refusing to overwrite metrics output');
-  writeFileSync(outputPath, expected, { flag: 'wx' });
+  installDerivedBytesAtomic(outputPath, Buffer.from(expected, 'utf8'));
 }

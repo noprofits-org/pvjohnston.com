@@ -34,6 +34,7 @@ from contract import (
     canonical_json_bytes,
     capture_digest_record,
     digest_record,
+    install_derived_bytes_atomic,
     load_and_validate_constants,
     load_and_validate_inputs,
     load_json,
@@ -41,7 +42,6 @@ from contract import (
     validate_digest_record,
     validate_json_schema,
     validate_workflow_ledger,
-    write_bytes_exclusive,
 )
 from reconstruct import (
     PRIMITIVE_UNITS,
@@ -583,7 +583,7 @@ def write_or_check_result(
             raise ContractError("canonical result is missing or stale")
     else:
         path.parent.mkdir(parents=True, exist_ok=True)
-        write_bytes_exclusive(path, expected)
+        install_derived_bytes_atomic(path, expected)
 
 
 def derive_integrity_flags(

@@ -9,13 +9,15 @@ import locale
 import os
 import platform
 import re
+import stat
 import subprocess
 import tempfile
 import time
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
+from uuid import uuid4
 
 
 EXPERIMENT = "muon-survival-two-frames"
@@ -44,6 +46,9 @@ ADMITTED_RUN_SELECTION_RULE = (
 )
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 RUN_ID_RE = re.compile(r"^run-[0-9]{3}$")
+DERIVED_STAGE_NONCE_RE = re.compile(r"^[0-9a-f]{32}$")
+MAX_DERIVED_OUTPUT_BYTES = 10 * 1024 * 1024
+MAX_DERIVED_STAGES_PER_TARGET = 16
 
 
 class ContractError(RuntimeError):
@@ -109,6 +114,183 @@ def write_bytes_exclusive(path: Path, payload: bytes) -> None:
             os.fsync(handle.fileno())
     except FileExistsError as exc:
         raise ContractError(f"refusing to overwrite {path.name}") from exc
+
+
+def derived_stage_path(
+    final_path: Path,
+    payload_sha256: str,
+    nonce: str,
+    kind: str,
+) -> Path:
+    """Return one exact target-scoped same-directory publication stage path."""
+
+    _require(SHA256_RE.fullmatch(payload_sha256) is not None, "derived stage digest is invalid")
+    _require(DERIVED_STAGE_NONCE_RE.fullmatch(nonce) is not None, "derived stage nonce is invalid")
+    _require(kind in {"tmp", "ready"}, "derived stage kind is invalid")
+    return final_path.parent / f".{final_path.name}.publish-{payload_sha256}-{nonce}.{kind}"
+
+
+def _sync_directory(path: Path) -> None:
+    descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_DIRECTORY", 0))
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _derived_stage_pattern(final_path: Path) -> re.Pattern[str]:
+    return re.compile(
+        rf"^\.{re.escape(final_path.name)}\.publish-([0-9a-f]{{64}})-([0-9a-f]{{32}})\.(tmp|ready)$"
+    )
+
+
+def _owned_derived_stages(final_path: Path) -> list[tuple[Path, str, str, os.stat_result]]:
+    pattern = _derived_stage_pattern(final_path)
+    matches: list[tuple[Path, str, str, os.stat_result]] = []
+    for entry in final_path.parent.iterdir():
+        match = pattern.fullmatch(entry.name)
+        if match is None:
+            continue
+        try:
+            identity = entry.lstat()
+        except FileNotFoundError:
+            continue
+        if (
+            not stat.S_ISREG(identity.st_mode)
+            or stat.S_ISLNK(identity.st_mode)
+            or identity.st_uid != os.geteuid()
+            or identity.st_size > MAX_DERIVED_OUTPUT_BYTES
+            or identity.st_nlink not in {1, 2}
+        ):
+            raise ContractError(f"unsafe derived-output staging artifact: {entry.name}")
+        matches.append((entry, match.group(1), match.group(3), identity))
+    if len(matches) > MAX_DERIVED_STAGES_PER_TARGET:
+        raise ContractError("too many derived-output staging artifacts; manual quarantine is required")
+    return sorted(matches, key=lambda item: item[0].name)
+
+
+def _unlink_same_file(path: Path, identity: os.stat_result) -> None:
+    try:
+        current = path.lstat()
+    except FileNotFoundError:
+        return
+    if current.st_dev != identity.st_dev or current.st_ino != identity.st_ino:
+        raise ContractError("derived-output staging artifact changed during cleanup")
+    path.unlink()
+
+
+def _quarantine_derived_stage(
+    final_path: Path,
+    stage_path: Path,
+    identity: os.stat_result,
+) -> Path:
+    quarantine = final_path.parent / f".{final_path.name}.quarantine-{uuid4().hex}.stage"
+    try:
+        os.link(stage_path, quarantine, follow_symlinks=False)
+    except FileExistsError as exc:
+        raise ContractError("derived-output quarantine collision") from exc
+    try:
+        _unlink_same_file(stage_path, identity)
+    except BaseException:
+        try:
+            quarantine.unlink()
+        except FileNotFoundError:
+            pass
+        raise
+    _sync_directory(final_path.parent)
+    return quarantine
+
+
+def install_derived_bytes_atomic(
+    final_path: Path,
+    payload: bytes,
+    *,
+    nonce_factory: Callable[[], str] = lambda: uuid4().hex,
+    before_install: Callable[[Path], None] | None = None,
+) -> list[Path]:
+    """Stage, recover, and atomically install an immutable derived output."""
+
+    if not isinstance(payload, bytes) or len(payload) > MAX_DERIVED_OUTPUT_BYTES:
+        raise ContractError("derived output exceeds the registered byte boundary")
+    parent = final_path.parent
+    if not parent.is_dir() or parent.is_symlink():
+        raise ContractError("derived-output parent must be a real directory")
+    stages = _owned_derived_stages(final_path)
+    if final_path.exists() or final_path.is_symlink():
+        try:
+            final_identity = final_path.lstat()
+        except FileNotFoundError:
+            final_identity = None
+        if final_identity is not None and stat.S_ISREG(final_identity.st_mode) and not stat.S_ISLNK(final_identity.st_mode):
+            for stage_path, _digest, kind, identity in stages:
+                if kind == "ready" and identity.st_dev == final_identity.st_dev and identity.st_ino == final_identity.st_ino:
+                    _unlink_same_file(stage_path, identity)
+                    _sync_directory(parent)
+        raise ContractError(f"refusing to overwrite {final_path.name}")
+
+    expected_digest = hashlib.sha256(payload).hexdigest()
+    quarantined: list[Path] = []
+    ready_path: Path | None = None
+    ready_identity: os.stat_result | None = None
+    for stage_path, claimed_digest, kind, identity in stages:
+        if kind == "tmp":
+            quarantined.append(_quarantine_derived_stage(final_path, stage_path, identity))
+            continue
+        try:
+            stage_payload = stage_path.read_bytes()
+        except OSError as exc:
+            raise ContractError("derived-output ready stage is unreadable") from exc
+        exact_ready = claimed_digest == expected_digest and stage_payload == payload
+        if exact_ready and ready_path is None:
+            ready_path, ready_identity = stage_path, identity
+        else:
+            quarantined.append(_quarantine_derived_stage(final_path, stage_path, identity))
+
+    temporary_path: Path | None = None
+    temporary_identity: os.stat_result | None = None
+    if ready_path is None:
+        nonce = nonce_factory()
+        temporary_path = derived_stage_path(final_path, expected_digest, nonce, "tmp")
+        ready_path = derived_stage_path(final_path, expected_digest, nonce, "ready")
+        descriptor: int | None = None
+        try:
+            flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+            descriptor = os.open(temporary_path, flags, 0o644)
+            temporary_identity = os.fstat(descriptor)
+            view = memoryview(payload)
+            offset = 0
+            while offset < len(view):
+                written = os.write(descriptor, view[offset:])
+                if written <= 0:
+                    raise ContractError("short derived-output staging write")
+                offset += written
+            os.fsync(descriptor)
+            os.close(descriptor)
+            descriptor = None
+            os.link(temporary_path, ready_path, follow_symlinks=False)
+            ready_identity = ready_path.lstat()
+            _unlink_same_file(temporary_path, temporary_identity)
+            temporary_path = None
+            _sync_directory(parent)
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+            if temporary_path is not None and temporary_identity is not None:
+                _unlink_same_file(temporary_path, temporary_identity)
+    if ready_path is None or ready_identity is None:
+        raise ContractError("derived output did not reach the ready stage")
+
+    try:
+        if before_install is not None:
+            before_install(ready_path)
+        os.link(ready_path, final_path, follow_symlinks=False)
+        _sync_directory(parent)
+    except FileExistsError as exc:
+        raise ContractError(f"refusing to overwrite {final_path.name}") from exc
+    finally:
+        _unlink_same_file(ready_path, ready_identity)
+        _sync_directory(parent)
+    return quarantined
 
 
 def write_json_exclusive(path: Path, value: Any) -> None:

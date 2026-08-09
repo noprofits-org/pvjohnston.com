@@ -157,6 +157,25 @@ exact canonical result bytes returned by the pinned Python validator after full
 schema, cross-field, digest-provenance, and integrity-detail validation. These
 production commands have not been executed during setup.
 
+Result, PNG, and metrics publication uses the same restart contract. A writer
+creates a unique hidden, target-scoped temporary file in the final directory,
+flushes and fsyncs it, hard-links it to an immutable `ready` stage, and then
+hard-links that complete stage to the final path. The final hard link is atomic
+and refuses an existing file, link, or directory; equal existing bytes are not
+treated as a successful rewrite. Check mode is read-only.
+
+Rerunning the same writer recovers an interruption before final installation:
+an exact `ready` stage is installed, while an interrupted temporary stage or a
+mismatched `ready` stage is moved by no-overwrite hard link into a target-scoped
+quarantine file. Matching stage names are handled only when they are regular,
+non-symlink files owned by the current user and no larger than 10 MB; unsafe
+entries fail closed untouched. Recovery considers at most 16 stages per target,
+after which manual inspection is required. A successful writer removes its own
+temporary and `ready` names, but preserves quarantine evidence. Two writers may
+race, yet only one final hard link can succeed and readers see either no final
+entry or one complete payload. This derived-output recovery is separate from,
+and does not alter, the frozen raw-run namespace and completion-marker rules.
+
 ## Sources and publication
 
 `sources.json` records the two PDG URLs, access date, byte counts, hashes,

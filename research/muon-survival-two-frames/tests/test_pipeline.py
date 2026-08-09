@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -48,6 +49,8 @@ from contract import (  # noqa: E402
     ContractError,
     authorize_run_request,
     canonical_json_bytes,
+    derived_stage_path,
+    install_derived_bytes_atomic,
     run_namespaces,
     validate_recorded_run_authorization,
 )
@@ -68,7 +71,7 @@ class PipelineContractTests(unittest.TestCase):
     def stage_validated_result(self, temporary_root: Path, result: dict) -> tuple[Path, dict]:
         """Give a synthetic result complete, resolvable provenance in a temp root."""
 
-        fixture = WorkflowFixture(temporary_root, EXPERIMENT_DIR)
+        fixture = WorkflowFixture(temporary_root)
         repository_root = fixture.repository_root
         staged = copy.deepcopy(result)
         staged_experiment = repository_root / "research/muon-survival-two-frames"
@@ -217,13 +220,33 @@ class PipelineContractTests(unittest.TestCase):
             with self.subTest(case=name), self.assertRaises(ContractError):
                 parse_admitted_run_evidence(payloads)
 
+    def test_workflow_fixture_has_a_stable_programmatic_setup_prefix(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
+            with mock.patch.object(Path, "read_text", side_effect=AssertionError(
+                "workflow fixture must not read a mutable live ledger"
+            )):
+                fixture = WorkflowFixture(Path(temporary))
+            records = [json.loads(line) for line in fixture.workflow_path.read_text(encoding="utf-8").splitlines()]
+            self.assertEqual([record["sequence"] for record in records], [1, 2, 3])
+            self.assertEqual([record["type"] for record in records], ["init", "submit", "review"])
+            self.assertEqual(
+                [(record["from"], record["to"]) for record in records],
+                [(None, "brainstorm"), ("brainstorm", "question_review"), ("question_review", "setup")],
+            )
+            self.assertEqual(records[2]["decision"], "approve")
+            self.assertEqual(records[2]["submission_sequence"], 2)
+            self.assertEqual(fixture.sequence, 3)
+            self.assertIsNone(fixture.submission_sequence)
+            snapshots = list((fixture.experiment_dir / "workflow/evidence").iterdir())
+            self.assertEqual(len(snapshots), 2)
+
     def test_registered_analysis_entrypoint_uses_real_integrity_plumbing_for_both_runs(self) -> None:
         cases = (("run-001", False, False), ("run-002", True, True))
         for run_id, register_retry, check_mode in cases:
             with self.subTest(run_id=run_id), tempfile.TemporaryDirectory(
                 prefix="muon-setup-nonproduction-"
             ) as temporary:
-                fixture = WorkflowFixture(Path(temporary), EXPERIMENT_DIR)
+                fixture = WorkflowFixture(Path(temporary))
                 repository_root = fixture.repository_root
                 graph = repository_root / "research/workflow.graph.v1.json"
                 graph.parent.mkdir(parents=True, exist_ok=True)
@@ -349,7 +372,7 @@ class PipelineContractTests(unittest.TestCase):
     def test_only_graph_authorized_normal_and_retry_run_ids_are_accepted(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
             base = Path(temporary)
-            fixture = WorkflowFixture(base, EXPERIMENT_DIR)
+            fixture = WorkflowFixture(base)
             fixture.approve_setup()
             ledger = fixture.workflow_path
             runs = base / "setup-toy-runs"
@@ -382,7 +405,7 @@ class PipelineContractTests(unittest.TestCase):
 
     def test_underspecified_event_is_rejected_by_full_graph_replay(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
-            fixture = WorkflowFixture(Path(temporary), EXPERIMENT_DIR)
+            fixture = WorkflowFixture(Path(temporary))
             fixture.workflow_path.write_text(
                 '{"sequence":1,"event_id":"event-1","type":"review","from":"setup_review","to":"execute","decision":"approve"}\n',
                 encoding="utf-8",
@@ -402,7 +425,7 @@ class PipelineContractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
             base = Path(temporary)
 
-            normal_fixture = WorkflowFixture(base / "normal", EXPERIMENT_DIR)
+            normal_fixture = WorkflowFixture(base / "normal")
             normal_event = normal_fixture.approve_setup()
             normal_runs = base / "normal-runs"
 
@@ -422,7 +445,7 @@ class PipelineContractTests(unittest.TestCase):
                 )
             self.assertEqual(normal["event_id"], normal_event["event_id"])
 
-            recorded_fixture = WorkflowFixture(base / "recorded", EXPERIMENT_DIR)
+            recorded_fixture = WorkflowFixture(base / "recorded")
             recorded_fixture.approve_setup()
             recorded_kwargs = {
                 "workflow_path": recorded_fixture.workflow_path,
@@ -440,7 +463,7 @@ class PipelineContractTests(unittest.TestCase):
             with mock.patch("contract.subprocess.run", side_effect=replace_recorded_after_replay):
                 validate_recorded_run_authorization("run-001", recorded, **recorded_kwargs)
 
-            retry_fixture = WorkflowFixture(base / "retry", EXPERIMENT_DIR)
+            retry_fixture = WorkflowFixture(base / "retry")
             retry_fixture.approve_setup()
             retry_event = retry_fixture.register_retry()
             retry_runs = base / "retry-runs"
@@ -466,7 +489,7 @@ class PipelineContractTests(unittest.TestCase):
         real_run = subprocess.run
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
             base = Path(temporary)
-            fixture = WorkflowFixture(base, EXPERIMENT_DIR)
+            fixture = WorkflowFixture(base)
             approved = fixture.approve_setup()
             graph = base / "setup-toy-approved-graph.json"
             workflow_cli = base / "setup-toy-approved-workflow.mjs"
@@ -493,7 +516,7 @@ class PipelineContractTests(unittest.TestCase):
 
     def test_historical_run_approval_remains_valid_after_analysis_submission(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
-            fixture = WorkflowFixture(Path(temporary), EXPERIMENT_DIR)
+            fixture = WorkflowFixture(Path(temporary))
             fixture.approve_setup()
             approval = fixture.approve_run("run-001")
             fixture.submit_analysis()
@@ -514,7 +537,7 @@ class PipelineContractTests(unittest.TestCase):
     def test_historical_admission_consumes_bound_ledger_and_snapshot_bytes(self) -> None:
         real_run = subprocess.run
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
-            fixture = WorkflowFixture(Path(temporary), EXPERIMENT_DIR)
+            fixture = WorkflowFixture(Path(temporary))
             fixture.approve_setup()
             approval = fixture.approve_run("run-001")
             fixture.submit_analysis()
@@ -567,6 +590,107 @@ class PipelineContractTests(unittest.TestCase):
                 outcomes = sorted(future.result() for future in futures)
             self.assertEqual(outcomes, ["rejected", "won"])
             np.testing.assert_array_equal(np.load(target, allow_pickle=False), sample)
+
+    def test_derived_publication_recovers_stages_and_rejects_existing_finals(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
+            base = Path(temporary)
+            for suffix in ("json", "png"):
+                with self.subTest(suffix=suffix):
+                    target = base / f"setup-toy-derived.{suffix}"
+                    payload = f"complete-{suffix}-payload".encode("ascii")
+                    digest = hashlib.sha256(payload).hexdigest()
+                    partial = derived_stage_path(target, digest, "1" * 32, "tmp")
+                    mismatched = derived_stage_path(target, digest, "2" * 32, "ready")
+                    partial.write_bytes(payload[:5])
+                    mismatched.write_bytes(b"mismatched-ready")
+                    quarantined = install_derived_bytes_atomic(
+                        target,
+                        payload,
+                        nonce_factory=lambda: "3" * 32,
+                    )
+                    self.assertEqual(target.read_bytes(), payload)
+                    self.assertFalse(partial.exists())
+                    self.assertFalse(mismatched.exists())
+                    self.assertEqual(len(quarantined), 2)
+                    self.assertEqual(
+                        {path.read_bytes() for path in quarantined},
+                        {payload[:5], b"mismatched-ready"},
+                    )
+                    self.assertFalse(list(base.glob(f".{target.name}.publish-*")))
+                    with self.assertRaisesRegex(ContractError, "refusing to overwrite"):
+                        install_derived_bytes_atomic(target, b"replacement")
+                    self.assertEqual(target.read_bytes(), payload)
+
+            recovered_target = base / "setup-toy-recovered.json"
+            recovered_payload = b"complete-recoverable-ready"
+            recovered_digest = hashlib.sha256(recovered_payload).hexdigest()
+            recovered_ready = derived_stage_path(
+                recovered_target,
+                recovered_digest,
+                "4" * 32,
+                "ready",
+            )
+            recovered_ready.write_bytes(recovered_payload)
+            self.assertEqual(
+                install_derived_bytes_atomic(recovered_target, recovered_payload),
+                [],
+            )
+            self.assertEqual(recovered_target.read_bytes(), recovered_payload)
+            self.assertFalse(recovered_ready.exists())
+
+    def test_derived_publication_race_never_exposes_a_partial_final(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
+            target = Path(temporary) / "setup-toy-race.json"
+            payloads = (b"A" * (256 * 1024), b"B" * (256 * 1024))
+            first_ready = threading.Event()
+            second_ready = threading.Event()
+            release = threading.Event()
+            stop_observer = threading.Event()
+            observations: list[bytes] = []
+
+            def observe() -> None:
+                while not stop_observer.wait(0.0005):
+                    if os.path.lexists(target):
+                        try:
+                            observations.append(target.read_bytes())
+                        except FileNotFoundError:
+                            pass
+
+            def contender(payload: bytes, nonce: str, ready_event: threading.Event) -> str:
+                def before_install(_ready_path: Path) -> None:
+                    ready_event.set()
+                    self.assertTrue(release.wait(timeout=5.0))
+
+                try:
+                    install_derived_bytes_atomic(
+                        target,
+                        payload,
+                        nonce_factory=lambda: nonce,
+                        before_install=before_install,
+                    )
+                    return "won"
+                except (ContractError, OSError):
+                    return "rejected"
+
+            observer = threading.Thread(target=observe)
+            observer.start()
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                first = pool.submit(contender, payloads[0], "5" * 32, first_ready)
+                self.assertTrue(first_ready.wait(timeout=5.0))
+                self.assertFalse(os.path.lexists(target))
+                second = pool.submit(contender, payloads[1], "6" * 32, second_ready)
+                self.assertTrue(second_ready.wait(timeout=5.0))
+                self.assertFalse(os.path.lexists(target))
+                release.set()
+                outcomes = sorted((first.result(), second.result()))
+            observations.append(target.read_bytes())
+            stop_observer.set()
+            observer.join(timeout=5.0)
+            self.assertEqual(outcomes, ["rejected", "won"])
+            self.assertIn(target.read_bytes(), payloads)
+            self.assertTrue(observations)
+            self.assertTrue(all(observed in payloads for observed in observations))
+            self.assertFalse(list(target.parent.glob(f".{target.name}.publish-*")))
 
     def test_success_logs_are_actual_process_streams_and_hash_bound(self) -> None:
         spec = self.toy_spec()
@@ -691,6 +815,93 @@ class PipelineContractTests(unittest.TestCase):
             summary.write_text("{}\n", encoding="utf-8")
             with self.assertRaises(ContractError):
                 write_or_check_result(summary, result, check=True, enforce_frozen_inputs=False, repository_root=repository_root)
+
+    def test_node_metrics_publication_recovers_quarantines_and_races_atomically(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
+            repository_root, result = self.stage_validated_result(Path(temporary), self.synthetic_result())
+            summary = repository_root / "setup-toy-summary.json"
+            summary.write_bytes(canonical_json_bytes(result))
+
+            def command(output: Path) -> list[str]:
+                return [
+                    "node",
+                    str(EXPERIMENT_DIR / "generate-metrics.mjs"),
+                    "--setup-fixture",
+                    str(summary),
+                    "--output",
+                    str(output),
+                ]
+
+            baseline = repository_root / "setup-toy-node-baseline-metrics.json"
+            subprocess.run(command(baseline), check=True, capture_output=True, text=True)
+            expected = baseline.read_bytes()
+            rejected = subprocess.run(command(baseline), check=False, capture_output=True, text=True)
+            self.assertNotEqual(rejected.returncode, 0)
+            self.assertEqual(baseline.read_bytes(), expected)
+            subprocess.run([*command(baseline), "--check"], check=True, capture_output=True, text=True)
+
+            digest = hashlib.sha256(expected).hexdigest()
+            partial_target = repository_root / "setup-toy-node-partial-metrics.json"
+            partial_stage = derived_stage_path(partial_target, digest, "7" * 32, "tmp")
+            partial_stage.write_bytes(expected[:17])
+            subprocess.run(command(partial_target), check=True, capture_output=True, text=True)
+            self.assertEqual(partial_target.read_bytes(), expected)
+            self.assertFalse(partial_stage.exists())
+            partial_quarantine = list(repository_root.glob(f".{partial_target.name}.quarantine-*.stage"))
+            self.assertEqual(len(partial_quarantine), 1)
+            self.assertEqual(partial_quarantine[0].read_bytes(), expected[:17])
+
+            ready_target = repository_root / "setup-toy-node-ready-metrics.json"
+            ready_stage = derived_stage_path(ready_target, digest, "8" * 32, "ready")
+            ready_stage.write_bytes(expected)
+            subprocess.run(command(ready_target), check=True, capture_output=True, text=True)
+            self.assertEqual(ready_target.read_bytes(), expected)
+            self.assertFalse(ready_stage.exists())
+
+            mismatch_target = repository_root / "setup-toy-node-mismatch-metrics.json"
+            mismatch_stage = derived_stage_path(mismatch_target, digest, "9" * 32, "ready")
+            mismatch_stage.write_bytes(b"mismatched-ready")
+            subprocess.run(command(mismatch_target), check=True, capture_output=True, text=True)
+            self.assertEqual(mismatch_target.read_bytes(), expected)
+            mismatch_quarantine = list(repository_root.glob(f".{mismatch_target.name}.quarantine-*.stage"))
+            self.assertEqual(len(mismatch_quarantine), 1)
+            self.assertEqual(mismatch_quarantine[0].read_bytes(), b"mismatched-ready")
+
+            race_target = repository_root / "setup-toy-node-race-metrics.json"
+            launch = threading.Barrier(2)
+            stop_observer = threading.Event()
+            observations: list[bytes] = []
+
+            def observe() -> None:
+                while not stop_observer.wait(0.0005):
+                    if os.path.lexists(race_target):
+                        try:
+                            observations.append(race_target.read_bytes())
+                        except FileNotFoundError:
+                            pass
+
+            def contender() -> int:
+                launch.wait()
+                return subprocess.run(
+                    command(race_target),
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                ).returncode
+
+            observer = threading.Thread(target=observe)
+            observer.start()
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                futures = [pool.submit(contender) for _ in range(2)]
+                outcomes = sorted(future.result() for future in futures)
+            observations.append(race_target.read_bytes())
+            stop_observer.set()
+            observer.join(timeout=5.0)
+            self.assertEqual(outcomes[0], 0)
+            self.assertNotEqual(outcomes[1], 0)
+            self.assertTrue(observations)
+            self.assertTrue(all(observed == expected for observed in observations))
+            self.assertFalse(list(repository_root.glob(f".{race_target.name}.publish-*")))
 
     def test_metrics_write_and_check_reject_full_result_contract_tampering(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:

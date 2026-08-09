@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import shutil
 from pathlib import Path
 
 
@@ -13,15 +12,48 @@ GRAPH_SHA256 = "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404
 
 
 class WorkflowFixture:
-    def __init__(self, temporary_root: Path, source_experiment_dir: Path) -> None:
+    """Self-contained valid graph prefix ending at setup; never copies live state."""
+
+    def __init__(self, temporary_root: Path) -> None:
         self.repository_root = temporary_root / "setup-toy-repository"
         self.experiment_dir = self.repository_root / "research" / EXPERIMENT
-        self.experiment_dir.mkdir(parents=True)
-        shutil.copytree(source_experiment_dir / "workflow", self.experiment_dir / "workflow")
-        shutil.copy2(source_experiment_dir / "workflow.jsonl", self.experiment_dir / "workflow.jsonl")
+        (self.experiment_dir / "workflow/evidence").mkdir(parents=True)
         self.workflow_path = self.experiment_dir / "workflow.jsonl"
-        self.sequence = len(self.workflow_path.read_text(encoding="utf-8").splitlines())
+        self.sequence = 0
         self.submission_sequence: int | None = None
+        self._append({
+            "schema": 1,
+            "graph_version": 1,
+            "graph_sha256": GRAPH_SHA256,
+            "event_id": self.event_id(1),
+            "timestamp": "2000-01-01T00:00:01.000Z",
+            "experiment": EXPERIMENT,
+            "sequence": 1,
+            "type": "init",
+            "actor": "setup-toy-coordinator",
+            "role": "coordinator",
+            "from": None,
+            "to": "brainstorm",
+            "post_type": "understanding",
+            "question": "Synthetic setup-only workflow fixture?",
+            "journal_session": "20000101T000000Z-setup-toy-workflow-fixture",
+            "journal_anchor_event_id": self.journal_id(1),
+            "context": {
+                "branch": f"post/{EXPERIMENT}",
+                "parent_commit": "0" * 40,
+            },
+        })
+        self.submit(
+            from_state="brainstorm", to_state="question_review",
+            role="research_brainstormer", actor="setup-toy-brainstormer",
+            stem="setup-toy-question-v1",
+            content="# Synthetic setup-only question handoff\n",
+        )
+        self.review(
+            from_state="question_review", to_state="setup", decision="approve",
+            actor="setup-toy-question-reviewer", stem="setup-toy-question-review-v1",
+            content="# Approved synthetic setup-only question\n",
+        )
 
     @staticmethod
     def event_id(sequence: int) -> str:
