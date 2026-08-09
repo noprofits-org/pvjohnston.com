@@ -60,12 +60,26 @@
     "zero_distance_count_equals_draw_count": true,
     "finite_nonnegative_raw_lifetimes": true
   },
+  "analysis": {
+    "canonical_result_path": "research/muon-survival-two-frames/results/summary.json",
+    "canonical_result_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-001 --run-review-event <approved-event-id>",
+    "canonical_result_check_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/analyze.py --run-id run-001 --run-review-event <approved-event-id> --check",
+    "figure_path": "images/muon-survival-two-frames-hero.png",
+    "figure_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/render_figure.py",
+    "figure_check_command": "research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/render_figure.py --check",
+    "metrics_path": "research/muon-survival-two-frames/metrics.json",
+    "metrics_command": "node research/muon-survival-two-frames/generate-metrics.mjs",
+    "metrics_check_command": "node research/muon-survival-two-frames/generate-metrics.mjs --check"
+  },
   "restart": {
     "same_run_resume": false,
     "partial_namespace_action": "preserve and quarantine",
     "registered_infrastructure_retries": 1,
     "retry_requires_new_run_id": true,
     "retry_requires_identical_seed_and_draw_count": true,
+    "normal_execution_authorization": "current setup_review or amended_setup_review approve event into execute",
+    "retry_execution_authorization": "current run_review registered_retry event into execute plus preserved incomplete run-001",
+    "only_registered_run_ids": ["run-001", "run-002"],
     "registered_analysis_reruns": 0
   }
 }

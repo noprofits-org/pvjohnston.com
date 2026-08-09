@@ -8,27 +8,25 @@ import platform
 from datetime import datetime, timezone
 
 from bundle import (
+    RunExecutionError,
     RunSpec,
     create_new_run_directory,
-    generate_lifetimes,
-    record_failure_without_completion,
-    seal_run_bundle,
+    execute_and_seal,
     validate_run_bundle,
 )
 from contract import (
     EXPERIMENT,
     EXPERIMENT_DIR,
-    REPOSITORY_ROOT,
-    RUN_ID_RE,
     ContractError,
+    authorize_run_request,
     digest_record,
     load_and_validate_constants,
     load_and_validate_inputs,
     load_and_validate_sources,
-    load_json,
     production_command,
     set_deterministic_process_environment,
     verify_environment,
+    validate_recorded_run_authorization,
     verify_setup_manifest,
 )
 
@@ -37,9 +35,12 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
-def build_spec(run_id: str) -> RunSpec:
-    if RUN_ID_RE.fullmatch(run_id) is None:
-        raise ContractError("run ID must have the form run-NNN")
+def build_spec(run_id: str, *, recorded_authorization: dict | None = None) -> RunSpec:
+    if recorded_authorization is None:
+        authorization = authorize_run_request(run_id)
+    else:
+        validate_recorded_run_authorization(run_id, recorded_authorization)
+        authorization = dict(recorded_authorization)
     versions = verify_environment(require_node=True)
     constants = load_and_validate_constants()
     load_and_validate_sources()
@@ -70,6 +71,7 @@ def build_spec(run_id: str) -> RunSpec:
         draw_count=production["rng"]["draw_count"],
         scale_s=constants["constants"]["muon_proper_mean_lifetime_s"]["value"],
         lineage=lineage,
+        authorization=authorization,
         platform=platform_record,
         path_prefix=f"research/{EXPERIMENT}/runs/{run_id}",
     )
@@ -82,16 +84,11 @@ def main() -> int:
     set_deterministic_process_environment()
     spec = build_spec(args.run_id)
     run_dir = create_new_run_directory(EXPERIMENT_DIR / "runs", args.run_id)
-    started_at = utc_now()
     try:
-        sample = generate_lifetimes(spec)
-        completed_at = utc_now()
-        seal_run_bundle(run_dir, sample, spec, started_at=started_at, completed_at=completed_at)
+        execute_and_seal(run_dir, spec, started_at=utc_now(), completed_at=utc_now)
         validate_run_bundle(run_dir, spec)
-    except BaseException as exc:
-        record_failure_without_completion(run_dir, exc)
-        raise
-    print(f"sealed {spec.path_prefix}; scientific values were not printed")
+    except RunExecutionError:
+        return 1
     return 0
 
 

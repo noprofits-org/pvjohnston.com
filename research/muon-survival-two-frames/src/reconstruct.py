@@ -13,6 +13,40 @@ import numpy as np
 from contract import ContractError
 
 
+DIMENSIONLESS = "1"
+DETECTOR_UNITS = {
+    "beta": DIMENSIONLESS,
+    "gamma": DIMENSIONLESS,
+    "laboratory_distance_m": "m",
+    "elapsed_time_s": "s",
+    "mean_lifetime_s": "s",
+    "decay_exponent": DIMENSIONLESS,
+    "survival_probability": DIMENSIONLESS,
+}
+MUON_UNITS = {
+    "beta": DIMENSIONLESS,
+    "gamma": DIMENSIONLESS,
+    "contracted_distance_m": "m",
+    "elapsed_time_s": "s",
+    "mean_lifetime_s": "s",
+    "decay_exponent": DIMENSIONLESS,
+    "survival_probability": DIMENSIONLESS,
+}
+COUNTERFACTUAL_UNITS = {
+    "laboratory_distance_m": "m",
+    "elapsed_time_s": "s",
+    "decay_exponent": DIMENSIONLESS,
+    "survival_probability": DIMENSIONLESS,
+}
+PRIMITIVE_UNITS = {
+    "momentum_mev_c": "MeV/c",
+    "mass_energy_mev": "MeV",
+    "tau0_s": "s",
+    "c_m_s": "m/s",
+    "paths_m": "m",
+}
+
+
 def _validated_paths(paths_m: np.ndarray) -> np.ndarray:
     paths = np.asarray(paths_m, dtype=np.float64)
     if paths.ndim != 1 or paths.size == 0:
@@ -57,6 +91,7 @@ def detector_frame(
         "mean_lifetime_s": float(dilated_lifetime_s),
         "decay_exponent": exponent,
         "survival_probability": survival,
+        "units": dict(DETECTOR_UNITS),
     }
 
 
@@ -87,6 +122,7 @@ def muon_frame(
         "mean_lifetime_s": float(tau0_s),
         "decay_exponent": exponent,
         "survival_probability": survival,
+        "units": dict(MUON_UNITS),
     }
 
 
@@ -109,6 +145,7 @@ def same_speed_no_lifetime_dilation_counterfactual(
         "elapsed_time_s": laboratory_time_s,
         "decay_exponent": exponent,
         "survival_probability": np.exp(-exponent),
+        "units": dict(COUNTERFACTUAL_UNITS),
     }
 
 
@@ -142,6 +179,9 @@ def _relative_error(left: np.ndarray | float, right: np.ndarray | float) -> np.n
 def evaluate_checks(
     detector: Mapping[str, Any],
     muon: Mapping[str, Any],
+    counterfactual: Mapping[str, Any],
+    paths_m: np.ndarray,
+    primitives: Mapping[str, Any],
     counts: np.ndarray,
     empirical_probability: np.ndarray,
     proper_lifetimes_s: np.ndarray,
@@ -154,21 +194,113 @@ def evaluate_checks(
     maximum_grid_discrepancy: float,
     integrity_flags: Mapping[str, bool],
 ) -> dict[str, Any]:
-    """Evaluate the frozen branches; tests inject only tiny synthetic dimensions."""
+    """Evaluate every frozen fidelity branch; tests inject only tiny dimensions."""
 
-    detector_probability = np.asarray(detector["survival_probability"], dtype=np.float64)
-    muon_probability = np.asarray(muon["survival_probability"], dtype=np.float64)
-    detector_exponent = np.asarray(detector["decay_exponent"], dtype=np.float64)
-    muon_exponent = np.asarray(muon["decay_exponent"], dtype=np.float64)
+    paths = np.asarray(paths_m)
+    detector_probability = np.asarray(detector["survival_probability"])
+    muon_probability = np.asarray(muon["survival_probability"])
+    detector_exponent = np.asarray(detector["decay_exponent"])
+    muon_exponent = np.asarray(muon["decay_exponent"])
     counts_array = np.asarray(counts)
-    empirical_array = np.asarray(empirical_probability, dtype=np.float64)
+    empirical_array = np.asarray(empirical_probability)
     lifetimes = np.asarray(proper_lifetimes_s)
+    required_arrays = (
+        paths,
+        detector_probability,
+        muon_probability,
+        detector_exponent,
+        muon_exponent,
+        np.asarray(detector["laboratory_distance_m"]),
+        np.asarray(detector["elapsed_time_s"]),
+        np.asarray(muon["contracted_distance_m"]),
+        np.asarray(muon["elapsed_time_s"]),
+        np.asarray(counterfactual["laboratory_distance_m"]),
+        np.asarray(counterfactual["elapsed_time_s"]),
+        np.asarray(counterfactual["decay_exponent"]),
+        np.asarray(counterfactual["survival_probability"]),
+        empirical_array,
+    )
     shapes_ok = all(
         array.shape == (expected_grid_size,)
-        for array in (detector_probability, muon_probability, detector_exponent, muon_exponent, counts_array, empirical_array)
+        for array in (*required_arrays, counts_array)
     ) and lifetimes.shape == (expected_draw_count,)
     if not shapes_ok or not 0 <= focal_index < expected_grid_size:
-        raise ContractError("analysis arrays do not match the frozen dimensional contract")
+        passes = {
+            "frame_agreement": False,
+            "focal_monte_carlo_within_four_standard_errors": False,
+            "maximum_grid_discrepancy_at_most_threshold": False,
+            "counts_valid_and_monotonic": False,
+            "numeric_shapes_dtypes_units_valid": False,
+            "schema_manifest_provenance_and_hashes_valid": False,
+        }
+        return {**passes, "all_passed": False, "details": {"shapes_valid": False}, "diagnostics": {}}
+
+    momentum = primitives.get("momentum_mev_c")
+    mass = primitives.get("mass_energy_mev")
+    tau0 = primitives.get("tau0_s")
+    c_m_s = primitives.get("c_m_s")
+    primitive_values = np.asarray([momentum, mass, tau0, c_m_s], dtype=np.float64)
+    primitives_valid = (
+        primitives.get("units") == PRIMITIVE_UNITS
+        and bool(np.all(np.isfinite(primitive_values)))
+        and bool(np.all(primitive_values > 0.0))
+    )
+    grid_valid = (
+        paths.dtype == np.dtype("float64")
+        and bool(np.all(np.isfinite(paths)))
+        and bool(np.all(paths >= 0.0))
+        and paths[0] == 0.0
+        and bool(np.all(np.diff(paths) > 0.0))
+    )
+
+    detector_energy = np.sqrt(momentum * momentum + mass * mass)
+    expected_detector_gamma = detector_energy / mass
+    expected_detector_beta = momentum / detector_energy
+    expected_detector_time = paths / (expected_detector_beta * c_m_s)
+    expected_detector_lifetime = expected_detector_gamma * tau0
+    expected_detector_exponent = expected_detector_time / expected_detector_lifetime
+    ratio = momentum / mass
+    expected_muon_gamma = np.sqrt(1.0 + ratio * ratio)
+    expected_muon_beta = np.sqrt(1.0 - 1.0 / (expected_muon_gamma * expected_muon_gamma))
+    expected_contracted_distance = paths / expected_muon_gamma
+    expected_muon_time = expected_contracted_distance / (expected_muon_beta * c_m_s)
+    expected_muon_exponent = expected_muon_time / tau0
+    expected_counter_time = paths / (expected_detector_beta * c_m_s)
+    expected_counter_exponent = expected_counter_time / tau0
+
+    def close(actual: Any, expected: Any) -> bool:
+        return bool(np.allclose(np.asarray(actual), np.asarray(expected), rtol=frame_relative_tolerance, atol=0.0, equal_nan=False))
+
+    derived_fields_valid = all([
+        close(detector["beta"], expected_detector_beta),
+        close(detector["gamma"], expected_detector_gamma),
+        np.array_equal(np.asarray(detector["laboratory_distance_m"]), paths),
+        close(detector["elapsed_time_s"], expected_detector_time),
+        close(detector["mean_lifetime_s"], expected_detector_lifetime),
+        close(detector_exponent, expected_detector_exponent),
+        close(detector_probability, np.exp(-expected_detector_exponent)),
+        close(muon["beta"], expected_muon_beta),
+        close(muon["gamma"], expected_muon_gamma),
+        close(muon["contracted_distance_m"], expected_contracted_distance),
+        close(muon["elapsed_time_s"], expected_muon_time),
+        close(muon["mean_lifetime_s"], tau0),
+        close(muon_exponent, expected_muon_exponent),
+        close(muon_probability, np.exp(-expected_muon_exponent)),
+    ])
+    counterfactual_valid = all([
+        counterfactual.get("label") == "same-speed, no-lifetime-dilation counterfactual",
+        counterfactual.get("units") == COUNTERFACTUAL_UNITS,
+        np.array_equal(np.asarray(counterfactual["laboratory_distance_m"]), paths),
+        close(counterfactual["elapsed_time_s"], expected_counter_time),
+        close(counterfactual["decay_exponent"], expected_counter_exponent),
+        close(counterfactual["survival_probability"], np.exp(-expected_counter_exponent)),
+    ])
+    units_valid = detector.get("units") == DETECTOR_UNITS and muon.get("units") == MUON_UNITS
+    dtype_valid = (
+        all(array.dtype == np.dtype("float64") for array in required_arrays)
+        and counts_array.dtype == np.dtype("int64")
+        and lifetimes.dtype == np.dtype("float64")
+    )
     frame_probability_error = float(np.max(_relative_error(detector_probability, muon_probability)))
     nonzero = np.arange(expected_grid_size) != 0
     exponent_error = float(np.max(_relative_error(detector_exponent[nonzero], muon_exponent[nonzero]))) if bool(np.any(nonzero)) else 0.0
@@ -189,19 +321,25 @@ def evaluate_checks(
     max_grid_discrepancy = float(np.max(np.abs(empirical_array - detector_probability)))
     max_grid_ok = max_grid_discrepancy <= maximum_grid_discrepancy
     counts_valid = (
-        np.issubdtype(counts_array.dtype, np.integer)
+        counts_array.dtype == np.dtype("int64")
         and bool(np.all((0 <= counts_array) & (counts_array <= expected_draw_count)))
         and int(counts_array[0]) == expected_draw_count
         and bool(np.all(np.diff(counts_array) <= 0))
         and bool(np.array_equal(empirical_array, counts_array.astype(np.float64) / expected_draw_count))
     )
     numeric_valid = (
-        lifetimes.dtype == np.dtype("float64")
+        shapes_ok
+        and dtype_valid
+        and primitives_valid
+        and grid_valid
+        and derived_fields_valid
+        and counterfactual_valid
+        and units_valid
         and bool(np.all(np.isfinite(lifetimes)))
         and not bool(np.any(lifetimes < 0.0))
-        and all(bool(np.all(np.isfinite(array))) for array in (detector_probability, muon_probability, detector_exponent, muon_exponent, empirical_array))
+        and all(bool(np.all(np.isfinite(array))) for array in required_arrays)
     )
-    integrity_ok = bool(integrity_flags) and all(value is True for value in integrity_flags.values())
+    integrity_ok = set(integrity_flags) == {"schema", "manifest", "provenance", "hashes", "run_bundle", "run_admission"} and all(value is True for value in integrity_flags.values())
     passes = {
         "frame_agreement": bool(frame_agreement),
         "focal_monte_carlo_within_four_standard_errors": bool(focal_within_error),
@@ -213,6 +351,17 @@ def evaluate_checks(
     return {
         **passes,
         "all_passed": all(passes.values()),
+        "details": {
+            "shapes_valid": bool(shapes_ok),
+            "dtypes_valid": bool(dtype_valid),
+            "primitive_inputs_valid": bool(primitives_valid),
+            "grid_valid": bool(grid_valid),
+            "derived_fields_valid": bool(derived_fields_valid),
+            "counterfactual_valid": bool(counterfactual_valid),
+            "units_valid": bool(units_valid),
+            "raw_lifetimes_finite_nonnegative": bool(np.all(np.isfinite(lifetimes)) and not np.any(lifetimes < 0.0)),
+            "empirical_matches_counts": bool(np.array_equal(empirical_array, counts_array.astype(np.float64) / expected_draw_count)),
+        },
         "diagnostics": {
             "frame_probability_max_relative_error": frame_probability_error,
             "frame_exponent_max_relative_error_nonzero_path": exponent_error,

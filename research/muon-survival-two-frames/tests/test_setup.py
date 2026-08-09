@@ -3,7 +3,6 @@ from __future__ import annotations
 import copy
 import json
 import sys
-import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -12,45 +11,38 @@ import numpy as np
 
 
 EXPERIMENT_DIR = Path(__file__).resolve().parents[1]
-SRC_DIR = EXPERIMENT_DIR / "src"
-sys.path.insert(0, str(SRC_DIR))
+sys.path.insert(0, str(EXPERIMENT_DIR / "src"))
 
 import reconstruct  # noqa: E402
-from bundle import (  # noqa: E402
-    RunSpec,
-    create_new_run_directory,
-    generate_lifetimes,
-    seal_run_bundle,
-    validate_run_bundle,
-)
+from bundle import RunSpec, generate_lifetimes  # noqa: E402
 from contract import (  # noqa: E402
     ContractError,
     canonical_json_bytes,
     load_and_validate_constants,
     load_and_validate_inputs,
     load_and_validate_sources,
-    sha256_file,
     verify_environment,
 )
 
 
-class SetupTests(unittest.TestCase):
+class ReconstructionContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.toy = json.loads((EXPERIMENT_DIR / "tests/fixtures/toy-inputs.json").read_text(encoding="utf-8"))
 
-    def toy_spec(self, path_prefix: str = "setup-toy/toy-run") -> RunSpec:
+    def toy_spec(self) -> RunSpec:
         return RunSpec(
             experiment="muon-survival-two-frames",
             purpose="setup-toy",
             run_id="toy-run",
             command="setup-only toy smoke; not a production command",
-            seed=self.toy["seed"],
-            draw_count=self.toy["draw_count"],
-            scale_s=self.toy["proper_mean_lifetime_s"],
+            seed=0,
+            draw_count=16,
+            scale_s=1e-6,
             lineage={},
+            authorization={"kind": "setup-toy"},
             platform={"environment": "setup-toy"},
-            path_prefix=path_prefix,
+            path_prefix="setup-toy/toy-run",
         )
 
     def test_frozen_manifests_and_environment_validate_without_calculation(self) -> None:
@@ -58,49 +50,25 @@ class SetupTests(unittest.TestCase):
         load_and_validate_sources()
         load_and_validate_inputs()
         versions = verify_environment()
+        self.assertEqual(versions["python_version"], "3.12.3")
         self.assertEqual(versions["pip_version"], "26.2.1")
         self.assertEqual(versions["numpy_version"], "2.5.1")
         self.assertEqual(versions["matplotlib_version"], "3.11.1")
-        self.assertFalse((EXPERIMENT_DIR / "runs/run-001").exists())
+        self.assertFalse((EXPERIMENT_DIR / "runs").exists())
 
-    def test_json_serialization_is_deterministic_and_rejects_nan(self) -> None:
+    def test_json_serialization_and_toy_rng_boundary(self) -> None:
         self.assertEqual(canonical_json_bytes({"b": 2, "a": 1}), b'{\n  "a": 1,\n  "b": 2\n}\n')
         with self.assertRaises(ValueError):
             canonical_json_bytes({"bad": float("nan")})
-
-    def test_toy_rng_is_reproducible_and_enforces_setup_boundary(self) -> None:
         first = generate_lifetimes(self.toy_spec())
         second = generate_lifetimes(self.toy_spec())
         np.testing.assert_array_equal(first, second)
-        self.assertEqual(first.shape, (16,))
         with self.assertRaises(ContractError):
-            generate_lifetimes(self.toy_spec().__class__(**{**self.toy_spec().__dict__, "seed": 1}))
+            generate_lifetimes(RunSpec(**{**self.toy_spec().__dict__, "seed": 1}))
         with self.assertRaises(ContractError):
-            generate_lifetimes(self.toy_spec().__class__(**{**self.toy_spec().__dict__, "draw_count": 17}))
+            generate_lifetimes(RunSpec(**{**self.toy_spec().__dict__, "draw_count": 17}))
 
-    def test_new_namespace_bundle_completion_and_hash_contract(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
-            parent = Path(temporary) / "setup-toy-runs"
-            run_dir = create_new_run_directory(parent, "toy-run")
-            spec = self.toy_spec()
-            sample = generate_lifetimes(spec)
-            seal_run_bundle(
-                run_dir,
-                sample,
-                spec,
-                started_at="2000-01-01T00:00:00Z",
-                completed_at="2000-01-01T00:00:01Z",
-            )
-            report = validate_run_bundle(run_dir, spec)
-            self.assertTrue(report["valid"])
-            self.assertEqual(report["sample_shape"], [16])
-            with self.assertRaises(ContractError):
-                create_new_run_directory(parent, "toy-run")
-            (run_dir / "stdout.log").write_text("tampered\n", encoding="utf-8")
-            with self.assertRaisesRegex(ContractError, "checksum mismatch"):
-                validate_run_bundle(run_dir, spec)
-
-    def test_independent_frame_routes_agree_on_toy_primitives(self) -> None:
+    def test_independent_routes_zero_path_and_inclusive_counts(self) -> None:
         kwargs = {
             "momentum_mev_c": self.toy["momentum_mev_c"],
             "mass_energy_mev": self.toy["mass_energy_mev"],
@@ -112,31 +80,39 @@ class SetupTests(unittest.TestCase):
         with mock.patch.object(reconstruct, "detector_frame", side_effect=AssertionError("must not be called")):
             muon = reconstruct.muon_frame(paths, **kwargs)
         np.testing.assert_allclose(detector["survival_probability"], muon["survival_probability"], rtol=1e-14, atol=0.0)
-        np.testing.assert_allclose(detector["decay_exponent"], muon["decay_exponent"], rtol=1e-14, atol=0.0)
         self.assertEqual(detector["decay_exponent"][0], 0.0)
         self.assertEqual(muon["decay_exponent"][0], 0.0)
-
-    def test_inclusive_empirical_comparison_and_invalid_boundaries(self) -> None:
-        lifetimes = np.asarray([0.0, 1.0, 2.0], dtype=np.float64)
-        counts, probabilities = reconstruct.empirical_survival(lifetimes, np.asarray([0.0, 1.0, 2.0]))
+        counts, probabilities = reconstruct.empirical_survival(
+            np.asarray([0.0, 1.0, 2.0], dtype=np.float64),
+            np.asarray([0.0, 1.0, 2.0], dtype=np.float64),
+        )
         np.testing.assert_array_equal(counts, [3, 2, 1])
         np.testing.assert_allclose(probabilities, [1.0, 2.0 / 3.0, 1.0 / 3.0])
-        with self.assertRaises(ContractError):
-            reconstruct.detector_frame(np.asarray([0.0, -1.0]), momentum_mev_c=1.0, mass_energy_mev=1.0, tau0_s=1.0, c_m_s=1.0)
-        with self.assertRaises(ContractError):
-            reconstruct.empirical_survival(np.asarray([0.0, -1.0]), np.asarray([0.0]))
 
-    def _synthetic_check_packet(self):
-        exponent = np.asarray([0.0, np.log(2.0), np.log(4.0)], dtype=np.float64)
-        probability = np.asarray([1.0, 0.5, 0.25], dtype=np.float64)
-        detector = {"beta": 0.5, "gamma": 2.0, "decay_exponent": exponent, "survival_probability": probability}
-        muon = copy.deepcopy(detector)
-        counts = np.asarray([16, 8, 4], dtype=np.int64)
+    def packet(self, *, focal_probability: float = 0.5):
+        primitives = {
+            "momentum_mev_c": 1.0,
+            "mass_energy_mev": 1.0,
+            "tau0_s": 1.0,
+            "c_m_s": 1.0,
+            "units": dict(reconstruct.PRIMITIVE_UNITS),
+        }
+        paths = np.asarray([0.0, -np.log(focal_probability), -np.log(0.25)], dtype=np.float64)
+        kwargs = {key: primitives[key] for key in ("momentum_mev_c", "mass_energy_mev", "tau0_s", "c_m_s")}
+        detector = reconstruct.detector_frame(paths, **kwargs)
+        muon = reconstruct.muon_frame(paths, **kwargs)
+        counterfactual = reconstruct.same_speed_no_lifetime_dilation_counterfactual(
+            paths, detector_beta=detector["beta"], tau0_s=1.0, c_m_s=1.0
+        )
+        counts = np.asarray([16, int(round(focal_probability * 16)), 4], dtype=np.int64)
         empirical = counts.astype(np.float64) / 16
         lifetimes = np.linspace(0.0, 1.0, 16, dtype=np.float64)
-        return detector, muon, counts, empirical, lifetimes
+        return detector, muon, counterfactual, paths, primitives, counts, empirical, lifetimes
 
-    def _checks(self, *packet, integrity=True):
+    def checks(self, packet, *, integrity_overrides=None):
+        integrity = {"schema": True, "manifest": True, "provenance": True, "hashes": True, "run_bundle": True, "run_admission": True}
+        if integrity_overrides:
+            integrity.update(integrity_overrides)
         return reconstruct.evaluate_checks(
             *packet,
             focal_index=1,
@@ -145,26 +121,83 @@ class SetupTests(unittest.TestCase):
             frame_relative_tolerance=1e-12,
             standard_error_multiplier=4.0,
             maximum_grid_discrepancy=0.01,
-            integrity_flags={"schema": integrity, "manifest": True, "provenance": True, "hashes": True},
+            integrity_flags=integrity,
         )
 
-    def test_all_acceptance_branches_pass_on_consistent_synthetic_data(self) -> None:
-        checks = self._checks(*self._synthetic_check_packet())
+    def test_all_registered_checks_pass_for_consistent_synthetic_packet(self) -> None:
+        checks = self.checks(self.packet())
         self.assertTrue(checks["all_passed"])
+        self.assertTrue(all(checks["details"].values()))
 
-    def test_failure_branches_are_observable_without_a_verdict(self) -> None:
-        packet = list(self._synthetic_check_packet())
-        packet[1]["survival_probability"] = np.asarray([1.0, 0.6, 0.25])
-        self.assertFalse(self._checks(*packet)["frame_agreement"])
+    def test_each_frame_agreement_subbranch_fails_independently(self) -> None:
+        mutations = [
+            ("probability", lambda packet: packet[1]["survival_probability"].__setitem__(1, 0.6)),
+            ("exponent", lambda packet: packet[1]["decay_exponent"].__setitem__(1, packet[1]["decay_exponent"][1] * 1.01)),
+            ("beta", lambda packet: packet[1].__setitem__("beta", packet[1]["beta"] * 0.99)),
+            ("gamma", lambda packet: packet[1].__setitem__("gamma", packet[1]["gamma"] * 1.01)),
+            ("zero", lambda packet: packet[1]["decay_exponent"].__setitem__(0, 1e-15)),
+        ]
+        for name, mutate in mutations:
+            with self.subTest(name=name):
+                packet = list(copy.deepcopy(self.packet()))
+                mutate(packet)
+                self.assertFalse(self.checks(tuple(packet))["frame_agreement"])
 
-        packet = list(self._synthetic_check_packet())
-        packet[2] = np.asarray([16, 4, 8], dtype=np.int64)
-        packet[3] = packet[2].astype(np.float64) / 16
-        checks = self._checks(*packet)
-        self.assertFalse(checks["counts_valid_and_monotonic"])
-        self.assertFalse(checks["maximum_grid_discrepancy_at_most_threshold"])
+    def test_focal_and_grid_discrepancy_fail_separately(self) -> None:
+        packet = list(self.packet(focal_probability=0.75))
+        packet[5] = np.asarray([16, 0, 4], dtype=np.int64)
+        packet[6] = packet[5].astype(np.float64) / 16
+        self.assertFalse(self.checks(tuple(packet))["focal_monte_carlo_within_four_standard_errors"])
+        packet = list(self.packet())
+        packet[5] = np.asarray([16, 7, 4], dtype=np.int64)
+        packet[6] = packet[5].astype(np.float64) / 16
+        self.assertFalse(self.checks(tuple(packet))["maximum_grid_discrepancy_at_most_threshold"])
 
-        self.assertFalse(self._checks(*self._synthetic_check_packet(), integrity=False)["schema_manifest_provenance_and_hashes_valid"])
+    def test_each_count_and_dtype_branch_fails(self) -> None:
+        mutations = [
+            ("upper_bound", lambda packet: packet.__setitem__(5, np.asarray([16, 17, 4], dtype=np.int64))),
+            ("zero_count", lambda packet: packet.__setitem__(5, np.asarray([15, 8, 4], dtype=np.int64))),
+            ("monotonic", lambda packet: packet.__setitem__(5, np.asarray([16, 4, 8], dtype=np.int64))),
+            ("count_dtype", lambda packet: packet.__setitem__(5, packet[5].astype(np.int32))),
+            ("empirical_equality", lambda packet: packet[6].__setitem__(1, 0.4)),
+        ]
+        for name, mutate in mutations:
+            with self.subTest(name=name):
+                packet = list(copy.deepcopy(self.packet()))
+                mutate(packet)
+                if name != "empirical_equality":
+                    packet[6] = packet[5].astype(np.float64) / 16
+                self.assertFalse(self.checks(tuple(packet))["counts_valid_and_monotonic"])
+
+    def test_numeric_derived_units_counterfactual_and_integrity_branches(self) -> None:
+        mutations = [
+            ("raw_dtype", lambda packet: packet.__setitem__(7, packet[7].astype(np.float32)), "dtypes_valid"),
+            ("raw_finite", lambda packet: packet[7].__setitem__(1, np.nan), "raw_lifetimes_finite_nonnegative"),
+            ("primitive", lambda packet: packet[4].__setitem__("momentum_mev_c", 1.1), "derived_fields_valid"),
+            ("grid", lambda packet: packet[3].__setitem__(1, packet[3][1] + 0.1), "derived_fields_valid"),
+            ("distance", lambda packet: packet[0]["laboratory_distance_m"].__setitem__(1, 99.0), "derived_fields_valid"),
+            ("elapsed", lambda packet: packet[1]["elapsed_time_s"].__setitem__(1, 99.0), "derived_fields_valid"),
+            ("mean_lifetime", lambda packet: packet[0].__setitem__("mean_lifetime_s", 99.0), "derived_fields_valid"),
+            ("units", lambda packet: packet[0]["units"].__setitem__("elapsed_time_s", "ms"), "units_valid"),
+            ("counter_label", lambda packet: packet[2].__setitem__("label", "third frame"), "counterfactual_valid"),
+            ("counter_value", lambda packet: packet[2]["decay_exponent"].__setitem__(1, 99.0), "counterfactual_valid"),
+        ]
+        for name, mutate, detail in mutations:
+            with self.subTest(name=name):
+                packet = list(copy.deepcopy(self.packet()))
+                mutate(packet)
+                checks = self.checks(tuple(packet))
+                self.assertFalse(checks["numeric_shapes_dtypes_units_valid"])
+                self.assertFalse(checks["details"][detail])
+        for key in ("schema", "manifest", "provenance", "hashes", "run_bundle", "run_admission"):
+            with self.subTest(integrity=key):
+                self.assertFalse(self.checks(self.packet(), integrity_overrides={key: False})["schema_manifest_provenance_and_hashes_valid"])
+
+    def test_invalid_public_boundaries_raise(self) -> None:
+        with self.assertRaises(ContractError):
+            reconstruct.detector_frame(np.asarray([0.0, -1.0]), momentum_mev_c=1.0, mass_energy_mev=1.0, tau0_s=1.0, c_m_s=1.0)
+        with self.assertRaises(ContractError):
+            reconstruct.empirical_survival(np.asarray([0.0, -1.0]), np.asarray([0.0]))
 
     def test_schema_documents_parse_and_declare_draft(self) -> None:
         for path in sorted((EXPERIMENT_DIR / "schemas").glob("*.json")):

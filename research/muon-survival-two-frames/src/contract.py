@@ -23,6 +23,7 @@ CONSTANTS_PATH = EXPERIMENT_DIR / "constants.json"
 SOURCES_PATH = EXPERIMENT_DIR / "sources.json"
 ENVIRONMENT_PATH = EXPERIMENT_DIR / "environment.json"
 SETUP_MANIFEST_PATH = EXPERIMENT_DIR / "setup-manifest.json"
+WORKFLOW_PATH = EXPERIMENT_DIR / "workflow.jsonl"
 
 EXPECTED_PYTHON = "3.12.3"
 EXPECTED_NUMPY = "2.5.1"
@@ -193,9 +194,18 @@ def load_and_validate_inputs() -> dict[str, Any]:
     _require(checks.get("frame_relative_tolerance") == 1e-12, "frame tolerance mismatch")
     _require(checks.get("focal_monte_carlo_standard_error_multiplier") == 4.0, "focal error multiplier mismatch")
     _require(checks.get("maximum_grid_absolute_discrepancy") == 0.01, "grid discrepancy tolerance mismatch")
+    analysis = data.get("analysis", {})
+    _require(analysis.get("canonical_result_path") == "research/muon-survival-two-frames/results/summary.json", "canonical result path mismatch")
+    _require(analysis.get("figure_path") == "images/muon-survival-two-frames-hero.png", "figure path mismatch")
+    _require(analysis.get("metrics_path") == "research/muon-survival-two-frames/metrics.json", "metrics path mismatch")
+    for name in ("canonical_result_command", "canonical_result_check_command", "figure_command", "figure_check_command", "metrics_command", "metrics_check_command"):
+        _require(isinstance(analysis.get(name), str) and analysis[name], f"missing frozen analysis command: {name}")
     restart = data.get("restart", {})
     _require(restart.get("same_run_resume") is False, "same-run resume must remain disabled")
     _require(restart.get("registered_infrastructure_retries") == 1, "retry authorization mismatch")
+    _require(restart.get("only_registered_run_ids") == ["run-001", "run-002"], "registered run-ID contract mismatch")
+    _require(restart.get("normal_execution_authorization") == "current setup_review or amended_setup_review approve event into execute", "normal authorization contract mismatch")
+    _require(restart.get("retry_execution_authorization") == "current run_review registered_retry event into execute plus preserved incomplete run-001", "retry authorization contract mismatch")
     _require(restart.get("registered_analysis_reruns") == 0, "analysis rerun must remain unauthorized")
     lineage = data.get("lineage", {})
     _require(set(lineage) == {"protocol", "constants", "sources", "environment", "requirements"}, "input lineage fields mismatch")
@@ -206,13 +216,109 @@ def load_and_validate_inputs() -> dict[str, Any]:
 
 
 def production_command(run_id: str) -> str:
-    if RUN_ID_RE.fullmatch(run_id) is None:
-        raise ContractError("run ID must have the form run-NNN")
+    if run_id not in {"run-001", "run-002"}:
+        raise ContractError("only run-001 or the single authorized run-002 retry can be requested")
     return (
         "research/muon-survival-two-frames/.venv/bin/python "
         "research/muon-survival-two-frames/src/run.py --run-id "
         f"{run_id}"
     )
+
+
+def _workflow_records(path: Path) -> list[tuple[dict[str, Any], str]]:
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError) as exc:
+        raise ContractError("workflow ledger is unreadable") from exc
+    records: list[tuple[dict[str, Any], str]] = []
+    for index, line in enumerate(lines, start=1):
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise ContractError("workflow ledger contains invalid JSON") from exc
+        _require(record.get("sequence") == index, "workflow ledger sequence mismatch")
+        records.append((record, line))
+    _require(bool(records), "workflow ledger is empty")
+    return records
+
+
+def run_namespaces(runs_dir: Path) -> list[str]:
+    """Return every entry in the production runs namespace, including links."""
+
+    if not runs_dir.exists() and not runs_dir.is_symlink():
+        return []
+    _require(runs_dir.is_dir() and not runs_dir.is_symlink(), "runs path must be a real directory")
+    return sorted(entry.name for entry in runs_dir.iterdir())
+
+
+def _authorization_record(event: Mapping[str, Any], raw_line: str, kind: str) -> dict[str, Any]:
+    return {
+        "kind": kind,
+        "workflow_path": "research/muon-survival-two-frames/workflow.jsonl",
+        "event_id": event["event_id"],
+        "sequence": event["sequence"],
+        "decision": event["decision"],
+        "event_sha256": hashlib.sha256(f"{raw_line}\n".encode("utf-8")).hexdigest(),
+    }
+
+
+def authorize_run_request(
+    run_id: str,
+    *,
+    workflow_path: Path = WORKFLOW_PATH,
+    runs_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Bind normal execution or the sole retry to the current graph event."""
+
+    if run_id not in {"run-001", "run-002"}:
+        raise ContractError("unregistered run ID")
+    records = _workflow_records(workflow_path)
+    event, raw_line = records[-1]
+    namespaces = run_namespaces(runs_dir if runs_dir is not None else EXPERIMENT_DIR / "runs")
+    if run_id == "run-001":
+        _require(namespaces == [], "normal execution requires an empty runs namespace")
+        valid = (
+            event.get("type") == "review"
+            and event.get("from") in {"setup_review", "amended_setup_review"}
+            and event.get("to") == "execute"
+            and event.get("decision") == "approve"
+        )
+        _require(valid, "run-001 requires the current recorded setup approval into execute")
+        return _authorization_record(event, raw_line, "normal")
+
+    _require(namespaces == ["run-001"], "registered retry requires only the preserved run-001 namespace")
+    prior = (runs_dir if runs_dir is not None else EXPERIMENT_DIR / "runs") / "run-001"
+    _require(prior.is_dir() and not prior.is_symlink(), "retry predecessor must be a real run-001 directory")
+    _require(not (prior / "COMPLETE.json").exists() and not (prior / "COMPLETE.json").is_symlink(), "a complete run-001 cannot be retried")
+    valid = (
+        event.get("type") == "review"
+        and event.get("from") == "run_review"
+        and event.get("to") == "execute"
+        and event.get("decision") == "registered_retry"
+    )
+    _require(valid, "run-002 requires the current recorded registered_retry event")
+    return _authorization_record(event, raw_line, "registered_retry")
+
+
+def validate_recorded_run_authorization(
+    run_id: str,
+    authorization: Mapping[str, Any],
+    *,
+    workflow_path: Path = WORKFLOW_PATH,
+) -> None:
+    expected_kind = "normal" if run_id == "run-001" else "registered_retry" if run_id == "run-002" else None
+    _require(expected_kind is not None and authorization.get("kind") == expected_kind, "run authorization kind mismatch")
+    _require(authorization.get("workflow_path") == "research/muon-survival-two-frames/workflow.jsonl", "run authorization workflow path mismatch")
+    records = _workflow_records(workflow_path)
+    matches = [(event, raw) for event, raw in records if event.get("event_id") == authorization.get("event_id")]
+    _require(len(matches) == 1, "recorded run authorization event is missing or duplicated")
+    event, raw_line = matches[0]
+    expected = _authorization_record(event, raw_line, expected_kind)
+    _require(dict(authorization) == expected, "recorded run authorization does not match its workflow event")
+    if expected_kind == "normal":
+        _require(event.get("from") in {"setup_review", "amended_setup_review"} and event.get("to") == "execute" and event.get("decision") == "approve", "normal authorization event is invalid")
+    else:
+        _require(event.get("from") == "run_review" and event.get("to") == "execute" and event.get("decision") == "registered_retry", "retry authorization event is invalid")
 
 
 def verify_environment(*, require_node: bool = True) -> dict[str, str]:
@@ -280,6 +386,6 @@ def setup_validation() -> dict[str, Any]:
         document = load_json(schema)
         _require(document.get("$schema") == "https://json-schema.org/draft/2020-12/schema", f"schema draft mismatch: {schema.name}")
         _require(document.get("type") == "object", f"schema root must be an object: {schema.name}")
-    normal_run = EXPERIMENT_DIR / "runs" / "run-001"
-    _require(not normal_run.exists() and not normal_run.is_symlink(), "canonical run namespace already exists")
-    return {"versions": versions, "artifact_count": len(manifest["artifacts"]), "production_absent": True}
+    namespaces = run_namespaces(EXPERIMENT_DIR / "runs")
+    _require(namespaces == [], f"production run namespace exists: {', '.join(namespaces)}")
+    return {"versions": versions, "artifact_count": len(manifest["artifacts"]), "production_absent": True, "run_namespaces": []}

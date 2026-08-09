@@ -16,9 +16,14 @@ research/muon-survival-two-frames/setup-manifest.json
 research/muon-survival-two-frames/schemas/analysis-result.schema.json
 research/muon-survival-two-frames/schemas/completion.schema.json
 research/muon-survival-two-frames/schemas/run-manifest.schema.json
+research/muon-survival-two-frames/schemas/constants.schema.json
+research/muon-survival-two-frames/schemas/inputs.schema.json
+research/muon-survival-two-frames/schemas/sources.schema.json
+research/muon-survival-two-frames/src/analyze.py
 research/muon-survival-two-frames/src/bundle.py
 research/muon-survival-two-frames/src/contract.py
 research/muon-survival-two-frames/src/reconstruct.py
+research/muon-survival-two-frames/src/render_figure.py
 research/muon-survival-two-frames/src/run.py
 research/muon-survival-two-frames/src/validate_run.py
 research/muon-survival-two-frames/src/verify_setup.py

@@ -11,8 +11,8 @@ energy loss, air, scattering, zenith angle, showers, detector response,
 capture, sea-level flux, or a historical experiment. The Monte Carlo is an
 implementation check of the assumed decay law, not evidence for relativity.
 
-Current status: prospective setup implemented; production has not run and
-reproducibility is not yet established. The immutable protocol is
+Current status: revised prospective setup implemented; production has not run
+and reproducibility is not yet established. The immutable protocol is
 `PREREGISTRATION-v1.md`.
 
 ## Environment and setup-only verification
@@ -39,14 +39,15 @@ overrides for seed, draw count, momentum, grid, threshold, or tolerances exist.
 
 ## Canonical execution
 
-Do not execute this command until an independent `setup_review` approves the
-exact committed setup:
+Do not execute this command until an independent `setup_review` (or
+`amended_setup_review`) approves the exact committed setup into `execute`:
 
 ```sh
 research/muon-survival-two-frames/.venv/bin/python research/muon-survival-two-frames/src/run.py --run-id run-001
 ```
 
-The runner first rejects environment or setup drift, then exclusively creates
+The runner first verifies the current workflow authorization and rejects
+environment, setup, or namespace drift, then exclusively creates
 `runs/run-001/`. It makes the registered PCG64 exponential draw in one call
 and writes only the unsorted float64 proper-lifetime sample plus integrity
 metadata. It does not reconstruct survival, calculate the focal example,
@@ -60,9 +61,12 @@ A complete namespace contains exactly:
 - `checksums.sha256`; and
 - `COMPLETE.json`, written last.
 
-The checksum file covers the sample, logs, and run manifest. It excludes
-itself; `COMPLETE.json` binds the checksum file and manifest and is itself
-bound by the later run-review receipt. The read-only integrity command is:
+`stdout.log` and `stderr.log` are the runner process streams captured from
+before the draw through sealing; a post-claim exception is captured in the
+incomplete namespace. The checksum file covers the sample, logs, and run
+manifest. It excludes itself; `COMPLETE.json` binds the checksum file and
+manifest and is itself bound by the later run-review receipt. The read-only
+integrity command is:
 
 ```sh
 research/muon-survival-two-frames/.venv/bin/python \
@@ -71,24 +75,50 @@ research/muon-survival-two-frames/.venv/bin/python \
 
 Any pre-existing run directory is rejected before writing. There is no
 same-run resume. An interrupted namespace lacks a valid completion marker and
-is preserved for quarantine. The only prospectively registered retry is one
-fresh run ID after an objective pre-completion infrastructure failure; it must
-use the same reviewed bytes, seed, draw count, and runner. No scientific-check
-retry and no analysis rerun are authorized.
+is preserved for quarantine. Every entry under `runs/` makes setup's
+`production_absent` check fail. The only prospectively registered retry is
+`run-002`: it is accepted only when the current graph event is a
+`run_review --registered-retry--> execute`, `run-001` is preserved and
+incomplete, and the same reviewed bytes, seed, draw count, and runner are used.
+Every other run ID is rejected. No scientific-check retry and no analysis
+rerun are authorized.
 
 ## Analysis handoff
 
-`src/reconstruct.py` is a tested analysis contract, not an executed production
-analysis. It contains visibly separate detector-frame and muon-frame functions;
-neither consumes the other's derived kinematics or arrays. It also provides
-the explicitly labelled same-speed/no-lifetime-dilation counterfactual,
-inclusive nested survivor counts, every registered pass/fail branch, and the
-Understanding result skeleton with no hypothesis or verdict.
+`src/reconstruct.py` is the tested numerical analysis contract. It contains
+visibly separate detector-frame and muon-frame functions; neither consumes the
+other's derived kinematics or arrays. It also provides the explicitly labelled
+same-speed/no-lifetime-dilation counterfactual, inclusive nested survivor
+counts, and every registered pass/fail branch. Synthetic fixtures exercise the
+result, figure, and metrics contracts without touching canonical paths.
 
-After run review admits the sealed sample, the analyst owns the deterministic
-canonical result, the one 1200 by 630 PNG, and the metrics projection. Those
-later artifacts must be generated from the admitted sample without changing
-the frozen checks or adding a seed, curve, or diagnostic.
+After a `run_review --approve--> analyze` event admits the sealed sample, the
+analyst supplies that event ID and writes the deterministic canonical result:
+
+```sh
+research/muon-survival-two-frames/.venv/bin/python \
+  research/muon-survival-two-frames/src/analyze.py \
+  --run-id run-001 --run-review-event <approved-event-id>
+```
+
+The result can then be exactly regenerated and checked, followed by the single
+1200 by 630 PNG and metrics projection:
+
+```sh
+research/muon-survival-two-frames/.venv/bin/python \
+  research/muon-survival-two-frames/src/analyze.py \
+  --run-id run-001 --run-review-event <approved-event-id> --check
+research/muon-survival-two-frames/.venv/bin/python \
+  research/muon-survival-two-frames/src/render_figure.py
+research/muon-survival-two-frames/.venv/bin/python \
+  research/muon-survival-two-frames/src/render_figure.py --check
+node research/muon-survival-two-frames/generate-metrics.mjs
+node research/muon-survival-two-frames/generate-metrics.mjs --check
+```
+
+Each writer refuses to overwrite an existing output; its check mode regenerates
+the bytes in memory and requires an exact match. These production commands have
+not been executed during setup.
 
 ## Sources and publication
 

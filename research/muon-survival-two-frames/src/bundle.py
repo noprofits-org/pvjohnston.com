@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import os
 import re
+import sys
+import traceback
+from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 
 import numpy as np
 
@@ -48,6 +51,7 @@ class RunSpec:
     draw_count: int
     scale_s: float
     lineage: Mapping[str, Mapping[str, Any]]
+    authorization: Mapping[str, Any]
     platform: Mapping[str, str]
     path_prefix: str
 
@@ -98,21 +102,56 @@ def _artifact(run_dir: Path, name: str, path_prefix: str) -> dict[str, Any]:
     return digest_record(run_dir / name, public_path=f"{path_prefix}/{name}")
 
 
-def _save_array_exclusive(path: Path, values: np.ndarray) -> None:
-    temporary = path.parent / f".tmp-{path.name}"
-    if path.exists() or temporary.exists() or path.is_symlink() or temporary.is_symlink():
-        raise ContractError("raw sample target or temporary path already exists")
+def save_array_exclusive(path: Path, values: np.ndarray) -> None:
+    """Create the final raw path with O_EXCL; interrupted bytes stay quarantined."""
+
     try:
-        with temporary.open("xb") as handle:
+        with path.open("xb") as handle:
             np.save(handle, values, allow_pickle=False)
             handle.flush()
             os.fsync(handle.fileno())
-        if path.exists() or path.is_symlink():
-            raise ContractError("raw sample target appeared during serialization")
-        os.replace(temporary, path)
-    except Exception:
-        # A temporary file is intentionally retained as evidence of interruption.
-        raise
+    except FileExistsError as exc:
+        raise ContractError("refusing to overwrite the raw sample") from exc
+
+
+@contextmanager
+def capture_process_streams(run_dir: Path):
+    """Redirect the process file descriptors into new, exclusive run logs."""
+
+    stdout_path = run_dir / STDOUT_NAME
+    stderr_path = run_dir / STDERR_NAME
+    try:
+        stdout_handle = stdout_path.open("xb", buffering=0)
+    except FileExistsError as exc:
+        raise ContractError("refusing to overwrite stdout.log") from exc
+    try:
+        stderr_handle = stderr_path.open("xb", buffering=0)
+    except FileExistsError as exc:
+        stdout_handle.close()
+        raise ContractError("refusing to overwrite stderr.log") from exc
+    saved_stdout = os.dup(1)
+    saved_stderr = os.dup(2)
+    try:
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os.dup2(stdout_handle.fileno(), 1)
+        os.dup2(stderr_handle.fileno(), 2)
+        yield
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os.fsync(stdout_handle.fileno())
+        os.fsync(stderr_handle.fileno())
+    finally:
+        try:
+            sys.stdout.flush()
+            sys.stderr.flush()
+        finally:
+            os.dup2(saved_stdout, 1)
+            os.dup2(saved_stderr, 2)
+            os.close(saved_stdout)
+            os.close(saved_stderr)
+            stdout_handle.close()
+            stderr_handle.close()
 
 
 def seal_run_bundle(
@@ -121,25 +160,18 @@ def seal_run_bundle(
     spec: RunSpec,
     *,
     started_at: str,
-    completed_at: str,
+    completed_at: str | Callable[[], str],
 ) -> dict[str, Any]:
     """Write a complete namespace once, placing COMPLETE.json last."""
 
     if run_dir.is_symlink() or not run_dir.is_dir():
         raise ContractError("run namespace must be a real directory")
-    if any(run_dir.iterdir()):
-        raise ContractError("new run namespace is not empty")
+    if {entry.name for entry in run_dir.iterdir()} != {RAW_NAME, STDOUT_NAME, STDERR_NAME}:
+        raise ContractError("pre-seal run namespace must contain exactly raw sample and process streams")
     if sample.dtype != np.dtype("float64") or sample.shape != (spec.draw_count,):
         raise ContractError("sample does not match its run specification")
     if not bool(np.all(np.isfinite(sample))) or bool(np.any(sample < 0.0)):
         raise ContractError("sample contains nonfinite or negative lifetimes")
-
-    _save_array_exclusive(run_dir / RAW_NAME, sample)
-    write_bytes_exclusive(
-        run_dir / STDOUT_NAME,
-        b"purpose=proper-lifetime-generation\nstatus=complete\nscientific-values-not-printed=true\n",
-    )
-    write_bytes_exclusive(run_dir / STDERR_NAME, b"")
 
     raw_record = _artifact(run_dir, RAW_NAME, spec.path_prefix)
     stdout_record = _artifact(run_dir, STDOUT_NAME, spec.path_prefix)
@@ -154,6 +186,7 @@ def seal_run_bundle(
         "completed_at": completed_at,
         "command": spec.command,
         "lineage": dict(spec.lineage),
+        "authorization": dict(spec.authorization),
         "platform": dict(spec.platform),
         "rng": {
             "library": "numpy",
@@ -198,22 +231,51 @@ def seal_run_bundle(
     return completion
 
 
-def record_failure_without_completion(run_dir: Path, exc: BaseException) -> None:
-    """Leave an incomplete namespace inspectable without exposing local paths."""
+class RunExecutionError(RuntimeError):
+    """Signals a failure already recorded in the run's real stderr stream."""
 
-    if not run_dir.is_dir() or run_dir.is_symlink():
-        return
-    stderr_path = run_dir / STDERR_NAME
-    if stderr_path.exists() or stderr_path.is_symlink():
-        return
-    payload = (
-        f"status=incomplete\nfailure_type={type(exc).__name__}\n"
-        "completion_record_written=false\nnamespace_must_be_quarantined=true\n"
-    ).encode("ascii", errors="replace")
-    try:
-        write_bytes_exclusive(stderr_path, payload)
-    except ContractError:
-        pass
+
+def execute_and_seal(
+    run_dir: Path,
+    spec: RunSpec,
+    *,
+    started_at: str,
+    completed_at: str,
+    draw=generate_lifetimes,
+) -> dict[str, Any]:
+    """Capture real process streams, create raw bytes exclusively, then seal."""
+
+    failure: BaseException | None = None
+    completion: dict[str, Any] | None = None
+    with capture_process_streams(run_dir):
+        try:
+            print(f"run_id={spec.run_id}")
+            print(f"authorization={spec.authorization.get('kind', 'unknown')}")
+            print("scientific_values_printed=false")
+            sample = draw(spec)
+            save_array_exclusive(run_dir / RAW_NAME, sample)
+            print("raw_sample_written=true")
+            print("sealing_requested=true")
+            sys.stdout.flush()
+            sys.stderr.flush()
+            completion_time = completed_at() if callable(completed_at) else completed_at
+            completion = seal_run_bundle(
+                run_dir,
+                sample,
+                spec,
+                started_at=started_at,
+                completed_at=completion_time,
+            )
+        except BaseException as exc:
+            failure = exc
+            print("status=incomplete", file=sys.stderr)
+            print("namespace_must_be_quarantined=true", file=sys.stderr)
+            traceback.print_exc(file=sys.stderr)
+    if failure is not None:
+        raise RunExecutionError("run failed; inspect the sealed process streams in the incomplete namespace") from None
+    if completion is None:
+        raise RunExecutionError("run did not produce a completion marker")
+    return completion
 
 
 def _parse_checksums(path: Path) -> dict[str, str]:
@@ -252,7 +314,7 @@ def validate_run_bundle(run_dir: Path, spec: RunSpec) -> dict[str, Any]:
     completion = load_json(run_dir / COMPLETION_NAME)
     expected_manifest_keys = {
         "schema_version", "experiment", "purpose", "run_id", "status",
-        "started_at", "completed_at", "command", "lineage", "platform",
+        "started_at", "completed_at", "command", "lineage", "authorization", "platform",
         "rng", "sample", "artifacts",
     }
     if set(manifest) != expected_manifest_keys:
@@ -265,6 +327,8 @@ def validate_run_bundle(run_dir: Path, spec: RunSpec) -> dict[str, Any]:
         raise ContractError("run manifest state or command mismatch")
     if manifest["lineage"] != dict(spec.lineage):
         raise ContractError("run lineage mismatch")
+    if manifest["authorization"] != dict(spec.authorization):
+        raise ContractError("run authorization lineage mismatch")
     platform_record = manifest["platform"]
     if spec.purpose == "setup-toy":
         if platform_record != dict(spec.platform):

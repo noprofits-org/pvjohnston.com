@@ -4,7 +4,7 @@
   "title": "Frozen production inputs",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "experiment", "post_type", "lineage", "production", "checks", "restart"],
+  "required": ["schema_version", "experiment", "post_type", "lineage", "production", "checks", "analysis", "restart"],
   "properties": {
     "schema_version": {"const": 1},
     "experiment": {"const": "muon-survival-two-frames"},
@@ -42,6 +42,7 @@
       }
     },
     "checks": {"type": "object"},
+    "analysis": {"type": "object", "required": ["canonical_result_path", "canonical_result_command", "canonical_result_check_command", "figure_path", "figure_command", "figure_check_command", "metrics_path", "metrics_command", "metrics_check_command"]},
     "restart": {"type": "object"}
   }
 }

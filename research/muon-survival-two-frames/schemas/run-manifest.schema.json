@@ -4,7 +4,7 @@
   "title": "Sealed proper-lifetime run manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "experiment", "purpose", "run_id", "status", "started_at", "completed_at", "command", "lineage", "platform", "rng", "sample", "artifacts"],
+  "required": ["schema_version", "experiment", "purpose", "run_id", "status", "started_at", "completed_at", "command", "lineage", "authorization", "platform", "rng", "sample", "artifacts"],
   "properties": {
     "schema_version": {"const": 1},
     "experiment": {"const": "muon-survival-two-frames"},
@@ -17,6 +17,10 @@
     "lineage": {
       "type": "object",
       "required": ["protocol", "setup_manifest", "inputs", "constants", "sources", "environment", "requirements"]
+    },
+    "authorization": {
+      "type": "object",
+      "required": ["kind"]
     },
     "platform": {
       "type": "object",
