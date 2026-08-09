@@ -116,7 +116,7 @@ def main() -> int:
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     result = load_json(EXPERIMENT_DIR / "results/summary.json")
-    validate_analysis_result(result, verify_provenance=True, enforce_frozen_inputs=True)
+    validate_analysis_result(result, enforce_frozen_inputs=True)
     payload = render_png_bytes(result)
     output = REPOSITORY_ROOT / "images/muon-survival-two-frames-hero.png"
     write_or_check_png(output, payload, check=args.check)

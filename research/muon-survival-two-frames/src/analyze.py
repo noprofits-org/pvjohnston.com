@@ -5,6 +5,9 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import io
+import json
+import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -12,20 +15,28 @@ from typing import Any, Mapping
 
 import numpy as np
 
-from bundle import RAW_NAME, validate_run_bundle
+from bundle import (
+    CHECKSUMS_NAME,
+    COMPLETION_NAME,
+    MANIFEST_NAME,
+    RAW_NAME,
+    STDERR_NAME,
+    STDOUT_NAME,
+    RunSpec,
+    validate_run_bundle,
+)
 from contract import (
     EXPERIMENT,
     EXPERIMENT_DIR,
     REPOSITORY_ROOT,
     ContractError,
     canonical_json_bytes,
+    capture_digest_record,
     digest_record,
     load_and_validate_constants,
     load_and_validate_inputs,
     load_json,
     set_deterministic_process_environment,
-    sha256_file,
-    validate_digest_record,
     validate_json_schema,
     validate_workflow_ledger,
     write_bytes_exclusive,
@@ -172,14 +183,13 @@ def build_analysis_result(proper_lifetimes_s: np.ndarray, spec: AnalysisSpec) ->
     upstream_schema_valid = flags.get("schema") is True
     flags["schema"] = False
     provisional = assemble(flags)
-    result_schema_valid = validate_analysis_result(
+    result_schema_valid = validate_json_schema(
         provisional,
-        verify_provenance=False,
-        enforce_frozen_inputs=False,
+        EXPERIMENT_DIR / "schemas/analysis-result.schema.json",
     )
     flags["schema"] = bool(upstream_schema_valid and result_schema_valid)
     result = assemble(flags)
-    validate_analysis_result(result, verify_provenance=False, enforce_frozen_inputs=False)
+    validate_json_schema(result, EXPERIMENT_DIR / "schemas/analysis-result.schema.json")
     return result
 
 
@@ -193,14 +203,192 @@ def _focal_matches(frame: Mapping[str, Any], focal: Mapping[str, Any], index: in
     return True
 
 
+def _captured_json(payload: bytes, label: str) -> dict[str, Any]:
+    try:
+        value = json.loads(payload.decode("utf-8"))
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        raise ContractError(f"captured {label} is not valid UTF-8 JSON") from exc
+    if not isinstance(value, dict):
+        raise ContractError(f"captured {label} is not a JSON object")
+    return value
+
+
+def _source_prefix(run_id: str, *, enforce_frozen_inputs: bool) -> tuple[str, str]:
+    if enforce_frozen_inputs:
+        if run_id not in {"run-001", "run-002"}:
+            raise ContractError("production analysis source run ID is not registered")
+        return f"research/{EXPERIMENT}/runs/{run_id}", "canonical-production"
+    if run_id != "toy-run":
+        raise ContractError("setup validation accepts only the visibly synthetic toy-run")
+    return "setup-toy/toy-run", "setup-toy"
+
+
+def _capture_validated_source_bundle(
+    source_run: Mapping[str, Any],
+    primitive: Mapping[str, Any],
+    *,
+    repository_root: Path,
+    enforce_frozen_inputs: bool,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Validate a private replay of one exact captured six-file run bundle."""
+
+    if set(source_run) != {"run_id", "manifest", "sample", "completion"}:
+        raise ContractError("analysis source-run provenance fields mismatch")
+    run_id = source_run["run_id"]
+    if not isinstance(run_id, str):
+        raise ContractError("analysis source run ID is invalid")
+    prefix, expected_purpose = _source_prefix(run_id, enforce_frozen_inputs=enforce_frozen_inputs)
+    expected_paths = {
+        "manifest": f"{prefix}/{MANIFEST_NAME}",
+        "sample": f"{prefix}/{RAW_NAME}",
+        "completion": f"{prefix}/{COMPLETION_NAME}",
+    }
+    captured: dict[str, bytes] = {}
+    for label, expected_path in expected_paths.items():
+        record = source_run[label]
+        if not isinstance(record, dict) or record.get("path") != expected_path:
+            raise ContractError(f"analysis source {label} path mismatch")
+        _path, captured[label] = capture_digest_record(record, repository_root=repository_root)
+
+    manifest = _captured_json(captured["manifest"], "run manifest")
+    completion = _captured_json(captured["completion"], "completion marker")
+    validate_json_schema(manifest, EXPERIMENT_DIR / "schemas/run-manifest.schema.json")
+    validate_json_schema(completion, EXPERIMENT_DIR / "schemas/completion.schema.json")
+    if manifest.get("run_id") != run_id or completion.get("run_id") != run_id:
+        raise ContractError("source run ID does not match manifest and completion identity")
+    if manifest.get("purpose") != expected_purpose:
+        raise ContractError("source run purpose does not match the validation boundary")
+    if completion.get("run_manifest") != source_run["manifest"]:
+        raise ContractError("completion marker does not identify the source run manifest")
+    manifest_sample = manifest.get("sample", {})
+    if not isinstance(manifest_sample, dict) or {
+        key: manifest_sample.get(key) for key in ("path", "bytes", "sha256")
+    } != source_run["sample"]:
+        raise ContractError("run manifest does not identify the source raw sample")
+
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, list):
+        raise ContractError("run manifest artifact inventory is invalid")
+    artifact_by_name: dict[str, Mapping[str, Any]] = {}
+    for record in artifacts:
+        if not isinstance(record, dict) or not isinstance(record.get("path"), str):
+            raise ContractError("run manifest artifact record is invalid")
+        name = Path(record["path"]).name
+        if name in artifact_by_name:
+            raise ContractError("run manifest artifact name is duplicated")
+        artifact_by_name[name] = record
+    if set(artifact_by_name) != {RAW_NAME, STDOUT_NAME, STDERR_NAME}:
+        raise ContractError("run manifest artifact inventory is incomplete")
+    if artifact_by_name[RAW_NAME] != source_run["sample"]:
+        raise ContractError("run manifest raw artifact differs from source provenance")
+
+    bundle_payloads = {
+        MANIFEST_NAME: captured["manifest"],
+        RAW_NAME: captured["sample"],
+        COMPLETION_NAME: captured["completion"],
+    }
+    for name in (STDOUT_NAME, STDERR_NAME):
+        record = artifact_by_name[name]
+        if record.get("path") != f"{prefix}/{name}":
+            raise ContractError(f"run artifact path mismatch: {name}")
+        _path, bundle_payloads[name] = capture_digest_record(record, repository_root=repository_root)
+    checksums_record = completion.get("checksums")
+    if not isinstance(checksums_record, dict) or checksums_record.get("path") != f"{prefix}/{CHECKSUMS_NAME}":
+        raise ContractError("completion checksum path mismatch")
+    _path, bundle_payloads[CHECKSUMS_NAME] = capture_digest_record(
+        checksums_record,
+        repository_root=repository_root,
+    )
+
+    try:
+        sample = np.load(io.BytesIO(captured["sample"]), allow_pickle=False)
+    except (OSError, ValueError) as exc:
+        raise ContractError("captured raw sample is not a valid non-pickle NumPy array") from exc
+    try:
+        spec = RunSpec(
+            experiment=manifest["experiment"],
+            purpose=manifest["purpose"],
+            run_id=manifest["run_id"],
+            command=manifest["command"],
+            seed=manifest["rng"]["seed"],
+            draw_count=manifest["rng"]["draw_count"],
+            scale_s=float(primitive["tau0_s"]),
+            lineage=manifest["lineage"],
+            authorization=manifest["authorization"],
+            platform=manifest["platform"],
+            path_prefix=prefix,
+        )
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ContractError("captured run manifest cannot reconstruct its run specification") from exc
+    with tempfile.TemporaryDirectory(prefix="muon-setup-run-validation-") as temporary:
+        staged_run = Path(temporary) / "captured-run"
+        staged_run.mkdir()
+        for name, payload in bundle_payloads.items():
+            (staged_run / name).write_bytes(payload)
+        run_integrity = validate_run_bundle(staged_run, spec)
+    return sample, run_integrity
+
+
+def _validate_result_provenance(
+    result: Mapping[str, Any],
+    *,
+    repository_root: Path,
+) -> bool:
+    validation_experiment_dir = repository_root / "research" / EXPERIMENT
+    source_records = [result["source_run"][name] for name in ("manifest", "sample", "completion")]
+    provenance = result["provenance"]
+    expected_named = (
+        (provenance["generator"], f"research/{EXPERIMENT}/src/analyze.py"),
+        (provenance["schema"], f"research/{EXPERIMENT}/schemas/analysis-result.schema.json"),
+        (provenance["inputs"][3], f"research/{EXPERIMENT}/inputs.json"),
+        (provenance["inputs"][4], f"research/{EXPERIMENT}/constants.json"),
+    )
+    for record, expected_path in expected_named:
+        if not isinstance(record, dict) or record.get("path") != expected_path:
+            raise ContractError("analysis provenance path mismatch")
+        capture_digest_record(record, repository_root=repository_root)
+    if provenance["inputs"] != [*source_records, provenance["inputs"][3], provenance["inputs"][4]]:
+        raise ContractError("analysis input provenance does not bind the source run first")
+    if (validation_experiment_dir / "src/analyze.py").is_symlink():
+        raise ContractError("analysis generator provenance target is linked")
+    return True
+
+
+def _validation_check_context(
+    result: Mapping[str, Any],
+    sample: np.ndarray,
+    *,
+    enforce_frozen_inputs: bool,
+) -> dict[str, Any]:
+    if enforce_frozen_inputs:
+        inputs = load_and_validate_inputs()
+        return {
+            "focal_index": inputs["production"]["focal_index"],
+            "expected_grid_size": 201,
+            "expected_draw_count": inputs["production"]["rng"]["draw_count"],
+            "frame_relative_tolerance": inputs["checks"]["frame_relative_tolerance"],
+            "standard_error_multiplier": inputs["checks"]["focal_monte_carlo_standard_error_multiplier"],
+            "maximum_grid_discrepancy": inputs["checks"]["maximum_grid_absolute_discrepancy"],
+        }
+    if len(result["grid_m"]) != 3 or result["focal"]["index"] != 1 or sample.shape != (16,):
+        raise ContractError("setup result differs from the registered three-point, 16-draw toy context")
+    return {
+        "focal_index": 1,
+        "expected_grid_size": 3,
+        "expected_draw_count": 16,
+        "frame_relative_tolerance": 1e-12,
+        "standard_error_multiplier": 4.0,
+        "maximum_grid_discrepancy": 0.5,
+    }
+
+
 def validate_analysis_result(
     result: Mapping[str, Any],
     *,
-    verify_provenance: bool,
     enforce_frozen_inputs: bool = True,
     repository_root: Path = REPOSITORY_ROOT,
 ) -> bool:
-    """Validate the bound schema plus cross-field result invariants."""
+    """Reconstruct and validate the complete result, source, and admission contract."""
 
     validation_experiment_dir = repository_root / "research" / EXPERIMENT
     validate_json_schema(result, validation_experiment_dir / "schemas/analysis-result.schema.json")
@@ -239,10 +427,18 @@ def validate_analysis_result(
         raise ContractError("analysis muon frame is not derived from its primitives")
     if not frame_matches(result["same_speed_no_lifetime_dilation_counterfactual"], expected_counterfactual):
         raise ContractError("analysis counterfactual is not derived from its primitives")
+    provenance_valid = _validate_result_provenance(result, repository_root=repository_root)
+    sample, run_integrity = _capture_validated_source_bundle(
+        result["source_run"],
+        primitive,
+        repository_root=repository_root,
+        enforce_frozen_inputs=enforce_frozen_inputs,
+    )
+    expected_counts, expected_empirical = empirical_survival(sample, expected_muon["elapsed_time_s"])
     counts = np.asarray(result["empirical"]["counts"], dtype=np.int64)
     empirical = np.asarray(result["empirical"]["survival_probability"], dtype=np.float64)
-    if not np.array_equal(empirical, counts.astype(np.float64) / counts[0]):
-        raise ContractError("analysis empirical probabilities do not match survivor counts")
+    if not np.array_equal(counts, expected_counts) or not np.array_equal(empirical, expected_empirical):
+        raise ContractError("analysis empirical arrays are not derived from the captured raw sample")
     if enforce_frozen_inputs:
         inputs = load_and_validate_inputs()
         constants = load_and_validate_constants()["constants"]
@@ -285,83 +481,43 @@ def validate_analysis_result(
         raise ContractError("analysis empirical focal count is stale")
     if result["focal"]["empirical_survival_probability"] != result["empirical"]["survival_probability"][focal_index]:
         raise ContractError("analysis empirical focal probability is stale")
-    pass_names = (
-        "frame_agreement",
-        "focal_monte_carlo_within_four_standard_errors",
-        "maximum_grid_discrepancy_at_most_threshold",
-        "counts_valid_and_monotonic",
-        "numeric_shapes_dtypes_units_valid",
-        "schema_manifest_provenance_and_hashes_valid",
+    expected_admission = analysis_admission(
+        result["analysis_admission"]["event_id"],
+        result["source_run"]["run_id"],
+        workflow_path=repository_root / "research" / EXPERIMENT / "workflow.jsonl",
+        graph_path=repository_root / "research/workflow.graph.v1.json",
+        repository_root=repository_root,
+        workflow_cli_path=repository_root / "scripts/research-workflow.mjs",
     )
-    if result["checks"]["all_passed"] != all(result["checks"][name] is True for name in pass_names):
-        raise ContractError("analysis aggregate check is inconsistent")
-    expected_detail_names = {
-        "shapes_valid", "dtypes_valid", "primitive_inputs_valid", "grid_valid",
-        "derived_fields_valid", "counterfactual_valid", "units_valid",
-        "detector_units_valid", "muon_units_valid",
-        "raw_lifetimes_finite_nonnegative", "primitive_momentum_mev_c_valid",
-        "primitive_mass_energy_mev_valid", "primitive_tau0_s_valid",
-        "primitive_c_m_s_valid", "primitive_units_valid", "detector_beta_valid",
-        "detector_gamma_valid", "detector_laboratory_distance_valid",
-        "detector_elapsed_time_valid", "detector_mean_lifetime_valid",
-        "detector_decay_exponent_valid", "detector_survival_probability_valid",
-        "muon_beta_valid", "muon_gamma_valid", "muon_contracted_distance_valid",
-        "muon_elapsed_time_valid", "muon_mean_lifetime_valid",
-        "muon_decay_exponent_valid", "muon_survival_probability_valid",
-        "counterfactual_label_valid", "counterfactual_units_valid",
-        "counterfactual_laboratory_distance_valid", "counterfactual_elapsed_time_valid",
-        "counterfactual_decay_exponent_valid", "counterfactual_survival_probability_valid",
-        "count_dtype_valid", "count_bounds_valid", "zero_distance_count_valid",
-        "counts_monotonic", "empirical_matches_counts",
+    if result["analysis_admission"] != expected_admission:
+        raise ContractError("analysis admission does not match the replayed run-review approval")
+    integrity_flags = {
+        "schema": run_integrity.get("schema_valid") is True,
+        "manifest": run_integrity.get("manifest_valid") is True,
+        "provenance": bool(run_integrity.get("provenance_valid") is True and provenance_valid),
+        "hashes": run_integrity.get("hashes_valid") is True,
+        "run_bundle": run_integrity.get("valid") is True,
+        "run_admission": True,
     }
-    details = result["checks"]["details"]
-    if set(details) != expected_detail_names or any(not isinstance(value, bool) for value in details.values()):
-        raise ContractError("analysis check details do not match the registered contract")
-    expected_diagnostic_names = {
-        "frame_probability_max_relative_error", "frame_exponent_max_relative_error_nonzero_path",
-        "beta_relative_error", "gamma_relative_error", "focal_binomial_standard_error",
-        "focal_absolute_discrepancy", "maximum_grid_absolute_discrepancy",
-    }
-    diagnostics = result["checks"]["diagnostics"]
-    if set(diagnostics) != expected_diagnostic_names or any(
-        not isinstance(value, (int, float)) or isinstance(value, bool) or not np.isfinite(value)
-        for value in diagnostics.values()
-    ):
-        raise ContractError("analysis diagnostics do not match the registered contract")
-    if verify_provenance:
-        source_records = [result["source_run"][name] for name in ("manifest", "sample", "completion")]
-        for record in source_records:
-            validate_digest_record(record, repository_root=repository_root)
-        provenance = result["provenance"]
-        validate_digest_record(provenance["generator"], repository_root=repository_root)
-        validate_digest_record(provenance["schema"], repository_root=repository_root)
-        for record in provenance["inputs"]:
-            validate_digest_record(record, repository_root=repository_root)
-        expected_generator = digest_record(
-            validation_experiment_dir / "src/analyze.py",
-            public_path=f"research/{EXPERIMENT}/src/analyze.py",
-        )
-        expected_schema = digest_record(
-            validation_experiment_dir / "schemas/analysis-result.schema.json",
-            public_path=f"research/{EXPERIMENT}/schemas/analysis-result.schema.json",
-        )
-        expected_inputs = [
-            *source_records,
-            digest_record(
-                validation_experiment_dir / "inputs.json",
-                public_path=f"research/{EXPERIMENT}/inputs.json",
-            ),
-            digest_record(
-                validation_experiment_dir / "constants.json",
-                public_path=f"research/{EXPERIMENT}/constants.json",
-            ),
-        ]
-        if provenance["generator"] != expected_generator:
-            raise ContractError("analysis generator provenance mismatch")
-        if provenance["schema"] != expected_schema:
-            raise ContractError("analysis schema provenance mismatch")
-        if provenance["inputs"] != expected_inputs:
-            raise ContractError("analysis input provenance mismatch")
+    check_context = _validation_check_context(
+        result,
+        sample,
+        enforce_frozen_inputs=enforce_frozen_inputs,
+    )
+    expected_checks = evaluate_checks(
+        expected_detector,
+        expected_muon,
+        expected_counterfactual,
+        grid_array,
+        primitive,
+        expected_counts,
+        expected_empirical,
+        sample,
+        integrity_flags=integrity_flags,
+        **check_context,
+    )
+    if result["checks"] != expected_checks:
+        raise ContractError("analysis checks, details, or diagnostics do not match independent recomputation")
     return True
 
 
@@ -370,13 +526,11 @@ def write_or_check_result(
     result: Mapping[str, Any],
     *,
     check: bool,
-    verify_provenance: bool = True,
     enforce_frozen_inputs: bool = True,
     repository_root: Path = REPOSITORY_ROOT,
 ) -> None:
     validate_analysis_result(
         result,
-        verify_provenance=verify_provenance,
         enforce_frozen_inputs=enforce_frozen_inputs,
         repository_root=repository_root,
     )

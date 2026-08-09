@@ -61,9 +61,11 @@ class PipelineContractTests(unittest.TestCase):
             "sha256": hashlib.sha256(payload).hexdigest(),
         }
 
-    def stage_validated_result(self, repository_root: Path, result: dict) -> dict:
+    def stage_validated_result(self, temporary_root: Path, result: dict) -> tuple[Path, dict]:
         """Give a synthetic result complete, resolvable provenance in a temp root."""
 
+        fixture = WorkflowFixture(temporary_root, EXPERIMENT_DIR)
+        repository_root = fixture.repository_root
         staged = copy.deepcopy(result)
         staged_experiment = repository_root / "research/muon-survival-two-frames"
         for relative in (
@@ -75,15 +77,46 @@ class PipelineContractTests(unittest.TestCase):
             destination = staged_experiment / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(EXPERIMENT_DIR / relative, destination)
+        graph = repository_root / "research/workflow.graph.v1.json"
+        graph.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(WORKFLOW_GRAPH_PATH, graph)
+        workflow_cli = repository_root / "scripts/research-workflow.mjs"
+        workflow_cli.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(WORKFLOW_CLI_PATH, workflow_cli)
+
+        fixture.approve_setup()
+        approval = fixture.approve_run("toy-run")
+        fixture.submit_analysis()
+        staged["analysis_admission"] = analysis_admission(
+            approval["event_id"],
+            "toy-run",
+            workflow_path=fixture.workflow_path,
+            graph_path=graph,
+            repository_root=repository_root,
+            workflow_cli_path=workflow_cli,
+        )
+
+        run_dir = create_new_run_directory(repository_root / "setup-toy", "toy-run")
+        sample = self.synthetic_sample()
+        execute_and_seal(
+            run_dir,
+            self.toy_spec(),
+            started_at="2000-01-01T00:00:00Z",
+            completed_at="2000-01-01T00:00:01Z",
+            draw=lambda _spec: sample,
+        )
         source_files = {
-            "manifest": repository_root / "setup-toy/run-manifest.json",
-            "sample": repository_root / "setup-toy/sample.npy",
-            "completion": repository_root / "setup-toy/COMPLETE.json",
+            "manifest": run_dir / "run-manifest.json",
+            "sample": run_dir / "proper_lifetimes_s.npy",
+            "completion": run_dir / "COMPLETE.json",
         }
-        for label, path in source_files.items():
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes(f"setup-toy-{label}\n".encode("ascii"))
-            staged["source_run"][label] = self.digest_record_at(repository_root, path)
+        staged["source_run"] = {
+            "run_id": "toy-run",
+            **{
+                label: self.digest_record_at(repository_root, path)
+                for label, path in source_files.items()
+            },
+        }
         generator = staged_experiment / "src/analyze.py"
         schema = staged_experiment / "schemas/analysis-result.schema.json"
         inputs = staged_experiment / "inputs.json"
@@ -99,7 +132,11 @@ class PipelineContractTests(unittest.TestCase):
                 self.digest_record_at(repository_root, constants),
             ],
         }
-        return staged
+        return repository_root, staged
+
+    @staticmethod
+    def synthetic_sample() -> np.ndarray:
+        return np.linspace(0.0, 3.0, 16, dtype=np.float64)
 
     def toy_spec(self) -> RunSpec:
         lineage = {
@@ -254,6 +291,35 @@ class PipelineContractTests(unittest.TestCase):
                 )
             self.assertEqual(retry["event_id"], retry_event["event_id"])
 
+    def test_authorization_executes_captured_graph_and_verifier_bytes(self) -> None:
+        real_run = subprocess.run
+        with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
+            base = Path(temporary)
+            fixture = WorkflowFixture(base, EXPERIMENT_DIR)
+            approved = fixture.approve_setup()
+            graph = base / "setup-toy-approved-graph.json"
+            workflow_cli = base / "setup-toy-approved-workflow.mjs"
+            shutil.copy2(WORKFLOW_GRAPH_PATH, graph)
+            shutil.copy2(WORKFLOW_CLI_PATH, workflow_cli)
+
+            def replace_original_tools_before_subprocess_open(*args, **kwargs):
+                graph.write_text('{"replacement":"unapproved graph"}\n', encoding="utf-8")
+                workflow_cli.write_text("throw new Error('unapproved verifier');\n", encoding="utf-8")
+                return real_run(*args, **kwargs)
+
+            with mock.patch("contract.subprocess.run", side_effect=replace_original_tools_before_subprocess_open):
+                authorization = authorize_run_request(
+                    "run-001",
+                    workflow_path=fixture.workflow_path,
+                    runs_dir=base / "setup-toy-runs",
+                    graph_path=graph,
+                    repository_root=fixture.repository_root,
+                    workflow_cli_path=workflow_cli,
+                )
+            self.assertEqual(authorization["event_id"], approved["event_id"])
+            self.assertIn("unapproved graph", graph.read_text(encoding="utf-8"))
+            self.assertIn("unapproved verifier", workflow_cli.read_text(encoding="utf-8"))
+
     def test_historical_run_approval_remains_valid_after_analysis_submission(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
             fixture = WorkflowFixture(Path(temporary), EXPERIMENT_DIR)
@@ -391,7 +457,7 @@ class PipelineContractTests(unittest.TestCase):
             "c_m_s": 1.0,
             "units": dict(reconstruct.PRIMITIVE_UNITS),
         }
-        sample = np.linspace(0.0, 3.0, 16, dtype=np.float64)
+        sample = self.synthetic_sample()
         spec = AnalysisSpec(
             paths_m=paths,
             primitives=primitives,
@@ -400,7 +466,7 @@ class PipelineContractTests(unittest.TestCase):
             standard_error_multiplier=4.0,
             maximum_grid_discrepancy=0.5,
             source_run={
-                "run_id": "setup-toy-run",
+                "run_id": "toy-run",
                 "manifest": {"path": "setup-toy/run-manifest.json", "bytes": 1, "sha256": "1" * 64},
                 "sample": {"path": "setup-toy/sample.npy", "bytes": 1, "sha256": "2" * 64},
                 "completion": {"path": "setup-toy/COMPLETE.json", "bytes": 1, "sha256": "3" * 64},
@@ -422,14 +488,13 @@ class PipelineContractTests(unittest.TestCase):
 
     def test_analysis_result_png_and_metrics_regenerate_and_check_on_synthetic_fixture(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
-            base = Path(temporary)
-            result = self.stage_validated_result(base, self.synthetic_result())
+            repository_root, result = self.stage_validated_result(Path(temporary), self.synthetic_result())
             self.assertEqual(result["outcome_kind"], "understanding-observations-no-verdict")
-            summary = base / "setup-toy-summary.json"
-            figure = base / "setup-toy-figure.png"
-            metrics = base / "setup-toy-metrics.json"
-            write_or_check_result(summary, result, check=False, verify_provenance=True, enforce_frozen_inputs=False, repository_root=base)
-            write_or_check_result(summary, result, check=True, verify_provenance=True, enforce_frozen_inputs=False, repository_root=base)
+            summary = repository_root / "setup-toy-summary.json"
+            figure = repository_root / "setup-toy-figure.png"
+            metrics = repository_root / "setup-toy-metrics.json"
+            write_or_check_result(summary, result, check=False, enforce_frozen_inputs=False, repository_root=repository_root)
+            write_or_check_result(summary, result, check=True, enforce_frozen_inputs=False, repository_root=repository_root)
             png_first = render_png_bytes(result)
             png_second = render_png_bytes(copy.deepcopy(result))
             self.assertEqual(png_first, png_second)
@@ -454,32 +519,57 @@ class PipelineContractTests(unittest.TestCase):
             self.assertIn("pass_numeric_shapes_dtypes_units_valid", projection["metrics"])
             summary.write_text("{}\n", encoding="utf-8")
             with self.assertRaises(ContractError):
-                write_or_check_result(summary, result, check=True, verify_provenance=True, enforce_frozen_inputs=False, repository_root=base)
+                write_or_check_result(summary, result, check=True, enforce_frozen_inputs=False, repository_root=repository_root)
 
     def test_metrics_write_and_check_reject_full_result_contract_tampering(self) -> None:
         with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
-            base = Path(temporary)
-            result = self.stage_validated_result(base, self.synthetic_result())
-            summary = base / "setup-toy-summary.json"
-            metrics = base / "setup-toy-metrics.json"
+            repository_root, result = self.stage_validated_result(Path(temporary), self.synthetic_result())
+            summary = repository_root / "setup-toy-summary.json"
+            metrics = repository_root / "setup-toy-metrics.json"
             summary.write_bytes(canonical_json_bytes(result))
             command = [
                 "node", str(EXPERIMENT_DIR / "generate-metrics.mjs"),
                 "--setup-fixture", str(summary), "--output", str(metrics),
             ]
             subprocess.run(command, check=True, capture_output=True, text=True)
+
+            def mutate_detail_and_pass(value):
+                value["checks"]["details"]["grid_valid"] = False
+                value["checks"]["numeric_shapes_dtypes_units_valid"] = False
+                value["checks"]["all_passed"] = False
+
+            def mutate_pass_and_all(value):
+                value["checks"]["frame_agreement"] = False
+                value["checks"]["all_passed"] = False
+
+            def mutate_raw_derived_empirical(value):
+                value["empirical"]["counts"][1] -= 1
+                value["empirical"]["survival_probability"][1] = value["empirical"]["counts"][1] / 16
+                value["focal"]["empirical_count"] = value["empirical"]["counts"][1]
+                value["focal"]["empirical_survival_probability"] = value["empirical"]["survival_probability"][1]
+
             mutations = {
                 "schema": lambda value: value.pop("muon_frame"),
                 "cross_field": lambda value: value["detector_frame"]["elapsed_time_s"].__setitem__(1, 99.0),
-                "digest_provenance": lambda value: value["provenance"]["generator"].__setitem__("sha256", "0" * 64),
-                "integrity_details": lambda value: value["checks"]["details"].pop("grid_valid"),
+                "diagnostic_value": lambda value: value["checks"]["diagnostics"].__setitem__(
+                    "focal_binomial_standard_error",
+                    value["checks"]["diagnostics"]["focal_binomial_standard_error"] + 0.125,
+                ),
+                "detail_value": mutate_detail_and_pass,
+                "pass_and_all": mutate_pass_and_all,
+                "admission_identity": lambda value: value["analysis_admission"].__setitem__("event_sha256", "0" * 64),
+                "source_run_id": lambda value: value["source_run"].__setitem__("run_id", "other-toy-run"),
+                "associated_provenance": lambda value: value["provenance"]["inputs"].__setitem__(
+                    0, copy.deepcopy(value["provenance"]["inputs"][1])
+                ),
+                "raw_derived_empirical": mutate_raw_derived_empirical,
             }
             for name, mutate in mutations.items():
                 with self.subTest(mode="write", mutation=name):
                     changed = copy.deepcopy(result)
                     mutate(changed)
                     summary.write_bytes(canonical_json_bytes(changed))
-                    candidate = base / f"setup-toy-{name}-metrics.json"
+                    candidate = repository_root / f"setup-toy-{name}-metrics.json"
                     rejected = subprocess.run(
                         [*command[:-1], str(candidate)],
                         check=False,
@@ -495,22 +585,31 @@ class PipelineContractTests(unittest.TestCase):
             subprocess.run([*command, "--check"], check=True, capture_output=True, text=True)
 
     def test_result_schema_and_cross_field_validation_reject_stale_content(self) -> None:
-        result = self.synthetic_result()
-        self.assertTrue(validate_analysis_result(result, verify_provenance=False, enforce_frozen_inputs=False))
-        mutations = [
-            lambda value: value.pop("muon_frame"),
-            lambda value: value["detector_frame"].__setitem__("beta", "not-a-number"),
-            lambda value: value["grid_m"].append(99.0),
-            lambda value: value["focal"].__setitem__("empirical_count", -1),
-            lambda value: value["provenance"]["generator"].__setitem__("sha256", "bad"),
-            lambda value: value["checks"].__setitem__("all_passed", not value["checks"]["all_passed"]),
-        ]
-        for mutate in mutations:
-            with self.subTest(mutation=mutate):
-                changed = copy.deepcopy(result)
-                mutate(changed)
-                with self.assertRaises(ContractError):
-                    validate_analysis_result(changed, verify_provenance=False, enforce_frozen_inputs=False)
+        with tempfile.TemporaryDirectory(prefix="muon-setup-nonproduction-") as temporary:
+            repository_root, result = self.stage_validated_result(Path(temporary), self.synthetic_result())
+            self.assertTrue(validate_analysis_result(
+                result,
+                enforce_frozen_inputs=False,
+                repository_root=repository_root,
+            ))
+            mutations = [
+                lambda value: value.pop("muon_frame"),
+                lambda value: value["detector_frame"].__setitem__("beta", "not-a-number"),
+                lambda value: value["grid_m"].append(99.0),
+                lambda value: value["focal"].__setitem__("empirical_count", -1),
+                lambda value: value["provenance"]["generator"].__setitem__("sha256", "bad"),
+                lambda value: value["checks"].__setitem__("all_passed", not value["checks"]["all_passed"]),
+            ]
+            for mutate in mutations:
+                with self.subTest(mutation=mutate):
+                    changed = copy.deepcopy(result)
+                    mutate(changed)
+                    with self.assertRaises(ContractError):
+                        validate_analysis_result(
+                            changed,
+                            enforce_frozen_inputs=False,
+                            repository_root=repository_root,
+                        )
 
 
 if __name__ == "__main__":

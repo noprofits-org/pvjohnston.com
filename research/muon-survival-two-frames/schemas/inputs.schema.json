@@ -55,10 +55,44 @@
       }
     },
     "checks": {"type": "object"},
-    "analysis": {"type": "object", "required": ["canonical_result_path", "canonical_result_command", "canonical_result_check_command", "figure_path", "figure_command", "figure_check_command", "metrics_path", "metrics_command", "metrics_check_command"]},
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_result_path", "canonical_result_command", "canonical_result_check_command", "admitted_run_selection", "result_commands_by_admitted_run", "figure_path", "figure_command", "figure_check_command", "metrics_path", "metrics_command", "metrics_check_command"],
+      "properties": {
+        "canonical_result_path": {"type": "string", "minLength": 1},
+        "canonical_result_command": {"type": "string", "minLength": 1},
+        "canonical_result_check_command": {"type": "string", "minLength": 1},
+        "admitted_run_selection": {"type": "string", "minLength": 1},
+        "result_commands_by_admitted_run": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["run-001", "run-002"],
+          "properties": {
+            "run-001": {"$ref": "#/$defs/analysisCommands"},
+            "run-002": {"$ref": "#/$defs/analysisCommands"}
+          }
+        },
+        "figure_path": {"type": "string", "minLength": 1},
+        "figure_command": {"type": "string", "minLength": 1},
+        "figure_check_command": {"type": "string", "minLength": 1},
+        "metrics_path": {"type": "string", "minLength": 1},
+        "metrics_command": {"type": "string", "minLength": 1},
+        "metrics_check_command": {"type": "string", "minLength": 1}
+      }
+    },
     "restart": {"type": "object"}
   },
   "$defs": {
+    "analysisCommands": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["write", "check"],
+      "properties": {
+        "write": {"type": "string", "minLength": 1},
+        "check": {"type": "string", "minLength": 1}
+      }
+    },
     "link": {
       "type": "object",
       "additionalProperties": false,

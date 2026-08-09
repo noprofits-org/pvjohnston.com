@@ -37,6 +37,10 @@ EXPECTED_PIP = "26.2.1"
 EXPECTED_NODE = "24.18.0"
 EXPECTED_WORKFLOW_GRAPH_SHA256 = "e50f12475131efe1fa9313fd2a7e9c04c049355356b26a69362afe52a418d404"
 EXPECTED_WORKFLOW_CLI_SHA256 = "f8b931150fe5c31f574fa6303cd1d9b629ad02b0e05233025288e30275515f2c"
+ADMITTED_RUN_SELECTION_RULE = (
+    "Use exactly the run ID named by the immutable run_review approve event; "
+    "--run-review-event must name that same approval."
+)
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 RUN_ID_RE = re.compile(r"^run-[0-9]{3}$")
 
@@ -142,6 +146,17 @@ def _validate_digest_link(link: Mapping[str, Any], label: str) -> None:
 def validate_digest_record(record: Mapping[str, Any], *, repository_root: Path = REPOSITORY_ROOT) -> bool:
     """Resolve a repository-relative byte/size/hash record and fail closed."""
 
+    capture_digest_record(record, repository_root=repository_root)
+    return True
+
+
+def capture_digest_record(
+    record: Mapping[str, Any],
+    *,
+    repository_root: Path = REPOSITORY_ROOT,
+) -> tuple[Path, bytes]:
+    """Return the exact bytes validated by a repository-relative digest record."""
+
     _require(set(record) == {"path", "bytes", "sha256"}, "artifact digest record fields mismatch")
     path_text = record.get("path")
     _require(isinstance(path_text, str) and path_text, "artifact digest path is invalid")
@@ -151,9 +166,13 @@ def validate_digest_record(record: Mapping[str, Any], *, repository_root: Path =
     _require(isinstance(record.get("sha256"), str) and SHA256_RE.fullmatch(record["sha256"]) is not None, "artifact SHA-256 is invalid")
     path = repository_root / relative
     _require(path.is_file() and not path.is_symlink(), "artifact digest target is missing or linked")
-    _require(path.stat().st_size == record["bytes"], "artifact byte count does not match")
-    _require(sha256_file(path) == record["sha256"], "artifact SHA-256 does not match")
-    return True
+    try:
+        payload = path.read_bytes()
+    except OSError as exc:
+        raise ContractError("artifact digest target is unreadable") from exc
+    _require(len(payload) == record["bytes"], "artifact byte count does not match")
+    _require(hashlib.sha256(payload).hexdigest() == record["sha256"], "artifact SHA-256 does not match")
+    return path, payload
 
 
 def _schema_type_matches(value: Any, expected: str) -> bool:
@@ -325,6 +344,17 @@ def load_and_validate_inputs() -> dict[str, Any]:
     _require(analysis.get("metrics_path") == "research/muon-survival-two-frames/metrics.json", "metrics path mismatch")
     for name in ("canonical_result_command", "canonical_result_check_command", "figure_command", "figure_check_command", "metrics_command", "metrics_check_command"):
         _require(isinstance(analysis.get(name), str) and analysis[name], f"missing frozen analysis command: {name}")
+    expected_run_commands = {
+        run_id: {
+            "write": analysis_command(run_id, check=False),
+            "check": analysis_command(run_id, check=True),
+        }
+        for run_id in ("run-001", "run-002")
+    }
+    _require(analysis.get("result_commands_by_admitted_run") == expected_run_commands, "admitted-run analysis commands mismatch")
+    _require(analysis.get("admitted_run_selection") == ADMITTED_RUN_SELECTION_RULE, "admitted-run analysis selection rule mismatch")
+    _require(analysis.get("canonical_result_command") == expected_run_commands["run-001"]["write"], "normal analysis command alias mismatch")
+    _require(analysis.get("canonical_result_check_command") == expected_run_commands["run-001"]["check"], "normal analysis check alias mismatch")
     restart = data.get("restart", {})
     _require(restart.get("same_run_resume") is False, "same-run resume must remain disabled")
     _require(restart.get("registered_infrastructure_retries") == 1, "retry authorization mismatch")
@@ -348,6 +378,17 @@ def production_command(run_id: str) -> str:
         "research/muon-survival-two-frames/src/run.py --run-id "
         f"{run_id}"
     )
+
+
+def analysis_command(run_id: str, *, check: bool) -> str:
+    if run_id not in {"run-001", "run-002"}:
+        raise ContractError("analysis accepts only an admitted run-001 or registered-retry run-002")
+    command = (
+        "research/muon-survival-two-frames/.venv/bin/python "
+        "research/muon-survival-two-frames/src/analyze.py "
+        f"--run-id {run_id} --run-review-event <approved-event-id>"
+    )
+    return f"{command} --check" if check else command
 
 
 @dataclass(frozen=True)
@@ -404,6 +445,16 @@ def _read_bound_regular_file(path: Path, *, byte_count: Any, digest: Any, label:
     return payload
 
 
+def _read_expected_sha256(path: Path, *, digest: str, label: str) -> bytes:
+    _require(path.is_file() and not path.is_symlink(), f"{label} is missing or linked")
+    try:
+        payload = path.read_bytes()
+    except OSError as exc:
+        raise ContractError(f"{label} is unreadable") from exc
+    _require(hashlib.sha256(payload).hexdigest() == digest, f"{label} digest mismatch")
+    return payload
+
+
 def validate_workflow_ledger(
     *,
     workflow_path: Path = WORKFLOW_PATH,
@@ -421,8 +472,16 @@ def validate_workflow_ledger(
         _require(workflow_cli_path.is_file() and not workflow_cli_path.is_symlink(), "workflow verifier is missing or linked")
     except OSError as exc:
         raise ContractError("workflow contract path cannot be resolved") from exc
-    _require(sha256_file(graph_path) == EXPECTED_WORKFLOW_GRAPH_SHA256, "workflow graph digest mismatch")
-    _require(sha256_file(workflow_cli_path) == EXPECTED_WORKFLOW_CLI_SHA256, "workflow verifier digest mismatch")
+    graph_bytes = _read_expected_sha256(
+        graph_path,
+        digest=EXPECTED_WORKFLOW_GRAPH_SHA256,
+        label="workflow graph",
+    )
+    workflow_cli_bytes = _read_expected_sha256(
+        workflow_cli_path,
+        digest=EXPECTED_WORKFLOW_CLI_SHA256,
+        label="workflow verifier",
+    )
     try:
         ledger_bytes = workflow_path.read_bytes()
     except OSError as exc:
@@ -458,13 +517,17 @@ def validate_workflow_ledger(
                     _require(source_bytes[source_text] == payload, "workflow source path has conflicting bytes")
                 source_bytes[source_text] = payload
     environment = os.environ.copy()
-    environment["RESEARCH_WORKFLOW_GRAPH"] = str(graph_path)
     try:
         with tempfile.TemporaryDirectory(prefix="muon-setup-workflow-verification-") as temporary:
             verification_root = Path(temporary)
             staged_experiment = verification_root / "research" / EXPERIMENT
             (staged_experiment / "workflow" / "evidence").mkdir(parents=True)
             (staged_experiment / "workflow.jsonl").write_bytes(ledger_bytes)
+            staged_graph = verification_root / "research/workflow.graph.v1.json"
+            staged_graph.write_bytes(graph_bytes)
+            staged_cli = verification_root / "scripts/research-workflow.mjs"
+            staged_cli.parent.mkdir(parents=True)
+            staged_cli.write_bytes(workflow_cli_bytes)
             for path_text, payload in source_bytes.items():
                 target = verification_root / path_text
                 target.parent.mkdir(parents=True, exist_ok=True)
@@ -474,8 +537,9 @@ def validate_workflow_ledger(
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(payload)
             environment["RESEARCH_WORKFLOW_ROOT"] = str(verification_root)
+            environment["RESEARCH_WORKFLOW_GRAPH"] = str(staged_graph)
             verified = subprocess.run(
-                ["node", str(workflow_cli_path), "verify", "--experiment", EXPERIMENT],
+                ["node", str(staged_cli), "verify", "--experiment", EXPERIMENT],
                 cwd=verification_root,
                 env=environment,
                 check=False,

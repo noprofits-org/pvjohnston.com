@@ -11,9 +11,9 @@ energy loss, air, scattering, zenith angle, showers, detector response,
 capture, sea-level flux, or a historical experiment. The Monte Carlo is an
 implementation check of the assumed decay law, not evidence for relativity.
 
-Current status: prospective setup iteration 3 implemented for review;
-production has not run and reproducibility is not yet established. The immutable protocol is
-`PREREGISTRATION-v1.md`.
+Current status: prospective and pre-production; setup requires independent
+approval before execution. Production has not run and reproducibility is not
+yet established. The immutable protocol is `PREREGISTRATION-v1.md`.
 
 ## Environment and setup-only verification
 
@@ -98,23 +98,36 @@ result, figure, and metrics contracts without touching canonical paths.
 
 After a `run_review --approve--> analyze` event admits the sealed sample, the
 analyst supplies that immutable historical event ID and writes the deterministic
-canonical result. The approval remains valid for byte checking after later
-valid events such as submission to `analysis_review`; admission never depends
-on the approval remaining the ledger's final line.
+canonical result. The run ID and event ID must come from that same approval:
+use the `run-001` pair below when the admitted normal run is `run-001`, or the
+`run-002` pair only when the prospectively registered retry succeeded and its
+approval names `run-002`. The implementation rejects a cross-pair substitution.
+The approval remains valid for byte checking after later valid events such as
+submission to `analysis_review`; admission never depends on the approval
+remaining the ledger's final line.
 
 ```sh
+# Admitted normal run-001: write, then exact check.
 research/muon-survival-two-frames/.venv/bin/python \
   research/muon-survival-two-frames/src/analyze.py \
   --run-id run-001 --run-review-event <approved-event-id>
-```
-
-The result can then be exactly regenerated and checked, followed by the single
-1200 by 630 PNG and metrics projection:
-
-```sh
 research/muon-survival-two-frames/.venv/bin/python \
   research/muon-survival-two-frames/src/analyze.py \
   --run-id run-001 --run-review-event <approved-event-id> --check
+
+# Admitted registered-retry run-002: write, then exact check.
+research/muon-survival-two-frames/.venv/bin/python \
+  research/muon-survival-two-frames/src/analyze.py \
+  --run-id run-002 --run-review-event <approved-event-id>
+research/muon-survival-two-frames/.venv/bin/python \
+  research/muon-survival-two-frames/src/analyze.py \
+  --run-id run-002 --run-review-event <approved-event-id> --check
+```
+
+After the applicable result pair succeeds, generate and check the single 1200
+by 630 PNG and metrics projection:
+
+```sh
 research/muon-survival-two-frames/.venv/bin/python \
   research/muon-survival-two-frames/src/render_figure.py
 research/muon-survival-two-frames/.venv/bin/python \

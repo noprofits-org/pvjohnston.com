@@ -59,7 +59,6 @@ def main() -> int:
         raise ContractError("analysis result is not valid UTF-8 JSON") from exc
     validate_analysis_result(
         result,
-        verify_provenance=True,
         enforce_frozen_inputs=enforce_frozen_inputs,
         repository_root=repository_root,
     )
