@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "Descriptive source name",
+      "url": "https://example.org/dataset",
+      "version": "version, release, or archival identifier",
+      "accessed": "2026-07-19",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "license": "SPDX identifier or plain-language rights statement",
+      "acquisition": "Exact download or generation instructions",
+      "committed": false,
+      "exclusion_reason": "Why the source is not committed or bundled"
+    }
+  ]
+}

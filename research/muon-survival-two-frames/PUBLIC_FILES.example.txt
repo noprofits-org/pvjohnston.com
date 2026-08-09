@@ -1,0 +1,11 @@
+# One repository-relative path per line. A future bundle command must package
+# only this allowlist, never the whole experiment directory.
+LICENSE
+research/metrics.schema.json
+research/example-experiment/README.md
+research/example-experiment/metrics.json
+research/example-experiment/generate-metrics.mjs
+research/example-experiment/sources.json
+research/example-experiment/environment.md
+research/example-experiment/results/summary.json
+research/example-experiment/src/run.py
