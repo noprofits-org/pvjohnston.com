@@ -68,6 +68,9 @@ changed active receipt: restore it or take a reviewed backward route and submit
 a new version. If a killed process left `workflow/.transition.lock`, inspect it
 and use `repair --experiment <experiment-slug> --unlock-stale` only when its
 same-host owner process is gone; never delete or replace a live lock by hand.
+The lock records its owning post branch. If initialization died before
+installing `workflow.jsonl`, the verified unlock runs before ledger loading and
+then instructs you to retry `init`.
 
 ## Question and boundary
 

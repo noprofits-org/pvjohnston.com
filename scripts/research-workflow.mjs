@@ -483,7 +483,7 @@ function linuxProcessStartTicks(pid) {
   }
 }
 
-function acquireLock(paths) {
+function acquireLock(paths, branch) {
   let descriptor;
   try {
     descriptor = openSync(
@@ -506,6 +506,7 @@ function acquireLock(paths) {
       hostname: hostname(),
       timestamp: new Date().toISOString(),
       lock_id: randomUUID(),
+      branch,
       boot_id: linuxBootId(),
       process_start_ticks: linuxProcessStartTicks(process.pid),
     })}\n`);
@@ -543,7 +544,7 @@ function assertUnlocked(paths, allowLock) {
   if (!allowLock) fail(`workflow transition is locked; retry after the active transition finishes`);
 }
 
-function clearStaleLock(paths) {
+function clearStaleLock(paths, expectedBranch) {
   let listed;
   try {
     listed = lstatSync(paths.lockPath);
@@ -570,15 +571,19 @@ function clearStaleLock(paths) {
     fail(`workflow transition lock is malformed; refusing stale-lock removal: ${error.message}`);
   }
   exactKeys(lock, new Set([
-    'pid', 'hostname', 'timestamp', 'lock_id', 'boot_id', 'process_start_ticks',
+    'pid', 'hostname', 'timestamp', 'lock_id', 'branch', 'boot_id', 'process_start_ticks',
   ]), 'workflow transition lock');
   if (!Number.isInteger(lock.pid) || lock.pid < 1
     || typeof lock.hostname !== 'string' || !lock.hostname
     || typeof lock.timestamp !== 'string' || Number.isNaN(Date.parse(lock.timestamp))
     || !uuidPattern.test(lock.lock_id || '')
+    || !postBranchPattern.test(lock.branch || '')
     || (lock.boot_id !== null && !uuidPattern.test(lock.boot_id || ''))
     || (lock.process_start_ticks !== null && !/^\d+$/.test(lock.process_start_ticks || ''))) {
     fail('workflow transition lock has invalid ownership metadata; refusing stale-lock removal');
+  }
+  if (lock.branch !== expectedBranch) {
+    fail(`workflow transition lock belongs to branch ${lock.branch}; current worktree is on ${expectedBranch}`);
   }
   if (lock.hostname !== hostname()) {
     fail(`workflow transition lock belongs to host ${lock.hostname}; refusing cross-host stale-lock removal`);
@@ -1599,13 +1604,13 @@ function initialize(options, root, graph) {
   const shelfEntry = optional(options, 'shelf-entry');
   if (postType === 'research' && !shelfEntry) fail('--shelf-entry is required for a research workflow');
   if (postType === 'understanding' && shelfEntry) fail('--shelf-entry is only valid for a research workflow');
-  requireOwningPostWorktree(root, 'workflow initialization');
+  const branch = requireOwningPostWorktree(root, 'workflow initialization');
   const journalEvents = requireJournal(root, journal);
   if (postType === 'research') requireReadyShelfEntry(root, shelfEntry);
 
   const experimentDir = experimentDirectory(root, experiment);
   const paths = managedPaths(experimentDir, { create: true });
-  const release = acquireLock(paths);
+  const release = acquireLock(paths, branch);
   try {
     if (existsSync(paths.logPath)) fail(`workflow already exists for research/${experiment}`);
     cleanupStaleInitTemps(root, experimentDir);
@@ -1646,7 +1651,7 @@ function mutateWorkflow(root, experiment, preferredGraph, callback) {
   }
   assertFresh(observed);
   const { experimentDir, paths } = observed;
-  const release = acquireLock(paths);
+  const release = acquireLock(paths, branch);
   try {
     requireOwningPostWorktree(root, 'workflow mutation', branch);
     cleanupStaleRecoveryTemps(root, experimentDir);
@@ -1852,13 +1857,24 @@ function repair(options, root, graph) {
   requireOnly(options, new Set(['experiment', 'unlock-stale']));
   const experiment = validateExperiment(required(options, 'experiment'));
   const branch = requireOwningPostWorktree(root, 'workflow repair');
-  const observed = loadWorkflow(root, experiment, graph, { allowLock: true, allowOrphans: true });
-  requireOwningPostWorktree(root, 'workflow repair', observed.metadata.owning_branch);
-  const { experimentDir, paths } = observed;
-  if (options['unlock-stale']) {
-    if (clearStaleLock(paths)) console.error(`Removed a stale transition lock for research/${experiment}`);
+  const experimentDir = experimentDirectory(root, experiment);
+  const paths = managedPaths(experimentDir);
+  const hasLog = existsSync(paths.logPath);
+  if (hasLog) {
+    const observed = loadWorkflow(root, experiment, graph, { allowLock: true, allowOrphans: true });
+    requireOwningPostWorktree(root, 'workflow repair', observed.metadata.owning_branch);
   }
-  const release = acquireLock(paths);
+  let unlocked = false;
+  if (options['unlock-stale']) {
+    unlocked = clearStaleLock(paths, branch);
+    if (unlocked) console.error(`Removed a stale transition lock for research/${experiment}`);
+  }
+  if (!hasLog) {
+    if (!unlocked) fail(`workflow is not initialized for research/${experiment}`);
+    console.log(`Stale initialization lock cleared; retry workflow init for research/${experiment}`);
+    return;
+  }
+  const release = acquireLock(paths, branch);
   try {
     requireOwningPostWorktree(root, 'workflow repair', branch);
     cleanupStaleRecoveryTemps(root, experimentDir);

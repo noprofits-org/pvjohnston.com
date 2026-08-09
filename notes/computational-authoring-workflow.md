@@ -666,9 +666,11 @@ node scripts/research-workflow.mjs repair \
 ```
 
 The CLI inode-checks the exact lock and refuses removal when the owner is live,
-the host differs, the metadata is malformed, or the path changes during
-inspection. Do not remove a lock by hand or use this option to interrupt a live
-transition.
+the host or owning post branch differs, the metadata is malformed, or the path
+changes during inspection. If initialization died after taking the lock but
+before installing `workflow.jsonl`, the same command clears the verified lock
+before ledger loading and tells the coordinator to retry `init`. Do not remove
+a lock by hand or use this option to interrupt a live transition.
 
 Use the CLI's shared `--help` usage screen as the source of truth for accepted
 flags. Do not edit workflow state by hand.

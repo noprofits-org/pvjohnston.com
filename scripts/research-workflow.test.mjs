@@ -794,6 +794,7 @@ test('stale-lock repair refuses a live owner and removes only a dead same-host l
     hostname: hostname(),
     timestamp: '2026-08-08T00:00:00.000Z',
     lock_id: randomUUID(),
+    branch: `post/${flow.experiment}`,
     boot_id: null,
     process_start_ticks: processStartTicks,
   })}\n`;
@@ -822,6 +823,40 @@ test('stale-lock repair refuses a live owner and removes only a dead same-host l
   assert.equal(existsSync(lockPath), false);
   result = flow.run('verify', '--experiment', flow.experiment);
   assert.equal(result.status, 0, result.stderr);
+});
+
+test('clears a branch-bound stale initialization lock before requiring a ledger', (context) => {
+  const flow = fixture('stale-init-lock');
+  context.after(() => flow.cleanup());
+  const workflowDirectory = join(flow.experimentDirectory, 'workflow');
+  const lockPath = join(workflowDirectory, '.transition.lock');
+  mkdirSync(join(workflowDirectory, 'evidence'), { recursive: true });
+  writeFileSync(lockPath, `${JSON.stringify({
+    pid: 2147483647,
+    hostname: hostname(),
+    timestamp: '2026-08-08T00:00:00.000Z',
+    lock_id: randomUUID(),
+    branch: `post/${flow.experiment}`,
+    boot_id: null,
+    process_start_ticks: null,
+  })}\n`);
+
+  flow.git('switch', '-c', 'post/wrong-init-owner');
+  let result = flow.run('repair', '--experiment', flow.experiment, '--unlock-stale');
+  assertFailed(result, /lock belongs to branch post\/stale-init-lock/i);
+  assert.equal(existsSync(lockPath), true);
+
+  flow.git('switch', `post/${flow.experiment}`);
+  result = flow.run('repair', '--experiment', flow.experiment, '--unlock-stale');
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stderr, /Removed a stale transition lock/i);
+  assert.match(result.stdout, /retry workflow init/i);
+  assert.equal(existsSync(lockPath), false);
+  assert.equal(existsSync(flow.logPath()), false);
+
+  result = initialize(flow);
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(existsSync(flow.logPath()), true);
 });
 
 test('newline-terminated junk is corruption, while a partial tail is recoverable', (context) => {
