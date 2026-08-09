@@ -1,6 +1,6 @@
 ---
 title: How this notebook is made
-description: How pvjohnston.com turns questions into computational artifacts, traceable prose, checked static pages, and published notes—with AI assisting along the way.
+description: How AI agents perform most of the research, engineering, writing, and verification behind pvjohnston.com under human direction.
 ---
 
 <article class="method-page">
@@ -9,7 +9,7 @@ description: How pvjohnston.com turns questions into computational artifacts, tr
 <div class="method-eyebrow"><span aria-hidden="true">●</span> Open process · Current live workflow</div>
 <h1>How this notebook is made</h1>
 <p class="method-lede">A published note is the last visible artifact in a much longer chain. Questions are bounded before prose, computations keep their own evidence, generated values travel into sentences by name, and the resulting site has to survive mechanical checks and review before it reaches <code>main</code>.</p>
-<p class="method-intro">This is both a reader’s colophon and my own map of the machinery. It describes the system that is live now—not a future ideal—and distinguishes what the tooling can verify from the scientific judgment it cannot replace. The archive grew into this contract over time, so older notes may predate some of its layers.</p>
+<p class="method-intro">This is both a reader’s colophon and my own map of the machinery. It describes the system that is live now—not a future ideal—including its actual division of labor: I usually name the kind of destination that interests me, while AI agents do most of the route-finding and driving. I steer at consequential turns, decide what belongs here, and remain accountable for publication. The archive grew into this contract over time, so older notes may predate some of its layers.</p>
 
 <ol class="method-overview" aria-label="A note's path from question to publication">
 <li><span class="method-step-number">01</span><strong>Question</strong><small>A shelf entry or bounded explanation</small></li>
@@ -32,7 +32,7 @@ description: How pvjohnston.com turns questions into computational artifacts, tr
 <a href="#sentence">4. Move results into prose</a>
 <a href="#publishing">5. Compile the note</a>
 <a href="#verification">6. Verify and deploy</a>
-<a href="#ai">7. Where AI fits</a>
+<a href="#ai">7. How AI drives the work</a>
 <a href="#limits">8. Know the limits</a>
 </nav>
 
@@ -186,30 +186,37 @@ description: How pvjohnston.com turns questions into computational artifacts, tr
 </section>
 
 <section id="ai" class="method-section">
-<div class="method-section-head"><span>07</span><div><p>AI-assisted authoring</p><h2>Use the model broadly; make the record outlive the chat</h2></div></div>
-<p>I use AI-assisted sessions throughout this work: to inspect unfamiliar code and literature, sharpen questions, implement and test calculations, diagnose failures, generate alternatives, shape drafts, and review claims. That range is exactly why the repository has become so explicit. A long model conversation is useful working memory, but it is not a durable scientific record.</p>
+<div class="method-section-head"><span>07</span><div><p>AI-powered authoring</p><h2>I set the destination; AI agents do most of the driving</h2></div></div>
+<p>Calling this process merely <em>AI-assisted</em> would badly understate it. This is not primarily a notebook I write and then ask a model to polish. In a typical session, I describe a question, outcome, or direction that interests me. An AI agent then inspects the repository and relevant literature, proposes the route, writes and debugs code, designs and runs computations, interprets intermediate results, drafts and revises the explanation, checks the finished site, and carries the change to a pull request.</p>
+
+<aside class="method-principle method-principle-ai">
+<strong>Human-directed does not mean human-executed</strong>
+<p>My role is closer to a research director, product owner, and publisher than the sole operator at the keyboard. I supply aims, taste, constraints, corrections, and consequential decisions. The agents supply most of the sustained intellectual, technical, and editorial labor needed to turn that direction into something inspectable and publishable.</p>
+</aside>
 
 <div class="method-ai-grid">
 <div>
-<span>Before a session</span>
-<strong>The repository supplies the contract</strong>
-<p><code>AGENTS.md</code>, the authoring guide, experiment README, branch boundaries, and current artifacts tell a fresh session how this project works.</p>
+<span>Human direction</span>
+<strong>Destination, values, and the final call</strong>
+<p>I choose what seems worth pursuing, clarify preferences and boundaries, redirect the work when needed, and decide whether the result should be merged and published.</p>
 </div>
 <div>
-<span>During a session</span>
-<strong>Tools create inspectable evidence</strong>
-<p>During deep work, searches and decisions enter the journal; computations leave code and outputs; quantitative claims become generated metrics; checks leave command results.</p>
+<span>AI operation</span>
+<strong>Research, engineering, writing, and review</strong>
+<p>Agents map unfamiliar terrain, plan the route, operate the tools, produce the artifacts and prose, diagnose failures, challenge claims, and keep going until the requested outcome is genuinely handled.</p>
 </div>
 <div>
-<span>After a session</span>
-<strong>Git carries the durable handoff</strong>
-<p>The commit and pull request show exactly which files changed. Another context—or a human reader—can inspect those artifacts without trusting the original chat.</p>
+<span>Shared memory</span>
+<strong>The repository makes the work durable</strong>
+<p>Guides orient a fresh agent; journals preserve searches and decisions; experiments retain evidence; generated metrics connect results to prose; Git records the handoff between sessions.</p>
 </div>
 </div>
 
+<p>This arrangement is productive enough that the machinery can become a black box even to me. That is one reason this page exists: the durable record should teach me how the system works just as readily as it teaches a reader or a newly opened agent session. A long model conversation is useful working memory, but it is not a scientific record. Code, sources, outputs, decisions, checks, commits, and pull requests have to outlive it.</p>
+
 <aside class="method-principle method-principle-ai">
-<strong>Responsibility does not transfer to the model</strong>
-<p>I choose what belongs on this site and remain responsible for the question, methods, interpretation, prose, and decision to publish. A separate AI context can provide useful adversarial distance, but it is internal review—not independent scientific peer review. Sources, executable artifacts, and reproducible checks carry evidentiary weight; model confidence does not.</p>
+<strong>Credit the labor; keep accountability human</strong>
+<p>AI agents perform substantive intellectual, technical, and editorial work here, and describing that contribution as mere assistance would be misleading. I nevertheless control what is published and remain accountable for that decision. A separate AI context can provide useful adversarial distance, but it is internal review—not independent scientific peer review. Sources, executable artifacts, and reproducible checks carry evidentiary weight; either human or model confidence by itself does not.</p>
 </aside>
 </section>
 
