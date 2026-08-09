@@ -26,6 +26,7 @@ research/muon-survival-two-frames/src/reconstruct.py
 research/muon-survival-two-frames/src/render_figure.py
 research/muon-survival-two-frames/src/run.py
 research/muon-survival-two-frames/src/validate_run.py
+research/muon-survival-two-frames/src/validate_result.py
 research/muon-survival-two-frames/src/verify_setup.py
 research/muon-survival-two-frames/results/summary.json
 research/muon-survival-two-frames/metrics.json

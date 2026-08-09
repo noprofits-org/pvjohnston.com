@@ -267,6 +267,14 @@ class ReconstructionContractTests(unittest.TestCase):
                 self.assertFalse(checks["numeric_shapes_dtypes_units_valid"])
                 self.assertFalse(checks["details"][detail])
 
+    def test_finite_negative_raw_lifetime_fails_nonnegative_branch(self) -> None:
+        packet = list(copy.deepcopy(self.packet()))
+        packet[7][1] = -0.25
+        checks = self.checks(tuple(packet))
+        self.assertFalse(checks["numeric_shapes_dtypes_units_valid"])
+        self.assertFalse(checks["details"]["raw_lifetimes_finite_nonnegative"])
+        self.assertTrue(checks["details"]["dtypes_valid"])
+
     def test_each_integrity_branch_fails_independently(self) -> None:
         for key in ("schema", "manifest", "provenance", "hashes", "run_bundle", "run_admission"):
             with self.subTest(integrity=key):

@@ -127,8 +127,10 @@ Each writer refuses to overwrite an existing output; its check mode regenerates
 the bytes in memory and requires an exact match. Run and result JSON are checked
 against their bound schemas plus strict cross-field invariants. Manifest,
 provenance, hash, bundle, and admission flags are derived from those validations
-rather than asserted constants. These production commands have not been
-executed during setup.
+rather than asserted constants. The metrics writer and check mode consume the
+exact canonical result bytes returned by the pinned Python validator after full
+schema, cross-field, digest-provenance, and integrity-detail validation. These
+production commands have not been executed during setup.
 
 ## Sources and publication
 

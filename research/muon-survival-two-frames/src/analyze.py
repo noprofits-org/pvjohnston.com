@@ -71,13 +71,13 @@ def analysis_admission(
 ) -> dict[str, Any]:
     """Bind an immutable historical run approval after complete graph replay."""
 
-    records = validate_workflow_ledger(
+    verified_ledger = validate_workflow_ledger(
         workflow_path=workflow_path,
         graph_path=graph_path,
         repository_root=repository_root,
         workflow_cli_path=workflow_cli_path,
     )
-    matches = [(event, raw) for event, raw in records if event.get("event_id") == event_id]
+    matches = [(event, raw) for event, raw in verified_ledger.records if event.get("event_id") == event_id]
     if len(matches) != 1:
         raise ContractError("analysis approval event is missing or duplicated")
     event, raw_line = matches[0]
@@ -93,9 +93,12 @@ def analysis_admission(
     for artifact in artifacts:
         snapshot_path = artifact.get("snapshot_path")
         if isinstance(snapshot_path, str):
-            candidate = repository_root / snapshot_path
-            if candidate.is_file() and not candidate.is_symlink() and run_id in candidate.read_text(encoding="utf-8"):
-                receipt_mentions_run = True
+            payload = verified_ledger.snapshot_bytes.get(snapshot_path)
+            if payload is not None:
+                try:
+                    receipt_mentions_run = receipt_mentions_run or run_id in payload.decode("utf-8")
+                except UnicodeError as exc:
+                    raise ContractError("immutable run-review evidence is not UTF-8") from exc
     if not receipt_mentions_run:
         raise ContractError("immutable run-review evidence does not name the requested run ID")
     return {
@@ -199,7 +202,8 @@ def validate_analysis_result(
 ) -> bool:
     """Validate the bound schema plus cross-field result invariants."""
 
-    validate_json_schema(result, EXPERIMENT_DIR / "schemas/analysis-result.schema.json")
+    validation_experiment_dir = repository_root / "research" / EXPERIMENT
+    validate_json_schema(result, validation_experiment_dir / "schemas/analysis-result.schema.json")
     grid = result["grid_m"]
     length = len(grid)
     primitive = result["primitive_inputs"]
@@ -333,15 +337,29 @@ def validate_analysis_result(
         validate_digest_record(provenance["schema"], repository_root=repository_root)
         for record in provenance["inputs"]:
             validate_digest_record(record, repository_root=repository_root)
-        if provenance["generator"] != digest_record(EXPERIMENT_DIR / "src/analyze.py"):
-            raise ContractError("analysis generator provenance mismatch")
-        if provenance["schema"] != digest_record(EXPERIMENT_DIR / "schemas/analysis-result.schema.json"):
-            raise ContractError("analysis schema provenance mismatch")
+        expected_generator = digest_record(
+            validation_experiment_dir / "src/analyze.py",
+            public_path=f"research/{EXPERIMENT}/src/analyze.py",
+        )
+        expected_schema = digest_record(
+            validation_experiment_dir / "schemas/analysis-result.schema.json",
+            public_path=f"research/{EXPERIMENT}/schemas/analysis-result.schema.json",
+        )
         expected_inputs = [
             *source_records,
-            digest_record(EXPERIMENT_DIR / "inputs.json"),
-            digest_record(EXPERIMENT_DIR / "constants.json"),
+            digest_record(
+                validation_experiment_dir / "inputs.json",
+                public_path=f"research/{EXPERIMENT}/inputs.json",
+            ),
+            digest_record(
+                validation_experiment_dir / "constants.json",
+                public_path=f"research/{EXPERIMENT}/constants.json",
+            ),
         ]
+        if provenance["generator"] != expected_generator:
+            raise ContractError("analysis generator provenance mismatch")
+        if provenance["schema"] != expected_schema:
+            raise ContractError("analysis schema provenance mismatch")
         if provenance["inputs"] != expected_inputs:
             raise ContractError("analysis input provenance mismatch")
     return True

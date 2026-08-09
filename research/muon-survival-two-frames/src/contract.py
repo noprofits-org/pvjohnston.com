@@ -10,7 +10,9 @@ import os
 import platform
 import re
 import subprocess
+import tempfile
 import time
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Mapping
@@ -348,11 +350,22 @@ def production_command(run_id: str) -> str:
     )
 
 
-def _workflow_records(path: Path) -> list[tuple[dict[str, Any], str]]:
+@dataclass(frozen=True)
+class VerifiedWorkflowLedger:
+    """Exact ledger and evidence bytes replayed by the bound verifier."""
+
+    records: tuple[tuple[dict[str, Any], str], ...]
+    ledger_bytes: bytes
+    snapshot_bytes: Mapping[str, bytes]
+
+
+def _workflow_records_from_bytes(payload: bytes) -> list[tuple[dict[str, Any], str]]:
     try:
-        lines = path.read_text(encoding="utf-8").splitlines()
-    except (OSError, UnicodeError) as exc:
+        text = payload.decode("utf-8")
+    except UnicodeError as exc:
         raise ContractError("workflow ledger is unreadable") from exc
+    _require(payload.endswith(b"\n"), "workflow ledger lacks its final newline")
+    lines = text.splitlines()
     records: list[tuple[dict[str, Any], str]] = []
     for index, line in enumerate(lines, start=1):
         try:
@@ -365,18 +378,45 @@ def _workflow_records(path: Path) -> list[tuple[dict[str, Any], str]]:
     return records
 
 
+def _safe_workflow_relative_path(path_text: Any, *, evidence: bool) -> Path:
+    _require(isinstance(path_text, str) and path_text, "workflow artifact path is invalid")
+    relative = Path(path_text)
+    _require(not relative.is_absolute() and ".." not in relative.parts, "workflow artifact path is not repository-relative")
+    expected_prefix = Path("research") / EXPERIMENT / "workflow"
+    _require(relative.is_relative_to(expected_prefix), "workflow artifact path is outside the managed workflow")
+    if evidence:
+        _require(relative.is_relative_to(expected_prefix / "evidence"), "workflow snapshot path is outside evidence")
+    else:
+        _require(not relative.is_relative_to(expected_prefix / "evidence"), "workflow source path is inside evidence")
+    return relative
+
+
+def _read_bound_regular_file(path: Path, *, byte_count: Any, digest: Any, label: str) -> bytes:
+    _require(isinstance(byte_count, int) and not isinstance(byte_count, bool) and byte_count >= 0, f"{label} byte count is invalid")
+    _require(isinstance(digest, str) and SHA256_RE.fullmatch(digest) is not None, f"{label} SHA-256 is invalid")
+    _require(path.is_file() and not path.is_symlink(), f"{label} is missing or linked")
+    try:
+        payload = path.read_bytes()
+    except OSError as exc:
+        raise ContractError(f"{label} is unreadable") from exc
+    _require(len(payload) == byte_count, f"{label} byte count does not match")
+    _require(hashlib.sha256(payload).hexdigest() == digest, f"{label} SHA-256 does not match")
+    return payload
+
+
 def validate_workflow_ledger(
     *,
     workflow_path: Path = WORKFLOW_PATH,
     graph_path: Path = WORKFLOW_GRAPH_PATH,
     repository_root: Path = REPOSITORY_ROOT,
     workflow_cli_path: Path = WORKFLOW_CLI_PATH,
-) -> list[tuple[dict[str, Any], str]]:
-    """Use the repository's hash-bound verifier for complete graph replay."""
+) -> VerifiedWorkflowLedger:
+    """Replay an immutable byte snapshot with the repository's bound verifier."""
 
     expected_path = repository_root / "research" / EXPERIMENT / "workflow.jsonl"
     try:
         _require(workflow_path.resolve(strict=True) == expected_path.resolve(strict=True), "workflow path is not the managed experiment ledger")
+        _require(workflow_path.is_file() and not workflow_path.is_symlink(), "workflow ledger is missing or linked")
         _require(graph_path.is_file() and not graph_path.is_symlink(), "workflow graph is missing or linked")
         _require(workflow_cli_path.is_file() and not workflow_cli_path.is_symlink(), "workflow verifier is missing or linked")
     except OSError as exc:
@@ -384,30 +424,69 @@ def validate_workflow_ledger(
     _require(sha256_file(graph_path) == EXPECTED_WORKFLOW_GRAPH_SHA256, "workflow graph digest mismatch")
     _require(sha256_file(workflow_cli_path) == EXPECTED_WORKFLOW_CLI_SHA256, "workflow verifier digest mismatch")
     try:
-        ledger_before = workflow_path.read_bytes()
+        ledger_bytes = workflow_path.read_bytes()
     except OSError as exc:
         raise ContractError("workflow ledger is unreadable") from exc
+    records = _workflow_records_from_bytes(ledger_bytes)
+    snapshot_bytes: dict[str, bytes] = {}
+    source_bytes: dict[str, bytes] = {}
+    for event, _raw_line in records:
+        artifacts = event.get("artifacts", [])
+        _require(isinstance(artifacts, list), "workflow event artifacts are invalid")
+        for artifact in artifacts:
+            _require(isinstance(artifact, dict), "workflow artifact is invalid")
+            snapshot_relative = _safe_workflow_relative_path(artifact.get("snapshot_path"), evidence=True)
+            snapshot_text = snapshot_relative.as_posix()
+            _require(snapshot_text not in snapshot_bytes, "workflow snapshot is referenced more than once")
+            snapshot_bytes[snapshot_text] = _read_bound_regular_file(
+                repository_root / snapshot_relative,
+                byte_count=artifact.get("bytes"),
+                digest=artifact.get("sha256"),
+                label="workflow snapshot",
+            )
+            source_path = artifact.get("source_path")
+            if source_path is not None:
+                source_relative = _safe_workflow_relative_path(source_path, evidence=False)
+                source_text = source_relative.as_posix()
+                payload = _read_bound_regular_file(
+                    repository_root / source_relative,
+                    byte_count=artifact.get("bytes"),
+                    digest=artifact.get("sha256"),
+                    label="workflow source",
+                )
+                if source_text in source_bytes:
+                    _require(source_bytes[source_text] == payload, "workflow source path has conflicting bytes")
+                source_bytes[source_text] = payload
     environment = os.environ.copy()
-    environment["RESEARCH_WORKFLOW_ROOT"] = str(repository_root)
     environment["RESEARCH_WORKFLOW_GRAPH"] = str(graph_path)
     try:
-        verified = subprocess.run(
-            ["node", str(workflow_cli_path), "verify", "--experiment", EXPERIMENT],
-            cwd=repository_root,
-            env=environment,
-            check=False,
-            capture_output=True,
-            text=True,
-            timeout=15,
-        )
+        with tempfile.TemporaryDirectory(prefix="muon-setup-workflow-verification-") as temporary:
+            verification_root = Path(temporary)
+            staged_experiment = verification_root / "research" / EXPERIMENT
+            (staged_experiment / "workflow" / "evidence").mkdir(parents=True)
+            (staged_experiment / "workflow.jsonl").write_bytes(ledger_bytes)
+            for path_text, payload in source_bytes.items():
+                target = verification_root / path_text
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(payload)
+            for path_text, payload in snapshot_bytes.items():
+                target = verification_root / path_text
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(payload)
+            environment["RESEARCH_WORKFLOW_ROOT"] = str(verification_root)
+            verified = subprocess.run(
+                ["node", str(workflow_cli_path), "verify", "--experiment", EXPERIMENT],
+                cwd=verification_root,
+                env=environment,
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
     except (OSError, subprocess.SubprocessError) as exc:
         raise ContractError("workflow graph verification could not run") from exc
     _require(verified.returncode == 0, "workflow graph replay or evidence verification failed")
-    try:
-        _require(workflow_path.read_bytes() == ledger_before, "workflow ledger changed during verification")
-    except OSError as exc:
-        raise ContractError("workflow ledger became unreadable during verification") from exc
-    return _workflow_records(workflow_path)
+    return VerifiedWorkflowLedger(tuple(records), ledger_bytes, dict(snapshot_bytes))
 
 
 def run_namespaces(runs_dir: Path) -> list[str]:
@@ -446,13 +525,13 @@ def authorize_run_request(
 
     if run_id not in {"run-001", "run-002"}:
         raise ContractError("unregistered run ID")
-    records = validate_workflow_ledger(
+    verified_ledger = validate_workflow_ledger(
         workflow_path=workflow_path,
         graph_path=graph_path,
         repository_root=repository_root,
         workflow_cli_path=workflow_cli_path,
     )
-    event, raw_line = records[-1]
+    event, raw_line = verified_ledger.records[-1]
     namespaces = run_namespaces(runs_dir if runs_dir is not None else EXPERIMENT_DIR / "runs")
     if run_id == "run-001":
         _require(namespaces == [], "normal execution requires an empty runs namespace")
@@ -491,13 +570,13 @@ def validate_recorded_run_authorization(
     expected_kind = "normal" if run_id == "run-001" else "registered_retry" if run_id == "run-002" else None
     _require(expected_kind is not None and authorization.get("kind") == expected_kind, "run authorization kind mismatch")
     _require(authorization.get("workflow_path") == "research/muon-survival-two-frames/workflow.jsonl", "run authorization workflow path mismatch")
-    records = validate_workflow_ledger(
+    verified_ledger = validate_workflow_ledger(
         workflow_path=workflow_path,
         graph_path=graph_path,
         repository_root=repository_root,
         workflow_cli_path=workflow_cli_path,
     )
-    matches = [(event, raw) for event, raw in records if event.get("event_id") == authorization.get("event_id")]
+    matches = [(event, raw) for event, raw in verified_ledger.records if event.get("event_id") == authorization.get("event_id")]
     _require(len(matches) == 1, "recorded run authorization event is missing or duplicated")
     event, raw_line = matches[0]
     expected = _authorization_record(event, raw_line, expected_kind)

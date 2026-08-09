@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -33,7 +34,15 @@ if (fixtureMode) {
   }
 }
 
-const inputBytes = readFileSync(inputPath);
+const python = resolve(experimentDir, '.venv/bin/python');
+const validator = resolve(experimentDir, 'src/validate_result.py');
+const validationArgs = [validator, '--input', inputPath];
+if (fixtureMode) validationArgs.push('--setup-fixture', '--repository-root', dirname(inputPath));
+const inputBytes = execFileSync(python, validationArgs, {
+  encoding: null,
+  maxBuffer: 10 * 1024 * 1024,
+  env: { ...process.env, LC_ALL: 'C', LANG: 'C', TZ: 'UTC' },
+});
 const result = JSON.parse(inputBytes.toString('utf8'));
 if (result.experiment !== 'muon-survival-two-frames' || result.post_type !== 'understanding') fail('result identity mismatch');
 if (result.outcome_kind !== 'understanding-observations-no-verdict') fail('result must not contain a Research verdict');
