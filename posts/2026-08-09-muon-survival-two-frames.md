@@ -13,8 +13,8 @@ og-image: /images/2026-08-09-muon-survival-two-frames-hero.png
 This note explains two machines with one demonstration. The first machine is
 special relativity's simplest working example: a muon created high in the
 atmosphere survives to a detector that a naive calculation — the full
-laboratory path against the undilated lifetime, with no relativity in it —
-says it should essentially never reach, and two reference frames give two
+laboratory path at the same speed but with the undilated lifetime — says it
+should essentially never reach, and two reference frames give two
 different accounts of why it does — time
 dilation in one, length contraction in the other — that must and do agree. The
 second machine is the research workflow that this site briefly ran: an
@@ -278,12 +278,13 @@ Figure 1 is the byte-preserved v1 PNG and is deliberately not regenerated.
 Those are projection- and presentation-level regenerations, and the earned
 label is **traceable** — not analysis-reproducible. Regenerating
 `results/summary.json` itself from the sealed sample requires the pinned
-Python environment *and* a checkout of the retirement commit, because
-`src/analyze.py` invokes the hash-bound workflow verifier at its original
-repository paths, which now exist only in history and under `graph/`. The
-ledger replay reported above has the same boundary: the retired engine
-resolves its graph relative to the layout it was built for, so replay runs
-from a checkout of the retirement commit, as the experiment README
-describes.
+Python environment plus a restored verifier layout: `src/analyze.py` invokes
+the hash-bound workflow verifier at its original repository paths, and no
+single commit contains both this experiment and that verifier, because the
+trial branch merged after the retirement. The preserved `graph/` copies are
+byte-identical to the retired originals, so the restoration is copying two
+files back to their old paths in a scratch clone, as the experiment README
+describes. The ledger replay reported above ran against the same restored
+layout.
 
 ## References

@@ -25,8 +25,16 @@ was completed and published under the successor pipeline:
 - `graph/` preserves the retired engine, its state graph, its protocol
   document, and the trial-era hardened metrics generator, as the specimen the
   published note explains. The engine resolves paths against the repository
-  layout it was built for, so replay it from a checkout of the retirement
-  commit (`567fa4e`).
+  layout it was built for, and no single commit contains both this experiment
+  and that layout (the trial merged after the retirement). To replay, restore
+  the two preserved copies — byte-identical to the retired originals — to
+  their old paths in a scratch clone:
+
+  ```sh
+  cp research/muon-survival-two-frames/graph/research-workflow.mjs scripts/
+  cp research/muon-survival-two-frames/graph/workflow.graph.v1.json research/
+  node scripts/research-workflow.mjs verify --experiment muon-survival-two-frames
+  ```
 - `generate-metrics.mjs` is the current plain generator; it derives the
   physics metrics from `results/summary.json` and the ledger metrics from
   `workflow.jsonl`, and runs in CI with `--check`, which also chains
@@ -40,7 +48,7 @@ Traceability: **traceable**. The metrics projection and Figure 2 regenerate
 from committed outputs with stock Node.js; those are projection- and
 presentation-level regenerations, not analysis reproduction. Regenerating
 `results/summary.json` from the sealed sample requires the pinned Python
-environment *and* a checkout of the retirement commit, because
+environment plus the same two-file verifier restoration shown above, because
 `src/analyze.py` invokes the hash-bound workflow verifier at its original
 repository paths (`scripts/research-workflow.mjs`,
 `research/workflow.graph.v1.json`), which the retirement removed.
