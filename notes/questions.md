@@ -1,6 +1,7 @@
 # The shelf — open questions and unexplained observations
 
-Nothing gets drafted that was not sitting here first (`blog-authoring.md` §0).
+Every Research note's question lives here, with its contribution sentence and
+falsifier — added in the same PR as the post is fine (`blog-authoring.md` §0).
 This is a lab notebook, not a content calendar: entries are logged **when the
 anomaly happens**, before there is an explanation. The explanation is the post.
 
