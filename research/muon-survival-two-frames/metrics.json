@@ -8,6 +8,10 @@
       {
         "path": "research/muon-survival-two-frames/results/summary.json",
         "sha256": "26d979a9ceebf573f9c23e8522bfd5ad173b6f537bb2ae44066dd416a5f690b0"
+      },
+      {
+        "path": "research/muon-survival-two-frames/workflow.jsonl",
+        "sha256": "6abff1ff5786ba92c6957e922441cdffb184c2753678e1de9c52d77b243ff8a2"
       }
     ]
   },
@@ -156,7 +160,7 @@
       "type": "number",
       "value": 1.268040311737765e-10,
       "format": {
-        "style": "percent",
+        "style": "scientific",
         "digits": 3
       },
       "description": "Same-speed no-lifetime-dilation counterfactual survival",
@@ -232,6 +236,57 @@
       "type": "boolean",
       "value": true,
       "description": "Whether every registered fidelity check passed"
+    },
+    "ledger_events": {
+      "type": "integer",
+      "value": 27,
+      "description": "Events in the append-only workflow ledger",
+      "unit": "events"
+    },
+    "ledger_submissions": {
+      "type": "integer",
+      "value": 13,
+      "description": "Work-packet submissions recorded in the ledger",
+      "unit": "submissions"
+    },
+    "ledger_reviews": {
+      "type": "integer",
+      "value": 13,
+      "description": "Independent reviews recorded in the ledger",
+      "unit": "reviews"
+    },
+    "ledger_revise_decisions": {
+      "type": "integer",
+      "value": 8,
+      "description": "Reviews that sent work backward for revision",
+      "unit": "reviews"
+    },
+    "ledger_setup_review_rounds": {
+      "type": "integer",
+      "value": 7,
+      "description": "Setup-review rounds before execution was approved",
+      "unit": "reviews"
+    },
+    "ledger_evidence_snapshots": {
+      "type": "integer",
+      "value": 26,
+      "description": "Immutable evidence snapshots bound by ledger events",
+      "unit": "snapshots"
+    },
+    "ledger_wall_clock_hours": {
+      "type": "number",
+      "value": 4.606010833333333,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Elapsed time from ledger initialization to the terminal event",
+      "unit": "h"
+    },
+    "ledger_terminal_parked": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the ledger ends in the terminal parked state"
     }
   }
 }

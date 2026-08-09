@@ -11,9 +11,37 @@ energy loss, air, scattering, zenith angle, showers, detector response,
 capture, sea-level flux, or a historical experiment. The Monte Carlo is an
 implementation check of the assumed decay law, not evidence for relativity.
 
-Current status: prospective and pre-production; setup requires independent
-approval before execution. Production has not run and reproducibility is not
-yet established. The immutable protocol is `PREREGISTRATION-v1.md`.
+## Outcome
+
+The canonical run `run-001` executed once on 2026-08-09 under workflow graph
+v1 and was admitted on review; the analysis passed every registered check. The
+trial then parked at `amendment_review`: the graph had no lawful edge for a
+presentation-only correction to panel B of the registered figure
+(`AMENDED-PROTOCOL-v2.md` and `WORKFLOW_RETROSPECTIVE.md` record why). The
+repository retired the workflow graph shortly afterward, and this experiment
+was completed and published under the successor pipeline:
+
+- `workflow.jsonl` and `workflow/` are the frozen trial ledger and receipts.
+- `graph/` preserves the retired engine, its state graph, its protocol
+  document, and the trial-era hardened metrics generator, as the specimen the
+  published note explains. The engine resolves paths against the repository
+  layout it was built for, so replay it from a checkout of the retirement
+  commit (`567fa4e`).
+- `generate-metrics.mjs` is the current plain generator; it derives the
+  physics metrics from `results/summary.json` and the ledger metrics from
+  `workflow.jsonl`, and runs in CI with `--check`.
+- `src/render_figure_v2.mjs` renders the corrected panel-B presentation the
+  parked amendment specified, reading every printed value from the unchanged
+  canonical summary. Figure 1's v1 PNG is byte-preserved in Git history.
+
+Traceability: traceable and analysis-reproducible from committed outputs with
+stock Node.js. Re-executing the run itself requires rebuilding the pinned
+Python environment below.
+
+The immutable protocol is `PREREGISTRATION-v1.md`. The sections below are the
+graph-era operating contract, preserved as provenance for how `run-001` and
+its analysis were actually produced; the workflow authorizations they refer
+to no longer gate anything.
 
 ## Environment and setup-only verification
 
@@ -181,7 +209,8 @@ and does not alter, the frozen raw-run namespace and completion-marker rules.
 `sources.json` records the two PDG URLs, access date, byte counts, hashes,
 rights boundary, and acquisition instructions. `constants.json` transcribes
 only the reviewed central values; neither PDF is committed or needed at
-runtime. `PUBLIC_FILES.prospective.txt` is deliberately not a live routing
-manifest. Editorial review must create the final `PUBLIC_FILES.txt` only after
-all listed artifacts exist and have passed publication review. Every committed
-file remains public even when it is not served by the site.
+runtime. `PUBLIC_FILES.txt` is the live routing manifest for the reader-facing
+bundle, including the ledger, receipts, and the `graph/` specimen; the
+`workflow/evidence/` snapshots are excluded as byte duplicates of the receipts
+they mirror, and the sealed raw sample and run logs stay unrouted. Every
+committed file remains public even when it is not served by the site.

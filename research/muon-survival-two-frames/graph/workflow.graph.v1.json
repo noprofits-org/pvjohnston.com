@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "graph_version": 1,
+  "initial_state": "brainstorm",
+  "terminal_states": [
+    "ready_to_merge",
+    "parked"
+  ],
+  "states": {
+    "brainstorm": {
+      "kind": "work",
+      "role": "research_brainstormer",
+      "lineage_order": 1,
+      "label": "Question and protocol design",
+      "description": "For Research, select a ready shelf question and state the contribution and falsifier; for Understanding, define the explanatory question and route. Bound and preregister the computation before production results exist.",
+      "submit_to": "question_review",
+      "artifact_contract": "A versioned intake/preregistration packet covering the form-specific source relationship and either contribution, hypothesis, falsifier, and other-outcome publishability (Research) or audience, explanatory route, demonstrations, and stopping boundary (Understanding), plus protocol, analysis rule, compute budget, and expected artifacts."
+    },
+    "question_review": {
+      "kind": "review",
+      "role": "independent_reviewer",
+      "label": "Question and protocol review",
+      "description": "Challenge the form-specific intellectual contract, feasibility, claim boundaries, and frozen protocol without seeing production results: contribution and falsifiability for Research; explanatory route and model boundary for Understanding.",
+      "decisions": {
+        "approve": "setup",
+        "revise": "brainstorm",
+        "park": "parked"
+      },
+      "artifact_contract": "A versioned review report naming the exact submission snapshot, checks performed, blocking findings, and decision."
+    },
+    "setup": {
+      "kind": "work",
+      "role": "experiment_engineer",
+      "lineage_order": 2,
+      "label": "Experimental setup",
+      "description": "Implement the frozen protocol, tests, fixtures, environment lock, resumable runner, output schema, and analysis skeleton without running canonical production work.",
+      "submit_to": "setup_review",
+      "artifact_contract": "A versioned implementation handoff listing protocol-to-code traceability, code and environment digests, exact commands, tests and microbenchmarks, resource estimate, restart behavior, and expected output paths."
+    },
+    "setup_review": {
+      "kind": "review",
+      "role": "independent_reviewer",
+      "label": "Setup and methods review",
+      "description": "Verify that code implements the frozen protocol before canonical execution. Research decision logic covers supported, falsified, and inconclusive synthetic cases; Understanding fixtures cover the planned demonstrations and boundaries.",
+      "decisions": {
+        "approve": "execute",
+        "revise": "setup",
+        "redesign": "brainstorm",
+        "park": "parked"
+      },
+      "artifact_contract": "A versioned code/method review report naming the approved snapshots and any required route backward."
+    },
+    "execute": {
+      "kind": "work",
+      "role": "run_operator",
+      "lineage_order": 3,
+      "label": "Frozen execution",
+      "description": "Run only the approved command and monitor health, completeness, and resource limits; do not tune, interpret, plot, or edit the protocol mid-run.",
+      "submit_to": "run_review",
+      "artifact_contract": "A versioned run receipt with protocol/code/input digests, run and shard IDs, exact commands, environment and hardware, timestamps, exit states, raw-output hashes, completeness, deviations, and journal checkpoint."
+    },
+    "run_review": {
+      "kind": "review",
+      "role": "independent_reviewer",
+      "label": "Run integrity review",
+      "description": "Judge lineage, completeness, registered seeds/cases, stopping rules, and admissibility without judging whether the scientific outcome is desirable.",
+      "decisions": {
+        "approve": "analyze",
+        "resume": "execute",
+        "registered_retry": "execute",
+        "amend": "protocol_amendment",
+        "park": "parked"
+      },
+      "artifact_contract": "A versioned integrity report that accepts or quarantines each run/shard, distinguishes scientific stops from infrastructure failures, and cites the frozen authorization for any same-run resume or fresh registered retry."
+    },
+    "analyze": {
+      "kind": "work",
+      "role": "analyst",
+      "lineage_order": 4,
+      "label": "Analysis and figures",
+      "description": "Treat admitted raw outputs as immutable, run the preregistered analysis first, label exploratory diagnostics, and generate canonical results, figures, and publication metrics.",
+      "submit_to": "analysis_review",
+      "artifact_contract": "A versioned analysis handoff with sealed input hashes, deterministic commands, primary and exploratory outputs, uncertainty, figures, metrics projection, deviations, and either the registered Research verdict derivation or the Understanding demonstration observations."
+    },
+    "analysis_review": {
+      "kind": "review",
+      "role": "independent_reviewer",
+      "label": "Analysis and interpretation review",
+      "description": "Independently regenerate the analysis and figures, apply the frozen Research decision rule or Understanding demonstration plan, and check uncertainty, omissions, axes, metric traceability, and claim boundaries.",
+      "decisions": {
+        "approve": "write",
+        "revise": "analyze",
+        "registered_rerun": "execute",
+        "amend": "protocol_amendment",
+        "park": "parked"
+      },
+      "artifact_contract": "A versioned reproducibility and interpretation report naming exact input/output snapshots and the appropriate correction route."
+    },
+    "write": {
+      "kind": "work",
+      "role": "blog_writer",
+      "lineage_order": 5,
+      "label": "Blog authoring",
+      "description": "Write only from approved evidence, use metric spans for generated values, and preserve the site's stance. Research reports supported, falsified, or inconclusive; Understanding follows its dependency-ordered explanatory route without inventing a verdict.",
+      "submit_to": "editorial_review",
+      "artifact_contract": "A versioned writing handoff pointing to the post, reviewed figures and metrics, citations, reproducibility claim, limitations, and either the Research verdict and next shelf question or the Understanding explanatory boundary."
+    },
+    "editorial_review": {
+      "kind": "review",
+      "role": "independent_reviewer",
+      "label": "Scientific and editorial review",
+      "description": "Check evidence-to-claim alignment, form, stance, provenance, citations, metric spans, captions, publication allowlist, and the cheap pre-PR checks.",
+      "decisions": {
+        "approve": "ready_for_pr",
+        "revise": "write",
+        "reanalyze": "analyze",
+        "amend": "protocol_amendment",
+        "park": "parked"
+      },
+      "artifact_contract": "A versioned final review report with exact checked artifacts, command results, blocking findings, and publication decision."
+    },
+    "ready_for_pr": {
+      "kind": "work",
+      "role": "coordinator",
+      "lineage_order": 6,
+      "label": "Ready for PR and CI",
+      "description": "Open or update the PR, collect the full CI and human-review evidence, and submit a small publication receipt. This node does not merge or deploy.",
+      "submit_to": "pr_review",
+      "artifact_contract": "A versioned PR receipt naming the PR, candidate content commit, CI run and result for that commit, content-artifact digests, human review status, cheap-check evidence, and any changes made after editorial approval."
+    },
+    "pr_review": {
+      "kind": "review",
+      "role": "independent_reviewer",
+      "label": "PR and CI review",
+      "description": "Confirm that the candidate content commit passed the full repository build, PR feedback did not invalidate earlier approvals, and recording this review will change only the public workflow receipt, evidence, and ledger.",
+      "decisions": {
+        "approve": "ready_to_merge",
+        "revise": "write",
+        "reanalyze": "analyze",
+        "amend": "protocol_amendment",
+        "park": "parked"
+      },
+      "artifact_contract": "A versioned final integration review naming the candidate content commit and CI evidence, content-artifact digests, the permitted attestation-only descendant delta, residual risks, and a merge recommendation contingent on green CI for the resulting head."
+    },
+    "protocol_amendment": {
+      "kind": "work",
+      "role": "research_brainstormer",
+      "lineage_order": 1.5,
+      "label": "Post-exposure protocol amendment",
+      "description": "After any production exposure, document why the existing lineage is invalid or incomplete, quarantine affected runs, freeze a new protocol version, and keep outcome-contingent changes explicitly post-hoc.",
+      "submit_to": "amendment_review",
+      "artifact_contract": "A versioned amendment naming the exposed results, defect or required post-exposure change, quarantined artifacts, changed protocol bytes, unchanged decisions, bias risk, and why this remains the same question rather than a new workflow."
+    },
+    "amendment_review": {
+      "kind": "review",
+      "role": "independent_reviewer",
+      "label": "Protocol amendment review",
+      "description": "Decide whether the post-exposure change is scientifically defensible, fully disclosed, and still answers the registered question. New hypotheses go to a new workflow rather than this graph.",
+      "decisions": {
+        "approve": "amended_setup",
+        "revise": "protocol_amendment",
+        "park": "parked"
+      },
+      "artifact_contract": "A versioned amendment review that names exposed evidence, invalidated lineage, confirmation-bias controls, and the exact approved protocol version."
+    },
+    "amended_setup": {
+      "kind": "work",
+      "role": "experiment_engineer",
+      "lineage_order": 2,
+      "label": "Amended experimental setup",
+      "description": "Implement the independently approved post-exposure protocol version, rebuild tests and fixtures, and freeze a new exact run contract without reusing the prospective redesign edge.",
+      "submit_to": "amended_setup_review",
+      "artifact_contract": "A versioned amended-implementation handoff listing amendment-to-code traceability, old and new code/environment digests, exact commands, tests and microbenchmarks, resource estimate, restart behavior, quarantined predecessors, and expected output paths."
+    },
+    "amended_setup_review": {
+      "kind": "review",
+      "role": "independent_reviewer",
+      "label": "Amended setup and methods review",
+      "description": "Verify that the new implementation exactly realizes the independently approved post-exposure amendment. Any further scientific change must create another disclosed amendment rather than returning to the prospective brainstorm state.",
+      "decisions": {
+        "approve": "execute",
+        "revise": "amended_setup",
+        "amend": "protocol_amendment",
+        "park": "parked"
+      },
+      "artifact_contract": "A versioned amended code/method review naming the amendment and implementation snapshots, checks performed, quarantined lineage, blocking findings, and decision."
+    },
+    "ready_to_merge": {
+      "kind": "terminal",
+      "role": "coordinator",
+      "terminal_outcome": "success",
+      "label": "Ready for human merge",
+      "description": "The tracked workflow and independent merge recommendation are complete. A human integrator must confirm that the review transition changed only workflow receipts/evidence/ledger and that CI is green on the resulting head before merge; deploy, journal close, and repository close-out remain external actions."
+    },
+    "parked": {
+      "kind": "terminal",
+      "role": "coordinator",
+      "terminal_outcome": "parked",
+      "label": "Parked without publication",
+      "description": "The workflow stopped honestly because the question, protocol, evidence, resources, or publication case did not support continuing."
+    }
+  }
+}
