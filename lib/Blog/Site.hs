@@ -248,6 +248,7 @@ siteRules previewDrafts = do
                 indexCtx =
                     listField "featured" postCtx (return featured) <>
                     listField "posts"    postCtx (return (take 8 posts)) <>
+                    constField "postCount" (show (length posts))   <>
                     constField "title" "Home"                      <>
                     baseCtx
 
