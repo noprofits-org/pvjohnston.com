@@ -9,7 +9,13 @@
             </div>
             <h1 class="archive-title">The full archive</h1>
             <p class="archive-sub">Chemistry, physics, mathematics, art, software, and systems — newest first.</p>
+            $if(tagCloud)$<div class="tag-cloud">$tagCloud$</div>$endif$
         </div>
-        $partial("templates/post-list.html")$
+        $for(years)$
+        <section class="archive-year" aria-labelledby="year-$year$">
+            <h2 class="year-head" id="year-$year$">$year$</h2>
+            $partial("templates/post-list.html")$
+        </section>
+        $endfor$
     </div>
 </section>
