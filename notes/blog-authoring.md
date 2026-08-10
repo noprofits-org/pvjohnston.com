@@ -264,6 +264,7 @@ post-type: research                              # research or understanding
 contribution: X, which is not in [source].        # required; Research only
 contribution-type: decay                          # required; Research only
 experiment: experiment-slug                       # any post with generated results; see §7
+status: inconclusive                              # optional; Research only — supported | falsified | inconclusive
 og-image: /images/YYYY-MM-DD-post-slug-hero.png   # optional; see §5
 ---
 ```
@@ -282,8 +283,14 @@ question: What physical signal does a chord make, and what does a Fourier transf
 - **Description:** says how the post relates to its anchor source when that
   relationship is direct (§0); it cannot report only the result.
 - **Links:** use site-relative URLs for other notes in this repository.
-- **`post-type`:** required for every new post. Older posts without the field
-  predate this distinction; do not bulk-migrate them.
+- **`post-type`:** required for every new post. Rendered as a badge in the post
+  header and in note lists. Older posts without the field predate this
+  distinction; do not bulk-migrate them.
+- **`status`:** optional and Research-only — the note's own verdict on its
+  question: `supported`, `falsified`, or `inconclusive`. Rendered as a badge
+  beside `post-type`; Understanding notes take no verdict and omit the field.
+  Backfill older Research notes individually, when they are revisited — not in
+  bulk.
 - **`contribution` / `contribution-type`:** written *before* drafting, not after
   (§0) and present only on Research notes. They are not rendered — they exist so
   the gate leaves an artifact in the file, where a reviewer can check it against

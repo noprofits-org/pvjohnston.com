@@ -11,6 +11,8 @@
 
     <div class="post-meta">
         $if(author)$<span class="byline">$author$</span> · $endif$<span>$date$</span>
+        $if(postType)$ · <span class="note-badge badge-$postType$">$postType$</span>$endif$
+        $if(status)$ · <span class="note-badge badge-$status$">$status$</span>$endif$
     </div>
 
     <div class="post-rule"></div>
