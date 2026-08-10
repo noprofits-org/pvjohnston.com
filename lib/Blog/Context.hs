@@ -83,9 +83,19 @@ figureImageAlt html = case extract " alt=\"" '"' html of
     escapeDoubleQuotes = concatMap $ \c ->
       if c == '"' then "&quot;" else [c]
 
+-- | The post's declared form (@post-type@: @research@ / @understanding@),
+-- exposed as @postType@ so templates can render the note badge. Withheld when
+-- the field is absent, so @$if(postType)$@ is false on posts that predate it.
+postTypeField :: Context String
+postTypeField = field "postType" $ \item -> do
+  mpt <- getMetadataField (itemIdentifier item) "post-type"
+  case mpt of
+    Just pt -> pure pt
+    Nothing -> noResult "no post-type"
+
 -- | Context for posts: a human-readable @date@ field, the derived @topic@ /
--- @topicSlug@ used by the home-page filter pills, the @article@ og:type marker,
--- plus 'baseCtx'.
+-- @topicSlug@ used by the home-page filter pills, the @postType@ note badge,
+-- the @article@ og:type marker, plus 'baseCtx'.
 --
 -- @topic@ is a coarse subject bucket derived from a post's FIRST tag so the
 -- Latest filter has a small, stable set of pills instead of one pill per raw
@@ -96,6 +106,7 @@ postCtx =
   dateField "date" "%B %e, %Y" <>
   topicField "topic"     fst <>
   topicField "topicSlug" snd <>
+  postTypeField <>
   tagsHtmlField "tagChips" (\t -> "<span class=\"tag-chip\">" ++ t ++ "</span>") <>
   tagsHtmlField "hashTags" (\t -> "<span class=\"row-tag\">#" ++ t ++ "</span>") <>
   figureSlidesCtx <>

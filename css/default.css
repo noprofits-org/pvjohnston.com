@@ -233,6 +233,22 @@ a { color: inherit; text-decoration: none; }
 .post-row-tags { display: flex; flex-wrap: wrap; gap: 10px; }
 .row-tag { font-family: var(--font-mono); font-size: 10.5px; color: var(--faint); }
 
+/* Note badges: the post's declared form (post-type) and, for Research notes
+   that reached a verdict, its status. Sky = research, terracotta =
+   understanding (the colophon method-card pairing); the forest/mint pill is
+   the pipeline's own colorway, used for supported. */
+.note-badge {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; white-space: nowrap;
+  padding: 2px 7px; border-radius: 2px;
+  border: 1px solid var(--border-strong); color: var(--muted);
+}
+.badge-research { color: var(--accent); border-color: var(--accent); }
+.badge-understanding { color: var(--terracotta); border-color: var(--terracotta); }
+.badge-supported { background: var(--forest); border-color: var(--forest); color: var(--mint); }
+.badge-falsified { color: var(--req); border-color: var(--req); }
+.badge-inconclusive { color: var(--faint); }
+
 /* Archive CTA button */
 .archive-cta { text-align: center; padding: 40px 32px 12px; }
 .np-btn-outline {

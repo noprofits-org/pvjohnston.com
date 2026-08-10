@@ -5,6 +5,7 @@ author: Peter Johnston
 tags: quantum chemistry, neural networks, potential energy curves, H2+, force training, reproducibility
 description: An independent H2+ implementation extends Rana et al.'s 2025 1/R Conundrum by sweeping force-loss weight over four decades; endpoint classifications change when the training budget is doubled.
 post-type: research
+status: inconclusive
 contribution: A matched force-loss-weight dose response and 0.25-bohr bracket of the bond-distance crossover for exact nuclear-repulsion subtraction on H2+, which is not in Rana et al. or the lambda = 1 precursor.
 contribution-type: quantification
 experiment: coulomb-force-weight-response

@@ -4,6 +4,8 @@
         <div class="post-row-meta">
             <span class="post-row-date">$date$</span>
             <span class="post-row-topic">$topic$</span>
+            $if(postType)$<span class="note-badge badge-$postType$">$postType$</span>$endif$
+            $if(status)$<span class="note-badge badge-$status$">$status$</span>$endif$
         </div>
         <div class="post-row-main">
             <h4 class="post-row-title">$title$</h4>
