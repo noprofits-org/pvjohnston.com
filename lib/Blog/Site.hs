@@ -249,7 +249,7 @@ siteRules previewDrafts = do
                     listField "featured" postCtx (return featured) <>
                     listField "posts"    postCtx (return (take 8 posts)) <>
                     constField "postCount" (show (length posts))   <>
-                    constField "title" "Home"                      <>
+                    constField "title" "Notebook"                  <>
                     baseCtx
 
             getResourceBody

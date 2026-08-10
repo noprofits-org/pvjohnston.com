@@ -1,7 +1,8 @@
 /* ============================================================================
-   pvjohnston.com — portfolio, résumé, and technical notebook.
-   Colors/chrome come from /css/site-theme.css; this file adds the personal
-   landing page, writing indexes, article view, and printable résumé.
+   pvjohnston.com — technical notebook, résumé, and personal page.
+   Colors/chrome come from /css/site-theme.css; this file adds the notebook
+   homepage, writing indexes, article view, About-page personal sections,
+   and printable résumé.
 
    Type roles: Bricolage Grotesque (display) · Hanken Grotesk (body, from the
    theme) · JetBrains Mono (labels / tags / code).
@@ -65,6 +66,11 @@ a { color: inherit; text-decoration: none; }
   margin: 0;
   text-wrap: pretty;
 }
+
+/* Home variant: slimmer — the featured note directly below carries the page. */
+.masthead-home .masthead-inner { padding: 60px 32px 44px; }
+.masthead-home .masthead-title { font-size: clamp(30px, 4.5vw, 44px); max-width: 24ch; margin-bottom: 18px; }
+.masthead-home + .featured .featured-inner { padding-top: 48px; }
 
 /* =============================================================================
    FEATURED NOTE
@@ -583,7 +589,7 @@ main > p a:hover, main > ul a:hover, main > ol a:hover { color: var(--accent); b
 }
 
 /* =============================================================================
-   PERSONAL LANDING PAGE
+   PERSONAL SECTIONS (About page — moved off the homepage)
    ============================================================================= */
 .personal-hero {
   border-bottom: 1px solid var(--border);
@@ -1005,6 +1011,7 @@ main > p a:hover, main > ul a:hover, main > ol a:hover { color: var(--accent); b
 @media (max-width: 760px) {
   .personal-hero-inner { padding: 62px 20px 58px; }
   .personal-hero p { font-size: 18px; }
+  .masthead-home .masthead-inner { padding: 42px 20px 34px; }
   .work-inner { padding: 48px 20px; }
   .work-grid { grid-template-columns: 1fr; }
   .work-card-wide { grid-column: auto; }
