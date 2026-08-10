@@ -73,7 +73,7 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid var(--border);
   animation: npFadeUp 0.5s ease both;
 }
-.featured-inner { max-width: var(--maxw); margin: 0 auto; padding: 56px 32px; transition: opacity .3s ease; }
+.featured-inner { max-width: var(--maxw); margin: 0 auto; padding: 72px 32px; transition: opacity .3s ease; }
 /* Hold the featured card invisible (but laid out, so no reflow) until the
    randomizer resolves — see the no-flash script in default.html. */
 .feat-pending .featured-inner { opacity: 0; }
@@ -101,7 +101,7 @@ a { color: inherit; text-decoration: none; }
 }
 .featured-title {
   font-family: var(--font-display);
-  font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -0.02em;
+  font-weight: 800; font-size: clamp(34px, 4.2vw, 48px); line-height: 1.1; letter-spacing: -0.02em;
   margin: 0 0 16px; text-wrap: balance;
 }
 .featured-title a { color: var(--text); transition: color 0.18s ease; }
@@ -200,7 +200,7 @@ a { color: inherit; text-decoration: none; }
    ============================================================================= */
 .post-list { border-top: 1px solid var(--border); }
 .post-row {
-  display: grid; grid-template-columns: 150px 1fr; gap: 32px;
+  display: grid; grid-template-columns: 1fr; gap: 8px;
   padding: 26px 20px; margin: 0 -20px;
   border-bottom: 1px solid var(--border);
   color: inherit;
@@ -214,7 +214,7 @@ a { color: inherit; text-decoration: none; }
    featured post's row here. A class, not [hidden], so the topic filter — which
    owns the [hidden] attribute — cannot un-hide it. */
 .post-row.is-featured { display: none !important; }
-.post-row-meta { display: flex; flex-direction: column; gap: 6px; padding-top: 4px; }
+.post-row-meta { display: flex; flex-direction: row; gap: 12px; align-items: baseline; }
 .post-row-date { font-family: var(--font-mono); font-size: 12px; color: var(--faint); }
 .post-row-topic {
   font-family: var(--font-mono); font-size: 10.5px;
@@ -348,7 +348,7 @@ a { color: inherit; text-decoration: none; }
 .post-body blockquote { border-left: 3px solid var(--accent); padding: 4px 0 4px 22px; margin: 0 0 26px; }
 .post-body blockquote p { font-size: 18px; line-height: 1.6; color: var(--muted); font-style: italic; margin: 0; }
 
-.post-body figure { margin: 0 0 28px; border: 1px solid var(--border); background: var(--offwhite); border-radius: 6px; padding: 24px; }
+.post-body figure { margin: 0 0 28px; border: 1px solid var(--border); background: var(--offwhite); border-radius: 6px; padding: 32px; scroll-margin-top: 84px; }
 .post-body figure img { display: block; margin: 0 auto; }
 .post-body figcaption, .post-body figure figcaption {
   font-family: var(--font-mono); font-size: 11.5px; color: var(--faint); margin-top: 12px;
@@ -404,7 +404,7 @@ a { color: inherit; text-decoration: none; }
 
 /* MathJax display math: allow horizontal scroll, never clip */
 .post-body mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
-.post-body mjx-container[display="true"] { margin: 0 0 24px; }
+.post-body mjx-container[display="true"] { margin: 0 0 36px; }
 
 /* citeproc references */
 #refs, .csl-bib-body { margin: 8px 0 0; }
@@ -458,11 +458,9 @@ main > p a:hover, main > ul a:hover, main > ol a:hover { color: var(--accent); b
 }
 @media (max-width: 680px) {
   .masthead-inner { padding: 48px 20px 40px; }
-  .featured-inner { padding: 40px 20px; }
+  .featured-inner { padding: 48px 20px; }
   .latest-inner { padding-left: 20px; padding-right: 20px; }
-  .featured-title { font-size: 27px; }
-  .post-row { grid-template-columns: 1fr; gap: 8px; margin: 0 -16px; padding: 22px 16px; }
-  .post-row-meta { flex-direction: row; gap: 12px; align-items: baseline; padding-top: 0; }
+  .post-row { margin: 0 -16px; padding: 22px 16px; }
   .post { padding: 40px 20px 20px; }
   .archive-inner { padding-left: 20px; padding-right: 20px; }
   .archive-masthead { padding-top: 48px; }
