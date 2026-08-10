@@ -6,6 +6,7 @@
             <span class="post-row-topic">$topic$</span>
             $if(postType)$<span class="note-badge badge-$postType$">$postType$</span>$endif$
             $if(status)$<span class="note-badge badge-$status$">$status$</span>$endif$
+            $if(traceable)$<span class="note-badge badge-traceable" title="Generated results verified against the experiment's metrics artifact at build time">traceable</span>$endif$
         </div>
         <div class="post-row-main">
             <h4 class="post-row-title">$title$</h4>

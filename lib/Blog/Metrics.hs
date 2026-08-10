@@ -12,6 +12,7 @@
 module Blog.Metrics
   ( MetricsDocument
   , loadPostMetrics
+  , loadPostMetricsFor
   , metricsCompiler
   , metricFilter
   , parseMetricsDocument
@@ -51,6 +52,7 @@ import Data.Time (UTCTime)
 import Data.Time.Format (defaultTimeLocale, parseTimeM)
 import Hakyll
   ( Compiler
+  , Identifier
   , Item
   , getMetadata
   , getResourceBody
@@ -390,8 +392,14 @@ unlessEither condition message =
 -- | Load the metrics artifact selected by the current post's front matter.
 -- Loading it as a Hakyll item records the dependency for incremental builds.
 loadPostMetrics :: Compiler (Maybe MetricsDocument)
-loadPostMetrics = do
-  post <- getUnderlying
+loadPostMetrics = getUnderlying >>= loadPostMetricsFor
+
+-- | 'loadPostMetrics' for an explicitly identified post. Template context
+-- fields must use this form: inside a context field the underlying identifier
+-- is the page being rendered (the index, say), not the post item the field
+-- was applied to.
+loadPostMetricsFor :: Identifier -> Compiler (Maybe MetricsDocument)
+loadPostMetricsFor post = do
   metadata <- getMetadata post
   case lookupString "experiment" metadata of
     Nothing -> pure Nothing
