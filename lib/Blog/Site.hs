@@ -6,9 +6,11 @@ module Blog.Site
   ( siteRules
   ) where
 
-import Control.Monad     (filterM, forM_)
-import Data.Char         (isSpace)
-import Data.List         (dropWhileEnd, isPrefixOf, isSuffixOf, nub, sort)
+import Control.Monad     (filterM, forM, forM_)
+import Data.Char         (isAsciiLower, isDigit, isSpace, toLower)
+import Data.List         (dropWhileEnd, groupBy, intercalate, isPrefixOf, isSuffixOf, nub, sort, sortBy)
+import Data.Ord          (Down (..))
+import Data.Time         (defaultTimeLocale, formatTime)
 import System.Directory  (doesDirectoryExist, doesFileExist, listDirectory)
 import Hakyll
 
@@ -72,6 +74,43 @@ publicExperimentFiles = do
         present <- filterM doesFileExist
             (filter (not . routedElsewhere) (nub (sort (manifests ++ listed))))
         pure (map fromFilePath present)
+
+-- | URL-safe form of a tag: lowercased, with every run of non-alphanumeric
+-- characters collapsed to a single hyphen. Tag pages route to
+-- @tags/<slug>.html@.
+slugify :: String -> String
+slugify = intercalate "-" . words . map normalize . map toLower
+  where normalize c = if isAsciiLower c || isDigit c then c else ' '
+
+-- | Group date-ordered posts by publication year, preserving their order. The
+-- year comes from the same date extraction 'dateField' uses, so a post can
+-- never land in a year bucket its rendered date disagrees with.
+yearGroups :: [Item a] -> Compiler [(String, [Item a])]
+yearGroups posts = do
+  keyed <- forM posts $ \p -> do
+    utc <- getItemUTC defaultTimeLocale (itemIdentifier p)
+    pure (formatTime defaultTimeLocale "%Y" utc, p)
+  pure [ (y, map snd grp)
+       | grp@((y, _) : _) <- groupBy (\a b -> fst a == fst b) keyed ]
+
+-- | Tags used by at least two posts. Singleton tags get no page and no cloud
+-- chip: a grouping of one is the post itself, not wayfinding (and singletons
+-- are two-thirds of all tags — including them turns the cloud into noise).
+publishedTags :: Tags -> [(String, [Identifier])]
+publishedTags = filter ((>= 2) . length . snd) . tagsMap
+
+-- | The archive's frequency-ordered tag cloud: chips linking to the tag
+-- pages, most-used first (ties alphabetical). Tags are author-controlled
+-- plain words, so no escaping is applied (same convention as the post
+-- context's tag fields).
+tagCloudHtml :: Tags -> String
+tagCloudHtml = concatMap chip . sortBy cloudOrder . publishedTags
+  where
+    chip (tag, ids) =
+      "<a class=\"cloud-tag\" href=\"/tags/" ++ slugify tag ++ ".html\">" ++ tag
+        ++ " <span class=\"cloud-count\">" ++ show (length ids) ++ "</span></a>"
+    cloudOrder (a, xs) (b, ys) =
+      compare (Down (length xs)) (Down (length ys)) <> compare a b
 
 -- | The site rules. When the flag is 'True' (@PREVIEW_DRAFTS@ is set, see
 -- @app/site.hs@) draft posts are built and listed like any other post so they
@@ -148,13 +187,46 @@ siteRules previewDrafts = do
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
 
+    -- One page per multi-post tag (see 'publishedTags'). Page EXISTENCE comes
+    -- from buildTags (a rules-level metadata scan), but each page's post list
+    -- is drawn from the compiled store and filtered by tag, so a skipped draft
+    -- can neither break a tag page's load nor leak into one.
+    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
+
+    forM_ (publishedTags tags) $ \(tag, _) ->
+      create [fromFilePath ("tags/" ++ slugify tag ++ ".html")] $ do
+        route idRoute
+        compile $ do
+          posts <- recentFirst =<< loadAll "posts/*"
+          tagged <- filterM (\p -> elem tag <$> getTags (itemIdentifier p)) posts
+          let count = length tagged
+              tagCtx =
+                  listField "posts" postCtx (return tagged)          <>
+                  constField "title" ("Notes tagged #" ++ tag)       <>
+                  constField "tag" tag                               <>
+                  constField "tagCount"
+                    (show count ++ if count == 1 then " note" else " notes") <>
+                  baseCtx
+
+          makeItem ""
+              >>= loadAndApplyTemplate "templates/tag.html"     tagCtx
+              >>= loadAndApplyTemplate "templates/default.html" tagCtx
+              >>= relativizeUrls
+
     forM_ writingPages $ \page -> create [page] $ do
       route idRoute
       compile $ do
         posts <- recentFirst =<< loadAll "posts/*"
-        let archiveCtx =
-                listField "posts" postCtx (return posts) <>
-                constField "title" "Writing"             <>
+        years <- yearGroups posts
+        yearItems <- mapM (makeItem . fst) years
+        let yearItemCtx =
+                field "year" (return . itemBody) <>
+                listFieldWith "posts" postCtx (\yearItem ->
+                  return (concat [ ps | (y, ps) <- years, y == itemBody yearItem ]))
+            archiveCtx =
+                listField "years" yearItemCtx (return yearItems) <>
+                constField "tagCloud" (tagCloudHtml tags)          <>
+                constField "title" "Writing"                       <>
                 baseCtx
 
         makeItem ""
