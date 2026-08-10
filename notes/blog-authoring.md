@@ -297,7 +297,9 @@ question: What physical signal does a chord make, and what does a Fourier transf
   what the post actually did.
 - **`experiment`:** the lowercase directory name under `research/` that owns
   the post's generated metrics. Required whenever a post reports locally
-  generated results under the traceability contract (§7).
+  generated results under the traceability contract (§7). A valid binding is
+  badged `traceable` in the post header and note lists automatically — derived
+  at build time, never declared by hand.
 - **`question`:** required on Understanding notes. It is not rendered; it keeps
   the explanation bounded during drafting and review.
 

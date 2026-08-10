@@ -9,6 +9,8 @@ import Data.Char (toLower)
 import Data.List (isInfixOf, isPrefixOf)
 import Hakyll
 
+import Blog.Metrics (loadPostMetricsFor)
+
 -- | Canonical origin for absolute URLs (og:url, og:image). Card scrapers do not
 -- resolve relative URLs, so social meta must be absolutized against this.
 siteHost :: String
@@ -93,9 +95,21 @@ postTypeField = field "postType" $ \item -> do
     Just pt -> pure pt
     Nothing -> noResult "no post-type"
 
+-- | Derived traceability mark, emitted (as @"1"@) when the post's @experiment@
+-- binding names a metrics artifact that loads and validates. This is the same
+-- load the post compiler performs unconditionally, so the badge cannot claim
+-- traceability the build did not verify — an invalid artifact fails the build
+-- outright (see 'Blog.Metrics').
+traceableField :: Context String
+traceableField = field "traceable" $ \item -> do
+  mdoc <- loadPostMetricsFor (itemIdentifier item)
+  case mdoc of
+    Just _  -> pure "1"
+    Nothing -> noResult "no experiment binding"
+
 -- | Context for posts: a human-readable @date@ field, the derived @topic@ /
 -- @topicSlug@ used by the home-page filter pills, the @postType@ note badge,
--- the @article@ og:type marker, plus 'baseCtx'.
+-- the derived @traceable@ mark, the @article@ og:type marker, plus 'baseCtx'.
 --
 -- @topic@ is a coarse subject bucket derived from a post's FIRST tag so the
 -- Latest filter has a small, stable set of pills instead of one pill per raw
@@ -107,6 +121,7 @@ postCtx =
   topicField "topic"     fst <>
   topicField "topicSlug" snd <>
   postTypeField <>
+  traceableField <>
   tagsHtmlField "tagChips" (\t -> "<span class=\"tag-chip\">" ++ t ++ "</span>") <>
   tagsHtmlField "hashTags" (\t -> "<span class=\"row-tag\">#" ++ t ++ "</span>") <>
   figureSlidesCtx <>
