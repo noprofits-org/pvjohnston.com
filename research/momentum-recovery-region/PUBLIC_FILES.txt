@@ -1,0 +1,14 @@
+# One repository-relative path per line. Package only this reviewed allowlist.
+LICENSE
+research/metrics.schema.json
+research/momentum-recovery-region/README.md
+research/momentum-recovery-region/PREREGISTRATION.md
+research/momentum-recovery-region/environment.md
+research/momentum-recovery-region/requirements.txt
+research/momentum-recovery-region/sources.json
+research/momentum-recovery-region/src/run_sweep.py
+research/momentum-recovery-region/make_figure.py
+research/momentum-recovery-region/results/stage1.json
+research/momentum-recovery-region/results/stage2.json
+research/momentum-recovery-region/generate-metrics.mjs
+research/momentum-recovery-region/metrics.json
