@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "momentum-recovery-region",
   "provenance": {
-    "generated_at": "2026-08-11T15:17:21Z",
+    "generated_at": "2026-08-11T16:54:19Z",
     "generator": "research/momentum-recovery-region/generate-metrics.mjs",
     "inputs": [
       {
@@ -11,7 +11,7 @@
       },
       {
         "path": "research/momentum-recovery-region/src/run_sweep.py",
-        "sha256": "a045bf731224d37d45950a80a9cdd9c88c21e20c2958c9dd10ecfbe68027f9f1"
+        "sha256": "ca42132cc5d0127fa7f206b5bac985d86b3833207c952bbc43772636580fd625"
       },
       {
         "path": "research/momentum-recovery-region/results/stage1.json",

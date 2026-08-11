@@ -34,6 +34,11 @@ for (const path of [stage1Path, stage2Path]) {
 
 const stage1 = JSON.parse(readFileSync(stage1Path, 'utf8'));
 const stage2 = JSON.parse(readFileSync(stage2Path, 'utf8'));
+// run_sweep.py keys windows by Python str(beta) ("0.0"), which differs from
+// JS String(beta) ("0") for integer-valued betas; key by number instead.
+const stage2Windows = new Map(
+  Object.entries(stage2.windows).map(([key, window]) => [Number(key), window]),
+);
 const THRESHOLD = stage1.floor_threshold;
 const BETAS = stage1.betas;
 const REPS = stage1.reps;
@@ -75,10 +80,11 @@ function medianTest(rows, conv, lr) {
   return median(vals);
 }
 
-function recoveredLrs(rows, beta, threshold) {
-  const lrs = [...new Set(rows.filter((r) => r.beta === beta).map((r) => r.lr))].sort((a, b) => a - b);
+// rows must already be filtered to a single beta.
+function recoveredLrs(rows, threshold) {
+  const lrs = [...new Set(rows.map((r) => r.lr))].sort((a, b) => a - b);
   return lrs.filter((lr) => {
-    const m = medianTest(rows.filter((r) => r.beta === beta), 'described', lr);
+    const m = medianTest(rows, 'described', lr);
     return m !== null && m <= threshold;
   });
 }
@@ -99,7 +105,7 @@ function buildMetrics(generatedAt) {
     if (!slug) throw new Error(`unregistered beta: ${beta}`);
     const rows1 = stage1.rows.filter((r) => r.beta === beta);
 
-    const recovered = recoveredLrs(stage1.rows, beta, THRESHOLD);
+    const recovered = recoveredLrs(rows1, THRESHOLD);
     counts.set(beta, recovered.length);
     metrics[`recovered_points_beta_${slug}`] = integerMetric(
       recovered.length,
@@ -117,7 +123,7 @@ function buildMetrics(generatedAt) {
 
     for (const [sens, tag] of [[1e-20, '1e20'], [1e-28, '1e28']]) {
       metrics[`recovered_points_beta_${slug}_at_${tag}`] = integerMetric(
-        recoveredLrs(stage1.rows, beta, sens).length,
+        recoveredLrs(rows1, sens).length,
         `Sensitivity: stage-1 recovered count at threshold ${sens.toExponential(0)}, beta = ${beta}`,
         'points',
       );
@@ -175,10 +181,10 @@ function buildMetrics(generatedAt) {
       );
     }
 
-    const window = stage2.windows[String(beta)];
+    const window = stage2Windows.get(beta);
     if (window) {
       const rows2 = stage2.rows.filter((r) => r.beta === beta);
-      const refined = recoveredLrs(stage2.rows, beta, THRESHOLD);
+      const refined = recoveredLrs(rows2, THRESHOLD);
       refinedWidths.set(beta, refined.length * stage2.step_decades);
       metrics[`refined_recovered_points_beta_${slug}`] = integerMetric(
         refined.length,
@@ -209,7 +215,7 @@ function buildMetrics(generatedAt) {
         'normalized MSE',
       );
       const refinedBoundary = firstDivergence(stage2.rows, beta, 'described');
-      if (refinedBoundary !== undefined && refinedBoundary !== null) {
+      if (refinedBoundary !== null) {
         metrics[`refined_boundary_beta_${slug}`] = numberMetric(
           refinedBoundary,
           scientific(4),

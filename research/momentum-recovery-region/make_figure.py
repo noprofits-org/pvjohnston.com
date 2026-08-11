@@ -91,10 +91,15 @@ ax.text(5.2e-4, 8.0, "C", fontsize=13, fontweight="bold", color=INK,
 ax.set_title("described convention, stage-1 grid", color=INK, fontsize=11,
              loc="left")
 
-# ---- Panel B (top): refined recovery-region width vs beta.
-widths = {0.9: 0.03, 0.99: 0.68}
+# ---- Panel B (top): refined recovery-region width vs beta (recovered
+# stage-2 count x step, the frozen width rule from PREREGISTRATION.md).
+widths = {}
+for beta in BETAS:
+    pts = medians(STAGE2["rows"], beta, "described")
+    recovered = sum(1 for _, m in pts if m is not None and m <= THRESHOLD)
+    widths[beta] = recovered * STAGE2["step_decades"]
 xs = list(range(len(BETAS)))
-heights = [widths.get(b, 0.0) for b in BETAS]
+heights = [widths[b] for b in BETAS]
 bars = axw.bar(xs, heights, width=0.62, color=[BETA_COLOR[b] for b in BETAS],
                edgecolor=INK, linewidth=0.8)
 axw.annotate("", xy=(4, 0.78), xytext=(4, 0.66),
@@ -109,17 +114,22 @@ axw.set_ylim(0, 0.95)
 axw.set_title("recovery-region width (0.01-decade grid)", color=INK,
               fontsize=11, loc="left")
 
-# ---- Panel B (bottom): divergence-boundary ratio vs 1+beta.
+# ---- Panel B (bottom): divergence-boundary ratio vs 1+beta. Betas with no
+# described divergence on the stage-1 grid have no boundary and are skipped.
 bound = {}
 for beta in BETAS:
     lrs = sorted({r["lr"] for r in STAGE1["rows"] if r["beta"] == beta})
-    bound[beta] = next(lr for lr in lrs if any(
+    bound[beta] = next((lr for lr in lrs if any(
         r["test"] is None for r in STAGE1["rows"]
-        if r["beta"] == beta and r["conv"] == "described" and r["lr"] == lr))
-ratio = [bound[b] / bound[0.0] for b in BETAS]
-axb.plot(BETAS, [1 + b for b in BETAS], "--", color=LIFT, lw=1.4,
-         label="$1+\\beta$")
-axb.plot(BETAS, ratio, "-o", ms=4.5, lw=1.6, color=DEEP, label="measured")
+        if r["beta"] == beta and r["conv"] == "described" and r["lr"] == lr)),
+        None)
+bounded = [b for b in BETAS if bound[b] is not None]
+if bound[0.0] is not None:
+    ratio = [bound[b] / bound[0.0] for b in bounded]
+    axb.plot(bounded, [1 + b for b in bounded], "--", color=LIFT, lw=1.4,
+             label="$1+\\beta$")
+    axb.plot(bounded, ratio, "-o", ms=4.5, lw=1.6, color=DEEP,
+             label="measured")
 axb.set_xlabel("$\\beta$")
 axb.set_ylabel("boundary ratio to $\\beta=0$")
 axb.legend(loc="center right", fontsize=8.5, frameon=False)

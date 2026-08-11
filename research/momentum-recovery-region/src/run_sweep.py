@@ -57,8 +57,14 @@ def json_number(value):
 # ---- K1, eq. (4) of Villatoro et al.
 y_lo = lambda x: 0.5 * (6 * x - 2) ** 2 * np.sin(12 * x - 4) + 10 * x - 10
 y_hi = lambda x: (6 * x - 2) ** 2 * np.sin(12 * x - 4)
-_q = np.linspace(0, 1, 2_000_001)
-Y_NORM_SQ = np.trapezoid(y_hi(_q) ** 2, _q)
+
+
+def _y_norm_sq():
+    q = np.linspace(0, 1, 2_000_001)
+    return float(np.trapezoid(y_hi(q) ** 2, q))
+
+
+Y_NORM_SQ = _y_norm_sq()
 feats = lambda x: np.hstack([x, y_lo(x)])
 
 
@@ -177,6 +183,20 @@ def median_test(rows, conv, lr):
     return float(np.median(vals))
 
 
+def recovered_lrs(rows_b, lrs):
+    """Lrs at which the described median test MSE is at or below the floor."""
+    return [lr for lr in lrs
+            if (m := median_test(rows_b, "described", lr)) is not None
+            and m <= FLOOR_THRESHOLD]
+
+
+def diverged_lrs(rows_b, lrs):
+    """Lrs at which any described rep diverged."""
+    return [lr for lr in lrs
+            if any(r["test"] is None for r in rows_b
+                   if r["conv"] == "described" and r["lr"] == lr)]
+
+
 def main():
     t0 = time.time()
     env = dict(python=platform.python_version(), numpy=np.__version__,
@@ -202,18 +222,14 @@ def main():
     for beta in BETAS:
         rows_b = [r for r in stage1 if r["beta"] == beta]
         lrs = sorted({r["lr"] for r in rows_b})
-        recovered = [lr for lr in lrs
-                     if (m := median_test(rows_b, "described", lr)) is not None
-                     and m <= FLOOR_THRESHOLD]
+        recovered = recovered_lrs(rows_b, lrs)
         if not recovered:
             windows[str(beta)] = None
             continue
         lo = np.log10(min(recovered)) - 0.10
-        diverged = [lr for lr in lrs
-                    if any(r["test"] is None for r in rows_b
-                           if r["conv"] == "described" and r["lr"] == lr)]
-        above = [lr for lr in diverged if np.log10(lr) > lo]
-        hi = np.log10(min(above)) if above else lo + 0.15
+        above = [lr for lr in diverged_lrs(rows_b, lrs) if np.log10(lr) > lo]
+        # No divergence above: 0.15 decades above the lowest recovered point.
+        hi = np.log10(min(above)) if above else np.log10(min(recovered)) + 0.15
         n = int(round((hi - lo) / STAGE2_STEP)) + 1
         grid = np.logspace(lo, hi, n)
         windows[str(beta)] = [float(lo), float(hi), len(grid)]
@@ -233,12 +249,8 @@ def main():
     for beta in BETAS:
         rows_b = [r for r in stage1 if r["beta"] == beta]
         lrs = sorted({r["lr"] for r in rows_b})
-        rec = [lr for lr in lrs
-               if (m := median_test(rows_b, "described", lr)) is not None
-               and m <= FLOOR_THRESHOLD]
-        div = next((lr for lr in lrs
-                    if any(r["test"] is None for r in rows_b
-                           if r["conv"] == "described" and r["lr"] == lr)), None)
+        rec = recovered_lrs(rows_b, lrs)
+        div = next(iter(diverged_lrs(rows_b, lrs)), None)
         print(f"beta={beta:<5} recovered={[f'{lr:.3e}' for lr in rec]} "
               f"first_divergence={div and f'{div:.3e}'}", flush=True)
 
