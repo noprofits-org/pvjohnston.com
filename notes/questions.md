@@ -292,6 +292,48 @@ Format:
   knife-edge
 - **Falsifier:** the width does not vary monotonically with β, or the described
   convention reaches the floor at no tested rate for some β > 0.5
+- **Status:** published — `/posts/2026-08-11-momentum-recovery-region.html`.
+  Falsified as registered: stage-1 recovery counts over β ∈ {0, 0.3, 0.6, 0.9,
+  0.99} are 0, 0, 0, 1, 12 — no recovery at β=0.6 fires the second clause.
+  Refined widths: 0.03 decades at β=0.9 (knife-edge at the boundary) and ≥0.68
+  decades at β=0.99 (low-rate plateau, censored below 7.9e-5). The divergence
+  boundary tracks 1+β within a grid step through β=0.9 (1.000, 1.413, 1.585,
+  1.995) then collapses to 1.000 at β=0.99, with an explosive finite-error
+  band (to 7.6e+71) below it. Two next steps below.
+
+## What breaks the heavy-ball boundary rule between β = 0.9 and 0.99?
+- **Observed:** the described/official divergence boundary on K1 tracks the
+  quadratic heavy-ball bound 2(1+β)/L within one 0.05-decade grid step from
+  β=0 through β=0.9 (ratios 1.000, 1.413, 1.585, 1.995 vs 1, 1.3, 1.6, 1.9),
+  then falls back to exactly the plain-SGD boundary at β=0.99 (ratio 1.000 vs
+  predicted 1.99), while the region below it fills with explosive finite
+  errors (median up to 1.5e+67 at lr=6.9e-4; single reps reach 7.6e+71).
+  Either the effective curvature L moves with β, or the first-diverging mode
+  changes — unmeasured.
+- **Source:** own next step; `/posts/2026-08-11-momentum-recovery-region.html`
+- **Type:** unplotted line / quantification
+- **Contribution (candidate):** the top-curvature trajectory at β=0.9 vs
+  β=0.99 (Lanczos on the loss Hessian along the run), identifying which
+  premise of the quadratic bound fails — the mechanism the boundary series
+  asserts but never measures
+- **Falsifier:** the tracked curvature predicts the β=0.99 boundary under the
+  quadratic bound after all (i.e. L moves and fully accounts for the
+  collapse) → no mode change, and the 1+β rule was never really working
+- **Status:** ready
+
+## Where is the β=0.99 recovery plateau's lower edge?
+- **Observed:** at β=0.99 the described convention sits on the official error
+  floor from the measured window's bottom (7.94e-5) up to 3.55e-4 — 68
+  adjacent 0.01-decade points, uniform across 3 reps — so the 0.68-decade
+  width is a lower bound, censored by the grid.
+- **Source:** own next step; `/posts/2026-08-11-momentum-recovery-region.html`
+- **Type:** quantification
+- **Contribution (candidate):** the plateau's full width, from a downward grid
+  extension at β=0.99 until the median leaves the floor — turning the
+  censored lower bound into a measured width
+- **Falsifier:** the plateau extends below any practical rate floor (still on
+  the error floor at, say, 1e-6) → the "region" is effectively unbounded
+  below and the width question was the wrong framing
 - **Status:** ready
 
 ## Does nonlinear cross-correlation expose the SGD convention gap?

@@ -1,0 +1,707 @@
+{
+  "schema_version": 1,
+  "experiment": "momentum-recovery-region",
+  "provenance": {
+    "generated_at": "2026-08-11T16:54:19Z",
+    "generator": "research/momentum-recovery-region/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/momentum-recovery-region/PREREGISTRATION.md",
+        "sha256": "03b20483479d0dec67ed57c8550a968a575decd0a4b2bb4268626d3db0a91c71"
+      },
+      {
+        "path": "research/momentum-recovery-region/src/run_sweep.py",
+        "sha256": "ca42132cc5d0127fa7f206b5bac985d86b3833207c952bbc43772636580fd625"
+      },
+      {
+        "path": "research/momentum-recovery-region/results/stage1.json",
+        "sha256": "6facf1704d950bedc263763adae7d1268c9b6119af3a49aa8873bbf9eb3c1700"
+      },
+      {
+        "path": "research/momentum-recovery-region/results/stage2.json",
+        "sha256": "734d112183a70daecb0c1e25ea6a7f68c1d9dfa4016648a18d844a59db53b89c"
+      }
+    ]
+  },
+  "metrics": {
+    "recovered_points_beta_0": {
+      "type": "integer",
+      "value": 0,
+      "description": "Stage-1 grid points where the described convention's median normalized test MSE over 3 reps is at most 1e-24, beta = 0",
+      "unit": "points"
+    },
+    "recovered_points_beta_0_at_1e20": {
+      "type": "integer",
+      "value": 0,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-20, beta = 0",
+      "unit": "points"
+    },
+    "recovered_points_beta_0_at_1e28": {
+      "type": "integer",
+      "value": 0,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-28, beta = 0",
+      "unit": "points"
+    },
+    "described_best_beta_0": {
+      "type": "number",
+      "value": 0.0000271857162169093,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best median normalized test MSE of the described convention on the stage-1 grid, beta = 0",
+      "unit": "normalized MSE"
+    },
+    "described_best_lr_beta_0": {
+      "type": "number",
+      "value": 0.000630957344480193,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Stage-1 learning rate at which the described convention's best median normalized test MSE occurs, beta = 0",
+      "unit": "learning rate"
+    },
+    "official_median_beta_0": {
+      "type": "number",
+      "value": 8.698755939323866e-7,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median normalized test MSE over finite official-convention stage-1 points, beta = 0",
+      "unit": "normalized MSE"
+    },
+    "official_best_beta_0": {
+      "type": "number",
+      "value": 1.1259396076362672e-14,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best normalized test MSE over official-convention stage-1 points, beta = 0",
+      "unit": "normalized MSE"
+    },
+    "boundary_beta_0": {
+      "type": "number",
+      "value": 0.000707945784384138,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any described-convention rep diverged, beta = 0",
+      "unit": "learning rate"
+    },
+    "boundary_official_beta_0": {
+      "type": "number",
+      "value": 0.000707945784384138,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any official-convention rep diverged, beta = 0",
+      "unit": "learning rate"
+    },
+    "described_worst_finite_beta_0": {
+      "type": "number",
+      "value": 0.008710659498515952,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the described convention on any tested rate, beta = 0",
+      "unit": "normalized MSE"
+    },
+    "official_worst_finite_beta_0": {
+      "type": "number",
+      "value": 0.0035672879225833566,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the official convention on any tested rate, beta = 0",
+      "unit": "normalized MSE"
+    },
+    "recovered_points_beta_03": {
+      "type": "integer",
+      "value": 0,
+      "description": "Stage-1 grid points where the described convention's median normalized test MSE over 3 reps is at most 1e-24, beta = 0.3",
+      "unit": "points"
+    },
+    "recovered_points_beta_03_at_1e20": {
+      "type": "integer",
+      "value": 0,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-20, beta = 0.3",
+      "unit": "points"
+    },
+    "recovered_points_beta_03_at_1e28": {
+      "type": "integer",
+      "value": 0,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-28, beta = 0.3",
+      "unit": "points"
+    },
+    "described_best_beta_03": {
+      "type": "number",
+      "value": 0.000007699023981002773,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best median normalized test MSE of the described convention on the stage-1 grid, beta = 0.3",
+      "unit": "normalized MSE"
+    },
+    "described_best_lr_beta_03": {
+      "type": "number",
+      "value": 0.0007943282347242813,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Stage-1 learning rate at which the described convention's best median normalized test MSE occurs, beta = 0.3",
+      "unit": "learning rate"
+    },
+    "official_median_beta_03": {
+      "type": "number",
+      "value": 1.2819929800120094e-10,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median normalized test MSE over finite official-convention stage-1 points, beta = 0.3",
+      "unit": "normalized MSE"
+    },
+    "official_best_beta_03": {
+      "type": "number",
+      "value": 5.064737863558529e-25,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best normalized test MSE over official-convention stage-1 points, beta = 0.3",
+      "unit": "normalized MSE"
+    },
+    "boundary_beta_03": {
+      "type": "number",
+      "value": 0.001,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any described-convention rep diverged, beta = 0.3",
+      "unit": "learning rate"
+    },
+    "boundary_official_beta_03": {
+      "type": "number",
+      "value": 0.001,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any official-convention rep diverged, beta = 0.3",
+      "unit": "learning rate"
+    },
+    "described_worst_finite_beta_03": {
+      "type": "number",
+      "value": 0.013054730925129331,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the described convention on any tested rate, beta = 0.3",
+      "unit": "normalized MSE"
+    },
+    "official_worst_finite_beta_03": {
+      "type": "number",
+      "value": 0.0003709817295696393,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the official convention on any tested rate, beta = 0.3",
+      "unit": "normalized MSE"
+    },
+    "recovered_points_beta_06": {
+      "type": "integer",
+      "value": 0,
+      "description": "Stage-1 grid points where the described convention's median normalized test MSE over 3 reps is at most 1e-24, beta = 0.6",
+      "unit": "points"
+    },
+    "recovered_points_beta_06_at_1e20": {
+      "type": "integer",
+      "value": 0,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-20, beta = 0.6",
+      "unit": "points"
+    },
+    "recovered_points_beta_06_at_1e28": {
+      "type": "integer",
+      "value": 0,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-28, beta = 0.6",
+      "unit": "points"
+    },
+    "described_best_beta_06": {
+      "type": "number",
+      "value": 0.000016881849662203462,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best median normalized test MSE of the described convention on the stage-1 grid, beta = 0.6",
+      "unit": "normalized MSE"
+    },
+    "described_best_lr_beta_06": {
+      "type": "number",
+      "value": 0.001,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Stage-1 learning rate at which the described convention's best median normalized test MSE occurs, beta = 0.6",
+      "unit": "learning rate"
+    },
+    "official_median_beta_06": {
+      "type": "number",
+      "value": 8.83219360073355e-15,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median normalized test MSE over finite official-convention stage-1 points, beta = 0.6",
+      "unit": "normalized MSE"
+    },
+    "official_best_beta_06": {
+      "type": "number",
+      "value": 8.55226732094927e-28,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best normalized test MSE over official-convention stage-1 points, beta = 0.6",
+      "unit": "normalized MSE"
+    },
+    "boundary_beta_06": {
+      "type": "number",
+      "value": 0.001122018454301963,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any described-convention rep diverged, beta = 0.6",
+      "unit": "learning rate"
+    },
+    "boundary_official_beta_06": {
+      "type": "number",
+      "value": 0.001122018454301963,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any official-convention rep diverged, beta = 0.6",
+      "unit": "learning rate"
+    },
+    "described_worst_finite_beta_06": {
+      "type": "number",
+      "value": 0.00880480741625058,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the described convention on any tested rate, beta = 0.6",
+      "unit": "normalized MSE"
+    },
+    "official_worst_finite_beta_06": {
+      "type": "number",
+      "value": 0.0000012931069402224628,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the official convention on any tested rate, beta = 0.6",
+      "unit": "normalized MSE"
+    },
+    "recovered_points_beta_09": {
+      "type": "integer",
+      "value": 1,
+      "description": "Stage-1 grid points where the described convention's median normalized test MSE over 3 reps is at most 1e-24, beta = 0.9",
+      "unit": "points"
+    },
+    "recovered_top_lr_beta_09": {
+      "type": "number",
+      "value": 0.0012589254117941675,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Highest recovered stage-1 learning rate (upper edge of the recovery region), beta = 0.9",
+      "unit": "learning rate"
+    },
+    "recovered_points_beta_09_at_1e20": {
+      "type": "integer",
+      "value": 1,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-20, beta = 0.9",
+      "unit": "points"
+    },
+    "recovered_points_beta_09_at_1e28": {
+      "type": "integer",
+      "value": 1,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-28, beta = 0.9",
+      "unit": "points"
+    },
+    "described_best_beta_09": {
+      "type": "number",
+      "value": 2.0340501035180676e-29,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best median normalized test MSE of the described convention on the stage-1 grid, beta = 0.9",
+      "unit": "normalized MSE"
+    },
+    "described_best_lr_beta_09": {
+      "type": "number",
+      "value": 0.0012589254117941675,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Stage-1 learning rate at which the described convention's best median normalized test MSE occurs, beta = 0.9",
+      "unit": "learning rate"
+    },
+    "official_median_beta_09": {
+      "type": "number",
+      "value": 1.5149148091262133e-27,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median normalized test MSE over finite official-convention stage-1 points, beta = 0.9",
+      "unit": "normalized MSE"
+    },
+    "official_best_beta_09": {
+      "type": "number",
+      "value": 1.0620929684550133e-29,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best normalized test MSE over official-convention stage-1 points, beta = 0.9",
+      "unit": "normalized MSE"
+    },
+    "boundary_beta_09": {
+      "type": "number",
+      "value": 0.0014125375446227555,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any described-convention rep diverged, beta = 0.9",
+      "unit": "learning rate"
+    },
+    "boundary_official_beta_09": {
+      "type": "number",
+      "value": 0.0014125375446227555,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any official-convention rep diverged, beta = 0.9",
+      "unit": "learning rate"
+    },
+    "refined_recovered_points_beta_09": {
+      "type": "integer",
+      "value": 3,
+      "description": "Stage-2 (0.01-decade) grid points where the described convention's median normalized test MSE over 3 reps is at most 1e-24, beta = 0.9",
+      "unit": "points"
+    },
+    "refined_width_beta_09_decades": {
+      "type": "number",
+      "value": 0.03,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Refined recovery-region width for beta = 0.9 (recovered count x 0.01 decades)",
+      "unit": "decades"
+    },
+    "refined_width_censored_beta_09": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the refined recovery region reaches the bottom of its stage-2 window for beta = 0.9, so the measured width is a lower bound"
+    },
+    "refined_described_best_beta_09": {
+      "type": "number",
+      "value": 2.0340501035180676e-29,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best median normalized test MSE of the described convention on the stage-2 grid, beta = 0.9",
+      "unit": "normalized MSE"
+    },
+    "refined_boundary_beta_09": {
+      "type": "number",
+      "value": 0.001288249551693135,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-2 (0.01-decade) learning rate at which any described-convention rep diverged, beta = 0.9",
+      "unit": "learning rate"
+    },
+    "described_worst_finite_beta_09": {
+      "type": "number",
+      "value": 0.0059688745581837335,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the described convention on any tested rate, beta = 0.9",
+      "unit": "normalized MSE"
+    },
+    "official_worst_finite_beta_09": {
+      "type": "number",
+      "value": 5.45395096270695e-15,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the official convention on any tested rate, beta = 0.9",
+      "unit": "normalized MSE"
+    },
+    "recovered_points_beta_099": {
+      "type": "integer",
+      "value": 12,
+      "description": "Stage-1 grid points where the described convention's median normalized test MSE over 3 reps is at most 1e-24, beta = 0.99",
+      "unit": "points"
+    },
+    "recovered_top_lr_beta_099": {
+      "type": "number",
+      "value": 0.0003548133892335753,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Highest recovered stage-1 learning rate (upper edge of the recovery region), beta = 0.99",
+      "unit": "learning rate"
+    },
+    "recovered_points_beta_099_at_1e20": {
+      "type": "integer",
+      "value": 12,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-20, beta = 0.99",
+      "unit": "points"
+    },
+    "recovered_points_beta_099_at_1e28": {
+      "type": "integer",
+      "value": 12,
+      "description": "Sensitivity: stage-1 recovered count at threshold 1e-28, beta = 0.99",
+      "unit": "points"
+    },
+    "described_best_beta_099": {
+      "type": "number",
+      "value": 7.579205507530802e-31,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best median normalized test MSE of the described convention on the stage-1 grid, beta = 0.99",
+      "unit": "normalized MSE"
+    },
+    "described_best_lr_beta_099": {
+      "type": "number",
+      "value": 0.00031622776601683794,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Stage-1 learning rate at which the described convention's best median normalized test MSE occurs, beta = 0.99",
+      "unit": "learning rate"
+    },
+    "official_median_beta_099": {
+      "type": "number",
+      "value": 5.7770600447264856e-30,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Median normalized test MSE over finite official-convention stage-1 points, beta = 0.99",
+      "unit": "normalized MSE"
+    },
+    "official_best_beta_099": {
+      "type": "number",
+      "value": 1.4953729956529167e-31,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best normalized test MSE over official-convention stage-1 points, beta = 0.99",
+      "unit": "normalized MSE"
+    },
+    "boundary_beta_099": {
+      "type": "number",
+      "value": 0.000707945784384138,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any described-convention rep diverged, beta = 0.99",
+      "unit": "learning rate"
+    },
+    "boundary_official_beta_099": {
+      "type": "number",
+      "value": 0.000707945784384138,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-1 learning rate at which any official-convention rep diverged, beta = 0.99",
+      "unit": "learning rate"
+    },
+    "refined_recovered_points_beta_099": {
+      "type": "integer",
+      "value": 68,
+      "description": "Stage-2 (0.01-decade) grid points where the described convention's median normalized test MSE over 3 reps is at most 1e-24, beta = 0.99",
+      "unit": "points"
+    },
+    "refined_width_beta_099_decades": {
+      "type": "number",
+      "value": 0.68,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Refined recovery-region width for beta = 0.99 (recovered count x 0.01 decades)",
+      "unit": "decades"
+    },
+    "refined_width_censored_beta_099": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the refined recovery region reaches the bottom of its stage-2 window for beta = 0.99, so the measured width is a lower bound"
+    },
+    "refined_described_best_beta_099": {
+      "type": "number",
+      "value": 7.579205507530802e-31,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Best median normalized test MSE of the described convention on the stage-2 grid, beta = 0.99",
+      "unit": "normalized MSE"
+    },
+    "refined_boundary_beta_099": {
+      "type": "number",
+      "value": 0.000707945784384138,
+      "format": {
+        "style": "scientific",
+        "digits": 4
+      },
+      "description": "Lowest stage-2 (0.01-decade) learning rate at which any described-convention rep diverged, beta = 0.99",
+      "unit": "learning rate"
+    },
+    "described_worst_finite_beta_099": {
+      "type": "number",
+      "value": 7.55388081299964e+71,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the described convention on any tested rate, beta = 0.99",
+      "unit": "normalized MSE"
+    },
+    "official_worst_finite_beta_099": {
+      "type": "number",
+      "value": 9.993097641906346e+67,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Largest finite normalized test MSE of the official convention on any tested rate, beta = 0.99",
+      "unit": "normalized MSE"
+    },
+    "boundary_ratio_beta_0": {
+      "type": "number",
+      "value": 1,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Described-convention divergence boundary at beta = 0 relative to beta = 0; the heavy-ball prediction is 1 + beta = 1",
+      "unit": "ratio"
+    },
+    "boundary_ratio_beta_03": {
+      "type": "number",
+      "value": 1.4125375446227542,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Described-convention divergence boundary at beta = 0.3 relative to beta = 0; the heavy-ball prediction is 1 + beta = 1.3",
+      "unit": "ratio"
+    },
+    "boundary_ratio_beta_06": {
+      "type": "number",
+      "value": 1.5848931924611127,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Described-convention divergence boundary at beta = 0.6 relative to beta = 0; the heavy-ball prediction is 1 + beta = 1.6",
+      "unit": "ratio"
+    },
+    "boundary_ratio_beta_09": {
+      "type": "number",
+      "value": 1.995262314968881,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Described-convention divergence boundary at beta = 0.9 relative to beta = 0; the heavy-ball prediction is 1 + beta = 1.9",
+      "unit": "ratio"
+    },
+    "boundary_ratio_beta_099": {
+      "type": "number",
+      "value": 1,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Described-convention divergence boundary at beta = 0.99 relative to beta = 0; the heavy-ball prediction is 1 + beta = 1.99",
+      "unit": "ratio"
+    },
+    "width_monotone_nondecreasing": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether stage-1 recovered counts are nondecreasing in beta"
+    },
+    "recovers_each_beta_above_half": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the described convention recovers at at least one tested rate for every beta in {0.6, 0.9, 0.99}"
+    },
+    "verdict_supported": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the frozen decision rule returns supported"
+    },
+    "verdict_falsified": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the frozen decision rule returns falsified"
+    },
+    "verdict_inconclusive": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the frozen decision rule returns inconclusive"
+    },
+    "stage1_training_count": {
+      "type": "integer",
+      "value": 1050,
+      "description": "Total stage-1 trainings (5 betas x 2 conventions x 35 rates x 3 reps)",
+      "unit": "trainings"
+    },
+    "stage2_training_count": {
+      "type": "integer",
+      "value": 672,
+      "description": "Total stage-2 refinement trainings",
+      "unit": "trainings"
+    }
+  }
+}

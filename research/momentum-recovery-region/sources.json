@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "Momentum-control SIREN trainer (model, task, seeds, manual backprop)",
+      "url": "downloads/siren-convention-momentum.py",
+      "version": "repository file as of 2026-08-11; vendored into src/run_sweep.py with unused code paths removed",
+      "accessed": "2026-08-11",
+      "sha256": "b8b4d78ff0b6120ecaf8f1075560f39e1fa30bec553d1093c721730c40e2b264",
+      "license": "BSD-3-Clause (this repository; see LICENSE)",
+      "acquisition": "Committed predecessor code; the vendored copy's executed path was verified to reproduce the predecessor's training output bit-for-bit on the recorded environment before the canonical run.",
+      "committed": true,
+      "exclusion_reason": "Not excluded; the source file is committed and routed by the standing downloads/* rule."
+    }
+  ]
+}
