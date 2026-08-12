@@ -6,12 +6,24 @@ environments, so their centre frequencies are drawn from a Gaussian
 inhomogeneous distribution. Summing the Lorentzians of many molecules recovers
 the smooth, broad absorption band measured in a cuvette.
 
+Deterministic: the only randomness is `random.gauss` driven by `random.seed(0)`,
+so every run reproduces the same centre frequencies, the same SVG, and the same
+canonical summary.
+
+Outputs (paths relative to the repository root):
+- images/2026-08-12-from-blinking-to-absorption-ensemble.svg  (Figure 2)
+- research/from-blinking-to-absorption/results/summary.json   (canonical results)
+
 This script uses only the Python standard library so it needs no installed
 packages.
 """
+import json
 import math
 import random
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[3]
+EXPERIMENT_DIR = Path(__file__).resolve().parents[1]
 
 # Frequency axis in wavenumbers, relative to the mean transition frequency.
 NU_MIN, NU_MAX = -300.0, 300.0
@@ -44,15 +56,22 @@ def lorentzian(x, x0, gamma):
 def gaussian(x, mu, sigma):
     return (1 / (sigma * math.sqrt(2 * math.pi))) * math.exp(-((x - mu) ** 2) / (2 * sigma ** 2))
 
-def path_points(y_values):
-    """Convert a list of y values (one per nu) to an SVG path string."""
-    points = []
-    for i, y in enumerate(y_values):
-        x = MARGIN + i * PLOT_W / (len(y_values) - 1)
-        # SVG y increases downward, so flip.
-        py = MARGIN + (i // N_POINTS) * (PLOT_H_PER_PANEL + PANEL_GAP) + PLOT_H_PER_PANEL - y * SCALE
-        points.append(f"{x:.2f},{py:.2f}")
-    return "M" + " L".join(points)
+def fwhm(xs, ys):
+    """Full width at half maximum of a sampled curve, by linear interpolation
+    of the two half-maximum crossings around the global peak."""
+    peak_index = max(range(len(ys)), key=ys.__getitem__)
+    half = ys[peak_index] / 2.0
+
+    def crossing(i, j):
+        # Interpolate x where y crosses `half` between samples i and j.
+        x0, x1, y0, y1 = xs[i], xs[j], ys[i], ys[j]
+        return x0 + (half - y0) * (x1 - x0) / (y1 - y0)
+
+    left = next(crossing(i, i + 1)
+                for i in range(peak_index, -1, -1) if ys[i] < half <= ys[i + 1])
+    right = next(crossing(i, i + 1)
+                 for i in range(peak_index, len(ys) - 1) if ys[i] >= half > ys[i + 1])
+    return right - left
 
 def panel_top_left(panel):
     """Return (x, y) of the top-left corner of a panel."""
@@ -134,7 +153,6 @@ parts.append(f'<text x="{MARGIN + 10}" y="{panel_top_left(1)[1] + 20}" font-size
 parts.append(axis_svg(2, "intensity"))
 for s, N, color in zip(spectra_N, Ns, COLORS[1:]):
     parts.append(f'<path d="{panel_path(2, s, max_N)}" fill="none" stroke="{color}" stroke-width="1.5"/>')
-    # Legend.
 parts.append(f'<path d="{panel_path(2, analytic, max_N)}" fill="none" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>')
 
 # Legend for panel 3.
@@ -149,19 +167,37 @@ parts.append(f'<text x="{legend_x + 26}" y="{legend_y + 4 + 3 * 16}" font-size="
 parts.append('</svg>')
 
 svg = "\n".join(parts)
-image_dir = Path(__file__).resolve().parents[2] / "images"
-image_dir.mkdir(parents=True, exist_ok=True)
-out_png = image_dir / "2026-08-12-from-blinking-to-absorption-ensemble.png"
-out_svg = image_dir / "2026-08-12-from-blinking-to-absorption-ensemble.svg"
-
+out_svg = REPO_ROOT / "images" / "2026-08-12-from-blinking-to-absorption-ensemble.svg"
+out_svg.parent.mkdir(parents=True, exist_ok=True)
 with open(out_svg, "w") as f:
     f.write(svg)
 print(f"wrote {out_svg}")
 
-# Convert SVG to PNG using cairosvg if available, otherwise keep SVG.
-try:
-    import cairosvg
-    cairosvg.svg2png(url=out_svg, write_to=out_png, output_width=WIDTH, output_height=HEIGHT)
-    print(f"wrote {out_png}")
-except Exception as e:
-    print(f"cairosvg unavailable ({e}); keeping SVG only")
+# Canonical summary: declared parameters plus the linewidths measured on the
+# generated curves, for the metrics projection.
+gaussian_limit_fwhm = 2.0 * math.sqrt(2.0 * math.log(2.0)) * SIGMA_INHOM
+ensemble_fwhm = fwhm(nu, spectra_N[Ns.index(10000)])
+summary = {
+    "parameters": {
+        "gamma_hwhm_cm1": GAMMA,
+        "sigma_inhom_cm1": SIGMA_INHOM,
+        "seed": 0,
+        "nu_range_cm1": [NU_MIN, NU_MAX],
+        "n_points": N_POINTS,
+        "ensemble_sizes": Ns,
+    },
+    "fwhm_cm1": {
+        "single_molecule": round(fwhm(nu, spectrum_1), 4),
+        "ensemble_10000": round(ensemble_fwhm, 4),
+        "gaussian_limit": round(gaussian_limit_fwhm, 4),
+    },
+    "fwhm_gaussian_deviation": round(
+        abs(ensemble_fwhm - gaussian_limit_fwhm) / gaussian_limit_fwhm, 6
+    ),
+}
+out_summary = EXPERIMENT_DIR / "results" / "summary.json"
+out_summary.parent.mkdir(parents=True, exist_ok=True)
+with open(out_summary, "w") as f:
+    json.dump(summary, f, indent=2)
+    f.write("\n")
+print(f"wrote {out_summary}")

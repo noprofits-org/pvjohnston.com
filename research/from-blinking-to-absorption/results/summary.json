@@ -1,0 +1,23 @@
+{
+  "parameters": {
+    "gamma_hwhm_cm1": 2.0,
+    "sigma_inhom_cm1": 40.0,
+    "seed": 0,
+    "nu_range_cm1": [
+      -300.0,
+      300.0
+    ],
+    "n_points": 1000,
+    "ensemble_sizes": [
+      10,
+      100,
+      10000
+    ]
+  },
+  "fwhm_cm1": {
+    "single_molecule": 4.103,
+    "ensemble_10000": 94.5878,
+    "gaussian_limit": 94.1928
+  },
+  "fwhm_gaussian_deviation": 0.004193
+}

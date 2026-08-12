@@ -1,0 +1,10 @@
+# One repository-relative path per line. Package only this reviewed allowlist.
+LICENSE
+research/metrics.schema.json
+research/from-blinking-to-absorption/README.md
+research/from-blinking-to-absorption/environment.md
+research/from-blinking-to-absorption/sources.json
+research/from-blinking-to-absorption/src/ensemble_broadening.py
+research/from-blinking-to-absorption/results/summary.json
+research/from-blinking-to-absorption/generate-metrics.mjs
+research/from-blinking-to-absorption/metrics.json
