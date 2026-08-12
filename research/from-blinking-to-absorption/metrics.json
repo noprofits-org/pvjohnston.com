@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "experiment": "from-blinking-to-absorption",
+  "provenance": {
+    "generated_at": "2026-08-12T19:24:34Z",
+    "generator": "research/from-blinking-to-absorption/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/from-blinking-to-absorption/results/summary.json",
+        "sha256": "c59853e4ce2b9f5df2975841decb30ef6d614e9254492a607c1738ab9e1037f2"
+      }
+    ]
+  },
+  "metrics": {
+    "single_molecule_fwhm": {
+      "type": "number",
+      "value": 4.103,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "FWHM of the single-molecule Lorentzian line measured on the plotted grid",
+      "unit": "cm^-1"
+    },
+    "ensemble_fwhm": {
+      "type": "number",
+      "value": 94.5878,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "FWHM of the averaged spectrum of the 10,000-molecule ensemble",
+      "unit": "cm^-1"
+    },
+    "gaussian_limit_fwhm": {
+      "type": "number",
+      "value": 94.1928,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Analytic FWHM of the inhomogeneous Gaussian distribution, 2*sqrt(2 ln 2)*sigma",
+      "unit": "cm^-1"
+    },
+    "fwhm_gaussian_deviation": {
+      "type": "number",
+      "value": 0.004193,
+      "format": {
+        "style": "percent",
+        "digits": 1
+      },
+      "description": "Relative deviation of the ensemble FWHM from the analytic Gaussian limit",
+      "unit": "ratio"
+    }
+  }
+}
