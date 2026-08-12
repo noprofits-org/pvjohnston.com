@@ -948,3 +948,59 @@ Format:
   molecule with implicit solvent; hours per structure on 8 cores, and the
   functional/basis/grid choices must be frozen before running.
 - **Status:** ready
+
+---
+
+## From blinking to absorption: how does one molecule become a spectrum?
+- **Observed:** A single fluorescent molecule under a microscope emits photons
+  one at a time, with dark intervals and antibunching, while the same molecule in
+  a cuvette at micromolar concentration gives a smooth absorption band and steady
+  fluorescence. The two experiments are measuring the same electronic states, but
+  the connection between the single-molecule Jablonski diagram and the bulk
+  spectrum is rarely drawn explicitly.
+- **Source:** own teaching; standard undergraduate spectroscopy texts treat
+  Beer's-law absorption and single-molecule fluorescence as separate chapters.
+- **Type:** composition
+- **Contribution (candidate):** a single explanatory route from one molecule's
+  quantized absorption/emission events to a bulk absorption spectrum, with the
+  nonlinear-optics extension (two-photon absorption) as the same diagram read at
+  higher order
+- **Falsifier:** the route cannot be made quantitative without introducing
+  ensemble averaging, inhomogeneous broadening, or radiative rate constants —
+  i.e., the single-molecule and bulk pictures cannot be reconciled by the model
+- **Status:** drafting
+
+## What has to be added to a molecular Jablonski diagram to get a bulk nonlinear susceptibility?
+- **Observed:** The same transition dipole that gives one-photon absorption also
+  gives two-photon absorption, hyperpolarizability, and, in an ordered ensemble,
+  second-harmonic generation. A single Jablonski diagram shows states; it does
+  not, by itself, show how a macroscopic χ⁽²⁾ or χ⁽³⁾ emerges.
+- **Source:** own next step from the single-molecule/bulk spectroscopy thread
+- **Type:** composition
+- **Contribution (candidate):** a dependency-ordered explanation connecting the
+  molecular hyperpolarizability β (from MO symmetry and transition dipoles) to
+  the bulk susceptibility χ⁽²⁾, including why phase matching and ensemble
+  orientation matter
+- **Falsifier:** the molecular hyperpolarizability is not the dominant source of
+  bulk nonlinear response for the chosen examples, or the symmetry argument
+  cannot be made without invoking crystal-field effects that are outside the
+  molecular-orbital picture
+- **Status:** ready — shelved; the blinking-to-absorption framing is the lower
+  hanging fruit
+
+## Why can a single molecule fluoresce but not generate second-harmonic light, while a bulk crystal can?
+- **Observed:** Fluorescence is a one-molecule process; second-harmonic generation
+  vanishes in centrosymmetric media and requires a non-centrosymmetric ensemble.
+  The two processes are often taught separately, but the contrast is sharp:
+  fluorescence survives inversion symmetry, SHG does not.
+- **Source:** own next step from the single-molecule/bulk spectroscopy thread;
+  relates to the selection-rules post and the Pockels-effect post
+- **Type:** composition
+- **Contribution (candidate):** a clear symmetry-level explanation of why
+  fluorescence is an incoherent single-molecule emission while SHG is a coherent
+  ensemble process, with the centrosymmetric cancellation as the central move
+- **Falsifier:** the explanation cannot account for SHG from individual
+  non-centrosymmetric molecules or nanostructures, showing the symmetry argument
+  is incomplete at the single-particle level
+- **Status:** ready — shelved; the blinking-to-absorption framing is the lower
+  hanging fruit
