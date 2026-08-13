@@ -1,0 +1,25 @@
+{
+  "interring_twist_deg": 0.0,
+  "donor_ring_rms_planarity_ang": 0.0,
+  "amine_N_angle_sum_deg": 360.0,
+  "amine_pyramidalization_deg": 0.0,
+  "aryl_furan_bond_ang": 1.4517,
+  "nitrile_bond_ang": [
+    1.162,
+    1.1623,
+    1.1622
+  ],
+  "opt_level": "b3lyp/def2-svp (C1, gau_tight)",
+  "opt_energy_Ha": -988.9853299112691,
+  "start_geometry": "geometry/dcdhf-me2-uff.xyz",
+  "environment": {
+    "psi4_version": "1.9.1",
+    "python": "3.10.17",
+    "numpy": "2.2.5",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "cpu_count": 8,
+    "threads_requested": 6,
+    "memory_requested": "6 GB",
+    "run_utc": "2026-08-13T02:55:11+00:00"
+  }
+}

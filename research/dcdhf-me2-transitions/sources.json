@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "DCDHF-Me2 UFF starting geometry (39 atoms, C18H16N4O)",
+      "url": "https://pvjohnston.com/posts/ai-comp-tools-SI.html",
+      "version": "posts/ai-comp-tools-SI.md at repository commit d5eb2a1; SI post published 2025-03",
+      "accessed": "2026-08-12",
+      "sha256": "0e97e5de5fdca021052d60bf1b0e483ccd71d0bba77b261d82fbbc1749e3d417",
+      "license": "Same rights as the rest of this repository; the structure is an Avogadro build by the author, not third-party data",
+      "acquisition": "Transcribed verbatim from the fenced xyz block in posts/ai-comp-tools-SI.md (39 atoms, Angstrom, following the '#### DCDHF-Me2 Input Structure' heading) into geometry/dcdhf-me2-uff.xyz. The Avogadro comment line recording a UFF energy of 44.1010644 was replaced with a provenance string; coordinates are unchanged. Source file sha256 604a7b5e08bcf69c18d14b4d896ddb2be04092de8ca0bee3a313fafb50c5b153. The committed sha256 above is of the transcribed xyz.",
+      "committed": true,
+      "exclusion_reason": null,
+      "notes": "This is a UFF force-field pre-optimized structure exported from Avogadro as input to a subsequent QM optimization, NOT a DFT minimum, and it is used here only as an optimization starting point. run_tddft.py asserts its formula, connectivity, and nitrile bond lengths before use. The original 2025 calculation scripts and outputs did not survive; this geometry is the only recoverable numerical input from that work."
+    },
+    {
+      "name": "Molecular connectivity of the DCDHF chromophore family",
+      "url": "https://doi.org/10.1021/cm8026797",
+      "version": "Chemistry of Materials 21(5), 797-810, 2009",
+      "accessed": "2026-08-12",
+      "sha256": null,
+      "license": "Publisher copyright; cited as literature, not redistributed",
+      "acquisition": "Literature reference only. Cited in the shared bibliography as [@Lu2009]; the Avogadro structure above was built by hand from the connectivity reported there. No files from this source are stored in the repository.",
+      "committed": false,
+      "exclusion_reason": "Copyrighted publication; only the citation and the independently built structure are used."
+    }
+  ]
+}

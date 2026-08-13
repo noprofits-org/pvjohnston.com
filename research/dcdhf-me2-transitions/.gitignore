@@ -1,0 +1,15 @@
+# Psi4 scratch: large, binary, machine-local, regenerable.
+scratch/
+
+# Psi4 output logs: regenerable, tens of MB at def2-TZVP, and they embed
+# absolute scratch paths from the machine that produced them. The canonical
+# evidence is results/ -- the per-state JSON records energies, oscillator
+# strengths, orbital character, convergence actually used, and the environment.
+logs/
+
+# Psi4 drops these into the working directory on every run. An uncommitted
+# research/timer.dat elsewhere in this repo shows what happens when they are
+# not caught.
+timer.dat
+psi.*.clean
+__pycache__/

@@ -1,0 +1,123 @@
+{
+  "broadening_note": "The Gaussian FWHM below is applied by hand for display only. It is not a computed line shape: no vibronic (Franck-Condon) or inhomogeneous broadening was calculated. Band widths in the figure carry no physical information; positions and oscillator strengths do.",
+  "broadening_fwhm_eV_cosmetic": 0.35,
+  "geometry": {
+    "start_uff": {
+      "interring_twist_deg": 54.61,
+      "donor_ring_rms_planarity_ang": 0.0036,
+      "amine_N_angle_sum_deg": 348.7,
+      "amine_pyramidalization_deg": 11.3,
+      "aryl_furan_bond_ang": 1.4679,
+      "nitrile_bond_ang": [
+        1.1602,
+        1.1602,
+        1.1604
+      ]
+    },
+    "optimized": {
+      "interring_twist_deg": 0.0,
+      "donor_ring_rms_planarity_ang": 0.0,
+      "amine_N_angle_sum_deg": 360.0,
+      "amine_pyramidalization_deg": 0.0,
+      "aryl_furan_bond_ang": 1.4517,
+      "nitrile_bond_ang": [
+        1.162,
+        1.1623,
+        1.1622
+      ]
+    },
+    "optimized_comment": "DCDHF-Me2 optimized b3lyp/def2-svp (C1, gau_tight) E=-988.98532991 Ha; from dcdhf-me2-uff.xyz",
+    "interring_twist_change_deg": 54.61,
+    "amine_pyramidalization_change_deg": 11.3
+  },
+  "runs": [
+    {
+      "functional": "b3lyp",
+      "basis": "def2-tzvp",
+      "method": "full RPA",
+      "n_basis_functions": 809,
+      "manifold": {
+        "n_states": 12,
+        "n_bright": 8,
+        "f_total": 1.40504,
+        "energy_range_eV": [
+          3.0032,
+          5.5172
+        ],
+        "lowest_bright_nm": 412.85,
+        "lowest_bright_f": 0.9531,
+        "lowest_bright_type": "pi->pi*",
+        "f_fraction_in_lowest_bright": 0.6783,
+        "f_above_lowest_bright": 0.45194
+      },
+      "band_occupancy": {
+        "band_center_eV": 3.0032,
+        "band_center_nm": 412.85,
+        "band_halfwidth_eV": 0.35,
+        "n_states_under_band": 1,
+        "n_bright_under_band": 1,
+        "states_under_band": [
+          1
+        ],
+        "f_under_band": 0.9531,
+        "f_total_all_states": 1.40504,
+        "f_fraction_outside_band": 0.3217
+      },
+      "state_gaps": {
+        "s1_s2_gap_eV": 0.5117,
+        "s1_s3_gap_eV": 1.1309,
+        "lowest_two_bright_gap_eV": 0.5117,
+        "lowest_two_bright_states": [
+          1,
+          2
+        ]
+      },
+      "sticks_csv": "results/spectra_sticks_b3lyp_def2-tzvp.csv",
+      "curve_csv": "results/spectra_curve_b3lyp_def2-tzvp.csv"
+    },
+    {
+      "functional": "cam-b3lyp",
+      "basis": "def2-tzvp",
+      "method": "full RPA",
+      "n_basis_functions": 809,
+      "manifold": {
+        "n_states": 12,
+        "n_bright": 7,
+        "f_total": 1.51549,
+        "energy_range_eV": [
+          3.3178,
+          6.2039
+        ],
+        "lowest_bright_nm": 373.69,
+        "lowest_bright_f": 1.12392,
+        "lowest_bright_type": "pi->pi*",
+        "f_fraction_in_lowest_bright": 0.7416,
+        "f_above_lowest_bright": 0.39157
+      },
+      "band_occupancy": {
+        "band_center_eV": 3.3178,
+        "band_center_nm": 373.69,
+        "band_halfwidth_eV": 0.35,
+        "n_states_under_band": 1,
+        "n_bright_under_band": 1,
+        "states_under_band": [
+          1
+        ],
+        "f_under_band": 1.12392,
+        "f_total_all_states": 1.51549,
+        "f_fraction_outside_band": 0.2584
+      },
+      "state_gaps": {
+        "s1_s2_gap_eV": 0.8945,
+        "s1_s3_gap_eV": 1.1901,
+        "lowest_two_bright_gap_eV": 0.8945,
+        "lowest_two_bright_states": [
+          1,
+          2
+        ]
+      },
+      "sticks_csv": "results/spectra_sticks_cam-b3lyp_def2-tzvp.csv",
+      "curve_csv": "results/spectra_curve_cam-b3lyp_def2-tzvp.csv"
+    }
+  ]
+}
