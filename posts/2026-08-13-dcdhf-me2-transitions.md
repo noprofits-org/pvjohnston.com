@@ -26,8 +26,10 @@ what the molecule was designed for.
 The route: introduce the molecule and why it is the right example (§2), get
 its geometry onto defensible footing (§3), compute the singlet excitation
 manifold with time-dependent density functional theory (§4), set benzene —
-the dye's own parent ring — beside it as the symmetry contrast (§5), and
-then read both manifolds against the two-level picture (§6).
+the dye's own parent ring — beside it as the symmetry contrast (§5), build
+the three currencies a transition is quoted in — dipole moment, oscillator
+strength, molar absorptivity — from first principles (§6), and then read
+both manifolds against the two-level picture (§7).
 
 ## 2. The molecule: a push-pull dye built to be watched one at a time
 
@@ -184,7 +186,7 @@ $$f = \tfrac{2}{3}\,\Delta E\,|\boldsymbol{\mu}|^{2},$$
 
 with $\Delta E$ in hartree and $|\boldsymbol{\mu}|^{2}$ in atomic units — so
 the two panels rank the same sticks differently, and the difference is
-itself the physics.
+itself the physics; §6 builds it from first principles.
 
 ```tikzpicture
 \begin{axis}[
@@ -354,7 +356,93 @@ strength arriving only as a degenerate pair. Every dominant excitation is an
 almost exactly equal two-configuration mixture — the orbital-level
 fingerprint of a degenerate frame.
 
-## 6. Why the idealization is earned, not lucky
+## 6. Three currencies for one transition: dipole moment, oscillator strength, absorptivity
+
+Figure 1's inversion confuses exactly the readers who know the most, so it
+is worth building the three quantities involved from the ground up and
+watching where the energy factor enters.
+
+Start with what absorption is. Light is an oscillating electric field, and
+it can carry a molecule from $|g\rangle$ to $|e\rangle$ only to the extent
+that changing state *moves charge*. The **transition dipole moment**,
+
+$$\boldsymbol{\mu}_{ge} = \langle\psi_e|\,e\,\hat{\mathbf{r}}\,|\psi_g\rangle,$$
+
+is that motion's measure: charge times displacement, evaluated *between*
+the two states rather than within either of them. It is not a dipole the
+molecule has; it is the dipole the molecule exercises in the act of
+switching states. The field couples to it the way a hand couples to a
+swing, and the rate at which resonant light drives the transition — the
+absorption cross section per molecule — goes as
+$|\boldsymbol{\mu}_{ge}|^2$.[@Hilborn1982] Every note in this series has
+been reading this one quantity from a different side. For DCDHF-Me2 the S₁
+excitation slides density from the amine end to the nitrile end of a long
+conjugated backbone — a lot of charge moved a long way — which is why its
+dipole strength, $|\boldsymbol{\mu}|^{2}$ =
+[s1_dipole_strength_au]{.metric} a.u., is about four times each benzene
+partner's [benzene_pair_member_dipole_strength_au]{.metric} a.u.: benzene's
+excitation only rearranges π density within a ring a few bond lengths
+across.
+
+**Oscillator strength** is an older yardstick with a deliberately chosen
+normalization. Before quantum mechanics, Lorentz modeled an absorbing
+electron as a charge on a spring, and one such classical electron has a
+definite total absorbing power. The oscillator strength of a transition
+asks: what fraction of one classical electron's absorbing power does this
+transition deliver? In atomic units,
+
+$$f = \tfrac{2}{3}\,\Delta E\,|\boldsymbol{\mu}|^{2},$$
+
+and the normalization has a famous consequence: summed over every
+transition a molecule possesses, the f values add up to its number of
+electrons — the Thomas–Reiche–Kuhn sum rule.[@Hilborn1982] So f counts
+*electrons' worth of absorbing power*, and the energy factor is what makes
+the count come out right: absorbing power is energy removed from the beam,
+each absorbed photon removes $\Delta E$, and a transition operating at
+twice the photon energy extracts twice the energy per event from the same
+underlying charge motion. That is the entire resolution of Figure 1's
+inversion. The dye has by far the larger charge displacement; benzene's
+degenerate pair, working at [benzene_band_center_ev]{.metric} eV instead
+of [band_center_ev]{.metric} eV, is paid roughly twice per photon for
+about half the dipole strength — and the two products land within ten
+percent of each other ([benzene_bright_pair_f_total]{.metric} against
+[lowest_bright_f]{.metric}).
+
+**Molar absorptivity** is the bench quantity, defined by what a
+spectrophotometer measures through Beer–Lambert's law,
+$A = \varepsilon(\nu)\,c\,\ell$.[@Swinehart1962] It adds one ingredient
+the other two currencies lack: the line shape. The *area* under an
+absorption band, $\int\varepsilon\,d\tilde{\nu}$, is fixed by the
+oscillator strength — f is that integral in dimensionless form, the same
+quantity the [molar absorptivity
+note](/posts/2026-07-03-molar-absorptivity-is-a-rate-constant.html) read
+as a rate constant. But the *peak height* a chemist quotes as
+$\varepsilon_{\text{max}}$ depends on how vibronic structure and solvent
+spread that fixed area over a band width: the same area over a narrow band
+gives a tall peak, over a broad band a low one. This experiment computes
+no widths, so it can say nothing about peak heights — which is why
+$\varepsilon$ appears in this section and on neither of Figure 1's axes.
+
+One reconciliation, for readers holding the entirely reasonable intuition
+that benzene is a feeble absorber: that intuition is about the visible and
+near-UV, where every low-lying benzene transition is symmetry-forbidden —
+the weak band a UV lamp shows near 254 nm is the forbidden S₁ borrowing
+intensity it does not own. The allowed E1u pair computed here is genuinely
+intense, but it sits at 174 nm, in the vacuum ultraviolet, where no
+cuvette measurement ever meets it. Benzene is a strong absorber; it is
+just not a strong absorber anywhere a chemist usually looks.
+
+So the three currencies answer three different questions.
+$|\boldsymbol{\mu}|^{2}$ answers *how strongly does light couple to this
+transition* — the molecule's own property, the one the dye was engineered
+to maximize. f answers *how much total absorbing power does that amount
+to*, with the photon energy priced in. And $\varepsilon(\nu)$ answers
+*what will the instrument read at this wavelength*, which further depends
+on a band width nothing in this note computes. Figure 1's two panels are
+the first two currencies, and the exchange rate between them is the photon
+energy — that is all the inversion is.
+
+## 7. Why the idealization is earned, not lucky
 
 Set side by side under identical conditions, the two molecules answer the
 title question in opposite ways. Of the strength shared by its two lowest
@@ -362,21 +450,11 @@ bright states, benzene's lower partner carries
 [benzene_lowest_bright_f_share]{.metric}; DCDHF-Me2's carries
 [lowest_bright_f_share]{.metric}. That number is the post in one line.
 
-The two currencies of Figure 1 sharpen it further. In oscillator strength
-the dye's S₁ carries [f_fraction_in_lowest_bright]{.metric} of its
-molecule's computed total; in dipole strength it carries
-[s1_dipole_strength_share]{.metric} — sharper, because dividing out the
-energy weighting removes the head start that benzene's high-energy photons
-give its f. The same factor explains the top panel's near-tie: benzene's
-band edges past the dye in oscillator strength while carrying half the
-dipole strength, paying for smaller dipoles with a photon twice as
-energetic. And since oscillator strength is the integrated molar
-absorptivity in dimensionless form, the top panel is the same quantity the
-[molar absorptivity
-note](/posts/2026-07-03-molar-absorptivity-is-a-rate-constant.html) read as
-a rate constant; what this experiment cannot supply is the band width that
-would turn that integral into a peak height — the same gap already covered
-by the caveat that no line widths are computed here.
+The currencies of §6 sharpen it further. In oscillator strength the dye's
+S₁ carries [f_fraction_in_lowest_bright]{.metric} of its molecule's
+computed total; in dipole strength — the energy weighting divided out — it
+carries [s1_dipole_strength_share]{.metric}. The f-share understates how
+concentrated this molecule's absorbing power actually is.
 
 It is also not luck. Oscillator strength is a budgeted quantity, and an f of
 [lowest_bright_f]{.metric} in a single transition is a large fraction of
@@ -406,7 +484,7 @@ fluorophore engineered for single-molecule brightness behaves like a
 two-level system because it was selected to; the approximation and the
 design are the same fact read twice.
 
-## 7. Reproducibility
+## 8. Reproducibility
 
 Both molecules ran through the same two-stage pipeline
 (`research/dcdhf-me2-transitions/`, driven by `run_all.sh`): geometry
@@ -432,7 +510,7 @@ generated `metrics.json`. One reproduction datum: rerunning the stationary
 check after the canonical run, to capture its environment record, reproduced
 every reported value to the displayed precision.
 
-## 8. Where the model stops
+## 9. Where the model stops
 
 These are vertical electronic excitations of isolated molecules in vacuum,
 twelve states deep. Nothing here has vibrational structure: no line widths
