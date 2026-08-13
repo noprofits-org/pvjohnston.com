@@ -26,8 +26,10 @@ what the molecule was designed for.
 The route: introduce the molecule and why it is the right example (§2), get
 its geometry onto defensible footing (§3), compute the singlet excitation
 manifold with time-dependent density functional theory (§4), set benzene —
-the dye's own parent ring — beside it as the symmetry contrast (§5), and
-then read both manifolds against the two-level picture (§6).
+the dye's own parent ring — beside it as the symmetry contrast (§5), build
+the three currencies a transition is quoted in — dipole moment, oscillator
+strength, molar absorptivity — from first principles (§6), and then read
+both manifolds against the two-level picture (§7).
 
 ## 2. The molecule: a push-pull dye built to be watched one at a time
 
@@ -111,10 +113,11 @@ clear the f ≥ 0.01 brightness convention, but within ±0.35 eV of the lowest
 bright transition — the empirical band width this site's earlier TD-DFT
 notes applied to their stick spectra — sits exactly
 [n_states_under_band]{.metric} state: S₁ itself. The next state of any kind
-is [s1_s2_gap_ev]{.metric} eV away, and the rest of the manifold begins
-another electron-volt above that: real, several of its states genuinely
-bright, and all of it in the deep UV between 4.5 and 6.2 eV, where no
-visible-band measurement will conflate it with S₁ (Figure 1).
+is [s1_s2_gap_ev]{.metric} eV away and far weaker, and the manifold's
+remaining bright states begin nearly another electron-volt beyond it: real,
+several of them genuinely bright, and all of them in the deep UV between 5.1
+and 6.2 eV, where no visible-band measurement will conflate them with S₁
+(Figure 1).
 
 B3LYP tells the same story shifted red: lowest bright state at
 [band_center_nm_b3lyp]{.metric} nm, an S₁–S₂ gap of
@@ -176,45 +179,155 @@ degenerate — dark, but degenerate — because degeneracy here is not numerical
 coincidence; it is what a two-dimensional irreducible representation of a
 sixfold-symmetric ring enforces.
 
+Figure 1 shows the two manifolds in two measures, because a transition's
+oscillator strength prices its dipole strength in units of its energy,
+
+$$f = \tfrac{2}{3}\,\Delta E\,|\boldsymbol{\mu}|^{2},$$
+
+with $\Delta E$ in hartree and $|\boldsymbol{\mu}|^{2}$ in atomic units — so
+the two panels rank the same sticks differently, and the difference is
+itself the physics; §6 builds it from first principles.
+
 ```tikzpicture
 \begin{axis}[
-    width=14cm, height=9cm,
-    xlabel={excitation energy (eV)},
+    name=fpanel,
+    width=14cm, height=6.4cm,
     ylabel={oscillator strength $f$},
-    title={One apparent band, one transition or two},
-    xmin=2.5, xmax=8.9, ymin=0, ymax=1.405,
+    xmin=2.5, xmax=9.2, ymin=0, ymax=1.502,
     grid=major,
     grid style={line width=.2pt, draw=gray!40},
     axis lines=left,
-    legend pos=north east,
-    legend style={draw=none, fill=white, fill opacity=0.85},
     every axis label/.style={font=\large},
     every tick label/.style={font=\large},
-    title style={font=\large\bfseries}
+    title={One apparent band, one transition or two},
+    title style={font=\large\bfseries},
+    xticklabels={},
+    legend pos=north west,
+    legend style={draw=none, fill=white, fill opacity=0.85},
 ]
-\addplot[ycomb, very thick, color=blue!65!black, mark=*, mark size=1.4pt] coordinates {
-  (7.117,0.6006) (7.117,0.6007) (7.973,0.0112) (8.447,0.0202)
-};
-\addplot[ycomb, very thick, color=red!70!black, mark=*, mark size=1.4pt] coordinates {
-  (3.318,1.1239) (4.212,0.0242) (4.508,0.0062) (5.112,0.0853) (5.286,0.1138) (5.473,0.0810) (5.618,0.0002) (5.984,0.0525) (6.113,0.0043) (6.170,0.0218) (6.204,0.0023)
-};
-\legend{benzene, DCDHF-Me2}
+\addlegendimage{ycomb, very thick, color=blue!65!black, mark=*, mark size=1.4pt}
+\addlegendentry{benzene}
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.458,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.148,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.117,0.0000) -- (axis cs:7.117,0.6006);
+\draw[very thick, color=blue!50!white] (axis cs:7.117,0.6006) -- (axis cs:7.117,1.2012);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.117,1.2012)};
+\draw[black, thick] (axis cs:7.057,0.6006) -- (axis cs:7.176,0.6006);
+\node[font=\small\bfseries, anchor=west] at (axis cs:7.216,0.6006) {A};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.697,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.891,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.973,0.0000) -- (axis cs:7.973,0.0112);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.973,0.0112)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.994,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:8.447,0.0000) -- (axis cs:8.447,0.0202);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.447,0.0202)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.689,0.0000)};
+\addlegendimage{ycomb, very thick, color=red!70!black, mark=*, mark size=1.4pt}
+\addlegendentry{DCDHF-Me2}
+\draw[very thick, color=red!70!black] (axis cs:3.318,0.0000) -- (axis cs:3.318,1.1239);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(3.318,1.1239)};
+\draw[very thick, color=red!70!black] (axis cs:4.212,0.0000) -- (axis cs:4.212,0.0242);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.212,0.0242)};
+\draw[very thick, color=red!70!black] (axis cs:4.508,0.0000) -- (axis cs:4.508,0.0062);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.508,0.0062)};
+\draw[very thick, color=red!70!black] (axis cs:5.112,0.0000) -- (axis cs:5.112,0.0853);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.112,0.0853)};
+\draw[very thick, color=red!70!black] (axis cs:5.286,0.0000) -- (axis cs:5.286,0.1138);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.286,0.1138)};
+\draw[very thick, color=red!70!black] (axis cs:5.465,0.0000) -- (axis cs:5.465,0.0000);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.465,0.0000)};
+\draw[very thick, color=red!70!black] (axis cs:5.473,0.0000) -- (axis cs:5.473,0.0810);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.473,0.0810)};
+\draw[very thick, color=red!70!black] (axis cs:5.618,0.0000) -- (axis cs:5.618,0.0002);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.618,0.0002)};
+\draw[very thick, color=red!70!black] (axis cs:5.984,0.0000) -- (axis cs:5.984,0.0525);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.984,0.0525)};
+\draw[very thick, color=red!70!black] (axis cs:6.113,0.0000) -- (axis cs:6.113,0.0043);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.113,0.0043)};
+\draw[very thick, color=red!70!black] (axis cs:6.170,0.0000) -- (axis cs:6.170,0.0218);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.170,0.0218)};
+\draw[very thick, color=red!70!black] (axis cs:6.204,0.0000) -- (axis cs:6.204,0.0023);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.204,0.0023)};
+\end{axis}
+\begin{axis}[
+    name=mupanel,
+    at={(fpanel.below south west)}, anchor=north west,
+    width=14cm, height=6.4cm,
+    ylabel={dipole strength $|\mu|^2$ (a.u.)},
+    xmin=2.5, xmax=9.2, ymin=0, ymax=17.284,
+    grid=major,
+    grid style={line width=.2pt, draw=gray!40},
+    axis lines=left,
+    every axis label/.style={font=\large},
+    every tick label/.style={font=\large},
+    xlabel={excitation energy (eV)},
+]
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.458,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.148,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.117,0.0000) -- (axis cs:7.117,3.4445);
+\draw[very thick, color=blue!50!white] (axis cs:7.117,3.4445) -- (axis cs:7.117,6.8896);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.117,6.8896)};
+\draw[black, thick] (axis cs:7.057,3.4445) -- (axis cs:7.176,3.4445);
+\node[font=\small\bfseries, anchor=west] at (axis cs:7.216,3.4445) {B};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.697,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.891,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.973,0.0000) -- (axis cs:7.973,0.0575);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.973,0.0575)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.994,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:8.447,0.0000) -- (axis cs:8.447,0.0977);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.447,0.0977)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.689,0.0000)};
+\draw[very thick, color=red!70!black] (axis cs:3.318,0.0000) -- (axis cs:3.318,13.8270);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(3.318,13.8270)};
+\draw[very thick, color=red!70!black] (axis cs:4.212,0.0000) -- (axis cs:4.212,0.2343);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.212,0.2343)};
+\draw[very thick, color=red!70!black] (axis cs:4.508,0.0000) -- (axis cs:4.508,0.0560);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.508,0.0560)};
+\draw[very thick, color=red!70!black] (axis cs:5.112,0.0000) -- (axis cs:5.112,0.6807);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.112,0.6807)};
+\draw[very thick, color=red!70!black] (axis cs:5.286,0.0000) -- (axis cs:5.286,0.8785);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.286,0.8785)};
+\draw[very thick, color=red!70!black] (axis cs:5.465,0.0000) -- (axis cs:5.465,0.0003);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.465,0.0003)};
+\draw[very thick, color=red!70!black] (axis cs:5.473,0.0000) -- (axis cs:5.473,0.6039);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.473,0.6039)};
+\draw[very thick, color=red!70!black] (axis cs:5.618,0.0000) -- (axis cs:5.618,0.0014);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.618,0.0014)};
+\draw[very thick, color=red!70!black] (axis cs:5.984,0.0000) -- (axis cs:5.984,0.3583);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.984,0.3583)};
+\draw[very thick, color=red!70!black] (axis cs:6.113,0.0000) -- (axis cs:6.113,0.0290);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.113,0.0290)};
+\draw[very thick, color=red!70!black] (axis cs:6.170,0.0000) -- (axis cs:6.170,0.1442);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.170,0.1442)};
+\draw[very thick, color=red!70!black] (axis cs:6.204,0.0000) -- (axis cs:6.204,0.0151);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.204,0.0151)};
 \end{axis}
 ```
 
-**Figure 1.** Computed stick spectra of both molecules on one energy axis at
-CAM-B3LYP/def2-TZVP, deliberately un-normalized: oscillator strengths are
-directly comparable as computed, and normalizing each molecule to its own
-maximum would erase the comparison the figure exists to make. DCDHF-Me2
-(red) concentrates its strength in one state at 3.32 eV; benzene (blue)
-splits its strength between two exactly coincident sticks at 7.12 eV, drawn
-overlapping. No envelope is drawn: line widths are not computed in this
-experiment.
+**Figure 1.** Both molecules' computed states in two currencies on one
+energy axis at CAM-B3LYP/def2-TZVP, deliberately un-normalized in each
+panel. Top: oscillator strength — in dimensionless form, the integrated
+molar absorptivity. Bottom: dipole strength $|\boldsymbol{\mu}|^{2}$. All
+twelve computed states of each molecule appear in both panels; dark states
+are markers on the axis, and no envelope is drawn because line widths are
+not computed in this experiment. Benzene's exactly degenerate bright pair
+is drawn stacked at 7.12 eV, the lighter segment being the second member;
+**A** (top) and **B** (bottom) mark the same physical division seen in the
+two measures. The ranking inverts between panels: in oscillator strength
+benzene's band total, [benzene_bright_pair_f_total]{.metric}, edges past
+the dye's single transition at [lowest_bright_f]{.metric}, while in dipole
+strength the dye's [s1_dipole_strength_au]{.metric} a.u. stands at twice
+benzene's whole band
+([benzene_pair_total_dipole_strength_au]{.metric} a.u.) — because
+oscillator strength prices dipole strength in units of transition energy,
+and benzene's band sits at twice the energy.
 
 The mechanism of the contrast fits in one sentence: benzene's symmetry
 forces its bright transitions into a degenerate pair, and substituting a
-donor on one side of the ring and an acceptor on the other destroys that
-symmetry and funnels the strength into a single state.
+donor on one side of the ring and an acceptor on the other does two things
+at once — it destroys the symmetry that enforced the degeneracy, and it
+creates the low-lying charge-transfer state benzene does not have, which is
+where the funneled strength goes.
 
 One thing this comparison is not: benzene's allowed band sits at 7.1 eV —
 174 nm, deep vacuum-ultraviolet — so nothing here compares visible colors.
@@ -243,7 +356,93 @@ strength arriving only as a degenerate pair. Every dominant excitation is an
 almost exactly equal two-configuration mixture — the orbital-level
 fingerprint of a degenerate frame.
 
-## 6. Why the idealization is earned, not lucky
+## 6. Three currencies for one transition: dipole moment, oscillator strength, absorptivity
+
+Figure 1's inversion confuses exactly the readers who know the most, so it
+is worth building the three quantities involved from the ground up and
+watching where the energy factor enters.
+
+Start with what absorption is. Light is an oscillating electric field, and
+it can carry a molecule from $|g\rangle$ to $|e\rangle$ only to the extent
+that changing state *moves charge*. The **transition dipole moment**,
+
+$$\boldsymbol{\mu}_{ge} = \langle\psi_e|\,e\,\hat{\mathbf{r}}\,|\psi_g\rangle,$$
+
+is that motion's measure: charge times displacement, evaluated *between*
+the two states rather than within either of them. It is not a dipole the
+molecule has; it is the dipole the molecule exercises in the act of
+switching states. The field couples to it the way a hand couples to a
+swing, and the rate at which resonant light drives the transition — the
+absorption cross section per molecule — goes as
+$|\boldsymbol{\mu}_{ge}|^2$.[@Hilborn1982] Every note in this series has
+been reading this one quantity from a different side. For DCDHF-Me2 the S₁
+excitation slides density from the amine end to the nitrile end of a long
+conjugated backbone — a lot of charge moved a long way — which is why its
+dipole strength, $|\boldsymbol{\mu}|^{2}$ =
+[s1_dipole_strength_au]{.metric} a.u., is about four times each benzene
+partner's [benzene_pair_member_dipole_strength_au]{.metric} a.u.: benzene's
+excitation only rearranges π density within a ring a few bond lengths
+across.
+
+**Oscillator strength** is an older yardstick with a deliberately chosen
+normalization. Before quantum mechanics, Lorentz modeled an absorbing
+electron as a charge on a spring, and one such classical electron has a
+definite total absorbing power. The oscillator strength of a transition
+asks: what fraction of one classical electron's absorbing power does this
+transition deliver? In atomic units,
+
+$$f = \tfrac{2}{3}\,\Delta E\,|\boldsymbol{\mu}|^{2},$$
+
+and the normalization has a famous consequence: summed over every
+transition a molecule possesses, the f values add up to its number of
+electrons — the Thomas–Reiche–Kuhn sum rule.[@Hilborn1982] So f counts
+*electrons' worth of absorbing power*, and the energy factor is what makes
+the count come out right: absorbing power is energy removed from the beam,
+each absorbed photon removes $\Delta E$, and a transition operating at
+twice the photon energy extracts twice the energy per event from the same
+underlying charge motion. That is the entire resolution of Figure 1's
+inversion. The dye has by far the larger charge displacement; benzene's
+degenerate pair, working at [benzene_band_center_ev]{.metric} eV instead
+of [band_center_ev]{.metric} eV, is paid roughly twice per photon for
+about half the dipole strength — and the two products land within ten
+percent of each other ([benzene_bright_pair_f_total]{.metric} against
+[lowest_bright_f]{.metric}).
+
+**Molar absorptivity** is the bench quantity, defined by what a
+spectrophotometer measures through Beer–Lambert's law,
+$A = \varepsilon(\nu)\,c\,\ell$.[@Swinehart1962] It adds one ingredient
+the other two currencies lack: the line shape. The *area* under an
+absorption band, $\int\varepsilon\,d\tilde{\nu}$, is fixed by the
+oscillator strength — f is that integral in dimensionless form, the same
+quantity the [molar absorptivity
+note](/posts/2026-07-03-molar-absorptivity-is-a-rate-constant.html) read
+as a rate constant. But the *peak height* a chemist quotes as
+$\varepsilon_{\text{max}}$ depends on how vibronic structure and solvent
+spread that fixed area over a band width: the same area over a narrow band
+gives a tall peak, over a broad band a low one. This experiment computes
+no widths, so it can say nothing about peak heights — which is why
+$\varepsilon$ appears in this section and on neither of Figure 1's axes.
+
+One reconciliation, for readers holding the entirely reasonable intuition
+that benzene is a feeble absorber: that intuition is about the visible and
+near-UV, where every low-lying benzene transition is symmetry-forbidden —
+the weak band a UV lamp shows near 254 nm is the forbidden S₁ borrowing
+intensity it does not own. The allowed E1u pair computed here is genuinely
+intense, but it sits at 174 nm, in the vacuum ultraviolet, where no
+cuvette measurement ever meets it. Benzene is a strong absorber; it is
+just not a strong absorber anywhere a chemist usually looks.
+
+So the three currencies answer three different questions.
+$|\boldsymbol{\mu}|^{2}$ answers *how strongly does light couple to this
+transition* — the molecule's own property, the one the dye was engineered
+to maximize. f answers *how much total absorbing power does that amount
+to*, with the photon energy priced in. And $\varepsilon(\nu)$ answers
+*what will the instrument read at this wavelength*, which further depends
+on a band width nothing in this note computes. Figure 1's two panels are
+the first two currencies, and the exchange rate between them is the photon
+energy — that is all the inversion is.
+
+## 7. Why the idealization is earned, not lucky
 
 Set side by side under identical conditions, the two molecules answer the
 title question in opposite ways. Of the strength shared by its two lowest
@@ -251,9 +450,15 @@ bright states, benzene's lower partner carries
 [benzene_lowest_bright_f_share]{.metric}; DCDHF-Me2's carries
 [lowest_bright_f_share]{.metric}. That number is the post in one line.
 
+The currencies of §6 sharpen it further. In oscillator strength the dye's
+S₁ carries [f_fraction_in_lowest_bright]{.metric} of its molecule's
+computed total; in dipole strength — the energy weighting divided out — it
+carries [s1_dipole_strength_share]{.metric}. The f-share understates how
+concentrated this molecule's absorbing power actually is.
+
 It is also not luck. Oscillator strength is a budgeted quantity, and an f of
-[lowest_bright_f]{.metric} in a single transition is close to the practical
-ceiling for a chromophore of this size — a molecule engineered for
+[lowest_bright_f]{.metric} in a single transition is a large fraction of
+what a chromophore this size can carry — a molecule engineered for
 single-molecule detection is a molecule engineered to be bright, and bright
 means concentrating the available transition strength into the one state the
 laser will drive. The DCDHF designers optimized brightness and
@@ -275,10 +480,11 @@ two-level picture starts with them.
 
 So the blinking note's idealization, applied to the dye class it was written
 about, is not an approximation forced on an unwilling molecule. A
-single-molecule fluorophore behaves like a two-level system because it was
-built to; the approximation and the design are the same fact read twice.
+fluorophore engineered for single-molecule brightness behaves like a
+two-level system because it was selected to; the approximation and the
+design are the same fact read twice.
 
-## 7. Reproducibility
+## 8. Reproducibility
 
 Both molecules ran through the same two-stage pipeline
 (`research/dcdhf-me2-transitions/`, driven by `run_all.sh`): geometry
@@ -300,9 +506,11 @@ requested and effective solver settings side by side. The rigid-displacement
 stationary check of §3, its symmetry-pair self-validation, and the full
 per-state records, spectra, metrics, and environment files are in the
 experiment directory, and every quoted number above resolves from its
-generated `metrics.json`.
+generated `metrics.json`. One reproduction datum: rerunning the stationary
+check after the canonical run, to capture its environment record, reproduced
+every reported value to the displayed precision.
 
-## 8. Where the model stops
+## 9. Where the model stops
 
 These are vertical electronic excitations of isolated molecules in vacuum,
 twelve states deep. Nothing here has vibrational structure: no line widths

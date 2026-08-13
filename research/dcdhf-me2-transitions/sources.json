@@ -14,6 +14,18 @@
       "notes": "This is a UFF force-field pre-optimized structure exported from Avogadro as input to a subsequent QM optimization, NOT a DFT minimum, and it is used here only as an optimization starting point. run_tddft.py asserts its formula, connectivity, and nitrile bond lengths before use. The original 2025 calculation scripts and outputs did not survive; this geometry is the only recoverable numerical input from that work."
     },
     {
+      "name": "Benzene ideal D6h starting geometry (12 atoms, C6H6)",
+      "url": null,
+      "version": "generated 2026-08-13 by the command in acquisition",
+      "accessed": "2026-08-13",
+      "sha256": "8fd697aec4b87f5c03b6793b063833b993cdc494cfdc7363aa27b38361fccdbd",
+      "license": "Not applicable; constructed from standard bond lengths, no third-party data",
+      "acquisition": "Constructed analytically rather than downloaded: six carbons on a regular hexagon of circumradius 1.3915 A and six hydrogens radially outward at C-H 1.0800 A, all z = 0, atom order C0-C5 then H6-H11 so H_i is bonded to C_i. No structure-generation toolkit (RDKit, OpenBabel, ASE) is available in this environment, which is why the structure is built from standard geometry rather than generated or retrieved. It is an optimization starting point, not a QM minimum; the B3LYP/def2-SVP optimum is geometry/benzene-def2-svp-opt.xyz.",
+      "committed": true,
+      "exclusion_reason": null,
+      "notes": "Benzene is the contrast case: its strongly allowed band is a symmetry-degenerate E1u pair, so one apparent band is two transitions. That claim depends on the ring being regular, which the optimization is checked against -- results/geometry_benzene_def2-svp.json records a C-C bond spread of 1e-05 A at the minimum, projected as the benzene_cc_bond_spread_ang metric. Recomputed here rather than reused from calcs/uvvis-pushpull, whose numbers came from a Psi4 1.11 environment that no longer exists on this machine."
+    },
+    {
       "name": "Molecular connectivity of the DCDHF chromophore family",
       "url": "https://doi.org/10.1021/cm8026797",
       "version": "Chemistry of Materials 21(5), 797-810, 2009",

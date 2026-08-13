@@ -99,6 +99,13 @@ function build(generatedAt) {
   const worstSplit = Math.max(
     ...stationary.symmetry_pairs.map((p) => p.energy_split_microhartree));
 
+  const brightPair = (benzene.degenerate_multiplets ?? []).find((m) => m.bright);
+  if (!brightPair) {
+    throw new Error(
+      `${CONTRAST_MOLECULE} has no bright degenerate multiplet in ${input}; ` +
+      `the contrast the post is built on is not present in the results`);
+  }
+
   const bgap = benzene.state_gaps;
   if (bgap?.lowest_bright_f_share === undefined) {
     throw new Error(
@@ -252,6 +259,10 @@ function build(generatedAt) {
         bgap.lowest_two_bright_gap_eV, 3,
         "Splitting between benzene's two lowest bright states, degenerate under D6h symmetry",
         'eV'),
+      benzene_bright_pair_f_total: num(
+        brightPair.f_total, 3,
+        'Combined oscillator strength of benzene\'s degenerate E1u pair, the strength its single apparent band actually carries',
+        ''),
       benzene_lowest_bright_f_share: pct(
         bgap.lowest_bright_f_share, 0,
         "Share of the two lowest bright states' combined oscillator strength carried by the lower one (benzene; 50% = an even split)"),
@@ -261,6 +272,26 @@ function build(generatedAt) {
       lowest_bright_f_share: pct(
         primary.state_gaps.lowest_bright_f_share, 0,
         "Share of the two lowest bright states' combined oscillator strength carried by the lower one (DCDHF-Me2, CAM-B3LYP)"),
+
+      // --- dipole strengths, which invert the ranking that f alone suggests.
+      // f carries a factor of the transition energy, so benzene's band at more
+      // than twice the dye's excitation energy edges it out in f while having
+      // roughly half its transition dipole strength.
+      s1_dipole_strength_au: num(
+        primary.dipole_strengths.lowest_bright_dipole_strength_au, 2,
+        'Transition dipole strength |mu|^2 of DCDHF-Me2 S1 (CAM-B3LYP/def2-TZVP)',
+        'a.u.'),
+      s1_dipole_strength_share: pct(
+        primary.dipole_strengths.lowest_bright_share, 0,
+        "Share of DCDHF-Me2's total computed dipole strength carried by S1 alone"),
+      benzene_pair_member_dipole_strength_au: num(
+        brightPair.dipole_strength_each_au[0], 2,
+        "Transition dipole strength |mu|^2 of one member of benzene's degenerate E1u pair",
+        'a.u.'),
+      benzene_pair_total_dipole_strength_au: num(
+        brightPair.dipole_strength_total_au, 2,
+        "Combined transition dipole strength |mu|^2 of benzene's degenerate E1u pair",
+        'a.u.'),
 
       // --- honesty about the figure
       broadening_fwhm_ev_cosmetic: num(

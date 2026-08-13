@@ -480,8 +480,15 @@ def manifold_summary(states):
     }
     if low and f_total > 0:
         summary["f_fraction_in_lowest_bright"] = round(low["f"] / f_total, 4)
+        # Everything OTHER than the lowest bright state, selected by identity
+        # rather than by a strict energy comparison. `energy > low.energy`
+        # silently drops a state at exactly the same energy: for benzene it
+        # excluded S4, the degenerate partner of S3, reporting 0.031 where the
+        # honest value is 0.632. Third instance of the same trap in this
+        # codebase -- see the README note on what a contrast case tests.
         summary["f_above_lowest_bright"] = round(
-            sum(s["f"] for s in states if s["energy_eV"] > low["energy_eV"]), 5)
+            sum(s["f"] for s in states if s["state"] != low["state"]
+                and s["energy_eV"] >= low["energy_eV"]), 5)
     return summary
 
 

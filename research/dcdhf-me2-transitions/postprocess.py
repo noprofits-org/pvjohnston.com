@@ -22,12 +22,13 @@ merge into one apparent band -- it is not evidence about width.
 
 Usage: postprocess.py [--fwhm-ev 0.35]
 """
-import os, json, glob, argparse, csv, math
+import os, json, glob, argparse, csv, math, hashlib, platform, datetime, sys
 
 # run_tddft owns the geometry helpers and the topology check; importing them
 # keeps one definition of each diagnostic rather than two that can drift.
 # It pulls in psi4, which costs a few seconds here and nothing else.
-from run_tddft import read_xyz, geometry_report, verify_topology, MOLECULES
+from run_tddft import (read_xyz, geometry_report, verify_topology, MOLECULES,
+                       manifold_summary)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 EV2NM = 1239.841984
@@ -43,6 +44,34 @@ PRIMARY_MOLECULE = "dcdhf-me2"
 PRIMARY_FUNCTIONAL = "cam-b3lyp"
 
 
+def sha256_of(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def provenance_block(input_paths):
+    """Record what produced summary.json and from exactly which bytes.
+
+    Without this, summary.json is the one link in the chain that asserts its
+    numbers rather than evidencing them: metrics.json fingerprints summary.json,
+    and each states file records its own environment, but nothing tied the two
+    together.
+    """
+    return {
+        "generator": "research/dcdhf-me2-transitions/postprocess.py",
+        "command": "python postprocess.py " + " ".join(sys.argv[1:]),
+        "generated_utc": datetime.datetime.now(datetime.timezone.utc)
+                                 .isoformat(timespec="seconds"),
+        "python": platform.python_version(),
+        "platform": platform.platform(),
+        "inputs": [{"path": os.path.relpath(p, HERE), "sha256": sha256_of(p)}
+                   for p in sorted(input_paths)],
+    }
+
+
 def slug_of(run):
     """Molecule slug for a results file, tolerating records written before
     molecule_slug was added to the schema."""
@@ -56,15 +85,20 @@ def slug_of(run):
 
 
 def load_states():
-    """Load every states_*.json, grouped by molecule slug."""
-    by_mol = {}
+    """Load every states_*.json, grouped by molecule slug.
+
+    Also returns the paths, so the provenance block can fingerprint exactly
+    the bytes this run consumed.
+    """
+    by_mol, paths = {}, []
     for path in sorted(glob.glob(os.path.join(HERE, "results", "states_*.json"))):
         with open(path) as fh:
             run = json.load(fh)
         by_mol.setdefault(slug_of(run), []).append(run)
+        paths.append(path)
     if not by_mol:
         raise SystemExit("no results/states_*.json found -- run run_tddft.py excite first")
-    return by_mol
+    return by_mol, paths
 
 
 def gaussian_curve(states, fwhm_ev, lo_nm=250.0, hi_nm=800.0, n=1101):
@@ -150,6 +184,77 @@ def state_gaps(states):
             tot = low["f"] + nxt["f"]
             gaps["lowest_bright_f_share"] = round(low["f"] / tot, 4) if tot else None
     return gaps
+
+
+HA2EV = 27.211386245988
+
+
+def dipole_strength_au(state):
+    """|mu|^2 in atomic units from the oscillator strength and energy.
+
+    f = (2/3) dE |mu|^2  =>  |mu|^2 = 3f / (2 dE), with dE in hartree.
+
+    Why this belongs beside f rather than instead of it: f carries an energy
+    factor, so a high-energy transition can post a larger f on a smaller
+    transition dipole. Benzene's band edges out the dye's in f while the dye's
+    single transition has roughly twice the dipole strength of benzene's whole
+    band -- reading only f inverts which molecule is the stronger absorber per
+    photon it can absorb.
+    """
+    de_ha = state["energy_eV"] / HA2EV
+    if de_ha <= 0:
+        return 0.0
+    return 3.0 * state["f"] / (2.0 * de_ha)
+
+
+def dipole_summary(states):
+    """Per-molecule dipole strengths, and how concentrated they are.
+
+    The share of total |mu|^2 in the lowest bright state is the sharper
+    statement of this experiment's finding than the oscillator-strength share,
+    precisely because it removes the energy weighting.
+    """
+    per = [{"state": s["state"], "dipole_strength_au": round(dipole_strength_au(s), 4)}
+           for s in states]
+    total = sum(dipole_strength_au(s) for s in states)
+    bright = [s for s in states if s["bright"]]
+    out = {"per_state": per, "total_au": round(total, 4)}
+    if bright and total > 0:
+        low = min(bright, key=lambda s: (s["energy_eV"], s["state"]))
+        d_low = dipole_strength_au(low)
+        out["lowest_bright_state"] = low["state"]
+        out["lowest_bright_dipole_strength_au"] = round(d_low, 4)
+        out["lowest_bright_share"] = round(d_low / total, 4)
+    return out
+
+
+def multiplet_summary(states, tol_ev=1e-3):
+    """Degenerate groups of two or more states, and what they carry together.
+
+    A multiplet is one apparent line in a spectrum, so its combined oscillator
+    strength -- not its largest member -- is what the band absorbs. Reporting
+    the members separately and never their sum is how a degenerate pair ends up
+    looking weaker than it is.
+    """
+    groups = [g for g in degenerate_groups(states, tol_ev) if len(g) > 1]
+    out = []
+    for g in groups:
+        out.append({
+            "energy_eV": g[0]["energy_eV"],
+            "wavelength_nm": g[0]["wavelength_nm"],
+            "states": [s["state"] for s in g],
+            "multiplicity": len(g),
+            "f_each": [s["f"] for s in g],
+            "f_total": round(sum(s["f"] for s in g), 5),
+            # Band intensity goes as the SUM over the multiplet in either
+            # measure: the members are separate transitions that happen to
+            # coincide in energy, not one transition counted twice.
+            "dipole_strength_each_au": [round(dipole_strength_au(s), 4) for s in g],
+            "dipole_strength_total_au": round(
+                sum(dipole_strength_au(s) for s in g), 4),
+            "bright": any(s["bright"] for s in g),
+        })
+    return out
 
 
 def write_csvs(run, slug, fwhm_ev):
@@ -318,59 +423,158 @@ def post_table(run):
 
 
 def tikz_comparison(by_mol, fwhm_ev):
-    """Both molecules on one ENERGY axis: the contrast in a single picture.
+    """Two panels on one shared ENERGY axis: f on top, |mu|^2 below.
 
-    Energy rather than wavelength because the two bands are far apart (the dye
-    near 3.3 eV, benzene near 7 eV) and a shared eV axis holds both without
-    either being squeezed into the margin.
+    The second panel exists because the first one, alone, misleads. Oscillator
+    strength carries a factor of the transition energy, so benzene's band --
+    at more than twice the dye's excitation energy -- edges the dye out in f
+    while having roughly HALF its transition dipole strength. A reader taking
+    the f panel as "which molecule absorbs more strongly" gets the ranking
+    backwards, and that is a misreading the picture invited rather than the
+    reader's error.
 
-    Deliberately NOT normalized. The oscillator strengths are directly
-    comparable as computed -- the dye's single transition really is about as
-    strong as benzene's two combined -- and normalizing each molecule to its
-    own maximum would erase exactly the comparison the figure exists to make.
+    Plotting both makes the inversion the teaching point: the ranking flips
+    between panels, and the reason is the energy factor in f = (2/3)dE|mu|^2.
+
+    Energy rather than wavelength on x because the bands are far apart (the dye
+    near 3.3 eV, benzene near 7.1 eV) and a shared eV axis holds both without
+    squeezing either into the margin.
+
+    Deliberately NOT normalized, in either panel. The quantities are directly
+    comparable as computed, and normalizing each molecule to its own maximum
+    would erase exactly the comparison the figure exists to make.
+
+    Molar absorptivity was considered as a third panel and rejected: a peak
+    epsilon needs a band width, this experiment computes none, and deriving one
+    from the cosmetic FWHM would manufacture experiment-comparable numbers out
+    of an arbitrary display parameter.
     """
-    colors = {PRIMARY_MOLECULE: "red!70!black", "benzene": "blue!65!black"}
-    series, emax, fmax = [], 0.0, 0.0
+    # Upper stack segments need enough contrast against white to read as part
+    # of the stick rather than as background -- the whole point of the stack is
+    # that the reader sees two states, so a segment that fades out defeats it.
+    colors = {PRIMARY_MOLECULE: ("red!70!black", "red!55!white"),
+              "benzene": ("blue!65!black", "blue!50!white")}
+    series, emax = [], 0.0
     for slug in sorted(by_mol):
         run = next((r for r in by_mol[slug] if r["functional"] == PRIMARY_FUNCTIONAL),
                    by_mol[slug][0])
-        pts = [(s["energy_eV"], s["f"]) for s in run["states"] if s["f"] > 1e-4]
-        if not pts:
+        # No filter. A dark state draws as a marker on the axis, which is
+        # honest; the previous f > 1e-4 cut silently removed 8 of benzene's 12
+        # states from a figure whose legend says "computed transitions".
+        groups = degenerate_groups(run["states"])
+        if not groups:
             continue
-        emax = max(emax, max(e for e, _ in pts))
-        fmax = max(fmax, max(f for _, f in pts))
-        series.append((slug, run["molecule"], pts))
+        emax = max(emax, max(g[0]["energy_eV"] for g in groups))
+        series.append((slug, run["molecule"], groups))
     if len(series) < 2:
         return "% fewer than two molecules with bright states; no comparison figure\n"
 
-    ymax = fmax * 1.25
-    lines = [
-        "```tikzpicture",
-        "\\begin{axis}[",
-        "    width=14cm, height=9cm,",
-        "    xlabel={excitation energy (eV)},",
-        "    ylabel={oscillator strength $f$},",
-        "    title={One apparent band, one transition or two},",
+    panels = [
+        {"key": lambda s: s["f"],
+         "ylabel": "oscillator strength $f$",
+         "name": "fpanel", "letter": "A", "fmt": "{:.4f}"},
+        {"key": dipole_strength_au,
+         "ylabel": r"dipole strength $|\mu|^2$ (a.u.)",
+         "name": "mupanel", "letter": "B", "fmt": "{:.4f}"},
+    ]
+    lines = ["```tikzpicture"]
+    callouts = []
+    for pi, panel in enumerate(panels):
+        # Each panel is scaled to its OWN tallest stack. Sharing a y scale
+        # across two different physical quantities would be meaningless.
+        ymax = max(sum(panel["key"](s) for s in g)
+                   for _, _, groups in series for g in groups) * 1.25
+        lines += _panel_axis(pi, panel, emax, ymax, series, colors, callouts)
+    lines.append("```")
+    for name, n, e, tot, letter, label in callouts:
+        lines.append(f"% callout {letter}: {name}, {n} degenerate states at "
+                     f"{e:.3f} eV, stacked to a band total of {label} = {tot:.4f}")
+    return "\n".join(lines) + "\n"
+
+
+def _panel_axis(pi, panel, emax, ymax, series, colors, callouts):
+    """One axis environment of the two-panel comparison figure.
+
+    The panels are separate axis environments positioned relative to each
+    other rather than a groupplot: the site's TikZ preamble loads pgfplots but
+    not the groupplots library, so relative anchoring is what will actually
+    compile here.
+    """
+    top = pi == 0
+    lines = ["\\begin{axis}[", f"    name={panel['name']},"]
+    if not top:
+        lines.append("    at={(fpanel.below south west)}, anchor=north west,")
+    lines += [
+        "    width=14cm, height=6.4cm,",
+        f"    ylabel={{{panel['ylabel']}}},",
         f"    xmin=2.5, xmax={emax + 0.5:.1f}, ymin=0, ymax={ymax:.3f},",
         "    grid=major,",
         "    grid style={line width=.2pt, draw=gray!40},",
         "    axis lines=left,",
-        "    legend pos=north east,",
-        "    legend style={draw=none, fill=white, fill opacity=0.85},",
         "    every axis label/.style={font=\\large},",
         "    every tick label/.style={font=\\large},",
-        "    title style={font=\\large\\bfseries}",
-        "]",
     ]
-    for slug, name, pts in series:
-        lines.append(f"\\addplot[ycomb, very thick, color={colors.get(slug, 'black')}, "
-                     f"mark=*, mark size=1.4pt] coordinates {{")
-        lines.append("  " + " ".join(f"({e:.3f},{f:.4f})" for e, f in pts))
-        lines.append("};")
-    lines.append("\\legend{" + ", ".join(name for _, name, _ in series) + "}")
+    if top:
+        lines += [
+            "    title={One apparent band, one transition or two},",
+            "    title style={font=\\large\\bfseries},",
+            "    xticklabels={},",
+            "    legend pos=north west,",
+            "    legend style={draw=none, fill=white, fill opacity=0.85},",
+        ]
+    else:
+        lines.append("    xlabel={excitation energy (eV)},")
+    lines.append("]")
+
+    for slug, name, groups in series:
+        dark, light = colors.get(slug, ("black", "gray"))
+        if top:
+            lines.append(f"\\addlegendimage{{ycomb, very thick, color={dark}, "
+                         f"mark=*, mark size=1.4pt}}")
+            lines.append(f"\\addlegendentry{{{name}}}")
+        for g in groups:
+            e = g[0]["energy_eV"]
+            cum = 0.0
+            for i, s in enumerate(g):
+                v = panel["key"](s)
+                if v <= 0.0:
+                    continue
+                col = dark if i == 0 else light
+                lines.append(f"\\draw[very thick, color={col}] "
+                             f"(axis cs:{e:.3f},{cum:.4f}) -- "
+                             f"(axis cs:{e:.3f},{cum + v:.4f});")
+                cum += v
+            lines.append(f"\\addplot[only marks, color={dark}, mark=*, "
+                         f"mark size=1.4pt, forget plot] coordinates "
+                         f"{{({e:.3f},{cum:.4f})}};")
+            if len([s for s in g if panel["key"](s) > 0.0]) > 1:
+                div = panel["key"](g[0])
+                lines.append(f"\\draw[black, thick] (axis cs:{e - 0.06:.3f},{div:.4f}) -- "
+                             f"(axis cs:{e + 0.06:.3f},{div:.4f});")
+                lines.append(f"\\node[font=\\small\\bfseries, anchor=west] at "
+                             f"(axis cs:{e + 0.10:.3f},{div:.4f}) "
+                             f"{{{panel['letter']}}};")
+                callouts.append((name, len(g), e, cum, panel["letter"],
+                                 "f" if top else "|mu|^2"))
     lines.append("\\end{axis}")
-    lines.append("```")
-    return "\n".join(lines) + "\n"
+    return lines
+
+
+def degenerate_groups(states, tol_ev=1e-3):
+    """Group states that are degenerate within `tol_ev` (default 1 meV).
+
+    Symmetry-required degeneracies come out of the solver equal to many
+    decimals, so the tolerance only has to absorb numerical noise. Grouping is
+    what lets the figure draw a multiplet as one stick carrying the band's real
+    strength instead of overlapping members that hide each other.
+    """
+    out = []
+    for s in sorted(states, key=lambda s: (s["energy_eV"], s["state"])):
+        if out and abs(s["energy_eV"] - out[-1][0]["energy_eV"]) <= tol_ev:
+            out[-1].append(s)
+        else:
+            out.append([s])
+    return out
 
 
 def main():
@@ -378,8 +582,9 @@ def main():
     p.add_argument("--fwhm-ev", type=float, default=DEFAULT_FWHM_EV)
     args = p.parse_args()
 
-    by_mol = load_states()
-    summary = {"broadening_note": (
+    by_mol, state_paths = load_states()
+    summary = {"provenance": provenance_block(state_paths),
+               "broadening_note": (
         "The Gaussian FWHM below is applied by hand for display only. It is not "
         "a computed line shape: no vibronic (Franck-Condon) or inhomogeneous "
         "broadening was calculated. Band widths in the figures carry no physical "
@@ -398,8 +603,19 @@ def main():
             entry["runs"].append({
                 "functional": run["functional"], "basis": run["basis"],
                 "method": run["method"], "n_basis_functions": run["n_basis_functions"],
-                "manifold": run["manifold"], "band_occupancy": occ,
+                # Recomputed from the state list rather than copied from the
+                # states file. `manifold` is a DERIVED aggregate written at
+                # compute time, so a file produced by an older harness carries
+                # that harness's arithmetic -- including the strict `>` that
+                # under-reported benzene's f_above_lowest_bright by 20x.
+                # Primary data (energies, f, eigenvectors) is never recomputed
+                # here; only quantities derived from it.
+                "manifold": manifold_summary(run["states"]),
+                "manifold_as_recorded": run["manifold"],
+                "band_occupancy": occ,
                 "state_gaps": state_gaps(run["states"]),
+                "degenerate_multiplets": multiplet_summary(run["states"]),
+                "dipole_strengths": dipole_summary(run["states"]),
                 "tdscf_effective": run.get("tdscf_effective"),
                 "sticks_csv": os.path.relpath(sticks, HERE),
                 "curve_csv": os.path.relpath(curve, HERE),

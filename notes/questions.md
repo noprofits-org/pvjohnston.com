@@ -1022,8 +1022,9 @@ Format:
 - **Falsifier:** the manifold turns out empty near S1 — the two-level picture
   needs no correction for this dye within the computed window — which is
   itself the reportable outcome.
-- **Status:** drafting — experiment `dcdhf-me2-transitions` running; post
-  skeleton in place.
+- **Status:** published — [One dye, one transition](/posts/2026-08-13-dcdhf-me2-transitions.html)
+  (PR #76); the planned "several states under the band" thesis was not
+  supported, and the note ships the inversion.
 
 ## Is the green of the DCDHF fluoro precursor's crystals intrinsic to the isolated molecule?
 - **Observed:** Bench observation: crystals of the fluoro precursor to the

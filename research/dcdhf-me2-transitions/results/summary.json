@@ -1,4 +1,29 @@
 {
+  "provenance": {
+    "generator": "research/dcdhf-me2-transitions/postprocess.py",
+    "command": "python postprocess.py ",
+    "generated_utc": "2026-08-13T15:52:40+00:00",
+    "python": "3.10.17",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "inputs": [
+      {
+        "path": "results/states_benzene_b3lyp_def2-tzvp.json",
+        "sha256": "0844789bcfcf101fff2c4b7494cd333cfdde1f80a120b74739ced6ee31ed84a8"
+      },
+      {
+        "path": "results/states_benzene_cam-b3lyp_def2-tzvp.json",
+        "sha256": "dafcfe9733051ce32c9e3e8f879f3f0d1485ed19e4d2231a5f6beab0bc2169d3"
+      },
+      {
+        "path": "results/states_dcdhf-me2_b3lyp_def2-tzvp.json",
+        "sha256": "4247844b0c8b8dac0324e20a49fa87a59979f2821cfa6d5e0936c5ef6a94f10b"
+      },
+      {
+        "path": "results/states_dcdhf-me2_cam-b3lyp_def2-tzvp.json",
+        "sha256": "1129e304195afffc887099cfdf40a7fc321cc527d0c10697ee112cd3d4d8963f"
+      }
+    ]
+  },
   "broadening_note": "The Gaussian FWHM below is applied by hand for display only. It is not a computed line shape: no vibronic (Franck-Condon) or inhomogeneous broadening was calculated. Band widths in the figures carry no physical information; positions and oscillator strengths do.",
   "broadening_fwhm_eV_cosmetic": 0.35,
   "primary_molecule": "dcdhf-me2",
@@ -48,6 +73,20 @@
             "lowest_bright_f": 0.57817,
             "lowest_bright_type": "pi->pi*",
             "f_fraction_in_lowest_bright": 0.4887,
+            "f_above_lowest_bright": 0.60488
+          },
+          "manifold_as_recorded": {
+            "n_states": 12,
+            "n_bright": 4,
+            "f_total": 1.18305,
+            "energy_range_eV": [
+              5.3753,
+              8.1368
+            ],
+            "lowest_bright_nm": 176.45,
+            "lowest_bright_f": 0.57817,
+            "lowest_bright_type": "pi->pi*",
+            "f_fraction_in_lowest_bright": 0.4887,
             "f_above_lowest_bright": 0.02663
           },
           "band_occupancy": {
@@ -81,6 +120,124 @@
             ],
             "lowest_bright_f_share": 0.5
           },
+          "degenerate_multiplets": [
+            {
+              "energy_eV": 7.0268,
+              "wavelength_nm": 176.45,
+              "states": [
+                3,
+                4
+              ],
+              "multiplicity": 2,
+              "f_each": [
+                0.57817,
+                0.57825
+              ],
+              "f_total": 1.15642,
+              "dipole_strength_each_au": [
+                3.3585,
+                3.3589
+              ],
+              "dipole_strength_total_au": 6.7174,
+              "bright": true
+            },
+            {
+              "energy_eV": 7.2078,
+              "wavelength_nm": 172.01,
+              "states": [
+                5,
+                6
+              ],
+              "multiplicity": 2,
+              "f_each": [
+                0.0,
+                0.0
+              ],
+              "f_total": 0.0,
+              "dipole_strength_each_au": [
+                0.0,
+                0.0
+              ],
+              "dipole_strength_total_au": 0.0,
+              "bright": false
+            },
+            {
+              "energy_eV": 7.6942,
+              "wavelength_nm": 161.14,
+              "states": [
+                8,
+                9
+              ],
+              "multiplicity": 2,
+              "f_each": [
+                2e-05,
+                0.0
+              ],
+              "f_total": 2e-05,
+              "dipole_strength_each_au": [
+                0.0001,
+                0.0
+              ],
+              "dipole_strength_total_au": 0.0001,
+              "bright": false
+            }
+          ],
+          "dipole_strengths": {
+            "per_state": [
+              {
+                "state": 1,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 2,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 3,
+                "dipole_strength_au": 3.3585
+              },
+              {
+                "state": 4,
+                "dipole_strength_au": 3.3589
+              },
+              {
+                "state": 5,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 6,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 7,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 8,
+                "dipole_strength_au": 0.0001
+              },
+              {
+                "state": 9,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 10,
+                "dipole_strength_au": 0.0541
+              },
+              {
+                "state": 11,
+                "dipole_strength_au": 0.083
+              },
+              {
+                "state": 12,
+                "dipole_strength_au": 0.0
+              }
+            ],
+            "total_au": 6.8547,
+            "lowest_bright_state": 3,
+            "lowest_bright_dipole_strength_au": 3.3585,
+            "lowest_bright_share": 0.49
+          },
           "tdscf_effective": {
             "maxiter": 60,
             "r_convergence": 1e-05,
@@ -95,6 +252,20 @@
           "method": "full RPA",
           "n_basis_functions": 222,
           "manifold": {
+            "n_states": 12,
+            "n_bright": 4,
+            "f_total": 1.23267,
+            "energy_range_eV": [
+              5.4583,
+              8.6891
+            ],
+            "lowest_bright_nm": 174.22,
+            "lowest_bright_f": 0.60056,
+            "lowest_bright_type": "pi->pi*",
+            "f_fraction_in_lowest_bright": 0.4872,
+            "f_above_lowest_bright": 0.63211
+          },
+          "manifold_as_recorded": {
             "n_states": 12,
             "n_bright": 4,
             "f_total": 1.23267,
@@ -136,6 +307,124 @@
               0.60065
             ],
             "lowest_bright_f_share": 0.5
+          },
+          "degenerate_multiplets": [
+            {
+              "energy_eV": 7.1165,
+              "wavelength_nm": 174.22,
+              "states": [
+                3,
+                4
+              ],
+              "multiplicity": 2,
+              "f_each": [
+                0.60056,
+                0.60065
+              ],
+              "f_total": 1.20121,
+              "dipole_strength_each_au": [
+                3.4445,
+                3.4451
+              ],
+              "dipole_strength_total_au": 6.8896,
+              "bright": true
+            },
+            {
+              "energy_eV": 7.6967,
+              "wavelength_nm": 161.09,
+              "states": [
+                5,
+                6
+              ],
+              "multiplicity": 2,
+              "f_each": [
+                0.0,
+                0.0
+              ],
+              "f_total": 0.0,
+              "dipole_strength_each_au": [
+                0.0,
+                0.0
+              ],
+              "dipole_strength_total_au": 0.0,
+              "bright": false
+            },
+            {
+              "energy_eV": 7.9938,
+              "wavelength_nm": 155.1,
+              "states": [
+                9,
+                10
+              ],
+              "multiplicity": 2,
+              "f_each": [
+                0.0,
+                0.0
+              ],
+              "f_total": 0.0,
+              "dipole_strength_each_au": [
+                0.0,
+                0.0
+              ],
+              "dipole_strength_total_au": 0.0,
+              "bright": false
+            }
+          ],
+          "dipole_strengths": {
+            "per_state": [
+              {
+                "state": 1,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 2,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 3,
+                "dipole_strength_au": 3.4445
+              },
+              {
+                "state": 4,
+                "dipole_strength_au": 3.4451
+              },
+              {
+                "state": 5,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 6,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 7,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 8,
+                "dipole_strength_au": 0.0575
+              },
+              {
+                "state": 9,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 10,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 11,
+                "dipole_strength_au": 0.0977
+              },
+              {
+                "state": 12,
+                "dipole_strength_au": 0.0
+              }
+            ],
+            "total_au": 7.0448,
+            "lowest_bright_state": 3,
+            "lowest_bright_dipole_strength_au": 3.4445,
+            "lowest_bright_share": 0.4889
           },
           "tdscf_effective": {
             "maxiter": 60,
@@ -203,6 +492,20 @@
             "f_fraction_in_lowest_bright": 0.6783,
             "f_above_lowest_bright": 0.45194
           },
+          "manifold_as_recorded": {
+            "n_states": 12,
+            "n_bright": 8,
+            "f_total": 1.40504,
+            "energy_range_eV": [
+              3.0032,
+              5.5172
+            ],
+            "lowest_bright_nm": 412.85,
+            "lowest_bright_f": 0.9531,
+            "lowest_bright_type": "pi->pi*",
+            "f_fraction_in_lowest_bright": 0.6783,
+            "f_above_lowest_bright": 0.45194
+          },
           "band_occupancy": {
             "band_center_eV": 3.0032,
             "band_center_nm": 412.85,
@@ -231,6 +534,63 @@
             ],
             "lowest_bright_f_share": 0.9426
           },
+          "degenerate_multiplets": [],
+          "dipole_strengths": {
+            "per_state": [
+              {
+                "state": 1,
+                "dipole_strength_au": 12.9538
+              },
+              {
+                "state": 2,
+                "dipole_strength_au": 0.6739
+              },
+              {
+                "state": 3,
+                "dipole_strength_au": 0.044
+              },
+              {
+                "state": 4,
+                "dipole_strength_au": 0.3765
+              },
+              {
+                "state": 5,
+                "dipole_strength_au": 0.7961
+              },
+              {
+                "state": 6,
+                "dipole_strength_au": 0.255
+              },
+              {
+                "state": 7,
+                "dipole_strength_au": 0.0001
+              },
+              {
+                "state": 8,
+                "dipole_strength_au": 0.0002
+              },
+              {
+                "state": 9,
+                "dipole_strength_au": 0.0951
+              },
+              {
+                "state": 10,
+                "dipole_strength_au": 0.0001
+              },
+              {
+                "state": 11,
+                "dipole_strength_au": 1.4984
+              },
+              {
+                "state": 12,
+                "dipole_strength_au": 0.1079
+              }
+            ],
+            "total_au": 16.8011,
+            "lowest_bright_state": 1,
+            "lowest_bright_dipole_strength_au": 12.9538,
+            "lowest_bright_share": 0.771
+          },
           "tdscf_effective": {
             "maxiter": 60,
             "r_convergence": 1e-05,
@@ -245,6 +605,20 @@
           "method": "full RPA",
           "n_basis_functions": 809,
           "manifold": {
+            "n_states": 12,
+            "n_bright": 7,
+            "f_total": 1.51549,
+            "energy_range_eV": [
+              3.3178,
+              6.2039
+            ],
+            "lowest_bright_nm": 373.69,
+            "lowest_bright_f": 1.12392,
+            "lowest_bright_type": "pi->pi*",
+            "f_fraction_in_lowest_bright": 0.7416,
+            "f_above_lowest_bright": 0.39157
+          },
+          "manifold_as_recorded": {
             "n_states": 12,
             "n_bright": 7,
             "f_total": 1.51549,
@@ -285,6 +659,63 @@
               0.02418
             ],
             "lowest_bright_f_share": 0.9789
+          },
+          "degenerate_multiplets": [],
+          "dipole_strengths": {
+            "per_state": [
+              {
+                "state": 1,
+                "dipole_strength_au": 13.827
+              },
+              {
+                "state": 2,
+                "dipole_strength_au": 0.2343
+              },
+              {
+                "state": 3,
+                "dipole_strength_au": 0.056
+              },
+              {
+                "state": 4,
+                "dipole_strength_au": 0.6807
+              },
+              {
+                "state": 5,
+                "dipole_strength_au": 0.8785
+              },
+              {
+                "state": 6,
+                "dipole_strength_au": 0.0003
+              },
+              {
+                "state": 7,
+                "dipole_strength_au": 0.6039
+              },
+              {
+                "state": 8,
+                "dipole_strength_au": 0.0014
+              },
+              {
+                "state": 9,
+                "dipole_strength_au": 0.3583
+              },
+              {
+                "state": 10,
+                "dipole_strength_au": 0.029
+              },
+              {
+                "state": 11,
+                "dipole_strength_au": 0.1442
+              },
+              {
+                "state": 12,
+                "dipole_strength_au": 0.0151
+              }
+            ],
+            "total_au": 16.8287,
+            "lowest_bright_state": 1,
+            "lowest_bright_dipole_strength_au": 13.827,
+            "lowest_bright_share": 0.8216
           },
           "tdscf_effective": {
             "maxiter": 60,

@@ -46,11 +46,39 @@ for mol in $MOLECULES; do
   done
 done
 
-echo "== 3/3: postprocess (all molecules) =="
+echo "== 3/5: stationary-point check (DCDHF-Me2) =="
+# Part of the canonical run, not an optional extra: the post cites these
+# energies as evidence that the planar geometry is a minimum along the tested
+# coordinates, so a command that claims to reproduce the results has to
+# produce them too.
+if [ -f results/stationary_check.json ]; then
+  echo "   results/stationary_check.json exists; skipping (delete it to recompute)"
+else
+  "$PY" check_stationary.py --threads "$THREADS" --memory "$MEMORY"
+fi
+
+echo "== 4/5: postprocess (all molecules) =="
 "$PY" postprocess.py
+
+echo "== 5/5: publication metrics =="
+# Closes the chain: every number cited in the post resolves from metrics.json,
+# so regenerating it is part of reproducing the work rather than a separate
+# editorial step. --check then proves the committed projection matches.
+# The generator resolves the repository root from its own path, so it does not
+# care what the working directory is.
+if command -v node >/dev/null 2>&1; then
+  node ./generate-metrics.mjs
+  node ./generate-metrics.mjs --check
+else
+  echo "   node not found: metrics.json NOT regenerated." >&2
+  echo "   The committed projection may be stale relative to results/." >&2
+  exit 1
+fi
 
 echo
 echo "Done. Canonical artifacts:"
+echo "  results/stationary_check.json  planar-minimum evidence + symmetry self-test"
+echo "  metrics.json            the projection every cited number resolves from"
 echo "  results/states_<molecule>_<functional>_<basis>.json  per-state data"
 echo "  results/summary.json    manifold + band occupancy + geometry comparison"
 echo "  results/tables.md       rendered per-molecule, per-functional tables"
