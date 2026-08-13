@@ -177,28 +177,38 @@ degenerate — dark, but degenerate — because degeneracy here is not numerical
 coincidence; it is what a two-dimensional irreducible representation of a
 sixfold-symmetric ring enforces.
 
+Figure 1 shows the two manifolds in two measures, because a transition's
+oscillator strength prices its dipole strength in units of its energy,
+
+$$f = \tfrac{2}{3}\,\Delta E\,|\boldsymbol{\mu}|^{2},$$
+
+with $\Delta E$ in hartree and $|\boldsymbol{\mu}|^{2}$ in atomic units — so
+the two panels rank the same sticks differently, and the difference is
+itself the physics.
+
 ```tikzpicture
 \begin{axis}[
-    width=14cm, height=9cm,
-    xlabel={excitation energy (eV)},
+    name=fpanel,
+    width=14cm, height=6.4cm,
     ylabel={oscillator strength $f$},
-    title={One apparent band, one transition or two},
     xmin=2.5, xmax=9.2, ymin=0, ymax=1.502,
     grid=major,
     grid style={line width=.2pt, draw=gray!40},
     axis lines=left,
-    legend pos=north east,
-    legend style={draw=none, fill=white, fill opacity=0.85},
     every axis label/.style={font=\large},
     every tick label/.style={font=\large},
-    title style={font=\large\bfseries}
+    title={One apparent band, one transition or two},
+    title style={font=\large\bfseries},
+    xticklabels={},
+    legend pos=north west,
+    legend style={draw=none, fill=white, fill opacity=0.85},
 ]
 \addlegendimage{ycomb, very thick, color=blue!65!black, mark=*, mark size=1.4pt}
 \addlegendentry{benzene}
 \addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.458,0.0000)};
 \addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.148,0.0000)};
 \draw[very thick, color=blue!65!black] (axis cs:7.117,0.0000) -- (axis cs:7.117,0.6006);
-\draw[very thick, color=blue!30!white] (axis cs:7.117,0.6006) -- (axis cs:7.117,1.2012);
+\draw[very thick, color=blue!50!white] (axis cs:7.117,0.6006) -- (axis cs:7.117,1.2012);
 \addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.117,1.2012)};
 \draw[black, thick] (axis cs:7.057,0.6006) -- (axis cs:7.176,0.6006);
 \node[font=\small\bfseries, anchor=west] at (axis cs:7.216,0.6006) {A};
@@ -237,21 +247,78 @@ sixfold-symmetric ring enforces.
 \draw[very thick, color=red!70!black] (axis cs:6.204,0.0000) -- (axis cs:6.204,0.0023);
 \addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.204,0.0023)};
 \end{axis}
+\begin{axis}[
+    name=mupanel,
+    at={(fpanel.below south west)}, anchor=north west,
+    width=14cm, height=6.4cm,
+    ylabel={dipole strength $|\mu|^2$ (a.u.)},
+    xmin=2.5, xmax=9.2, ymin=0, ymax=17.284,
+    grid=major,
+    grid style={line width=.2pt, draw=gray!40},
+    axis lines=left,
+    every axis label/.style={font=\large},
+    every tick label/.style={font=\large},
+    xlabel={excitation energy (eV)},
+]
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.458,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.148,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.117,0.0000) -- (axis cs:7.117,3.4445);
+\draw[very thick, color=blue!50!white] (axis cs:7.117,3.4445) -- (axis cs:7.117,6.8896);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.117,6.8896)};
+\draw[black, thick] (axis cs:7.057,3.4445) -- (axis cs:7.176,3.4445);
+\node[font=\small\bfseries, anchor=west] at (axis cs:7.216,3.4445) {B};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.697,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.891,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.973,0.0000) -- (axis cs:7.973,0.0575);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.973,0.0575)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.994,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:8.447,0.0000) -- (axis cs:8.447,0.0977);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.447,0.0977)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.689,0.0000)};
+\draw[very thick, color=red!70!black] (axis cs:3.318,0.0000) -- (axis cs:3.318,13.8270);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(3.318,13.8270)};
+\draw[very thick, color=red!70!black] (axis cs:4.212,0.0000) -- (axis cs:4.212,0.2343);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.212,0.2343)};
+\draw[very thick, color=red!70!black] (axis cs:4.508,0.0000) -- (axis cs:4.508,0.0560);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.508,0.0560)};
+\draw[very thick, color=red!70!black] (axis cs:5.112,0.0000) -- (axis cs:5.112,0.6807);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.112,0.6807)};
+\draw[very thick, color=red!70!black] (axis cs:5.286,0.0000) -- (axis cs:5.286,0.8785);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.286,0.8785)};
+\draw[very thick, color=red!70!black] (axis cs:5.465,0.0000) -- (axis cs:5.465,0.0003);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.465,0.0003)};
+\draw[very thick, color=red!70!black] (axis cs:5.473,0.0000) -- (axis cs:5.473,0.6039);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.473,0.6039)};
+\draw[very thick, color=red!70!black] (axis cs:5.618,0.0000) -- (axis cs:5.618,0.0014);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.618,0.0014)};
+\draw[very thick, color=red!70!black] (axis cs:5.984,0.0000) -- (axis cs:5.984,0.3583);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.984,0.3583)};
+\draw[very thick, color=red!70!black] (axis cs:6.113,0.0000) -- (axis cs:6.113,0.0290);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.113,0.0290)};
+\draw[very thick, color=red!70!black] (axis cs:6.170,0.0000) -- (axis cs:6.170,0.1442);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.170,0.1442)};
+\draw[very thick, color=red!70!black] (axis cs:6.204,0.0000) -- (axis cs:6.204,0.0151);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.204,0.0151)};
+\end{axis}
 ```
 
-**Figure 1.** Computed stick spectra of both molecules on one energy axis at
-CAM-B3LYP/def2-TZVP, deliberately un-normalized: oscillator strengths are
-directly comparable as computed, and normalizing each molecule to its own
-maximum would erase the comparison the figure exists to make. All twelve
-computed states of each molecule are drawn; dark states appear as markers on
-the axis. DCDHF-Me2 (red) concentrates its strength in one state at 3.32 eV.
-Benzene's exactly degenerate bright pair shares one energy, so its two
-members are drawn stacked at 7.12 eV: **A** marks the division between them,
-the lighter segment is the second member, and the stack's total height —
-[benzene_bright_pair_f_total]{.metric}, slightly more than the dye's entire
-single transition at [lowest_bright_f]{.metric} — is the strength the band
-carries. No envelope is drawn: line widths are not computed in this
-experiment.
+**Figure 1.** Both molecules' computed states in two currencies on one
+energy axis at CAM-B3LYP/def2-TZVP, deliberately un-normalized in each
+panel. Top: oscillator strength — in dimensionless form, the integrated
+molar absorptivity. Bottom: dipole strength $|\boldsymbol{\mu}|^{2}$. All
+twelve computed states of each molecule appear in both panels; dark states
+are markers on the axis, and no envelope is drawn because line widths are
+not computed in this experiment. Benzene's exactly degenerate bright pair
+is drawn stacked at 7.12 eV, the lighter segment being the second member;
+**A** (top) and **B** (bottom) mark the same physical division seen in the
+two measures. The ranking inverts between panels: in oscillator strength
+benzene's band total, [benzene_bright_pair_f_total]{.metric}, edges past
+the dye's single transition at [lowest_bright_f]{.metric}, while in dipole
+strength the dye's [s1_dipole_strength_au]{.metric} a.u. stands at twice
+benzene's whole band
+([benzene_pair_total_dipole_strength_au]{.metric} a.u.) — because
+oscillator strength prices dipole strength in units of transition energy,
+and benzene's band sits at twice the energy.
 
 The mechanism of the contrast fits in one sentence: benzene's symmetry
 forces its bright transitions into a degenerate pair, and substituting a
@@ -294,6 +361,22 @@ title question in opposite ways. Of the strength shared by its two lowest
 bright states, benzene's lower partner carries
 [benzene_lowest_bright_f_share]{.metric}; DCDHF-Me2's carries
 [lowest_bright_f_share]{.metric}. That number is the post in one line.
+
+The two currencies of Figure 1 sharpen it further. In oscillator strength
+the dye's S₁ carries [f_fraction_in_lowest_bright]{.metric} of its
+molecule's computed total; in dipole strength it carries
+[s1_dipole_strength_share]{.metric} — sharper, because dividing out the
+energy weighting removes the head start that benzene's high-energy photons
+give its f. The same factor explains the top panel's near-tie: benzene's
+band edges past the dye in oscillator strength while carrying half the
+dipole strength, paying for smaller dipoles with a photon twice as
+energetic. And since oscillator strength is the integrated molar
+absorptivity in dimensionless form, the top panel is the same quantity the
+[molar absorptivity
+note](/posts/2026-07-03-molar-absorptivity-is-a-rate-constant.html) read as
+a rate constant; what this experiment cannot supply is the band width that
+would turn that integral into a peak height — the same gap already covered
+by the caveat that no line widths are computed here.
 
 It is also not luck. Oscillator strength is a budgeted quantity, and an f of
 [lowest_bright_f]{.metric} in a single transition is a large fraction of
