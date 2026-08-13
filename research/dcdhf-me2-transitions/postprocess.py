@@ -186,6 +186,48 @@ def state_gaps(states):
     return gaps
 
 
+HA2EV = 27.211386245988
+
+
+def dipole_strength_au(state):
+    """|mu|^2 in atomic units from the oscillator strength and energy.
+
+    f = (2/3) dE |mu|^2  =>  |mu|^2 = 3f / (2 dE), with dE in hartree.
+
+    Why this belongs beside f rather than instead of it: f carries an energy
+    factor, so a high-energy transition can post a larger f on a smaller
+    transition dipole. Benzene's band edges out the dye's in f while the dye's
+    single transition has roughly twice the dipole strength of benzene's whole
+    band -- reading only f inverts which molecule is the stronger absorber per
+    photon it can absorb.
+    """
+    de_ha = state["energy_eV"] / HA2EV
+    if de_ha <= 0:
+        return 0.0
+    return 3.0 * state["f"] / (2.0 * de_ha)
+
+
+def dipole_summary(states):
+    """Per-molecule dipole strengths, and how concentrated they are.
+
+    The share of total |mu|^2 in the lowest bright state is the sharper
+    statement of this experiment's finding than the oscillator-strength share,
+    precisely because it removes the energy weighting.
+    """
+    per = [{"state": s["state"], "dipole_strength_au": round(dipole_strength_au(s), 4)}
+           for s in states]
+    total = sum(dipole_strength_au(s) for s in states)
+    bright = [s for s in states if s["bright"]]
+    out = {"per_state": per, "total_au": round(total, 4)}
+    if bright and total > 0:
+        low = min(bright, key=lambda s: (s["energy_eV"], s["state"]))
+        d_low = dipole_strength_au(low)
+        out["lowest_bright_state"] = low["state"]
+        out["lowest_bright_dipole_strength_au"] = round(d_low, 4)
+        out["lowest_bright_share"] = round(d_low / total, 4)
+    return out
+
+
 def multiplet_summary(states, tol_ev=1e-3):
     """Degenerate groups of two or more states, and what they carry together.
 
@@ -204,6 +246,12 @@ def multiplet_summary(states, tol_ev=1e-3):
             "multiplicity": len(g),
             "f_each": [s["f"] for s in g],
             "f_total": round(sum(s["f"] for s in g), 5),
+            # Band intensity goes as the SUM over the multiplet in either
+            # measure: the members are separate transitions that happen to
+            # coincide in energy, not one transition counted twice.
+            "dipole_strength_each_au": [round(dipole_strength_au(s), 4) for s in g],
+            "dipole_strength_total_au": round(
+                sum(dipole_strength_au(s) for s in g), 4),
             "bright": any(s["bright"] for s in g),
         })
     return out
@@ -375,95 +423,141 @@ def post_table(run):
 
 
 def tikz_comparison(by_mol, fwhm_ev):
-    """Both molecules on one ENERGY axis: the contrast in a single picture.
+    """Two panels on one shared ENERGY axis: f on top, |mu|^2 below.
 
-    Energy rather than wavelength because the two bands are far apart (the dye
-    near 3.3 eV, benzene near 7 eV) and a shared eV axis holds both without
-    either being squeezed into the margin.
+    The second panel exists because the first one, alone, misleads. Oscillator
+    strength carries a factor of the transition energy, so benzene's band --
+    at more than twice the dye's excitation energy -- edges the dye out in f
+    while having roughly HALF its transition dipole strength. A reader taking
+    the f panel as "which molecule absorbs more strongly" gets the ranking
+    backwards, and that is a misreading the picture invited rather than the
+    reader's error.
 
-    Deliberately NOT normalized. The oscillator strengths are directly
-    comparable as computed -- the dye's single transition really is about as
-    strong as benzene's two combined -- and normalizing each molecule to its
-    own maximum would erase exactly the comparison the figure exists to make.
+    Plotting both makes the inversion the teaching point: the ranking flips
+    between panels, and the reason is the energy factor in f = (2/3)dE|mu|^2.
+
+    Energy rather than wavelength on x because the bands are far apart (the dye
+    near 3.3 eV, benzene near 7.1 eV) and a shared eV axis holds both without
+    squeezing either into the margin.
+
+    Deliberately NOT normalized, in either panel. The quantities are directly
+    comparable as computed, and normalizing each molecule to its own maximum
+    would erase exactly the comparison the figure exists to make.
+
+    Molar absorptivity was considered as a third panel and rejected: a peak
+    epsilon needs a band width, this experiment computes none, and deriving one
+    from the cosmetic FWHM would manufacture experiment-comparable numbers out
+    of an arbitrary display parameter.
     """
-    colors = {PRIMARY_MOLECULE: ("red!70!black", "red!35!white"),
-              "benzene": ("blue!65!black", "blue!30!white")}
-    series, emax, fmax = [], 0.0, 0.0
+    # Upper stack segments need enough contrast against white to read as part
+    # of the stick rather than as background -- the whole point of the stack is
+    # that the reader sees two states, so a segment that fades out defeats it.
+    colors = {PRIMARY_MOLECULE: ("red!70!black", "red!55!white"),
+              "benzene": ("blue!65!black", "blue!50!white")}
+    series, emax = [], 0.0
     for slug in sorted(by_mol):
         run = next((r for r in by_mol[slug] if r["functional"] == PRIMARY_FUNCTIONAL),
                    by_mol[slug][0])
-        # No filter on f. A dark state draws as a dot on the axis, which is
+        # No filter. A dark state draws as a marker on the axis, which is
         # honest; the previous f > 1e-4 cut silently removed 8 of benzene's 12
         # states from a figure whose legend says "computed transitions".
         groups = degenerate_groups(run["states"])
         if not groups:
             continue
         emax = max(emax, max(g[0]["energy_eV"] for g in groups))
-        # Height is the GROUP total, because a degenerate multiplet is drawn
-        # stacked: the band carries the sum, not the largest member.
-        fmax = max(fmax, max(sum(s["f"] for s in g) for g in groups))
         series.append((slug, run["molecule"], groups))
     if len(series) < 2:
         return "% fewer than two molecules with bright states; no comparison figure\n"
 
-    ymax = fmax * 1.25
-    lines = [
-        "```tikzpicture",
-        "\\begin{axis}[",
-        "    width=14cm, height=9cm,",
-        "    xlabel={excitation energy (eV)},",
-        "    ylabel={oscillator strength $f$},",
-        "    title={One apparent band, one transition or two},",
+    panels = [
+        {"key": lambda s: s["f"],
+         "ylabel": "oscillator strength $f$",
+         "name": "fpanel", "letter": "A", "fmt": "{:.4f}"},
+        {"key": dipole_strength_au,
+         "ylabel": r"dipole strength $|\mu|^2$ (a.u.)",
+         "name": "mupanel", "letter": "B", "fmt": "{:.4f}"},
+    ]
+    lines = ["```tikzpicture"]
+    callouts = []
+    for pi, panel in enumerate(panels):
+        # Each panel is scaled to its OWN tallest stack. Sharing a y scale
+        # across two different physical quantities would be meaningless.
+        ymax = max(sum(panel["key"](s) for s in g)
+                   for _, _, groups in series for g in groups) * 1.25
+        lines += _panel_axis(pi, panel, emax, ymax, series, colors, callouts)
+    lines.append("```")
+    for name, n, e, tot, letter, label in callouts:
+        lines.append(f"% callout {letter}: {name}, {n} degenerate states at "
+                     f"{e:.3f} eV, stacked to a band total of {label} = {tot:.4f}")
+    return "\n".join(lines) + "\n"
+
+
+def _panel_axis(pi, panel, emax, ymax, series, colors, callouts):
+    """One axis environment of the two-panel comparison figure.
+
+    The panels are separate axis environments positioned relative to each
+    other rather than a groupplot: the site's TikZ preamble loads pgfplots but
+    not the groupplots library, so relative anchoring is what will actually
+    compile here.
+    """
+    top = pi == 0
+    lines = ["\\begin{axis}[", f"    name={panel['name']},"]
+    if not top:
+        lines.append("    at={(fpanel.below south west)}, anchor=north west,")
+    lines += [
+        "    width=14cm, height=6.4cm,",
+        f"    ylabel={{{panel['ylabel']}}},",
         f"    xmin=2.5, xmax={emax + 0.5:.1f}, ymin=0, ymax={ymax:.3f},",
         "    grid=major,",
         "    grid style={line width=.2pt, draw=gray!40},",
         "    axis lines=left,",
-        "    legend pos=north east,",
-        "    legend style={draw=none, fill=white, fill opacity=0.85},",
         "    every axis label/.style={font=\\large},",
         "    every tick label/.style={font=\\large},",
-        "    title style={font=\\large\\bfseries}",
-        "]",
     ]
-    # Sticks are drawn explicitly rather than with ycomb so that a degenerate
-    # multiplet can be STACKED at its true energy. Jittering the members apart
-    # on x would fabricate a splitting that the physics says is exactly zero,
-    # in a figure whose whole claim is that it is zero.
-    callouts = []
+    if top:
+        lines += [
+            "    title={One apparent band, one transition or two},",
+            "    title style={font=\\large\\bfseries},",
+            "    xticklabels={},",
+            "    legend pos=north west,",
+            "    legend style={draw=none, fill=white, fill opacity=0.85},",
+        ]
+    else:
+        lines.append("    xlabel={excitation energy (eV)},")
+    lines.append("]")
+
     for slug, name, groups in series:
         dark, light = colors.get(slug, ("black", "gray"))
-        lines.append(f"\\addlegendimage{{ycomb, very thick, color={dark}, "
-                     f"mark=*, mark size=1.4pt}}")
-        lines.append(f"\\addlegendentry{{{name}}}")
+        if top:
+            lines.append(f"\\addlegendimage{{ycomb, very thick, color={dark}, "
+                         f"mark=*, mark size=1.4pt}}")
+            lines.append(f"\\addlegendentry{{{name}}}")
         for g in groups:
             e = g[0]["energy_eV"]
             cum = 0.0
             for i, s in enumerate(g):
-                if s["f"] <= 0.0:
+                v = panel["key"](s)
+                if v <= 0.0:
                     continue
                 col = dark if i == 0 else light
                 lines.append(f"\\draw[very thick, color={col}] "
                              f"(axis cs:{e:.3f},{cum:.4f}) -- "
-                             f"(axis cs:{e:.3f},{cum + s['f']:.4f});")
-                cum += s["f"]
+                             f"(axis cs:{e:.3f},{cum + v:.4f});")
+                cum += v
             lines.append(f"\\addplot[only marks, color={dark}, mark=*, "
                          f"mark size=1.4pt, forget plot] coordinates "
                          f"{{({e:.3f},{cum:.4f})}};")
-            if len([s for s in g if s["f"] > 0.0]) > 1:
-                # Mark the division so the reader can see the stick is two
-                # states, and letter it for the caption to define.
-                div = g[0]["f"]
+            if len([s for s in g if panel["key"](s) > 0.0]) > 1:
+                div = panel["key"](g[0])
                 lines.append(f"\\draw[black, thick] (axis cs:{e - 0.06:.3f},{div:.4f}) -- "
                              f"(axis cs:{e + 0.06:.3f},{div:.4f});")
                 lines.append(f"\\node[font=\\small\\bfseries, anchor=west] at "
-                             f"(axis cs:{e + 0.10:.3f},{div:.4f}) {{A}};")
-                callouts.append((name, len(g), e, cum))
+                             f"(axis cs:{e + 0.10:.3f},{div:.4f}) "
+                             f"{{{panel['letter']}}};")
+                callouts.append((name, len(g), e, cum, panel["letter"],
+                                 "f" if top else "|mu|^2"))
     lines.append("\\end{axis}")
-    lines.append("```")
-    for name, n, e, tot in callouts:
-        lines.append(f"% callout A: {name}, {n} degenerate states at {e:.3f} eV, "
-                     f"stacked to a band total of f = {tot:.4f}")
-    return "\n".join(lines) + "\n"
+    return lines
 
 
 def degenerate_groups(states, tol_ev=1e-3):
@@ -521,6 +615,7 @@ def main():
                 "band_occupancy": occ,
                 "state_gaps": state_gaps(run["states"]),
                 "degenerate_multiplets": multiplet_summary(run["states"]),
+                "dipole_strengths": dipole_summary(run["states"]),
                 "tdscf_effective": run.get("tdscf_effective"),
                 "sticks_csv": os.path.relpath(sticks, HERE),
                 "curve_csv": os.path.relpath(curve, HERE),

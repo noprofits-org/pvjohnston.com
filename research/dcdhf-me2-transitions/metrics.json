@@ -2,12 +2,12 @@
   "schema_version": 1,
   "experiment": "dcdhf-me2-transitions",
   "provenance": {
-    "generated_at": "2026-08-13T15:34:22Z",
+    "generated_at": "2026-08-13T15:53:12Z",
     "generator": "research/dcdhf-me2-transitions/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/dcdhf-me2-transitions/results/summary.json",
-        "sha256": "b2798a8af86b397ea703db8ad36d3351f4c140ba6a74de889aa3b0b775fb4c7a"
+        "sha256": "bed5d05e5360baa41907bde2523dcfa9d0dc7fb807c09dfb042217812cc79cb6"
       },
       {
         "path": "research/dcdhf-me2-transitions/results/stationary_check.json",
@@ -285,6 +285,45 @@
         "digits": 0
       },
       "description": "Share of the two lowest bright states' combined oscillator strength carried by the lower one (DCDHF-Me2, CAM-B3LYP)"
+    },
+    "s1_dipole_strength_au": {
+      "type": "number",
+      "value": 13.827,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Transition dipole strength |mu|^2 of DCDHF-Me2 S1 (CAM-B3LYP/def2-TZVP)",
+      "unit": "a.u."
+    },
+    "s1_dipole_strength_share": {
+      "type": "number",
+      "value": 0.8216,
+      "format": {
+        "style": "percent",
+        "digits": 0
+      },
+      "description": "Share of DCDHF-Me2's total computed dipole strength carried by S1 alone"
+    },
+    "benzene_pair_member_dipole_strength_au": {
+      "type": "number",
+      "value": 3.4445,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Transition dipole strength |mu|^2 of one member of benzene's degenerate E1u pair",
+      "unit": "a.u."
+    },
+    "benzene_pair_total_dipole_strength_au": {
+      "type": "number",
+      "value": 6.8896,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Combined transition dipole strength |mu|^2 of benzene's degenerate E1u pair",
+      "unit": "a.u."
     },
     "broadening_fwhm_ev_cosmetic": {
       "type": "number",

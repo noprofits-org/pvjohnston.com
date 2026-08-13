@@ -273,6 +273,26 @@ function build(generatedAt) {
         primary.state_gaps.lowest_bright_f_share, 0,
         "Share of the two lowest bright states' combined oscillator strength carried by the lower one (DCDHF-Me2, CAM-B3LYP)"),
 
+      // --- dipole strengths, which invert the ranking that f alone suggests.
+      // f carries a factor of the transition energy, so benzene's band at more
+      // than twice the dye's excitation energy edges it out in f while having
+      // roughly half its transition dipole strength.
+      s1_dipole_strength_au: num(
+        primary.dipole_strengths.lowest_bright_dipole_strength_au, 2,
+        'Transition dipole strength |mu|^2 of DCDHF-Me2 S1 (CAM-B3LYP/def2-TZVP)',
+        'a.u.'),
+      s1_dipole_strength_share: pct(
+        primary.dipole_strengths.lowest_bright_share, 0,
+        "Share of DCDHF-Me2's total computed dipole strength carried by S1 alone"),
+      benzene_pair_member_dipole_strength_au: num(
+        brightPair.dipole_strength_each_au[0], 2,
+        "Transition dipole strength |mu|^2 of one member of benzene's degenerate E1u pair",
+        'a.u.'),
+      benzene_pair_total_dipole_strength_au: num(
+        brightPair.dipole_strength_total_au, 2,
+        "Combined transition dipole strength |mu|^2 of benzene's degenerate E1u pair",
+        'a.u.'),
+
       // --- honesty about the figure
       broadening_fwhm_ev_cosmetic: num(
         summary.broadening_fwhm_eV_cosmetic, 2,

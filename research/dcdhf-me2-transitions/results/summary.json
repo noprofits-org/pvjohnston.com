@@ -2,7 +2,7 @@
   "provenance": {
     "generator": "research/dcdhf-me2-transitions/postprocess.py",
     "command": "python postprocess.py ",
-    "generated_utc": "2026-08-13T15:25:41+00:00",
+    "generated_utc": "2026-08-13T15:52:40+00:00",
     "python": "3.10.17",
     "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
     "inputs": [
@@ -134,6 +134,11 @@
                 0.57825
               ],
               "f_total": 1.15642,
+              "dipole_strength_each_au": [
+                3.3585,
+                3.3589
+              ],
+              "dipole_strength_total_au": 6.7174,
               "bright": true
             },
             {
@@ -149,6 +154,11 @@
                 0.0
               ],
               "f_total": 0.0,
+              "dipole_strength_each_au": [
+                0.0,
+                0.0
+              ],
+              "dipole_strength_total_au": 0.0,
               "bright": false
             },
             {
@@ -164,9 +174,70 @@
                 0.0
               ],
               "f_total": 2e-05,
+              "dipole_strength_each_au": [
+                0.0001,
+                0.0
+              ],
+              "dipole_strength_total_au": 0.0001,
               "bright": false
             }
           ],
+          "dipole_strengths": {
+            "per_state": [
+              {
+                "state": 1,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 2,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 3,
+                "dipole_strength_au": 3.3585
+              },
+              {
+                "state": 4,
+                "dipole_strength_au": 3.3589
+              },
+              {
+                "state": 5,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 6,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 7,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 8,
+                "dipole_strength_au": 0.0001
+              },
+              {
+                "state": 9,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 10,
+                "dipole_strength_au": 0.0541
+              },
+              {
+                "state": 11,
+                "dipole_strength_au": 0.083
+              },
+              {
+                "state": 12,
+                "dipole_strength_au": 0.0
+              }
+            ],
+            "total_au": 6.8547,
+            "lowest_bright_state": 3,
+            "lowest_bright_dipole_strength_au": 3.3585,
+            "lowest_bright_share": 0.49
+          },
           "tdscf_effective": {
             "maxiter": 60,
             "r_convergence": 1e-05,
@@ -251,6 +322,11 @@
                 0.60065
               ],
               "f_total": 1.20121,
+              "dipole_strength_each_au": [
+                3.4445,
+                3.4451
+              ],
+              "dipole_strength_total_au": 6.8896,
               "bright": true
             },
             {
@@ -266,6 +342,11 @@
                 0.0
               ],
               "f_total": 0.0,
+              "dipole_strength_each_au": [
+                0.0,
+                0.0
+              ],
+              "dipole_strength_total_au": 0.0,
               "bright": false
             },
             {
@@ -281,9 +362,70 @@
                 0.0
               ],
               "f_total": 0.0,
+              "dipole_strength_each_au": [
+                0.0,
+                0.0
+              ],
+              "dipole_strength_total_au": 0.0,
               "bright": false
             }
           ],
+          "dipole_strengths": {
+            "per_state": [
+              {
+                "state": 1,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 2,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 3,
+                "dipole_strength_au": 3.4445
+              },
+              {
+                "state": 4,
+                "dipole_strength_au": 3.4451
+              },
+              {
+                "state": 5,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 6,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 7,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 8,
+                "dipole_strength_au": 0.0575
+              },
+              {
+                "state": 9,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 10,
+                "dipole_strength_au": 0.0
+              },
+              {
+                "state": 11,
+                "dipole_strength_au": 0.0977
+              },
+              {
+                "state": 12,
+                "dipole_strength_au": 0.0
+              }
+            ],
+            "total_au": 7.0448,
+            "lowest_bright_state": 3,
+            "lowest_bright_dipole_strength_au": 3.4445,
+            "lowest_bright_share": 0.4889
+          },
           "tdscf_effective": {
             "maxiter": 60,
             "r_convergence": 1e-05,
@@ -393,6 +535,62 @@
             "lowest_bright_f_share": 0.9426
           },
           "degenerate_multiplets": [],
+          "dipole_strengths": {
+            "per_state": [
+              {
+                "state": 1,
+                "dipole_strength_au": 12.9538
+              },
+              {
+                "state": 2,
+                "dipole_strength_au": 0.6739
+              },
+              {
+                "state": 3,
+                "dipole_strength_au": 0.044
+              },
+              {
+                "state": 4,
+                "dipole_strength_au": 0.3765
+              },
+              {
+                "state": 5,
+                "dipole_strength_au": 0.7961
+              },
+              {
+                "state": 6,
+                "dipole_strength_au": 0.255
+              },
+              {
+                "state": 7,
+                "dipole_strength_au": 0.0001
+              },
+              {
+                "state": 8,
+                "dipole_strength_au": 0.0002
+              },
+              {
+                "state": 9,
+                "dipole_strength_au": 0.0951
+              },
+              {
+                "state": 10,
+                "dipole_strength_au": 0.0001
+              },
+              {
+                "state": 11,
+                "dipole_strength_au": 1.4984
+              },
+              {
+                "state": 12,
+                "dipole_strength_au": 0.1079
+              }
+            ],
+            "total_au": 16.8011,
+            "lowest_bright_state": 1,
+            "lowest_bright_dipole_strength_au": 12.9538,
+            "lowest_bright_share": 0.771
+          },
           "tdscf_effective": {
             "maxiter": 60,
             "r_convergence": 1e-05,
@@ -463,6 +661,62 @@
             "lowest_bright_f_share": 0.9789
           },
           "degenerate_multiplets": [],
+          "dipole_strengths": {
+            "per_state": [
+              {
+                "state": 1,
+                "dipole_strength_au": 13.827
+              },
+              {
+                "state": 2,
+                "dipole_strength_au": 0.2343
+              },
+              {
+                "state": 3,
+                "dipole_strength_au": 0.056
+              },
+              {
+                "state": 4,
+                "dipole_strength_au": 0.6807
+              },
+              {
+                "state": 5,
+                "dipole_strength_au": 0.8785
+              },
+              {
+                "state": 6,
+                "dipole_strength_au": 0.0003
+              },
+              {
+                "state": 7,
+                "dipole_strength_au": 0.6039
+              },
+              {
+                "state": 8,
+                "dipole_strength_au": 0.0014
+              },
+              {
+                "state": 9,
+                "dipole_strength_au": 0.3583
+              },
+              {
+                "state": 10,
+                "dipole_strength_au": 0.029
+              },
+              {
+                "state": 11,
+                "dipole_strength_au": 0.1442
+              },
+              {
+                "state": 12,
+                "dipole_strength_au": 0.0151
+              }
+            ],
+            "total_au": 16.8287,
+            "lowest_bright_state": 1,
+            "lowest_bright_dipole_strength_au": 13.827,
+            "lowest_bright_share": 0.8216
+          },
           "tdscf_effective": {
             "maxiter": 60,
             "r_convergence": 1e-05,
