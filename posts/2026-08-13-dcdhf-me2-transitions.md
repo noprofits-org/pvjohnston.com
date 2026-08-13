@@ -111,10 +111,11 @@ clear the f ≥ 0.01 brightness convention, but within ±0.35 eV of the lowest
 bright transition — the empirical band width this site's earlier TD-DFT
 notes applied to their stick spectra — sits exactly
 [n_states_under_band]{.metric} state: S₁ itself. The next state of any kind
-is [s1_s2_gap_ev]{.metric} eV away, and the rest of the manifold begins
-another electron-volt above that: real, several of its states genuinely
-bright, and all of it in the deep UV between 4.5 and 6.2 eV, where no
-visible-band measurement will conflate it with S₁ (Figure 1).
+is [s1_s2_gap_ev]{.metric} eV away and far weaker, and the manifold's
+remaining bright states begin nearly another electron-volt beyond it: real,
+several of them genuinely bright, and all of them in the deep UV between 5.1
+and 6.2 eV, where no visible-band measurement will conflate them with S₁
+(Figure 1).
 
 B3LYP tells the same story shifted red: lowest bright state at
 [band_center_nm_b3lyp]{.metric} nm, an S₁–S₂ gap of
@@ -182,7 +183,7 @@ sixfold-symmetric ring enforces.
     xlabel={excitation energy (eV)},
     ylabel={oscillator strength $f$},
     title={One apparent band, one transition or two},
-    xmin=2.5, xmax=8.9, ymin=0, ymax=1.405,
+    xmin=2.5, xmax=9.2, ymin=0, ymax=1.502,
     grid=major,
     grid style={line width=.2pt, draw=gray!40},
     axis lines=left,
@@ -192,29 +193,72 @@ sixfold-symmetric ring enforces.
     every tick label/.style={font=\large},
     title style={font=\large\bfseries}
 ]
-\addplot[ycomb, very thick, color=blue!65!black, mark=*, mark size=1.4pt] coordinates {
-  (7.117,0.6006) (7.117,0.6007) (7.973,0.0112) (8.447,0.0202)
-};
-\addplot[ycomb, very thick, color=red!70!black, mark=*, mark size=1.4pt] coordinates {
-  (3.318,1.1239) (4.212,0.0242) (4.508,0.0062) (5.112,0.0853) (5.286,0.1138) (5.473,0.0810) (5.618,0.0002) (5.984,0.0525) (6.113,0.0043) (6.170,0.0218) (6.204,0.0023)
-};
-\legend{benzene, DCDHF-Me2}
+\addlegendimage{ycomb, very thick, color=blue!65!black, mark=*, mark size=1.4pt}
+\addlegendentry{benzene}
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.458,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.148,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.117,0.0000) -- (axis cs:7.117,0.6006);
+\draw[very thick, color=blue!30!white] (axis cs:7.117,0.6006) -- (axis cs:7.117,1.2012);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.117,1.2012)};
+\draw[black, thick] (axis cs:7.057,0.6006) -- (axis cs:7.176,0.6006);
+\node[font=\small\bfseries, anchor=west] at (axis cs:7.216,0.6006) {A};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.697,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.891,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.973,0.0000) -- (axis cs:7.973,0.0112);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.973,0.0112)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.994,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:8.447,0.0000) -- (axis cs:8.447,0.0202);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.447,0.0202)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.689,0.0000)};
+\addlegendimage{ycomb, very thick, color=red!70!black, mark=*, mark size=1.4pt}
+\addlegendentry{DCDHF-Me2}
+\draw[very thick, color=red!70!black] (axis cs:3.318,0.0000) -- (axis cs:3.318,1.1239);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(3.318,1.1239)};
+\draw[very thick, color=red!70!black] (axis cs:4.212,0.0000) -- (axis cs:4.212,0.0242);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.212,0.0242)};
+\draw[very thick, color=red!70!black] (axis cs:4.508,0.0000) -- (axis cs:4.508,0.0062);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.508,0.0062)};
+\draw[very thick, color=red!70!black] (axis cs:5.112,0.0000) -- (axis cs:5.112,0.0853);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.112,0.0853)};
+\draw[very thick, color=red!70!black] (axis cs:5.286,0.0000) -- (axis cs:5.286,0.1138);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.286,0.1138)};
+\draw[very thick, color=red!70!black] (axis cs:5.465,0.0000) -- (axis cs:5.465,0.0000);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.465,0.0000)};
+\draw[very thick, color=red!70!black] (axis cs:5.473,0.0000) -- (axis cs:5.473,0.0810);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.473,0.0810)};
+\draw[very thick, color=red!70!black] (axis cs:5.618,0.0000) -- (axis cs:5.618,0.0002);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.618,0.0002)};
+\draw[very thick, color=red!70!black] (axis cs:5.984,0.0000) -- (axis cs:5.984,0.0525);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.984,0.0525)};
+\draw[very thick, color=red!70!black] (axis cs:6.113,0.0000) -- (axis cs:6.113,0.0043);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.113,0.0043)};
+\draw[very thick, color=red!70!black] (axis cs:6.170,0.0000) -- (axis cs:6.170,0.0218);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.170,0.0218)};
+\draw[very thick, color=red!70!black] (axis cs:6.204,0.0000) -- (axis cs:6.204,0.0023);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.204,0.0023)};
 \end{axis}
 ```
 
 **Figure 1.** Computed stick spectra of both molecules on one energy axis at
 CAM-B3LYP/def2-TZVP, deliberately un-normalized: oscillator strengths are
 directly comparable as computed, and normalizing each molecule to its own
-maximum would erase the comparison the figure exists to make. DCDHF-Me2
-(red) concentrates its strength in one state at 3.32 eV; benzene (blue)
-splits its strength between two exactly coincident sticks at 7.12 eV, drawn
-overlapping. No envelope is drawn: line widths are not computed in this
+maximum would erase the comparison the figure exists to make. All twelve
+computed states of each molecule are drawn; dark states appear as markers on
+the axis. DCDHF-Me2 (red) concentrates its strength in one state at 3.32 eV.
+Benzene's exactly degenerate bright pair shares one energy, so its two
+members are drawn stacked at 7.12 eV: **A** marks the division between them,
+the lighter segment is the second member, and the stack's total height —
+[benzene_bright_pair_f_total]{.metric}, slightly more than the dye's entire
+single transition at [lowest_bright_f]{.metric} — is the strength the band
+carries. No envelope is drawn: line widths are not computed in this
 experiment.
 
 The mechanism of the contrast fits in one sentence: benzene's symmetry
 forces its bright transitions into a degenerate pair, and substituting a
-donor on one side of the ring and an acceptor on the other destroys that
-symmetry and funnels the strength into a single state.
+donor on one side of the ring and an acceptor on the other does two things
+at once — it destroys the symmetry that enforced the degeneracy, and it
+creates the low-lying charge-transfer state benzene does not have, which is
+where the funneled strength goes.
 
 One thing this comparison is not: benzene's allowed band sits at 7.1 eV —
 174 nm, deep vacuum-ultraviolet — so nothing here compares visible colors.
@@ -252,8 +296,8 @@ bright states, benzene's lower partner carries
 [lowest_bright_f_share]{.metric}. That number is the post in one line.
 
 It is also not luck. Oscillator strength is a budgeted quantity, and an f of
-[lowest_bright_f]{.metric} in a single transition is close to the practical
-ceiling for a chromophore of this size — a molecule engineered for
+[lowest_bright_f]{.metric} in a single transition is a large fraction of
+what a chromophore this size can carry — a molecule engineered for
 single-molecule detection is a molecule engineered to be bright, and bright
 means concentrating the available transition strength into the one state the
 laser will drive. The DCDHF designers optimized brightness and
@@ -275,8 +319,9 @@ two-level picture starts with them.
 
 So the blinking note's idealization, applied to the dye class it was written
 about, is not an approximation forced on an unwilling molecule. A
-single-molecule fluorophore behaves like a two-level system because it was
-built to; the approximation and the design are the same fact read twice.
+fluorophore engineered for single-molecule brightness behaves like a
+two-level system because it was selected to; the approximation and the
+design are the same fact read twice.
 
 ## 7. Reproducibility
 
@@ -300,7 +345,9 @@ requested and effective solver settings side by side. The rigid-displacement
 stationary check of §3, its symmetry-pair self-validation, and the full
 per-state records, spectra, metrics, and environment files are in the
 experiment directory, and every quoted number above resolves from its
-generated `metrics.json`.
+generated `metrics.json`. One reproduction datum: rerunning the stationary
+check after the canonical run, to capture its environment record, reproduced
+every reported value to the displayed precision.
 
 ## 8. Where the model stops
 
