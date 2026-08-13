@@ -2,16 +2,16 @@
   "schema_version": 1,
   "experiment": "dcdhf-me2-transitions",
   "provenance": {
-    "generated_at": "2026-08-13T14:48:42Z",
+    "generated_at": "2026-08-13T15:34:22Z",
     "generator": "research/dcdhf-me2-transitions/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/dcdhf-me2-transitions/results/summary.json",
-        "sha256": "05feaad781f1f62eaed25045f3556a320f204f74cbe60b2574eff0e7382caeae"
+        "sha256": "b2798a8af86b397ea703db8ad36d3351f4c140ba6a74de889aa3b0b775fb4c7a"
       },
       {
         "path": "research/dcdhf-me2-transitions/results/stationary_check.json",
-        "sha256": "2d2c78fd2316ef8a9abb5eddc9211664bd9ed73751a7b1688a7ce32f6400374d"
+        "sha256": "e5423c81f5d87d5576f73540f76b3c304ab03c6a6d63069a53a8226bfa0cbdb0"
       }
     ]
   },
@@ -258,6 +258,15 @@
       },
       "description": "Splitting between benzene's two lowest bright states, degenerate under D6h symmetry",
       "unit": "eV"
+    },
+    "benzene_bright_pair_f_total": {
+      "type": "number",
+      "value": 1.20121,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Combined oscillator strength of benzene's degenerate E1u pair, the strength its single apparent band actually carries"
     },
     "benzene_lowest_bright_f_share": {
       "type": "number",

@@ -22,12 +22,13 @@ merge into one apparent band -- it is not evidence about width.
 
 Usage: postprocess.py [--fwhm-ev 0.35]
 """
-import os, json, glob, argparse, csv, math
+import os, json, glob, argparse, csv, math, hashlib, platform, datetime, sys
 
 # run_tddft owns the geometry helpers and the topology check; importing them
 # keeps one definition of each diagnostic rather than two that can drift.
 # It pulls in psi4, which costs a few seconds here and nothing else.
-from run_tddft import read_xyz, geometry_report, verify_topology, MOLECULES
+from run_tddft import (read_xyz, geometry_report, verify_topology, MOLECULES,
+                       manifold_summary)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 EV2NM = 1239.841984
@@ -43,6 +44,34 @@ PRIMARY_MOLECULE = "dcdhf-me2"
 PRIMARY_FUNCTIONAL = "cam-b3lyp"
 
 
+def sha256_of(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def provenance_block(input_paths):
+    """Record what produced summary.json and from exactly which bytes.
+
+    Without this, summary.json is the one link in the chain that asserts its
+    numbers rather than evidencing them: metrics.json fingerprints summary.json,
+    and each states file records its own environment, but nothing tied the two
+    together.
+    """
+    return {
+        "generator": "research/dcdhf-me2-transitions/postprocess.py",
+        "command": "python postprocess.py " + " ".join(sys.argv[1:]),
+        "generated_utc": datetime.datetime.now(datetime.timezone.utc)
+                                 .isoformat(timespec="seconds"),
+        "python": platform.python_version(),
+        "platform": platform.platform(),
+        "inputs": [{"path": os.path.relpath(p, HERE), "sha256": sha256_of(p)}
+                   for p in sorted(input_paths)],
+    }
+
+
 def slug_of(run):
     """Molecule slug for a results file, tolerating records written before
     molecule_slug was added to the schema."""
@@ -56,15 +85,20 @@ def slug_of(run):
 
 
 def load_states():
-    """Load every states_*.json, grouped by molecule slug."""
-    by_mol = {}
+    """Load every states_*.json, grouped by molecule slug.
+
+    Also returns the paths, so the provenance block can fingerprint exactly
+    the bytes this run consumed.
+    """
+    by_mol, paths = {}, []
     for path in sorted(glob.glob(os.path.join(HERE, "results", "states_*.json"))):
         with open(path) as fh:
             run = json.load(fh)
         by_mol.setdefault(slug_of(run), []).append(run)
+        paths.append(path)
     if not by_mol:
         raise SystemExit("no results/states_*.json found -- run run_tddft.py excite first")
-    return by_mol
+    return by_mol, paths
 
 
 def gaussian_curve(states, fwhm_ev, lo_nm=250.0, hi_nm=800.0, n=1101):
@@ -150,6 +184,29 @@ def state_gaps(states):
             tot = low["f"] + nxt["f"]
             gaps["lowest_bright_f_share"] = round(low["f"] / tot, 4) if tot else None
     return gaps
+
+
+def multiplet_summary(states, tol_ev=1e-3):
+    """Degenerate groups of two or more states, and what they carry together.
+
+    A multiplet is one apparent line in a spectrum, so its combined oscillator
+    strength -- not its largest member -- is what the band absorbs. Reporting
+    the members separately and never their sum is how a degenerate pair ends up
+    looking weaker than it is.
+    """
+    groups = [g for g in degenerate_groups(states, tol_ev) if len(g) > 1]
+    out = []
+    for g in groups:
+        out.append({
+            "energy_eV": g[0]["energy_eV"],
+            "wavelength_nm": g[0]["wavelength_nm"],
+            "states": [s["state"] for s in g],
+            "multiplicity": len(g),
+            "f_each": [s["f"] for s in g],
+            "f_total": round(sum(s["f"] for s in g), 5),
+            "bright": any(s["bright"] for s in g),
+        })
+    return out
 
 
 def write_csvs(run, slug, fwhm_ev):
@@ -329,17 +386,23 @@ def tikz_comparison(by_mol, fwhm_ev):
     strong as benzene's two combined -- and normalizing each molecule to its
     own maximum would erase exactly the comparison the figure exists to make.
     """
-    colors = {PRIMARY_MOLECULE: "red!70!black", "benzene": "blue!65!black"}
+    colors = {PRIMARY_MOLECULE: ("red!70!black", "red!35!white"),
+              "benzene": ("blue!65!black", "blue!30!white")}
     series, emax, fmax = [], 0.0, 0.0
     for slug in sorted(by_mol):
         run = next((r for r in by_mol[slug] if r["functional"] == PRIMARY_FUNCTIONAL),
                    by_mol[slug][0])
-        pts = [(s["energy_eV"], s["f"]) for s in run["states"] if s["f"] > 1e-4]
-        if not pts:
+        # No filter on f. A dark state draws as a dot on the axis, which is
+        # honest; the previous f > 1e-4 cut silently removed 8 of benzene's 12
+        # states from a figure whose legend says "computed transitions".
+        groups = degenerate_groups(run["states"])
+        if not groups:
             continue
-        emax = max(emax, max(e for e, _ in pts))
-        fmax = max(fmax, max(f for _, f in pts))
-        series.append((slug, run["molecule"], pts))
+        emax = max(emax, max(g[0]["energy_eV"] for g in groups))
+        # Height is the GROUP total, because a degenerate multiplet is drawn
+        # stacked: the band carries the sum, not the largest member.
+        fmax = max(fmax, max(sum(s["f"] for s in g) for g in groups))
+        series.append((slug, run["molecule"], groups))
     if len(series) < 2:
         return "% fewer than two molecules with bright states; no comparison figure\n"
 
@@ -362,15 +425,62 @@ def tikz_comparison(by_mol, fwhm_ev):
         "    title style={font=\\large\\bfseries}",
         "]",
     ]
-    for slug, name, pts in series:
-        lines.append(f"\\addplot[ycomb, very thick, color={colors.get(slug, 'black')}, "
-                     f"mark=*, mark size=1.4pt] coordinates {{")
-        lines.append("  " + " ".join(f"({e:.3f},{f:.4f})" for e, f in pts))
-        lines.append("};")
-    lines.append("\\legend{" + ", ".join(name for _, name, _ in series) + "}")
+    # Sticks are drawn explicitly rather than with ycomb so that a degenerate
+    # multiplet can be STACKED at its true energy. Jittering the members apart
+    # on x would fabricate a splitting that the physics says is exactly zero,
+    # in a figure whose whole claim is that it is zero.
+    callouts = []
+    for slug, name, groups in series:
+        dark, light = colors.get(slug, ("black", "gray"))
+        lines.append(f"\\addlegendimage{{ycomb, very thick, color={dark}, "
+                     f"mark=*, mark size=1.4pt}}")
+        lines.append(f"\\addlegendentry{{{name}}}")
+        for g in groups:
+            e = g[0]["energy_eV"]
+            cum = 0.0
+            for i, s in enumerate(g):
+                if s["f"] <= 0.0:
+                    continue
+                col = dark if i == 0 else light
+                lines.append(f"\\draw[very thick, color={col}] "
+                             f"(axis cs:{e:.3f},{cum:.4f}) -- "
+                             f"(axis cs:{e:.3f},{cum + s['f']:.4f});")
+                cum += s["f"]
+            lines.append(f"\\addplot[only marks, color={dark}, mark=*, "
+                         f"mark size=1.4pt, forget plot] coordinates "
+                         f"{{({e:.3f},{cum:.4f})}};")
+            if len([s for s in g if s["f"] > 0.0]) > 1:
+                # Mark the division so the reader can see the stick is two
+                # states, and letter it for the caption to define.
+                div = g[0]["f"]
+                lines.append(f"\\draw[black, thick] (axis cs:{e - 0.06:.3f},{div:.4f}) -- "
+                             f"(axis cs:{e + 0.06:.3f},{div:.4f});")
+                lines.append(f"\\node[font=\\small\\bfseries, anchor=west] at "
+                             f"(axis cs:{e + 0.10:.3f},{div:.4f}) {{A}};")
+                callouts.append((name, len(g), e, cum))
     lines.append("\\end{axis}")
     lines.append("```")
+    for name, n, e, tot in callouts:
+        lines.append(f"% callout A: {name}, {n} degenerate states at {e:.3f} eV, "
+                     f"stacked to a band total of f = {tot:.4f}")
     return "\n".join(lines) + "\n"
+
+
+def degenerate_groups(states, tol_ev=1e-3):
+    """Group states that are degenerate within `tol_ev` (default 1 meV).
+
+    Symmetry-required degeneracies come out of the solver equal to many
+    decimals, so the tolerance only has to absorb numerical noise. Grouping is
+    what lets the figure draw a multiplet as one stick carrying the band's real
+    strength instead of overlapping members that hide each other.
+    """
+    out = []
+    for s in sorted(states, key=lambda s: (s["energy_eV"], s["state"])):
+        if out and abs(s["energy_eV"] - out[-1][0]["energy_eV"]) <= tol_ev:
+            out[-1].append(s)
+        else:
+            out.append([s])
+    return out
 
 
 def main():
@@ -378,8 +488,9 @@ def main():
     p.add_argument("--fwhm-ev", type=float, default=DEFAULT_FWHM_EV)
     args = p.parse_args()
 
-    by_mol = load_states()
-    summary = {"broadening_note": (
+    by_mol, state_paths = load_states()
+    summary = {"provenance": provenance_block(state_paths),
+               "broadening_note": (
         "The Gaussian FWHM below is applied by hand for display only. It is not "
         "a computed line shape: no vibronic (Franck-Condon) or inhomogeneous "
         "broadening was calculated. Band widths in the figures carry no physical "
@@ -398,8 +509,18 @@ def main():
             entry["runs"].append({
                 "functional": run["functional"], "basis": run["basis"],
                 "method": run["method"], "n_basis_functions": run["n_basis_functions"],
-                "manifold": run["manifold"], "band_occupancy": occ,
+                # Recomputed from the state list rather than copied from the
+                # states file. `manifold` is a DERIVED aggregate written at
+                # compute time, so a file produced by an older harness carries
+                # that harness's arithmetic -- including the strict `>` that
+                # under-reported benzene's f_above_lowest_bright by 20x.
+                # Primary data (energies, f, eigenvectors) is never recomputed
+                # here; only quantities derived from it.
+                "manifold": manifold_summary(run["states"]),
+                "manifold_as_recorded": run["manifold"],
+                "band_occupancy": occ,
                 "state_gaps": state_gaps(run["states"]),
+                "degenerate_multiplets": multiplet_summary(run["states"]),
                 "tdscf_effective": run.get("tdscf_effective"),
                 "sticks_csv": os.path.relpath(sticks, HERE),
                 "curve_csv": os.path.relpath(curve, HERE),

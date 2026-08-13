@@ -21,15 +21,29 @@ even though the original calculation scripts do not.
 - Demonstration mechanism or observation (Understanding only): TD-DFT vertical
   excitation manifold of DCDHF-Me2 — every computed singlet with its
   oscillator strength and orbital character, rather than only the bright
-  lowest transition. The demonstration succeeds if more than one transition
-  carries non-negligible oscillator strength in the region a spectrometer
-  would read as one band.
+  lowest transition. The demonstration **establishes whether the region a
+  spectrometer would read as one band contains one transition or several**,
+  and benzene is computed identically as a contrast case.
+- Outcome (2026-08-13): **one**. Within ±0.35 eV of the lowest bright state
+  there is exactly one transition, carrying 74% of the computed oscillator
+  strength, with the next state 0.89 eV away. Benzene, run identically, puts
+  two exactly degenerate states under its band splitting the strength 50/50.
+
+  *Recorded because it was the expectation, not because it was right:* this
+  experiment was designed on 2026-08-12 expecting to find several transitions
+  crowding the dye's band, and the criterion above originally read "succeeds if
+  more than one transition carries non-negligible oscillator strength." It did
+  not. The ±0.35 eV window and the f ≥ 0.01 threshold were fixed before the run
+  (see below) and were deliberately **not** widened afterwards — widening to
+  0.9 eV would have admitted S₂ and manufactured the expected result. The
+  criterion is now stated outcome-neutrally so that it describes what the
+  experiment tests rather than what its authors hoped for.
 - What this experiment can establish:
-  - That the computed manifold places several states, not one, in and around
-    the main absorption band at this level of theory.
+  - How many states with non-negligible oscillator strength lie in and around
+    the main absorption band at this level of theory — whatever that number
+    turns out to be.
   - The relative positions, oscillator strengths, and dominant orbital
-    character of those states, including which are charge-transfer in
-    character (hole–particle centroid separation).
+    character of those states.
   - How far a UFF force-field starting structure sits from the DFT minimum for
     a conjugated push-pull dye, measured as the inter-ring twist angle.
 - What it cannot establish:
@@ -45,6 +59,15 @@ even though the original calculation scripts do not.
   - Excited-state ordering to better than the ~0.2–0.3 eV typical error of
     TD-DFT for charge-transfer states, which is why CAM-B3LYP and B3LYP are
     both reported.
+  - **Charge-transfer character from the `type` column.** The hole–particle
+    centroid separation labels S₁ `pi->pi*` at 0.92 Å, which is the diagnostic
+    failing rather than the physics: a centroid difference over the dominant
+    orbital pair understates charge transfer when both frontier orbitals are
+    delocalized over the whole conjugated backbone. The defensible evidence is
+    the functional shift — CAM-B3LYP sits 0.315 eV blue of B3LYP, the same
+    signature the push-pull note measured at 0.42 eV for pNA. The `type` column
+    is retained in `results/` for completeness and is deliberately absent from
+    `tables_post.md`.
 - Traceability: traceable
 - Highest reproduction level: end-to-end reproducible
 - Archived-evidence or rerun constraints: Psi4 1.9.1 under the recorded conda
@@ -69,6 +92,24 @@ could otherwise be tuned after seeing results:
 4. A state is labelled **CT only if** its hole–particle centroid separation is
    ≥ 2.0 Å *and* it is bright; dark states are never assigned n→π* character
    automatically, since that needs orbital-symmetry inspection.
+
+### Why the DCDHF-Me2 states files have no `molecule_slug`
+
+`results/states_dcdhf-me2_*.json` were produced before the harness grew a
+molecule registry, so they carry `molecule` ("DCDHF-Me2") but not
+`molecule_slug`. The benzene files, produced after, carry both.
+
+They are **not** hand-edited to add the field. Patching a canonical results
+file so it resembles something the current code would have written is worse
+provenance than an absent field with a stated reason: it would make an
+artifact claim an origin it does not have, which is the same failure as
+recording a requested setting as though it were the effective one. Recomputing
+them purely to gain a derivable metadata field would cost hours of CPU and
+change no physics.
+
+`postprocess.py:slug_of()` resolves the slug from the `molecule` name when the
+field is missing, and raises rather than guessing if it cannot. The gap is
+therefore closed in code, visibly, instead of in the data, invisibly.
 
 ### A bug the contrast molecule caught
 

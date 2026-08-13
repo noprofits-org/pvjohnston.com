@@ -34,7 +34,8 @@ import numpy as np
 import psi4
 
 from run_tddft import (read_xyz, psi4_geometry_block, verify_topology,
-                       geometry_report, AMINE_N, AMINE_SUBS, LINK_BOND)
+                       geometry_report, environment_record,
+                       AMINE_N, AMINE_SUBS, LINK_BOND)
 
 # Every atom on the dimethylaniline side of the aryl-furan bond. Rotating this
 # fragment about that bond is the inter-ring twist coordinate.
@@ -104,6 +105,11 @@ def main():
     print(f"reference (optimized, planar): {ref:.8f} Ha")
 
     out = {"reference_energy_Ha": ref, "geometry": os.path.relpath(args.geometry, HERE),
+           # Every other results file records the environment that produced it;
+           # this one did not, which made it the weakest link in the chain even
+           # though its numbers back the stationary-point claim.
+           "environment": environment_record(args),
+           "command": "python check_stationary.py " + " ".join(sys.argv[1:]),
            "geometry_comment": comment,
            "level": f"{args.functional}/{args.basis} single points, rigid displacements",
            "limitation": ("Rigid displacements along two coordinates only, not a "

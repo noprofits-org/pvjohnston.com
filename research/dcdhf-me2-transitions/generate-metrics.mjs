@@ -99,6 +99,13 @@ function build(generatedAt) {
   const worstSplit = Math.max(
     ...stationary.symmetry_pairs.map((p) => p.energy_split_microhartree));
 
+  const brightPair = (benzene.degenerate_multiplets ?? []).find((m) => m.bright);
+  if (!brightPair) {
+    throw new Error(
+      `${CONTRAST_MOLECULE} has no bright degenerate multiplet in ${input}; ` +
+      `the contrast the post is built on is not present in the results`);
+  }
+
   const bgap = benzene.state_gaps;
   if (bgap?.lowest_bright_f_share === undefined) {
     throw new Error(
@@ -252,6 +259,10 @@ function build(generatedAt) {
         bgap.lowest_two_bright_gap_eV, 3,
         "Splitting between benzene's two lowest bright states, degenerate under D6h symmetry",
         'eV'),
+      benzene_bright_pair_f_total: num(
+        brightPair.f_total, 3,
+        'Combined oscillator strength of benzene\'s degenerate E1u pair, the strength its single apparent band actually carries',
+        ''),
       benzene_lowest_bright_f_share: pct(
         bgap.lowest_bright_f_share, 0,
         "Share of the two lowest bright states' combined oscillator strength carried by the lower one (benzene; 50% = an even split)"),

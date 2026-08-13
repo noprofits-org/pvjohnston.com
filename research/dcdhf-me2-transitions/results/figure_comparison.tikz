@@ -5,7 +5,7 @@
     xlabel={excitation energy (eV)},
     ylabel={oscillator strength $f$},
     title={One apparent band, one transition or two},
-    xmin=2.5, xmax=8.9, ymin=0, ymax=1.405,
+    xmin=2.5, xmax=9.2, ymin=0, ymax=1.502,
     grid=major,
     grid style={line width=.2pt, draw=gray!40},
     axis lines=left,
@@ -15,12 +15,49 @@
     every tick label/.style={font=\large},
     title style={font=\large\bfseries}
 ]
-\addplot[ycomb, very thick, color=blue!65!black, mark=*, mark size=1.4pt] coordinates {
-  (7.117,0.6006) (7.117,0.6007) (7.973,0.0112) (8.447,0.0202)
-};
-\addplot[ycomb, very thick, color=red!70!black, mark=*, mark size=1.4pt] coordinates {
-  (3.318,1.1239) (4.212,0.0242) (4.508,0.0062) (5.112,0.0853) (5.286,0.1138) (5.473,0.0810) (5.618,0.0002) (5.984,0.0525) (6.113,0.0043) (6.170,0.0218) (6.204,0.0023)
-};
-\legend{benzene, DCDHF-Me2}
+\addlegendimage{ycomb, very thick, color=blue!65!black, mark=*, mark size=1.4pt}
+\addlegendentry{benzene}
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.458,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.148,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.117,0.0000) -- (axis cs:7.117,0.6006);
+\draw[very thick, color=blue!30!white] (axis cs:7.117,0.6006) -- (axis cs:7.117,1.2012);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.117,1.2012)};
+\draw[black, thick] (axis cs:7.057,0.6006) -- (axis cs:7.176,0.6006);
+\node[font=\small\bfseries, anchor=west] at (axis cs:7.216,0.6006) {A};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.697,0.0000)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.891,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:7.973,0.0000) -- (axis cs:7.973,0.0112);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.973,0.0112)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(7.994,0.0000)};
+\draw[very thick, color=blue!65!black] (axis cs:8.447,0.0000) -- (axis cs:8.447,0.0202);
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.447,0.0202)};
+\addplot[only marks, color=blue!65!black, mark=*, mark size=1.4pt, forget plot] coordinates {(8.689,0.0000)};
+\addlegendimage{ycomb, very thick, color=red!70!black, mark=*, mark size=1.4pt}
+\addlegendentry{DCDHF-Me2}
+\draw[very thick, color=red!70!black] (axis cs:3.318,0.0000) -- (axis cs:3.318,1.1239);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(3.318,1.1239)};
+\draw[very thick, color=red!70!black] (axis cs:4.212,0.0000) -- (axis cs:4.212,0.0242);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.212,0.0242)};
+\draw[very thick, color=red!70!black] (axis cs:4.508,0.0000) -- (axis cs:4.508,0.0062);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(4.508,0.0062)};
+\draw[very thick, color=red!70!black] (axis cs:5.112,0.0000) -- (axis cs:5.112,0.0853);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.112,0.0853)};
+\draw[very thick, color=red!70!black] (axis cs:5.286,0.0000) -- (axis cs:5.286,0.1138);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.286,0.1138)};
+\draw[very thick, color=red!70!black] (axis cs:5.465,0.0000) -- (axis cs:5.465,0.0000);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.465,0.0000)};
+\draw[very thick, color=red!70!black] (axis cs:5.473,0.0000) -- (axis cs:5.473,0.0810);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.473,0.0810)};
+\draw[very thick, color=red!70!black] (axis cs:5.618,0.0000) -- (axis cs:5.618,0.0002);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.618,0.0002)};
+\draw[very thick, color=red!70!black] (axis cs:5.984,0.0000) -- (axis cs:5.984,0.0525);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(5.984,0.0525)};
+\draw[very thick, color=red!70!black] (axis cs:6.113,0.0000) -- (axis cs:6.113,0.0043);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.113,0.0043)};
+\draw[very thick, color=red!70!black] (axis cs:6.170,0.0000) -- (axis cs:6.170,0.0218);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.170,0.0218)};
+\draw[very thick, color=red!70!black] (axis cs:6.204,0.0000) -- (axis cs:6.204,0.0023);
+\addplot[only marks, color=red!70!black, mark=*, mark size=1.4pt, forget plot] coordinates {(6.204,0.0023)};
 \end{axis}
 ```
+% callout A: benzene, 2 degenerate states at 7.117 eV, stacked to a band total of f = 1.2012

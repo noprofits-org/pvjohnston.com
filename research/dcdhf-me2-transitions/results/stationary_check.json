@@ -1,6 +1,17 @@
 {
-  "reference_energy_Ha": -988.9853299243263,
+  "reference_energy_Ha": -988.9853299243259,
   "geometry": "geometry/dcdhf-me2-def2-svp-opt.xyz",
+  "environment": {
+    "psi4_version": "1.9.1",
+    "python": "3.10.17",
+    "numpy": "2.2.5",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "cpu_count": 8,
+    "threads_requested": 6,
+    "memory_requested": "6 GB",
+    "run_utc": "2026-08-13T15:27:41+00:00"
+  },
+  "command": "python check_stationary.py --threads 6 --memory 6 GB",
   "geometry_comment": "DCDHF-Me2 optimized b3lyp/def2-svp (C1, gau_tight) E=-988.98532991 Ha; from dcdhf-me2-uff.xyz",
   "level": "b3lyp/def2-svp single points, rigid displacements",
   "limitation": "Rigid displacements along two coordinates only, not a frequency calculation. Rules out the two specific instabilities motivating the check; does not prove a true minimum.",
@@ -8,25 +19,25 @@
     {
       "displacement_deg": -20.0,
       "resulting_twist_deg": 20.0,
-      "energy_Ha": -988.9829055035383,
+      "energy_Ha": -988.9829055035382,
       "delta_E_kcal_per_mol": 1.5213
     },
     {
       "displacement_deg": -10.0,
       "resulting_twist_deg": 10.0,
-      "energy_Ha": -988.9846354487336,
+      "energy_Ha": -988.9846354487327,
       "delta_E_kcal_per_mol": 0.4358
     },
     {
       "displacement_deg": 10.0,
       "resulting_twist_deg": 10.0,
-      "energy_Ha": -988.9846355254175,
+      "energy_Ha": -988.9846355254184,
       "delta_E_kcal_per_mol": 0.4357
     },
     {
       "displacement_deg": 20.0,
       "resulting_twist_deg": 20.0,
-      "energy_Ha": -988.9829056271867,
+      "energy_Ha": -988.9829056271876,
       "delta_E_kcal_per_mol": 1.5213
     }
   ],
@@ -34,13 +45,13 @@
     {
       "displacement_ang": -0.15,
       "resulting_pyramidalization_deg": 3.3,
-      "energy_Ha": -988.9808035367778,
+      "energy_Ha": -988.9808035367781,
       "delta_E_kcal_per_mol": 2.8404
     },
     {
       "displacement_ang": 0.15,
       "resulting_pyramidalization_deg": 3.3,
-      "energy_Ha": -988.9808030263916,
+      "energy_Ha": -988.980803026392,
       "delta_E_kcal_per_mol": 2.8407
     }
   ],
@@ -49,7 +60,7 @@
       "scan": "twist_scan",
       "magnitude": 10.0,
       "unit": "deg",
-      "energy_split_Ha": 7.668393209314672e-08,
+      "energy_split_Ha": 7.668575108255027e-08,
       "energy_split_microhartree": 0.0767,
       "consistent": true
     },
@@ -57,7 +68,7 @@
       "scan": "twist_scan",
       "magnitude": 20.0,
       "unit": "deg",
-      "energy_split_Ha": 1.236484195032972e-07,
+      "energy_split_Ha": 1.2364944268483669e-07,
       "energy_split_microhartree": 0.1236,
       "consistent": true
     },
