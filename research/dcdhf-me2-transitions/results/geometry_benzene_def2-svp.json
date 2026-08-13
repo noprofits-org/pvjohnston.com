@@ -1,0 +1,21 @@
+{
+  "ring_rms_planarity_ang": 0.0,
+  "cc_bond_mean_ang": 1.3988,
+  "cc_bond_spread_ang": 1e-05,
+  "ch_bond_mean_ang": 1.0933,
+  "ch_bond_spread_ang": 0.0,
+  "molecule": "benzene",
+  "opt_level": "b3lyp/def2-svp (C1, gau_tight)",
+  "opt_energy_Ha": -232.08478416947852,
+  "start_geometry": "geometry/benzene-ideal.xyz",
+  "environment": {
+    "psi4_version": "1.9.1",
+    "python": "3.10.17",
+    "numpy": "2.2.5",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "cpu_count": 8,
+    "threads_requested": 6,
+    "memory_requested": "6 GB",
+    "run_utc": "2026-08-13T14:34:19+00:00"
+  }
+}

@@ -20,6 +20,8 @@ const outputPath = resolve(experimentDir, 'metrics.json');
 const input = 'research/dcdhf-me2-transitions/results/summary.json';
 const checkOnly = process.argv.includes('--check');
 
+const PRIMARY_MOLECULE = 'dcdhf-me2';
+const CONTRAST_MOLECULE = 'benzene';
 const PRIMARY_FUNCTIONAL = 'cam-b3lyp';
 const SECONDARY_FUNCTIONAL = 'b3lyp';
 
@@ -49,12 +51,22 @@ const int = (value, description, unit) => ({
   ...(unit ? { unit } : {}),
 });
 
-function pick(summary, functional) {
-  const run = summary.runs.find((r) => r.functional === functional);
+// Existing keys are NOT renamed when a second molecule joins: the unprefixed
+// keys keep meaning DCDHF-Me2 under CAM-B3LYP, and benzene gets its own
+// `benzene_` prefixed keys. A silent rename would break every span already
+// drafted against these names, and the metrics build fails on missing keys.
+function pick(summary, molecule, functional) {
+  const entry = summary.molecules?.[molecule];
+  if (!entry) {
+    throw new Error(
+      `no results for molecule "${molecule}" in ${input}; ` +
+      `found: ${Object.keys(summary.molecules ?? {}).join(', ') || '(none)'}`);
+  }
+  const run = entry.runs.find((r) => r.functional === functional);
   if (!run) {
     throw new Error(
-      `no run for functional "${functional}" in ${input}; ` +
-      `found: ${summary.runs.map((r) => r.functional).join(', ') || '(none)'}`);
+      `no run for ${molecule}/${functional} in ${input}; ` +
+      `found: ${entry.runs.map((r) => r.functional).join(', ') || '(none)'}`);
   }
   if (!run.band_occupancy) {
     throw new Error(`run "${functional}" has no bright state, so no band to report`);
@@ -68,11 +80,18 @@ function pick(summary, functional) {
 
 function build(generatedAt) {
   const summary = JSON.parse(readFileSync(resolve(root, input), 'utf8'));
-  const primary = pick(summary, PRIMARY_FUNCTIONAL);
-  const secondary = pick(summary, SECONDARY_FUNCTIONAL);
-  const geom = summary.geometry;
+  const primary = pick(summary, PRIMARY_MOLECULE, PRIMARY_FUNCTIONAL);
+  const secondary = pick(summary, PRIMARY_MOLECULE, SECONDARY_FUNCTIONAL);
+  const benzene = pick(summary, CONTRAST_MOLECULE, PRIMARY_FUNCTIONAL);
+  const geom = summary.molecules[PRIMARY_MOLECULE].geometry;
   if (!geom?.optimized) {
     throw new Error(`${input} has no optimized geometry; run the optimize stage first`);
+  }
+  const bgap = benzene.state_gaps;
+  if (bgap?.lowest_bright_f_share === undefined) {
+    throw new Error(
+      `${CONTRAST_MOLECULE} has fewer than two bright states, so the ` +
+      `degenerate-pair contrast cannot be stated; check results before drafting`);
   }
 
   const band = primary.band_occupancy;
@@ -151,7 +170,7 @@ function build(generatedAt) {
 
       // --- geometry: why the optimization step is not a formality
       uff_interring_twist_deg: num(
-        geom.start_uff.interring_twist_deg, 1,
+        geom.start.interring_twist_deg, 1,
         'Twist between the dimethylaniline and dihydrofuran ring planes in the UFF starting structure',
         'degrees'),
       opt_interring_twist_deg: num(
@@ -159,9 +178,44 @@ function build(generatedAt) {
         'Twist between the dimethylaniline and dihydrofuran ring planes at the B3LYP/def2-SVP minimum',
         'degrees'),
       interring_twist_change_deg: num(
-        geom.interring_twist_change_deg, 1,
+        geom.delta_interring_twist_deg, 1,
         'Change in inter-ring twist from the UFF starting structure to the B3LYP/def2-SVP minimum',
         'degrees'),
+      // Benzene's ring stays regular under optimization, which is what makes
+      // the degeneracy claim checkable rather than assumed: a broken D6h would
+      // show up here first as a spread in the C-C bond lengths.
+      benzene_cc_bond_spread_ang: num(
+        summary.molecules[CONTRAST_MOLECULE].geometry.optimized.cc_bond_spread_ang, 5,
+        'Spread between longest and shortest C-C bond at benzene\'s B3LYP/def2-SVP minimum',
+        'A'),
+
+      // --- benzene, the contrast case: one apparent band, two degenerate
+      // transitions sharing the strength, versus the dye's single dominant one
+      benzene_n_states_under_band: int(
+        benzene.band_occupancy.n_states_under_band,
+        `States within +/-${benzene.band_occupancy.band_halfwidth_eV} eV of benzene's lowest bright transition (CAM-B3LYP)`,
+        'states'),
+      benzene_n_bright_under_band: int(
+        benzene.band_occupancy.n_bright_under_band,
+        "Bright states within the same window of benzene's lowest bright transition (CAM-B3LYP)",
+        'states'),
+      benzene_band_center_ev: num(
+        benzene.band_occupancy.band_center_eV, 2,
+        "Vertical excitation energy of benzene's lowest bright state (CAM-B3LYP/def2-TZVP)",
+        'eV'),
+      benzene_lowest_two_bright_gap_ev: num(
+        bgap.lowest_two_bright_gap_eV, 3,
+        "Splitting between benzene's two lowest bright states, degenerate under D6h symmetry",
+        'eV'),
+      benzene_lowest_bright_f_share: pct(
+        bgap.lowest_bright_f_share, 0,
+        "Share of the two lowest bright states' combined oscillator strength carried by the lower one (benzene; 50% = an even split)"),
+
+      // The same quantity for the dye, so the contrast is one comparison of
+      // like with like rather than two numbers a reader must relate.
+      lowest_bright_f_share: pct(
+        primary.state_gaps.lowest_bright_f_share, 0,
+        "Share of the two lowest bright states' combined oscillator strength carried by the lower one (DCDHF-Me2, CAM-B3LYP)"),
 
       // --- honesty about the figure
       broadening_fwhm_ev_cosmetic: num(

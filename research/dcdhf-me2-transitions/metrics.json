@@ -2,12 +2,12 @@
   "schema_version": 1,
   "experiment": "dcdhf-me2-transitions",
   "provenance": {
-    "generated_at": "2026-08-13T14:26:48Z",
+    "generated_at": "2026-08-13T14:40:21Z",
     "generator": "research/dcdhf-me2-transitions/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/dcdhf-me2-transitions/results/summary.json",
-        "sha256": "a35c0cb8a290109dfceee23d8279586c740cc0c3476212f0ac707e48f36435cd"
+        "sha256": "05feaad781f1f62eaed25045f3556a320f204f74cbe60b2574eff0e7382caeae"
       }
     ]
   },
@@ -152,6 +152,66 @@
       },
       "description": "Change in inter-ring twist from the UFF starting structure to the B3LYP/def2-SVP minimum",
       "unit": "degrees"
+    },
+    "benzene_cc_bond_spread_ang": {
+      "type": "number",
+      "value": 0.00001,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Spread between longest and shortest C-C bond at benzene's B3LYP/def2-SVP minimum",
+      "unit": "A"
+    },
+    "benzene_n_states_under_band": {
+      "type": "integer",
+      "value": 2,
+      "description": "States within +/-0.35 eV of benzene's lowest bright transition (CAM-B3LYP)",
+      "unit": "states"
+    },
+    "benzene_n_bright_under_band": {
+      "type": "integer",
+      "value": 2,
+      "description": "Bright states within the same window of benzene's lowest bright transition (CAM-B3LYP)",
+      "unit": "states"
+    },
+    "benzene_band_center_ev": {
+      "type": "number",
+      "value": 7.1165,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Vertical excitation energy of benzene's lowest bright state (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "benzene_lowest_two_bright_gap_ev": {
+      "type": "number",
+      "value": 0,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Splitting between benzene's two lowest bright states, degenerate under D6h symmetry",
+      "unit": "eV"
+    },
+    "benzene_lowest_bright_f_share": {
+      "type": "number",
+      "value": 0.5,
+      "format": {
+        "style": "percent",
+        "digits": 0
+      },
+      "description": "Share of the two lowest bright states' combined oscillator strength carried by the lower one (benzene; 50% = an even split)"
+    },
+    "lowest_bright_f_share": {
+      "type": "number",
+      "value": 0.9789,
+      "format": {
+        "style": "percent",
+        "digits": 0
+      },
+      "description": "Share of the two lowest bright states' combined oscillator strength carried by the lower one (DCDHF-Me2, CAM-B3LYP)"
     },
     "broadening_fwhm_ev_cosmetic": {
       "type": "number",

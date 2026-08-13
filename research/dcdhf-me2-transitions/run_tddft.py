@@ -147,9 +147,12 @@ def verify_topology(symbols, coords, molecule="dcdhf-me2"):
         problems.append(f"structure is not connected: {len(seen)}/{n} atoms "
                         f"reachable from atom 0")
 
+    # Bail before the molecule-specific index checks below. Those index fixed
+    # atom positions, so running them against a structure that already failed
+    # the formula check raises IndexError and buries the real diagnosis.
+    if problems:
+        raise SystemExit("topology check failed:\n  " + "\n  ".join(problems))
     if spec["diagnostics"] != "dcdhf":
-        if problems:
-            raise SystemExit("topology check failed:\n  " + "\n  ".join(problems))
         return
 
     if symbols[AMINE_N] != "N":
