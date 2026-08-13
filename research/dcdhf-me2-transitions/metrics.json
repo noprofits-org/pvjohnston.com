@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "experiment": "dcdhf-me2-transitions",
+  "provenance": {
+    "generated_at": "2026-08-13T14:48:42Z",
+    "generator": "research/dcdhf-me2-transitions/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/dcdhf-me2-transitions/results/summary.json",
+        "sha256": "05feaad781f1f62eaed25045f3556a320f204f74cbe60b2574eff0e7382caeae"
+      },
+      {
+        "path": "research/dcdhf-me2-transitions/results/stationary_check.json",
+        "sha256": "2d2c78fd2316ef8a9abb5eddc9211664bd9ed73751a7b1688a7ce32f6400374d"
+      }
+    ]
+  },
+  "metrics": {
+    "n_states_computed": {
+      "type": "integer",
+      "value": 12,
+      "description": "Singlet excited states computed per functional (CAM-B3LYP, full RPA)",
+      "unit": "states"
+    },
+    "n_bright_states": {
+      "type": "integer",
+      "value": 7,
+      "description": "States with oscillator strength >= 0.01 (CAM-B3LYP)",
+      "unit": "states"
+    },
+    "n_states_under_band": {
+      "type": "integer",
+      "value": 1,
+      "description": "States within +/-0.35 eV of the lowest bright transition (CAM-B3LYP)",
+      "unit": "states"
+    },
+    "n_bright_under_band": {
+      "type": "integer",
+      "value": 1,
+      "description": "Bright states within +/-0.35 eV of the lowest bright transition (CAM-B3LYP)",
+      "unit": "states"
+    },
+    "f_fraction_outside_band": {
+      "type": "number",
+      "value": 0.2584,
+      "format": {
+        "style": "percent",
+        "digits": 0
+      },
+      "description": "Fraction of total oscillator strength lying outside the apparent absorption band (CAM-B3LYP)"
+    },
+    "f_fraction_in_lowest_bright": {
+      "type": "number",
+      "value": 0.7416,
+      "format": {
+        "style": "percent",
+        "digits": 0
+      },
+      "description": "Fraction of total oscillator strength carried by the lowest bright state alone (CAM-B3LYP)"
+    },
+    "s1_s2_gap_ev": {
+      "type": "number",
+      "value": 0.8945,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy gap from S1 to S2 (CAM-B3LYP/def2-TZVP), independent of any band-width convention",
+      "unit": "eV"
+    },
+    "s1_s3_gap_ev": {
+      "type": "number",
+      "value": 1.1901,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy gap from S1 to S3 (CAM-B3LYP/def2-TZVP), independent of any band-width convention",
+      "unit": "eV"
+    },
+    "lowest_two_bright_gap_ev": {
+      "type": "number",
+      "value": 0.8945,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy gap between the two lowest states with f >= 0.01 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "band_center_nm": {
+      "type": "number",
+      "value": 373.69,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Vertical excitation wavelength of the lowest bright state (CAM-B3LYP/def2-TZVP)",
+      "unit": "nm"
+    },
+    "band_center_ev": {
+      "type": "number",
+      "value": 3.3178,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Vertical excitation energy of the lowest bright state (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "band_center_nm_b3lyp": {
+      "type": "number",
+      "value": 412.85,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Lowest bright state wavelength under B3LYP, as a functional sensitivity check",
+      "unit": "nm"
+    },
+    "lowest_bright_f": {
+      "type": "number",
+      "value": 1.12392,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Oscillator strength of the lowest bright state (CAM-B3LYP)"
+    },
+    "uff_interring_twist_deg": {
+      "type": "number",
+      "value": 54.61,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Twist between the dimethylaniline and dihydrofuran ring planes in the UFF starting structure",
+      "unit": "degrees"
+    },
+    "opt_interring_twist_deg": {
+      "type": "number",
+      "value": 0,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Twist between the dimethylaniline and dihydrofuran ring planes at the B3LYP/def2-SVP minimum",
+      "unit": "degrees"
+    },
+    "interring_twist_change_deg": {
+      "type": "number",
+      "value": 54.61,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Change in inter-ring twist from the UFF starting structure to the B3LYP/def2-SVP minimum",
+      "unit": "degrees"
+    },
+    "benzene_cc_bond_spread_ang": {
+      "type": "number",
+      "value": 0.00001,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Spread between longest and shortest C-C bond at benzene's B3LYP/def2-SVP minimum",
+      "unit": "A"
+    },
+    "s1_s2_gap_ev_b3lyp": {
+      "type": "number",
+      "value": 0.5117,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy gap from S1 to S2 under B3LYP/def2-TZVP, showing the isolated lowest state is not an artefact of functional choice",
+      "unit": "eV"
+    },
+    "functional_shift_ev": {
+      "type": "number",
+      "value": 0.3146,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Blue shift of the lowest bright state from B3LYP to CAM-B3LYP, the signature of charge-transfer character",
+      "unit": "eV"
+    },
+    "stationary_twist20_rise_kcal": {
+      "type": "number",
+      "value": 1.5213,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy rise on rigidly twisting the donor ring 20 degrees from the planar minimum",
+      "unit": "kcal/mol"
+    },
+    "stationary_twist10_rise_kcal": {
+      "type": "number",
+      "value": 0.4357,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy rise on rigidly twisting the donor ring 10 degrees from the planar minimum",
+      "unit": "kcal/mol"
+    },
+    "stationary_pyramid_rise_kcal": {
+      "type": "number",
+      "value": 2.8407,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy rise on displacing the amine nitrogen 0.15 A out of its substituent plane",
+      "unit": "kcal/mol"
+    },
+    "stationary_worst_pair_split_uhartree": {
+      "type": "number",
+      "value": 0.5104,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Largest energy split between mirror-related displacement pairs, the self-test on the displacement construction",
+      "unit": "microhartree"
+    },
+    "benzene_n_states_under_band": {
+      "type": "integer",
+      "value": 2,
+      "description": "States within +/-0.35 eV of benzene's lowest bright transition (CAM-B3LYP)",
+      "unit": "states"
+    },
+    "benzene_n_bright_under_band": {
+      "type": "integer",
+      "value": 2,
+      "description": "Bright states within the same window of benzene's lowest bright transition (CAM-B3LYP)",
+      "unit": "states"
+    },
+    "benzene_band_center_ev": {
+      "type": "number",
+      "value": 7.1165,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Vertical excitation energy of benzene's lowest bright state (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "benzene_lowest_two_bright_gap_ev": {
+      "type": "number",
+      "value": 0,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Splitting between benzene's two lowest bright states, degenerate under D6h symmetry",
+      "unit": "eV"
+    },
+    "benzene_lowest_bright_f_share": {
+      "type": "number",
+      "value": 0.5,
+      "format": {
+        "style": "percent",
+        "digits": 0
+      },
+      "description": "Share of the two lowest bright states' combined oscillator strength carried by the lower one (benzene; 50% = an even split)"
+    },
+    "lowest_bright_f_share": {
+      "type": "number",
+      "value": 0.9789,
+      "format": {
+        "style": "percent",
+        "digits": 0
+      },
+      "description": "Share of the two lowest bright states' combined oscillator strength carried by the lower one (DCDHF-Me2, CAM-B3LYP)"
+    },
+    "broadening_fwhm_ev_cosmetic": {
+      "type": "number",
+      "value": 0.35,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Gaussian FWHM applied by hand for display only; not a computed line shape",
+      "unit": "eV"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+# One repository-relative path per line. Package only this reviewed allowlist.
+#
+# Psi4 output logs and scratch are neither committed nor published (see
+# .gitignore): they are large, regenerable, and embed absolute scratch paths
+# from the machine that produced them. The canonical evidence is results/.
+#
+# Result filenames encode molecule, functional, and basis. If the documented
+# fallback ladder (def2-svp / --tda / fewer states) is ever used, these names
+# change and must be reconciled here -- verify-site.mjs fails on an entry that
+# is not a file.
+LICENSE
+research/metrics.schema.json
+research/dcdhf-me2-transitions/README.md
+research/dcdhf-me2-transitions/environment.md
+research/dcdhf-me2-transitions/environment-psi4_19.yml
+research/dcdhf-me2-transitions/sources.json
+research/dcdhf-me2-transitions/run_tddft.py
+research/dcdhf-me2-transitions/postprocess.py
+research/dcdhf-me2-transitions/check_stationary.py
+research/dcdhf-me2-transitions/run_all.sh
+research/dcdhf-me2-transitions/generate-metrics.mjs
+research/dcdhf-me2-transitions/metrics.json
+research/dcdhf-me2-transitions/geometry/dcdhf-me2-uff.xyz
+research/dcdhf-me2-transitions/geometry/dcdhf-me2-def2-svp-opt.xyz
+research/dcdhf-me2-transitions/geometry/benzene-ideal.xyz
+research/dcdhf-me2-transitions/geometry/benzene-def2-svp-opt.xyz
+research/dcdhf-me2-transitions/results/summary.json
+research/dcdhf-me2-transitions/results/tables.md
+research/dcdhf-me2-transitions/results/tables_post.md
+research/dcdhf-me2-transitions/results/stationary_check.json
+research/dcdhf-me2-transitions/results/figure_comparison.tikz
+research/dcdhf-me2-transitions/results/figure_manifold_dcdhf-me2.tikz
+research/dcdhf-me2-transitions/results/figure_manifold_benzene.tikz
+research/dcdhf-me2-transitions/results/geometry_dcdhf-me2_def2-svp.json
+research/dcdhf-me2-transitions/results/geometry_benzene_def2-svp.json
+research/dcdhf-me2-transitions/results/states_dcdhf-me2_cam-b3lyp_def2-tzvp.json
+research/dcdhf-me2-transitions/results/states_dcdhf-me2_b3lyp_def2-tzvp.json
+research/dcdhf-me2-transitions/results/states_benzene_cam-b3lyp_def2-tzvp.json
+research/dcdhf-me2-transitions/results/states_benzene_b3lyp_def2-tzvp.json
+research/dcdhf-me2-transitions/results/spectra_sticks_dcdhf-me2_cam-b3lyp_def2-tzvp.csv
+research/dcdhf-me2-transitions/results/spectra_sticks_dcdhf-me2_b3lyp_def2-tzvp.csv
+research/dcdhf-me2-transitions/results/spectra_sticks_benzene_cam-b3lyp_def2-tzvp.csv
+research/dcdhf-me2-transitions/results/spectra_sticks_benzene_b3lyp_def2-tzvp.csv
+research/dcdhf-me2-transitions/results/spectra_curve_dcdhf-me2_cam-b3lyp_def2-tzvp.csv
+research/dcdhf-me2-transitions/results/spectra_curve_dcdhf-me2_b3lyp_def2-tzvp.csv
+research/dcdhf-me2-transitions/results/spectra_curve_benzene_cam-b3lyp_def2-tzvp.csv
+research/dcdhf-me2-transitions/results/spectra_curve_benzene_b3lyp_def2-tzvp.csv

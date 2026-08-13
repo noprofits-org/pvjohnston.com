@@ -1,0 +1,300 @@
+{
+  "broadening_note": "The Gaussian FWHM below is applied by hand for display only. It is not a computed line shape: no vibronic (Franck-Condon) or inhomogeneous broadening was calculated. Band widths in the figures carry no physical information; positions and oscillator strengths do.",
+  "broadening_fwhm_eV_cosmetic": 0.35,
+  "primary_molecule": "dcdhf-me2",
+  "primary_functional": "cam-b3lyp",
+  "molecules": {
+    "benzene": {
+      "name": "benzene",
+      "formula": "C6H6",
+      "geometry": {
+        "start": {
+          "ring_rms_planarity_ang": 0.0,
+          "cc_bond_mean_ang": 1.3915,
+          "cc_bond_spread_ang": 0.0,
+          "ch_bond_mean_ang": 1.08,
+          "ch_bond_spread_ang": 0.0
+        },
+        "optimized": {
+          "ring_rms_planarity_ang": 0.0,
+          "cc_bond_mean_ang": 1.3988,
+          "cc_bond_spread_ang": 1e-05,
+          "ch_bond_mean_ang": 1.0933,
+          "ch_bond_spread_ang": 0.0
+        },
+        "optimized_comment": "benzene optimized b3lyp/def2-svp (C1, gau_tight) E=-232.08478417 Ha; from benzene-ideal.xyz",
+        "start_geometry": "geometry/benzene-ideal.xyz",
+        "delta_ring_rms_planarity_ang": 0.0,
+        "delta_cc_bond_mean_ang": -0.0073,
+        "delta_cc_bond_spread_ang": -0.0,
+        "delta_ch_bond_mean_ang": -0.0133,
+        "delta_ch_bond_spread_ang": 0.0
+      },
+      "runs": [
+        {
+          "functional": "b3lyp",
+          "basis": "def2-tzvp",
+          "method": "full RPA",
+          "n_basis_functions": 222,
+          "manifold": {
+            "n_states": 12,
+            "n_bright": 4,
+            "f_total": 1.18305,
+            "energy_range_eV": [
+              5.3753,
+              8.1368
+            ],
+            "lowest_bright_nm": 176.45,
+            "lowest_bright_f": 0.57817,
+            "lowest_bright_type": "pi->pi*",
+            "f_fraction_in_lowest_bright": 0.4887,
+            "f_above_lowest_bright": 0.02663
+          },
+          "band_occupancy": {
+            "band_center_eV": 7.0268,
+            "band_center_nm": 176.45,
+            "band_halfwidth_eV": 0.35,
+            "n_states_under_band": 4,
+            "n_bright_under_band": 2,
+            "states_under_band": [
+              3,
+              4,
+              5,
+              6
+            ],
+            "f_under_band": 1.15642,
+            "f_total_all_states": 1.18305,
+            "f_fraction_under_band": 0.9775,
+            "f_fraction_outside_band": 0.0225
+          },
+          "state_gaps": {
+            "s1_s2_gap_eV": 0.673,
+            "s1_s3_gap_eV": 1.6515,
+            "lowest_two_bright_gap_eV": 0.0,
+            "lowest_two_bright_states": [
+              3,
+              4
+            ],
+            "lowest_two_bright_f": [
+              0.57817,
+              0.57825
+            ],
+            "lowest_bright_f_share": 0.5
+          },
+          "tdscf_effective": {
+            "maxiter": 60,
+            "r_convergence": 1e-05,
+            "max_expansion_vectors": 3000
+          },
+          "sticks_csv": "results/spectra_sticks_benzene_b3lyp_def2-tzvp.csv",
+          "curve_csv": "results/spectra_curve_benzene_b3lyp_def2-tzvp.csv"
+        },
+        {
+          "functional": "cam-b3lyp",
+          "basis": "def2-tzvp",
+          "method": "full RPA",
+          "n_basis_functions": 222,
+          "manifold": {
+            "n_states": 12,
+            "n_bright": 4,
+            "f_total": 1.23267,
+            "energy_range_eV": [
+              5.4583,
+              8.6891
+            ],
+            "lowest_bright_nm": 174.22,
+            "lowest_bright_f": 0.60056,
+            "lowest_bright_type": "pi->pi*",
+            "f_fraction_in_lowest_bright": 0.4872,
+            "f_above_lowest_bright": 0.03146
+          },
+          "band_occupancy": {
+            "band_center_eV": 7.1165,
+            "band_center_nm": 174.22,
+            "band_halfwidth_eV": 0.35,
+            "n_states_under_band": 2,
+            "n_bright_under_band": 2,
+            "states_under_band": [
+              3,
+              4
+            ],
+            "f_under_band": 1.20121,
+            "f_total_all_states": 1.23267,
+            "f_fraction_under_band": 0.9745,
+            "f_fraction_outside_band": 0.0255
+          },
+          "state_gaps": {
+            "s1_s2_gap_eV": 0.69,
+            "s1_s3_gap_eV": 1.6582,
+            "lowest_two_bright_gap_eV": 0.0,
+            "lowest_two_bright_states": [
+              3,
+              4
+            ],
+            "lowest_two_bright_f": [
+              0.60056,
+              0.60065
+            ],
+            "lowest_bright_f_share": 0.5
+          },
+          "tdscf_effective": {
+            "maxiter": 60,
+            "r_convergence": 1e-05,
+            "max_expansion_vectors": 3000
+          },
+          "sticks_csv": "results/spectra_sticks_benzene_cam-b3lyp_def2-tzvp.csv",
+          "curve_csv": "results/spectra_curve_benzene_cam-b3lyp_def2-tzvp.csv"
+        }
+      ]
+    },
+    "dcdhf-me2": {
+      "name": "DCDHF-Me2",
+      "formula": "C18H16N4O",
+      "geometry": {
+        "start": {
+          "interring_twist_deg": 54.61,
+          "donor_ring_rms_planarity_ang": 0.0036,
+          "amine_N_angle_sum_deg": 348.7,
+          "amine_pyramidalization_deg": 11.3,
+          "aryl_furan_bond_ang": 1.4679,
+          "nitrile_bond_ang": [
+            1.1602,
+            1.1602,
+            1.1604
+          ]
+        },
+        "optimized": {
+          "interring_twist_deg": 0.0,
+          "donor_ring_rms_planarity_ang": 0.0,
+          "amine_N_angle_sum_deg": 360.0,
+          "amine_pyramidalization_deg": 0.0,
+          "aryl_furan_bond_ang": 1.4517,
+          "nitrile_bond_ang": [
+            1.162,
+            1.1623,
+            1.1622
+          ]
+        },
+        "optimized_comment": "DCDHF-Me2 optimized b3lyp/def2-svp (C1, gau_tight) E=-988.98532991 Ha; from dcdhf-me2-uff.xyz",
+        "start_geometry": "geometry/dcdhf-me2-uff.xyz",
+        "delta_interring_twist_deg": 54.61,
+        "delta_donor_ring_rms_planarity_ang": 0.0036,
+        "delta_amine_N_angle_sum_deg": -11.3,
+        "delta_amine_pyramidalization_deg": 11.3,
+        "delta_aryl_furan_bond_ang": 0.0162
+      },
+      "runs": [
+        {
+          "functional": "b3lyp",
+          "basis": "def2-tzvp",
+          "method": "full RPA",
+          "n_basis_functions": 809,
+          "manifold": {
+            "n_states": 12,
+            "n_bright": 8,
+            "f_total": 1.40504,
+            "energy_range_eV": [
+              3.0032,
+              5.5172
+            ],
+            "lowest_bright_nm": 412.85,
+            "lowest_bright_f": 0.9531,
+            "lowest_bright_type": "pi->pi*",
+            "f_fraction_in_lowest_bright": 0.6783,
+            "f_above_lowest_bright": 0.45194
+          },
+          "band_occupancy": {
+            "band_center_eV": 3.0032,
+            "band_center_nm": 412.85,
+            "band_halfwidth_eV": 0.35,
+            "n_states_under_band": 1,
+            "n_bright_under_band": 1,
+            "states_under_band": [
+              1
+            ],
+            "f_under_band": 0.9531,
+            "f_total_all_states": 1.40504,
+            "f_fraction_under_band": 0.6783,
+            "f_fraction_outside_band": 0.3217
+          },
+          "state_gaps": {
+            "s1_s2_gap_eV": 0.5117,
+            "s1_s3_gap_eV": 1.1309,
+            "lowest_two_bright_gap_eV": 0.5117,
+            "lowest_two_bright_states": [
+              1,
+              2
+            ],
+            "lowest_two_bright_f": [
+              0.9531,
+              0.05803
+            ],
+            "lowest_bright_f_share": 0.9426
+          },
+          "tdscf_effective": {
+            "maxiter": 60,
+            "r_convergence": 1e-05,
+            "max_expansion_vectors": 3000
+          },
+          "sticks_csv": "results/spectra_sticks_dcdhf-me2_b3lyp_def2-tzvp.csv",
+          "curve_csv": "results/spectra_curve_dcdhf-me2_b3lyp_def2-tzvp.csv"
+        },
+        {
+          "functional": "cam-b3lyp",
+          "basis": "def2-tzvp",
+          "method": "full RPA",
+          "n_basis_functions": 809,
+          "manifold": {
+            "n_states": 12,
+            "n_bright": 7,
+            "f_total": 1.51549,
+            "energy_range_eV": [
+              3.3178,
+              6.2039
+            ],
+            "lowest_bright_nm": 373.69,
+            "lowest_bright_f": 1.12392,
+            "lowest_bright_type": "pi->pi*",
+            "f_fraction_in_lowest_bright": 0.7416,
+            "f_above_lowest_bright": 0.39157
+          },
+          "band_occupancy": {
+            "band_center_eV": 3.3178,
+            "band_center_nm": 373.69,
+            "band_halfwidth_eV": 0.35,
+            "n_states_under_band": 1,
+            "n_bright_under_band": 1,
+            "states_under_band": [
+              1
+            ],
+            "f_under_band": 1.12392,
+            "f_total_all_states": 1.51549,
+            "f_fraction_under_band": 0.7416,
+            "f_fraction_outside_band": 0.2584
+          },
+          "state_gaps": {
+            "s1_s2_gap_eV": 0.8945,
+            "s1_s3_gap_eV": 1.1901,
+            "lowest_two_bright_gap_eV": 0.8945,
+            "lowest_two_bright_states": [
+              1,
+              2
+            ],
+            "lowest_two_bright_f": [
+              1.12392,
+              0.02418
+            ],
+            "lowest_bright_f_share": 0.9789
+          },
+          "tdscf_effective": {
+            "maxiter": 60,
+            "r_convergence": 1e-05,
+            "max_expansion_vectors": 3000
+          },
+          "sticks_csv": "results/spectra_sticks_dcdhf-me2_cam-b3lyp_def2-tzvp.csv",
+          "curve_csv": "results/spectra_curve_dcdhf-me2_cam-b3lyp_def2-tzvp.csv"
+        }
+      ]
+    }
+  }
+}

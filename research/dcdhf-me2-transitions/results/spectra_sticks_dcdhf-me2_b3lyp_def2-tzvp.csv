@@ -1,0 +1,13 @@
+state,energy_eV,wavelength_nm,oscillator_strength,hole_particle_dist_ang,type,dominant
+1,3.0032,412.85,0.9531,0.58,pi->pi*,HOMO->LUMO (98.1%)
+2,3.5149,352.74,0.05803,0.79,pi->pi*,HOMO-1->LUMO (93.0%)
+3,4.1341,299.91,0.00446,2.63,dark/weak,HOMO-2->LUMO (57.3%); HOMO->LUMO+1 (38.4%)
+4,4.485,276.44,0.04137,1.61,pi->pi*,HOMO->LUMO+1 (56.4%); HOMO-2->LUMO (40.3%)
+5,4.7095,263.26,0.09185,1.95,pi->pi*,HOMO->LUMO+2 (62.3%); HOMO-3->LUMO (25.7%)
+6,4.8208,257.19,0.03012,0.8,pi->pi*,HOMO-3->LUMO (64.1%); HOMO->LUMO+2 (29.5%)
+7,4.9051,252.77,1e-05,3.98,dark/weak,HOMO-4->LUMO (90.3%); HOMO-5->LUMO (5.3%)
+8,4.9566,250.14,3e-05,3.19,dark/weak,HOMO->LUMO+3 (88.4%); HOMO-1->LUMO+3 (7.8%)
+9,5.0754,244.28,0.01183,2.9,CT,HOMO-1->LUMO+1 (93.9%)
+10,5.2692,235.3,1e-05,4.22,dark/weak,HOMO-5->LUMO (86.7%); HOMO-4->LUMO (6.5%)
+11,5.4385,227.98,0.19965,0.69,pi->pi*,HOMO-1->LUMO+2 (91.8%)
+12,5.5172,224.72,0.01458,4.22,CT,HOMO->LUMO+5 (86.2%)

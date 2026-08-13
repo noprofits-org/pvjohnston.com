@@ -1,0 +1,76 @@
+{
+  "reference_energy_Ha": -988.9853299243263,
+  "geometry": "geometry/dcdhf-me2-def2-svp-opt.xyz",
+  "geometry_comment": "DCDHF-Me2 optimized b3lyp/def2-svp (C1, gau_tight) E=-988.98532991 Ha; from dcdhf-me2-uff.xyz",
+  "level": "b3lyp/def2-svp single points, rigid displacements",
+  "limitation": "Rigid displacements along two coordinates only, not a frequency calculation. Rules out the two specific instabilities motivating the check; does not prove a true minimum.",
+  "twist_scan": [
+    {
+      "displacement_deg": -20.0,
+      "resulting_twist_deg": 20.0,
+      "energy_Ha": -988.9829055035383,
+      "delta_E_kcal_per_mol": 1.5213
+    },
+    {
+      "displacement_deg": -10.0,
+      "resulting_twist_deg": 10.0,
+      "energy_Ha": -988.9846354487336,
+      "delta_E_kcal_per_mol": 0.4358
+    },
+    {
+      "displacement_deg": 10.0,
+      "resulting_twist_deg": 10.0,
+      "energy_Ha": -988.9846355254175,
+      "delta_E_kcal_per_mol": 0.4357
+    },
+    {
+      "displacement_deg": 20.0,
+      "resulting_twist_deg": 20.0,
+      "energy_Ha": -988.9829056271867,
+      "delta_E_kcal_per_mol": 1.5213
+    }
+  ],
+  "pyramidalization_scan": [
+    {
+      "displacement_ang": -0.15,
+      "resulting_pyramidalization_deg": 3.3,
+      "energy_Ha": -988.9808035367778,
+      "delta_E_kcal_per_mol": 2.8404
+    },
+    {
+      "displacement_ang": 0.15,
+      "resulting_pyramidalization_deg": 3.3,
+      "energy_Ha": -988.9808030263916,
+      "delta_E_kcal_per_mol": 2.8407
+    }
+  ],
+  "symmetry_pairs": [
+    {
+      "scan": "twist_scan",
+      "magnitude": 10.0,
+      "unit": "deg",
+      "energy_split_Ha": 7.668393209314672e-08,
+      "energy_split_microhartree": 0.0767,
+      "consistent": true
+    },
+    {
+      "scan": "twist_scan",
+      "magnitude": 20.0,
+      "unit": "deg",
+      "energy_split_Ha": 1.236484195032972e-07,
+      "energy_split_microhartree": 0.1236,
+      "consistent": true
+    },
+    {
+      "scan": "pyramidalization_scan",
+      "magnitude": 0.15,
+      "unit": "ang",
+      "energy_split_Ha": 5.103861440147739e-07,
+      "energy_split_microhartree": 0.5104,
+      "consistent": true
+    }
+  ],
+  "symmetry_check_passed": true,
+  "all_displacements_raise_energy": true,
+  "verdict": "Energy rises for every tested displacement: the planar structure is a local minimum along the inter-ring twist and amine pyramidalization coordinates. This is NOT a frequency calculation and no true minimum is claimed."
+}

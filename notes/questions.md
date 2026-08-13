@@ -1004,3 +1004,98 @@ Format:
   is incomplete at the single-particle level
 - **Status:** ready — shelved; the blinking-to-absorption framing is the lower
   hanging fruit
+
+---
+
+## How many electronic transitions sit under DCDHF-Me2's visible band?
+- **Observed:** The blinking-to-absorption note (2026-08-12) models a dye as two
+  electronic levels and names what that hides — higher excited states,
+  excited-state absorption. DCDHF-Me2, the push-pull dye this site computed on
+  in 2025, is the natural molecule to count states for: TD-DFT gives the
+  singlet manifold, oscillator strengths, and gaps on the same footing.
+- **Source:** own next step from the blinking-to-absorption note; the 2025
+  DCDHF tooling posts supply the starting structure.
+- **Type:** composition
+- **Contribution (candidate):** a computed excited-state manifold for a real
+  single-molecule dye, read explicitly against the two-level idealization the
+  previous note used.
+- **Falsifier:** the manifold turns out empty near S1 — the two-level picture
+  needs no correction for this dye within the computed window — which is
+  itself the reportable outcome.
+- **Status:** drafting — experiment `dcdhf-me2-transitions` running; post
+  skeleton in place.
+
+## Is the green of the DCDHF fluoro precursor's crystals intrinsic to the isolated molecule?
+- **Observed:** Bench observation: crystals of the fluoro precursor to the
+  DCDHF amine dyes (F in place of the NMe2 donor; SNAr with amines gives the
+  dyes) were green. Green by transmission means absorbing roughly 620–700 nm.
+  Whether the isolated F molecule can absorb there at all is untested by us,
+  and we could not name a published spectrum for it from memory.
+- **Source:** standing — own bench observation from DCDHF synthesis; Lu et al.
+  chemistry for the skeleton.
+- **Type:** quantification / negative result
+- **Contribution (candidate):** a same-footing TD-DFT manifold for the ~32-atom
+  F analog (the `dcdhf-me2-transitions` harness reads any xyz; its topology
+  check is DCDHF-Me2-specific and needs generalizing), testing whether any
+  strong (f ≳ 0.1) transition sits in the red for the isolated molecule.
+- **Predictions, to freeze in PREREGISTRATION.md before the run (consensus
+  after discussion, 2026-08-12):** (1) the lowest transition's dipole and
+  oscillator strength drop substantially without the amine donor; (2) versus
+  DCDHF-Me2 the gap widens — the TCF-localized LUMO barely feels the para
+  substituent while losing the amine conjugation lowers the HOMO. The F-vs-H
+  sign question that was registered here is generic donor-axis physics and
+  does not need the TCF acceptor — it has moved to its own entry (the
+  benzylidenemalononitrile series, below), which answers it on an ~18-atom
+  scaffold. This entry keeps only what requires the real precursor: whether
+  the specific DCDHF-F molecule has any strong red absorption.
+- **Falsifier (for "intrinsic"):** no strong transition below ~2.0 eV for the
+  isolated molecule rules out the intrinsic-molecular explanation; impurity,
+  crystal packing/aggregation, and metallic reflection sheen of a strongly
+  absorbing solid all remain, and an isolated-molecule calculation cannot
+  separate those.
+- **Status:** ready — smaller than DCDHF-Me2 (~32 atoms), same pipeline; run
+  after `dcdhf-me2-transitions` closes out.
+
+## Is para-fluorine a net donor or a net acceptor in a minimal push-pull dye?
+- **Observed:** Discussing the DCDHF fluoro precursor we registered an open
+  call: at the para position of a donor-π-acceptor dye, F's −I withdrawal and
+  its weak +R π-donation into the CT state pull the transition energy in
+  opposite directions, and the net sign is unknown to us. The question is
+  generic — it needs a π-acceptor, not specifically TCF (PJ proposal: use the
+  TCF precursor chemistry instead; malononitrile's Knoevenagel condensation
+  with benzaldehydes gives the minimal dicyanovinyl scaffold).
+- **Source:** own registered open call from the fluoro-precursor entry.
+- **Type:** quantification
+- **Contribution (candidate):** a three-point TD-DFT donor series on
+  para-X-benzylidenemalononitrile, Ar–CH=C(CN)₂, X = H, F, NMe2 — 18, 18,
+  and 26 atoms (~410–540 def2-TZVP functions), each leg minutes on the
+  current box. Three points give the trend a shape: a genuine −I-vs-+R
+  competition shows up as a non-monotonic shift or oscillator strength along
+  the donor axis rather than as one ambiguous two-point step. The NMe2
+  compound is a known molecular-rotor chromophore, so literature spectra
+  exist as sanity anchors; the series settles our registered call on our own
+  footing rather than claiming an unexplored system.
+- **Falsifier:** the F compound's S1 lands red of the H parent (F net donor)
+  or blue of it (F net acceptor) — either outcome resolves the registered
+  call; a non-monotonic trend against donor strength anywhere in the series
+  is the more interesting result. Freeze the predictions in
+  PREREGISTRATION.md before the canonical runs.
+- **Status:** ready — cheapest experiment on the shelf. (Harness note:
+  run_tddft.py's topology check hard-codes DCDHF-Me2 and will refuse these
+  by design; the connectivity-based generalization comes first, as a separate
+  change after `dcdhf-me2-transitions` closes.)
+
+## Does the CF3/phenyl TCF acceptor red-shift DCDHF the way acceptor strength predicts?
+- **Observed:** The stronger TCF acceptor replaces the gem-dimethyls with CF3
+  and phenyl: net +3 F, +5 C, +2 H → 46 atoms, roughly 1070 def2-TZVP basis
+  functions against DCDHF-Me2's 809 (~+30%). Feasible on the current box with
+  care; slower and nearer the memory ceiling.
+- **Source:** own next step from `dcdhf-me2-transitions` (PJ suggestion);
+  natural territory for the hyperpolarizability thread.
+- **Type:** untested regime (for our pipeline)
+- **Contribution (candidate):** a same-footing acceptor-strength comparison
+  against the Me2 baseline: gap, oscillator strength, CT character. Expected:
+  red shift with retained oscillator strength — the classic acceptor lever.
+- **Falsifier:** the computed S1 fails to red-shift versus DCDHF-Me2 under the
+  stronger acceptor.
+- **Status:** shelved — queue after the fluoro-precursor question.
