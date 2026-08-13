@@ -18,6 +18,7 @@ const experimentDir = dirname(fileURLToPath(import.meta.url));
 const root = resolve(experimentDir, '../..');
 const outputPath = resolve(experimentDir, 'metrics.json');
 const input = 'research/dcdhf-me2-transitions/results/summary.json';
+const stationaryInput = 'research/dcdhf-me2-transitions/results/stationary_check.json';
 const checkOnly = process.argv.includes('--check');
 
 const PRIMARY_MOLECULE = 'dcdhf-me2';
@@ -87,6 +88,17 @@ function build(generatedAt) {
   if (!geom?.optimized) {
     throw new Error(`${input} has no optimized geometry; run the optimize stage first`);
   }
+  const stationary = JSON.parse(readFileSync(resolve(root, stationaryInput), 'utf8'));
+  const twist20 = stationary.twist_scan.find((s) => s.displacement_deg === 20.0);
+  const twist10 = stationary.twist_scan.find((s) => s.displacement_deg === 10.0);
+  const pyr = stationary.pyramidalization_scan.find((s) => s.displacement_ang === 0.15);
+  if (!twist20 || !twist10 || !pyr) {
+    throw new Error(`${stationaryInput} is missing an expected displacement; ` +
+      `re-run check_stationary.py with the default scan points`);
+  }
+  const worstSplit = Math.max(
+    ...stationary.symmetry_pairs.map((p) => p.energy_split_microhartree));
+
   const bgap = benzene.state_gaps;
   if (bgap?.lowest_bright_f_share === undefined) {
     throw new Error(
@@ -103,7 +115,10 @@ function build(generatedAt) {
     provenance: {
       generated_at: generatedAt,
       generator: relative(root, fileURLToPath(import.meta.url)),
-      inputs: [{ path: input, sha256: sha256(input) }],
+      inputs: [
+        { path: input, sha256: sha256(input) },
+        { path: stationaryInput, sha256: sha256(stationaryInput) },
+      ],
     },
     metrics: {
       // --- the manifold: the point of the experiment
@@ -188,6 +203,36 @@ function build(generatedAt) {
         summary.molecules[CONTRAST_MOLECULE].geometry.optimized.cc_bond_spread_ang, 5,
         'Spread between longest and shortest C-C bond at benzene\'s B3LYP/def2-SVP minimum',
         'A'),
+
+      // --- results the prose leans on, which must not be hand-typed
+      s1_s2_gap_ev_b3lyp: num(
+        secondary.state_gaps.s1_s2_gap_eV, 2,
+        'Energy gap from S1 to S2 under B3LYP/def2-TZVP, showing the isolated lowest state is not an artefact of functional choice',
+        'eV'),
+      functional_shift_ev: num(
+        primary.band_occupancy.band_center_eV - secondary.band_occupancy.band_center_eV, 3,
+        'Blue shift of the lowest bright state from B3LYP to CAM-B3LYP, the signature of charge-transfer character',
+        'eV'),
+
+      // Stationary-point evidence. These are the numbers behind the claim that
+      // the planar structure is a minimum along the tested coordinates, so
+      // they belong in the projection rather than typed into prose.
+      stationary_twist20_rise_kcal: num(
+        twist20.delta_E_kcal_per_mol, 2,
+        'Energy rise on rigidly twisting the donor ring 20 degrees from the planar minimum',
+        'kcal/mol'),
+      stationary_twist10_rise_kcal: num(
+        twist10.delta_E_kcal_per_mol, 2,
+        'Energy rise on rigidly twisting the donor ring 10 degrees from the planar minimum',
+        'kcal/mol'),
+      stationary_pyramid_rise_kcal: num(
+        pyr.delta_E_kcal_per_mol, 2,
+        'Energy rise on displacing the amine nitrogen 0.15 A out of its substituent plane',
+        'kcal/mol'),
+      stationary_worst_pair_split_uhartree: num(
+        worstSplit, 2,
+        'Largest energy split between mirror-related displacement pairs, the self-test on the displacement construction',
+        'microhartree'),
 
       // --- benzene, the contrast case: one apparent band, two degenerate
       // transitions sharing the strength, versus the dye's single dominant one

@@ -1,8 +1,3 @@
-<!-- DRAFT v2 (STOKES) — reframed per Peter's ruling: the two-level picture is
-     EARNED for this dye; benzene added as symmetry contrast. Remaining
-     TODO(...) markers await: benzene manifold + its metric keys, final
-     figure(s), post-ready Table 1 variant from KRAMERS. Do not publish with
-     markers present. Checkpoint of canonical inputs: commit 601903d. -->
 ---
 title: "One dye, one transition: how DCDHF-Me2 earns the two-level picture"
 date: 2026-08-13
@@ -31,8 +26,8 @@ what the molecule was designed for.
 The route: introduce the molecule and why it is the right example (§2), get
 its geometry onto defensible footing (§3), compute the singlet excitation
 manifold with time-dependent density functional theory (§4), set benzene —
-the dye's own parent ring — beside it as the symmetry contrast (§5), and then
-read both manifolds against the two-level picture (§6).
+the dye's own parent ring — beside it as the symmetry contrast (§5), and
+then read both manifolds against the two-level picture (§6).
 
 ## 2. The molecule: a push-pull dye built to be watched one at a time
 
@@ -82,11 +77,13 @@ aniline — we interrogated the stationary point along the two coordinates that
 could plausibly be unstable: rigid single-point displacements of the
 inter-ring twist (±10°, ±20°) and of the amine nitrogen out of its
 substituent plane (±0.15 Å), at the optimization level of theory. The energy
-rises for every displacement — by 0.44 and 1.52 kcal/mol along the twist and
-by 2.84 kcal/mol for the amine — and, because the optimized structure is
-exactly planar, each ± pair is mirror-equivalent and must agree by symmetry:
-the largest observed pair split is 0.51 microhartree, which validates the
-displacement construction itself. This rules out the two specific
+rises for every displacement — by [stationary_twist10_rise_kcal]{.metric} and
+[stationary_twist20_rise_kcal]{.metric} kcal/mol along the twist and by
+[stationary_pyramid_rise_kcal]{.metric} kcal/mol for the amine — and, because
+the optimized structure is exactly planar, each ± pair is mirror-equivalent
+and must agree by symmetry: the largest observed pair split is
+[stationary_worst_pair_split_uhartree]{.metric} microhartree, which validates
+the displacement construction itself. This rules out the two specific
 instabilities that motivated the check. It is not a frequency calculation,
 and no true minimum is claimed.
 
@@ -108,94 +105,222 @@ The answer to the title question is: **one**. The lowest excitation sits at
 [band_center_nm]{.metric} nm ([band_center_ev]{.metric} eV) and is a nearly
 pure HOMO→LUMO promotion carrying an oscillator strength of
 [lowest_bright_f]{.metric} — [f_fraction_in_lowest_bright]{.metric} of all
-the absorption strength in the computed window. Of
+the absorption strength in the computed window (Table 1). Of
 [n_states_computed]{.metric} computed states, [n_bright_states]{.metric}
-clear the f ≥ 0.01 brightness convention, but within ±0.35 eV of that lowest
-bright transition — the empirical band width this site's earlier TD-DFT notes
-applied to their stick spectra — sits exactly
-[n_states_under_band]{.metric} state: S₁ itself. The gap to the next state of
-any kind is [s1_s2_gap_ev]{.metric} eV ([lowest_two_bright_gap_ev]{.metric}
-eV to the next *bright* state — here the same state, S₂), and the rest of the
-manifold begins another electron-volt above that: real, several of its states
-genuinely bright, and all of it in the deep UV between 4.5 and 6.2 eV where
-no visible-band measurement will conflate it with S₁ (Table 1, Figure 1).
+clear the f ≥ 0.01 brightness convention, but within ±0.35 eV of the lowest
+bright transition — the empirical band width this site's earlier TD-DFT
+notes applied to their stick spectra — sits exactly
+[n_states_under_band]{.metric} state: S₁ itself. The next state of any kind
+is [s1_s2_gap_ev]{.metric} eV away, and the rest of the manifold begins
+another electron-volt above that: real, several of its states genuinely
+bright, and all of it in the deep UV between 4.5 and 6.2 eV, where no
+visible-band measurement will conflate it with S₁ (Figure 1).
 
 B3LYP tells the same story shifted red: lowest bright state at
-[band_center_nm_b3lyp]{.metric} nm, S₁–S₂ gap 0.51 eV, still no second state
-within the band window. The 0.315 eV blue shift from B3LYP to CAM-B3LYP is
-itself diagnostic: it is the signature of substantial charge-transfer
-character in S₁, the same signature the push-pull note measured at 0.42 eV
-for para-nitroaniline.
+[band_center_nm_b3lyp]{.metric} nm, an S₁–S₂ gap of
+[s1_s2_gap_ev_b3lyp]{.metric} eV, and still no second state within the band
+window. The [functional_shift_ev]{.metric} eV blue shift from B3LYP to
+CAM-B3LYP is itself diagnostic: it is the signature of substantial
+charge-transfer character in S₁ — the same signature the push-pull note
+measured at 0.42 eV for para-nitroaniline.
 
-<!-- TODO(STOKES): Table 1 — paste post-ready CAM-B3LYP table variant
-     (requested from KRAMERS: no Δr / no auto-Character columns, generated
-     not hand-stripped). Caption: **Table 1.** The twelve computed singlet
-     states of DCDHF-Me2 at CAM-B3LYP/def2-TZVP... referenced above. -->
+| State | E (eV) | λ (nm) | f | Dominant excitation |
+|---:|---:|---:|---:|---|
+| S1 | 3.32 | 374 | 1.1239 | HOMO→LUMO (96.5%) |
+| S2 | 4.21 | 294 | 0.0242 | HOMO-1→LUMO (94.9%) |
+| S3 | 4.51 | 275 | 0.0062 | HOMO→LUMO+1 (46.4%); HOMO-2→LUMO (38.6%); HOMO-1→LUMO+1 (6.3%) |
+| S4 | 5.11 | 243 | 0.0853 | HOMO-2→LUMO (53.6%); HOMO→LUMO+1 (37.5%) |
+| S5 | 5.29 | 235 | 0.1138 | HOMO→LUMO+2 (71.8%); HOMO-3→LUMO (6.1%); HOMO-1→LUMO+2 (5.7%) |
+| S6 | 5.46 | 227 | 0.0000 | HOMO→LUMO+3 (46.2%); HOMO-1→LUMO+3 (18.3%); HOMO→LUMO+4 (12.2%); HOMO-1→LUMO+4 (5.9%) |
+| S7 | 5.47 | 227 | 0.0810 | HOMO-3→LUMO (81.9%) |
+| S8 | 5.62 | 221 | 0.0002 | HOMO-4→LUMO (58.6%); HOMO-5→LUMO (17.4%); HOMO-8→LUMO (14.9%) |
+| S9 | 5.98 | 207 | 0.0525 | HOMO→LUMO+5 (61.9%); HOMO-1→LUMO+2 (15.2%); HOMO→LUMO+2 (5.2%); HOMO-2→LUMO+1 (5.1%) |
+| S10 | 6.11 | 203 | 0.0043 | HOMO→LUMO+3 (26.4%); HOMO→LUMO+8 (16.0%); HOMO-1→LUMO+3 (10.1%); HOMO-3→LUMO+3 (7.1%) |
+| S11 | 6.17 | 201 | 0.0218 | HOMO→LUMO+4 (53.8%); HOMO-1→LUMO+4 (10.3%) |
+| S12 | 6.20 | 200 | 0.0023 | HOMO-5→LUMO (39.1%); HOMO-4→LUMO (20.9%); HOMO-4→LUMO+2 (8.9%); HOMO-8→LUMO (8.0%) |
 
-<!-- TODO(STOKES): Figure 1 — final generated figure (single- or two-panel
-     pending benzene). Insert tikz verbatim; caption names the
-     [broadening_fwhm_ev_cosmetic]{.metric} eV envelope as display-only. -->
+**Table 1.** The twelve computed singlet states of DCDHF-Me2 at
+CAM-B3LYP/def2-TZVP: one intense HOMO→LUMO transition, then nothing of
+comparable strength anywhere in the window. The generated per-state record in
+the experiment directory additionally carries hole–particle distances and an
+automated character label, omitted here for a reason given in §8.
 
 ## 5. The contrast: benzene's band is a degenerate pair
 
-<!-- TODO(STOKES): benzene manifold + metric keys pending from KRAMERS.
-     Structure agreed: benzene's strongly allowed band is a
-     symmetry-degenerate E1u pair — two bright states splitting the strength
-     ~50/50 — against DCDHF-Me2's one state at 74%. Mechanism sentence:
-     benzene's sixfold symmetry makes the pair degenerate; donor–acceptor
-     substitution destroys that symmetry and funnels the strength into one
-     state. MUST state plainly: benzene's band is at ~7 eV, deep UV — the
-     comparison is about how many transitions share one apparent band, not
-     about visible color. Note benzene re-run under the same Psi4 1.9.1
-     environment as the dye (cross-environment numbers are not a
-     comparison). Lineage point: benzene is literally the parent ring of the
-     dye's donor half — the same ring the push-pull note walked through the
-     aniline/nitrobenzene/pNA series. -->
+Benzene earns its place in this note twice over: it is the simplest molecule
+whose strongly allowed band is *not* one transition, and it is literally the
+parent ring of DCDHF-Me2's donor half — the same ring the [push-pull
+note](/posts/2026-07-05-push-pull-chromophores-charge-transfer.html) walked
+through the aniline → nitrobenzene → para-nitroaniline series. We recomputed
+it with the identical harness, functional, basis, band window, and software
+environment as the dye, because numbers imported from a different environment
+would not be a comparison.
+
+The symmetry underneath the contrast is measured, not assumed: at the
+B3LYP/def2-SVP minimum all six carbon–carbon bonds agree to within
+[benzene_cc_bond_spread_ang]{.metric} Å, so the ring's sixfold symmetry
+survives an optimization that ran in C1 and was free to break it. On that
+frame the manifold arranges itself in the opposite way to the dye's
+(Table 2). The two lowest singlets, at 5.46 and 6.15 eV, are
+symmetry-forbidden and carry zero oscillator strength — the [selection-rules
+note](/posts/2026-07-08-forbidden-and-allowed-symmetry-selection-rules.html)
+is about exactly this kind of extinction. The strongly allowed band at
+[benzene_band_center_ev]{.metric} eV is an exactly degenerate pair: two
+states separated by [benzene_lowest_two_bright_gap_ev]{.metric} eV, splitting
+the band's strength down the middle — the lower partner carries
+[benzene_lowest_bright_f_share]{.metric} of the pair's total. Under the same
+±0.35 eV window that found one state for the dye, benzene holds
+[benzene_n_states_under_band]{.metric} states, both bright (Figure 1). And
+the pattern repeats one rung up: the next pair, at 7.70 eV, is also exactly
+degenerate — dark, but degenerate — because degeneracy here is not numerical
+coincidence; it is what a two-dimensional irreducible representation of a
+sixfold-symmetric ring enforces.
+
+```tikzpicture
+\begin{axis}[
+    width=14cm, height=9cm,
+    xlabel={excitation energy (eV)},
+    ylabel={oscillator strength $f$},
+    title={One apparent band, one transition or two},
+    xmin=2.5, xmax=8.9, ymin=0, ymax=1.405,
+    grid=major,
+    grid style={line width=.2pt, draw=gray!40},
+    axis lines=left,
+    legend pos=north east,
+    legend style={draw=none, fill=white, fill opacity=0.85},
+    every axis label/.style={font=\large},
+    every tick label/.style={font=\large},
+    title style={font=\large\bfseries}
+]
+\addplot[ycomb, very thick, color=blue!65!black, mark=*, mark size=1.4pt] coordinates {
+  (7.117,0.6006) (7.117,0.6007) (7.973,0.0112) (8.447,0.0202)
+};
+\addplot[ycomb, very thick, color=red!70!black, mark=*, mark size=1.4pt] coordinates {
+  (3.318,1.1239) (4.212,0.0242) (4.508,0.0062) (5.112,0.0853) (5.286,0.1138) (5.473,0.0810) (5.618,0.0002) (5.984,0.0525) (6.113,0.0043) (6.170,0.0218) (6.204,0.0023)
+};
+\legend{benzene, DCDHF-Me2}
+\end{axis}
+```
+
+**Figure 1.** Computed stick spectra of both molecules on one energy axis at
+CAM-B3LYP/def2-TZVP, deliberately un-normalized: oscillator strengths are
+directly comparable as computed, and normalizing each molecule to its own
+maximum would erase the comparison the figure exists to make. DCDHF-Me2
+(red) concentrates its strength in one state at 3.32 eV; benzene (blue)
+splits its strength between two exactly coincident sticks at 7.12 eV, drawn
+overlapping. No envelope is drawn: line widths are not computed in this
+experiment.
+
+The mechanism of the contrast fits in one sentence: benzene's symmetry
+forces its bright transitions into a degenerate pair, and substituting a
+donor on one side of the ring and an acceptor on the other destroys that
+symmetry and funnels the strength into a single state.
+
+One thing this comparison is not: benzene's allowed band sits at 7.1 eV —
+174 nm, deep vacuum-ultraviolet — so nothing here compares visible colors.
+The comparison is about the composition of one apparent band. For benzene it
+is two transitions sharing one line; for the dye it is one transition
+wearing the whole band.
+
+| State | E (eV) | λ (nm) | f | Dominant excitation |
+|---:|---:|---:|---:|---|
+| S1 | 5.46 | 227 | 0.0000 | HOMO→LUMO (49.7%); HOMO-1→LUMO+1 (49.7%) |
+| S2 | 6.15 | 202 | 0.0000 | HOMO-1→LUMO (49.3%); HOMO→LUMO+1 (49.3%) |
+| S3 | 7.12 | 174 | 0.6006 | HOMO-1→LUMO+1 (48.1%); HOMO→LUMO (48.1%) |
+| S4 | 7.12 | 174 | 0.6007 | HOMO→LUMO+1 (48.1%); HOMO-1→LUMO (48.1%) |
+| S5 | 7.70 | 161 | 0.0000 | HOMO→LUMO+2 (96.9%) |
+| S6 | 7.70 | 161 | 0.0000 | HOMO-1→LUMO+2 (96.9%) |
+| S7 | 7.89 | 157 | 0.0000 | HOMO-2→LUMO (49.3%); HOMO-3→LUMO+1 (48.7%) |
+| S8 | 7.97 | 156 | 0.0112 | HOMO-2→LUMO+1 (49.8%); HOMO-3→LUMO (48.6%) |
+| S9 | 7.99 | 155 | 0.0000 | HOMO-3→LUMO (49.5%); HOMO-2→LUMO+1 (48.3%) |
+| S10 | 7.99 | 155 | 0.0000 | HOMO-3→LUMO+1 (49.2%); HOMO-2→LUMO (48.6%) |
+| S11 | 8.45 | 147 | 0.0202 | HOMO→LUMO+3 (46.1%); HOMO-1→LUMO+4 (46.0%); HOMO-4→LUMO+2 (5.9%) |
+| S12 | 8.69 | 143 | 0.0000 | HOMO-1→LUMO+4 (48.4%); HOMO→LUMO+3 (48.4%) |
+
+**Table 2.** The twelve computed singlet states of benzene under the
+identical protocol: forbidden states with exactly zero strength, and bright
+strength arriving only as a degenerate pair. Every dominant excitation is an
+almost exactly equal two-configuration mixture — the orbital-level
+fingerprint of a degenerate frame.
 
 ## 6. Why the idealization is earned, not lucky
 
-<!-- TODO(STOKES): write after benzene numbers land, but the argument is
-     fixed: (a) oscillator strength is budgeted — f = 1.12 in S1 is near the
-     practical ceiling for a chromophore this size, and a molecule engineered
-     for single-molecule brightness is a molecule engineered to concentrate
-     its transition strength into one state; (b) attribute design goals
-     accurately: Lu et al. optimized brightness and photostability, not
-     "two-levelness" — the isolated S1 is a consequence, not the stated aim;
-     (c) the UV manifold is exactly where the previous note's excluded
-     channels live (excited-state absorption from S1, two-photon-accessible
-     states); (d) close the loop to PR #75: the approximation holds for this
-     dye because dyes like it were selected to make it hold. -->
+Set side by side under identical conditions, the two molecules answer the
+title question in opposite ways. Of the strength shared by its two lowest
+bright states, benzene's lower partner carries
+[benzene_lowest_bright_f_share]{.metric}; DCDHF-Me2's carries
+[lowest_bright_f_share]{.metric}. That number is the post in one line.
+
+It is also not luck. Oscillator strength is a budgeted quantity, and an f of
+[lowest_bright_f]{.metric} in a single transition is close to the practical
+ceiling for a chromophore of this size — a molecule engineered for
+single-molecule detection is a molecule engineered to be bright, and bright
+means concentrating the available transition strength into the one state the
+laser will drive. The DCDHF designers optimized brightness and
+photostability;[@Lu2009] an isolated, dominant S₁ is a consequence of those
+goals, not their stated aim, but the consequence is what the manifold shows.
+Benzene, with no donor, no acceptor, and a symmetry that forbids
+favoritism among equivalent directions, spreads the same budget across a
+degenerate pair — and one substitution pattern later, on the same ring, the
+degeneracy is gone and the funnel exists.
+
+What the two-level model hides is therefore real but relocated. The dye's
+higher states — several genuinely bright — sit between 4.5 and 6.2 eV,
+which is exactly where the [previous
+note](/posts/2026-08-12-from-blinking-to-absorption.html)'s excluded
+channels operate: excited-state absorption out of S₁ terminates in this
+manifold, and the states its nonlinear section reached with two photons live
+here as well. Nothing in the visible band needs them; everything beyond the
+two-level picture starts with them.
+
+So the blinking note's idealization, applied to the dye class it was written
+about, is not an approximation forced on an unwilling molecule. A
+single-molecule fluorophore behaves like a two-level system because it was
+built to; the approximation and the design are the same fact read twice.
 
 ## 7. Reproducibility
 
-<!-- TODO(STOKES): finalize once benzene lands and the harness reconciliation
-     commit exists. Facts to carry: Psi4 1.9.1 (conda env psi4_19), Python
-     3.10.17, numpy 2.2.5; 6 threads / 6 GB; two-stage run_all.sh (optimize:
-     B3LYP/def2-SVP gau_tight; excite: full-RPA TD-DFT, 12 singlets,
-     def2-TZVP per functional); UFF start from the 2025 SI; canonical outputs
-     + stationary check under research/dcdhf-me2-transitions/; checkpoint
-     commit 601903d. Solver facts (do not lump): TD eigensolver iteration cap
-     is a hard 60 in 1.9.1 — both the kwarg and the global option are
-     silently ignored; unconverged roots raise TDSCFConvergenceError (loud);
-     r_convergence 1e-5 takes effect; results record requested vs effective
-     side by side. -->
+Both molecules ran through the same two-stage pipeline
+(`research/dcdhf-me2-transitions/`, driven by `run_all.sh`): geometry
+optimization at B3LYP/def2-SVP (C1, `gau_tight`), then full-response TD-DFT
+for the 12 lowest singlets at def2-TZVP with CAM-B3LYP and B3LYP, in Psi4
+1.9.1 (conda env `psi4_19`, Python 3.10.17, NumPy 2.2.5), on 6 threads with
+a 6 GB memory target, on x86_64 Linux. The DCDHF-Me2 starting geometry is
+the Avogadro/UFF structure published in the 2025 supporting-information
+note; benzene was built and optimized under the same protocol and, unlike
+the dye, was recomputed rather than inherited from this site's earlier
+push-pull work, because those numbers came from a software environment that
+no longer exists on this machine. One solver fact is worth recording: Psi4
+1.9.1's TD-DFT eigensolver runs at a fixed ceiling of 60 iterations — both
+the driver keyword and the global option that appear to control it are
+silently ignored — and an unconverged root raises an exception rather than
+passing silently; every state reported here converged at the requested
+residual tolerance of 10⁻⁵, and the experiment's results record the
+requested and effective solver settings side by side. The rigid-displacement
+stationary check of §3, its symmetry-pair self-validation, and the full
+per-state records, spectra, metrics, and environment files are in the
+experiment directory, and every quoted number above resolves from its
+generated `metrics.json`.
 
 ## 8. Where the model stops
 
 These are vertical electronic excitations of isolated molecules in vacuum,
-twelve states deep. Nothing here has vibrational structure: any envelope
-drawn in the figure is a display convention of
-[broadening_fwhm_ev_cosmetic]{.metric} eV, not a computed line shape, and a
-real absorption band's width is dominated by vibronic progressions and
-solvent broadening this calculation does not attempt. Solvent shifts of
-charge-transfer states are large and absent here — both functionals sit blue
-of the dye's experimental solution band, as vertical gas-phase numbers
-should be expected to. We can say nothing about states above the computed
-window. And one diagnostic deserves its own disclaimer: the automated
-charge-transfer classifier in our harness labels S₁ by the distance between
-hole and particle centroids, a metric that understates charge transfer when
-both frontier orbitals delocalize over the same conjugated backbone — for
-S₁ we trust the functional-shift signature instead, and the per-state
-classifier column stays in the experiment directory rather than in Table 1.
+twelve states deep. Nothing here has vibrational structure: no line widths
+are computed anywhere in this experiment, which is why Figure 1 draws bare
+sticks, and a real absorption band's width is dominated by vibronic
+progressions and solvent broadening this calculation does not attempt.
+Solvent shifts of charge-transfer states are large and absent here — both
+functionals sit blue of the dye's experimental solution band, as vertical
+gas-phase numbers should be expected to. We can say nothing about states
+above the computed window, benzene's Rydberg states are poorly served by a
+basis without diffuse functions, and the geometry underneath the dye's
+spectrum is a stationary point interrogated along two suspect coordinates,
+not a frequency-confirmed minimum. Finally, one diagnostic deserves its own
+disclaimer: the automated charge-transfer classifier in our harness labels
+states by the distance between hole and particle centroids, a metric that
+understates charge transfer when both frontier orbitals delocalize over the
+same conjugated backbone — for S₁ of the dye we trust the functional-shift
+signature instead, and the classifier column stays in the experiment
+directory rather than in Table 1.
 
 ## References

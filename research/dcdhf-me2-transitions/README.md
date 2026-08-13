@@ -70,6 +70,22 @@ could otherwise be tuned after seeing results:
    ≥ 2.0 Å *and* it is bright; dark states are never assigned n→π* character
    automatically, since that needs orbital-symmetry inspection.
 
+### A bug the contrast molecule caught
+
+Worth recording because the failure mode generalizes. `state_gaps()` originally
+selected the second-brightest state with a strict `energy > lowest`, which
+silently skips a state at *exactly* the same energy. That was invisible for
+DCDHF-Me2, which has no degeneracies. When benzene arrived it paired S3 with
+S8 and reported that one transition carries 98% of the strength — the precise
+inverse of the 50/50 split that is benzene's entire reason for being in this
+experiment.
+
+The general shape: **code written while only the non-degenerate case existed
+encoded an assumption that the case added to exhibit degeneracy then broke.**
+A contrast case is not only evidence about the science; it is a test of the
+analysis written before it. Any comparison that picks "the next" item by
+strict inequality deserves this scrutiny.
+
 ## Run
 
 ```sh

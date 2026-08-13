@@ -2,12 +2,16 @@
   "schema_version": 1,
   "experiment": "dcdhf-me2-transitions",
   "provenance": {
-    "generated_at": "2026-08-13T14:40:21Z",
+    "generated_at": "2026-08-13T14:48:42Z",
     "generator": "research/dcdhf-me2-transitions/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/dcdhf-me2-transitions/results/summary.json",
         "sha256": "05feaad781f1f62eaed25045f3556a320f204f74cbe60b2574eff0e7382caeae"
+      },
+      {
+        "path": "research/dcdhf-me2-transitions/results/stationary_check.json",
+        "sha256": "2d2c78fd2316ef8a9abb5eddc9211664bd9ed73751a7b1688a7ce32f6400374d"
       }
     ]
   },
@@ -162,6 +166,66 @@
       },
       "description": "Spread between longest and shortest C-C bond at benzene's B3LYP/def2-SVP minimum",
       "unit": "A"
+    },
+    "s1_s2_gap_ev_b3lyp": {
+      "type": "number",
+      "value": 0.5117,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy gap from S1 to S2 under B3LYP/def2-TZVP, showing the isolated lowest state is not an artefact of functional choice",
+      "unit": "eV"
+    },
+    "functional_shift_ev": {
+      "type": "number",
+      "value": 0.3146,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Blue shift of the lowest bright state from B3LYP to CAM-B3LYP, the signature of charge-transfer character",
+      "unit": "eV"
+    },
+    "stationary_twist20_rise_kcal": {
+      "type": "number",
+      "value": 1.5213,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy rise on rigidly twisting the donor ring 20 degrees from the planar minimum",
+      "unit": "kcal/mol"
+    },
+    "stationary_twist10_rise_kcal": {
+      "type": "number",
+      "value": 0.4357,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy rise on rigidly twisting the donor ring 10 degrees from the planar minimum",
+      "unit": "kcal/mol"
+    },
+    "stationary_pyramid_rise_kcal": {
+      "type": "number",
+      "value": 2.8407,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Energy rise on displacing the amine nitrogen 0.15 A out of its substituent plane",
+      "unit": "kcal/mol"
+    },
+    "stationary_worst_pair_split_uhartree": {
+      "type": "number",
+      "value": 0.5104,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Largest energy split between mirror-related displacement pairs, the self-test on the displacement construction",
+      "unit": "microhartree"
     },
     "benzene_n_states_under_band": {
       "type": "integer",
