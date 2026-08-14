@@ -854,6 +854,7 @@ checkout does not restore the Hakyll store.
 - [ ] Every `[@key]` grep-verified against `bib/bibliography.bib`; markers after punctuation; post ends with `## References`
 - [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional)
 - [ ] Every figure, table, code block, and audio player has a numbered caption (Figure/Table/Code/Audio N) and is referenced by number in the prose; each `<audio>` element stays on one source line and contains fallback text plus a direct file link
+- [ ] Every aside passes the skip test — removing it leaves the argument intact — and contains no numbered element (§4)
 - [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
 - [ ] Branch, build, verification, PR, and merge complete
 - [ ] Session closed out per `notes/worktrees.md` §6: no dirty worktree, no stash, no orphan branch, primary checkout clean on `main`
