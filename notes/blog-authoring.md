@@ -524,6 +524,34 @@ under you.
 that carries a DOI is an `@article` with the blog as `journal` — follow the
 source's own citation block when it provides one (rule 5).
 
+### Asides — digressions the reader may skip
+
+An explanation that would interrupt the main thread goes in an aside: a fenced
+div, kept in the reading column, visually set apart.
+
+```markdown
+::: {.aside}
+The derivation, the historical detour, the definition a specialist already
+knows. Any blocks work here — prose, lists, code, math, a table.
+:::
+```
+
+It renders as a bordered panel labelled **Aside**, quieter and slightly smaller
+than body text, and it prints as a panel that will not split across a page
+break. No compiler support is involved: pandoc's `fenced_divs` extension is
+already enabled, so the class arrives as `<div class="aside">` and `css/` does
+the rest.
+
+Use it for material a reader can skip **without losing the argument**. If
+skipping it breaks the next paragraph, it is not an aside — it is the post, and
+it belongs in the main flow. It is also not a blockquote: a blockquote marks
+someone else's words, an aside marks your own detour.
+
+Asides are unnumbered and uncaptioned; the §6 numbering rule covers figures,
+tables, code blocks, and audio, not these. Do not put a numbered element inside
+one — a reader who skips the aside would then skip something the prose refers
+to by number.
+
 ## 5. Figures & the hero image
 
 **File & embed.** PNG in `/images/`, named with the post slug
