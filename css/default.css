@@ -370,8 +370,18 @@ a { color: inherit; text-decoration: none; }
   background: var(--offwhite); border: 1px solid var(--border);
   border-radius: 3px; padding: 1px 6px; color: var(--accent-deep);
 }
+/* Wrapper inserted by js/code-copy.js around every pre that gets a copy
+   button. It owns the positioning context, so the button anchors to the
+   block's corner; the pre keeps overflow-x and remains the only thing that
+   scrolls. Previously the pre was both scroll container and positioning
+   context, which made the absolutely-positioned button part of the scrollable
+   content and slid it out of view on wide code. */
+.code-block { position: relative; margin: 0 0 24px; }
+/* The pre keeps its own bottom margin so spacing is right when JavaScript is
+   unavailable and no wrapper exists; when wrapped, the wrapper's margin
+   applies and the pre's is zeroed so the two do not stack. */
+.code-block > pre { margin: 0; }
 .post-body pre {
-  position: relative;
   background: var(--ink); color: var(--on-ink-quiet);
   border: 1px solid var(--border-strong); border-radius: 6px;
   padding: 18px 20px; margin: 0 0 24px; overflow-x: auto;
@@ -475,8 +485,15 @@ a { color: inherit; text-decoration: none; }
 /* =============================================================================
    BARE PROSE PAGES (about / contact / colophon: $body$ straight in <main>)
    ============================================================================= */
+/* `main > .code-block` is listed because js/code-copy.js wraps every pre it
+   touches: on these pages the pre is a direct child of main, so after
+   wrapping the selector that lays it out would otherwise stop matching and
+   the block would lose its column width, centring, and padding. No bare prose
+   page currently renders a real code block -- about.markdown's fences are
+   `{=html}` raw blocks -- so this is a guard against a future one, not a
+   present bug. */
 main > h1, main > h2, main > h3, main > p, main > ul, main > ol,
-main > pre, main > blockquote, main > table, main > dl {
+main > pre, main > .code-block, main > blockquote, main > table, main > dl {
   max-width: var(--maxw-read); margin-left: auto; margin-right: auto;
   padding-left: 32px; padding-right: 32px;
 }
@@ -515,8 +532,10 @@ main > p a:hover, main > ul a:hover, main > ol a:hover { color: var(--accent); b
   .archive-inner { padding-left: 20px; padding-right: 20px; }
   .archive-masthead { padding-top: 48px; }
   .archive-cta { padding-left: 20px; padding-right: 20px; }
+  /* `main > .code-block` for the same reason as the desktop rule above: a pre
+     wrapped by js/code-copy.js is no longer `main > pre`. */
   main > h1, main > h2, main > h3, main > p, main > ul, main > ol,
-  main > pre, main > blockquote, main > table, main > dl {
+  main > pre, main > .code-block, main > blockquote, main > table, main > dl {
     padding-left: 20px; padding-right: 20px;
   }
   main > ul, main > ol { padding-left: 40px; }
