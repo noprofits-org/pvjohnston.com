@@ -1088,7 +1088,7 @@ Format:
 - **Source:** mirror of the BMN donor-strength note; replaces NMe₂ with OMe on the DCDHF scaffold for the strongest rung.
 - **Type:** understanding
 - **Contribution:** a clean three-point demonstration that acceptor strength is primarily a LUMO lever, shown under two functionals so the functional-dependent absolute gap does not obscure the trend.
-- **Status:** in progress — draft on `post/meo-acceptor-ladder`
+- **Status:** published — [/posts/2026-08-16-how-the-acceptor-closes-the-gap.html](/posts/2026-08-16-how-the-acceptor-closes-the-gap.html)
 
 ## Does the CF3/phenyl TCF acceptor red-shift DCDHF the way acceptor strength predicts?
 - **Observed:** The stronger TCF acceptor replaces the gem-dimethyls with CF3
