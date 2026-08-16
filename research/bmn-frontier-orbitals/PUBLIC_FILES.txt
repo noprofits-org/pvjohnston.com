@@ -5,6 +5,10 @@
 # from the machine that produced them. The canonical evidence is results/.
 #
 # Result filenames encode molecule, functional, and basis.
+#
+# Only the analytic starting geometries are published; the B3LYP/def2-SVP
+# optimized geometries are Psi4 output and are treated as scratch (see
+# .gitignore). Their content is recorded in results/geometry_*.json.
 LICENSE
 research/metrics.schema.json
 research/bmn-frontier-orbitals/README.md
@@ -22,10 +26,6 @@ research/bmn-frontier-orbitals/geometry/bmn-h-start.xyz
 research/bmn-frontier-orbitals/geometry/bmn-f-start.xyz
 research/bmn-frontier-orbitals/geometry/bmn-nh2-start.xyz
 research/bmn-frontier-orbitals/geometry/bmn-nme2-start.xyz
-research/bmn-frontier-orbitals/geometry/bmn-h-def2-svp-opt.xyz
-research/bmn-frontier-orbitals/geometry/bmn-f-def2-svp-opt.xyz
-research/bmn-frontier-orbitals/geometry/bmn-nh2-def2-svp-opt.xyz
-research/bmn-frontier-orbitals/geometry/bmn-nme2-def2-svp-opt.xyz
 research/bmn-frontier-orbitals/results/orbital_gaps.json
 research/bmn-frontier-orbitals/results/frontier_orbitals.json
 research/bmn-frontier-orbitals/results/figure_frontier_levels.html
