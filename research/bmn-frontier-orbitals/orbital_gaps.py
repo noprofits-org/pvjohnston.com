@@ -74,7 +74,12 @@ def main():
     for states_path in sorted(glob.glob(os.path.join(HERE, "results", "states_*.json"))):
         with open(states_path) as fh:
             run = json.load(fh)
-        tag = f"{run['molecule_slug']}_{run['functional']}_{run['basis']}"
+        # The states filename encodes the exact tag run_tddft.py used for both
+        # the output JSON and the log, including any non-default suffixes such
+        # as _tda or _sN. Derive the log name from the filename rather than
+        # reconstructing the tag from the record fields, which silently drops
+        # those suffixes.
+        tag = os.path.basename(states_path)[len("states_"):-len(".json")]
         log_path = os.path.join(HERE, "logs", f"td_{tag}.out")
         if not os.path.exists(log_path):
             missing.append(os.path.relpath(log_path, HERE))
