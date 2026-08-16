@@ -1,0 +1,510 @@
+{
+  "schema_version": 1,
+  "experiment": "meo-acceptor-ladder",
+  "provenance": {
+    "generated_at": "2026-08-16T13:01:53Z",
+    "generator": "research/meo-acceptor-ladder/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/meo-acceptor-ladder/results/frontier_orbitals.json",
+        "sha256": "0915b4223db18dc7ec71d1741d0bc847414803823ba9405c9122fafacec6f10c"
+      },
+      {
+        "path": "research/meo-acceptor-ladder/results/states_meo-cn_cam-b3lyp_def2-tzvp.json",
+        "sha256": "b619ca35eb517a860be783c6f0a6bb207b13239be9d6313fec51f90228a977d7"
+      },
+      {
+        "path": "research/meo-acceptor-ladder/results/states_meo-dcv_cam-b3lyp_def2-tzvp.json",
+        "sha256": "634639d55b024cfa4a81b6f06359f0e9ed38888b58f678b524d1df132a86c0a3"
+      },
+      {
+        "path": "research/meo-acceptor-ladder/results/states_meo-tcf_cam-b3lyp_def2-tzvp.json",
+        "sha256": "a822886d86e193ecb8bc7b5461e7afd827e2e8003bba310596322701a7cc5c29"
+      },
+      {
+        "path": "research/meo-acceptor-ladder/results/states_meo-cn_b3lyp_def2-tzvp.json",
+        "sha256": "fe166a13c2301b5bc20884668e28247db1ba2dbadcb2b9f72326aa1b8ffc9688"
+      },
+      {
+        "path": "research/meo-acceptor-ladder/results/states_meo-dcv_b3lyp_def2-tzvp.json",
+        "sha256": "f807d3cdba7d043cdcb096657957375597ec94953f666a4050e24334757ac414"
+      },
+      {
+        "path": "research/meo-acceptor-ladder/results/states_meo-tcf_b3lyp_def2-tzvp.json",
+        "sha256": "a8c70ec64d4af469649a5845f6d64e191fdbb4f5bc36f3e23b33ae883c9376b0"
+      }
+    ]
+  },
+  "metrics": {
+    "homo_cn_cam": {
+      "type": "number",
+      "value": -8.1505,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of MeO-Ph-CN (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_cn_cam": {
+      "type": "number",
+      "value": -9.2604,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of MeO-Ph-CN (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_cn_cam": {
+      "type": "number",
+      "value": -0.2094,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of MeO-Ph-CN (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_cn_cam": {
+      "type": "number",
+      "value": 7.941,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of MeO-Ph-CN (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_cn_cam": {
+      "type": "number",
+      "value": 5.0262,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of MeO-Ph-CN (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_character_cn_cam": {
+      "type": "string",
+      "value": "HOMO→LUMO+1 (67.8%)",
+      "description": "Dominant amplitude character of S1 for MeO-Ph-CN (CAM-B3LYP/def2-TZVP)"
+    },
+    "homo_dcv_cam": {
+      "type": "number",
+      "value": -8.0576,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of MeO-Ph-DCV (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_dcv_cam": {
+      "type": "number",
+      "value": -9.454,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of MeO-Ph-DCV (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_dcv_cam": {
+      "type": "number",
+      "value": -1.8583,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of MeO-Ph-DCV (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_dcv_cam": {
+      "type": "number",
+      "value": 6.1993,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of MeO-Ph-DCV (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_dcv_cam": {
+      "type": "number",
+      "value": 3.9262,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of MeO-Ph-DCV (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_character_dcv_cam": {
+      "type": "string",
+      "value": "HOMO→LUMO (96.8%)",
+      "description": "Dominant amplitude character of S1 for MeO-Ph-DCV (CAM-B3LYP/def2-TZVP)"
+    },
+    "homo_tcf_cam": {
+      "type": "number",
+      "value": -7.9512,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of MeO-Ph-TCF (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_tcf_cam": {
+      "type": "number",
+      "value": -8.8932,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of MeO-Ph-TCF (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_tcf_cam": {
+      "type": "number",
+      "value": -2.2705,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of MeO-Ph-TCF (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_tcf_cam": {
+      "type": "number",
+      "value": 5.6808,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of MeO-Ph-TCF (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_tcf_cam": {
+      "type": "number",
+      "value": 3.5483,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of MeO-Ph-TCF (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_character_tcf_cam": {
+      "type": "string",
+      "value": "HOMO→LUMO (96.8%)",
+      "description": "Dominant amplitude character of S1 for MeO-Ph-TCF (CAM-B3LYP/def2-TZVP)"
+    },
+    "d_homo_cam": {
+      "type": "number",
+      "value": 0.19929999999999914,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "HOMO change from MeO-Ph-CN to MeO-Ph-TCF (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "d_homo1_cam": {
+      "type": "number",
+      "value": 0.3672000000000004,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "HOMO-1 change from MeO-Ph-CN to MeO-Ph-TCF (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "d_lumo_cam": {
+      "type": "number",
+      "value": -2.0611,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "LUMO change from MeO-Ph-CN to MeO-Ph-TCF (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "gap_close_cam": {
+      "type": "number",
+      "value": 2.2602,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Amount the gap closes from MeO-Ph-CN to MeO-Ph-TCF (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "d_s1_cam": {
+      "type": "number",
+      "value": 1.4779000000000004,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Red shift of S1 from MeO-Ph-CN to MeO-Ph-TCF (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "s1_hl_weight_min_cam": {
+      "type": "number",
+      "value": 0,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Smallest dominant HOMO -> LUMO amplitude weight of S1 across the three acceptors (CAM-B3LYP); 0 when the lowest state is not HOMO -> LUMO",
+      "unit": "%"
+    },
+    "homo_cn_b3lyp": {
+      "type": "number",
+      "value": -6.7793,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of MeO-Ph-CN (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_cn_b3lyp": {
+      "type": "number",
+      "value": -7.7867,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of MeO-Ph-CN (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_cn_b3lyp": {
+      "type": "number",
+      "value": -1.4351,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of MeO-Ph-CN (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_cn_b3lyp": {
+      "type": "number",
+      "value": 5.3442,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of MeO-Ph-CN (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_cn_b3lyp": {
+      "type": "number",
+      "value": 4.8379,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of MeO-Ph-CN (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_character_cn_b3lyp": {
+      "type": "string",
+      "value": "HOMO→LUMO+1 (69.9%)",
+      "description": "Dominant amplitude character of S1 for MeO-Ph-CN (B3LYP/def2-TZVP)"
+    },
+    "homo_dcv_b3lyp": {
+      "type": "number",
+      "value": -6.781,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of MeO-Ph-DCV (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_dcv_b3lyp": {
+      "type": "number",
+      "value": -7.9927,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of MeO-Ph-DCV (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_dcv_b3lyp": {
+      "type": "number",
+      "value": -2.9745,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of MeO-Ph-DCV (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_dcv_b3lyp": {
+      "type": "number",
+      "value": 3.8065,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of MeO-Ph-DCV (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_dcv_b3lyp": {
+      "type": "number",
+      "value": 3.697,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of MeO-Ph-DCV (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_character_dcv_b3lyp": {
+      "type": "string",
+      "value": "HOMO→LUMO (97.3%)",
+      "description": "Dominant amplitude character of S1 for MeO-Ph-DCV (B3LYP/def2-TZVP)"
+    },
+    "homo_tcf_b3lyp": {
+      "type": "number",
+      "value": -6.66,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of MeO-Ph-TCF (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_tcf_b3lyp": {
+      "type": "number",
+      "value": -7.4723,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of MeO-Ph-TCF (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_tcf_b3lyp": {
+      "type": "number",
+      "value": -3.3247,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of MeO-Ph-TCF (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_tcf_b3lyp": {
+      "type": "number",
+      "value": 3.3353,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of MeO-Ph-TCF (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_tcf_b3lyp": {
+      "type": "number",
+      "value": 3.1335,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of MeO-Ph-TCF (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_character_tcf_b3lyp": {
+      "type": "string",
+      "value": "HOMO→LUMO (96.3%)",
+      "description": "Dominant amplitude character of S1 for MeO-Ph-TCF (B3LYP/def2-TZVP)"
+    },
+    "d_homo_b3lyp": {
+      "type": "number",
+      "value": 0.11929999999999996,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "HOMO change from MeO-Ph-CN to MeO-Ph-TCF (B3LYP)",
+      "unit": "eV"
+    },
+    "d_homo1_b3lyp": {
+      "type": "number",
+      "value": 0.3144,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "HOMO-1 change from MeO-Ph-CN to MeO-Ph-TCF (B3LYP)",
+      "unit": "eV"
+    },
+    "d_lumo_b3lyp": {
+      "type": "number",
+      "value": -1.8896,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "LUMO change from MeO-Ph-CN to MeO-Ph-TCF (B3LYP)",
+      "unit": "eV"
+    },
+    "gap_close_b3lyp": {
+      "type": "number",
+      "value": 2.0088999999999997,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Amount the gap closes from MeO-Ph-CN to MeO-Ph-TCF (B3LYP)",
+      "unit": "eV"
+    },
+    "d_s1_b3lyp": {
+      "type": "number",
+      "value": 1.7044000000000001,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Red shift of S1 from MeO-Ph-CN to MeO-Ph-TCF (B3LYP)",
+      "unit": "eV"
+    },
+    "s1_hl_weight_min_b3lyp": {
+      "type": "number",
+      "value": 0,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Smallest dominant HOMO -> LUMO amplitude weight of S1 across the three acceptors (B3LYP); 0 when the lowest state is not HOMO -> LUMO",
+      "unit": "%"
+    },
+    "gap_functional_spread_cn": {
+      "type": "number",
+      "value": 2.5968,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "CAM-B3LYP minus B3LYP Kohn-Sham gap for MeO-Ph-CN, the same molecule and geometry",
+      "unit": "eV"
+    },
+    "gap_minus_s1_cn_cam": {
+      "type": "number",
+      "value": 2.9147999999999996,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "CAM-B3LYP Kohn-Sham gap of MeO-Ph-CN minus its own TD-DFT S1 excitation energy",
+      "unit": "eV"
+    }
+  }
+}

@@ -1083,6 +1083,13 @@ Format:
   PREREGISTRATION.md before the canonical runs.
 - **Status:** published — [/posts/2026-08-16-how-the-donor-closes-the-gap.html](/posts/2026-08-16-how-the-donor-closes-the-gap.html)
 
+## How does acceptor strength move the frontier orbitals in a para-methoxy push-pull dye?
+- **Observed:** With the donor fixed as para-methoxy, replacing the acceptor with progressively stronger fragments (CN < DCV < TCF) lowers the LUMO and closes the HOMO-LUMO gap. The HOMO, localized on the unchanged donor, moves much less than the LUMO.
+- **Source:** mirror of the BMN donor-strength note; replaces NMe₂ with OMe on the DCDHF scaffold for the strongest rung.
+- **Type:** understanding
+- **Contribution:** a clean three-point demonstration that acceptor strength is primarily a LUMO lever, shown under two functionals so the functional-dependent absolute gap does not obscure the trend.
+- **Status:** in progress — draft on `post/meo-acceptor-ladder`
+
 ## Does the CF3/phenyl TCF acceptor red-shift DCDHF the way acceptor strength predicts?
 - **Observed:** The stronger TCF acceptor replaces the gem-dimethyls with CF3
   and phenyl: net +3 F, +5 C, +2 H → 46 atoms, roughly 1070 def2-TZVP basis
