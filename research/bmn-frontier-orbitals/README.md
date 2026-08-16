@@ -62,21 +62,18 @@ The σ_p⁺ values come from Hansch, Leo and Taft (1991).[@Hansch1991]
 
 ## Provenance
 
-The canonical TD-DFT results were produced by the donor-strength-ladder harness
-(`research/donor-strength-ladder/run_tddft.py`) on 2026-08-14, with the same
-level of theory and the same starting-geometry protocol documented there. This
-experiment directory is a focused spin-off: it keeps only the
-benzylidenemalononitrile (BMN) series, re-uses the committed states files and
-geometry records, and adds a virtual-orbital extraction step that the parent
-experiment did not need.
+The canonical TD-DFT results were produced by this experiment's own
+`run_tddft.py` on 2026-08-14, with the level of theory and starting-geometry
+protocol documented here. This script is the donor-strength-ladder harness
+adapted from `research/dcdhf-me2-transitions/run_tddft.py`; it is kept in this
+experiment directory so the BMN series is self-contained.
 
-Because the parent experiment's logs are not committed (large, regenerable,
-absolute scratch paths), the occupied frontier-orbital energies were parsed
-from those logs once and committed as `results/orbital_gaps.json`. The virtual
-orbital energies were not recorded anywhere else, so `extract_frontier.py`
-re-parses the same logs and cross-checks its occupied energies against
-`results/orbital_gaps.json` to 1 meV. The sha256 of each log is stored in
-`results/frontier_orbitals.json`.
+The Psi4 output logs are not committed (large, regenerable, absolute scratch
+paths), so the occupied frontier-orbital energies were parsed from those logs
+once and committed as `results/orbital_gaps.json`. The virtual orbital energies
+were not recorded anywhere else, so `extract_frontier.py` re-parses the same
+logs and cross-checks its occupied energies against `results/orbital_gaps.json`
+to 1 meV. The sha256 of each log is stored in `results/frontier_orbitals.json`.
 
 ## Pipeline
 

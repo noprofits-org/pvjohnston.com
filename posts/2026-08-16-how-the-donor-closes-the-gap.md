@@ -7,6 +7,9 @@ post-type: understanding
 question: How does donor strength move the frontier orbitals in a minimal push-pull dye, and how does para-fluorine's competing −I and +R effects resolve into a weak net donor?
 description: A four-point series of para-X-benzylidenemalononitriles (X = H, F, NH₂, NMe₂) shows how donor strength moves the HOMO and LUMO, and explains why para-fluorine acts as a weak net donor in this minimal push-pull scaffold.
 experiment: bmn-frontier-orbitals
+figure: '<img src="/images/2026-08-16-how-the-donor-closes-the-gap-figure.png" alt="Frontier-orbital energy levels of the four BMN molecules under CAM-B3LYP and B3LYP">'
+figlabel: Frontier-orbital levels across the donor series
+figcaption: HOMO and LUMO energies of the four BMN molecules under CAM-B3LYP and B3LYP (def2-TZVP). Stronger donors raise the HOMO more than the LUMO, closing the gap.
 ---
 
 ## 1. What this note explains
@@ -199,9 +202,9 @@ Kohn-Sham HOMO–LUMO gap. Exact values are in Table 1.
 The absolute gap is strongly functional-dependent. For BMN-H the CAM-B3LYP
 gap is [gap_h_cam]{.metric} eV while the B3LYP gap is [gap_h_b3lyp]{.metric}
 eV — a spread of [gap_functional_spread_h]{.metric} eV for the same molecule
-and geometry. Range-separated hybrids such as CAM-B3LYP raise the energy of the
-donor-localized HOMO relative to the acceptor-localized LUMO, which is the
-characteristic behavior for a charge-transfer system. The trend with donor
+and geometry. Range-separated hybrids such as CAM-B3LYP lower the donor-localized HOMO
+and raise the acceptor-localized LUMO relative to B3LYP, widening the gap;
+this is the characteristic behavior for a charge-transfer system. The trend with donor
 strength is nearly identical under the two functionals: both show the gap
 closing as X becomes more electron-donating, and both order the substituents
 the same way.
@@ -256,15 +259,17 @@ NH₂ and NMe₂; only the magnitude is much smaller. This matches the small
 negative σ_p⁺ value of fluorine.
 
 The orbital decomposition shows how the competing effects resolve. Fluorine
-leaves the HOMO almost unchanged relative to H. The LUMO rises slightly. The
-HOMO is localized on the donor end, so fluorine's −I withdrawal and +R donation
-cancel there. The LUMO is localized on the dicyanovinyl acceptor; the small +R
-donation into the ring raises the energy of that acceptor-localized orbital.
-The residual net effect is a small LUMO rise that closes the gap.
+leaves the HOMO almost unchanged relative to H. The LUMO is lowered slightly.
+The HOMO is localized on the donor end, so fluorine's −I withdrawal and +R
+donation largely cancel there. The LUMO is localized on the dicyanovinyl
+acceptor; the small net stabilization means inductive withdrawal dominates over
+resonance donation for that orbital. Both the tiny HOMO rise and the slightly
+larger LUMO lowering close the gap.
 
-The 0.06 eV shift is comparable to the typical TD-DFT error for
-charge-transfer states, so the magnitude is near the noise floor; the sign is
-reproduced across both functionals. The result is specific to
+The [gap_close_f_cam]{.metric} eV (CAM-B3LYP) and [gap_close_f_b3lyp]{.metric}
+eV (B3LYP) shifts are comparable to the typical TD-DFT error for
+charge-transfer states,[@Santoro2016] so the magnitude is near the noise floor;
+the sign is reproduced across both functionals. The result is specific to
 para-X-benzylidenemalononitrile and the stated level of theory.
 
 ## 7. The HOMO moves more than the LUMO
@@ -321,10 +326,11 @@ These are gas-phase vertical excitations of isolated molecules with no solvent
 model, and charge-transfer states are strongly solvatochromic. Nothing here has
 vibrational structure or computed band widths. The conclusion about fluorine is
 specific to para-X-benzylidenemalononitrile and may not transfer to other
-scaffolds. TD-DFT carries a typical 0.2–0.3 eV error for charge-transfer states,
-so the 0.06 eV F-vs-H shift is near the method's noise floor; the sign is
-reproduced across both functionals, but the number should be treated as
-indicative. The near-linear fit to σ_p⁺ uses only four points, two of which are close
+scaffolds. TD-DFT carries a typical 0.2–0.3 eV error for charge-transfer
+states,[@Santoro2016] so the [gap_close_f_cam]{.metric} eV (CAM-B3LYP) and
+[gap_close_f_b3lyp]{.metric} eV (B3LYP) F-vs-H shifts are near the method's
+noise floor; the sign is reproduced across both functionals, but the numbers
+should be treated as indicative. The near-linear fit to σ_p⁺ uses only four points, two of which are close
 together; it describes this series, not a general physical law. Measured
 solution spectra of these compounds would test the computed trend in a way this
 calculation cannot.

@@ -78,7 +78,9 @@ def main():
     for states_path in sorted(glob.glob(os.path.join(HERE, "results", "states_*.json"))):
         with open(states_path) as fh:
             run = json.load(fh)
-        tag = f"{run['molecule_slug']}_{run['functional']}_{run['basis']}"
+        # Derive the log tag from the states filename so that non-default
+        # suffixes (_tda, _sN) are preserved and paired with the correct log.
+        tag = os.path.basename(states_path)[len("states_"):-len(".json")]
         log_path = os.path.join(args.logs_dir, f"td_{tag}.out")
         if not os.path.exists(log_path):
             raise SystemExit(f"missing log for {tag}: {log_path}")
