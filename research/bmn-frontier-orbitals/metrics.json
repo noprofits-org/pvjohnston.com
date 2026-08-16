@@ -1,0 +1,704 @@
+{
+  "schema_version": 1,
+  "experiment": "bmn-frontier-orbitals",
+  "provenance": {
+    "generated_at": "2026-08-16T01:55:46Z",
+    "generator": "research/bmn-frontier-orbitals/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/bmn-frontier-orbitals/results/frontier_orbitals.json",
+        "sha256": "d12c01da9e6c914d056ddff177807000f494b5cf61dcbf715a3f116b39f1ea32"
+      },
+      {
+        "path": "research/bmn-frontier-orbitals/results/states_bmn-h_cam-b3lyp_def2-tzvp.json",
+        "sha256": "20463b787beb2c80609020ba2c29c4ad3fd3803cf99bac8372bc998f988d0270"
+      },
+      {
+        "path": "research/bmn-frontier-orbitals/results/states_bmn-f_cam-b3lyp_def2-tzvp.json",
+        "sha256": "69357a3566c1ccfeb8196112a06a983ab70e41ec18a9c9e7e6ab6b284ef248d6"
+      },
+      {
+        "path": "research/bmn-frontier-orbitals/results/states_bmn-nh2_cam-b3lyp_def2-tzvp.json",
+        "sha256": "98f429d5bc751ecfd64622f1d09f711ed87bdcf97631a9bd10561cf2c4ae15ec"
+      },
+      {
+        "path": "research/bmn-frontier-orbitals/results/states_bmn-nme2_cam-b3lyp_def2-tzvp.json",
+        "sha256": "e5e9fba500b31e9b764808e3c480cd6c34446b4da33750f69ec46ba5987a7acf"
+      },
+      {
+        "path": "research/bmn-frontier-orbitals/results/states_bmn-h_b3lyp_def2-tzvp.json",
+        "sha256": "e65854ef027268885efb6c3b50e047e958479649655b58baf430ab796b0fb60c"
+      },
+      {
+        "path": "research/bmn-frontier-orbitals/results/states_bmn-f_b3lyp_def2-tzvp.json",
+        "sha256": "3e5417859e6ac95af25fbc0f096427978f2a7a60a0b72d8d1ecc015628e254be"
+      },
+      {
+        "path": "research/bmn-frontier-orbitals/results/states_bmn-nh2_b3lyp_def2-tzvp.json",
+        "sha256": "b9084d6d6c2baaf8979a06c69f9d5b979881e88d7eb35d92b5c2970ba217f52e"
+      },
+      {
+        "path": "research/bmn-frontier-orbitals/results/states_bmn-nme2_b3lyp_def2-tzvp.json",
+        "sha256": "b47923621029fe13c48898d57fca51634c662cd10ddc21e58a0a47f9c631e56d"
+      }
+    ]
+  },
+  "metrics": {
+    "homo_h_cam": {
+      "type": "number",
+      "value": -8.6925,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of BMN-H (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_h_cam": {
+      "type": "number",
+      "value": -9.4128,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of BMN-H (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_h_cam": {
+      "type": "number",
+      "value": -2.1178,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of BMN-H (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_h_cam": {
+      "type": "number",
+      "value": 6.5748,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of BMN-H (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_h_cam": {
+      "type": "number",
+      "value": 4.2272,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of BMN-H (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo_f_cam": {
+      "type": "number",
+      "value": -8.6764,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of BMN-F (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_f_cam": {
+      "type": "number",
+      "value": -9.7722,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of BMN-F (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_f_cam": {
+      "type": "number",
+      "value": -2.1668,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of BMN-F (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_f_cam": {
+      "type": "number",
+      "value": 6.5096,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of BMN-F (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_f_cam": {
+      "type": "number",
+      "value": 4.1851,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of BMN-F (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo_nh2_cam": {
+      "type": "number",
+      "value": -7.5736,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of BMN-NH2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_nh2_cam": {
+      "type": "number",
+      "value": -9.3633,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of BMN-NH2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_nh2_cam": {
+      "type": "number",
+      "value": -1.6201,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of BMN-NH2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_nh2_cam": {
+      "type": "number",
+      "value": 5.9535,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of BMN-NH2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_nh2_cam": {
+      "type": "number",
+      "value": 3.7818,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of BMN-NH2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo_nme2_cam": {
+      "type": "number",
+      "value": -7.3207,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of BMN-NMe2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_nme2_cam": {
+      "type": "number",
+      "value": -9.2408,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of BMN-NMe2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_nme2_cam": {
+      "type": "number",
+      "value": -1.5767,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of BMN-NMe2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_nme2_cam": {
+      "type": "number",
+      "value": 5.744,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of BMN-NMe2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_nme2_cam": {
+      "type": "number",
+      "value": 3.6188,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of BMN-NMe2 (CAM-B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "d_homo_cam": {
+      "type": "number",
+      "value": 1.3718000000000004,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "HOMO rise from BMN-H to BMN-NMe2 (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "d_homo1_cam": {
+      "type": "number",
+      "value": 0.1720000000000006,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "HOMO-1 rise from BMN-H to BMN-NMe2 (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "d_lumo_cam": {
+      "type": "number",
+      "value": 0.5410999999999999,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "LUMO rise from BMN-H to BMN-NMe2 (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "gap_close_cam": {
+      "type": "number",
+      "value": 0.8308,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Amount the gap closes from BMN-H to BMN-NMe2 (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "homo_lumo_shift_ratio_cam": {
+      "type": "number",
+      "value": 2.5352060617261145,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Ratio of the HOMO rise to the LUMO rise from BMN-H to BMN-NMe2 (CAM-B3LYP)"
+    },
+    "gap_close_f_cam": {
+      "type": "number",
+      "value": 0.06519999999999992,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Amount the gap closes from BMN-H to BMN-F (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "homo1_drop_f_cam": {
+      "type": "number",
+      "value": 0.35939999999999905,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Amount the HOMO-1 drops from BMN-H to BMN-F (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "s1_hl_weight_min_cam": {
+      "type": "number",
+      "value": 96.3,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Smallest dominant HOMO -> LUMO amplitude weight of S1 across the four donors (CAM-B3LYP)",
+      "unit": "%"
+    },
+    "slope_homo_cam": {
+      "type": "number",
+      "value": 0.8362762628018888,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Least-squares slope of the HOMO energy against donor strength (-sigma_p_plus) over the four donors (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "slope_lumo_cam": {
+      "type": "number",
+      "value": 0.3606530786229485,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Least-squares slope of the LUMO energy against donor strength (-sigma_p_plus) over the four donors (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "slope_gap_cam": {
+      "type": "number",
+      "value": 0.47565762168104364,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Least-squares slope of the GAP energy against sigma_p_plus over the four donors (CAM-B3LYP)",
+      "unit": "eV"
+    },
+    "r2_gap_cam": {
+      "type": "number",
+      "value": 0.9986029268980335,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Coefficient of determination of the gap-vs-sigma_p_plus fit (CAM-B3LYP)"
+    },
+    "homo_h_b3lyp": {
+      "type": "number",
+      "value": -7.3781,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of BMN-H (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_h_b3lyp": {
+      "type": "number",
+      "value": -7.9803,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of BMN-H (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_h_b3lyp": {
+      "type": "number",
+      "value": -3.2601,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of BMN-H (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_h_b3lyp": {
+      "type": "number",
+      "value": 4.118,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of BMN-H (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_h_b3lyp": {
+      "type": "number",
+      "value": 4.0066,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of BMN-H (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo_f_b3lyp": {
+      "type": "number",
+      "value": -7.3624,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of BMN-F (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_f_b3lyp": {
+      "type": "number",
+      "value": -8.3162,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of BMN-F (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_f_b3lyp": {
+      "type": "number",
+      "value": -3.3028,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of BMN-F (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_f_b3lyp": {
+      "type": "number",
+      "value": 4.0596,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of BMN-F (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_f_b3lyp": {
+      "type": "number",
+      "value": 3.9704,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of BMN-F (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo_nh2_b3lyp": {
+      "type": "number",
+      "value": -6.3302,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of BMN-NH2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_nh2_b3lyp": {
+      "type": "number",
+      "value": -7.8889,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of BMN-NH2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_nh2_b3lyp": {
+      "type": "number",
+      "value": -2.7169,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of BMN-NH2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_nh2_b3lyp": {
+      "type": "number",
+      "value": 3.6132,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of BMN-NH2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_nh2_b3lyp": {
+      "type": "number",
+      "value": 3.5818,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of BMN-NH2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo_nme2_b3lyp": {
+      "type": "number",
+      "value": -6.1016,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO energy of BMN-NMe2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "homo1_nme2_b3lyp": {
+      "type": "number",
+      "value": -7.7359,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-1 energy of BMN-NMe2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "lumo_nme2_b3lyp": {
+      "type": "number",
+      "value": -2.658,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham LUMO energy of BMN-NMe2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "gap_nme2_b3lyp": {
+      "type": "number",
+      "value": 3.4436,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Kohn-Sham HOMO-LUMO gap of BMN-NMe2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "s1_nme2_b3lyp": {
+      "type": "number",
+      "value": 3.3751,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Lowest TD-DFT vertical excitation energy of BMN-NMe2 (B3LYP/def2-TZVP)",
+      "unit": "eV"
+    },
+    "d_homo_b3lyp": {
+      "type": "number",
+      "value": 1.2764999999999995,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "HOMO rise from BMN-H to BMN-NMe2 (B3LYP)",
+      "unit": "eV"
+    },
+    "d_homo1_b3lyp": {
+      "type": "number",
+      "value": 0.24439999999999973,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "HOMO-1 rise from BMN-H to BMN-NMe2 (B3LYP)",
+      "unit": "eV"
+    },
+    "d_lumo_b3lyp": {
+      "type": "number",
+      "value": 0.6021000000000001,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "LUMO rise from BMN-H to BMN-NMe2 (B3LYP)",
+      "unit": "eV"
+    },
+    "gap_close_b3lyp": {
+      "type": "number",
+      "value": 0.6744000000000003,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Amount the gap closes from BMN-H to BMN-NMe2 (B3LYP)",
+      "unit": "eV"
+    },
+    "homo_lumo_shift_ratio_b3lyp": {
+      "type": "number",
+      "value": 2.1200797209765807,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Ratio of the HOMO rise to the LUMO rise from BMN-H to BMN-NMe2 (B3LYP)"
+    },
+    "gap_close_f_b3lyp": {
+      "type": "number",
+      "value": 0.058400000000000674,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Amount the gap closes from BMN-H to BMN-F (B3LYP)",
+      "unit": "eV"
+    },
+    "homo1_drop_f_b3lyp": {
+      "type": "number",
+      "value": 0.33590000000000053,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Amount the HOMO-1 drops from BMN-H to BMN-F (B3LYP)",
+      "unit": "eV"
+    },
+    "s1_hl_weight_min_b3lyp": {
+      "type": "number",
+      "value": 75.8,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Smallest dominant HOMO -> LUMO amplitude weight of S1 across the four donors (B3LYP)",
+      "unit": "%"
+    },
+    "slope_homo_b3lyp": {
+      "type": "number",
+      "value": 0.7795628568544088,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Least-squares slope of the HOMO energy against donor strength (-sigma_p_plus) over the four donors (B3LYP)",
+      "unit": "eV"
+    },
+    "slope_lumo_b3lyp": {
+      "type": "number",
+      "value": 0.39507577372205466,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Least-squares slope of the LUMO energy against donor strength (-sigma_p_plus) over the four donors (B3LYP)",
+      "unit": "eV"
+    },
+    "slope_gap_b3lyp": {
+      "type": "number",
+      "value": 0.38451097625270625,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Least-squares slope of the GAP energy against sigma_p_plus over the four donors (B3LYP)",
+      "unit": "eV"
+    },
+    "r2_gap_b3lyp": {
+      "type": "number",
+      "value": 0.9980952098088587,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Coefficient of determination of the gap-vs-sigma_p_plus fit (B3LYP)"
+    },
+    "gap_functional_spread_h": {
+      "type": "number",
+      "value": 2.4567999999999994,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "CAM-B3LYP minus B3LYP Kohn-Sham gap for BMN-H, the same molecule and geometry",
+      "unit": "eV"
+    },
+    "gap_minus_s1_h_cam": {
+      "type": "number",
+      "value": 2.3476,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "CAM-B3LYP Kohn-Sham gap of BMN-H minus its own TD-DFT S1 excitation energy",
+      "unit": "eV"
+    }
+  }
+}

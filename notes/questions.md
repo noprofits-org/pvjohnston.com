@@ -1081,10 +1081,7 @@ Format:
   call; a non-monotonic trend against donor strength anywhere in the series
   is the more interesting result. Freeze the predictions in
   PREREGISTRATION.md before the canonical runs.
-- **Status:** ready — cheapest experiment on the shelf. (Harness note:
-  run_tddft.py's topology check hard-codes DCDHF-Me2 and will refuse these
-  by design; the connectivity-based generalization comes first, as a separate
-  change after `dcdhf-me2-transitions` closes.)
+- **Status:** published — [/posts/2026-08-16-how-the-donor-closes-the-gap.html](/posts/2026-08-16-how-the-donor-closes-the-gap.html)
 
 ## Does the CF3/phenyl TCF acceptor red-shift DCDHF the way acceptor strength predicts?
 - **Observed:** The stronger TCF acceptor replaces the gem-dimethyls with CF3

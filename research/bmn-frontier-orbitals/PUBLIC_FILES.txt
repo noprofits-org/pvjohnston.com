@@ -1,0 +1,43 @@
+# One repository-relative path per line. Package only this reviewed allowlist.
+#
+# Psi4 output logs and scratch are neither committed nor published (see
+# .gitignore): they are large, regenerable, and embed absolute scratch paths
+# from the machine that produced them. The canonical evidence is results/.
+#
+# Result filenames encode molecule, functional, and basis.
+LICENSE
+research/metrics.schema.json
+research/bmn-frontier-orbitals/README.md
+research/bmn-frontier-orbitals/environment.md
+research/bmn-frontier-orbitals/environment-psi4_19.yml
+research/bmn-frontier-orbitals/run_tddft.py
+research/bmn-frontier-orbitals/build_geometries.py
+research/bmn-frontier-orbitals/orbital_gaps.py
+research/bmn-frontier-orbitals/extract_frontier.py
+research/bmn-frontier-orbitals/run_all.sh
+research/bmn-frontier-orbitals/generate-metrics.mjs
+research/bmn-frontier-orbitals/make-figure.mjs
+research/bmn-frontier-orbitals/metrics.json
+research/bmn-frontier-orbitals/geometry/bmn-h-start.xyz
+research/bmn-frontier-orbitals/geometry/bmn-f-start.xyz
+research/bmn-frontier-orbitals/geometry/bmn-nh2-start.xyz
+research/bmn-frontier-orbitals/geometry/bmn-nme2-start.xyz
+research/bmn-frontier-orbitals/geometry/bmn-h-def2-svp-opt.xyz
+research/bmn-frontier-orbitals/geometry/bmn-f-def2-svp-opt.xyz
+research/bmn-frontier-orbitals/geometry/bmn-nh2-def2-svp-opt.xyz
+research/bmn-frontier-orbitals/geometry/bmn-nme2-def2-svp-opt.xyz
+research/bmn-frontier-orbitals/results/orbital_gaps.json
+research/bmn-frontier-orbitals/results/frontier_orbitals.json
+research/bmn-frontier-orbitals/results/figure_frontier_levels.html
+research/bmn-frontier-orbitals/results/geometry_bmn-h_def2-svp.json
+research/bmn-frontier-orbitals/results/geometry_bmn-f_def2-svp.json
+research/bmn-frontier-orbitals/results/geometry_bmn-nh2_def2-svp.json
+research/bmn-frontier-orbitals/results/geometry_bmn-nme2_def2-svp.json
+research/bmn-frontier-orbitals/results/states_bmn-h_cam-b3lyp_def2-tzvp.json
+research/bmn-frontier-orbitals/results/states_bmn-f_cam-b3lyp_def2-tzvp.json
+research/bmn-frontier-orbitals/results/states_bmn-nh2_cam-b3lyp_def2-tzvp.json
+research/bmn-frontier-orbitals/results/states_bmn-nme2_cam-b3lyp_def2-tzvp.json
+research/bmn-frontier-orbitals/results/states_bmn-h_b3lyp_def2-tzvp.json
+research/bmn-frontier-orbitals/results/states_bmn-f_b3lyp_def2-tzvp.json
+research/bmn-frontier-orbitals/results/states_bmn-nh2_b3lyp_def2-tzvp.json
+research/bmn-frontier-orbitals/results/states_bmn-nme2_b3lyp_def2-tzvp.json

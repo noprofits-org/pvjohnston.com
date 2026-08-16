@@ -1,0 +1,43 @@
+{
+  "interfragment_twist_deg": 0.0,
+  "aryl_acceptor_bond_ang": 1.4408,
+  "bridge_cc_bond_ang": 1.3772,
+  "nitrile_bond_ang": [
+    1.1622,
+    1.1625
+  ],
+  "ipso_substituent_bond_ang": 1.3702,
+  "aryl_ring_rms_planarity_ang": 0.0,
+  "amine_N_angle_sum_deg": 360.0,
+  "amine_pyramidalization_deg": 0.0,
+  "molecule": "4-(dimethylamino)benzylidenemalononitrile",
+  "molecule_slug": "bmn-nme2",
+  "scaffold": "bmn",
+  "substituent": "NMe2",
+  "opt_level": "b3lyp/def2-svp (C1, gau_tight)",
+  "opt_energy_Ha": -627.6461699892754,
+  "start_geometry": "geometry/bmn-nme2-start.xyz",
+  "start_diagnostics": {
+    "interfragment_twist_deg": 30.0,
+    "aryl_acceptor_bond_ang": 1.46,
+    "bridge_cc_bond_ang": 1.35,
+    "nitrile_bond_ang": [
+      1.16,
+      1.16
+    ],
+    "ipso_substituent_bond_ang": 1.4142,
+    "aryl_ring_rms_planarity_ang": 0.0,
+    "amine_N_angle_sum_deg": 354.4,
+    "amine_pyramidalization_deg": 5.6
+  },
+  "environment": {
+    "psi4_version": "1.9.1",
+    "python": "3.10.17",
+    "numpy": "2.2.5",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "cpu_count": 8,
+    "threads_requested": 6,
+    "memory_requested": "6 GB",
+    "run_utc": "2026-08-14T03:08:49+00:00"
+  }
+}
