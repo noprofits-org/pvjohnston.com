@@ -1,0 +1,366 @@
+{
+  "molecule": "p-methoxybenzonitrile",
+  "molecule_slug": "meo-cn",
+  "scaffold": "meo-cn",
+  "acceptor": "CN",
+  "acceptor_strength": 1,
+  "formula": "C8H7NO",
+  "geometry_source": "geometry/meo-cn-def2-svp-opt.xyz",
+  "geometry_comment": "p-methoxybenzonitrile optimized b3lyp/def2-svp (C1, gau_tight) E=-438.69635420 Ha; from meo-cn-start.xyz",
+  "functional": "b3lyp",
+  "basis": "def2-tzvp",
+  "method": "full RPA",
+  "n_states_requested": 12,
+  "tdscf_requested": {
+    "maxiter": 120,
+    "r_convergence": 1e-05
+  },
+  "tdscf_effective": {
+    "maxiter": 60,
+    "r_convergence": 1e-05,
+    "max_expansion_vectors": 3000
+  },
+  "scf_energy_Ha": -439.1856417435692,
+  "n_occupied": 35,
+  "n_mo": 352,
+  "n_basis_functions": 352,
+  "states": [
+    {
+      "state": 1,
+      "energy_eV": 4.8379,
+      "wavelength_nm": 256.28,
+      "f": 0.0175,
+      "hole_particle_dist_ang": 0.17,
+      "type": "pi->pi*",
+      "bright": true,
+      "dominant": [
+        {
+          "from": "HOMO",
+          "to": "LUMO+1",
+          "weight_pct": 69.9,
+          "occ_index": 34,
+          "vir_index": 1
+        },
+        {
+          "from": "HOMO-1",
+          "to": "LUMO",
+          "weight_pct": 24.1,
+          "occ_index": 33,
+          "vir_index": 0
+        }
+      ]
+    },
+    {
+      "state": 2,
+      "energy_eV": 5.1238,
+      "wavelength_nm": 241.98,
+      "f": 0.36261,
+      "hole_particle_dist_ang": 0.72,
+      "type": "pi->pi*",
+      "bright": true,
+      "dominant": [
+        {
+          "from": "HOMO",
+          "to": "LUMO",
+          "weight_pct": 85.9,
+          "occ_index": 34,
+          "vir_index": 0
+        },
+        {
+          "from": "HOMO-1",
+          "to": "LUMO+1",
+          "weight_pct": 6.5,
+          "occ_index": 33,
+          "vir_index": 1
+        }
+      ]
+    },
+    {
+      "state": 3,
+      "energy_eV": 6.156,
+      "wavelength_nm": 201.4,
+      "f": 0.2471,
+      "hole_particle_dist_ang": 0.71,
+      "type": "pi->pi*",
+      "bright": true,
+      "dominant": [
+        {
+          "from": "HOMO-1",
+          "to": "LUMO",
+          "weight_pct": 69.1,
+          "occ_index": 33,
+          "vir_index": 0
+        },
+        {
+          "from": "HOMO",
+          "to": "LUMO+1",
+          "weight_pct": 23.5,
+          "occ_index": 34,
+          "vir_index": 1
+        }
+      ]
+    },
+    {
+      "state": 4,
+      "energy_eV": 6.3535,
+      "wavelength_nm": 195.14,
+      "f": 0.00025,
+      "hole_particle_dist_ang": 2.36,
+      "type": "dark/weak",
+      "bright": false,
+      "dominant": [
+        {
+          "from": "HOMO-3",
+          "to": "LUMO",
+          "weight_pct": 46.2,
+          "occ_index": 31,
+          "vir_index": 0
+        },
+        {
+          "from": "HOMO",
+          "to": "LUMO+3",
+          "weight_pct": 37.4,
+          "occ_index": 34,
+          "vir_index": 3
+        },
+        {
+          "from": "HOMO",
+          "to": "LUMO+2",
+          "weight_pct": 10.7,
+          "occ_index": 34,
+          "vir_index": 2
+        }
+      ]
+    },
+    {
+      "state": 5,
+      "energy_eV": 6.4423,
+      "wavelength_nm": 192.45,
+      "f": 0.00094,
+      "hole_particle_dist_ang": 2.36,
+      "type": "dark/weak",
+      "bright": false,
+      "dominant": [
+        {
+          "from": "HOMO-3",
+          "to": "LUMO",
+          "weight_pct": 49.7,
+          "occ_index": 31,
+          "vir_index": 0
+        },
+        {
+          "from": "HOMO",
+          "to": "LUMO+3",
+          "weight_pct": 28.8,
+          "occ_index": 34,
+          "vir_index": 3
+        },
+        {
+          "from": "HOMO",
+          "to": "LUMO+2",
+          "weight_pct": 17.8,
+          "occ_index": 34,
+          "vir_index": 2
+        }
+      ]
+    },
+    {
+      "state": 6,
+      "energy_eV": 6.5734,
+      "wavelength_nm": 188.62,
+      "f": 0.00844,
+      "hole_particle_dist_ang": 2.59,
+      "type": "dark/weak",
+      "bright": false,
+      "dominant": [
+        {
+          "from": "HOMO",
+          "to": "LUMO+2",
+          "weight_pct": 67.9,
+          "occ_index": 34,
+          "vir_index": 2
+        },
+        {
+          "from": "HOMO",
+          "to": "LUMO+3",
+          "weight_pct": 28.6,
+          "occ_index": 34,
+          "vir_index": 3
+        }
+      ]
+    },
+    {
+      "state": 7,
+      "energy_eV": 6.6392,
+      "wavelength_nm": 186.74,
+      "f": 0.56024,
+      "hole_particle_dist_ang": 0.07,
+      "type": "pi->pi*",
+      "bright": true,
+      "dominant": [
+        {
+          "from": "HOMO-1",
+          "to": "LUMO+1",
+          "weight_pct": 77.7,
+          "occ_index": 33,
+          "vir_index": 1
+        },
+        {
+          "from": "HOMO-2",
+          "to": "LUMO",
+          "weight_pct": 10.1,
+          "occ_index": 32,
+          "vir_index": 0
+        },
+        {
+          "from": "HOMO",
+          "to": "LUMO",
+          "weight_pct": 5.3,
+          "occ_index": 34,
+          "vir_index": 0
+        }
+      ]
+    },
+    {
+      "state": 8,
+      "energy_eV": 6.8705,
+      "wavelength_nm": 180.46,
+      "f": 0.08389,
+      "hole_particle_dist_ang": 0.1,
+      "type": "pi->pi*",
+      "bright": true,
+      "dominant": [
+        {
+          "from": "HOMO-2",
+          "to": "LUMO",
+          "weight_pct": 80.7,
+          "occ_index": 32,
+          "vir_index": 0
+        },
+        {
+          "from": "HOMO-1",
+          "to": "LUMO+1",
+          "weight_pct": 9.9,
+          "occ_index": 33,
+          "vir_index": 1
+        }
+      ]
+    },
+    {
+      "state": 9,
+      "energy_eV": 6.9807,
+      "wavelength_nm": 177.61,
+      "f": 0.00795,
+      "hole_particle_dist_ang": 0.38,
+      "type": "dark/weak",
+      "bright": false,
+      "dominant": [
+        {
+          "from": "HOMO",
+          "to": "LUMO+4",
+          "weight_pct": 95.0,
+          "occ_index": 34,
+          "vir_index": 4
+        }
+      ]
+    },
+    {
+      "state": 10,
+      "energy_eV": 7.0878,
+      "wavelength_nm": 174.93,
+      "f": 0.00141,
+      "hole_particle_dist_ang": 3.05,
+      "type": "dark/weak",
+      "bright": false,
+      "dominant": [
+        {
+          "from": "HOMO-3",
+          "to": "LUMO+1",
+          "weight_pct": 86.9,
+          "occ_index": 31,
+          "vir_index": 1
+        },
+        {
+          "from": "HOMO-4",
+          "to": "LUMO",
+          "weight_pct": 5.6,
+          "occ_index": 30,
+          "vir_index": 0
+        }
+      ]
+    },
+    {
+      "state": 11,
+      "energy_eV": 7.1409,
+      "wavelength_nm": 173.62,
+      "f": 0.01526,
+      "hole_particle_dist_ang": 0.83,
+      "type": "pi->pi*",
+      "bright": true,
+      "dominant": [
+        {
+          "from": "HOMO-2",
+          "to": "LUMO+1",
+          "weight_pct": 96.8,
+          "occ_index": 32,
+          "vir_index": 1
+        }
+      ]
+    },
+    {
+      "state": 12,
+      "energy_eV": 7.1457,
+      "wavelength_nm": 173.51,
+      "f": 1e-05,
+      "hole_particle_dist_ang": 2.36,
+      "type": "dark/weak",
+      "bright": false,
+      "dominant": [
+        {
+          "from": "HOMO-4",
+          "to": "LUMO",
+          "weight_pct": 90.7,
+          "occ_index": 30,
+          "vir_index": 0
+        },
+        {
+          "from": "HOMO-3",
+          "to": "LUMO+1",
+          "weight_pct": 5.3,
+          "occ_index": 31,
+          "vir_index": 1
+        }
+      ]
+    }
+  ],
+  "manifold": {
+    "n_states": 12,
+    "n_bright": 6,
+    "f_total": 1.3056,
+    "bright_threshold_f": 0.01,
+    "band_halfwidth_eV": 0.35,
+    "energy_range_eV": [
+      4.8379,
+      7.1457
+    ],
+    "lowest_bright_state": 1,
+    "lowest_bright_eV": 4.8379,
+    "lowest_bright_nm": 256.28,
+    "lowest_bright_f": 0.0175,
+    "lowest_bright_type": "pi->pi*",
+    "isolation_count": 2,
+    "isolation_gap_eV": 0.2859,
+    "window_enclosed": true,
+    "f_fraction_in_lowest_bright": 0.0134
+  },
+  "environment": {
+    "psi4_version": "1.9.1",
+    "python": "3.10.17",
+    "numpy": "2.2.5",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "cpu_count": 8,
+    "threads_requested": 6,
+    "memory_requested": "6 GB",
+    "run_utc": "2026-08-16T06:01:23+00:00"
+  }
+}

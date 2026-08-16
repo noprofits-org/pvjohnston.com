@@ -1,0 +1,40 @@
+# One repository-relative path per line. Package only this reviewed allowlist.
+#
+# Psi4 output logs and scratch are neither committed nor published (see
+# .gitignore): they are large, regenerable, and embed absolute scratch paths
+# from the machine that produced them. The canonical evidence is results/.
+#
+# Result filenames encode molecule, functional, and basis.
+#
+# Only the analytic starting geometries are published; the B3LYP/def2-SVP
+# optimized geometries are Psi4 output and are treated as scratch (see
+# .gitignore). Their content is recorded in results/geometry_*.json.
+LICENSE
+research/metrics.schema.json
+research/meo-acceptor-ladder/README.md
+research/meo-acceptor-ladder/environment.md
+research/meo-acceptor-ladder/environment-psi4_19.yml
+research/meo-acceptor-ladder/run_tddft.py
+research/meo-acceptor-ladder/build_geometries.py
+research/meo-acceptor-ladder/orbital_gaps.py
+research/meo-acceptor-ladder/extract_frontier.py
+research/meo-acceptor-ladder/run_all.sh
+research/meo-acceptor-ladder/generate-metrics.mjs
+research/meo-acceptor-ladder/make-figure.mjs
+research/meo-acceptor-ladder/render-figure-png.mjs
+research/meo-acceptor-ladder/metrics.json
+research/meo-acceptor-ladder/geometry/meo-cn-start.xyz
+research/meo-acceptor-ladder/geometry/meo-dcv-start.xyz
+research/meo-acceptor-ladder/geometry/meo-tcf-start.xyz
+research/meo-acceptor-ladder/results/orbital_gaps.json
+research/meo-acceptor-ladder/results/frontier_orbitals.json
+research/meo-acceptor-ladder/results/figure_frontier_levels.html
+research/meo-acceptor-ladder/results/geometry_meo-cn_def2-svp.json
+research/meo-acceptor-ladder/results/geometry_meo-dcv_def2-svp.json
+research/meo-acceptor-ladder/results/geometry_meo-tcf_def2-svp.json
+research/meo-acceptor-ladder/results/states_meo-cn_cam-b3lyp_def2-tzvp.json
+research/meo-acceptor-ladder/results/states_meo-dcv_cam-b3lyp_def2-tzvp.json
+research/meo-acceptor-ladder/results/states_meo-tcf_cam-b3lyp_def2-tzvp.json
+research/meo-acceptor-ladder/results/states_meo-cn_b3lyp_def2-tzvp.json
+research/meo-acceptor-ladder/results/states_meo-dcv_b3lyp_def2-tzvp.json
+research/meo-acceptor-ladder/results/states_meo-tcf_b3lyp_def2-tzvp.json

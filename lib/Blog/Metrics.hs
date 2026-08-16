@@ -91,13 +91,14 @@ data Metric = Metric
   , metricUnit        :: Maybe Text
   } deriving (Eq, Show)
 
-data MetricType = MetricInteger | MetricNumber | MetricBoolean
+data MetricType = MetricInteger | MetricNumber | MetricBoolean | MetricString
   deriving (Eq, Show)
 
 data MetricValue
   = IntegerValue Integer
   | NumberValue Scientific
   | BooleanValue Bool
+  | StringValue Text
   deriving (Eq, Show)
 
 data MetricFormat
@@ -181,8 +182,10 @@ parseMetricValue "number" (Number n) =
   pure (MetricNumber, NumberValue n)
 parseMetricValue "boolean" (Bool b) =
   pure (MetricBoolean, BooleanValue b)
+parseMetricValue "string" (String s) =
+  pure (MetricString, StringValue s)
 parseMetricValue kind _
-  | kind `elem` ["integer", "number", "boolean"] =
+  | kind `elem` ["integer", "number", "boolean", "string"] =
       fail $ "metric value does not match declared type " ++ T.unpack kind
   | otherwise =
       fail $ "unsupported metric type " ++ T.unpack kind
@@ -442,6 +445,7 @@ renderMetric metric =
     (IntegerValue value, Nothing) -> T.pack (show value)
     (NumberValue value, Just format) -> renderNumber format value
     (BooleanValue value, Nothing) -> if value then "true" else "false"
+    (StringValue value, Nothing) -> value
     -- Parsing rejects every other combination.
     _ -> "[invalid metric]"
 
