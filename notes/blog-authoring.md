@@ -81,6 +81,23 @@ rhetorical flourish; it is the reason to publish at all. The verdict language
 this guide requires (*supported / falsified / inconclusive*, §2) is a verdict on
 **our own hypothesis and our own experiment** — never a grade on the source.
 
+### Tone — deliberately dry
+
+**A note reads like a lab notebook or a methods paper, not a magazine article.**
+No hooks, no gameshow pacing, no clever framing, no adversarial flourish, no
+marketing-blog energy. The post is not here to entertain, impress, or sell. It
+states the question, states what was done, reports what came out, and says what
+that currently means and where it might be wrong. If a sentence would feel out of
+place in a sober technical report, rewrite it until it would not.
+
+**Do not manufacture mystery where there is none.** A Research note can have a
+falsifier because its answer was genuinely uncertain before the experiment. An
+Understanding note explains what is already known; it does not need a hypothesis,
+a reveal, or a narrative arc. The reader is not led to a surprise ending — they
+are walked through a working object until it is clear. Cleverness, sensationalism,
+and tabloid framing are not stylistic choices; they are errors in the same way a
+wrong sign on a result is an error.
+
 ---
 
 ## 0. Before you draft — choose the form
@@ -231,8 +248,10 @@ loss.
 
 ### Understanding notes — scope and explanatory route
 
-An Understanding note does not claim novelty and does not need a hypothesis.
-Before drafting, write down:
+An Understanding note explains what is already known. It does not claim
+novelty, does not need a hypothesis, and does not stage a reveal. The reader is
+not waiting for a verdict; they are waiting for clarity. Before drafting, write
+down:
 
 1. the one explanatory question the note will answer;
 2. the reader's assumed starting point;
@@ -244,7 +263,8 @@ The standard is synthesis, not discovery. The note must connect ideas that are
 usually taught apart, make every mathematical step inspectable, and show the
 object in more than one useful representation. A collection of definitions is
 not enough. Neither is a plot gallery without a causal or mathematical route
-through it.
+through it. Manufactured suspense or a false problem-solution arc is also not
+enough — the post simply says what is known and shows it cleanly.
 
 ---
 
@@ -838,6 +858,7 @@ checkout does not restore the Hakyll store.
 - [ ] Methods states interpreter/arch/versions/seeds precisely enough to re-run
 - [ ] Methods states whether source program/code/data were used and what was independently implemented
 - [ ] Methods identifies the computational procedure and digital inputs; no living subjects were recruited, observed, surveyed, interviewed, exposed, or acted upon
+- [ ] Tone is dry: no hooks, clever framing, adversarial flourish, or marketing-blog energy (stance section)
 - [ ] `experiment:` names its `research/<slug>/` owner; result-bearing prose uses `[metric_name]{.metric}` and no experiment result is quoted in front matter (§7)
 - [ ] The metrics generator passes `--check`; source fingerprints pass `node scripts/verify-metrics.mjs`; the post claims only the reproducibility label it has earned (§7)
 - [ ] Public research files come from an explicit reviewed allowlist; rights, privacy, secrets, and size exceptions are documented (§7)
@@ -850,6 +871,7 @@ checkout does not restore the Hakyll store.
 
 **After drafting — Understanding only:**
 
+- [ ] Tone is dry: the note states what is known and shows it cleanly, with no manufactured suspense, reveal, or problem-solution arc (stance section)
 - [ ] Opening names the question and explanatory route without a manufactured gap or hypothesis
 - [ ] Headings follow conceptual dependency order; no IMRaD labels or verdict
 - [ ] Equations are sufficient to reconstruct every plotted quantity
