@@ -1,6 +1,6 @@
 ---
 title: About
-description: About Peter Johnston — a Seattle analytical problem solver, AI-assisted tool builder, Ph.D. chemist, and writer.
+description: About Peter V. Johnston — a Seattle analytical problem solver, AI-assisted tool builder, Ph.D. chemist, and writer.
 ---
 
 ```{=html}
@@ -8,7 +8,7 @@ description: About Peter Johnston — a Seattle analytical problem solver, AI-as
     <div class="personal-hero-inner">
         <div class="masthead-meta">
             <span class="meta-dot" aria-hidden="true"></span>
-            <span class="meta-place">Peter Johnston · Seattle</span>
+            <span class="meta-place">Peter V. Johnston · Seattle</span>
             <span class="meta-rule" aria-hidden="true"></span>
             <span class="meta-kind">Analytical Problem Solver · Ph.D. Chemist</span>
         </div>

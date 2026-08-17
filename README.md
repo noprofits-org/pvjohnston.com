@@ -1,6 +1,6 @@
 # pvjohnston.com
 
-Peter Johnston’s portfolio, résumé, and personal technical notebook. The site is generated with Hakyll and Pandoc and published to [pvjohnston.com](https://pvjohnston.com) through GitHub Pages.
+Peter V. Johnston’s portfolio, résumé, and personal technical notebook. The site is generated with Hakyll and Pandoc and published to [pvjohnston.com](https://pvjohnston.com) through GitHub Pages.
 
 ## What lives here
 

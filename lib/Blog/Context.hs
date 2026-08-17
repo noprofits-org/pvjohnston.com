@@ -19,13 +19,13 @@ siteHost = "https://pvjohnston.com"
 -- | Fallback description used for social meta on pages without their own.
 siteDescription :: String
 siteDescription =
-  "Peter Johnston is an analytical problem solver, AI-assisted tool builder, and Ph.D. chemist who makes complicated domains legible."
+  "Peter V. Johnston is an analytical problem solver, AI-assisted tool builder, and Ph.D. chemist who makes complicated domains legible."
 
 -- | Fallback description of the branded social image used when a page does not
 -- provide an image with alt text in its @figure@ metadata.
 siteImageAlt :: String
 siteImageAlt =
-  "Peter Johnston — analytical problem solver, AI-assisted tool builder, and Ph.D. chemist"
+  "Peter V. Johnston — analytical problem solver, AI-assisted tool builder, and Ph.D. chemist"
 
 -- | Fields every page that renders @templates/default.html@ needs: the social
 -- @ogimage@ (absolute, per-post overridable), its @ogimagealt@ text, and the
