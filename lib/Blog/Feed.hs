@@ -13,9 +13,9 @@ import Blog.Context (postCtx)
 -- | Shared configuration for both the Atom and RSS feeds.
 feedConfiguration :: FeedConfiguration
 feedConfiguration = FeedConfiguration
-  { feedTitle       = "Peter Johnston — Notes"
+  { feedTitle       = "Peter V. Johnston — Notes"
   , feedDescription = "Science, AI-assisted tools, automation, art, and other things worth understanding."
-  , feedAuthorName  = "Peter Johnston"
+  , feedAuthorName  = "Peter V. Johnston"
   , feedAuthorEmail = "pvjohnst@gmail.com"
   , feedRoot        = "https://pvjohnston.com"
   }
