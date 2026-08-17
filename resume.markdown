@@ -8,7 +8,7 @@ description: Peter V. Johnston — analytical problem solver, AI-assisted tool b
 <div class="resume-eyebrow">Curriculum Vitae</div>
 <h1>Peter V. Johnston<span>, Ph.D.</span></h1>
 <p class="resume-role">Analytical Problem Solver · AI-Assisted Tool Builder · Scientist</p>
-<p class="resume-contact">Seattle, WA · <a href="mailto:pvjohnst@gmail.com">pvjohnst@gmail.com</a> · <a href="https://github.com/noprofits-org">github.com/noprofits-org</a> · <a href="https://scholar.google.com/citations?user=kl64cagAAAAJ">Google Scholar</a></p>
+<p class="resume-contact">Seattle, WA · <a href="mailto:pvjohnst@gmail.com">pvjohnst@gmail.com</a> · <a href="https://github.com/pvjohnston">github.com/pvjohnston</a> · <a href="https://scholar.google.com/citations?user=kl64cagAAAAJ">Google Scholar</a></p>
 <button type="button" class="resume-print" onclick="window.print()">Print / Save as PDF</button>
 </header>
 
