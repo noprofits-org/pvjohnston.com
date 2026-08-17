@@ -8,7 +8,7 @@ description: Peter V. Johnston — analytical problem solver, AI-assisted tool b
 <div class="resume-eyebrow">Curriculum Vitae</div>
 <h1>Peter V. Johnston<span>, Ph.D.</span></h1>
 <p class="resume-role">Analytical Problem Solver · AI-Assisted Tool Builder · Scientist</p>
-<p class="resume-contact">Seattle, WA · <a href="mailto:pvjohnst@gmail.com">pvjohnst@gmail.com</a> · <a href="https://github.com/pvjohnston">github.com/pvjohnston</a> · <a href="https://scholar.google.com/citations?user=kl64cagAAAAJ">Google Scholar</a></p>
+<p class="resume-contact">Seattle, WA · <a href="mailto:pvjohnst@gmail.com">pvjohnst@gmail.com</a> · <a href="https://github.com/pvjohnston">github.com/pvjohnston</a> · <a href="https://orcid.org/0009-0006-0084-8863">orcid.org/0009-0006-0084-8863</a> · <a href="https://scholar.google.com/citations?user=kl64cagAAAAJ">Google Scholar</a></p>
 <button type="button" class="resume-print" onclick="window.print()">Print / Save as PDF</button>
 </header>
 
@@ -74,7 +74,7 @@ description: Peter V. Johnston — analytical problem solver, AI-assisted tool b
 
 <section>
 <h2>Research &amp; publications</h2>
-<p>Eleven peer-reviewed publications in organic electro-optic materials and silicon/plasmonic photonics. Current independent work revisits quantum chemistry, spectroscopy, and molecular properties through reproducible computational notebooks and AI-assisted scientific tooling. Ph.D. research in the Dalton group at the University of Washington. <a href="https://scholar.google.com/citations?user=kl64cagAAAAJ">Google Scholar profile</a>.</p>
+<p>Eleven peer-reviewed publications in organic electro-optic materials and silicon/plasmonic photonics. Current independent work revisits quantum chemistry, spectroscopy, and molecular properties through reproducible computational notebooks and AI-assisted scientific tooling. Ph.D. research in the Dalton group at the University of Washington. <a href="https://scholar.google.com/citations?user=kl64cagAAAAJ">Google Scholar profile</a> · <a href="https://orcid.org/0009-0006-0084-8863">ORCID</a>.</p>
 <ol class="resume-publications">
 <li><strong>Plasmonic modulators for microwave photonics applications.</strong> Asia Communications and Photonics Conference, 2017.</li>
 <li><strong>Structure–function relationship exploration for enhanced thermal stability and electro-optic activity in monolithic organic NLO chromophores.</strong> Journal of Materials Chemistry C 4(15), 3119–3124, 2016.</li>

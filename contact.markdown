@@ -9,4 +9,4 @@ Email is the best way to reach me: [pvjohnst@gmail.com](mailto:pvjohnst@gmail.co
 
 I am especially interested in scientific or technical work that combines analytical thinking, computation, data, AI-assisted research, or custom tool building. I am also open to roles in other domains where the problem is complex, the path is unclear, and a practical system needs to be built.
 
-You can also find my public work on [GitHub](https://github.com/pvjohnston), [Google Scholar](https://scholar.google.com/citations?user=kl64cagAAAAJ), and at [noprofits.org](https://noprofits.org).
+You can also find my public work on [GitHub](https://github.com/pvjohnston), [ORCID](https://orcid.org/0009-0006-0084-8863), [Google Scholar](https://scholar.google.com/citations?user=kl64cagAAAAJ), and at [noprofits.org](https://noprofits.org).
