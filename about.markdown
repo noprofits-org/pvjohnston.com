@@ -80,6 +80,7 @@ The notebook follows curiosity rather than a content calendar: quantum chemistry
 ## Elsewhere
 
 - [GitHub](https://github.com/pvjohnston)
+- [ORCID](https://orcid.org/0009-0006-0084-8863)
 - [Google Scholar](https://scholar.google.com/citations?user=kl64cagAAAAJ)
 - [noprofits.org](https://noprofits.org)
 - [Résumé](/resume.html)
