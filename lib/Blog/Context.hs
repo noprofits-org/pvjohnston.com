@@ -131,8 +131,8 @@ postCtx =
 
 -- | @$if(hasFigure)$@ marker: emitted (as "1") when a post has a figure the
 -- featured panel can show — an explicit @figure@ metadata image or a TikZ
--- figure in its compiled body. The random-featured picker uses it to mark
--- eligible "Latest" rows; withheld (so @$if$@ is false) otherwise.
+-- figure in its compiled body. The featured reel uses it to mark eligible
+-- "Latest" rows; withheld (so @$if$@ is false) otherwise.
 hasFigureField :: Context String
 hasFigureField = field "hasFigure" $ \item -> do
   yes <- hasFigure item
