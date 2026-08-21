@@ -105,6 +105,19 @@
       grid.style.gridTemplateColumns = '1fr';
     }
 
+    // Caption slot is always in the figure (see renderSlide). Fill or clear
+    // it in place so a missing caption cannot drop the reserved line.
+    function setCaption(figEl, opts) {
+      var cap = figEl.querySelector('figcaption.figure-caption');
+      if (!cap) {
+        cap = document.createElement('figcaption');
+        cap.className = 'figure-caption';
+        figEl.appendChild(cap);
+      }
+      if (opts && opts.html) cap.innerHTML = opts.html;
+      else cap.textContent = (opts && opts.text) || '';
+    }
+
     // Prefer the front-matter hero already on the reel item / Latest row. It
     // is the same markup the server bakes into `$figure$` — a landscape PNG
     // when the post declares one — so the featured slot stays compact.
@@ -117,7 +130,6 @@
       var figEl = grid.querySelector('.featured-figure');
       if (!figEl) return false;
       var body = figEl.querySelector('.figure-body');
-      body.style.minHeight = '';
       body.innerHTML = figSrc.innerHTML;
       var labelSrc = srcFig.querySelector('[data-figlabel]');
       var label = figEl.querySelector('.figure-label');
@@ -125,16 +137,10 @@
         var lab = labelSrc.textContent.trim();
         label.textContent = lab ? 'Fig. 1 — ' + lab : 'Fig. 1';
       }
+      var capText = '';
       var capSrc = srcFig.querySelector('[data-figcaption]');
-      if (capSrc) {
-        var capText = capSrc.textContent.trim();
-        if (capText) {
-          var cap = document.createElement('figcaption');
-          cap.className = 'figure-caption';
-          cap.textContent = capText;
-          figEl.appendChild(cap);
-        }
-      }
+      if (capSrc) capText = capSrc.textContent.trim();
+      setCaption(figEl, { text: capText });
       return true;
     }
 
@@ -157,14 +163,8 @@
       var figEl = grid.querySelector('.featured-figure');
       if (!figEl) return;
       var body = figEl.querySelector('.figure-body');
-      body.style.minHeight = '';
       body.innerHTML = cached.markup;
-      if (cached.capHtml) {
-        var cap = document.createElement('figcaption');
-        cap.className = 'figure-caption';
-        cap.innerHTML = cached.capHtml;
-        figEl.appendChild(cap);
-      }
+      setCaption(figEl, cached.capHtml ? { html: cached.capHtml } : { text: '' });
       typeset(figEl);
     }
 
@@ -238,7 +238,8 @@
         '</div>' +
         '<figure class="featured-figure">' +
           '<div class="figure-label">Fig. 1</div>' +
-          '<div class="figure-body" style="min-height:240px"></div>' +
+          '<div class="figure-body"></div>' +
+          '<figcaption class="figure-caption"></figcaption>' +
         '</figure>';
     }
 

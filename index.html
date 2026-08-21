@@ -34,7 +34,7 @@ $for(featured)$
             <figure class="featured-figure">
                 <div class="figure-label">Fig. 1 — $figlabel$</div>
                 <div class="figure-body">$figure$</div>
-                $if(figcaption)$<figcaption class="figure-caption">$figcaption$</figcaption>$endif$
+                <figcaption class="figure-caption">$if(figcaption)$$figcaption$$endif$</figcaption>
             </figure>
             $else$
             $if(figSlides)$
