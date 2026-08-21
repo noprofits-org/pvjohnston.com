@@ -2,8 +2,12 @@
 // the newest post that HAS A FIGURE into the featured slot (so the card is valid
 // with JS off and for crawlers). On each visit this swaps in a random
 // figure-having post — the TEXT immediately (it all lives in the Latest row, no
-// fetch) so the baked default never flashes, then the FIGURE fetched from that
-// one post's page and dropped into a reserved slot. Any failure leaves the baked
+// fetch) so the baked default never flashes, then the FIGURE. Prefer the
+// front-matter hero carried on the Latest row (`template.row-featured-figure`);
+// that is the compact landscape PNG the server already uses for the baked
+// default. Fall back to fetching the post body only for TikZ-only posts. Body
+// SVGs with wrapping panels (`.fig-levels`) must not replace a declared hero:
+// they stack in the half-width featured column. Any failure leaves the baked
 // default or the text-only card.
 //
 // The card is held invisible pre-paint by a small inline script in the page head
@@ -101,6 +105,41 @@
 
     reconcile(url);
     reveal();
+
+    // Prefer the front-matter hero already on the Latest row. It is the same
+    // markup the server bakes into `$figure$` — a landscape PNG when the post
+    // declares one — so the featured slot stays compact.
+    function applyRowHero() {
+      var tpl = pick.querySelector('template.row-featured-figure');
+      if (!tpl) return false;
+      var src = tpl.content;
+      var figSrc = src.querySelector('[data-figure]');
+      if (!figSrc || !figSrc.innerHTML.trim()) return false;
+      var figEl = grid.querySelector('.featured-figure');
+      if (!figEl) return false;
+      var body = figEl.querySelector('.figure-body');
+      body.style.minHeight = '';
+      body.innerHTML = figSrc.innerHTML;
+      var labelSrc = src.querySelector('[data-figlabel]');
+      var label = figEl.querySelector('.figure-label');
+      if (label && labelSrc) {
+        var lab = labelSrc.textContent.trim();
+        label.textContent = lab ? 'Fig. 1 — ' + lab : 'Fig. 1';
+      }
+      var capSrc = src.querySelector('[data-figcaption]');
+      if (capSrc) {
+        var capText = capSrc.textContent.trim();
+        if (capText) {
+          var cap = document.createElement('figcaption');
+          cap.className = 'figure-caption';
+          cap.textContent = capText;
+          figEl.appendChild(cap);
+        }
+      }
+      return true;
+    }
+
+    if (applyRowHero()) return;
 
     // ---- Async: fetch the chosen post's figure and drop it into the slot. ----
     fetch(url).then(function (r) {

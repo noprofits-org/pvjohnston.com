@@ -21,9 +21,8 @@ fixed as para-methoxy and varies the acceptor across three strengths: cyano
 (CN), dicyanovinyl (DCV), and the tricyanodihydrofuran (TCF) acceptor from the
 DCDHF series.
 
-The note reports how the acceptor strength moves the HOMO and the LUMO
-separately on the same molecular framework, and how the HOMO-LUMO gap closes as
-the acceptor becomes stronger.
+The note reports how the HOMO and the LUMO move separately across that
+series, and how the HOMO-LUMO gap closes as the acceptor becomes stronger.
 
 ## 2. The scaffold
 
@@ -35,15 +34,23 @@ The series is para-methoxy push-pull dyes. The three molecules are:
   DCDHF-Me2 with OMe.
 
 The acceptors are ordered CN < DCV < TCF by increasing acceptor strength. The
-donor is held constant, so changes in the frontier-orbital energies are due to
-the acceptor.
+donor is OMe throughout. The π-path is not held fixed: CN is a nitrile on the
+ring, DCV inserts a vinylidene spacer, and TCF is a dihydrofuran acceptor, so
+acceptor strength and conjugation length move together. Changes in the
+frontier-orbital energies are therefore not an acceptor-only effect.
+
+This series is not the complementary experiment to the [BMN donor-strength
+note](/posts/2026-08-16-how-the-donor-closes-the-gap.html), which held
+Ar–CH=C(CN)₂ fixed and varied X. OMe is a stronger donor than that series'
+H parent.
 
 ## 3. What was computed
 
 Every molecule was optimized at B3LYP/def2-SVP, then the 12 lowest singlets
 were computed with full-response TD-DFT at def2-TZVP with both CAM-B3LYP and
 B3LYP, in Psi4 1.9.1.[@Becke1993Exchange; @Weigend2005Balanced; @Yanai2004Coulomb; @Smith2020Psi4]
-The protocol is identical to the recent BMN donor-strength note; here it is
+The protocol is identical to the recent [BMN donor-strength
+note](/posts/2026-08-16-how-the-donor-closes-the-gap.html); here it is
 applied to an acceptor-strength ladder instead.
 
 Two quantities are reported for each molecule and functional: the
@@ -277,7 +284,9 @@ output.
 
 These are gas-phase vertical excitations of isolated molecules with no solvent
 model, and charge-transfer states are strongly solvatochromic. Nothing here has
-vibrational structure or computed band widths. TD-DFT carries a typical
+vibrational structure or computed band widths. The series does not isolate
+acceptor strength from conjugation length, so the CN→DCV→TCF gap closure is
+not a pure acceptor-strength effect. TD-DFT carries a typical
 0.2–0.3 eV error for charge-transfer states,[@Santoro2016] so the computed gap
 and excitation energies are indicative rather than exact. Measured solution
 spectra of these compounds would test the computed trend in a way this

@@ -146,6 +146,11 @@ a { color: inherit; text-decoration: none; }
 }
 .figure-body { text-align: center; }
 .figure-body svg, .figure-body img { max-width: 100%; height: auto; display: inline-block; }
+/* Two-panel inline SVGs wrap at 17rem. The featured column is half-width, so
+   they stack into a tower. Keep them side-by-side in the hero slot; the post
+   body still wraps at full width. Specificity beats the figure's own <style>. */
+.featured-figure .fig-levels .fl-panels { flex-wrap: nowrap; }
+.featured-figure .fig-levels .fl-panel { flex: 1 1 0; min-width: 0; }
 .figure-caption {
   font-family: var(--font-mono); font-size: 11px; color: var(--faint);
   text-align: center; margin-top: 16px;
