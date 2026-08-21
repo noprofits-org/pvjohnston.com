@@ -1,0 +1,16 @@
+$for(featuredReel)$
+<div class="featured-reel-item" data-href="$url$">
+    <span class="post-row-date">$date$</span>
+    <span class="post-row-topic">$topic$</span>
+    <span class="post-row-title">$title$</span>
+    $if(description)$<p class="post-row-desc">$description$</p>$endif$
+    $if(hashTags)$<div class="post-row-tags">$hashTags$</div>$endif$
+    $if(figure)$
+    <template class="row-featured-figure">
+        <div data-figure>$figure$</div>
+        $if(figlabel)$<div data-figlabel>$figlabel$</div>$endif$
+        $if(figcaption)$<div data-figcaption>$figcaption$</div>$endif$
+    </template>
+    $endif$
+</div>
+$endfor$

@@ -81,7 +81,7 @@ a { color: inherit; text-decoration: none; }
 }
 .featured-inner { max-width: var(--maxw); margin: 0 auto; padding: 72px 32px; transition: opacity .3s ease; }
 /* Hold the featured card invisible (but laid out, so no reflow) until the
-   randomizer resolves — see the no-flash script in default.html. */
+   reel resolves — see the no-flash script in default.html. */
 .feat-pending .featured-inner { opacity: 0; }
 .featured-head {
   display: flex; align-items: center; justify-content: space-between;
@@ -177,6 +177,52 @@ a { color: inherit; text-decoration: none; }
 }
 .fig-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+/* Data island for the reel; `hidden` already display:none, restated so a
+   later display rule cannot leak the extra posts into the layout. */
+.featured-reel-src[hidden] { display: none; }
+
+/* Featured reel — small dots under the card, injected with JS. No autoplay.
+   Quiet prev/next flanking the dots; the dots are the pager. */
+.featured:focus { outline: none; }
+.featured:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+}
+.featured-reel {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; margin-top: 28px;
+}
+.featured-dots { display: flex; align-items: center; gap: 8px; }
+.featured-dot {
+  position: relative;
+  width: 7px; height: 7px; padding: 0;
+  border: 1px solid var(--border-strong); border-radius: 50%;
+  background: transparent; cursor: pointer;
+}
+.featured-dot::after {
+  content: ''; position: absolute; inset: -8px;
+}
+.featured-dot:hover { border-color: var(--accent); }
+.featured-dot[aria-current='true'] {
+  background: var(--accent); border-color: var(--accent);
+}
+.featured-dot:focus { outline: none; }
+.featured-dot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.featured-reel-btn {
+  font-family: var(--font-mono); font-size: 16px; line-height: 1;
+  color: var(--faint); background: none; border: none;
+  padding: 2px 6px; cursor: pointer;
+}
+.featured-reel-btn:hover { color: var(--accent); }
+.featured-reel-btn:focus { outline: none; }
+.featured-reel-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* =============================================================================
    LATEST + topic filter
    ============================================================================= */
@@ -221,7 +267,7 @@ a { color: inherit; text-decoration: none; }
 /* The explicit display:grid above beats the UA's [hidden]{display:none},
    which the topic filter relies on — restate it or filtering is a no-op. */
 .post-row[hidden] { display: none; }
-/* The random-featured picker (js/featured-random.js) hides the currently-
+/* The featured reel (js/featured-random.js) hides the currently-shown
    featured post's row here. A class, not [hidden], so the topic filter — which
    owns the [hidden] attribute — cannot un-hide it. */
 .post-row.is-featured { display: none !important; }

@@ -239,14 +239,20 @@ siteRules previewDrafts = do
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
             -- The newest post WITH A FIGURE is baked into the featured slot as
-            -- the no-JS / first-paint default; js/featured-random.js swaps in a
-            -- random figure-having post per visit (see that file). "Latest"
-            -- lists every post — the picker hides whichever row is currently
-            -- featured to avoid duplication.
+            -- the no-JS / first-paint default. With JS, featured-random.js
+            -- pages a newest-first reel of the five most recent figure-having
+            -- posts (see that file). The reel is a hidden data island on the
+            -- featured card — Latest only lists eight posts, which can hold
+            -- fewer than five figured notes. The picker hides whichever Latest
+            -- row is currently shown in the card to avoid duplication.
             pool <- filterM hasFigure posts
-            let featured = take 1 pool
+            let reel = take 5 pool
+                featured = take 1 pool
+                featuredCtx =
+                    listField "featuredReel" postCtx (return reel) <>
+                    postCtx
                 indexCtx =
-                    listField "featured" postCtx (return featured) <>
+                    listField "featured" featuredCtx (return featured) <>
                     listField "posts"    postCtx (return (take 8 posts)) <>
                     constField "postCount" (show (length posts))   <>
                     constField "title" "Home"                      <>
