@@ -44,16 +44,20 @@ paper.
 
 ## Introduction
 
-Azobenzene and its derivatives isomerize about the azo linkage. Two electronic
-states sit at the centre of the thermal-rotation discussion. The **electronic
-ground state (S0)** is the closed-shell singlet the molecule occupies at
-equilibrium. The **lowest triplet (T1)** is the lowest state of multiplicity
-three. The **CNNC dihedral** is the torsion about the N=N bond that takes the
-trans isomer (180°) toward cis (0°). A **crossing** on that coordinate is a
-geometry where $E(\mathrm{S0})=E(\mathrm{T1})$ — equivalently, where
-$E(\mathrm{S0})-E(\mathrm{T1})$ changes sign between neighbouring points that
-both converged. On azobenzene itself, S0 and T1 are known to meet along the
-twist, which is the basis of the multistate rotation picture.[@Cembran2004]
+Azobenzene and its derivatives change shape around the N=N azo bond, from a
+trans isomer (the two rings opposite, CNNC dihedral 180°) toward a cis isomer
+(the rings on the same side, 0°). That torsion is the **CNNC dihedral**. Two
+electronic states sit on that path. The **electronic ground state (S0)** is
+the closed-shell singlet: all electrons paired, the state the molecule
+occupies at equilibrium. The **lowest triplet (T1)** is the lowest state with
+two unpaired electrons of the same spin (multiplicity three). A **crossing**
+is a geometry on the CNNC path where those two states have the same energy,
+$E(\mathrm{S0})=E(\mathrm{T1})$. In this note that is operational:
+$E(\mathrm{S0})-E(\mathrm{T1})$ changes sign between neighbouring grid points
+that both converged. If the surfaces meet, a thermally moving molecule can
+change spin at that geometry and continue on T1; if they never meet, that
+multistate rotation path is closed. On azobenzene itself, S0 and T1 are known
+to meet along the twist.[@Cembran2004]
 
 Hillel, Rough, Barrett, Pietro, and Mermut computed AzPy and its N-protonated
 form AzPyH+ with SF-TDDFT and found that protonation removes that
@@ -64,9 +68,9 @@ push-pull azobenzenes." That sentence is a generalization, not a calculation
 on a push-pull azobenzene. The same group later studied a different
 push-pull scaffold, the tautomerizable dye HPAS: SF-TDDFT was spin-contaminated
 near the twist, and a CASSCF/QD-NEVPT2 treatment of deprotonated HPAS found no
-S0/T1 crossing.[@Hillel2026] The 2026 result is a method and a scaffold. It is
-not a scan of 4-dimethylamino-4′-nitroazobenzene, and it is not a test of the
-2024 sentence at a single-reference DFT level.
+S0/T1 crossing.[@Hillel2026] It is not a scan of
+4-dimethylamino-4′-nitroazobenzene, and it is not a test of the 2024 sentence
+at a single-reference DFT level.
 
 The gap is the 2024 sentence itself. We could not find a published CNNC scan
 of a classic donor–acceptor azobenzene — here 4-dimethylamino-4′-nitroazobenzene,
