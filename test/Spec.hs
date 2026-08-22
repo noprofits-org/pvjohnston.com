@@ -4,6 +4,12 @@
 module Main (main) where
 
 import Blog.Compilers (wrapTables)
+import Blog.Context
+  ( OgImageInputs (..)
+  , figureImageAlt
+  , figureImageSrc
+  , resolveOgImage
+  )
 import Blog.Metrics
   ( MetricsDocument
   , parseMetricsDocument
@@ -17,6 +23,19 @@ import qualified Data.Text as T
 import System.Exit (exitFailure)
 import Text.Pandoc.Definition
   ( Block (..), Caption (..), Inline (..), TableFoot (..), TableHead (..), nullAttr )
+
+donorTitle :: String
+donorTitle =
+  "How the donor closes the gap: para-substituent effects in a minimal push-pull dye"
+
+donorFigureAlt :: String
+donorFigureAlt =
+  "Frontier-orbital energy levels of the four BMN molecules under CAM-B3LYP and B3LYP"
+
+donorFigure :: String
+donorFigure =
+  "<img src=\"/images/2026-08-16-how-the-donor-closes-the-gap-figure.png\" alt=\""
+    ++ donorFigureAlt ++ "\">"
 
 validMetricsJson :: String
 validMetricsJson = unlines
@@ -259,6 +278,57 @@ checks =
   , ( "ordinary inline code is untouched"
     , resolveMetricInline Nothing (Code nullAttr "[accepted]{.metric}")
         == Right (Code nullAttr "[accepted]{.metric}")
+    )
+  , ( "figureImageSrc reads a double-quoted img src"
+    , figureImageSrc donorFigure == Just "/images/2026-08-16-how-the-donor-closes-the-gap-figure.png"
+    )
+  , ( "figureImageAlt reads a double-quoted img alt"
+    , figureImageAlt donorFigure == Just donorFigureAlt
+    )
+  , ( "figureImageAlt escapes quotes from a single-quoted alt"
+    , figureImageAlt "<img src='/x.png' alt='Say \"gap\"'>" == Just "Say &quot;gap&quot;"
+    )
+  , ( "explicit og-image wins over a generated card and a figure"
+    , resolveOgImage (OgImageInputs
+        (Just "/images/hero.png")
+        (Just donorFigure)
+        (Just donorTitle)
+        (Just "/images/2026-08-16-how-the-donor-closes-the-gap-og.png"))
+        == ( "https://pvjohnston.com/images/hero.png"
+           , donorFigureAlt
+           )
+    )
+  , ( "a generated card wins over the figure src"
+    , resolveOgImage (OgImageInputs
+        Nothing
+        (Just donorFigure)
+        (Just donorTitle)
+        (Just "/images/2026-08-16-how-the-donor-closes-the-gap-og.png"))
+        == ( "https://pvjohnston.com/images/2026-08-16-how-the-donor-closes-the-gap-og.png"
+           , donorFigureAlt
+           )
+    )
+  , ( "figure src is used when no og-image or generated card exists"
+    , resolveOgImage (OgImageInputs Nothing (Just donorFigure) (Just donorTitle) Nothing)
+        == ( "https://pvjohnston.com/images/2026-08-16-how-the-donor-closes-the-gap-figure.png"
+           , donorFigureAlt
+           )
+    )
+  , ( "a title card uses the note title as alt text"
+    , resolveOgImage (OgImageInputs
+        Nothing
+        Nothing
+        (Just donorTitle)
+        (Just "/images/2026-08-16-how-the-donor-closes-the-gap-og.png"))
+        == ( "https://pvjohnston.com/images/2026-08-16-how-the-donor-closes-the-gap-og.png"
+           , donorTitle
+           )
+    )
+  , ( "non-note pages keep the generic branded card"
+    , resolveOgImage (OgImageInputs Nothing Nothing (Just "Home") Nothing)
+        == ( "https://pvjohnston.com/images/og-image.png"
+           , "Peter V. Johnston — analytical problem solver, AI-assisted tool builder, and Ph.D. chemist"
+           )
     )
   ]
 
