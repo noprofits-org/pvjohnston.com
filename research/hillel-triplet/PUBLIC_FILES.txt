@@ -1,0 +1,19 @@
+# One repository-relative path per line. Raw Psi4 logs are not listed.
+LICENSE
+research/metrics.schema.json
+research/hillel-triplet/README.md
+research/hillel-triplet/PREREGISTRATION.md
+research/hillel-triplet/environment.md
+research/hillel-triplet/requirements.txt
+research/hillel-triplet/sources.json
+research/hillel-triplet/PUBLIC_FILES.txt
+research/hillel-triplet/generate-metrics.mjs
+research/hillel-triplet/make_figures.py
+research/hillel-triplet/metrics.json
+research/hillel-triplet/results/results.json
+research/hillel-triplet/results/m0_summary.csv
+research/hillel-triplet/results/m1_summary.csv
+research/hillel-triplet/results/m2_summary.csv
+research/hillel-triplet/results/m3_summary.csv
+research/hillel-triplet/results/m4_summary.csv
+research/hillel-triplet/results/controls_summary.csv

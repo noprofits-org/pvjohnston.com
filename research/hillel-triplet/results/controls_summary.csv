@@ -1,0 +1,5 @@
+molecule,name,crossing_upper_deg,crossing_lower_deg,cis_side_zeros_deg,gap_120_kjmol,gap_105_kjmol,s0_unconverged_deg,t1_failed_deg,note
+M0,azobenzene,115.5,65.6,"27.8;8.8",,,,,"cis-side zeros are path-hysteresis on the continuation, not a mechanism claim"
+M1,AzPy,115.7,76.5,,,,,,"76.5° is a 45° bracket because S0 at 90° and 75° did not converge"
+M2,AzPyH+,,,,-37.77,-30.76,"180;90;75;60;45;30;15;0",,no both-converged sign change; unconverged S0 energies are upper bounds
+M3,2-AzPy,115.6,68.5,,,,,45,T1 at 45° failed (JOURNAL slip)

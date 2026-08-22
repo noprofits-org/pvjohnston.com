@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "Hillel, Rough, Barrett, Pietro, and Mermut 2024, Communications Chemistry",
+      "url": "https://doi.org/10.1038/s42004-024-01321-0",
+      "version": "Commun. Chem. 7, 250 (2024); PMC11530702",
+      "accessed": "2026-08-22",
+      "sha256": null,
+      "license": "Publisher terms; open-access article at the DOI",
+      "acquisition": "Retrieve the article at https://doi.org/10.1038/s42004-024-01321-0. Literature only; not an executable input.",
+      "committed": false,
+      "exclusion_reason": "The publisher PDF is not redistributed. It is the source paper, not a computational input."
+    },
+    {
+      "name": "Hillel, Barrett, Pietro, and Mermut 2026, Communications Chemistry",
+      "url": "https://doi.org/10.1038/s42004-026-01952-5",
+      "version": "Commun. Chem. 9, 142 (2026)",
+      "accessed": "2026-08-22",
+      "sha256": null,
+      "license": "Publisher terms; open-access article at the DOI",
+      "acquisition": "Retrieve the article at https://doi.org/10.1038/s42004-026-01952-5. Literature only; not an executable input.",
+      "committed": false,
+      "exclusion_reason": "The publisher PDF is not redistributed. It is a later method/scaffold paper from the same group, not a computational input."
+    },
+    {
+      "name": "Private Molecules lab: hillel-triplet Psi4 run",
+      "url": null,
+      "version": "Canonical RKS/UKS B3LYP-D3BJ/cc-pVDZ continuation, including the 2026-08-22 M4 60° reconvergence",
+      "accessed": "2026-08-22",
+      "sha256": null,
+      "license": "Author-owned private lab record; summary tables projected here",
+      "acquisition": "The raw logs live at ~/Molecules/hillel-triplet on the Apple Silicon host that ran Psi4 1.11. This public repository imports only the summary projection in results/.",
+      "committed": false,
+      "exclusion_reason": "Raw Psi4 logs are large, embed host paths, and are treated as scratch, following research/bmn-frontier-orbitals."
+    }
+  ]
+}

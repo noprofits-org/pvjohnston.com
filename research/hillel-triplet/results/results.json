@@ -1,0 +1,579 @@
+{
+  "schema_version": 1,
+  "experiment": "hillel-triplet",
+  "eh_to_kjmol": 2625.4996,
+  "level_of_theory": "B3LYP-D3BJ/cc-pVDZ",
+  "s0_method": "RKS",
+  "t1_method": "UKS",
+  "solvent": "gas phase",
+  "grid_deg": [
+    180,
+    165,
+    150,
+    135,
+    120,
+    105,
+    90,
+    75,
+    60,
+    45,
+    30,
+    15,
+    0
+  ],
+  "step_deg": 15,
+  "provenance": {
+    "private_lab": "~/Molecules/hillel-triplet",
+    "note": "Publication projection transcribed from the private-lab summary tables. Raw Psi4 logs stay in that lab. Later jsonl lines win for M4 relatives. M4 60° is the 2026-08-22 reconvergence. M0–M3 relatives and both_converged flags are the lab summary values; crossings are derived from those grids.",
+    "m0_source": "scan_m0/summary.csv",
+    "m1_m4_source": "scan/analysis/*_summary.csv"
+  },
+  "molecules": {
+    "M0": {
+      "name": "azobenzene",
+      "formula_note": "Ph–N=N–Ph",
+      "charge_s0": 0,
+      "mult_s0": 1,
+      "charge_t1": 0,
+      "mult_t1": 3,
+      "cis_side_zeros_note": "path-hysteresis on the cis-side continuation; not a mechanism claim",
+      "points": [
+        {
+          "cnnc_deg": 180,
+          "s0_rel_kjmol": 0,
+          "t1_rel_kjmol": 143.92540443875956,
+          "both_converged": true,
+          "gap_kjmol": -143.92540443875956
+        },
+        {
+          "cnnc_deg": 165,
+          "s0_rel_kjmol": 6.933491340873336,
+          "t1_rel_kjmol": 140.0800976291817,
+          "both_converged": true,
+          "gap_kjmol": -133.14660628830836
+        },
+        {
+          "cnnc_deg": 150,
+          "s0_rel_kjmol": 27.666251079173,
+          "t1_rel_kjmol": 131.98000917606134,
+          "both_converged": true,
+          "gap_kjmol": -104.31375809688834
+        },
+        {
+          "cnnc_deg": 135,
+          "s0_rel_kjmol": 60.84332849940172,
+          "t1_rel_kjmol": 124.08208112858013,
+          "both_converged": true,
+          "gap_kjmol": -63.23875262917841
+        },
+        {
+          "cnnc_deg": 120,
+          "s0_rel_kjmol": 103.57393498267668,
+          "t1_rel_kjmol": 118.61164278191784,
+          "both_converged": true,
+          "gap_kjmol": -15.037707799241161
+        },
+        {
+          "cnnc_deg": 105,
+          "s0_rel_kjmol": 151.5439962211161,
+          "t1_rel_kjmol": 116.36559740270675,
+          "both_converged": true,
+          "gap_kjmol": 35.178398818409335
+        },
+        {
+          "cnnc_deg": 90,
+          "s0_rel_kjmol": 197.41125973810446,
+          "t1_rel_kjmol": 117.81742129029767,
+          "both_converged": true,
+          "gap_kjmol": 79.59383844780679
+        },
+        {
+          "cnnc_deg": 75,
+          "s0_rel_kjmol": 155.01098910527625,
+          "t1_rel_kjmol": 123.91995189075884,
+          "both_converged": true,
+          "gap_kjmol": 31.091037214517414
+        },
+        {
+          "cnnc_deg": 60,
+          "s0_rel_kjmol": 116.5190265629326,
+          "t1_rel_kjmol": 135.26746855737284,
+          "both_converged": true,
+          "gap_kjmol": -18.748441994440242
+        },
+        {
+          "cnnc_deg": 45,
+          "s0_rel_kjmol": 92.38000786378396,
+          "t1_rel_kjmol": 155.8401691238941,
+          "both_converged": false,
+          "gap_kjmol": -63.46016126011014
+        },
+        {
+          "cnnc_deg": 30,
+          "s0_rel_kjmol": 164.93780586998457,
+          "t1_rel_kjmol": 166.50534635920098,
+          "both_converged": true,
+          "gap_kjmol": -1.5675404892164124
+        },
+        {
+          "cnnc_deg": 15,
+          "s0_rel_kjmol": 189.0839063824215,
+          "t1_rel_kjmol": 179.86844615056913,
+          "both_converged": true,
+          "gap_kjmol": 9.215460231852376
+        },
+        {
+          "cnnc_deg": 0,
+          "s0_rel_kjmol": 176.3843890277432,
+          "t1_rel_kjmol": 189.4126967021303,
+          "both_converged": true,
+          "gap_kjmol": -13.028307674387094
+        }
+      ]
+    },
+    "M1": {
+      "name": "AzPy",
+      "formula_note": "4-phenylazopyridine",
+      "charge_s0": 0,
+      "mult_s0": 1,
+      "charge_t1": 0,
+      "mult_t1": 3,
+      "lower_crossing_note": "76.5° uses a 45° bracket because S0 at 90° and 75° did not converge",
+      "loose_interpolant_deg": 76.5,
+      "points": [
+        {
+          "cnnc_deg": 180,
+          "s0_rel_kjmol": 0,
+          "t1_rel_kjmol": 136.32075809510684,
+          "both_converged": true,
+          "gap_kjmol": -136.32075809510684
+        },
+        {
+          "cnnc_deg": 165,
+          "s0_rel_kjmol": 6.869902561990726,
+          "t1_rel_kjmol": 133.54549008022826,
+          "both_converged": true,
+          "gap_kjmol": -126.67558751823753
+        },
+        {
+          "cnnc_deg": 150,
+          "s0_rel_kjmol": 27.431925821092072,
+          "t1_rel_kjmol": 127.29972124994632,
+          "both_converged": true,
+          "gap_kjmol": -99.86779542885424
+        },
+        {
+          "cnnc_deg": 135,
+          "s0_rel_kjmol": 60.32641062610517,
+          "t1_rel_kjmol": 120.86703661714172,
+          "both_converged": true,
+          "gap_kjmol": -60.54062599103655
+        },
+        {
+          "cnnc_deg": 120,
+          "s0_rel_kjmol": 102.52565110548711,
+          "t1_rel_kjmol": 116.34591507134661,
+          "both_converged": true,
+          "gap_kjmol": -13.820263965859496
+        },
+        {
+          "cnnc_deg": 105,
+          "s0_rel_kjmol": 149.31750233635663,
+          "t1_rel_kjmol": 114.67913574648968,
+          "both_converged": true,
+          "gap_kjmol": 34.63836658986695
+        },
+        {
+          "cnnc_deg": 90,
+          "s0_rel_kjmol": 148.15389128283036,
+          "t1_rel_kjmol": 116.33210801226089,
+          "both_converged": false,
+          "gap_kjmol": 31.82178327056947
+        },
+        {
+          "cnnc_deg": 75,
+          "s0_rel_kjmol": 126.79210316024731,
+          "t1_rel_kjmol": 122.25828044433882,
+          "both_converged": false,
+          "gap_kjmol": 4.533822715908485
+        },
+        {
+          "cnnc_deg": 60,
+          "s0_rel_kjmol": 112.96585432149915,
+          "t1_rel_kjmol": 133.05508559902148,
+          "both_converged": true,
+          "gap_kjmol": -20.08923127752233
+        },
+        {
+          "cnnc_deg": 45,
+          "s0_rel_kjmol": 87.1424890254686,
+          "t1_rel_kjmol": 151.80386813112773,
+          "both_converged": false,
+          "gap_kjmol": -64.66137910565912
+        },
+        {
+          "cnnc_deg": 30,
+          "s0_rel_kjmol": 62.726275624782026,
+          "t1_rel_kjmol": 161.8064842869413,
+          "both_converged": true,
+          "gap_kjmol": -99.08020866215927
+        },
+        {
+          "cnnc_deg": 15,
+          "s0_rel_kjmol": 68.71264973530369,
+          "t1_rel_kjmol": 173.76732815305175,
+          "both_converged": false,
+          "gap_kjmol": -105.05467841774806
+        },
+        {
+          "cnnc_deg": 0,
+          "s0_rel_kjmol": 63.98714181924324,
+          "t1_rel_kjmol": 182.35825617784909,
+          "both_converged": false,
+          "gap_kjmol": -118.37111435860584
+        }
+      ]
+    },
+    "M2": {
+      "name": "AzPyH+",
+      "formula_note": "N-protonated 4-phenylazopyridine",
+      "charge_s0": 1,
+      "mult_s0": 1,
+      "charge_t1": 1,
+      "mult_t1": 3,
+      "s0_unconverged_deg": [
+        180,
+        90,
+        75,
+        60,
+        45,
+        30,
+        15,
+        0
+      ],
+      "points": [
+        {
+          "cnnc_deg": 180,
+          "s0_rel_kjmol": 0,
+          "t1_rel_kjmol": 105.2402599048018,
+          "both_converged": false,
+          "gap_kjmol": -105.2402599048018
+        },
+        {
+          "cnnc_deg": 165,
+          "s0_rel_kjmol": 4.915463229056854,
+          "t1_rel_kjmol": 103.59511808907635,
+          "both_converged": true,
+          "gap_kjmol": -98.6796548600195
+        },
+        {
+          "cnnc_deg": 150,
+          "s0_rel_kjmol": 19.774231080277765,
+          "t1_rel_kjmol": 101.83365696863801,
+          "both_converged": true,
+          "gap_kjmol": -82.05942588836024
+        },
+        {
+          "cnnc_deg": 135,
+          "s0_rel_kjmol": 42.22846843413782,
+          "t1_rel_kjmol": 102.10130472628367,
+          "both_converged": true,
+          "gap_kjmol": -59.872836292145855
+        },
+        {
+          "cnnc_deg": 120,
+          "s0_rel_kjmol": 66.78228079321626,
+          "t1_rel_kjmol": 104.55047415869248,
+          "both_converged": true,
+          "gap_kjmol": -37.76819336547622
+        },
+        {
+          "cnnc_deg": 105,
+          "s0_rel_kjmol": 77.85850837004885,
+          "t1_rel_kjmol": 108.62049870199476,
+          "both_converged": true,
+          "gap_kjmol": -30.76199033194591
+        },
+        {
+          "cnnc_deg": 90,
+          "s0_rel_kjmol": 37.13137594262237,
+          "t1_rel_kjmol": 113.39112675470429,
+          "both_converged": false,
+          "gap_kjmol": -76.25975081208192
+        },
+        {
+          "cnnc_deg": 75,
+          "s0_rel_kjmol": 37.58720410147571,
+          "t1_rel_kjmol": 118.53609916657103,
+          "both_converged": false,
+          "gap_kjmol": -80.94889506509531
+        },
+        {
+          "cnnc_deg": 60,
+          "s0_rel_kjmol": 138.2153824413624,
+          "t1_rel_kjmol": 124.56407720820286,
+          "both_converged": false,
+          "gap_kjmol": 13.651305233159547
+        },
+        {
+          "cnnc_deg": 45,
+          "s0_rel_kjmol": 89.91852989317218,
+          "t1_rel_kjmol": 131.38811721123946,
+          "both_converged": false,
+          "gap_kjmol": -41.46958731806728
+        },
+        {
+          "cnnc_deg": 30,
+          "s0_rel_kjmol": 76.06036462904619,
+          "t1_rel_kjmol": 142.58940986839517,
+          "both_converged": false,
+          "gap_kjmol": -66.52904523934897
+        },
+        {
+          "cnnc_deg": 15,
+          "s0_rel_kjmol": 69.90063554576682,
+          "t1_rel_kjmol": 143.62817050138136,
+          "both_converged": false,
+          "gap_kjmol": -73.72753495561454
+        },
+        {
+          "cnnc_deg": 0,
+          "s0_rel_kjmol": 70.41821571552597,
+          "t1_rel_kjmol": 147.0794843719031,
+          "both_converged": false,
+          "gap_kjmol": -76.66126865637713
+        }
+      ]
+    },
+    "M3": {
+      "name": "2-AzPy",
+      "formula_note": "2-phenylazopyridine",
+      "charge_s0": 0,
+      "mult_s0": 1,
+      "charge_t1": 0,
+      "mult_t1": 3,
+      "t1_failed_deg": [
+        45
+      ],
+      "t1_failed_note": "T1 at 45° failed; recorded as a JOURNAL slip",
+      "points": [
+        {
+          "cnnc_deg": 180,
+          "s0_rel_kjmol": 0,
+          "t1_rel_kjmol": 133.51691759857368,
+          "both_converged": true,
+          "gap_kjmol": -133.51691759857368
+        },
+        {
+          "cnnc_deg": 165,
+          "s0_rel_kjmol": 6.652206091237299,
+          "t1_rel_kjmol": 130.99960208485504,
+          "both_converged": true,
+          "gap_kjmol": -124.34739599361774
+        },
+        {
+          "cnnc_deg": 150,
+          "s0_rel_kjmol": 26.860596539438454,
+          "t1_rel_kjmol": 125.19717513651118,
+          "both_converged": true,
+          "gap_kjmol": -98.33657859707273
+        },
+        {
+          "cnnc_deg": 135,
+          "s0_rel_kjmol": 59.311190849040976,
+          "t1_rel_kjmol": 119.11350376825982,
+          "both_converged": true,
+          "gap_kjmol": -59.80231291921884
+        },
+        {
+          "cnnc_deg": 120,
+          "s0_rel_kjmol": 100.92575993886635,
+          "t1_rel_kjmol": 114.8786846446049,
+          "both_converged": true,
+          "gap_kjmol": -13.952924705738553
+        },
+        {
+          "cnnc_deg": 105,
+          "s0_rel_kjmol": 146.9412553728028,
+          "t1_rel_kjmol": 113.50903282343506,
+          "both_converged": true,
+          "gap_kjmol": 33.43222254936774
+        },
+        {
+          "cnnc_deg": 90,
+          "s0_rel_kjmol": 83.97154069756087,
+          "t1_rel_kjmol": 115.48660554747954,
+          "both_converged": false,
+          "gap_kjmol": -31.515064849918673
+        },
+        {
+          "cnnc_deg": 75,
+          "s0_rel_kjmol": 142.61323943458413,
+          "t1_rel_kjmol": 121.69162437241089,
+          "both_converged": true,
+          "gap_kjmol": 20.921615062173245
+        },
+        {
+          "cnnc_deg": 60,
+          "s0_rel_kjmol": 104.92710108503397,
+          "t1_rel_kjmol": 132.62355882507694,
+          "both_converged": true,
+          "gap_kjmol": -27.696457740042973
+        },
+        {
+          "cnnc_deg": 45,
+          "s0_rel_kjmol": 81.96081865002608,
+          "t1_rel_kjmol": 151.7892612749989,
+          "both_converged": false,
+          "gap_kjmol": -69.82844262497281
+        },
+        {
+          "cnnc_deg": 30,
+          "s0_rel_kjmol": 55.885123697753464,
+          "t1_rel_kjmol": 160.95776000138153,
+          "both_converged": true,
+          "gap_kjmol": -105.07263630362806
+        },
+        {
+          "cnnc_deg": 15,
+          "s0_rel_kjmol": 66.07046783599132,
+          "t1_rel_kjmol": 172.77031180825523,
+          "both_converged": false,
+          "gap_kjmol": -106.6998439722639
+        },
+        {
+          "cnnc_deg": 0,
+          "s0_rel_kjmol": 61.033549931847006,
+          "t1_rel_kjmol": 181.43530955041885,
+          "both_converged": false,
+          "gap_kjmol": -120.40175961857184
+        }
+      ]
+    },
+    "M4": {
+      "name": "4-dimethylamino-4'-nitroazobenzene",
+      "formula_note": "NMe2/NO2 push-pull azobenzene",
+      "charge_s0": 0,
+      "mult_s0": 1,
+      "charge_t1": 0,
+      "mult_t1": 3,
+      "trans_s0_eh": -911.3632161690515,
+      "s0_60_eh": -911.3231031736067,
+      "s0_not_run_deg": [
+        30,
+        15,
+        0
+      ],
+      "reruns": {
+        "75": {
+          "still_unconverged": true,
+          "dropped_kjmol": 3.61,
+          "gap_kjmol": 12.86
+        },
+        "90": {
+          "still_unconverged": true,
+          "delta_e_kjmol": -0.001
+        }
+      },
+      "points": [
+        {
+          "cnnc_deg": 180,
+          "s0_rel_kjmol": 0,
+          "t1_rel_kjmol": 145.21,
+          "s0_converged": true,
+          "t1_converged": true
+        },
+        {
+          "cnnc_deg": 165,
+          "s0_rel_kjmol": 6.36,
+          "t1_rel_kjmol": 137.11,
+          "s0_converged": true,
+          "t1_converged": true
+        },
+        {
+          "cnnc_deg": 150,
+          "s0_rel_kjmol": 25.24,
+          "t1_rel_kjmol": 127.44,
+          "s0_converged": true,
+          "t1_converged": true
+        },
+        {
+          "cnnc_deg": 135,
+          "s0_rel_kjmol": 54.9,
+          "t1_rel_kjmol": 120.37,
+          "s0_converged": true,
+          "t1_converged": true
+        },
+        {
+          "cnnc_deg": 120,
+          "s0_rel_kjmol": 91.66,
+          "t1_rel_kjmol": 116.51,
+          "s0_converged": true,
+          "t1_converged": true
+        },
+        {
+          "cnnc_deg": 105,
+          "s0_rel_kjmol": 129.8,
+          "t1_rel_kjmol": 115.49,
+          "s0_converged": true,
+          "t1_converged": true
+        },
+        {
+          "cnnc_deg": 90,
+          "s0_rel_kjmol": 139.24,
+          "t1_rel_kjmol": 117.3,
+          "s0_converged": false,
+          "t1_converged": true
+        },
+        {
+          "cnnc_deg": 75,
+          "s0_rel_kjmol": 135.54,
+          "t1_rel_kjmol": 122.68,
+          "s0_converged": false,
+          "t1_converged": true
+        },
+        {
+          "cnnc_deg": 60,
+          "s0_rel_kjmol": 105.32,
+          "t1_rel_kjmol": 132.39,
+          "s0_converged": true,
+          "t1_converged": true,
+          "gap_kjmol": -27.08,
+          "s0_eh": -911.3231031736067,
+          "note": "reconverged 2026-08-22"
+        },
+        {
+          "cnnc_deg": 45,
+          "s0_rel_kjmol": 82.69,
+          "t1_rel_kjmol": 145.83,
+          "s0_converged": false,
+          "t1_converged": true
+        },
+        {
+          "cnnc_deg": 30,
+          "t1_rel_kjmol": 160.8,
+          "t1_eh": -911.3019708055169,
+          "s0_converged": false,
+          "t1_converged": true,
+          "s0_not_run": true
+        },
+        {
+          "cnnc_deg": 15,
+          "t1_rel_kjmol": 173.99,
+          "t1_eh": -911.2969453402778,
+          "s0_converged": false,
+          "t1_converged": true,
+          "s0_not_run": true
+        },
+        {
+          "cnnc_deg": 0,
+          "t1_rel_kjmol": 182.38,
+          "t1_eh": -911.2937495247866,
+          "s0_converged": false,
+          "t1_converged": true,
+          "s0_not_run": true
+        }
+      ]
+    }
+  }
+}
