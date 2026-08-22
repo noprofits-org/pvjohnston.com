@@ -9,6 +9,10 @@ Usage:
   python3 scripts/render-og-cards.py
   python3 scripts/render-og-cards.py --slug 2026-08-16-how-the-donor-closes-the-gap
   python3 scripts/render-og-cards.py --force
+
+`--slug` always rewrites that note's card, so the documented drafting
+command refreshes a stale preview. A full run skips cards that already
+exist. `--force` rewrites every generated card.
 """
 
 from __future__ import annotations
@@ -91,13 +95,19 @@ def figure_src(html: str | None) -> str | None:
 
 
 def site_path(url: str | None) -> Path | None:
+    """Resolve a figure URL to a file under images/, or None if it escapes."""
     if not url:
         return None
-    if url.startswith("/"):
-        return ROOT / url[1:]
     if url.startswith("https://pvjohnston.com/"):
-        return ROOT / url[len("https://pvjohnston.com/") :]
-    return ROOT / url
+        url = "/" + url[len("https://pvjohnston.com/") :]
+    if url.startswith("/"):
+        candidate = (ROOT / url.lstrip("/")).resolve()
+    else:
+        candidate = (ROOT / url).resolve()
+    images_root = IMAGES.resolve()
+    if candidate != images_root and images_root not in candidate.parents:
+        return None
+    return candidate
 
 
 def format_date(iso: str | None) -> str | None:
@@ -225,8 +235,8 @@ def list_posts(slug: str | None) -> list[tuple[str, dict[str, str]]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--slug", help="Generate only this post's card")
-    parser.add_argument("--force", action="store_true", help="Overwrite existing generated cards")
+    parser.add_argument("--slug", help="Generate or refresh only this post's card")
+    parser.add_argument("--force", action="store_true", help="Overwrite every generated card")
     args = parser.parse_args()
 
     posts = list_posts(args.slug)
@@ -241,7 +251,10 @@ def main() -> int:
             skipped += 1
             continue
         out = IMAGES / f"{slug}-og.png"
-        if out.is_file() and not args.force:
+        # A selected slug is always rewritten so the documented drafting
+        # command refreshes a stale title or figure. A full run skips
+        # existing cards unless --force is set.
+        if out.is_file() and not args.force and not args.slug:
             skipped += 1
             continue
         src = figure_src(fields.get("figure"))

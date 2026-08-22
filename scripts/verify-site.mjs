@@ -15,6 +15,12 @@ function isFile(path) {
   return existsSync(path) && statSync(path).isFile();
 }
 
+function pngSize(path) {
+  const buf = readFileSync(path);
+  if (buf.length < 24 || buf.toString('ascii', 1, 4) !== 'PNG') return null;
+  return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+}
+
 function targetExists(base, clean) {
   if (clean === '/' || clean === '') return existsSync(join(base, 'index.html'));
   if (existsSync(base)) return true;
@@ -181,6 +187,13 @@ for (const file of htmlFiles) {
       const imagePath = join(root, ogImage.slice('https://pvjohnston.com/'.length));
       if (!isFile(imagePath)) {
         errors.push(`${label}: og:image ${ogImage} is not in _site`);
+      } else if (imagePath.endsWith('.png')) {
+        const size = pngSize(imagePath);
+        if (!size || size.width !== 1200 || size.height !== 630) {
+          errors.push(
+            `${label}: og:image is ${size ? `${size.width}×${size.height}` : 'not a PNG'}, expected 1200×630`,
+          );
+        }
       }
     }
     if (!ogImageAlt) errors.push(`${label}: missing og:image:alt`);
