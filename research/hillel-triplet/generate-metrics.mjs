@@ -77,26 +77,34 @@ function pointAt(points, deg) {
 function parseCsv(path) {
   const text = readFileSync(resolve(root, path), 'utf8').trim();
   const [headerLine, ...lines] = text.split('\n');
-  const headers = headerLine.split(',');
-  return lines.map((line) => {
-    const cells = [];
-    let current = '';
-    let quoted = false;
-    for (const ch of line) {
-      if (ch === '"') {
-        quoted = !quoted;
-      } else if (ch === ',' && !quoted) {
-        cells.push(current);
-        current = '';
-      } else {
-        current += ch;
-      }
+  const headers = splitCsvLine(headerLine);
+  return lines.map((line, index) => {
+    const cells = splitCsvLine(line);
+    if (cells.length !== headers.length) {
+      throw new Error(`${path}:${index + 2} has ${cells.length} fields, expected ${headers.length}`);
     }
-    cells.push(current);
     const row = {};
     headers.forEach((h, i) => { row[h] = cells[i] ?? ''; });
     return row;
   });
+}
+
+function splitCsvLine(line) {
+  const cells = [];
+  let current = '';
+  let quoted = false;
+  for (const ch of line) {
+    if (ch === '"') {
+      quoted = !quoted;
+    } else if (ch === ',' && !quoted) {
+      cells.push(current);
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  cells.push(current);
+  return cells;
 }
 
 function assertClose(actual, expected, label, tol = 1e-9) {
@@ -120,6 +128,12 @@ function build(generatedAt) {
   const m1 = result.molecules.M1;
   const m3 = result.molecules.M3;
   const points = m4.points;
+  if (points.filter((p) => p.t1_converged).length !== result.grid_deg.length) {
+    throw new Error('M4 T1 must converge at every declared grid angle');
+  }
+  if (typeof m4.trans_s0_eh !== 'number') {
+    throw new Error('M4 trans_s0_eh is required to derive cis-side T1 relatives');
+  }
 
   const p120 = pointAt(points, 120);
   const p105 = pointAt(points, 105);
@@ -155,6 +169,19 @@ function build(generatedAt) {
   assertClose(Number(csv105.gap_kjmol), gap105, 'm4_summary.csv 105 gap');
   assertClose(Number(csv60.gap_kjmol), gap60, 'm4_summary.csv 60 gap');
   assertClose(Number(csv60.s0_eh), m4.s0_60_eh, 'm4_summary.csv 60 Eh');
+  for (const deg of [30, 15, 0]) {
+    const row = m4CsvRows.find((r) => r.cnnc_deg === String(deg));
+    const point = pointAt(points, deg);
+    if (row.s0_rel_kjmol !== '' || row.gap_kjmol !== '' || row.s0_eh !== '') {
+      throw new Error(`m4_summary.csv ${deg}: S0 fields must be blank`);
+    }
+    assertClose(Number(row.t1_rel_kjmol), point.t1_rel_kjmol, `m4_summary.csv ${deg} T1`);
+    if (row.s0_converged !== 'false' || row.t1_converged !== 'true') {
+      throw new Error(`m4_summary.csv ${deg}: S0 not-run / T1 converged flags`);
+    }
+    const fromEh = (point.t1_eh - m4.trans_s0_eh) * result.eh_to_kjmol;
+    assertClose(fromEh, point.t1_rel_kjmol, `M4 T1 ${deg} rel from Eh`, 0.005);
+  }
 
   const controlRows = parseCsv(controlsCsv);
   const c0 = controlRows.find((r) => r.molecule === 'M0');
@@ -259,6 +286,12 @@ function build(generatedAt) {
       'M4 S0 energy at 45° relative to trans-S0 (unconverged upper bound)', 'kJ/mol'),
     m4_t1_rel_45: num(pointAt(points, 45).t1_rel_kjmol, 2,
       'M4 T1 energy at 45° relative to trans-S0', 'kJ/mol'),
+    m4_t1_rel_30: num(pointAt(points, 30).t1_rel_kjmol, 2,
+      'M4 T1 energy at 30° relative to trans-S0', 'kJ/mol'),
+    m4_t1_rel_15: num(pointAt(points, 15).t1_rel_kjmol, 2,
+      'M4 T1 energy at 15° relative to trans-S0', 'kJ/mol'),
+    m4_t1_rel_0: num(pointAt(points, 0).t1_rel_kjmol, 2,
+      'M4 T1 energy at 0° relative to trans-S0', 'kJ/mol'),
     m4_rerun_90_delta_e: num(m4.reruns['90'].delta_e_kjmol, 3,
       'M4 S0 90° reconvergence energy change versus the first unconverged point',
       'kJ/mol'),
@@ -271,7 +304,8 @@ function build(generatedAt) {
     m4_t1_converged_count: integer(points.filter((p) => p.t1_converged).length,
       'M4 T1 points that converged on the 15° grid',
       'points'),
-    m4_s0_unconverged_count: integer(points.filter((p) => p.s0_converged === false).length,
+    m4_s0_unconverged_count: integer(points.filter((p) =>
+      p.s0_converged === false && p.s0_not_run !== true && typeof p.s0_rel_kjmol === 'number').length,
       'M4 S0 points that were run and did not converge',
       'points'),
     m4_s0_not_run_count: integer(m4.s0_not_run_deg.length,

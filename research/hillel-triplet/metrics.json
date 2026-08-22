@@ -2,16 +2,16 @@
   "schema_version": 1,
   "experiment": "hillel-triplet",
   "provenance": {
-    "generated_at": "2026-08-22T17:26:36Z",
+    "generated_at": "2026-08-22T17:39:31Z",
     "generator": "research/hillel-triplet/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/hillel-triplet/results/results.json",
-        "sha256": "d4cb17cf1187a8e63ac806e92efc04db2314b45b331913629ee0cb2292adba6b"
+        "sha256": "569c8be845906c26e3e8fb36810c24f36f239196f43bd74d0e2881b499185fac"
       },
       {
         "path": "research/hillel-triplet/results/m4_summary.csv",
-        "sha256": "b36c47ed113f6a74a52808c3e4370110c7a4136192c6ff9215be97cf6357d53a"
+        "sha256": "79a9df8052c5d57728f310d65d0fcd12bbc06d97979591853ed190642c19b9d2"
       },
       {
         "path": "research/hillel-triplet/results/controls_summary.csv",
@@ -379,6 +379,36 @@
       "description": "M4 T1 energy at 45° relative to trans-S0",
       "unit": "kJ/mol"
     },
+    "m4_t1_rel_30": {
+      "type": "number",
+      "value": 160.8,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 30° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_15": {
+      "type": "number",
+      "value": 173.99,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 15° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_0": {
+      "type": "number",
+      "value": 182.38,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 0° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
     "m4_rerun_90_delta_e": {
       "type": "number",
       "value": -0.001,
@@ -411,7 +441,7 @@
     },
     "m4_t1_converged_count": {
       "type": "integer",
-      "value": 10,
+      "value": 13,
       "description": "M4 T1 points that converged on the 15° grid",
       "unit": "points"
     },

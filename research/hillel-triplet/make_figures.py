@@ -41,15 +41,52 @@ def m4_series():
     angles, s0, t1, s0_ok, t1_ok, gaps = [], [], [], [], [], []
     for p in points:
         angles.append(p["cnnc_deg"])
-        s0.append(p["s0_rel_kjmol"])
-        t1.append(p["t1_rel_kjmol"])
-        s0_ok.append(p["s0_converged"])
-        t1_ok.append(p["t1_converged"])
+        s0.append(p.get("s0_rel_kjmol"))
+        t1.append(p.get("t1_rel_kjmol"))
+        s0_run = p.get("s0_not_run") is not True and p.get("s0_rel_kjmol") is not None
+        s0_ok.append(bool(p.get("s0_converged")) and s0_run)
+        t1_ok.append(bool(p.get("t1_converged")) and p.get("t1_rel_kjmol") is not None)
         if "gap_kjmol" in p:
             gaps.append(p["gap_kjmol"])
-        else:
+        elif s0_run and p.get("t1_rel_kjmol") is not None:
             gaps.append(p["s0_rel_kjmol"] - p["t1_rel_kjmol"])
+        else:
+            gaps.append(None)
     return angles, s0, t1, s0_ok, t1_ok, gaps
+
+
+def segments(xs, ys, ok):
+    """Split a series wherever a point is missing or not eligible to connect."""
+    segs = []
+    cur_x, cur_y = [], []
+    for x, y, flag in zip(xs, ys, ok):
+        if flag and y is not None:
+            cur_x.append(x)
+            cur_y.append(y)
+        else:
+            if cur_x:
+                segs.append((cur_x, cur_y))
+                cur_x, cur_y = [], []
+    if cur_x:
+        segs.append((cur_x, cur_y))
+    return segs
+
+
+def plot_segments(ax, xs, ys, ok, *, color, linewidth, marker=None, markersize=None, zorder=3, label=None):
+    first = True
+    for seg_x, seg_y in segments(xs, ys, ok):
+        ax.plot(
+            seg_x,
+            seg_y,
+            "-",
+            color=color,
+            linewidth=linewidth,
+            marker=marker,
+            markersize=markersize,
+            zorder=zorder,
+            label=label if first else None,
+        )
+        first = False
 
 
 def style_ax(ax):
@@ -92,16 +129,10 @@ def fig1():
     style_ax(ax)
     ax.axhline(0, color=INK, linewidth=1.0)
 
-    both_x, both_y, un_x, un_y = [], [], [], []
-    for a, g, ok0, ok1 in zip(angles, gaps, s0_ok, t1_ok):
-        if ok0 and ok1:
-            both_x.append(a)
-            both_y.append(g)
-        else:
-            un_x.append(a)
-            un_y.append(g)
-    ax.plot(both_x, both_y, "-", color=M4, linewidth=1.8, zorder=3)
-    ax.plot(both_x, both_y, "o", color=M4, markersize=6, zorder=4)
+    both_ok = [ok0 and ok1 and g is not None for ok0, ok1, g in zip(s0_ok, t1_ok, gaps)]
+    plot_segments(ax, angles, gaps, both_ok, color=M4, linewidth=1.8, marker="o", markersize=6, zorder=3)
+    un_x = [a for a, g, ok0, ok1 in zip(angles, gaps, s0_ok, t1_ok) if g is not None and not (ok0 and ok1)]
+    un_y = [g for g, ok0, ok1 in zip(gaps, s0_ok, t1_ok) if g is not None and not (ok0 and ok1)]
     ax.plot(un_x, un_y, "x", color=M4, markersize=7, markeredgewidth=1.6, zorder=4)
     ax.plot(
         [120, 105],
@@ -136,15 +167,15 @@ def _m4_profiles(ax, letter=True):
     angles, s0, t1, s0_ok, t1_ok, gaps = m4_series()
     style_ax(ax)
     ax.axhline(0, color=INK, linewidth=0.7)
-    s0c_x = [a for a, ok in zip(angles, s0_ok) if ok]
-    s0c_y = [e for e, ok in zip(s0, s0_ok) if ok]
-    s0u_x = [a for a, ok in zip(angles, s0_ok) if not ok]
-    s0u_y = [e for e, ok in zip(s0, s0_ok) if not ok]
-    ax.plot(s0c_x, s0c_y, "-o", color=S0, linewidth=1.7, markersize=5.5, label="S0 (RKS)")
-    ax.plot(angles, t1, "-s", color=T1, linewidth=1.7, markersize=5.0, label="T1 (UKS)")
+    plot_segments(ax, angles, s0, s0_ok, color=S0, linewidth=1.7, marker="o", markersize=5.5, label="S0 (RKS)")
+    plot_segments(ax, angles, t1, t1_ok, color=T1, linewidth=1.7, marker="s", markersize=5.0, label="T1 (UKS)")
+    s0u_x = [a for a, e, ok in zip(angles, s0, s0_ok) if e is not None and not ok]
+    s0u_y = [e for e, ok in zip(s0, s0_ok) if e is not None and not ok]
     ax.plot(s0u_x, s0u_y, "x", color=S0, markersize=7, markeredgewidth=1.6, label="S0 unconverged")
     crossing = linear_zero(120, gaps[angles.index(120)], 105, gaps[angles.index(105)])
-    y_cross = 116.51 + (115.49 - 116.51) * (crossing - 120) / (105 - 120)
+    t1_120 = t1[angles.index(120)]
+    t1_105 = t1[angles.index(105)]
+    y_cross = t1_120 + (t1_105 - t1_120) * (crossing - 120) / (105 - 120)
     if letter:
         ax.plot(crossing, y_cross, "o", color=INK, markersize=5, zorder=6)
         ax.annotate(
@@ -158,7 +189,7 @@ def _m4_profiles(ax, letter=True):
         )
     ax.set_xlabel("CNNC dihedral (deg)  [180 = trans, 0 = cis]", color=INK)
     ax.set_ylabel("E relative to trans-S0 (kJ/mol)", color=INK)
-    ax.set_ylim(-5, 175)
+    ax.set_ylim(-5, 195)
     ax.legend(loc="upper right", fontsize=8, frameon=True, facecolor="white")
     return crossing
 
@@ -178,11 +209,10 @@ def fig3():
     _m4_profiles(ax1)
     style_ax(ax2)
     ax2.axhline(0, color=INK, linewidth=1.0)
-    both_x = [a for a, ok0, ok1 in zip(angles, s0_ok, t1_ok) if ok0 and ok1]
-    both_y = [g for g, ok0, ok1 in zip(gaps, s0_ok, t1_ok) if ok0 and ok1]
-    un_x = [a for a, ok0, ok1 in zip(angles, s0_ok, t1_ok) if not (ok0 and ok1)]
-    un_y = [g for g, ok0, ok1 in zip(gaps, s0_ok, t1_ok) if not (ok0 and ok1)]
-    ax2.plot(both_x, both_y, "-o", color=M4, linewidth=1.7, markersize=5.5, label="M4 gap")
+    both_ok = [ok0 and ok1 and g is not None for ok0, ok1, g in zip(s0_ok, t1_ok, gaps)]
+    plot_segments(ax2, angles, gaps, both_ok, color=M4, linewidth=1.7, marker="o", markersize=5.5, label="M4 gap")
+    un_x = [a for a, g, ok0, ok1 in zip(angles, gaps, s0_ok, t1_ok) if g is not None and not (ok0 and ok1)]
+    un_y = [g for g, ok0, ok1 in zip(gaps, s0_ok, t1_ok) if g is not None and not (ok0 and ok1)]
     ax2.plot(un_x, un_y, "x", color=M4, markersize=7, markeredgewidth=1.6, label="M4, S0 unconverged")
     ax2.plot(
         [120, 105],

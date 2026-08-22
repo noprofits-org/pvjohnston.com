@@ -134,8 +134,8 @@ changed after T1 was seen. On 2026-08-22, 60° reconverged
 
 The private-lab journal records that M3 T1 at 45° failed. That slip is left
 in the record rather than repaired after the fact. M4 T1 converged at all
-thirteen grid angles; relative energies for 30°, 15°, and 0° are not in the
-committed projection.
+[m4_t1_converged_count]{.metric} grid angles. S0 at 30°, 15°, and 0° was
+not run.
 
 Raw Psi4 logs stay in the private Molecules lab. They are large and carry
 host paths, and they are treated as scratch in the same way as the BMN
@@ -154,15 +154,16 @@ Figure 3 puts the M4 profiles beside the M4 and M2 gaps.
 | Molecule | Trans-side crossing (deg) | Other both-converged zeros (deg) | $\Delta$ at 120° (kJ/mol) | $\Delta$ at 105° (kJ/mol) |
 | --- | ---: | ---: | ---: | ---: |
 | M0 azobenzene | [m0_crossing_upper_deg]{.metric} | [m0_crossing_lower_deg]{.metric}; also [m0_cis_zero_a_deg]{.metric}, [m0_cis_zero_b_deg]{.metric} | — | — |
-| M1 AzPy | [m1_crossing_upper_deg]{.metric} | [m1_crossing_lower_deg]{.metric} | — | — |
+| M1 AzPy | [m1_crossing_upper_deg]{.metric} | — | — | — |
 | M2 AzPyH+ | none ([m2_crossing_count]{.metric}) | — | [m2_gap_120]{.metric} | [m2_gap_105]{.metric} |
 | M3 2-AzPy | [m3_crossing_upper_deg]{.metric} | [m3_crossing_lower_deg]{.metric} | — | — |
 | M4 NMe2/NO2 | [m4_crossing_deg]{.metric} | — | [m4_gap_120]{.metric} | [m4_gap_105]{.metric} |
 
 **Table 1.** Both-converged S0/T1 zeros and the 120°/105° gaps on the
-B3LYP-D3(BJ)/cc-pVDZ CNNC grid. A dash is a quantity that is not in the
-committed projection. M1's [m1_crossing_lower_deg]{.metric}° zero uses a
-45° bracket: S0 at 90° and 75° did not converge. M3 T1 at 45° failed.
+B3LYP-D3(BJ)/cc-pVDZ CNNC grid. A dash is a quantity that is not a
+both-converged neighbour zero in the committed projection. M1 has a
+loose interpolant at [m1_crossing_lower_deg]{.metric}° that uses a 45°
+bracket: S0 at 90° and 75° did not converge. M3 T1 at 45° failed.
 M2 S0 did not converge at 180°, 90°, 75°, 60°, 45°, 30°, 15°, or 0°.
 
 <figure>
@@ -181,7 +182,7 @@ The M4 claim crossing is the linear zero between 120°
 [m4_s0_rel_105]{.metric} kJ/mol, T1 [m4_t1_rel_105]{.metric} kJ/mol). That
 zero is [m4_crossing_deg]{.metric}°. M2 at the same two angles is
 [m2_gap_120]{.metric} and [m2_gap_105]{.metric} kJ/mol; both are negative.
-M4 T1 converged at [m4_t1_converged_count]{.metric} of the plotted points.
+M4 T1 converged at [m4_t1_converged_count]{.metric} grid angles.
 M4 S0 converged from 180° through 105° and again at 60°; it did not
 converge at 90°, 75°, or 45° ([m4_s0_unconverged_count]{.metric} unconverged
 S0 points in the projection). [m4_s0_not_run_count]{.metric} further S0

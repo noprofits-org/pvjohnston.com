@@ -68,6 +68,7 @@
       "mult_s0": 1,
       "charge_t1": 0,
       "mult_t1": 3,
+      "trans_s0_eh": -911.3632161690515,
       "s0_60_eh": -911.3231031736067,
       "s0_not_run_deg": [30, 15, 0],
       "reruns": {
@@ -91,7 +92,10 @@
         {"cnnc_deg": 90, "s0_rel_kjmol": 139.24, "t1_rel_kjmol": 117.30, "s0_converged": false, "t1_converged": true},
         {"cnnc_deg": 75, "s0_rel_kjmol": 135.54, "t1_rel_kjmol": 122.68, "s0_converged": false, "t1_converged": true},
         {"cnnc_deg": 60, "s0_rel_kjmol": 105.32, "t1_rel_kjmol": 132.39, "s0_converged": true, "t1_converged": true, "gap_kjmol": -27.08, "s0_eh": -911.3231031736067, "note": "reconverged 2026-08-22"},
-        {"cnnc_deg": 45, "s0_rel_kjmol": 82.69, "t1_rel_kjmol": 145.83, "s0_converged": false, "t1_converged": true}
+        {"cnnc_deg": 45, "s0_rel_kjmol": 82.69, "t1_rel_kjmol": 145.83, "s0_converged": false, "t1_converged": true},
+        {"cnnc_deg": 30, "t1_rel_kjmol": 160.80, "t1_eh": -911.3019708055169, "s0_converged": false, "t1_converged": true, "s0_not_run": true},
+        {"cnnc_deg": 15, "t1_rel_kjmol": 173.99, "t1_eh": -911.2969453402778, "s0_converged": false, "t1_converged": true, "s0_not_run": true},
+        {"cnnc_deg": 0, "t1_rel_kjmol": 182.38, "t1_eh": -911.2937495247866, "s0_converged": false, "t1_converged": true, "s0_not_run": true}
       ]
     }
   }
