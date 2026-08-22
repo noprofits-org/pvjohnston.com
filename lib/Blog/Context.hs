@@ -3,11 +3,18 @@ module Blog.Context
   ( postCtx
   , baseCtx
   , hasFigure
+  , figureImageSrc
+  , figureImageAlt
+  , OgImageInputs (..)
+  , resolveOgImage
   ) where
 
+import Control.Applicative ((<|>))
 import Data.Char (toLower)
-import Data.List (isInfixOf, isPrefixOf)
+import Data.List (isInfixOf, isPrefixOf, isSuffixOf)
+import Data.Maybe (fromMaybe)
 import Hakyll
+import System.Directory (doesFileExist)
 
 import Blog.Metrics (loadPostMetricsFor)
 
@@ -22,10 +29,14 @@ siteDescription =
   "Peter V. Johnston is an analytical problem solver, AI-assisted tool builder, and Ph.D. chemist who makes complicated domains legible."
 
 -- | Fallback description of the branded social image used when a page does not
--- provide an image with alt text in its @figure@ metadata.
+-- have a note-specific card.
 siteImageAlt :: String
 siteImageAlt =
   "Peter V. Johnston — analytical problem solver, AI-assisted tool builder, and Ph.D. chemist"
+
+-- | Site-relative path of the generic branded card. Non-note pages keep this.
+genericOgImagePath :: String
+genericOgImagePath = "/images/og-image.png"
 
 -- | Fields every page that renders @templates/default.html@ needs: the social
 -- @ogimage@ (absolute, per-post overridable), its @ogimagealt@ text, and the
@@ -39,51 +50,107 @@ baseCtx =
   constField "sitedesc" siteDescription <>
   defaultContext
 
--- | Absolute URL of a page's share image. Uses the post's optional @og-image@
--- metadata (absolute URL or site-relative path, absolutized) and otherwise the
--- one static branded card at @\/images\/og-image.png@.
-ogImageField :: Context a
-ogImageField = field "ogimage" $ \item -> do
-  mo <- getMetadataField (itemIdentifier item) "og-image"
-  pure $ case mo of
-    Just u  -> absolutize u
-    Nothing -> siteHost ++ "/images/og-image.png"
-  where
-    absolutize u
-      | "http://"  `isPrefixOf` u = u
-      | "https://" `isPrefixOf` u = u
-      | "/"        `isPrefixOf` u = siteHost ++ u
-      | otherwise                 = siteHost ++ "/" ++ u
+-- | Inputs 'resolveOgImage' needs. The generated-card path is @Just@ only when
+-- that file exists on disk; the field compiler performs that check.
+data OgImageInputs = OgImageInputs
+  { ogiExplicit     :: Maybe String
+  , ogiFigure       :: Maybe String
+  , ogiTitle        :: Maybe String
+  , ogiGeneratedRel :: Maybe String
+  }
 
--- | Alt text for a page's share image. When a page explicitly selects an
--- @og-image@, reuse the alt text from its optional HTML @figure@ metadata;
--- otherwise describe the branded fallback card. Figure metadata is
--- author-controlled and already suitable for use in an HTML attribute.
+-- | Pick a share image and its alt text.
+--
+-- Order: explicit @og-image@ front matter, then a generated
+-- @images\/\<slug\>-og.png@ card, then the @figure@ metadata @src@, then the
+-- generic branded card. Alt text prefers the figure's @alt@, then the note
+-- title, then the branded-card description.
+resolveOgImage :: OgImageInputs -> (String, String)
+resolveOgImage (OgImageInputs explicit figure title generated) =
+  case explicit of
+    Just u -> (absolutize u, noteAlt)
+    Nothing ->
+      case generated of
+        Just p -> (absolutize p, noteAlt)
+        Nothing ->
+          case figure >>= figureImageSrc of
+            Just src -> (absolutize src, fromMaybe siteImageAlt (figure >>= figureImageAlt))
+            Nothing  -> (absolutize genericOgImagePath, siteImageAlt)
+  where
+    noteAlt = fromMaybe siteImageAlt ((figure >>= figureImageAlt) <|> title)
+
+-- | Absolute URL of a page's share image. Notes resolve per 'resolveOgImage';
+-- home, about, and other non-note pages keep the generic branded card.
+ogImageField :: Context a
+ogImageField = field "ogimage" $ \item -> fst <$> ogImageFromItem item
+
+-- | Alt text for a page's share image. See 'resolveOgImage'.
 ogImageAltField :: Context a
-ogImageAltField = field "ogimagealt" $ \item -> do
-  mogimage <- getMetadataField (itemIdentifier item) "og-image"
-  mfigure <- getMetadataField (itemIdentifier item) "figure"
-  pure $ case (mogimage, mfigure >>= figureImageAlt) of
-    (Just _, Just alt) -> alt
-    _                  -> siteImageAlt
+ogImageAltField = field "ogimagealt" $ \item -> snd <$> ogImageFromItem item
+
+ogImageFromItem :: Item a -> Compiler (String, String)
+ogImageFromItem item = do
+  let ident = itemIdentifier item
+  explicit <- getMetadataField ident "og-image"
+  figure   <- getMetadataField ident "figure"
+  title    <- getMetadataField ident "title"
+  generated <- case generatedOgRelPath ident of
+    Nothing -> pure Nothing
+    Just p  -> do
+      exists <- unsafeCompiler (doesFileExist p)
+      pure (if exists then Just ("/" ++ p) else Nothing)
+  pure $ resolveOgImage (OgImageInputs explicit figure title generated)
+
+-- | Conventional generated card for a post identifier: @images\/\<slug\>-og.png@.
+-- 'Nothing' on non-post pages so they never claim a per-note card.
+generatedOgRelPath :: Identifier -> Maybe FilePath
+generatedOgRelPath ident
+  | "posts/" `isPrefixOf` path = Just ("images/" ++ stripPostExt (drop 6 path) ++ "-og.png")
+  | otherwise                  = Nothing
+  where
+    path = toFilePath ident
+    stripPostExt name
+      | ".markdown" `isSuffixOf` name = take (length name - 9) name
+      | ".md"       `isSuffixOf` name = take (length name - 3) name
+      | otherwise                     = name
+
+-- | Turn a site-relative path or absolute URL into the host-qualified form
+-- card scrapers require.
+absolutize :: String -> String
+absolutize u
+  | "http://"  `isPrefixOf` u = u
+  | "https://" `isPrefixOf` u = u
+  | "/"        `isPrefixOf` u = siteHost ++ u
+  | otherwise                 = siteHost ++ "/" ++ u
+
+-- | Extract the conventional @src="…"@ (or single-quoted equivalent) from
+-- the image HTML stored in @figure@ metadata.
+figureImageSrc :: String -> Maybe String
+figureImageSrc html = quotedAttr "src" html
 
 -- | Extract the conventional @alt="…"@ (or single-quoted equivalent) from
 -- the image HTML stored in @figure@ metadata.
 figureImageAlt :: String -> Maybe String
-figureImageAlt html = case extract " alt=\"" '"' html of
-  Just alt -> Just alt
-  Nothing  -> escapeDoubleQuotes <$> extract " alt='" '\'' html
+figureImageAlt html = case quotedAttr "alt" html of
+  Just alt | '"' `elem` alt -> Just (escapeDoubleQuotes alt)
+  other                     -> other
   where
-    extract marker closing input = do
-      (_, atMarker) <- breakOnSub marker input
-      let value = drop (length marker) atMarker
-          (alt, rest) = break (== closing) value
-      if null alt || null rest then Nothing else Just alt
     -- The destination meta tag is double-quoted. A raw double quote is
     -- impossible in the conventional double-quoted source form, but must be
     -- encoded when the source figure uses single quotes.
     escapeDoubleQuotes = concatMap $ \c ->
       if c == '"' then "&quot;" else [c]
+
+-- | Read an HTML attribute value from @name="…"@ or @name='…'@.
+quotedAttr :: String -> String -> Maybe String
+quotedAttr name html = extract (" " ++ name ++ "=\"") '"' html
+                   <|> extract (" " ++ name ++ "='") '\'' html
+  where
+    extract marker closing input = do
+      (_, atMarker) <- breakOnSub marker input
+      let value = drop (length marker) atMarker
+          (attr, rest) = break (== closing) value
+      if null attr || null rest then Nothing else Just attr
 
 -- | The post's declared form (@post-type@: @research@ / @understanding@),
 -- exposed as @postType@ so templates can render the note badge. Withheld when

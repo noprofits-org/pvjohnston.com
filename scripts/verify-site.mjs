@@ -165,6 +165,37 @@ for (const file of htmlFiles) {
     errors.push(`${label}: wrong canonical ${canonical[1]}`);
   }
 
+  // Only pages that go through templates/default.html carry social meta.
+  // 404.html and published experiment HTML snippets do not.
+  if (html.includes('name="twitter:card"')) {
+    const isPost = dirname(file) === join(root, 'posts');
+    const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+    const ogImageAlt = html.match(/<meta property="og:image:alt" content="([^"]+)"/)?.[1];
+    const twitterImage = html.match(/<meta name="twitter:image" content="([^"]+)"/)?.[1];
+    const twitterImageAlt = html.match(/<meta name="twitter:image:alt" content="([^"]+)"/)?.[1];
+    if (!ogImage) {
+      errors.push(`${label}: missing og:image`);
+    } else if (isPost && ogImage.endsWith('/images/og-image.png')) {
+      errors.push(`${label}: post still uses the generic site og:image`);
+    } else if (ogImage.startsWith('https://pvjohnston.com/')) {
+      const imagePath = join(root, ogImage.slice('https://pvjohnston.com/'.length));
+      if (!isFile(imagePath)) {
+        errors.push(`${label}: og:image ${ogImage} is not in _site`);
+      }
+    }
+    if (!ogImageAlt) errors.push(`${label}: missing og:image:alt`);
+    if (!twitterImage) {
+      errors.push(`${label}: missing twitter:image`);
+    } else if (ogImage && twitterImage !== ogImage) {
+      errors.push(`${label}: twitter:image does not match og:image`);
+    }
+    if (!twitterImageAlt) {
+      errors.push(`${label}: missing twitter:image:alt`);
+    } else if (ogImageAlt && twitterImageAlt !== ogImageAlt) {
+      errors.push(`${label}: twitter:image:alt does not match og:image:alt`);
+    }
+  }
+
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     const url = match[1];
     // Skip external (scheme:), protocol-relative (//), and fragment-only (#) links.
