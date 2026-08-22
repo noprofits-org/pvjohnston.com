@@ -147,7 +147,8 @@ from this public repository.
 ## Results
 
 Table 1 lists both-converged crossings and the 120°/105° gaps that decide
-the claim. Figure 1 plots the M4 gap, the two M2 gaps at those angles, and
+the claim. Table 2 lists the M4 relative energies from 180° through 45°.
+Figure 1 plots the M4 gap, the two M2 gaps at those angles, and
 the tabulated trans-side zeros. Figure 2 is the M4 S0 and T1 profiles.
 Figure 3 puts the M4 profiles beside the M4 and M2 gaps.
 

@@ -43,9 +43,11 @@ node research/hillel-triplet/generate-metrics.mjs --check
 node scripts/verify-metrics.mjs
 ```
 
-`generate-metrics.mjs` derives the claim crossing from the both-converged
-M4 120°/105° pair in `results/results.json` and checks the committed CSVs
-against that file.
+`generate-metrics.mjs` derives the M4 claim crossing from the
+both-converged 120°/105° pair and derives the M0–M3 both-converged zeros
+from neighbouring 15° points in the committed grids. It checks every
+shared field of every published M4 CSV row, and the M0–M3 grid CSVs,
+against `results/results.json`.
 
 ## Figures
 

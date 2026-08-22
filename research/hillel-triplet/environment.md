@@ -25,9 +25,21 @@ checks out the post branch.
   the `qchem` conda environment
 - External services: none
 
+## Analysis / plotting
+
+Figures and metrics are produced from the committed summary tables. This
+directory does not rerun Psi4 and does not pin a Psi4 rerun path.
+
+- Canonical analysis host: the same Apple Silicon `qchem` conda environment
+- Interpreter: Python 3.14.6 from conda-forge
+- Plotting: matplotlib 3.11.0, pinned in `requirements.txt`
+- Metrics generator: Node, `generate-metrics.mjs`; no extra Python
+  packages
+- No lockfile. `requirements.txt` records the plotting pin only.
+
 ## What is not in this repository
 
 Psi4 output logs and scratch from `~/Molecules/hillel-triplet` are not
 committed. They are large and embed absolute machine paths. The same
 choice is recorded in `research/bmn-frontier-orbitals`. The committed
-evidence is `results/results.json` plus the two summary CSVs.
+evidence is `results/results.json` plus the M0–M4 summary CSVs.

@@ -36,6 +36,26 @@ def linear_zero(x0, y0, x1, y1):
     return x0 - (y0 * (x1 - x0)) / (y1 - y0)
 
 
+def gap_of(point):
+    if "gap_kjmol" in point:
+        return point["gap_kjmol"]
+    return point["s0_rel_kjmol"] - point["t1_rel_kjmol"]
+
+
+def point_at(mol, deg):
+    found = next(
+        (p for p in RESULT["molecules"][mol]["points"] if p["cnnc_deg"] == deg),
+        None,
+    )
+    if found is None:
+        raise KeyError(f"missing {mol} point at {deg}")
+    return found
+
+
+def trans_side_zero(mol):
+    return linear_zero(120, gap_of(point_at(mol, 120)), 105, gap_of(point_at(mol, 105)))
+
+
 def m4_series():
     points = RESULT["molecules"]["M4"]["points"]
     angles, s0, t1, s0_ok, t1_ok, gaps = [], [], [], [], [], []
@@ -115,11 +135,12 @@ def save(fig, name, size=None):
 
 def fig1():
     angles, _s0, _t1, s0_ok, t1_ok, gaps = m4_series()
-    m2 = RESULT["molecules"]["M2"]["gaps_kjmol"]
+    m2_120 = gap_of(point_at("M2", 120))
+    m2_105 = gap_of(point_at("M2", 105))
     crossings = {
-        "M0": RESULT["molecules"]["M0"]["crossings_deg"][0],
-        "M1": RESULT["molecules"]["M1"]["crossings_deg"][0],
-        "M3": RESULT["molecules"]["M3"]["crossings_deg"][0],
+        "M0": trans_side_zero("M0"),
+        "M1": trans_side_zero("M1"),
+        "M3": trans_side_zero("M3"),
         "M4": linear_zero(120, gaps[angles.index(120)], 105, gaps[angles.index(105)]),
     }
     colors = {"M0": M0, "M1": M1, "M3": M3, "M4": M4}
@@ -136,7 +157,7 @@ def fig1():
     ax.plot(un_x, un_y, "x", color=M4, markersize=7, markeredgewidth=1.6, zorder=4)
     ax.plot(
         [120, 105],
-        [float(m2["120"]), float(m2["105"])],
+        [m2_120, m2_105],
         "s",
         color=M2,
         markersize=7,
@@ -203,7 +224,8 @@ def fig2():
 
 def fig3():
     angles, _s0, _t1, s0_ok, t1_ok, gaps = m4_series()
-    m2 = RESULT["molecules"]["M2"]["gaps_kjmol"]
+    m2_120 = gap_of(point_at("M2", 120))
+    m2_105 = gap_of(point_at("M2", 105))
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11.2, 5.0), facecolor="white")
     fig.subplots_adjust(left=0.07, right=0.99, top=0.96, bottom=0.15, wspace=0.28)
     _m4_profiles(ax1)
@@ -216,7 +238,7 @@ def fig3():
     ax2.plot(un_x, un_y, "x", color=M4, markersize=7, markeredgewidth=1.6, label="M4, S0 unconverged")
     ax2.plot(
         [120, 105],
-        [float(m2["120"]), float(m2["105"])],
+        [m2_120, m2_105],
         "s-",
         color=M2,
         markersize=6.5,

@@ -2,12 +2,28 @@
   "schema_version": 1,
   "experiment": "hillel-triplet",
   "provenance": {
-    "generated_at": "2026-08-22T17:39:31Z",
+    "generated_at": "2026-08-22T18:42:47Z",
     "generator": "research/hillel-triplet/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/hillel-triplet/results/results.json",
-        "sha256": "569c8be845906c26e3e8fb36810c24f36f239196f43bd74d0e2881b499185fac"
+        "sha256": "bc47aa3137f7871cbeb18a8ff6f7f365c5eb0e7d5a392b4ceb6a557c07befda4"
+      },
+      {
+        "path": "research/hillel-triplet/results/m0_summary.csv",
+        "sha256": "8b1601372988be12f34327c098411a2a7c5adf525d3e055b97946b75b155a2a0"
+      },
+      {
+        "path": "research/hillel-triplet/results/m1_summary.csv",
+        "sha256": "2d4aa44caf51360a4727177b829a174c595ced9bbf3d85ff5243b4b8afd02f7a"
+      },
+      {
+        "path": "research/hillel-triplet/results/m2_summary.csv",
+        "sha256": "5db068e84df8c6751bed409521794d5ddce4119e5104d86d8070ef95c0d4640a"
+      },
+      {
+        "path": "research/hillel-triplet/results/m3_summary.csv",
+        "sha256": "5361cbe010e5394748caee12de329e55b938cff9cf2032b2091caf036088fd0c"
       },
       {
         "path": "research/hillel-triplet/results/m4_summary.csv",
@@ -62,7 +78,7 @@
     },
     "m2_gap_120": {
       "type": "number",
-      "value": -37.77,
+      "value": -37.76819336547622,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -72,7 +88,7 @@
     },
     "m2_gap_105": {
       "type": "number",
-      "value": -30.76,
+      "value": -30.76199033194591,
       "format": {
         "style": "fixed",
         "digits": 2
@@ -82,52 +98,52 @@
     },
     "m0_crossing_upper_deg": {
       "type": "number",
-      "value": 115.5,
+      "value": 115.50810223687606,
       "format": {
         "style": "fixed",
         "digits": 1
       },
-      "description": "M0 trans-side both-converged S0/T1 crossing",
+      "description": "M0 trans-side both-converged S0/T1 crossing from the 120°/105° neighbour pair",
       "unit": "deg"
     },
     "m0_crossing_lower_deg": {
       "type": "number",
-      "value": 65.6,
+      "value": 65.6426478442427,
       "format": {
         "style": "fixed",
         "digits": 1
       },
-      "description": "M0 cis-side both-converged S0/T1 crossing",
+      "description": "M0 cis-side both-converged S0/T1 crossing from the 75°/60° neighbour pair",
       "unit": "deg"
     },
     "m0_cis_zero_a_deg": {
       "type": "number",
-      "value": 27.8,
+      "value": 27.819428195687294,
       "format": {
         "style": "fixed",
         "digits": 1
       },
-      "description": "M0 additional both-converged zero on the cis-side continuation",
+      "description": "M0 additional both-converged zero on the cis-side continuation (30°/15°)",
       "unit": "deg"
     },
     "m0_cis_zero_b_deg": {
       "type": "number",
-      "value": 8.8,
+      "value": 8.785589561064832,
       "format": {
         "style": "fixed",
         "digits": 1
       },
-      "description": "M0 second additional both-converged zero on the cis-side continuation",
+      "description": "M0 second additional both-converged zero on the cis-side continuation (15°/0°)",
       "unit": "deg"
     },
     "m1_crossing_upper_deg": {
       "type": "number",
-      "value": 115.7,
+      "value": 115.72204255236852,
       "format": {
         "style": "fixed",
         "digits": 1
       },
-      "description": "M1 trans-side both-converged S0/T1 crossing",
+      "description": "M1 trans-side both-converged S0/T1 crossing from the 120°/105° neighbour pair",
       "unit": "deg"
     },
     "m1_crossing_lower_deg": {
@@ -137,27 +153,27 @@
         "style": "fixed",
         "digits": 1
       },
-      "description": "M1 cis-side both-converged S0/T1 crossing (45° bracket; S0 90/75 unconverged)",
+      "description": "M1 loose interpolant using a 45° bracket; S0 at 90° and 75° did not converge; not a both-converged neighbour zero",
       "unit": "deg"
     },
     "m3_crossing_upper_deg": {
       "type": "number",
-      "value": 115.6,
+      "value": 115.58313347726224,
       "format": {
         "style": "fixed",
         "digits": 1
       },
-      "description": "M3 trans-side both-converged S0/T1 crossing",
+      "description": "M3 trans-side both-converged S0/T1 crossing from the 120°/105° neighbour pair",
       "unit": "deg"
     },
     "m3_crossing_lower_deg": {
       "type": "number",
-      "value": 68.5,
+      "value": 68.54511176925357,
       "format": {
         "style": "fixed",
         "digits": 1
       },
-      "description": "M3 cis-side both-converged S0/T1 crossing",
+      "description": "M3 cis-side both-converged S0/T1 crossing from the 75°/60° neighbour pair",
       "unit": "deg"
     },
     "m4_loose_105_60_zero_deg": {
