@@ -1,0 +1,14 @@
+cnnc_deg,s0_rel_kjmol,t1_rel_kjmol,s0_converged,t1_converged,gap_kjmol,s0_eh,note
+180,0.00,145.21,true,true,-145.21,,
+165,6.36,137.11,true,true,-130.75,,
+150,25.24,127.44,true,true,-102.20,,
+135,54.90,120.37,true,true,-65.47,,
+120,91.66,116.51,true,true,-24.85,,
+105,129.80,115.49,true,true,14.31,,
+90,139.24,117.30,false,true,21.94,,S0 unconverged; 2026-08-22 rerun still unconverged, delta_e -0.001 kJ/mol
+75,135.54,122.68,false,true,12.86,,S0 unconverged; 2026-08-22 rerun still unconverged, dropped 3.61 kJ/mol
+60,105.32,132.39,true,true,-27.08,-911.3231031736067,reconverged 2026-08-22; both-converged
+45,82.69,145.83,false,true,-63.14,,S0 unconverged
+30,,,,false,true,,,S0 not run; cis-side cut after 90-45 hit maxiter 150
+15,,,,false,true,,,S0 not run; cis-side cut after 90-45 hit maxiter 150
+0,,,,false,true,,,S0 not run; cis-side cut after 90-45 hit maxiter 150

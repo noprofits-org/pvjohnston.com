@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "experiment": "hillel-triplet",
+  "eh_to_kjmol": 2625.4996,
+  "level_of_theory": "B3LYP-D3BJ/cc-pVDZ",
+  "s0_method": "RKS",
+  "t1_method": "UKS",
+  "solvent": "gas phase",
+  "grid_deg": [180, 165, 150, 135, 120, 105, 90, 75, 60, 45, 30, 15, 0],
+  "step_deg": 15,
+  "provenance": {
+    "private_lab": "~/Molecules/hillel-triplet",
+    "note": "Publication projection transcribed from the private-lab summary tables. Raw Psi4 logs stay in that lab. Later jsonl lines win for M4 relatives. M4 60° is the 2026-08-22 reconvergence.",
+    "m0_source": "scan_m0/summary.csv",
+    "m1_m4_source": "scan/analysis/*_summary.csv"
+  },
+  "molecules": {
+    "M0": {
+      "name": "azobenzene",
+      "formula_note": "Ph–N=N–Ph",
+      "charge_s0": 0,
+      "mult_s0": 1,
+      "charge_t1": 0,
+      "mult_t1": 3,
+      "crossings_deg": [115.5, 65.6],
+      "cis_side_zeros_deg": [27.8, 8.8],
+      "cis_side_zeros_note": "path-hysteresis on the cis-side continuation; not a mechanism claim"
+    },
+    "M1": {
+      "name": "AzPy",
+      "formula_note": "4-phenylazopyridine",
+      "charge_s0": 0,
+      "mult_s0": 1,
+      "charge_t1": 0,
+      "mult_t1": 3,
+      "crossings_deg": [115.7, 76.5],
+      "lower_crossing_note": "76.5° uses a 45° bracket because S0 at 90° and 75° did not converge"
+    },
+    "M2": {
+      "name": "AzPyH+",
+      "formula_note": "N-protonated 4-phenylazopyridine",
+      "charge_s0": 1,
+      "mult_s0": 1,
+      "charge_t1": 1,
+      "mult_t1": 3,
+      "crossings_deg": [],
+      "gaps_kjmol": {
+        "120": -37.77,
+        "105": -30.76
+      },
+      "s0_unconverged_deg": [180, 90, 75, 60, 45, 30, 15, 0]
+    },
+    "M3": {
+      "name": "2-AzPy",
+      "formula_note": "2-phenylazopyridine",
+      "charge_s0": 0,
+      "mult_s0": 1,
+      "charge_t1": 0,
+      "mult_t1": 3,
+      "crossings_deg": [115.6, 68.5],
+      "t1_failed_deg": [45],
+      "t1_failed_note": "T1 at 45° failed; recorded as a JOURNAL slip"
+    },
+    "M4": {
+      "name": "4-dimethylamino-4'-nitroazobenzene",
+      "formula_note": "NMe2/NO2 push-pull azobenzene",
+      "charge_s0": 0,
+      "mult_s0": 1,
+      "charge_t1": 0,
+      "mult_t1": 3,
+      "s0_60_eh": -911.3231031736067,
+      "s0_not_run_deg": [30, 15, 0],
+      "reruns": {
+        "90": {
+          "still_unconverged": true,
+          "delta_e_kjmol": -0.001
+        },
+        "75": {
+          "still_unconverged": true,
+          "dropped_kjmol": 3.61,
+          "gap_kjmol": 12.86
+        }
+      },
+      "points": [
+        {"cnnc_deg": 180, "s0_rel_kjmol": 0.0, "t1_rel_kjmol": 145.21, "s0_converged": true, "t1_converged": true},
+        {"cnnc_deg": 165, "s0_rel_kjmol": 6.36, "t1_rel_kjmol": 137.11, "s0_converged": true, "t1_converged": true},
+        {"cnnc_deg": 150, "s0_rel_kjmol": 25.24, "t1_rel_kjmol": 127.44, "s0_converged": true, "t1_converged": true},
+        {"cnnc_deg": 135, "s0_rel_kjmol": 54.90, "t1_rel_kjmol": 120.37, "s0_converged": true, "t1_converged": true},
+        {"cnnc_deg": 120, "s0_rel_kjmol": 91.66, "t1_rel_kjmol": 116.51, "s0_converged": true, "t1_converged": true},
+        {"cnnc_deg": 105, "s0_rel_kjmol": 129.80, "t1_rel_kjmol": 115.49, "s0_converged": true, "t1_converged": true},
+        {"cnnc_deg": 90, "s0_rel_kjmol": 139.24, "t1_rel_kjmol": 117.30, "s0_converged": false, "t1_converged": true},
+        {"cnnc_deg": 75, "s0_rel_kjmol": 135.54, "t1_rel_kjmol": 122.68, "s0_converged": false, "t1_converged": true},
+        {"cnnc_deg": 60, "s0_rel_kjmol": 105.32, "t1_rel_kjmol": 132.39, "s0_converged": true, "t1_converged": true, "gap_kjmol": -27.08, "s0_eh": -911.3231031736067, "note": "reconverged 2026-08-22"},
+        {"cnnc_deg": 45, "s0_rel_kjmol": 82.69, "t1_rel_kjmol": 145.83, "s0_converged": false, "t1_converged": true}
+      ]
+    }
+  }
+}

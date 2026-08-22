@@ -1,0 +1,442 @@
+{
+  "schema_version": 1,
+  "experiment": "hillel-triplet",
+  "provenance": {
+    "generated_at": "2026-08-22T17:26:36Z",
+    "generator": "research/hillel-triplet/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/hillel-triplet/results/results.json",
+        "sha256": "d4cb17cf1187a8e63ac806e92efc04db2314b45b331913629ee0cb2292adba6b"
+      },
+      {
+        "path": "research/hillel-triplet/results/m4_summary.csv",
+        "sha256": "b36c47ed113f6a74a52808c3e4370110c7a4136192c6ff9215be97cf6357d53a"
+      },
+      {
+        "path": "research/hillel-triplet/results/controls_summary.csv",
+        "sha256": "273e820e229a7be4dae05193523557dce9496d76dd64fe590092fef0c6c520b4"
+      }
+    ]
+  },
+  "metrics": {
+    "m4_crossing_deg": {
+      "type": "number",
+      "value": 110.48135852911135,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Linear zero of the M4 S0−T1 gap between both-converged 120° and 105°",
+      "unit": "deg"
+    },
+    "m4_gap_120": {
+      "type": "number",
+      "value": -24.85000000000001,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0−T1 gap at CNNC 120°, both-converged",
+      "unit": "kJ/mol"
+    },
+    "m4_gap_105": {
+      "type": "number",
+      "value": 14.310000000000016,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0−T1 gap at CNNC 105°, both-converged",
+      "unit": "kJ/mol"
+    },
+    "m4_gap_60": {
+      "type": "number",
+      "value": -27.08,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0−T1 gap at CNNC 60°, both-converged after the 2026-08-22 reconvergence",
+      "unit": "kJ/mol"
+    },
+    "m2_gap_120": {
+      "type": "number",
+      "value": -37.77,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M2 S0−T1 gap at CNNC 120°, both-converged",
+      "unit": "kJ/mol"
+    },
+    "m2_gap_105": {
+      "type": "number",
+      "value": -30.76,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M2 S0−T1 gap at CNNC 105°, both-converged",
+      "unit": "kJ/mol"
+    },
+    "m0_crossing_upper_deg": {
+      "type": "number",
+      "value": 115.5,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "M0 trans-side both-converged S0/T1 crossing",
+      "unit": "deg"
+    },
+    "m0_crossing_lower_deg": {
+      "type": "number",
+      "value": 65.6,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "M0 cis-side both-converged S0/T1 crossing",
+      "unit": "deg"
+    },
+    "m0_cis_zero_a_deg": {
+      "type": "number",
+      "value": 27.8,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "M0 additional both-converged zero on the cis-side continuation",
+      "unit": "deg"
+    },
+    "m0_cis_zero_b_deg": {
+      "type": "number",
+      "value": 8.8,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "M0 second additional both-converged zero on the cis-side continuation",
+      "unit": "deg"
+    },
+    "m1_crossing_upper_deg": {
+      "type": "number",
+      "value": 115.7,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "M1 trans-side both-converged S0/T1 crossing",
+      "unit": "deg"
+    },
+    "m1_crossing_lower_deg": {
+      "type": "number",
+      "value": 76.5,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "M1 cis-side both-converged S0/T1 crossing (45° bracket; S0 90/75 unconverged)",
+      "unit": "deg"
+    },
+    "m3_crossing_upper_deg": {
+      "type": "number",
+      "value": 115.6,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "M3 trans-side both-converged S0/T1 crossing",
+      "unit": "deg"
+    },
+    "m3_crossing_lower_deg": {
+      "type": "number",
+      "value": 68.5,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "M3 cis-side both-converged S0/T1 crossing",
+      "unit": "deg"
+    },
+    "m4_loose_105_60_zero_deg": {
+      "type": "number",
+      "value": 89.4418941773375,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Linear zero of the M4 gap between both-converged 105° and 60°; not a tight crossing (90/75 unconverged)",
+      "unit": "deg"
+    },
+    "m4_s0_60_eh": {
+      "type": "number",
+      "value": -911.3231031736067,
+      "format": {
+        "style": "raw"
+      },
+      "description": "M4 RKS S0 electronic energy at CNNC 60° after the 2026-08-22 reconvergence",
+      "unit": "Eh"
+    },
+    "m4_s0_rel_180": {
+      "type": "number",
+      "value": 0,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 180° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_180": {
+      "type": "number",
+      "value": 145.21,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 180° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_s0_rel_165": {
+      "type": "number",
+      "value": 6.36,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 165° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_165": {
+      "type": "number",
+      "value": 137.11,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 165° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_s0_rel_150": {
+      "type": "number",
+      "value": 25.24,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 150° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_150": {
+      "type": "number",
+      "value": 127.44,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 150° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_s0_rel_135": {
+      "type": "number",
+      "value": 54.9,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 135° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_135": {
+      "type": "number",
+      "value": 120.37,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 135° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_s0_rel_120": {
+      "type": "number",
+      "value": 91.66,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 120° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_120": {
+      "type": "number",
+      "value": 116.51,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 120° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_s0_rel_105": {
+      "type": "number",
+      "value": 129.8,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 105° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_105": {
+      "type": "number",
+      "value": 115.49,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 105° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_s0_rel_90": {
+      "type": "number",
+      "value": 139.24,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 90° relative to trans-S0 (unconverged upper bound)",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_90": {
+      "type": "number",
+      "value": 117.3,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 90° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_s0_rel_75": {
+      "type": "number",
+      "value": 135.54,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 75° relative to trans-S0 (unconverged upper bound)",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_75": {
+      "type": "number",
+      "value": 122.68,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 75° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_s0_rel_60": {
+      "type": "number",
+      "value": 105.32,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 60° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_60": {
+      "type": "number",
+      "value": 132.39,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 60° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_s0_rel_45": {
+      "type": "number",
+      "value": 82.69,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 energy at 45° relative to trans-S0 (unconverged upper bound)",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_rel_45": {
+      "type": "number",
+      "value": 145.83,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 T1 energy at 45° relative to trans-S0",
+      "unit": "kJ/mol"
+    },
+    "m4_rerun_90_delta_e": {
+      "type": "number",
+      "value": -0.001,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "M4 S0 90° reconvergence energy change versus the first unconverged point",
+      "unit": "kJ/mol"
+    },
+    "m4_rerun_75_drop": {
+      "type": "number",
+      "value": 3.61,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0 75° reconvergence energy drop versus the first unconverged point",
+      "unit": "kJ/mol"
+    },
+    "m4_rerun_75_gap": {
+      "type": "number",
+      "value": 12.86,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "M4 S0−T1 gap at 75° after the still-unconverged S0 rerun",
+      "unit": "kJ/mol"
+    },
+    "m4_t1_converged_count": {
+      "type": "integer",
+      "value": 10,
+      "description": "M4 T1 points that converged on the 15° grid",
+      "unit": "points"
+    },
+    "m4_s0_unconverged_count": {
+      "type": "integer",
+      "value": 3,
+      "description": "M4 S0 points that were run and did not converge",
+      "unit": "points"
+    },
+    "m4_s0_not_run_count": {
+      "type": "integer",
+      "value": 3,
+      "description": "M4 S0 points that were not run after the cis-side cut",
+      "unit": "points"
+    },
+    "m2_crossing_count": {
+      "type": "integer",
+      "value": 0,
+      "description": "Number of both-converged S0/T1 crossings on the M2 grid",
+      "unit": "crossings"
+    },
+    "m4_has_claim_crossing": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether M4 has a both-converged S0/T1 sign change between 120° and 105°"
+    }
+  }
+}

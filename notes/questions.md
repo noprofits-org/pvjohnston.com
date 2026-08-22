@@ -1104,3 +1104,25 @@ Format:
 - **Falsifier:** the computed S1 fails to red-shift versus DCDHF-Me2 under the
   stronger acceptor.
 - **Status:** shelved — queue after the fluoro-precursor question.
+
+## Does Hillel's 2024 push-pull sentence hold for 4-dimethylamino-4′-nitroazobenzene?
+- **Observed:** Hillel, Rough, Barrett, Pietro, and Mermut (2024) found that
+  protonation of AzPy removes the S0/T1 crossing along CNNC and wrote that
+  this "would likely" hold for the wider class of push-pull azobenzenes. The
+  same group (2026) later found no S0/T1 crossing on a different push-pull
+  scaffold (HPAS) after SF-TDDFT failed and CASSCF/QD-NEVPT2 was used. Neither
+  paper scans 4-dimethylamino-4′-nitroazobenzene at RKS/UKS
+  B3LYP-D3(BJ)/cc-pVDZ. The private-lab scan of that dye (M4) plus
+  azobenzene/AzPy/AzPyH+/2-AzPy controls is the observation this note writes
+  up: M4 crosses at 110.5° between both-converged 120° and 105°; M2 does not
+  cross at those angles.
+- **Source:** Hillel et al., *Commun. Chem.* **7**, 250 (2024),
+  doi:10.1038/s42004-024-01321-0; Hillel et al., *Commun. Chem.* **9**, 142
+  (2026), doi:10.1038/s42004-026-01952-5
+- **Type:** untested regime
+- **Contribution (candidate):** an independent RKS/UKS B3LYP-D3(BJ)/cc-pVDZ
+  CNNC torsion scan of 4-dimethylamino-4′-nitroazobenzene (M4) plus
+  azobenzene/AzPy/AzPyH+/2-AzPy controls, which is not in Hillel et al. 2024
+  or Hillel et al. 2026
+- **Falsifier:** M4 shows an S0/T1 crossing between converged points
+- **Status:** drafting
