@@ -253,9 +253,12 @@ M3 each keep a trans-side crossing near 115–116°, which is the direction
 Cembran *et al.* established for azobenzene and Hillel *et al.* reported
 for AzPy.[@Cembran2004; @Hillel2024] M2 does not cross between the two
 converged neighbours that decide the claim. Several M2 S0 points,
-including trans, did not converge; those energies are upper bounds, and
-if they dropped they would make an already-negative gap more negative, so
-they do not create a crossing we failed to count.
+including trans, did not converge; those unconverged S0 energies remain
+upper bounds. Most of those M2 gaps are already negative and can only
+become more so if S0 drops; the 60° gap is the exception — positive and
+unconverged — and reconverging it can only move that cis-side oscillation
+toward or through zero. It cannot invent a trans-side crossing we missed
+on the both-converged 120°/105° pair.
 
 Two features of the M4 cis side should not be over-read. First, the
 105°→60° sign change interpolates to
@@ -288,9 +291,10 @@ the same grid, does not. The 2024 push-pull sentence did not hold for
 this dye under these conditions.
 
 The next experiment on the shelf is not a repair of this scan. Optional
-reconvergence of M2 S0 at 90°, 75°, and 60° would be redundant for the
-claim: those points are already upper bounds on a negative gap. The
-useful follow-up is one of the two parked calculations — a two-dihedral
+reconvergence of M2 S0 at 90°, 75°, and 60° is not needed for the
+claim: the claim is decided by the both-converged 120°/105° pair, not
+by those unconverged points. The useful follow-up is one of the two
+parked calculations — a two-dihedral
 scan of 4-hydroxyazobenzene, or an ORCA SF-TDDFT treatment of M4 — so
 that the same molecule can be read with the method the 2024 paper
 actually used. Neither has been started. If the right next calculation
