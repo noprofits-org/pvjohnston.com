@@ -598,10 +598,13 @@ and the OG/Twitter card — no separate variant, no crop. Compose horizontally
 (e.g. a left-to-right loop, or side-by-side panels) rather than square. Then set
 `og-image` in front matter to that file. Posts without `og-image` still get a
 note-specific 1200×630 card at `/images/<slug>-og.png` — run
-`python3 scripts/render-og-cards.py` after drafting. The generator letterboxes
-the `figure` PNG when one exists, and otherwise draws the title large on the
-cream / indigo canvas. The generic branded card (`/images/og-image.png`) is the
-fallback for home, about, and other non-note pages.
+`python3 scripts/render-og-cards.py --slug <slug>` after drafting or after
+changing the title or figure. The generator letterboxes the `figure` PNG when
+one exists, and otherwise draws the title large on the cream / indigo canvas.
+`--slug` overwrites that note's card; a bare run only fills in missing files.
+The generic branded card (`/images/og-image.png`) is the fallback for home,
+about, and other non-note pages. Social images must be 1200×630; `verify-site`
+rejects any other size.
 
 ## 6. Captions & numbering (required)
 
@@ -852,7 +855,7 @@ checkout does not restore the Hakyll store.
 - [ ] Source's own BibTeX/DOI used where it publishes one; entry type matches Table 0
 - [ ] New bib entries appended, keys unique & de-duped; `node scripts/verify-bib.mjs` passes
 - [ ] Every `[@key]` grep-verified against `bib/bibliography.bib`; markers after punctuation; post ends with `## References`
-- [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional). If it has no figure, run `python3 scripts/render-og-cards.py` so the note has a title card rather than the generic site header.
+- [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional). If it has no figure, run `python3 scripts/render-og-cards.py --slug <slug>` so the note has a title card rather than the generic site header.
 - [ ] Every figure, table, code block, and audio player has a numbered caption (Figure/Table/Code/Audio N) and is referenced by number in the prose; each `<audio>` element stays on one source line and contains fallback text plus a direct file link
 - [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
 - [ ] Branch, build, verification, PR, and merge complete

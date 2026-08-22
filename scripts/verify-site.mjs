@@ -15,6 +15,34 @@ function isFile(path) {
   return existsSync(path) && statSync(path).isFile();
 }
 
+function pngSize(path) {
+  const buf = readFileSync(path);
+  const signature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  if (buf.length < 33 || !buf.subarray(0, 8).equals(signature)) return null;
+  let offset = 8;
+  let width;
+  let height;
+  let sawIHDR = false;
+  while (offset + 12 <= buf.length) {
+    const length = buf.readUInt32BE(offset);
+    const type = buf.toString('ascii', offset + 4, offset + 8);
+    const data = offset + 8;
+    const next = data + length + 4;
+    if (!Number.isInteger(length) || length < 0 || next > buf.length) return null;
+    if (type === 'IHDR') {
+      if (sawIHDR || length !== 13) return null;
+      width = buf.readUInt32BE(data);
+      height = buf.readUInt32BE(data + 4);
+      sawIHDR = true;
+    } else if (type === 'IEND') {
+      if (length !== 0 || next !== buf.length || !sawIHDR) return null;
+      return { width, height };
+    }
+    offset = next;
+  }
+  return null;
+}
+
 function targetExists(base, clean) {
   if (clean === '/' || clean === '') return existsSync(join(base, 'index.html'));
   if (existsSync(base)) return true;
@@ -181,6 +209,13 @@ for (const file of htmlFiles) {
       const imagePath = join(root, ogImage.slice('https://pvjohnston.com/'.length));
       if (!isFile(imagePath)) {
         errors.push(`${label}: og:image ${ogImage} is not in _site`);
+      } else {
+        const size = pngSize(imagePath);
+        if (!size || size.width !== 1200 || size.height !== 630) {
+          errors.push(
+            `${label}: og:image is ${size ? `${size.width}×${size.height}` : 'not a valid PNG'}, expected 1200×630 PNG`,
+          );
+        }
       }
     }
     if (!ogImageAlt) errors.push(`${label}: missing og:image:alt`);
