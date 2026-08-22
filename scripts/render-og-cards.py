@@ -216,7 +216,7 @@ def render_figure_card(fields: dict[str, str], figure_path: Path) -> Image.Image
 
 def list_posts(slug: str | None) -> list[tuple[str, dict[str, str]]]:
     posts = []
-    for path in sorted(POSTS.glob("*.md")):
+    for path in sorted((*POSTS.glob("*.md"), *POSTS.glob("*.markdown"))):
         if slug and path.stem != slug:
             continue
         posts.append((path.stem, parse_front_matter(path.read_text(encoding="utf-8"))))
