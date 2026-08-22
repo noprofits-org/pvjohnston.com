@@ -177,19 +177,24 @@ collective knowledge, however well it reads. Exposition is not a lesser post
 here, but it is not Research. Declare it as Understanding and satisfy that
 form's separate contract.
 
-**Anchor the hypothesis to a recent primary source — a journal article from this
-year or last.** This is the single most reliable way to find a question that is
-actually open, and it follows directly from the rule above. A settled result can
-only be *explained*; a live one can be *contributed to*. Kramers-Kronig has had a
-century of scrutiny and every accessible gap in it is closed. A paper from six
-months ago has unpriced claims, unreleased code, and mechanisms asserted but not
-measured — because that is what the edge of a literature looks like. Both of this
-site's measured research contributions came from 2025–2026 sources. Canonical,
-settled sources remain appropriate for Understanding notes because those notes
-do not claim to extend the literature.
+**Anchor the hypothesis to a primary source whose question is still open.**
+Recency is a useful heuristic for finding one, not a requirement. Newer papers
+often have unpriced claims, unreleased code, and mechanisms asserted but not
+measured — because that is what the edge of a literature looks like. Both of
+this site's measured research contributions came from 2025–2026 sources; that
+is where those open questions sat, not a year-or-last gate. A settled result
+can only be *explained*; a live one can be *contributed to*. Kramers-Kronig
+has had a century of scrutiny and every accessible gap in it is closed; that
+is Understanding, not Research, and the reason is that the question is
+closed, not that the paper is old. A strong candidate from an older paper is
+still a Research note, even if the paper is fifty years old. All else equal,
+prefer the more recent paper. Canonical, settled sources remain appropriate
+for Understanding notes because those notes do not claim to extend the
+literature.
 
-Recency is necessary, not sufficient: a modern paper still has to yield a
-`contribution:` sentence, and "recent" is not a synonym for "unexamined."
+Recency is a tiebreaker, not a necessary condition: a paper still has to
+yield a `contribution:` sentence, and "recent" is not a synonym for
+"unexamined."
 
 **Name the source before you inherit its question.** A **direct source-response
 post** is one whose contribution depends on a particular paper's open question,
@@ -825,7 +830,7 @@ checkout does not restore the Hakyll store.
 **Before drafting — Research only (§0):**
 
 - [ ] The question is on `notes/questions.md` with a contribution sentence and falsifier (added in this same PR is fine)
-- [ ] Anchored to a recent primary source (journal article, this year or last) — not a settled result (§0)
+- [ ] Anchored to a primary source whose question is still open — not a settled result (§0). Prefer recent among equals; do not fail an older source
 - [ ] Checked whether the source's code/data is released; if not, the claim boundary is already written into Methods
 - [ ] For a direct source-response post, recorded the source's full title and classified the relationship: independent benchmark, reproduction, reanalysis, falsification, or extension (§0)
 - [ ] `contribution:` sentence written, naming what this post has that its sources do not
