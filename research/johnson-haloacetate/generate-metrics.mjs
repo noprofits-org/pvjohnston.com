@@ -79,7 +79,10 @@ function splitCsvLine(line) {
 }
 
 function parseCsv(path) {
-  const text = readFileSync(resolve(root, path), 'utf8').trim();
+  const text = readFileSync(resolve(root, path), 'utf8')
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .trim();
   const [headerLine, ...lines] = text.split('\n');
   const headers = splitCsvLine(headerLine);
   return {
@@ -172,11 +175,16 @@ function meanOrNull(values, label) {
   return mean(values, label);
 }
 
+function unavailable(description) {
+  return {
+    type: 'string',
+    value: '—',
+    description: `${description}. Unavailable when fewer than two both-converged points remain`,
+  };
+}
+
 function maybeNum(value, digits, description, unit, style = 'fixed') {
-  if (value == null) {
-    return boolean(false,
-      `${description}. False when fewer than two both-converged points remain`);
-  }
+  if (value == null) return unavailable(description);
   return num(value, digits, description, unit, style);
 }
 
@@ -187,6 +195,17 @@ function maybeNum(value, digits, description, unit, style = 'fixed') {
   }
   if (meanOrNull([], 'empty-mean') !== null) {
     throw new Error('meanOrNull must short-circuit an empty series');
+  }
+  const placeholder = maybeNum(null, 6, 'test amplitude', 'e');
+  if (placeholder.type !== 'string' || placeholder.value !== '—') {
+    throw new Error('unavailable amplitude must be an em-dash, not a boolean or number');
+  }
+  const crlf = 'ion,formula\r\nacetate,CH3COO-\r\n'
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .trim();
+  if (crlf !== 'ion,formula\nacetate,CH3COO-') {
+    throw new Error('CSV CRLF must normalize to LF before header checks');
   }
 }
 
@@ -512,7 +531,7 @@ function build(generatedAt) {
   }
 
   for (const [name, metric] of Object.entries(metrics)) {
-    if (metric.type === 'boolean') continue;
+    if (metric.type === 'boolean' || metric.type === 'string') continue;
     if (!Number.isFinite(metric.value)) {
       throw new Error(`metric ${name} is not finite: ${metric.value}`);
     }

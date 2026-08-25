@@ -332,7 +332,7 @@ def write_summary(records: list[dict]) -> Path:
     ]
     by_ion = {row["ion"]: row for row in records}
     with path.open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for ion in ORDER:
             record = by_ion[ion]

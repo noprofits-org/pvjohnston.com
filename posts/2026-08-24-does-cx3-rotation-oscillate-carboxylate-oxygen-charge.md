@@ -27,10 +27,10 @@ CX3 rotation, with larger amplitude for CCl3COO− than for CF3COO−.
 The registered hypothesis was that Hirshfeld and MBIS oxygen charges
 (and the COO sum) oscillate with the X–Cα–C–O dihedral, with
 peak-to-peak amplitude larger for CCl3COO− than for CF3COO−. On the
-both-converged 0–120° grids the MBIS $q(\mathrm{O})$ amplitudes are
-[amp_q_o_cf3]{.metric} e (CF3) and [amp_q_o_ccl3]{.metric} e (CCl3).
-The $q(\mathrm{COO})$ amplitudes are [amp_q_coo_cf3]{.metric} e and
-[amp_q_coo_ccl3]{.metric} e. After the scan we scored falsifier 2 on
+both-converged 0–120° grids the MBIS $q(\mathrm{O})$ amplitudes, in e,
+are [amp_q_o_cf3]{.metric} (CF3) and [amp_q_o_ccl3]{.metric} (CCl3).
+The $q(\mathrm{COO})$ amplitudes, in e, are [amp_q_coo_cf3]{.metric}
+and [amp_q_coo_ccl3]{.metric}. After the scan we scored falsifier 2 on
 $q(\mathrm{O})$; [q_o_amp_ccl3_gt_cf3]{.metric}. The registered
 inconclusive outcome is [scan_inconclusive]{.metric}. The
 hypothesis-supported flag is [hypothesis_supported]{.metric}. The
@@ -177,9 +177,9 @@ converged (optking True and a clean exit).
 **Figure 1.** MBIS $q(\mathrm{O})$ (left) and $q(\mathrm{COO})$
 (right) versus frozen $\phi$ for CF3COO− (circles) and CCl3COO−
 (squares), each series as a deviation from its own mean. Absolute
-scan-mean $q(\mathrm{O})$ is [mean_q_o_cf3]{.metric} e (CF3) and
-[mean_q_o_ccl3]{.metric} e (CCl3); scan-mean $q(\mathrm{COO})$ is
-[mean_q_coo_cf3]{.metric} e and [mean_q_coo_ccl3]{.metric} e.
+scan-mean $q(\mathrm{O})$, in e, is [mean_q_o_cf3]{.metric} (CF3) and
+[mean_q_o_ccl3]{.metric} (CCl3); scan-mean $q(\mathrm{COO})$, in e, is
+[mean_q_coo_cf3]{.metric} and [mean_q_coo_ccl3]{.metric}.
 B3LYP-D3(BJ)/aug-cc-pVDZ. Solid lines join 15° neighbours. All plotted
 points converged.
 
@@ -193,7 +193,7 @@ points converged.
 **Table 2.** Peak-to-peak MBIS amplitudes and electronic-energy ranges
 on the both-converged scan. Conversion is [eh_to_kcal]{.metric} kcal
 mol$^{-1}$ $E_\mathrm{h}^{-1}$. The largest of the four charge
-amplitudes is [max_charge_amp]{.metric} e. Signed $120^\circ-0^\circ$
+amplitudes, in e, is [max_charge_amp]{.metric}. Signed $120^\circ-0^\circ$
 overlays are endpoint-only and are not cited here. Both endpoints on
 this run converged ([scan_endpoints_converged]{.metric}).
 
@@ -222,14 +222,14 @@ The verdict is **inconclusive** if [scan_inconclusive]{.metric},
 **falsified**. On this projection those flags are
 [scan_inconclusive]{.metric} and [hypothesis_supported]{.metric}. On
 this grid the CCl3 $q(\mathrm{O})$ amplitude is not larger than the
-CF3 $q(\mathrm{O})$ amplitude: [amp_q_o_ccl3]{.metric} e versus
-[amp_q_o_cf3]{.metric} e. Falsifier 2 is scored on oxygen charge; the
+CF3 $q(\mathrm{O})$ amplitude: [amp_q_o_ccl3]{.metric} versus
+[amp_q_o_cf3]{.metric} (e). Falsifier 2 is scored on oxygen charge; the
 $q(\mathrm{O})$ comparison is [q_o_amp_ccl3_gt_cf3]{.metric}.
 $q(\mathrm{COO})$ is the other way around —
-[amp_q_coo_ccl3]{.metric} e versus [amp_q_coo_cf3]{.metric} e — and is
+[amp_q_coo_ccl3]{.metric} versus [amp_q_coo_cf3]{.metric} (e) — and is
 disclosed here rather than substituted for the named question after
-the split was seen. The largest of the four amplitudes is
-[max_charge_amp]{.metric} e. Oscillation, if any, is at that scale.
+the split was seen. The largest of the four amplitudes, in e, is
+[max_charge_amp]{.metric}. Oscillation, if any, is at that scale.
 The signed $120^\circ-0^\circ$ overlay is not the peak-to-peak
 amplitude. Johnson et al. invited this rotation; they did not publish
 this amplitude.
@@ -271,8 +271,8 @@ there.
 The limits that would overturn or shrink this reading are mostly on
 our side. The method is B3LYP-D3(BJ)/aug-cc-pVDZ, not MP2/aug-cc-pVQZ.
 The partition is MBIS, not DDEC6. The run is gas-phase. The grid is
-[scan_step_deg]{.metric}°. The energy ranges are
-[barrier_kcal_cf3]{.metric} and [barrier_kcal_ccl3]{.metric} kcal/mol;
+[scan_step_deg]{.metric}°. The energy ranges, in kcal/mol, are
+[barrier_kcal_cf3]{.metric} and [barrier_kcal_ccl3]{.metric};
 a surface that flat can move last-digit charges with grid, optimizer,
 or BLAS. Acetate was rematched and not scanned, so the “acetate flat”
 clause of the hypothesis was not tested on a torsion. A DDEC6 or
@@ -286,7 +286,7 @@ Under B3LYP-D3(BJ)/aug-cc-pVDZ, MBIS, and gas phase, the registered
 verdict on the CX3 oxygen-charge hypothesis is **inconclusive** if
 [scan_inconclusive]{.metric}, **supported** if
 [hypothesis_supported]{.metric}, and otherwise **falsified**.
-Oscillation of oxygen charge, if any, is [max_q_o_amp]{.metric} e.
+Oscillation of oxygen charge, if any, is [max_q_o_amp]{.metric} (e).
 
 The next experiment on the shelf is not a repair of this scan. The
 useful follow-up is the same relaxed $\phi$ grid with DDEC6 at

@@ -215,7 +215,7 @@ def write_ion_summary(ion: str, records: list[dict]) -> Path:
         return f"{value:.{digits}f}"
 
     with path.open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for record in records:
             writer.writerow(

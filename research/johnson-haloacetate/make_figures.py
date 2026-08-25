@@ -79,6 +79,37 @@ def neighbor_segments(xs: list[float], ys: list[float]) -> list[tuple[list[float
     return segs
 
 
+def deviations(points, key):
+    if not points:
+        return [], []
+    mean = sum(point[key] for point in points) / len(points)
+    return [point["angle"] for point in points], [point[key] - mean for point in points]
+
+
+def relative_kcal(points):
+    if not points:
+        return [], []
+    energies = [point["energy"] for point in points]
+    floor = min(energies)
+    return (
+        [point["angle"] for point in points],
+        [(energy - floor) * EH_TO_KCAL for energy in energies],
+    )
+
+
+def empty_panel_note(ax):
+    ax.text(
+        0.5,
+        0.5,
+        "no both-converged points",
+        transform=ax.transAxes,
+        ha="center",
+        va="center",
+        color=INK,
+        fontsize=9,
+    )
+
+
 def plot_series(ax, xs, ys, *, color, marker, label):
     first = True
     for seg_x, seg_y in neighbor_segments(xs, ys):
@@ -121,12 +152,10 @@ def save(fig, name, size=None):
 
 
 def fig1(m1, m3):
-    q_o_cf3 = [p["q_o"] - sum(q["q_o"] for q in m1) / len(m1) for p in m1]
-    q_o_ccl3 = [p["q_o"] - sum(q["q_o"] for q in m3) / len(m3) for p in m3]
-    q_coo_cf3 = [p["q_coo"] - sum(q["q_coo"] for q in m1) / len(m1) for p in m1]
-    q_coo_ccl3 = [p["q_coo"] - sum(q["q_coo"] for q in m3) / len(m3) for p in m3]
-    angles_m1 = [p["angle"] for p in m1]
-    angles_m3 = [p["angle"] for p in m3]
+    angles_m1, q_o_cf3 = deviations(m1, "q_o")
+    angles_m3, q_o_ccl3 = deviations(m3, "q_o")
+    _, q_coo_cf3 = deviations(m1, "q_coo")
+    _, q_coo_ccl3 = deviations(m3, "q_coo")
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.00, 6.30), facecolor=CREAM)
     fig.subplots_adjust(left=0.08, right=0.98, top=0.90, bottom=0.16, wspace=0.28)
@@ -145,20 +174,21 @@ def fig1(m1, m3):
     plot_series(ax2, angles_m3, q_coo_ccl3, color=CCL3, marker="s", label=r"CCl$_3$COO$^-$")
     ax2.set_ylabel(r"$q(\mathrm{COO})-\langle q(\mathrm{COO})\rangle$ (e)", color=INK)
     ax2.legend(loc="upper right", fontsize=8, frameon=True, facecolor="white")
+    if not m1 and not m3:
+        empty_panel_note(ax1)
+        empty_panel_note(ax2)
     return save(fig, "fig1", size=(1200, 630))
 
 
 def fig2(m1, m3):
-    e1 = [p["energy"] for p in m1]
-    e3 = [p["energy"] for p in m3]
-    rel1 = [(e - min(e1)) * EH_TO_KCAL for e in e1]
-    rel3 = [(e - min(e3)) * EH_TO_KCAL for e in e3]
+    angles_m1, rel1 = relative_kcal(m1)
+    angles_m3, rel3 = relative_kcal(m3)
     fig, ax = plt.subplots(figsize=(8.6, 5.2), facecolor="white")
     fig.subplots_adjust(left=0.12, right=0.97, top=0.96, bottom=0.14)
     style_ax(ax)
     plot_series(
         ax,
-        [p["angle"] for p in m1],
+        angles_m1,
         rel1,
         color=CF3,
         marker="o",
@@ -166,7 +196,7 @@ def fig2(m1, m3):
     )
     plot_series(
         ax,
-        [p["angle"] for p in m3],
+        angles_m3,
         rel3,
         color=CCL3,
         marker="s",
@@ -176,6 +206,8 @@ def fig2(m1, m3):
     ax.set_ylabel("E relative to the scan minimum (kcal/mol)", color=INK)
     ax.set_ylim(-0.005, 0.055)
     ax.legend(loc="upper right", fontsize=8, frameon=True, facecolor="white")
+    if not m1 and not m3:
+        empty_panel_note(ax)
     return save(fig, "fig2")
 
 

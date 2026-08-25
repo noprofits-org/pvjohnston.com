@@ -91,3 +91,11 @@ sentence. Amplitude generation returns null when fewer than two
 both-converged points remain; those keys stay present as boolean
 false so a short inconclusive grid can still build. This 18/18 run's
 numbers are unchanged.
+
+## 2026-08-25 — unavailable amplitudes, empty figures, CRLF
+
+Unavailable amplitudes render as an em-dash string, not boolean
+false, so the post does not publish “false e”. Units sit before the
+spans. `make_figures.py` treats an empty ion as a no-data panel and
+does not divide by zero. The drivers write LF; the metrics parser
+normalizes CRLF. This 18/18 run's numbers and figures are unchanged.
