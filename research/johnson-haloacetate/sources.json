@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "Johnson, Gregory, Robertson, Gresham, Nelson, Craig, Prescott, Page, Webber, and Wanless 2025, Chemical Science",
+      "url": "https://doi.org/10.1039/d4sc04832f",
+      "version": "Chem. Sci. 2025, 16, 2382–2390",
+      "accessed": "2026-08-24",
+      "sha256": null,
+      "license": "Publisher terms; open-access article at the DOI",
+      "acquisition": "Retrieve the article at https://doi.org/10.1039/d4sc04832f. Literature only; not an executable input.",
+      "committed": false,
+      "exclusion_reason": "The publisher PDF is not redistributed. It is the source paper, not a computational input."
+    },
+    {
+      "name": "Private Molecules lab: johnson-haloacetate Psi4 run",
+      "url": null,
+      "version": "Canonical B3LYP-D3(BJ)/aug-cc-pVDZ rematch and relaxed CX3 scan, 2026-08-24",
+      "accessed": "2026-08-24",
+      "sha256": null,
+      "license": "Author-owned private lab record; summary tables projected here",
+      "acquisition": "The raw logs live at ~/Molecules/johnson-haloacetate on the Apple Silicon host that ran Psi4 1.11. This public repository imports only the rematch and scan CSVs.",
+      "committed": false,
+      "exclusion_reason": "Raw Psi4 logs are large, embed host paths, and are treated as scratch, following research/hillel-triplet."
+    }
+  ]
+}

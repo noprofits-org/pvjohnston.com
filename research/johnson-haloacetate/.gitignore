@@ -1,0 +1,6 @@
+# Raw Psi4 logs and scratch stay in the private Molecules lab.
+logs/
+scratch/
+timer.dat
+psi.*.clean
+__pycache__/
