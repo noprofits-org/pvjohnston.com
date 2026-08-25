@@ -23,12 +23,13 @@ raw Psi4 logs and does not rerun Psi4. It binds the research note
 - Traceability: traceable
 - Highest reproduction level: analysis-reproducible from the committed
   rematch and scan tables. Not end-to-end in this public repository.
-  The committed rematch driver, Z-matrix inputs, and rematch-optimized
-  xyz are the canonical implementation. Raw Psi4 logs stay private, the
-  same log boundary as `research/hillel-triplet`. These scripts are not
-  a CI Psi4 rerun. `generate-metrics.mjs` still reads only the projected
-  CSVs. The Löwdin reversal is derived from `rematch/summary.csv` as
-  rematch_q_o_lowdin_pass / rematch_q_coo_lowdin_pass.
+  The committed rematch and scan drivers, Z-matrix inputs, and
+  rematch-optimized xyz are the canonical implementation. Raw Psi4 logs
+  stay private, the same log boundary as `research/hillel-triplet`.
+  These scripts are not a CI Psi4 rerun. `generate-metrics.mjs` still
+  reads only the projected CSVs. The Löwdin reversal is derived from
+  `rematch/summary.csv` as rematch_q_o_lowdin_pass /
+  rematch_q_coo_lowdin_pass.
 - Archived-evidence or rerun constraints: raw Psi4 output stays in the
   private Molecules lab (large, host paths), the same scratch convention
   as `research/hillel-triplet`.

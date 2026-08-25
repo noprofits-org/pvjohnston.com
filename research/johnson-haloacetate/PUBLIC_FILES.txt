@@ -13,6 +13,7 @@ research/johnson-haloacetate/generate-metrics.mjs
 research/johnson-haloacetate/make_figures.py
 research/johnson-haloacetate/metrics.json
 research/johnson-haloacetate/rematch/run_rematch.py
+research/johnson-haloacetate/scan/run_scan.py
 research/johnson-haloacetate/rematch/summary.csv
 research/johnson-haloacetate/rematch/m0_acetate/input.dat
 research/johnson-haloacetate/rematch/m1_cf3/input.dat

@@ -8,8 +8,8 @@ tables on whatever host checks out the post branch.
 
 - Operating system and version (canonical run): macOS on Apple Silicon
 - Architecture (canonical run): arm64
-- Quantum-chemistry executable: Psi4 1.11. The committed rematch
-  driver reads `$PSI4` and defaults to `psi4`. This repository does
+- Quantum-chemistry executable: Psi4 1.11. The committed rematch and
+  scan drivers read `$PSI4` and default to `psi4`. This repository does
   not pin a host path and does not run Psi4 in CI.
 - Method: B3LYP-D3(BJ)/aug-cc-pVDZ, charge −1, singlet, gas phase, no
   PCM. Binding charges: MBIS. Frozen dihedral 5-4-1-2; remaining degrees
@@ -44,7 +44,7 @@ directory does not rerun Psi4 and does not pin a Psi4 rerun path.
 
 Raw Psi4 logs (`output.dat`, `timer.dat`, `stdout.log`, `done.json`)
 from the private Molecules lab are not committed. They are large and
-embed host paths. The committed rematch driver, Z-matrix `input.dat`
+embed host paths. The committed rematch and scan drivers, Z-matrix `input.dat`
 files, and rematch-optimized `xyz/` structures are the canonical
 implementation. `generate-metrics.mjs` reads only the projected CSVs.
 The Löwdin rematch columns live in `rematch/summary.csv`.
