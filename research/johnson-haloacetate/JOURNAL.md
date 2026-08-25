@@ -26,9 +26,9 @@ are in `rematch/summary.csv`.
 - Δ(C–X) oop−ip: CCl3 > CF3. Pass. CClF2 is mixed and is not used for
   this comparison. Acetate has no C–X pair of that kind.
 - MBIS q(O) and q(COO): CF3 more negative than CCl3. Pass.
-- Löwdin q(O) and q(COO): reversed. Fail. Those Löwdin rematch
-  values were not copied into the public CSVs; the reversal is this
-  dated note, not a committed metric.
+- Löwdin q(O) and q(COO): reversed. Fail. The public
+  `rematch/summary.csv` carries those columns. The generator derives
+  rematch_q_o_lowdin_pass and rematch_q_coo_lowdin_pass from them.
 
 ## 2026-08-24 — before any torsion
 

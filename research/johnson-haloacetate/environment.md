@@ -8,8 +8,9 @@ tables on whatever host checks out the post branch.
 
 - Operating system and version (canonical run): macOS on Apple Silicon
 - Architecture (canonical run): arm64
-- Quantum-chemistry executable: Psi4 1.11 at
-  `/opt/homebrew/Caskroom/miniforge/base/envs/qchem/bin/psi4`
+- Quantum-chemistry executable: Psi4 1.11. The committed rematch
+  driver reads `$PSI4` and defaults to `psi4`. This repository does
+  not pin a host path and does not run Psi4 in CI.
 - Method: B3LYP-D3(BJ)/aug-cc-pVDZ, charge −1, singlet, gas phase, no
   PCM. Binding charges: MBIS. Frozen dihedral 5-4-1-2; remaining degrees
   of freedom relaxed.
@@ -41,9 +42,9 @@ directory does not rerun Psi4 and does not pin a Psi4 rerun path.
 
 ## What is not in this repository
 
-Psi4 output logs, scratch, starting geometries, and the scan driver
-from `~/Molecules/johnson-haloacetate` are not committed. The logs are
-large and embed absolute machine paths. The same choice is recorded in
-`research/hillel-triplet`. The committed evidence is
-`rematch/summary.csv` plus the M1 and M3 scan CSVs. Löwdin rematch
-charges were not projected into those tables.
+Raw Psi4 logs (`output.dat`, `timer.dat`, `stdout.log`, `done.json`)
+from the private Molecules lab are not committed. They are large and
+embed host paths. The committed rematch driver, Z-matrix `input.dat`
+files, and rematch-optimized `xyz/` structures are the canonical
+implementation. `generate-metrics.mjs` reads only the projected CSVs.
+The Löwdin rematch columns live in `rematch/summary.csv`.

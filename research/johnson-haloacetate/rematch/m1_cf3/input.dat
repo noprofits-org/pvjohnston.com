@@ -1,0 +1,22 @@
+memory 8 GB
+
+molecule {
+-1 1
+C
+O  1  1.260
+O  1  1.260  2  126.0
+C  1  1.570  2  117.0  3  180.0
+F  4  1.350  1  109.5  2    0.0
+F  4  1.350  1  109.5  2  120.0
+F  4  1.350  1  109.5  2 -120.0
+  symmetry c1
+}
+
+set {
+  basis aug-cc-pvdz
+  scf_type df
+  geom_maxiter 150
+}
+
+e, wfn = optimize('b3lyp-d3bj', return_wfn=True)
+oeprop(wfn, 'MBIS_CHARGES', 'LOWDIN_CHARGES')

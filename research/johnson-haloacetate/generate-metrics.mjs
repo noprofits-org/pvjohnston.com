@@ -197,7 +197,7 @@ function build(generatedAt) {
   const rematchParsed = parseCsv(rematchCsv);
   requireHeaders(rematchCsv, rematchParsed.headers, [
     'ion', 'formula', 'r_cc', 'delta_cx_oop_ip', 'q_o_mbis', 'q_coo_mbis',
-    'converged_optking', 'converged_exit',
+    'q_o_lowdin', 'q_coo_lowdin', 'converged_optking', 'converged_exit',
   ]);
   if (rematchParsed.rows.length !== 4) {
     throw new Error(`${rematchCsv}: expected 4 ions, got ${rematchParsed.rows.length}`);
@@ -212,6 +212,8 @@ function build(generatedAt) {
       deltaCx: optionalNumber(row.delta_cx_oop_ip, `${ion} delta_cx`),
       qO: optionalNumber(row.q_o_mbis, `${ion} rematch q_o`),
       qCoo: optionalNumber(row.q_coo_mbis, `${ion} rematch q_coo`),
+      qOLowdin: optionalNumber(row.q_o_lowdin, `${ion} rematch q_o_lowdin`),
+      qCooLowdin: optionalNumber(row.q_coo_lowdin, `${ion} rematch q_coo_lowdin`),
       optking: csvBool(row.converged_optking, `${ion} rematch optking`),
       exit: csvBool(row.converged_exit, `${ion} rematch exit`),
     };
@@ -237,6 +239,11 @@ function build(generatedAt) {
       || rematch.cf3.qCoo === null || rematch.ccl3.qCoo === null) {
     throw new Error('CF3 and CCl3 rematch must have MBIS charges');
   }
+  for (const ion of ['acetate', 'cf3', 'cclf2', 'ccl3']) {
+    if (rematch[ion].qOLowdin === null || rematch[ion].qCooLowdin === null) {
+      throw new Error(`${ion} rematch must have Löwdin charges`);
+    }
+  }
 
   // Frozen rematch r(C–C) gate: CCl3 > CF3 > acetate. CClF2 sitting
   // between them was observed after rematch and is a diagnostic only.
@@ -247,6 +254,8 @@ function build(generatedAt) {
   const deltaCxPass = rematch.ccl3.deltaCx > rematch.cf3.deltaCx;
   const rematchQoPass = rematch.cf3.qO < rematch.ccl3.qO;
   const rematchQcooPass = rematch.cf3.qCoo < rematch.ccl3.qCoo;
+  const rematchQoLowdinPass = rematch.cf3.qOLowdin < rematch.ccl3.qOLowdin;
+  const rematchQcooLowdinPass = rematch.cf3.qCooLowdin < rematch.ccl3.qCooLowdin;
   if (!ccOrderPass) throw new Error('rematch r(C–C) gate failed');
   if (!deltaCxPass) throw new Error('rematch Δ(C–X) gate failed');
   if (!rematchQoPass) throw new Error('rematch MBIS q(O) gate failed');
@@ -327,6 +336,18 @@ function build(generatedAt) {
       'Rematch MBIS carboxylate-group charge of CF3COO−', 'e'),
     rematch_q_coo_ccl3: num(rematch.ccl3.qCoo, 5,
       'Rematch MBIS carboxylate-group charge of CCl3COO−', 'e'),
+    rematch_q_o_lowdin_cf3: num(rematch.cf3.qOLowdin, 5,
+      'Rematch Löwdin q(O) of CF3COO−, arithmetic mean of the two carboxylate oxygens', 'e'),
+    rematch_q_o_lowdin_ccl3: num(rematch.ccl3.qOLowdin, 5,
+      'Rematch Löwdin q(O) of CCl3COO−, arithmetic mean of the two carboxylate oxygens', 'e'),
+    rematch_q_coo_lowdin_cf3: num(rematch.cf3.qCooLowdin, 5,
+      'Rematch Löwdin carboxylate-group charge of CF3COO−', 'e'),
+    rematch_q_coo_lowdin_ccl3: num(rematch.ccl3.qCooLowdin, 5,
+      'Rematch Löwdin carboxylate-group charge of CCl3COO−', 'e'),
+    rematch_q_o_lowdin_pass: boolean(rematchQoLowdinPass,
+      'Whether rematch Löwdin q(O) is more negative for CF3 than CCl3'),
+    rematch_q_coo_lowdin_pass: boolean(rematchQcooLowdinPass,
+      'Whether rematch Löwdin q(COO) is more negative for CF3 than CCl3'),
     rematch_cc_order_pass: boolean(ccOrderPass,
       'Whether rematch r(C–C) satisfies the frozen CCl3 > CF3 > acetate comparison'),
     rematch_cc_cclf2_between: boolean(ccCclf2Between,

@@ -100,10 +100,15 @@ aug-cc-pVDZ reversed the CF3/CCl3 oxygen-charge order and is
 ill-defined on this basis relative to MBIS. Löwdin was demoted; binding
 became MBIS-only; the both-must-pass / if-both-fail-stop pair was
 vacated. That amendment is dated 2026-08-24 in
-`research/johnson-haloacetate/JOURNAL.md`. The Löwdin rematch charges
-themselves are not in the committed CSVs, so that reversal is a dated
-lab note, not a metric derived from this directory. The frozen
-hypothesis and falsifier were not rewritten.
+`research/johnson-haloacetate/JOURNAL.md`. The Löwdin reversal is
+derived from `rematch/summary.csv`: $q(\mathrm{O})$ is
+[rematch_q_o_lowdin_cf3]{.metric} e (CF3) versus
+[rematch_q_o_lowdin_ccl3]{.metric} e (CCl3), so
+[rematch_q_o_lowdin_pass]{.metric}; $q(\mathrm{COO})$ is
+[rematch_q_coo_lowdin_cf3]{.metric} e versus
+[rematch_q_coo_lowdin_ccl3]{.metric} e, so
+[rematch_q_coo_lowdin_pass]{.metric}. The frozen hypothesis and
+falsifier were not rewritten.
 
 The scan is a relaxed $\phi = \mathrm{X{-}C_\alpha{-}C{-}O}$
 continuation. Optking froze dihedral 5-4-1-2. The remaining degrees of

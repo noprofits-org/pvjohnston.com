@@ -2,12 +2,12 @@
   "schema_version": 1,
   "experiment": "johnson-haloacetate",
   "provenance": {
-    "generated_at": "2026-08-25T03:08:56Z",
+    "generated_at": "2026-08-25T03:20:30Z",
     "generator": "research/johnson-haloacetate/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/johnson-haloacetate/rematch/summary.csv",
-        "sha256": "9b1f308c812941280f906ea065e5cc14768b2935369a3a44ab18d9c6ec9eb2d4"
+        "sha256": "364c2679cda53ca65ff556a4c730f5505369f706b3e797ccaf6f6e845176a458"
       },
       {
         "path": "research/johnson-haloacetate/results/m1_cf3_scan.csv",
@@ -131,6 +131,56 @@
       },
       "description": "Rematch MBIS carboxylate-group charge of CCl3COO−",
       "unit": "e"
+    },
+    "rematch_q_o_lowdin_cf3": {
+      "type": "number",
+      "value": -0.04557,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch Löwdin q(O) of CF3COO−, arithmetic mean of the two carboxylate oxygens",
+      "unit": "e"
+    },
+    "rematch_q_o_lowdin_ccl3": {
+      "type": "number",
+      "value": -0.04669,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch Löwdin q(O) of CCl3COO−, arithmetic mean of the two carboxylate oxygens",
+      "unit": "e"
+    },
+    "rematch_q_coo_lowdin_cf3": {
+      "type": "number",
+      "value": -0.75388,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch Löwdin carboxylate-group charge of CF3COO−",
+      "unit": "e"
+    },
+    "rematch_q_coo_lowdin_ccl3": {
+      "type": "number",
+      "value": -0.88389,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch Löwdin carboxylate-group charge of CCl3COO−",
+      "unit": "e"
+    },
+    "rematch_q_o_lowdin_pass": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether rematch Löwdin q(O) is more negative for CF3 than CCl3"
+    },
+    "rematch_q_coo_lowdin_pass": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether rematch Löwdin q(COO) is more negative for CF3 than CCl3"
     },
     "rematch_cc_order_pass": {
       "type": "boolean",
