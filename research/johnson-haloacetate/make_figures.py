@@ -30,16 +30,23 @@ def read_scan(path: Path) -> list[dict]:
         rows = list(csv.DictReader(handle))
     points = []
     for row in rows:
+        ok = (
+            row["converged_optking"] == "true"
+            and row["converged_exit"] == "true"
+        )
+        angle = float(row["angle"])
+        if not ok:
+            points.append({"angle": angle, "ok": False})
+            continue
         points.append(
             {
-                "angle": float(row["angle"]),
+                "angle": angle,
                 "energy": float(row["energy_eh"]),
                 # q_o_mbis is the arithmetic mean of the two carboxylate
                 # oxygen MBIS charges. q_coo_mbis is the group sum.
                 "q_o": float(row["q_o_mbis"]),
                 "q_coo": float(row["q_coo_mbis"]),
-                "ok": row["converged_optking"] == "true"
-                and row["converged_exit"] == "true",
+                "ok": True,
             }
         )
     points.sort(key=lambda p: p["angle"])

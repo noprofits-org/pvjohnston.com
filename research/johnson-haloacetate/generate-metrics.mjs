@@ -129,6 +129,22 @@ function optionalNumber(value, label) {
   return requireFinite(n, label);
 }
 
+function requireCsvNumber(value, label) {
+  if (value === '' || value === undefined) {
+    throw new Error(`${label}: empty`);
+  }
+  return requireFinite(Number(value), label);
+}
+
+function endpointMinus(a, b, field, label) {
+  if (!a.both || !b.both || a[field] == null || b[field] == null) {
+    throw new Error(
+      `${label}: signed 120-0 needs both-converged finite endpoints`,
+    );
+  }
+  return b[field] - a[field];
+}
+
 function peakToPeak(values, label) {
   if (values.length < 2) {
     throw new Error(`${label}: need ≥2 converged points for max−min`);
@@ -156,13 +172,22 @@ function parseScan(path, ion) {
     if (row.ion !== ion) {
       throw new Error(`${path}:${index + 2}: ion ${row.ion} !== ${ion}`);
     }
-    const angle = requireFinite(Number(row.angle), `${path} angle`);
-    const energy = requireFinite(Number(row.energy_eh), `${path} ${angle} energy`);
-    const qO = requireFinite(Number(row.q_o_mbis), `${path} ${angle} q_o`);
-    const qCoo = requireFinite(Number(row.q_coo_mbis), `${path} ${angle} q_coo`);
+    const angle = requireCsvNumber(row.angle, `${path} angle`);
     const optking = csvBool(row.converged_optking, `${path} ${angle} optking`);
     const exit = csvBool(row.converged_exit, `${path} ${angle} exit`);
-    return { angle, energy, qO, qCoo, optking, exit, both: optking && exit };
+    const both = optking && exit;
+    // Number('') is 0. Failed rows may leave energy/charges blank;
+    // do not coerce those cells into endpoint or amplitude numbers.
+    const energy = both
+      ? requireCsvNumber(row.energy_eh, `${path} ${angle} energy`)
+      : optionalNumber(row.energy_eh, `${path} ${angle} energy`);
+    const qO = both
+      ? requireCsvNumber(row.q_o_mbis, `${path} ${angle} q_o`)
+      : optionalNumber(row.q_o_mbis, `${path} ${angle} q_o`);
+    const qCoo = both
+      ? requireCsvNumber(row.q_coo_mbis, `${path} ${angle} q_coo`)
+      : optionalNumber(row.q_coo_mbis, `${path} ${angle} q_coo`);
+    return { angle, energy, qO, qCoo, optking, exit, both };
   });
   const sorted = [...points].sort((a, b) => a.angle - b.angle);
   for (let i = 0; i < sorted.length; i++) {
@@ -279,22 +304,23 @@ function build(generatedAt) {
   const ampQcooCf3 = peakToPeak(m1Converged.map((p) => p.qCoo), 'CF3 q(COO)');
   const ampQcooCcl3 = peakToPeak(m3Converged.map((p) => p.qCoo), 'CCl3 q(COO)');
   const maxChargeAmp = Math.max(ampQoCf3, ampQoCcl3, ampQcooCf3, ampQcooCcl3);
+  const maxQoAmp = Math.max(ampQoCf3, ampQoCcl3);
 
   const m1_0 = pointAt(m1, 0, 'CF3');
   const m1_120 = pointAt(m1, 120, 'CF3');
   const m3_0 = pointAt(m3, 0, 'CCl3');
   const m3_120 = pointAt(m3, 120, 'CCl3');
-  const repeatQoCf3 = m1_120.qO - m1_0.qO;
-  const repeatQcooCf3 = m1_120.qCoo - m1_0.qCoo;
-  const repeatQoCcl3 = m3_120.qO - m3_0.qO;
-  const repeatQcooCcl3 = m3_120.qCoo - m3_0.qCoo;
+  const repeatQoCf3 = endpointMinus(m1_0, m1_120, 'qO', 'CF3 q(O)');
+  const repeatQcooCf3 = endpointMinus(m1_0, m1_120, 'qCoo', 'CF3 q(COO)');
+  const repeatQoCcl3 = endpointMinus(m3_0, m3_120, 'qO', 'CCl3 q(O)');
+  const repeatQcooCcl3 = endpointMinus(m3_0, m3_120, 'qCoo', 'CCl3 q(COO)');
 
   const barrierEhCf3 = peakToPeak(m1Converged.map((p) => p.energy), 'CF3 E');
   const barrierEhCcl3 = peakToPeak(m3Converged.map((p) => p.energy), 'CCl3 E');
   const barrierKcalCf3 = barrierEhCf3 * EH_TO_KCAL;
   const barrierKcalCcl3 = barrierEhCcl3 * EH_TO_KCAL;
-  const overlayEhCf3 = m1_120.energy - m1_0.energy;
-  const overlayEhCcl3 = m3_120.energy - m3_0.energy;
+  const overlayEhCf3 = endpointMinus(m1_0, m1_120, 'energy', 'CF3 E');
+  const overlayEhCcl3 = endpointMinus(m3_0, m3_120, 'energy', 'CCl3 E');
   const overlayKcalCf3 = overlayEhCf3 * EH_TO_KCAL;
   const overlayKcalCcl3 = overlayEhCcl3 * EH_TO_KCAL;
 
@@ -378,6 +404,9 @@ function build(generatedAt) {
       'MBIS q(COO) peak-to-peak amplitude on both-converged CCl3COO− points', 'e'),
     max_charge_amp: num(maxChargeAmp, 6,
       'Largest of the four MBIS peak-to-peak amplitudes (q(O) and q(COO) on both ions)',
+      'e'),
+    max_q_o_amp: num(maxQoAmp, 6,
+      'Largest of the two MBIS q(O) peak-to-peak amplitudes',
       'e'),
     repeat_q_o_cf3: num(repeatQoCf3, 2,
       'Signed CF3COO− MBIS q(O) difference, 120° minus 0°',

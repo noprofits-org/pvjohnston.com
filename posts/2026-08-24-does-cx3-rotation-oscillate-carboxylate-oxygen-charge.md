@@ -282,7 +282,8 @@ treat a discrepancy as something to chase through our own setup first.
 Under B3LYP-D3(BJ)/aug-cc-pVDZ, MBIS, and gas phase, the CX3 rotation
 does not move carboxylate oxygen charge with a larger amplitude for
 CCl3COO− than for CF3COO−. The hypothesis we registered is not
-supported. Oscillation, if any, is [max_charge_amp]{.metric} e.
+supported. Oscillation of oxygen charge, if any, is
+[max_q_o_amp]{.metric} e.
 
 The next experiment on the shelf is not a repair of this scan. The
 useful follow-up is the same relaxed $\phi$ grid with DDEC6 at

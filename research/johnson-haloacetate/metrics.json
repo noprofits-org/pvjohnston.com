@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "johnson-haloacetate",
   "provenance": {
-    "generated_at": "2026-08-25T03:20:30Z",
+    "generated_at": "2026-08-25T03:33:34Z",
     "generator": "research/johnson-haloacetate/generate-metrics.mjs",
     "inputs": [
       {
@@ -287,6 +287,16 @@
         "digits": 6
       },
       "description": "Largest of the four MBIS peak-to-peak amplitudes (q(O) and q(COO) on both ions)",
+      "unit": "e"
+    },
+    "max_q_o_amp": {
+      "type": "number",
+      "value": 0.00052400000000008,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Largest of the two MBIS q(O) peak-to-peak amplitudes",
       "unit": "e"
     },
     "repeat_q_o_cf3": {
