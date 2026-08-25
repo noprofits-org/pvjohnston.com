@@ -1141,10 +1141,10 @@ Format:
 - **Type:** untested regime
 - **Contribution (candidate):** a relaxed CX3 rotation of CF3COO− and
   CCl3COO− at B3LYP-D3(BJ)/aug-cc-pVDZ, which is not in Johnson 2025,
-  finds that MBIS carboxylate oxygen charge does not oscillate with a
-  larger amplitude for CCl3 than for CF3
-- **Falsifier:** q(O) is flat on both ions, or the CF3 q(O) amplitude is
-  greater than or equal to the CCl3 q(O) amplitude
+  falsifies our registered hypothesis that MBIS carboxylate oxygen
+  charge oscillates with a larger amplitude for CCl3 than for CF3
+- **Falsifier:** q(O) is flat vs dihedral on both haloacetates, or CF3
+  amplitude ≥ CCl3 amplitude
 - **Status:** drafting —
   `/posts/2026-08-24-does-cx3-rotation-oscillate-carboxylate-oxygen-charge.html`
 

@@ -264,12 +264,10 @@ function build(generatedAt) {
   const m1_120 = pointAt(m1, 120, 'CF3');
   const m3_0 = pointAt(m3, 0, 'CCl3');
   const m3_120 = pointAt(m3, 120, 'CCl3');
-  const repeatQoCf3 = Math.abs(m1_120.qO - m1_0.qO);
-  const repeatQcooCf3 = Math.abs(m1_120.qCoo - m1_0.qCoo);
-  const repeatQoCcl3 = Math.abs(m3_120.qO - m3_0.qO);
-  const repeatQcooCcl3 = Math.abs(m3_120.qCoo - m3_0.qCoo);
-  const otherRepeats = [repeatQoCf3, repeatQoCcl3, repeatQcooCcl3];
-  const maxOtherRepeat = Math.max(...otherRepeats);
+  const repeatQoCf3 = m1_120.qO - m1_0.qO;
+  const repeatQcooCf3 = m1_120.qCoo - m1_0.qCoo;
+  const repeatQoCcl3 = m3_120.qO - m3_0.qO;
+  const repeatQcooCcl3 = m3_120.qCoo - m3_0.qCoo;
 
   const barrierEhCf3 = peakToPeak(m1Converged.map((p) => p.energy), 'CF3 E');
   const barrierEhCcl3 = peakToPeak(m3Converged.map((p) => p.energy), 'CCl3 E');
@@ -344,19 +342,16 @@ function build(generatedAt) {
       'Largest of the four MBIS peak-to-peak amplitudes (q(O) and q(COO) on both ions)',
       'e'),
     repeat_q_o_cf3: num(repeatQoCf3, 2,
-      'Absolute CF3COO− MBIS q(O) difference between 0° and 120°',
+      'Signed CF3COO− MBIS q(O) difference, 120° minus 0°',
       'e', 'scientific'),
     repeat_q_coo_cf3: num(repeatQcooCf3, 2,
-      'Absolute CF3COO− MBIS q(COO) difference between 0° and 120°',
+      'Signed CF3COO− MBIS q(COO) difference, 120° minus 0°',
       'e', 'scientific'),
     repeat_q_o_ccl3: num(repeatQoCcl3, 2,
-      'Absolute CCl3COO− MBIS q(O) difference between 0° and 120°',
+      'Signed CCl3COO− MBIS q(O) difference, 120° minus 0°',
       'e', 'scientific'),
     repeat_q_coo_ccl3: num(repeatQcooCcl3, 2,
-      'Absolute CCl3COO− MBIS q(COO) difference between 0° and 120°',
-      'e', 'scientific'),
-    max_other_repeat: num(maxOtherRepeat, 2,
-      'Largest 0°/120° charge repeat among CF3 q(O), CCl3 q(O), and CCl3 q(COO)',
+      'Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°',
       'e', 'scientific'),
     barrier_eh_cf3: num(barrierEhCf3, 2,
       'CF3COO− electronic-energy range (max−min) on the both-converged scan',
@@ -395,7 +390,7 @@ function build(generatedAt) {
     q_coo_amp_ccl3_gt_cf3: boolean(qcooAmpCcl3GtCf3,
       'Whether the CCl3 q(COO) amplitude is larger than the CF3 q(COO) amplitude'),
     hypothesis_supported: boolean(hypothesisSupported,
-      'Whether the frozen q(O)-amplitude hypothesis is supported'),
+      'Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan'),
   };
 
   for (const [name, metric] of Object.entries(metrics)) {

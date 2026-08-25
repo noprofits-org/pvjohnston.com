@@ -1,7 +1,8 @@
 # PLAN excerpt — Johnson-haloacetate
 
-Frozen before any torsion. Full hypothesis, falsifier, and gate are in
-`PREREGISTRATION.md`. Dated binding-scheme notes are in `JOURNAL.md`.
+Frozen 2026-08-23. Full hypothesis and falsifier are in
+`PREREGISTRATION.md`. Dated binding-scheme notes and the post-scan
+q(O) scoring call are in `JOURNAL.md`.
 
 ## Question
 
@@ -17,22 +18,19 @@ hyperconjugation, cited ESI Table S2 bond-length signs, and invited
 geometry/bond rotation studies. This plan takes that invitation. It is
 not a rebuttal.
 
-## Protocol (binding)
+## Protocol
 
 - Psi4 1.11, B3LYP-D3(BJ)/aug-cc-pVDZ, charge −1, singlet, gas phase.
-- Binding charges: MBIS. Löwdin reported only. Hirshfeld not in build.
+- Intended charges at freeze: Hirshfeld and MBIS. Amendments in
+  `JOURNAL.md`.
 - Rematch first: CH3COO−, CF3COO−, CClF2COO−, CCl3COO−.
 - Then relaxed φ = X–Cα–C–O scan, frozen dihedral 5-4-1-2, 0–120° by
   15°, on CF3COO− (M1) and CCl3COO− (M3).
 - Inspect with `angle` as the abscissa.
 
-## Gate, before any torsion
+## Gate and decision
 
-Pass if rematch r(C–C) is CCl3 > CF3 > acetate, rematch Δ(C–X)
-(oop−ip) is CCl3 > CF3, and rematch MBIS q(O) and q(COO) are more
-negative for CF3 than for CCl3.
-
-## Decision
-
+See `PREREGISTRATION.md` for the frozen falsifier and `JOURNAL.md` for
+the rematch-gate amendments and the post-scan scoring of falsifier 2.
 Amplitude = max−min on both-converged points, separately for q(O) and
-q(COO). Score falsifier 2 on q(O). Disclose q(COO) alongside.
+q(COO).

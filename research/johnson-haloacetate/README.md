@@ -10,8 +10,9 @@ raw Psi4 logs and does not rerun Psi4. It binds the research note
 - Post type: research
 - Question: does carboxylate oxygen charge oscillate with CX3 rotation,
   with larger amplitude for CCl3COO− than for CF3COO−?
-- Research falsifier: q(O) is flat on both ions, or the CF3 q(O)
-  amplitude is greater than or equal to the CCl3 q(O) amplitude.
+- Research falsifier (frozen 2026-08-23): q(O) is flat vs dihedral on
+  both haloacetates, or CF3 amplitude ≥ CCl3 amplitude. Post-scan
+  scoring of falsifier 2 is in `JOURNAL.md`.
 - What this experiment can establish: MBIS q(O) and q(COO) peak-to-peak
   amplitudes on the committed gas-phase B3LYP-D3(BJ)/aug-cc-pVDZ relaxed
   CX3 grid.

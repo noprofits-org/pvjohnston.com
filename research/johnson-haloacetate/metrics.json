@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "johnson-haloacetate",
   "provenance": {
-    "generated_at": "2026-08-25T00:33:45Z",
+    "generated_at": "2026-08-25T01:22:27Z",
     "generator": "research/johnson-haloacetate/generate-metrics.mjs",
     "inputs": [
       {
@@ -236,7 +236,7 @@
         "style": "scientific",
         "digits": 2
       },
-      "description": "Absolute CF3COO− MBIS q(O) difference between 0° and 120°",
+      "description": "Signed CF3COO− MBIS q(O) difference, 120° minus 0°",
       "unit": "e"
     },
     "repeat_q_coo_cf3": {
@@ -246,37 +246,27 @@
         "style": "scientific",
         "digits": 2
       },
-      "description": "Absolute CF3COO− MBIS q(COO) difference between 0° and 120°",
+      "description": "Signed CF3COO− MBIS q(COO) difference, 120° minus 0°",
       "unit": "e"
     },
     "repeat_q_o_ccl3": {
       "type": "number",
-      "value": 0.000011500000000053134,
+      "value": -0.000011500000000053134,
       "format": {
         "style": "scientific",
         "digits": 2
       },
-      "description": "Absolute CCl3COO− MBIS q(O) difference between 0° and 120°",
+      "description": "Signed CCl3COO− MBIS q(O) difference, 120° minus 0°",
       "unit": "e"
     },
     "repeat_q_coo_ccl3": {
       "type": "number",
-      "value": 0.000012000000000012001,
+      "value": -0.000012000000000012001,
       "format": {
         "style": "scientific",
         "digits": 2
       },
-      "description": "Absolute CCl3COO− MBIS q(COO) difference between 0° and 120°",
-      "unit": "e"
-    },
-    "max_other_repeat": {
-      "type": "number",
-      "value": 0.00001250000000008189,
-      "format": {
-        "style": "scientific",
-        "digits": 2
-      },
-      "description": "Largest 0°/120° charge repeat among CF3 q(O), CCl3 q(O), and CCl3 q(COO)",
+      "description": "Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°",
       "unit": "e"
     },
     "barrier_eh_cf3": {
@@ -412,7 +402,7 @@
     "hypothesis_supported": {
       "type": "boolean",
       "value": false,
-      "description": "Whether the frozen q(O)-amplitude hypothesis is supported"
+      "description": "Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan"
     }
   }
 }

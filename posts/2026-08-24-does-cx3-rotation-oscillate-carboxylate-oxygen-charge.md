@@ -5,10 +5,9 @@ author: Peter Johnston
 tags: computational chemistry, haloacetates, MBIS, hyperconjugation, torsion scan
 description: An independent B3LYP-D3(BJ)/aug-cc-pVDZ rematch and relaxed CX3 rotation of CF3COO− and CCl3COO−, taking the geometry/bond-rotation invitation in Johnson et al. 2025. Binding charges are MBIS.
 post-type: research
-contribution: A relaxed CX3 rotation of CF3COO− and CCl3COO− at B3LYP-D3(BJ)/aug-cc-pVDZ, which is not in Johnson 2025, finds that MBIS carboxylate oxygen charge does not oscillate with a larger amplitude for CCl3 than for CF3.
+contribution: A relaxed CX3 rotation of CF3COO− and CCl3COO− at B3LYP-D3(BJ)/aug-cc-pVDZ, which is not in Johnson 2025, falsifies our registered hypothesis that MBIS carboxylate oxygen charge oscillates with a larger amplitude for CCl3 than for CF3.
 contribution-type: untested regime
 experiment: johnson-haloacetate
-status: falsified
 og-image: /images/2026-08-24-does-cx3-rotation-oscillate-carboxylate-oxygen-charge-fig1.png
 ---
 
@@ -25,16 +24,16 @@ relaxed CX3 scan, at B3LYP-D3(BJ)/aug-cc-pVDZ with MBIS charges, of that
 invitation: we ask whether carboxylate oxygen charge oscillates with
 CX3 rotation, with larger amplitude for CCl3COO− than for CF3COO−.
 
-The registered hypothesis was that MBIS $q(\mathrm{O})$ and
-$q(\mathrm{COO})$ oscillate with the frozen dihedral $\phi$, with
+The registered hypothesis was that Hirshfeld and MBIS oxygen charges
+(and the COO sum) oscillate with the X–Cα–C–O dihedral, with
 peak-to-peak amplitude larger for CCl3COO− than for CF3COO−. On the
-both-converged 0–120° grids the $q(\mathrm{O})$ amplitudes are
+both-converged 0–120° grids the MBIS $q(\mathrm{O})$ amplitudes are
 [amp_q_o_cf3]{.metric} e (CF3) and [amp_q_o_ccl3]{.metric} e (CCl3).
 The $q(\mathrm{COO})$ amplitudes are [amp_q_coo_cf3]{.metric} e and
-[amp_q_coo_ccl3]{.metric} e. Falsifier 2 is scored on $q(\mathrm{O})$;
-[q_o_amp_ccl3_gt_cf3]{.metric}. The hypothesis is **falsified** (not
-supported). That is a verdict on our hypothesis and this scan, not a
-grade on Johnson et al.
+[amp_q_coo_ccl3]{.metric} e. After the scan we scored falsifier 2 on
+$q(\mathrm{O})$; [q_o_amp_ccl3_gt_cf3]{.metric}. The hypothesis is
+**falsified** (not supported). That is a verdict on our hypothesis and
+this scan, not a grade on Johnson et al.
 
 ## Introduction
 
@@ -59,20 +58,18 @@ whether that motion is larger for CCl3. The 2025 minima and the ESI
 bond-length signs are the nearest published neighbours, and they are
 not a scan. That is the untested regime.
 
-The hypothesis, written before any torsion energy or scan charge was
-seen and not rewritten afterward: **MBIS $q(\mathrm{O})$ and
-$q(\mathrm{COO})$ oscillate with $\phi$; the peak-to-peak amplitude is
-larger for CCl3COO− than for CF3COO−; acetate is flat.** Amplitude is
-$\max-\min$ on both-converged points, reported separately for
-$q(\mathrm{O})$ and $q(\mathrm{COO})$. We do not pick one after seeing
-they split. The question named oxygen charge, so falsifier 2 is scored
-on $q(\mathrm{O})$. $q(\mathrm{COO})$ is disclosed alongside. The
-falsifier, fixed at the same time: (1) $q(\mathrm{O})$ is flat on both
-ions, or (2) the CF3 $q(\mathrm{O})$ amplitude is greater than or equal
-to the CCl3 $q(\mathrm{O})$ amplitude. Either outcome is publishable. A
+The hypothesis, frozen 2026-08-23 before any rematch energy or
+torsion: **On a relaxed CX3 rotation, Hirshfeld and MBIS oxygen
+charges (and the COO sum) oscillate with the X–Cα–C–O dihedral.
+Peak-to-peak amplitude is larger for CCl3COO− than for CF3COO−.
+Acetate is the flat control.** Amplitude is $\max-\min$ on
+both-converged points, reported separately for $q(\mathrm{O})$ and
+$q(\mathrm{COO})$. The falsifier, fixed at the same time: (1)
+$q(\mathrm{O})$ is flat vs dihedral on both haloacetates, or (2) CF3
+amplitude $\ge$ CCl3 amplitude. Either outcome is publishable. A
 larger CCl3 swing would be the first same-footing rotation bound we
-have for the 2025 invitation; a miss would mean the invited
-oscillation did not appear under these conditions.
+have for the 2025 invitation; a miss would mean this independent scan
+did not exhibit the predicted CCl3 $>$ CF3 oxygen-charge amplitude.
 
 ## Computational Methods
 
@@ -88,20 +85,23 @@ only and are not binding.[@Lowdin1950] **Hirshfeld** partitioning is
 not compiled into this Psi4 build.[@Hirshfeld1977]
 
 Four ions were rematched first, before any torsion: CH3COO−, CF3COO−,
-CClF2COO−, and CCl3COO−. The rematch gate, written before those
-optimizations were scored, was: $r(\mathrm{C{-}C})$ satisfies
-CCl3 $>$ CF3 $>$ acetate; $\Delta(\mathrm{C{-}X})$ (out-of-plane minus
-in-plane) satisfies CCl3 $>$ CF3; and MBIS $q(\mathrm{O})$ and
-$q(\mathrm{COO})$ are more negative for CF3 than for CCl3. CClF2 is
-mixed-halogen and is not used for the $\Delta(\mathrm{C{-}X})$
-comparison.
+CClF2COO−, and CCl3COO−. The rematch geometry inequalities were:
+$r(\mathrm{C{-}C})$ satisfies CCl3 $>$ CF3 $>$ acetate, and
+$\Delta(\mathrm{C{-}X})$ (out-of-plane minus in-plane) satisfies
+CCl3 $>$ CF3. CClF2 is mixed-halogen and is not used for the
+$\Delta(\mathrm{C{-}X})$ comparison. Before the first rematch energy,
+Hirshfeld was already unavailable in this Psi4 build, so gate (3)
+required both MBIS and Löwdin $q(\mathrm{O})$ and $q(\mathrm{COO})$ to
+be more negative for CF3 than for CCl3; if both failed, the scan would
+not run.
 
-After rematch charges were known, and before any torsion, the binding
-scheme was restricted to MBIS. Löwdin on aug-cc-pVDZ reversed the
-CF3/CCl3 oxygen-charge order and is ill-defined on this basis relative
-to MBIS. That amendment is dated 2026-08-24 in
+After rematch charges were known, and before any torsion, Löwdin on
+aug-cc-pVDZ reversed the CF3/CCl3 oxygen-charge order and is
+ill-defined on this basis relative to MBIS. Löwdin was demoted; binding
+became MBIS-only; the both-must-pass / if-both-fail-stop pair was
+vacated. That amendment is dated 2026-08-24 in
 `research/johnson-haloacetate/JOURNAL.md`. The frozen hypothesis and
-falsifier were not changed.
+falsifier were not rewritten.
 
 The scan is a relaxed $\phi = \mathrm{X{-}C_\alpha{-}C{-}O}$
 continuation. Optking froze dihedral 5-4-1-2. The remaining degrees of
@@ -128,7 +128,7 @@ end-to-end reproducible from this public repository.
 ## Results
 
 Table 1 lists the rematch gate. Table 2 lists the scan amplitudes,
-0°/120° charge repeats, and energy ranges. Figure 1 plots MBIS
+signed $120^\circ-0^\circ$ charge differences, and energy ranges. Figure 1 plots MBIS
 $q(\mathrm{O})$ and $q(\mathrm{COO})$ versus the frozen target angle.
 Figure 2 plots the relative electronic energy.
 
@@ -170,19 +170,17 @@ points converged.
 | --- | ---: | ---: |
 | $q(\mathrm{O})$ amplitude (e) | [amp_q_o_cf3]{.metric} | [amp_q_o_ccl3]{.metric} |
 | $q(\mathrm{COO})$ amplitude (e) | [amp_q_coo_cf3]{.metric} | [amp_q_coo_ccl3]{.metric} |
-| $q(\mathrm{O})$ $120^\circ-0^\circ$ (e) | [repeat_q_o_cf3]{.metric} | [repeat_q_o_ccl3]{.metric} |
-| $q(\mathrm{COO})$ $120^\circ-0^\circ$ (e) | [repeat_q_coo_cf3]{.metric} | [repeat_q_coo_ccl3]{.metric} |
+| signed $q(\mathrm{O})$ $120^\circ-0^\circ$ (e) | [repeat_q_o_cf3]{.metric} | [repeat_q_o_ccl3]{.metric} |
+| signed $q(\mathrm{COO})$ $120^\circ-0^\circ$ (e) | [repeat_q_coo_cf3]{.metric} | [repeat_q_coo_ccl3]{.metric} |
 | $E$ range ($E_\mathrm{h}$) | [barrier_eh_cf3]{.metric} | [barrier_eh_ccl3]{.metric} |
 | $E$ range (kcal/mol) | [barrier_kcal_cf3]{.metric} | [barrier_kcal_ccl3]{.metric} |
 | $E(120^\circ)-E(0^\circ)$ (kcal/mol) | [overlay_kcal_cf3]{.metric} | [overlay_kcal_ccl3]{.metric} |
 
-**Table 2.** Peak-to-peak MBIS amplitudes, 0°/120° charge repeats, and
-electronic-energy ranges on the both-converged scan. Conversion is
-[eh_to_kcal]{.metric} kcal mol$^{-1}$ $E_\mathrm{h}^{-1}$. The largest
-of the four charge amplitudes is [max_charge_amp]{.metric} e. The
-largest of the three small 0°/120° charge repeats (CF3 $q(\mathrm{O})$,
-CCl3 $q(\mathrm{O})$, CCl3 $q(\mathrm{COO})$) is
-[max_other_repeat]{.metric} e.
+**Table 2.** Peak-to-peak MBIS amplitudes, signed $120^\circ-0^\circ$
+charge differences, and electronic-energy ranges on the both-converged
+scan. Conversion is [eh_to_kcal]{.metric} kcal mol$^{-1}$
+$E_\mathrm{h}^{-1}$. The largest of the four charge amplitudes is
+[max_charge_amp]{.metric} e.
 
 <figure>
   <img src="/images/2026-08-24-does-cx3-rotation-oscillate-carboxylate-oxygen-charge-fig2.png" alt="Relative electronic energy versus frozen CX3 dihedral for CF3COO− and CCl3COO−, each series referenced to its own scan minimum, in kilocalories per mole.">
@@ -194,8 +192,8 @@ B3LYP-D3(BJ)/aug-cc-pVDZ. Solid lines join 15° neighbours.
 
 The $q(\mathrm{O})$ comparison CCl3 amplitude $>$ CF3 amplitude
 evaluates to [q_o_amp_ccl3_gt_cf3]{.metric}. The $q(\mathrm{COO})$
-comparison evaluates to [q_coo_amp_ccl3_gt_cf3]{.metric}. The frozen
-$q(\mathrm{O})$ hypothesis-supported flag is
+comparison evaluates to [q_coo_amp_ccl3_gt_cf3]{.metric}. The
+hypothesis-supported flag, scored on $q(\mathrm{O})$ after the scan, is
 [hypothesis_supported]{.metric}. Absolute overlay checks are
 [overlay_kcal_cf3_abs]{.metric} kcal/mol (CF3) and
 [overlay_kcal_ccl3_abs]{.metric} kcal/mol (CCl3).
@@ -205,15 +203,23 @@ $q(\mathrm{O})$ hypothesis-supported flag is
 The registered hypothesis is **falsified** (not supported). On this
 grid the CCl3 $q(\mathrm{O})$ amplitude is not larger than the CF3
 $q(\mathrm{O})$ amplitude: [amp_q_o_ccl3]{.metric} e versus
-[amp_q_o_cf3]{.metric} e. Falsifier 2, scored on oxygen charge as
-registered, fires. $q(\mathrm{COO})$ is the other way around —
+[amp_q_o_cf3]{.metric} e. Falsifier 2, scored on oxygen charge,
+fires. $q(\mathrm{COO})$ is the other way around —
 [amp_q_coo_ccl3]{.metric} e versus [amp_q_coo_cf3]{.metric} e — and is
 disclosed here rather than substituted for the named question after
 the split was seen. The largest of the four amplitudes is
 [max_charge_amp]{.metric} e. Oscillation, if any, is at that scale.
 The CCl3 $q(\mathrm{O})$ amplitude sits at the 0°/120° repeat of
-[repeat_q_o_ccl3]{.metric} e. It did not reproduce for us under these
-conditions.
+[repeat_q_o_ccl3]{.metric} e. We falsified the hypothesis we
+registered. Johnson et al. invited this rotation; they did not publish
+this amplitude.
+
+After both grids were in hand, on 2026-08-24, we did not pick one
+after seeing they split. The question named oxygen charge, so
+falsifier 2 is scored on $q(\mathrm{O})$. $q(\mathrm{COO})$ is
+disclosed alongside. That call is post-scan and is dated in
+`research/johnson-haloacetate/JOURNAL.md`. It is not a silent edit to
+the frozen falsifier.
 
 That is as far as the verdict goes. It is a verdict on our hypothesis
 and our scan. It is not a statement that Johnson et al. were wrong, and
@@ -258,9 +264,8 @@ treat a discrepancy as something to chase through our own setup first.
 
 Under B3LYP-D3(BJ)/aug-cc-pVDZ, MBIS, and gas phase, the CX3 rotation
 does not move carboxylate oxygen charge with a larger amplitude for
-CCl3COO− than for CF3COO−. The hypothesis is not supported.
-Oscillation, if any, is [max_charge_amp]{.metric} e. It did not
-reproduce for us under these conditions.
+CCl3COO− than for CF3COO−. The hypothesis we registered is not
+supported. Oscillation, if any, is [max_charge_amp]{.metric} e.
 
 The next experiment on the shelf is not a repair of this scan. The
 useful follow-up is the same relaxed $\phi$ grid with DDEC6 at
