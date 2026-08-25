@@ -70,3 +70,12 @@ that Johnson et al. are wrong, that hyperconjugation is absent at their
 DDEC6/MP2/aug-cc-pVQZ minima, or that a pKa mechanism has been tested.
 Johnson et al. invited this rotation; they did not publish this
 amplitude.
+
+## 2026-08-25 — endpoint-failure projection
+
+If a 0° or 120° point fails, the generator still emits the overlay
+keys the post cites (`repeat_*`, `overlay_*`). Hakyll treats a
+missing name as a hard build error, so omission is not a publishable
+inconclusive outcome. The placeholder is boolean false, not a
+coerced 0. This run's endpoints converged; the published overlay
+numbers are unchanged.
