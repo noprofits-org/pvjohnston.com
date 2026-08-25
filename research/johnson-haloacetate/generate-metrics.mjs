@@ -154,10 +154,40 @@ function peakToPeak(values, label) {
   return max - min;
 }
 
+// A registered inconclusive grid may leave 0 or 1 both-converged
+// points. Do not invent a max−min and do not refuse to project.
+function peakToPeakOrNull(values, label) {
+  if (values.length < 2) return null;
+  return peakToPeak(values, label);
+}
+
 function mean(values, label) {
   if (values.length === 0) throw new Error(`${label}: empty series`);
   const sum = values.reduce((a, b) => a + b, 0);
   return requireFinite(sum / values.length, `${label} mean`);
+}
+
+function meanOrNull(values, label) {
+  if (values.length === 0) return null;
+  return mean(values, label);
+}
+
+function maybeNum(value, digits, description, unit, style = 'fixed') {
+  if (value == null) {
+    return boolean(false,
+      `${description}. False when fewer than two both-converged points remain`);
+  }
+  return num(value, digits, description, unit, style);
+}
+
+{
+  if (peakToPeakOrNull([], 'empty') !== null
+      || peakToPeakOrNull([1], 'one') !== null) {
+    throw new Error('peakToPeakOrNull must short-circuit below two points');
+  }
+  if (meanOrNull([], 'empty-mean') !== null) {
+    throw new Error('meanOrNull must short-circuit an empty series');
+  }
 }
 
 function parseScan(path, ion) {
@@ -297,12 +327,17 @@ function build(generatedAt) {
 
   const m1Converged = m1.filter((p) => p.both);
   const m3Converged = m3.filter((p) => p.both);
-  const ampQoCf3 = peakToPeak(m1Converged.map((p) => p.qO), 'CF3 q(O)');
-  const ampQoCcl3 = peakToPeak(m3Converged.map((p) => p.qO), 'CCl3 q(O)');
-  const ampQcooCf3 = peakToPeak(m1Converged.map((p) => p.qCoo), 'CF3 q(COO)');
-  const ampQcooCcl3 = peakToPeak(m3Converged.map((p) => p.qCoo), 'CCl3 q(COO)');
-  const maxChargeAmp = Math.max(ampQoCf3, ampQoCcl3, ampQcooCf3, ampQcooCcl3);
-  const maxQoAmp = Math.max(ampQoCf3, ampQoCcl3);
+  const ampQoCf3 = peakToPeakOrNull(m1Converged.map((p) => p.qO), 'CF3 q(O)');
+  const ampQoCcl3 = peakToPeakOrNull(m3Converged.map((p) => p.qO), 'CCl3 q(O)');
+  const ampQcooCf3 = peakToPeakOrNull(m1Converged.map((p) => p.qCoo), 'CF3 q(COO)');
+  const ampQcooCcl3 = peakToPeakOrNull(m3Converged.map((p) => p.qCoo), 'CCl3 q(COO)');
+  const chargeAmps = [ampQoCf3, ampQoCcl3, ampQcooCf3, ampQcooCcl3];
+  const maxChargeAmp = chargeAmps.every((value) => value != null)
+    ? Math.max(...chargeAmps)
+    : null;
+  const maxQoAmp = ampQoCf3 != null && ampQoCcl3 != null
+    ? Math.max(ampQoCf3, ampQoCcl3)
+    : null;
 
   const m1_0 = pointAt(m1, 0, 'CF3');
   const m1_120 = pointAt(m1, 120, 'CF3');
@@ -321,20 +356,23 @@ function build(generatedAt) {
     overlayEhCf3, overlayEhCcl3,
   ].every((value) => value != null);
 
-  const barrierEhCf3 = peakToPeak(m1Converged.map((p) => p.energy), 'CF3 E');
-  const barrierEhCcl3 = peakToPeak(m3Converged.map((p) => p.energy), 'CCl3 E');
-  const barrierKcalCf3 = barrierEhCf3 * EH_TO_KCAL;
-  const barrierKcalCcl3 = barrierEhCcl3 * EH_TO_KCAL;
+  const barrierEhCf3 = peakToPeakOrNull(m1Converged.map((p) => p.energy), 'CF3 E');
+  const barrierEhCcl3 = peakToPeakOrNull(m3Converged.map((p) => p.energy), 'CCl3 E');
+  const barrierKcalCf3 = barrierEhCf3 == null ? null : barrierEhCf3 * EH_TO_KCAL;
+  const barrierKcalCcl3 = barrierEhCcl3 == null ? null : barrierEhCcl3 * EH_TO_KCAL;
 
-  const meanQoCf3 = mean(m1Converged.map((p) => p.qO), 'CF3 mean q(O)');
-  const meanQoCcl3 = mean(m3Converged.map((p) => p.qO), 'CCl3 mean q(O)');
-  const meanQcooCf3 = mean(m1Converged.map((p) => p.qCoo), 'CF3 mean q(COO)');
-  const meanQcooCcl3 = mean(m3Converged.map((p) => p.qCoo), 'CCl3 mean q(COO)');
+  const meanQoCf3 = meanOrNull(m1Converged.map((p) => p.qO), 'CF3 mean q(O)');
+  const meanQoCcl3 = meanOrNull(m3Converged.map((p) => p.qO), 'CCl3 mean q(O)');
+  const meanQcooCf3 = meanOrNull(m1Converged.map((p) => p.qCoo), 'CF3 mean q(COO)');
+  const meanQcooCcl3 = meanOrNull(m3Converged.map((p) => p.qCoo), 'CCl3 mean q(COO)');
 
   // Falsifier 2 is scored on q(O): hypothesis needs CCl3 amplitude > CF3.
   // A grid failure is inconclusive, not a silent supported/falsified call.
-  const qoAmpCcl3GtCf3 = ampQoCcl3 > ampQoCf3;
-  const qcooAmpCcl3GtCf3 = ampQcooCcl3 > ampQcooCf3;
+  // Missing amplitudes do not invent a comparison.
+  const qoAmpCcl3GtCf3 = ampQoCcl3 != null && ampQoCf3 != null
+    && ampQoCcl3 > ampQoCf3;
+  const qcooAmpCcl3GtCf3 = ampQcooCcl3 != null && ampQcooCf3 != null
+    && ampQcooCcl3 > ampQcooCf3;
   const hypothesisSupported = !scanInconclusive && qoAmpCcl3GtCf3;
 
   const metrics = {
@@ -398,39 +436,39 @@ function build(generatedAt) {
     eh_to_kcal: raw(EH_TO_KCAL,
       'Conversion used for scan barriers and the 120°−0° overlay',
       'kcal/mol/Eh'),
-    amp_q_o_cf3: num(ampQoCf3, 6,
+    amp_q_o_cf3: maybeNum(ampQoCf3, 6,
       'Peak-to-peak amplitude of mean-of-two-oxygens MBIS q(O) on both-converged CF3COO− points', 'e'),
-    amp_q_o_ccl3: num(ampQoCcl3, 6,
+    amp_q_o_ccl3: maybeNum(ampQoCcl3, 6,
       'Peak-to-peak amplitude of mean-of-two-oxygens MBIS q(O) on both-converged CCl3COO− points', 'e'),
-    amp_q_coo_cf3: num(ampQcooCf3, 6,
+    amp_q_coo_cf3: maybeNum(ampQcooCf3, 6,
       'MBIS q(COO) peak-to-peak amplitude on both-converged CF3COO− points', 'e'),
-    amp_q_coo_ccl3: num(ampQcooCcl3, 6,
+    amp_q_coo_ccl3: maybeNum(ampQcooCcl3, 6,
       'MBIS q(COO) peak-to-peak amplitude on both-converged CCl3COO− points', 'e'),
-    max_charge_amp: num(maxChargeAmp, 6,
+    max_charge_amp: maybeNum(maxChargeAmp, 6,
       'Largest of the four MBIS peak-to-peak amplitudes (q(O) and q(COO) on both ions)',
       'e'),
-    max_q_o_amp: num(maxQoAmp, 6,
+    max_q_o_amp: maybeNum(maxQoAmp, 6,
       'Largest of the two MBIS q(O) peak-to-peak amplitudes',
       'e'),
-    barrier_eh_cf3: num(barrierEhCf3, 2,
+    barrier_eh_cf3: maybeNum(barrierEhCf3, 2,
       'CF3COO− electronic-energy range (max−min) on the both-converged scan',
       'Eh', 'scientific'),
-    barrier_eh_ccl3: num(barrierEhCcl3, 2,
+    barrier_eh_ccl3: maybeNum(barrierEhCcl3, 2,
       'CCl3COO− electronic-energy range (max−min) on the both-converged scan',
       'Eh', 'scientific'),
-    barrier_kcal_cf3: num(barrierKcalCf3, 3,
+    barrier_kcal_cf3: maybeNum(barrierKcalCf3, 3,
       'CF3COO− electronic-energy range converted with eh_to_kcal',
       'kcal/mol'),
-    barrier_kcal_ccl3: num(barrierKcalCcl3, 3,
+    barrier_kcal_ccl3: maybeNum(barrierKcalCcl3, 3,
       'CCl3COO− electronic-energy range converted with eh_to_kcal',
       'kcal/mol'),
-    mean_q_o_cf3: num(meanQoCf3, 3,
+    mean_q_o_cf3: maybeNum(meanQoCf3, 3,
       'Mean MBIS q(O) on the both-converged CF3COO− scan', 'e'),
-    mean_q_o_ccl3: num(meanQoCcl3, 3,
+    mean_q_o_ccl3: maybeNum(meanQoCcl3, 3,
       'Mean MBIS q(O) on the both-converged CCl3COO− scan', 'e'),
-    mean_q_coo_cf3: num(meanQcooCf3, 3,
+    mean_q_coo_cf3: maybeNum(meanQcooCf3, 3,
       'Mean MBIS q(COO) on the both-converged CF3COO− scan', 'e'),
-    mean_q_coo_ccl3: num(meanQcooCcl3, 3,
+    mean_q_coo_ccl3: maybeNum(meanQcooCcl3, 3,
       'Mean MBIS q(COO) on the both-converged CCl3COO− scan', 'e'),
     q_o_amp_ccl3_gt_cf3: boolean(qoAmpCcl3GtCf3,
       'Whether the CCl3 q(O) amplitude is larger than the CF3 q(O) amplitude'),

@@ -81,3 +81,13 @@ false is not an omitted overlay, so the post no longer cites
 overlay numbers when both endpoints converge (this 18/18 run) and
 omits those keys when they do not. It does not invent a number or
 coerce a failed overlay to 0.
+
+## 2026-08-25 — inconclusive verdict and short grids
+
+The post now states the three-way rule from the freeze: inconclusive
+if `scan_inconclusive`, supported if `hypothesis_supported`, otherwise
+falsified. It does not hard-code falsified as the only published
+sentence. Amplitude generation returns null when fewer than two
+both-converged points remain; those keys stay present as boolean
+false so a short inconclusive grid can still build. This 18/18 run's
+numbers are unchanged.

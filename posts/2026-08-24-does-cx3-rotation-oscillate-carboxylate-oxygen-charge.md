@@ -31,9 +31,12 @@ both-converged 0–120° grids the MBIS $q(\mathrm{O})$ amplitudes are
 [amp_q_o_cf3]{.metric} e (CF3) and [amp_q_o_ccl3]{.metric} e (CCl3).
 The $q(\mathrm{COO})$ amplitudes are [amp_q_coo_cf3]{.metric} e and
 [amp_q_coo_ccl3]{.metric} e. After the scan we scored falsifier 2 on
-$q(\mathrm{O})$; [q_o_amp_ccl3_gt_cf3]{.metric}. The hypothesis is
-**falsified** (not supported). That is a verdict on our hypothesis and
-this scan, not a grade on Johnson et al.
+$q(\mathrm{O})$; [q_o_amp_ccl3_gt_cf3]{.metric}. The registered
+inconclusive outcome is [scan_inconclusive]{.metric}. The
+hypothesis-supported flag is [hypothesis_supported]{.metric}. The
+verdict is inconclusive if the first of those flags is true, supported
+if the second is true, and otherwise **falsified**. That is a verdict
+on our hypothesis and this scan, not a grade on Johnson et al.
 
 ## Introduction
 
@@ -214,18 +217,22 @@ endpoints, required before a signed overlay can be projected, are
 
 ## Discussion
 
-The registered hypothesis is **falsified** (not supported). On this
-grid the CCl3 $q(\mathrm{O})$ amplitude is not larger than the CF3
-$q(\mathrm{O})$ amplitude: [amp_q_o_ccl3]{.metric} e versus
-[amp_q_o_cf3]{.metric} e. Falsifier 2, scored on oxygen charge,
-fires. $q(\mathrm{COO})$ is the other way around —
+The verdict is **inconclusive** if [scan_inconclusive]{.metric},
+**supported** if [hypothesis_supported]{.metric}, and otherwise
+**falsified**. On this projection those flags are
+[scan_inconclusive]{.metric} and [hypothesis_supported]{.metric}. On
+this grid the CCl3 $q(\mathrm{O})$ amplitude is not larger than the
+CF3 $q(\mathrm{O})$ amplitude: [amp_q_o_ccl3]{.metric} e versus
+[amp_q_o_cf3]{.metric} e. Falsifier 2 is scored on oxygen charge; the
+$q(\mathrm{O})$ comparison is [q_o_amp_ccl3_gt_cf3]{.metric}.
+$q(\mathrm{COO})$ is the other way around —
 [amp_q_coo_ccl3]{.metric} e versus [amp_q_coo_cf3]{.metric} e — and is
 disclosed here rather than substituted for the named question after
 the split was seen. The largest of the four amplitudes is
 [max_charge_amp]{.metric} e. Oscillation, if any, is at that scale.
 The signed $120^\circ-0^\circ$ overlay is not the peak-to-peak
-amplitude. We falsified the hypothesis we registered. Johnson et al.
-invited this rotation; they did not publish this amplitude.
+amplitude. Johnson et al. invited this rotation; they did not publish
+this amplitude.
 
 After both grids were in hand, on 2026-08-24, we did not pick one
 after seeing they split. The question named oxygen charge, so
@@ -275,11 +282,11 @@ treat a discrepancy as something to chase through our own setup first.
 
 ## Conclusion
 
-Under B3LYP-D3(BJ)/aug-cc-pVDZ, MBIS, and gas phase, the CX3 rotation
-does not move carboxylate oxygen charge with a larger amplitude for
-CCl3COO− than for CF3COO−. The hypothesis we registered is not
-supported. Oscillation of oxygen charge, if any, is
-[max_q_o_amp]{.metric} e.
+Under B3LYP-D3(BJ)/aug-cc-pVDZ, MBIS, and gas phase, the registered
+verdict on the CX3 oxygen-charge hypothesis is **inconclusive** if
+[scan_inconclusive]{.metric}, **supported** if
+[hypothesis_supported]{.metric}, and otherwise **falsified**.
+Oscillation of oxygen charge, if any, is [max_q_o_amp]{.metric} e.
 
 The next experiment on the shelf is not a repair of this scan. The
 useful follow-up is the same relaxed $\phi$ grid with DDEC6 at
