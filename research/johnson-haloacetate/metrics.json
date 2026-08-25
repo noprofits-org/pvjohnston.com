@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "johnson-haloacetate",
   "provenance": {
-    "generated_at": "2026-08-25T03:33:34Z",
+    "generated_at": "2026-08-25T03:42:11Z",
     "generator": "research/johnson-haloacetate/generate-metrics.mjs",
     "inputs": [
       {
@@ -224,6 +224,11 @@
       "value": false,
       "description": "Registered inconclusive outcome: either ion failed to converge on at least one scheduled grid point"
     },
+    "scan_endpoints_converged": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether both 0° and 120° points on both ions are both-converged with finite charges and energies"
+    },
     "scan_step_deg": {
       "type": "integer",
       "value": 15,
@@ -299,46 +304,6 @@
       "description": "Largest of the two MBIS q(O) peak-to-peak amplitudes",
       "unit": "e"
     },
-    "repeat_q_o_cf3": {
-      "type": "number",
-      "value": 0.00001250000000008189,
-      "format": {
-        "style": "scientific",
-        "digits": 2
-      },
-      "description": "Signed CF3COO− MBIS q(O) difference, 120° minus 0°",
-      "unit": "e"
-    },
-    "repeat_q_coo_cf3": {
-      "type": "number",
-      "value": 0.00010399999999999299,
-      "format": {
-        "style": "scientific",
-        "digits": 2
-      },
-      "description": "Signed CF3COO− MBIS q(COO) difference, 120° minus 0°",
-      "unit": "e"
-    },
-    "repeat_q_o_ccl3": {
-      "type": "number",
-      "value": -0.000011500000000053134,
-      "format": {
-        "style": "scientific",
-        "digits": 2
-      },
-      "description": "Signed CCl3COO− MBIS q(O) difference, 120° minus 0°",
-      "unit": "e"
-    },
-    "repeat_q_coo_ccl3": {
-      "type": "number",
-      "value": -0.000012000000000012001,
-      "format": {
-        "style": "scientific",
-        "digits": 2
-      },
-      "description": "Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°",
-      "unit": "e"
-    },
     "barrier_eh_cf3": {
       "type": "number",
       "value": 0.00004494217921546806,
@@ -377,46 +342,6 @@
         "digits": 3
       },
       "description": "CCl3COO− electronic-energy range converted with eh_to_kcal",
-      "unit": "kcal/mol"
-    },
-    "overlay_kcal_cf3": {
-      "type": "number",
-      "value": -0.00009148778783735429,
-      "format": {
-        "style": "scientific",
-        "digits": 2
-      },
-      "description": "CF3COO− E(120°)−E(0°) converted with eh_to_kcal",
-      "unit": "kcal/mol"
-    },
-    "overlay_kcal_ccl3": {
-      "type": "number",
-      "value": 0.000035399834945381366,
-      "format": {
-        "style": "scientific",
-        "digits": 2
-      },
-      "description": "CCl3COO− E(120°)−E(0°) converted with eh_to_kcal",
-      "unit": "kcal/mol"
-    },
-    "overlay_kcal_cf3_abs": {
-      "type": "number",
-      "value": 0.00009148778783735429,
-      "format": {
-        "style": "scientific",
-        "digits": 2
-      },
-      "description": "Absolute CF3COO− E(120°)−E(0°) converted with eh_to_kcal",
-      "unit": "kcal/mol"
-    },
-    "overlay_kcal_ccl3_abs": {
-      "type": "number",
-      "value": 0.000035399834945381366,
-      "format": {
-        "style": "scientific",
-        "digits": 2
-      },
-      "description": "Absolute CCl3COO− E(120°)−E(0°) converted with eh_to_kcal",
       "unit": "kcal/mol"
     },
     "mean_q_o_cf3": {
@@ -473,6 +398,86 @@
       "type": "boolean",
       "value": false,
       "description": "Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan and the grid is not inconclusive"
+    },
+    "repeat_q_o_cf3": {
+      "type": "number",
+      "value": 0.00001250000000008189,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Signed CF3COO− MBIS q(O) difference, 120° minus 0°",
+      "unit": "e"
+    },
+    "repeat_q_coo_cf3": {
+      "type": "number",
+      "value": 0.00010399999999999299,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Signed CF3COO− MBIS q(COO) difference, 120° minus 0°",
+      "unit": "e"
+    },
+    "repeat_q_o_ccl3": {
+      "type": "number",
+      "value": -0.000011500000000053134,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Signed CCl3COO− MBIS q(O) difference, 120° minus 0°",
+      "unit": "e"
+    },
+    "repeat_q_coo_ccl3": {
+      "type": "number",
+      "value": -0.000012000000000012001,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°",
+      "unit": "e"
+    },
+    "overlay_kcal_cf3": {
+      "type": "number",
+      "value": -0.00009148778783735429,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "CF3COO− E(120°)−E(0°) converted with eh_to_kcal",
+      "unit": "kcal/mol"
+    },
+    "overlay_kcal_ccl3": {
+      "type": "number",
+      "value": 0.000035399834945381366,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "CCl3COO− E(120°)−E(0°) converted with eh_to_kcal",
+      "unit": "kcal/mol"
+    },
+    "overlay_kcal_cf3_abs": {
+      "type": "number",
+      "value": 0.00009148778783735429,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Absolute CF3COO− E(120°)−E(0°) converted with eh_to_kcal",
+      "unit": "kcal/mol"
+    },
+    "overlay_kcal_ccl3_abs": {
+      "type": "number",
+      "value": 0.000035399834945381366,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Absolute CCl3COO− E(120°)−E(0°) converted with eh_to_kcal",
+      "unit": "kcal/mol"
     }
   }
 }

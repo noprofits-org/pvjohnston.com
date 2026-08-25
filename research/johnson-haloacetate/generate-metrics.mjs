@@ -136,11 +136,9 @@ function requireCsvNumber(value, label) {
   return requireFinite(Number(value), label);
 }
 
-function endpointMinus(a, b, field, label) {
+function endpointMinus(a, b, field) {
   if (!a.both || !b.both || a[field] == null || b[field] == null) {
-    throw new Error(
-      `${label}: signed 120-0 needs both-converged finite endpoints`,
-    );
+    return null;
   }
   return b[field] - a[field];
 }
@@ -310,19 +308,23 @@ function build(generatedAt) {
   const m1_120 = pointAt(m1, 120, 'CF3');
   const m3_0 = pointAt(m3, 0, 'CCl3');
   const m3_120 = pointAt(m3, 120, 'CCl3');
-  const repeatQoCf3 = endpointMinus(m1_0, m1_120, 'qO', 'CF3 q(O)');
-  const repeatQcooCf3 = endpointMinus(m1_0, m1_120, 'qCoo', 'CF3 q(COO)');
-  const repeatQoCcl3 = endpointMinus(m3_0, m3_120, 'qO', 'CCl3 q(O)');
-  const repeatQcooCcl3 = endpointMinus(m3_0, m3_120, 'qCoo', 'CCl3 q(COO)');
+  const repeatQoCf3 = endpointMinus(m1_0, m1_120, 'qO');
+  const repeatQcooCf3 = endpointMinus(m1_0, m1_120, 'qCoo');
+  const repeatQoCcl3 = endpointMinus(m3_0, m3_120, 'qO');
+  const repeatQcooCcl3 = endpointMinus(m3_0, m3_120, 'qCoo');
+  const overlayEhCf3 = endpointMinus(m1_0, m1_120, 'energy');
+  const overlayEhCcl3 = endpointMinus(m3_0, m3_120, 'energy');
+  const overlayKcalCf3 = overlayEhCf3 == null ? null : overlayEhCf3 * EH_TO_KCAL;
+  const overlayKcalCcl3 = overlayEhCcl3 == null ? null : overlayEhCcl3 * EH_TO_KCAL;
+  const scanEndpointsConverged = [
+    repeatQoCf3, repeatQcooCf3, repeatQoCcl3, repeatQcooCcl3,
+    overlayEhCf3, overlayEhCcl3,
+  ].every((value) => value != null);
 
   const barrierEhCf3 = peakToPeak(m1Converged.map((p) => p.energy), 'CF3 E');
   const barrierEhCcl3 = peakToPeak(m3Converged.map((p) => p.energy), 'CCl3 E');
   const barrierKcalCf3 = barrierEhCf3 * EH_TO_KCAL;
   const barrierKcalCcl3 = barrierEhCcl3 * EH_TO_KCAL;
-  const overlayEhCf3 = endpointMinus(m1_0, m1_120, 'energy', 'CF3 E');
-  const overlayEhCcl3 = endpointMinus(m3_0, m3_120, 'energy', 'CCl3 E');
-  const overlayKcalCf3 = overlayEhCf3 * EH_TO_KCAL;
-  const overlayKcalCcl3 = overlayEhCcl3 * EH_TO_KCAL;
 
   const meanQoCf3 = mean(m1Converged.map((p) => p.qO), 'CF3 mean q(O)');
   const meanQoCcl3 = mean(m3Converged.map((p) => p.qO), 'CCl3 mean q(O)');
@@ -390,6 +392,8 @@ function build(generatedAt) {
       'points'),
     scan_inconclusive: boolean(scanInconclusive,
       'Registered inconclusive outcome: either ion failed to converge on at least one scheduled grid point'),
+    scan_endpoints_converged: boolean(scanEndpointsConverged,
+      'Whether both 0° and 120° points on both ions are both-converged with finite charges and energies'),
     scan_step_deg: integer(15, 'Frozen-dihedral step of the relaxed scan', 'deg'),
     eh_to_kcal: raw(EH_TO_KCAL,
       'Conversion used for scan barriers and the 120°−0° overlay',
@@ -408,18 +412,6 @@ function build(generatedAt) {
     max_q_o_amp: num(maxQoAmp, 6,
       'Largest of the two MBIS q(O) peak-to-peak amplitudes',
       'e'),
-    repeat_q_o_cf3: num(repeatQoCf3, 2,
-      'Signed CF3COO− MBIS q(O) difference, 120° minus 0°',
-      'e', 'scientific'),
-    repeat_q_coo_cf3: num(repeatQcooCf3, 2,
-      'Signed CF3COO− MBIS q(COO) difference, 120° minus 0°',
-      'e', 'scientific'),
-    repeat_q_o_ccl3: num(repeatQoCcl3, 2,
-      'Signed CCl3COO− MBIS q(O) difference, 120° minus 0°',
-      'e', 'scientific'),
-    repeat_q_coo_ccl3: num(repeatQcooCcl3, 2,
-      'Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°',
-      'e', 'scientific'),
     barrier_eh_cf3: num(barrierEhCf3, 2,
       'CF3COO− electronic-energy range (max−min) on the both-converged scan',
       'Eh', 'scientific'),
@@ -432,18 +424,6 @@ function build(generatedAt) {
     barrier_kcal_ccl3: num(barrierKcalCcl3, 3,
       'CCl3COO− electronic-energy range converted with eh_to_kcal',
       'kcal/mol'),
-    overlay_kcal_cf3: num(overlayKcalCf3, 2,
-      'CF3COO− E(120°)−E(0°) converted with eh_to_kcal',
-      'kcal/mol', 'scientific'),
-    overlay_kcal_ccl3: num(overlayKcalCcl3, 2,
-      'CCl3COO− E(120°)−E(0°) converted with eh_to_kcal',
-      'kcal/mol', 'scientific'),
-    overlay_kcal_cf3_abs: num(Math.abs(overlayKcalCf3), 2,
-      'Absolute CF3COO− E(120°)−E(0°) converted with eh_to_kcal',
-      'kcal/mol', 'scientific'),
-    overlay_kcal_ccl3_abs: num(Math.abs(overlayKcalCcl3), 2,
-      'Absolute CCl3COO− E(120°)−E(0°) converted with eh_to_kcal',
-      'kcal/mol', 'scientific'),
     mean_q_o_cf3: num(meanQoCf3, 3,
       'Mean MBIS q(O) on the both-converged CF3COO− scan', 'e'),
     mean_q_o_ccl3: num(meanQoCcl3, 3,
@@ -459,6 +439,37 @@ function build(generatedAt) {
     hypothesis_supported: boolean(hypothesisSupported,
       'Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan and the grid is not inconclusive'),
   };
+
+  // Endpoint-only metrics are omitted when 0° or 120° failed. The
+  // registered inconclusive flag is still emitted above.
+  if (scanEndpointsConverged) {
+    Object.assign(metrics, {
+      repeat_q_o_cf3: num(repeatQoCf3, 2,
+        'Signed CF3COO− MBIS q(O) difference, 120° minus 0°',
+        'e', 'scientific'),
+      repeat_q_coo_cf3: num(repeatQcooCf3, 2,
+        'Signed CF3COO− MBIS q(COO) difference, 120° minus 0°',
+        'e', 'scientific'),
+      repeat_q_o_ccl3: num(repeatQoCcl3, 2,
+        'Signed CCl3COO− MBIS q(O) difference, 120° minus 0°',
+        'e', 'scientific'),
+      repeat_q_coo_ccl3: num(repeatQcooCcl3, 2,
+        'Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°',
+        'e', 'scientific'),
+      overlay_kcal_cf3: num(overlayKcalCf3, 2,
+        'CF3COO− E(120°)−E(0°) converted with eh_to_kcal',
+        'kcal/mol', 'scientific'),
+      overlay_kcal_ccl3: num(overlayKcalCcl3, 2,
+        'CCl3COO− E(120°)−E(0°) converted with eh_to_kcal',
+        'kcal/mol', 'scientific'),
+      overlay_kcal_cf3_abs: num(Math.abs(overlayKcalCf3), 2,
+        'Absolute CF3COO− E(120°)−E(0°) converted with eh_to_kcal',
+        'kcal/mol', 'scientific'),
+      overlay_kcal_ccl3_abs: num(Math.abs(overlayKcalCcl3), 2,
+        'Absolute CCl3COO− E(120°)−E(0°) converted with eh_to_kcal',
+        'kcal/mol', 'scientific'),
+    });
+  }
 
   for (const [name, metric] of Object.entries(metrics)) {
     if (metric.type === 'boolean') continue;

@@ -210,7 +210,9 @@ comparison evaluates to [q_coo_amp_ccl3_gt_cf3]{.metric}. The
 hypothesis-supported flag, scored on $q(\mathrm{O})$ after the scan, is
 [hypothesis_supported]{.metric}. The registered inconclusive outcome —
 either ion failing a scheduled grid point — is
-[scan_inconclusive]{.metric}. Absolute overlay checks are
+[scan_inconclusive]{.metric}. Both-converged finite 0° and 120°
+endpoints, required for the signed overlay metrics, are
+[scan_endpoints_converged]{.metric}. Absolute overlay checks are
 [overlay_kcal_cf3_abs]{.metric} kcal/mol (CF3) and
 [overlay_kcal_ccl3_abs]{.metric} kcal/mol (CCl3).
 
