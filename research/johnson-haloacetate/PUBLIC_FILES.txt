@@ -1,0 +1,27 @@
+# One repository-relative path per line. Raw Psi4 logs are not listed.
+LICENSE
+research/metrics.schema.json
+research/johnson-haloacetate/README.md
+research/johnson-haloacetate/PREREGISTRATION.md
+research/johnson-haloacetate/PLAN.md
+research/johnson-haloacetate/JOURNAL.md
+research/johnson-haloacetate/environment.md
+research/johnson-haloacetate/requirements.txt
+research/johnson-haloacetate/sources.json
+research/johnson-haloacetate/PUBLIC_FILES.txt
+research/johnson-haloacetate/generate-metrics.mjs
+research/johnson-haloacetate/make_figures.py
+research/johnson-haloacetate/metrics.json
+research/johnson-haloacetate/rematch/run_rematch.py
+research/johnson-haloacetate/scan/run_scan.py
+research/johnson-haloacetate/rematch/summary.csv
+research/johnson-haloacetate/rematch/m0_acetate/input.dat
+research/johnson-haloacetate/rematch/m1_cf3/input.dat
+research/johnson-haloacetate/rematch/m2_cclf2/input.dat
+research/johnson-haloacetate/rematch/m3_ccl3/input.dat
+research/johnson-haloacetate/xyz/m0_acetate.xyz
+research/johnson-haloacetate/xyz/m1_cf3.xyz
+research/johnson-haloacetate/xyz/m2_cclf2.xyz
+research/johnson-haloacetate/xyz/m3_ccl3.xyz
+research/johnson-haloacetate/results/m1_cf3_scan.csv
+research/johnson-haloacetate/results/m3_ccl3_scan.csv

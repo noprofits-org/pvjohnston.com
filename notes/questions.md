@@ -1126,3 +1126,39 @@ Format:
   or Hillel et al. 2026
 - **Falsifier:** M4 shows an S0/T1 crossing between converged points
 - **Status:** drafting
+
+## Does carboxylate oxygen charge oscillate with CX3 rotation, with larger amplitude for CCl3COO− than for CF3COO−?
+- **Observed:** Johnson, Gregory, Robertson, Gresham, Nelson, Craig, Prescott,
+  Page, Webber, and Wanless (2025) reported DDEC6/MP2/aug-cc-pVQZ charges in
+  which CCl3 withdraws more from carboxylate oxygens than CF3, proposed
+  carboxylate π → σ*(C–X) hyperconjugation, cited ESI Table S2 bond-length
+  signs, and invited geometry/bond rotation studies. A private-lab rematch
+  plus relaxed φ = X–Cα–C–O scan at B3LYP-D3(BJ)/aug-cc-pVDZ with MBIS
+  charges is the observation this note writes up: the CCl3 q(O) amplitude
+  is not larger than the CF3 q(O) amplitude.
+- **Source:** Johnson et al., *Chem. Sci.* **16**, 2382–2390 (2025),
+  doi:10.1039/d4sc04832f
+- **Type:** untested regime
+- **Contribution (candidate):** a relaxed CX3 rotation of CF3COO− and
+  CCl3COO− at B3LYP-D3(BJ)/aug-cc-pVDZ, which is not in Johnson 2025,
+  falsifies our registered hypothesis that MBIS carboxylate oxygen
+  charge oscillates with a larger amplitude for CCl3 than for CF3
+- **Falsifier:** q(O) is flat vs dihedral on both haloacetates, or CF3
+  amplitude ≥ CCl3 amplitude
+- **Status:** drafting —
+  `/posts/2026-08-24-does-cx3-rotation-oscillate-carboxylate-oxygen-charge.html`
+
+## Does the Johnson CX3 oxygen-charge swing appear at DDEC6/MP2/aug-cc-pVQZ?
+- **Observed:** Next step from the Johnson-haloacetate note. The registered
+  q(O)-amplitude hypothesis was falsified at B3LYP-D3(BJ)/aug-cc-pVDZ /
+  MBIS. The 2025 source used DDEC6 on MP2/aug-cc-pVQZ minima and invited
+  the rotation; that pairing has not been run.
+- **Source:** own next step; Johnson et al., *Chem. Sci.* **16**, 2382–2390
+  (2025)
+- **Type:** untested regime
+- **Contribution (candidate):** the same relaxed φ grid with DDEC6 at
+  MP2/aug-cc-pVQZ, or with Hirshfeld in a Psi4 build that has it — the
+  charge scheme and wavefunction the source actually used
+- **Falsifier:** CCl3 q(O) amplitude remains ≤ CF3 q(O) amplitude on that
+  grid → the miss is not an MBIS/B3LYP/double-ζ accident
+- **Status:** observation — neither calculation has been started

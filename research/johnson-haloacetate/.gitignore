@@ -1,0 +1,22 @@
+# Raw Psi4 logs and scratch stay in the private Molecules lab.
+# The committed drivers emit these if someone runs them locally.
+logs/
+scratch/
+timer.dat
+output.dat
+stdout.log
+done.json
+results.jsonl
+psi.*.clean
+__pycache__/
+
+# Per-angle scan workdirs and driver-written summaries. Keep
+# scan/run_scan.py and the publication CSVs under results/.
+scan/*/*/
+scan/*/summary.csv
+
+# Rematch driver logs beside the tracked Z-matrix inputs.
+rematch/*/output.dat
+rematch/*/stdout.log
+rematch/*/done.json
+rematch/results.jsonl

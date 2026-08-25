@@ -1,0 +1,483 @@
+{
+  "schema_version": 1,
+  "experiment": "johnson-haloacetate",
+  "provenance": {
+    "generated_at": "2026-08-25T03:42:11Z",
+    "generator": "research/johnson-haloacetate/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/johnson-haloacetate/rematch/summary.csv",
+        "sha256": "364c2679cda53ca65ff556a4c730f5505369f706b3e797ccaf6f6e845176a458"
+      },
+      {
+        "path": "research/johnson-haloacetate/results/m1_cf3_scan.csv",
+        "sha256": "77f456356c9ed09d48e51f77392f270726e68b10a0f1a06e7406d67e4b950328"
+      },
+      {
+        "path": "research/johnson-haloacetate/results/m3_ccl3_scan.csv",
+        "sha256": "47766ca83fc21e346fe3e738935b5088c04ec11572a1ccc585d7c531cd361c8a"
+      }
+    ]
+  },
+  "metrics": {
+    "rematch_n_ions": {
+      "type": "integer",
+      "value": 4,
+      "description": "Number of rematch ions",
+      "unit": "ions"
+    },
+    "rematch_n_converged": {
+      "type": "integer",
+      "value": 4,
+      "description": "Rematch optimizations that formally converged",
+      "unit": "optimizations"
+    },
+    "r_cc_acetate": {
+      "type": "number",
+      "value": 1.55891,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch C–C bond length of CH3COO−",
+      "unit": "Å"
+    },
+    "r_cc_cf3": {
+      "type": "number",
+      "value": 1.58326,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch C–C bond length of CF3COO−",
+      "unit": "Å"
+    },
+    "r_cc_cclf2": {
+      "type": "number",
+      "value": 1.60025,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch C–C bond length of CClF2COO−",
+      "unit": "Å"
+    },
+    "r_cc_ccl3": {
+      "type": "number",
+      "value": 1.63548,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch C–C bond length of CCl3COO−",
+      "unit": "Å"
+    },
+    "delta_cx_cf3": {
+      "type": "number",
+      "value": 0.00737,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch out-of-plane minus in-plane C–X length for CF3COO−",
+      "unit": "Å"
+    },
+    "delta_cx_ccl3": {
+      "type": "number",
+      "value": 0.00844,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch out-of-plane minus in-plane C–X length for CCl3COO−",
+      "unit": "Å"
+    },
+    "rematch_q_o_cf3": {
+      "type": "number",
+      "value": -0.70408,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch MBIS q(O) of CF3COO−, arithmetic mean of the two carboxylate oxygens",
+      "unit": "e"
+    },
+    "rematch_q_o_ccl3": {
+      "type": "number",
+      "value": -0.67973,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch MBIS q(O) of CCl3COO−, arithmetic mean of the two carboxylate oxygens",
+      "unit": "e"
+    },
+    "rematch_q_coo_cf3": {
+      "type": "number",
+      "value": -0.78982,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch MBIS carboxylate-group charge of CF3COO−",
+      "unit": "e"
+    },
+    "rematch_q_coo_ccl3": {
+      "type": "number",
+      "value": -0.5776,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch MBIS carboxylate-group charge of CCl3COO−",
+      "unit": "e"
+    },
+    "rematch_q_o_lowdin_cf3": {
+      "type": "number",
+      "value": -0.04557,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch Löwdin q(O) of CF3COO−, arithmetic mean of the two carboxylate oxygens",
+      "unit": "e"
+    },
+    "rematch_q_o_lowdin_ccl3": {
+      "type": "number",
+      "value": -0.04669,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch Löwdin q(O) of CCl3COO−, arithmetic mean of the two carboxylate oxygens",
+      "unit": "e"
+    },
+    "rematch_q_coo_lowdin_cf3": {
+      "type": "number",
+      "value": -0.75388,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch Löwdin carboxylate-group charge of CF3COO−",
+      "unit": "e"
+    },
+    "rematch_q_coo_lowdin_ccl3": {
+      "type": "number",
+      "value": -0.88389,
+      "format": {
+        "style": "fixed",
+        "digits": 5
+      },
+      "description": "Rematch Löwdin carboxylate-group charge of CCl3COO−",
+      "unit": "e"
+    },
+    "rematch_q_o_lowdin_pass": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether rematch Löwdin q(O) is more negative for CF3 than CCl3"
+    },
+    "rematch_q_coo_lowdin_pass": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether rematch Löwdin q(COO) is more negative for CF3 than CCl3"
+    },
+    "rematch_cc_order_pass": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether rematch r(C–C) satisfies the frozen CCl3 > CF3 > acetate comparison"
+    },
+    "rematch_cc_cclf2_between": {
+      "type": "boolean",
+      "value": true,
+      "description": "Observed diagnostic: whether rematch r(C–C) places CClF2 between CF3 and CCl3"
+    },
+    "rematch_delta_cx_pass": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether rematch Δ(C–X) satisfies CCl3 > CF3"
+    },
+    "rematch_q_o_pass": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether rematch mean-of-two-oxygens MBIS q(O) is more negative for CF3 than CCl3"
+    },
+    "rematch_q_coo_pass": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether rematch MBIS q(COO) is more negative for CF3 than CCl3"
+    },
+    "n_scan_points": {
+      "type": "integer",
+      "value": 18,
+      "description": "Scan points on the two 0–120° grids",
+      "unit": "points"
+    },
+    "n_scan_converged": {
+      "type": "integer",
+      "value": 18,
+      "description": "Scan points with optking True and a clean exit; unconverged rows stay in the CSVs and are excluded from max−min",
+      "unit": "points"
+    },
+    "scan_inconclusive": {
+      "type": "boolean",
+      "value": false,
+      "description": "Registered inconclusive outcome: either ion failed to converge on at least one scheduled grid point"
+    },
+    "scan_endpoints_converged": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether both 0° and 120° points on both ions are both-converged with finite charges and energies"
+    },
+    "scan_step_deg": {
+      "type": "integer",
+      "value": 15,
+      "description": "Frozen-dihedral step of the relaxed scan",
+      "unit": "deg"
+    },
+    "eh_to_kcal": {
+      "type": "number",
+      "value": 627.509474,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Conversion used for scan barriers and the 120°−0° overlay",
+      "unit": "kcal/mol/Eh"
+    },
+    "amp_q_o_cf3": {
+      "type": "number",
+      "value": 0.00052400000000008,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Peak-to-peak amplitude of mean-of-two-oxygens MBIS q(O) on both-converged CF3COO− points",
+      "unit": "e"
+    },
+    "amp_q_o_ccl3": {
+      "type": "number",
+      "value": 0.0000740000000000185,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Peak-to-peak amplitude of mean-of-two-oxygens MBIS q(O) on both-converged CCl3COO− points",
+      "unit": "e"
+    },
+    "amp_q_coo_cf3": {
+      "type": "number",
+      "value": 0.0004049999999999887,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "MBIS q(COO) peak-to-peak amplitude on both-converged CF3COO− points",
+      "unit": "e"
+    },
+    "amp_q_coo_ccl3": {
+      "type": "number",
+      "value": 0.0005990000000000162,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "MBIS q(COO) peak-to-peak amplitude on both-converged CCl3COO− points",
+      "unit": "e"
+    },
+    "max_charge_amp": {
+      "type": "number",
+      "value": 0.0005990000000000162,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Largest of the four MBIS peak-to-peak amplitudes (q(O) and q(COO) on both ions)",
+      "unit": "e"
+    },
+    "max_q_o_amp": {
+      "type": "number",
+      "value": 0.00052400000000008,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Largest of the two MBIS q(O) peak-to-peak amplitudes",
+      "unit": "e"
+    },
+    "barrier_eh_cf3": {
+      "type": "number",
+      "value": 0.00004494217921546806,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "CF3COO− electronic-energy range (max−min) on the both-converged scan",
+      "unit": "Eh"
+    },
+    "barrier_eh_ccl3": {
+      "type": "number",
+      "value": 0.00007040604259600514,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "CCl3COO− electronic-energy range (max−min) on the both-converged scan",
+      "unit": "Eh"
+    },
+    "barrier_kcal_cf3": {
+      "type": "number",
+      "value": 0.028201643239912092,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CF3COO− electronic-energy range converted with eh_to_kcal",
+      "unit": "kcal/mol"
+    },
+    "barrier_kcal_ccl3": {
+      "type": "number",
+      "value": 0.04418045875584078,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "CCl3COO− electronic-energy range converted with eh_to_kcal",
+      "unit": "kcal/mol"
+    },
+    "mean_q_o_cf3": {
+      "type": "number",
+      "value": -0.7038665,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Mean MBIS q(O) on the both-converged CF3COO− scan",
+      "unit": "e"
+    },
+    "mean_q_o_ccl3": {
+      "type": "number",
+      "value": -0.6797377777777778,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Mean MBIS q(O) on the both-converged CCl3COO− scan",
+      "unit": "e"
+    },
+    "mean_q_coo_cf3": {
+      "type": "number",
+      "value": -0.7899324444444447,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Mean MBIS q(COO) on the both-converged CF3COO− scan",
+      "unit": "e"
+    },
+    "mean_q_coo_ccl3": {
+      "type": "number",
+      "value": -0.5778392222222223,
+      "format": {
+        "style": "fixed",
+        "digits": 3
+      },
+      "description": "Mean MBIS q(COO) on the both-converged CCl3COO− scan",
+      "unit": "e"
+    },
+    "q_o_amp_ccl3_gt_cf3": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the CCl3 q(O) amplitude is larger than the CF3 q(O) amplitude"
+    },
+    "q_coo_amp_ccl3_gt_cf3": {
+      "type": "boolean",
+      "value": true,
+      "description": "Whether the CCl3 q(COO) amplitude is larger than the CF3 q(COO) amplitude"
+    },
+    "hypothesis_supported": {
+      "type": "boolean",
+      "value": false,
+      "description": "Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan and the grid is not inconclusive"
+    },
+    "repeat_q_o_cf3": {
+      "type": "number",
+      "value": 0.00001250000000008189,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Signed CF3COO− MBIS q(O) difference, 120° minus 0°",
+      "unit": "e"
+    },
+    "repeat_q_coo_cf3": {
+      "type": "number",
+      "value": 0.00010399999999999299,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Signed CF3COO− MBIS q(COO) difference, 120° minus 0°",
+      "unit": "e"
+    },
+    "repeat_q_o_ccl3": {
+      "type": "number",
+      "value": -0.000011500000000053134,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Signed CCl3COO− MBIS q(O) difference, 120° minus 0°",
+      "unit": "e"
+    },
+    "repeat_q_coo_ccl3": {
+      "type": "number",
+      "value": -0.000012000000000012001,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°",
+      "unit": "e"
+    },
+    "overlay_kcal_cf3": {
+      "type": "number",
+      "value": -0.00009148778783735429,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "CF3COO− E(120°)−E(0°) converted with eh_to_kcal",
+      "unit": "kcal/mol"
+    },
+    "overlay_kcal_ccl3": {
+      "type": "number",
+      "value": 0.000035399834945381366,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "CCl3COO− E(120°)−E(0°) converted with eh_to_kcal",
+      "unit": "kcal/mol"
+    },
+    "overlay_kcal_cf3_abs": {
+      "type": "number",
+      "value": 0.00009148778783735429,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Absolute CF3COO− E(120°)−E(0°) converted with eh_to_kcal",
+      "unit": "kcal/mol"
+    },
+    "overlay_kcal_ccl3_abs": {
+      "type": "number",
+      "value": 0.000035399834945381366,
+      "format": {
+        "style": "scientific",
+        "digits": 2
+      },
+      "description": "Absolute CCl3COO− E(120°)−E(0°) converted with eh_to_kcal",
+      "unit": "kcal/mol"
+    }
+  }
+}

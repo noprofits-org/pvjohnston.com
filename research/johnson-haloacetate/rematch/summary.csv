@@ -1,0 +1,5 @@
+ion,formula,r_cc,delta_cx_oop_ip,q_o_mbis,q_coo_mbis,q_o_lowdin,q_coo_lowdin,converged_optking,converged_exit
+acetate,CH3COO-,1.55891,,,,-0.10373,-0.93013,true,true
+cf3,CF3COO-,1.58326,0.00737,-0.70408,-0.78982,-0.04557,-0.75388,true,true
+cclf2,CClF2COO-,1.60025,,,,-0.04480,-0.78590,true,true
+ccl3,CCl3COO-,1.63548,0.00844,-0.67973,-0.57760,-0.04669,-0.88389,true,true
