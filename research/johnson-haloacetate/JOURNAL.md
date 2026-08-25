@@ -73,9 +73,11 @@ amplitude.
 
 ## 2026-08-25 — endpoint-failure projection
 
-If a 0° or 120° point fails, the generator still emits the overlay
-keys the post cites (`repeat_*`, `overlay_*`). Hakyll treats a
-missing name as a hard build error, so omission is not a publishable
-inconclusive outcome. The placeholder is boolean false, not a
-coerced 0. This run's endpoints converged; the published overlay
-numbers are unchanged.
+The shared metrics schema has no omitted or null form, and
+`resolveMetric` treats a missing name as a hard build error. Boolean
+false is not an omitted overlay, so the post no longer cites
+`repeat_*` or `overlay_*`. It uses `scan_endpoints_converged` and
+`scan_inconclusive` for that gate. The generator still writes the
+overlay numbers when both endpoints converge (this 18/18 run) and
+omits those keys when they do not. It does not invent a number or
+coerce a failed overlay to 0.

@@ -205,109 +205,6 @@ function pointAt(points, angle, label) {
   return found;
 }
 
-// The post cites these keys unconditionally. resolveMetric treats a
-// missing name as a hard Hakyll build error, so an inconclusive
-// endpoint failure must still emit a renderable value. Do not omit
-// the keys, and do not coerce a failed overlay to 0.
-const OVERLAY_METRIC_KEYS = [
-  'repeat_q_o_cf3',
-  'repeat_q_coo_cf3',
-  'repeat_q_o_ccl3',
-  'repeat_q_coo_ccl3',
-  'overlay_kcal_cf3',
-  'overlay_kcal_ccl3',
-  'overlay_kcal_cf3_abs',
-  'overlay_kcal_ccl3_abs',
-];
-
-function unavailableOverlay(description) {
-  return boolean(false,
-    `${description}. False when a 0° or 120° endpoint failed`);
-}
-
-function overlayMetrics({
-  scanEndpointsConverged,
-  repeatQoCf3,
-  repeatQcooCf3,
-  repeatQoCcl3,
-  repeatQcooCcl3,
-  overlayKcalCf3,
-  overlayKcalCcl3,
-}) {
-  if (scanEndpointsConverged) {
-    return {
-      repeat_q_o_cf3: num(repeatQoCf3, 2,
-        'Signed CF3COO− MBIS q(O) difference, 120° minus 0°',
-        'e', 'scientific'),
-      repeat_q_coo_cf3: num(repeatQcooCf3, 2,
-        'Signed CF3COO− MBIS q(COO) difference, 120° minus 0°',
-        'e', 'scientific'),
-      repeat_q_o_ccl3: num(repeatQoCcl3, 2,
-        'Signed CCl3COO− MBIS q(O) difference, 120° minus 0°',
-        'e', 'scientific'),
-      repeat_q_coo_ccl3: num(repeatQcooCcl3, 2,
-        'Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°',
-        'e', 'scientific'),
-      overlay_kcal_cf3: num(overlayKcalCf3, 2,
-        'CF3COO− E(120°)−E(0°) converted with eh_to_kcal',
-        'kcal/mol', 'scientific'),
-      overlay_kcal_ccl3: num(overlayKcalCcl3, 2,
-        'CCl3COO− E(120°)−E(0°) converted with eh_to_kcal',
-        'kcal/mol', 'scientific'),
-      overlay_kcal_cf3_abs: num(Math.abs(overlayKcalCf3), 2,
-        'Absolute CF3COO− E(120°)−E(0°) converted with eh_to_kcal',
-        'kcal/mol', 'scientific'),
-      overlay_kcal_ccl3_abs: num(Math.abs(overlayKcalCcl3), 2,
-        'Absolute CCl3COO− E(120°)−E(0°) converted with eh_to_kcal',
-        'kcal/mol', 'scientific'),
-    };
-  }
-  return {
-    repeat_q_o_cf3: unavailableOverlay(
-      'Signed CF3COO− MBIS q(O) difference, 120° minus 0°'),
-    repeat_q_coo_cf3: unavailableOverlay(
-      'Signed CF3COO− MBIS q(COO) difference, 120° minus 0°'),
-    repeat_q_o_ccl3: unavailableOverlay(
-      'Signed CCl3COO− MBIS q(O) difference, 120° minus 0°'),
-    repeat_q_coo_ccl3: unavailableOverlay(
-      'Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°'),
-    overlay_kcal_cf3: unavailableOverlay(
-      'CF3COO− E(120°)−E(0°) converted with eh_to_kcal'),
-    overlay_kcal_ccl3: unavailableOverlay(
-      'CCl3COO− E(120°)−E(0°) converted with eh_to_kcal'),
-    overlay_kcal_cf3_abs: unavailableOverlay(
-      'Absolute CF3COO− E(120°)−E(0°) converted with eh_to_kcal'),
-    overlay_kcal_ccl3_abs: unavailableOverlay(
-      'Absolute CCl3COO− E(120°)−E(0°) converted with eh_to_kcal'),
-  };
-}
-
-function assertRenderableOverlays(metrics) {
-  for (const key of OVERLAY_METRIC_KEYS) {
-    if (!(key in metrics)) {
-      throw new Error(`overlay metric ${key} must stay renderable`);
-    }
-  }
-}
-
-{
-  const probe = overlayMetrics({
-    scanEndpointsConverged: false,
-    repeatQoCf3: null,
-    repeatQcooCf3: null,
-    repeatQoCcl3: null,
-    repeatQcooCcl3: null,
-    overlayKcalCf3: null,
-    overlayKcalCcl3: null,
-  });
-  assertRenderableOverlays(probe);
-  for (const key of OVERLAY_METRIC_KEYS) {
-    if (probe[key].type !== 'boolean' || probe[key].value !== false) {
-      throw new Error(`${key} placeholder must be boolean false, not a coerced number`);
-    }
-  }
-}
-
 function build(generatedAt) {
   let nanRejected = false;
   try {
@@ -543,16 +440,38 @@ function build(generatedAt) {
       'Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan and the grid is not inconclusive'),
   };
 
-  Object.assign(metrics, overlayMetrics({
-    scanEndpointsConverged,
-    repeatQoCf3,
-    repeatQcooCf3,
-    repeatQoCcl3,
-    repeatQcooCcl3,
-    overlayKcalCf3,
-    overlayKcalCcl3,
-  }));
-  assertRenderableOverlays(metrics);
+  // The shared schema has no omitted/null metric form, and resolveMetric
+  // treats a missing name as a hard build error. The post therefore does
+  // not cite these keys. Emit them only from both-converged endpoints;
+  // do not invent a number or coerce a failed overlay to 0.
+  if (scanEndpointsConverged) {
+    Object.assign(metrics, {
+      repeat_q_o_cf3: num(repeatQoCf3, 2,
+        'Signed CF3COO− MBIS q(O) difference, 120° minus 0°',
+        'e', 'scientific'),
+      repeat_q_coo_cf3: num(repeatQcooCf3, 2,
+        'Signed CF3COO− MBIS q(COO) difference, 120° minus 0°',
+        'e', 'scientific'),
+      repeat_q_o_ccl3: num(repeatQoCcl3, 2,
+        'Signed CCl3COO− MBIS q(O) difference, 120° minus 0°',
+        'e', 'scientific'),
+      repeat_q_coo_ccl3: num(repeatQcooCcl3, 2,
+        'Signed CCl3COO− MBIS q(COO) difference, 120° minus 0°',
+        'e', 'scientific'),
+      overlay_kcal_cf3: num(overlayKcalCf3, 2,
+        'CF3COO− E(120°)−E(0°) converted with eh_to_kcal',
+        'kcal/mol', 'scientific'),
+      overlay_kcal_ccl3: num(overlayKcalCcl3, 2,
+        'CCl3COO− E(120°)−E(0°) converted with eh_to_kcal',
+        'kcal/mol', 'scientific'),
+      overlay_kcal_cf3_abs: num(Math.abs(overlayKcalCf3), 2,
+        'Absolute CF3COO− E(120°)−E(0°) converted with eh_to_kcal',
+        'kcal/mol', 'scientific'),
+      overlay_kcal_ccl3_abs: num(Math.abs(overlayKcalCcl3), 2,
+        'Absolute CCl3COO− E(120°)−E(0°) converted with eh_to_kcal',
+        'kcal/mol', 'scientific'),
+    });
+  }
 
   for (const [name, metric] of Object.entries(metrics)) {
     if (metric.type === 'boolean') continue;

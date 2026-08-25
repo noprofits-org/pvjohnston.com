@@ -184,17 +184,15 @@ points converged.
 | --- | ---: | ---: |
 | $q(\mathrm{O})$ amplitude (e) | [amp_q_o_cf3]{.metric} | [amp_q_o_ccl3]{.metric} |
 | $q(\mathrm{COO})$ amplitude (e) | [amp_q_coo_cf3]{.metric} | [amp_q_coo_ccl3]{.metric} |
-| signed $q(\mathrm{O})$ $120^\circ-0^\circ$ (e) | [repeat_q_o_cf3]{.metric} | [repeat_q_o_ccl3]{.metric} |
-| signed $q(\mathrm{COO})$ $120^\circ-0^\circ$ (e) | [repeat_q_coo_cf3]{.metric} | [repeat_q_coo_ccl3]{.metric} |
 | $E$ range ($E_\mathrm{h}$) | [barrier_eh_cf3]{.metric} | [barrier_eh_ccl3]{.metric} |
 | $E$ range (kcal/mol) | [barrier_kcal_cf3]{.metric} | [barrier_kcal_ccl3]{.metric} |
-| $E(120^\circ)-E(0^\circ)$ (kcal/mol) | [overlay_kcal_cf3]{.metric} | [overlay_kcal_ccl3]{.metric} |
 
-**Table 2.** Peak-to-peak MBIS amplitudes, signed $120^\circ-0^\circ$
-charge differences, and electronic-energy ranges on the both-converged
-scan. Conversion is [eh_to_kcal]{.metric} kcal mol$^{-1}$
-$E_\mathrm{h}^{-1}$. The largest of the four charge amplitudes is
-[max_charge_amp]{.metric} e.
+**Table 2.** Peak-to-peak MBIS amplitudes and electronic-energy ranges
+on the both-converged scan. Conversion is [eh_to_kcal]{.metric} kcal
+mol$^{-1}$ $E_\mathrm{h}^{-1}$. The largest of the four charge
+amplitudes is [max_charge_amp]{.metric} e. Signed $120^\circ-0^\circ$
+overlays are endpoint-only and are not cited here. Both endpoints on
+this run converged ([scan_endpoints_converged]{.metric}).
 
 <figure>
   <img src="/images/2026-08-24-does-cx3-rotation-oscillate-carboxylate-oxygen-charge-fig2.png" alt="Relative electronic energy versus frozen CX3 dihedral for CF3COO− and CCl3COO−, each series referenced to its own scan minimum, in kilocalories per mole.">
@@ -211,10 +209,8 @@ hypothesis-supported flag, scored on $q(\mathrm{O})$ after the scan, is
 [hypothesis_supported]{.metric}. The registered inconclusive outcome —
 either ion failing a scheduled grid point — is
 [scan_inconclusive]{.metric}. Both-converged finite 0° and 120°
-endpoints, required for the signed overlay metrics, are
-[scan_endpoints_converged]{.metric}. Absolute overlay checks are
-[overlay_kcal_cf3_abs]{.metric} kcal/mol (CF3) and
-[overlay_kcal_ccl3_abs]{.metric} kcal/mol (CCl3).
+endpoints, required before a signed overlay can be projected, are
+[scan_endpoints_converged]{.metric}.
 
 ## Discussion
 
@@ -227,11 +223,9 @@ fires. $q(\mathrm{COO})$ is the other way around —
 disclosed here rather than substituted for the named question after
 the split was seen. The largest of the four amplitudes is
 [max_charge_amp]{.metric} e. Oscillation, if any, is at that scale.
-The signed $120^\circ-0^\circ$ overlay on the CCl3 $q(\mathrm{O})$
-series is [repeat_q_o_ccl3]{.metric} e; that endpoint difference is
-not the peak-to-peak amplitude. We falsified the hypothesis we
-registered. Johnson et al. invited this rotation; they did not publish
-this amplitude.
+The signed $120^\circ-0^\circ$ overlay is not the peak-to-peak
+amplitude. We falsified the hypothesis we registered. Johnson et al.
+invited this rotation; they did not publish this amplitude.
 
 After both grids were in hand, on 2026-08-24, we did not pick one
 after seeing they split. The question named oxygen charge, so
