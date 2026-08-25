@@ -46,9 +46,8 @@ def read_scan(path: Path) -> list[dict]:
     for i, point in enumerate(points):
         if point["angle"] != i * 15:
             raise RuntimeError(f"{path}: expected angle {i * 15}, got {point['angle']}")
-        if not point["ok"]:
-            raise RuntimeError(f"{path}: unconverged point at {point['angle']}")
-    return points
+    # Unconverged scheduled rows stay in the CSV and are dropped here.
+    return [point for point in points if point["ok"]]
 
 
 def neighbor_segments(xs: list[float], ys: list[float]) -> list[tuple[list[float], list[float]]]:

@@ -100,8 +100,10 @@ aug-cc-pVDZ reversed the CF3/CCl3 oxygen-charge order and is
 ill-defined on this basis relative to MBIS. Löwdin was demoted; binding
 became MBIS-only; the both-must-pass / if-both-fail-stop pair was
 vacated. That amendment is dated 2026-08-24 in
-`research/johnson-haloacetate/JOURNAL.md`. The frozen hypothesis and
-falsifier were not rewritten.
+`research/johnson-haloacetate/JOURNAL.md`. The Löwdin rematch charges
+themselves are not in the committed CSVs, so that reversal is a dated
+lab note, not a metric derived from this directory. The frozen
+hypothesis and falsifier were not rewritten.
 
 The scan is a relaxed $\phi = \mathrm{X{-}C_\alpha{-}C{-}O}$
 continuation. Optking froze dihedral 5-4-1-2. The remaining degrees of
@@ -148,8 +150,11 @@ $\Delta(\mathrm{C{-}X})$ is out-of-plane minus in-plane. A dash is a
 quantity that is not in the committed rematch table: acetate has no
 C–X pair of that kind, and CClF2 is mixed. All
 [rematch_n_converged]{.metric} of [rematch_n_ions]{.metric}
-optimizations formally converged. The predeclared inequalities evaluate
-to [rematch_cc_order_pass]{.metric} for $r(\mathrm{C{-}C})$,
+optimizations formally converged. The frozen $r(\mathrm{C{-}C})$
+comparison CCl3 $>$ CF3 $>$ acetate evaluates to
+[rematch_cc_order_pass]{.metric}. The observed CClF2 placement between
+CF3 and CCl3 is [rematch_cc_cclf2_between]{.metric} and is not part of
+that gate. The other predeclared inequalities evaluate to
 [rematch_delta_cx_pass]{.metric} for $\Delta(\mathrm{C{-}X})$,
 [rematch_q_o_pass]{.metric} for MBIS $q(\mathrm{O})$, and
 [rematch_q_coo_pass]{.metric} for MBIS $q(\mathrm{COO})$.
@@ -198,7 +203,9 @@ The $q(\mathrm{O})$ comparison CCl3 amplitude $>$ CF3 amplitude
 evaluates to [q_o_amp_ccl3_gt_cf3]{.metric}. The $q(\mathrm{COO})$
 comparison evaluates to [q_coo_amp_ccl3_gt_cf3]{.metric}. The
 hypothesis-supported flag, scored on $q(\mathrm{O})$ after the scan, is
-[hypothesis_supported]{.metric}. Absolute overlay checks are
+[hypothesis_supported]{.metric}. The registered inconclusive outcome —
+either ion failing a scheduled grid point — is
+[scan_inconclusive]{.metric}. Absolute overlay checks are
 [overlay_kcal_cf3_abs]{.metric} kcal/mol (CF3) and
 [overlay_kcal_ccl3_abs]{.metric} kcal/mol (CCl3).
 

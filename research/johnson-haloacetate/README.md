@@ -23,6 +23,9 @@ raw Psi4 logs and does not rerun Psi4. It binds the research note
 - Traceability: traceable
 - Highest reproduction level: analysis-reproducible from the committed
   rematch and scan tables. Not end-to-end in this public repository.
+  The canonical Psi4 inputs, starting geometries, scan driver, and raw
+  logs are not committed, the same boundary as `research/hillel-triplet`.
+  Löwdin rematch charges are not in the committed tables.
 - Archived-evidence or rerun constraints: raw Psi4 output stays in the
   private Molecules lab (large, host paths), the same scratch convention
   as `research/hillel-triplet`.

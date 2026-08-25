@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "johnson-haloacetate",
   "provenance": {
-    "generated_at": "2026-08-25T02:53:00Z",
+    "generated_at": "2026-08-25T03:08:56Z",
     "generator": "research/johnson-haloacetate/generate-metrics.mjs",
     "inputs": [
       {
@@ -135,7 +135,12 @@
     "rematch_cc_order_pass": {
       "type": "boolean",
       "value": true,
-      "description": "Whether rematch r(C–C) satisfies CCl3 > CClF2 > CF3 > acetate"
+      "description": "Whether rematch r(C–C) satisfies the frozen CCl3 > CF3 > acetate comparison"
+    },
+    "rematch_cc_cclf2_between": {
+      "type": "boolean",
+      "value": true,
+      "description": "Observed diagnostic: whether rematch r(C–C) places CClF2 between CF3 and CCl3"
     },
     "rematch_delta_cx_pass": {
       "type": "boolean",
@@ -161,8 +166,13 @@
     "n_scan_converged": {
       "type": "integer",
       "value": 18,
-      "description": "Scan points with optking True and a clean exit",
+      "description": "Scan points with optking True and a clean exit; unconverged rows stay in the CSVs and are excluded from max−min",
       "unit": "points"
+    },
+    "scan_inconclusive": {
+      "type": "boolean",
+      "value": false,
+      "description": "Registered inconclusive outcome: either ion failed to converge on at least one scheduled grid point"
     },
     "scan_step_deg": {
       "type": "integer",
@@ -402,7 +412,7 @@
     "hypothesis_supported": {
       "type": "boolean",
       "value": false,
-      "description": "Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan"
+      "description": "Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan and the grid is not inconclusive"
     }
   }
 }

@@ -130,7 +130,9 @@ function optionalNumber(value, label) {
 }
 
 function peakToPeak(values, label) {
-  if (values.length === 0) throw new Error(`${label}: empty series`);
+  if (values.length < 2) {
+    throw new Error(`${label}: need ≥2 converged points for max−min`);
+  }
   const max = Math.max(...values);
   const min = Math.min(...values);
   requireFinite(max, `${label} max`);
@@ -236,9 +238,11 @@ function build(generatedAt) {
     throw new Error('CF3 and CCl3 rematch must have MBIS charges');
   }
 
+  // Frozen rematch r(C–C) gate: CCl3 > CF3 > acetate. CClF2 sitting
+  // between them was observed after rematch and is a diagnostic only.
   const ccOrderPass = rematch.ccl3.rCc > rematch.cf3.rCc
-    && rematch.cf3.rCc > rematch.acetate.rCc
-    && rematch.cclf2.rCc > rematch.cf3.rCc
+    && rematch.cf3.rCc > rematch.acetate.rCc;
+  const ccCclf2Between = rematch.cclf2.rCc > rematch.cf3.rCc
     && rematch.ccl3.rCc > rematch.cclf2.rCc;
   const deltaCxPass = rematch.ccl3.deltaCx > rematch.cf3.deltaCx;
   const rematchQoPass = rematch.cf3.qO < rematch.ccl3.qO;
@@ -253,10 +257,11 @@ function build(generatedAt) {
   const scanPoints = [...m1, ...m3];
   const nScan = scanPoints.length;
   const nConverged = scanPoints.filter((p) => p.both).length;
-  if (nScan !== 18) throw new Error(`expected 18 scan points, got ${nScan}`);
-  if (nConverged !== 18) {
-    throw new Error(`expected 18/18 converged, got ${nConverged}`);
-  }
+  if (nScan !== 18) throw new Error(`expected 18 scheduled scan points, got ${nScan}`);
+  // Unconverged scheduled rows stay in the CSVs and are excluded from
+  // max−min. Either ion failing any scheduled point is the registered
+  // inconclusive outcome; do not refuse to project that case.
+  const scanInconclusive = m1.some((p) => !p.both) || m3.some((p) => !p.both);
 
   const m1Converged = m1.filter((p) => p.both);
   const m3Converged = m3.filter((p) => p.both);
@@ -290,9 +295,10 @@ function build(generatedAt) {
   const meanQcooCcl3 = mean(m3Converged.map((p) => p.qCoo), 'CCl3 mean q(COO)');
 
   // Falsifier 2 is scored on q(O): hypothesis needs CCl3 amplitude > CF3.
+  // A grid failure is inconclusive, not a silent supported/falsified call.
   const qoAmpCcl3GtCf3 = ampQoCcl3 > ampQoCf3;
   const qcooAmpCcl3GtCf3 = ampQcooCcl3 > ampQcooCf3;
-  const hypothesisSupported = qoAmpCcl3GtCf3;
+  const hypothesisSupported = !scanInconclusive && qoAmpCcl3GtCf3;
 
   const metrics = {
     rematch_n_ions: integer(4, 'Number of rematch ions', 'ions'),
@@ -322,7 +328,9 @@ function build(generatedAt) {
     rematch_q_coo_ccl3: num(rematch.ccl3.qCoo, 5,
       'Rematch MBIS carboxylate-group charge of CCl3COO−', 'e'),
     rematch_cc_order_pass: boolean(ccOrderPass,
-      'Whether rematch r(C–C) satisfies CCl3 > CClF2 > CF3 > acetate'),
+      'Whether rematch r(C–C) satisfies the frozen CCl3 > CF3 > acetate comparison'),
+    rematch_cc_cclf2_between: boolean(ccCclf2Between,
+      'Observed diagnostic: whether rematch r(C–C) places CClF2 between CF3 and CCl3'),
     rematch_delta_cx_pass: boolean(deltaCxPass,
       'Whether rematch Δ(C–X) satisfies CCl3 > CF3'),
     rematch_q_o_pass: boolean(rematchQoPass,
@@ -331,7 +339,10 @@ function build(generatedAt) {
       'Whether rematch MBIS q(COO) is more negative for CF3 than CCl3'),
     n_scan_points: integer(nScan, 'Scan points on the two 0–120° grids', 'points'),
     n_scan_converged: integer(nConverged,
-      'Scan points with optking True and a clean exit', 'points'),
+      'Scan points with optking True and a clean exit; unconverged rows stay in the CSVs and are excluded from max−min',
+      'points'),
+    scan_inconclusive: boolean(scanInconclusive,
+      'Registered inconclusive outcome: either ion failed to converge on at least one scheduled grid point'),
     scan_step_deg: integer(15, 'Frozen-dihedral step of the relaxed scan', 'deg'),
     eh_to_kcal: raw(EH_TO_KCAL,
       'Conversion used for scan barriers and the 120°−0° overlay',
@@ -396,7 +407,7 @@ function build(generatedAt) {
     q_coo_amp_ccl3_gt_cf3: boolean(qcooAmpCcl3GtCf3,
       'Whether the CCl3 q(COO) amplitude is larger than the CF3 q(COO) amplitude'),
     hypothesis_supported: boolean(hypothesisSupported,
-      'Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan'),
+      'Whether the registered hypothesis is supported when falsifier 2 is scored on q(O) after the scan and the grid is not inconclusive'),
   };
 
   for (const [name, metric] of Object.entries(metrics)) {

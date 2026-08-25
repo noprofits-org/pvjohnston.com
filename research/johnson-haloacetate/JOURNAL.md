@@ -21,11 +21,14 @@ All four rematch optimizations formally converged (optking True and a
 clean exit): CH3COO−, CF3COO−, CClF2COO−, CCl3COO−. Committed numbers
 are in `rematch/summary.csv`.
 
-- r(C–C): CCl3 > CClF2 > CF3 > acetate. Pass.
+- r(C–C), frozen gate: CCl3 > CF3 > acetate. Pass.
+- r(C–C), observed diagnostic: CCl3 > CClF2 > CF3. Not a frozen gate.
 - Δ(C–X) oop−ip: CCl3 > CF3. Pass. CClF2 is mixed and is not used for
   this comparison. Acetate has no C–X pair of that kind.
 - MBIS q(O) and q(COO): CF3 more negative than CCl3. Pass.
-- Löwdin q(O) and q(COO): reversed. Fail.
+- Löwdin q(O) and q(COO): reversed. Fail. Those Löwdin rematch
+  values were not copied into the public CSVs; the reversal is this
+  dated note, not a committed metric.
 
 ## 2026-08-24 — before any torsion
 

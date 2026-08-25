@@ -41,7 +41,9 @@ directory does not rerun Psi4 and does not pin a Psi4 rerun path.
 
 ## What is not in this repository
 
-Psi4 output logs and scratch from `~/Molecules/johnson-haloacetate` are
-not committed. They are large and embed absolute machine paths. The same
-choice is recorded in `research/hillel-triplet`. The committed evidence
-is `rematch/summary.csv` plus the M1 and M3 scan CSVs.
+Psi4 output logs, scratch, starting geometries, and the scan driver
+from `~/Molecules/johnson-haloacetate` are not committed. The logs are
+large and embed absolute machine paths. The same choice is recorded in
+`research/hillel-triplet`. The committed evidence is
+`rematch/summary.csv` plus the M1 and M3 scan CSVs. Löwdin rematch
+charges were not projected into those tables.
