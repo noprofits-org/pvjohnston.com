@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "johnson-haloacetate",
   "provenance": {
-    "generated_at": "2026-08-25T01:22:27Z",
+    "generated_at": "2026-08-25T02:53:00Z",
     "generator": "research/johnson-haloacetate/generate-metrics.mjs",
     "inputs": [
       {
@@ -99,7 +99,7 @@
         "style": "fixed",
         "digits": 5
       },
-      "description": "Rematch MBIS mean carboxylate oxygen charge of CF3COO−",
+      "description": "Rematch MBIS q(O) of CF3COO−, arithmetic mean of the two carboxylate oxygens",
       "unit": "e"
     },
     "rematch_q_o_ccl3": {
@@ -109,7 +109,7 @@
         "style": "fixed",
         "digits": 5
       },
-      "description": "Rematch MBIS mean carboxylate oxygen charge of CCl3COO−",
+      "description": "Rematch MBIS q(O) of CCl3COO−, arithmetic mean of the two carboxylate oxygens",
       "unit": "e"
     },
     "rematch_q_coo_cf3": {
@@ -145,7 +145,7 @@
     "rematch_q_o_pass": {
       "type": "boolean",
       "value": true,
-      "description": "Whether rematch MBIS q(O) is more negative for CF3 than CCl3"
+      "description": "Whether rematch mean-of-two-oxygens MBIS q(O) is more negative for CF3 than CCl3"
     },
     "rematch_q_coo_pass": {
       "type": "boolean",
@@ -186,7 +186,7 @@
         "style": "fixed",
         "digits": 6
       },
-      "description": "MBIS q(O) peak-to-peak amplitude on both-converged CF3COO− points",
+      "description": "Peak-to-peak amplitude of mean-of-two-oxygens MBIS q(O) on both-converged CF3COO− points",
       "unit": "e"
     },
     "amp_q_o_ccl3": {
@@ -196,7 +196,7 @@
         "style": "fixed",
         "digits": 6
       },
-      "description": "MBIS q(O) peak-to-peak amplitude on both-converged CCl3COO− points",
+      "description": "Peak-to-peak amplitude of mean-of-two-oxygens MBIS q(O) on both-converged CCl3COO− points",
       "unit": "e"
     },
     "amp_q_coo_cf3": {

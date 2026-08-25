@@ -15,7 +15,9 @@ raw Psi4 logs and does not rerun Psi4. It binds the research note
   scoring of falsifier 2 is in `JOURNAL.md`.
 - What this experiment can establish: MBIS q(O) and q(COO) peak-to-peak
   amplitudes on the committed gas-phase B3LYP-D3(BJ)/aug-cc-pVDZ relaxed
-  CX3 grid.
+  CX3 grid. The committed `q_o_mbis` column is the arithmetic mean of
+  the two carboxylate oxygen charges, not one selected atom. The
+  signed 120°−0° difference is an overlay, not the amplitude.
 - What it cannot establish: DDEC6 or MP2/aug-cc-pVQZ charges, Hirshfeld,
   solvent, or a pKa mechanism.
 - Traceability: traceable

@@ -47,7 +47,10 @@ Eighteen of eighteen scan points converged (optking True and a clean
 exit) on the 0–120° / 15° grids of CF3COO− and CCl3COO−. The published
 abscissa is the frozen target `angle`. Derived amplitudes, signed
 120°−0° differences, and barriers live in `metrics.json` and are
-produced only from the committed CSVs.
+produced only from the committed CSVs. The committed `q_o_mbis`
+column is the arithmetic mean of the two carboxylate oxygen MBIS
+charges, not one selected atom. The signed 120°−0° difference is an
+overlay, not the amplitude.
 
 We score falsifier 2 on mean q(O) because the frozen question named
 oxygen charge. q(COO) is still reported separately and splits the

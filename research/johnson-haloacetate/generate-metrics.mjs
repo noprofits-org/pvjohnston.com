@@ -3,6 +3,12 @@
 // Publication metrics for the Johnson-haloacetate CX3 scan. Numbers are
 // derived from the committed rematch and scan CSVs. Do not hand-author
 // metrics.json.
+//
+// q_o_mbis is the arithmetic mean of the two carboxylate oxygen MBIS
+// charges. q_coo_mbis is the carboxylate-group sum. This generator does
+// not re-average raw per-atom charges; those atoms are not in the CSVs.
+// Amplitude is max−min of the committed column. The signed 120°−0°
+// difference is an overlay, not the amplitude.
 
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -308,9 +314,9 @@ function build(generatedAt) {
     delta_cx_ccl3: num(rematch.ccl3.deltaCx, 5,
       'Rematch out-of-plane minus in-plane C–X length for CCl3COO−', 'Å'),
     rematch_q_o_cf3: num(rematch.cf3.qO, 5,
-      'Rematch MBIS mean carboxylate oxygen charge of CF3COO−', 'e'),
+      'Rematch MBIS q(O) of CF3COO−, arithmetic mean of the two carboxylate oxygens', 'e'),
     rematch_q_o_ccl3: num(rematch.ccl3.qO, 5,
-      'Rematch MBIS mean carboxylate oxygen charge of CCl3COO−', 'e'),
+      'Rematch MBIS q(O) of CCl3COO−, arithmetic mean of the two carboxylate oxygens', 'e'),
     rematch_q_coo_cf3: num(rematch.cf3.qCoo, 5,
       'Rematch MBIS carboxylate-group charge of CF3COO−', 'e'),
     rematch_q_coo_ccl3: num(rematch.ccl3.qCoo, 5,
@@ -320,7 +326,7 @@ function build(generatedAt) {
     rematch_delta_cx_pass: boolean(deltaCxPass,
       'Whether rematch Δ(C–X) satisfies CCl3 > CF3'),
     rematch_q_o_pass: boolean(rematchQoPass,
-      'Whether rematch MBIS q(O) is more negative for CF3 than CCl3'),
+      'Whether rematch mean-of-two-oxygens MBIS q(O) is more negative for CF3 than CCl3'),
     rematch_q_coo_pass: boolean(rematchQcooPass,
       'Whether rematch MBIS q(COO) is more negative for CF3 than CCl3'),
     n_scan_points: integer(nScan, 'Scan points on the two 0–120° grids', 'points'),
@@ -331,9 +337,9 @@ function build(generatedAt) {
       'Conversion used for scan barriers and the 120°−0° overlay',
       'kcal/mol/Eh'),
     amp_q_o_cf3: num(ampQoCf3, 6,
-      'MBIS q(O) peak-to-peak amplitude on both-converged CF3COO− points', 'e'),
+      'Peak-to-peak amplitude of mean-of-two-oxygens MBIS q(O) on both-converged CF3COO− points', 'e'),
     amp_q_o_ccl3: num(ampQoCcl3, 6,
-      'MBIS q(O) peak-to-peak amplitude on both-converged CCl3COO− points', 'e'),
+      'Peak-to-peak amplitude of mean-of-two-oxygens MBIS q(O) on both-converged CCl3COO− points', 'e'),
     amp_q_coo_cf3: num(ampQcooCf3, 6,
       'MBIS q(COO) peak-to-peak amplitude on both-converged CF3COO− points', 'e'),
     amp_q_coo_ccl3: num(ampQcooCcl3, 6,

@@ -34,6 +34,8 @@ def read_scan(path: Path) -> list[dict]:
             {
                 "angle": float(row["angle"]),
                 "energy": float(row["energy_eh"]),
+                # q_o_mbis is the arithmetic mean of the two carboxylate
+                # oxygen MBIS charges. q_coo_mbis is the group sum.
                 "q_o": float(row["q_o_mbis"]),
                 "q_coo": float(row["q_coo_mbis"]),
                 "ok": row["converged_optking"] == "true"

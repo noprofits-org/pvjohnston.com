@@ -108,11 +108,15 @@ continuation. Optking froze dihedral 5-4-1-2. The remaining degrees of
 freedom were relaxed. The grid is 0–120° in
 [scan_step_deg]{.metric}° steps on CF3COO− (M1) and CCl3COO− (M3).
 The published abscissa is the frozen target `angle`. A hopping realized
-dihedral is not used as the $x$ coordinate. Amplitude is
-$\max-\min$ on points with optking True and a clean exit. Energies
-are converted with [eh_to_kcal]{.metric} kcal mol$^{-1}$ $E_\mathrm{h}^{-1}$.
-The 120° minus 0° difference is an overlay check on the same
-conversion.
+dihedral is not used as the $x$ coordinate. Published $q(\mathrm{O})$
+is the arithmetic mean of the two carboxylate oxygen MBIS charges, not
+one selected atom. The frozen dihedral uses atom 2 as the constraint;
+both oxygens still enter the mean. $q(\mathrm{COO})$ is the
+carboxylate-group sum. Amplitude is $\max-\min$ on points with
+optking True and a clean exit. Energies are converted with
+[eh_to_kcal]{.metric} kcal mol$^{-1}$ $E_\mathrm{h}^{-1}$. The 120°
+minus 0° difference is an overlay check on the same conversion. It is
+not the amplitude.
 
 The canonical executable was
 `/opt/homebrew/Caskroom/miniforge/base/envs/qchem/bin/psi4` on local
@@ -154,7 +158,7 @@ to [rematch_cc_order_pass]{.metric} for $r(\mathrm{C{-}C})$,
 converged (optking True and a clean exit).
 
 <figure>
-  <img src="/images/2026-08-24-does-cx3-rotation-oscillate-carboxylate-oxygen-charge-fig1.png" alt="Two-panel plot of MBIS carboxylate oxygen charge and carboxylate-group charge versus frozen CX3 dihedral for CF3COO− and CCl3COO−, each series shown as a deviation from its mean so the 10 to the minus 4 electron wiggle is visible.">
+  <img src="/images/2026-08-24-does-cx3-rotation-oscillate-carboxylate-oxygen-charge-fig1.png" alt="Two-panel plot of MBIS carboxylate oxygen charge and carboxylate-group charge versus frozen CX3 dihedral for CF3COO− and CCl3COO−, each series shown as a deviation from its mean.">
 </figure>
 
 **Figure 1.** MBIS $q(\mathrm{O})$ (left) and $q(\mathrm{COO})$
@@ -209,8 +213,9 @@ fires. $q(\mathrm{COO})$ is the other way around —
 disclosed here rather than substituted for the named question after
 the split was seen. The largest of the four amplitudes is
 [max_charge_amp]{.metric} e. Oscillation, if any, is at that scale.
-The CCl3 $q(\mathrm{O})$ amplitude sits at the 0°/120° repeat of
-[repeat_q_o_ccl3]{.metric} e. We falsified the hypothesis we
+The signed $120^\circ-0^\circ$ overlay on the CCl3 $q(\mathrm{O})$
+series is [repeat_q_o_ccl3]{.metric} e; that endpoint difference is
+not the peak-to-peak amplitude. We falsified the hypothesis we
 registered. Johnson et al. invited this rotation; they did not publish
 this amplitude.
 
