@@ -2,19 +2,19 @@
   "schema_version": 1,
   "experiment": "hillel-m4-sft",
   "provenance": {
-    "generated_at": "2026-08-27T10:35:42Z",
+    "generated_at": "2026-08-27T10:44:15Z",
     "generator": "research/hillel-m4-sft/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/hillel-m4-sft/results/bayes-metrics.json",
-        "sha256": "554b66eeff1ef96bc08915d905ca08b22d5989e628e33d81506342b4178d6940"
+        "sha256": "d46c5c302ffc504f156feb0af95edf11b9a4b4a3efd73d1bbe329b639718ba10"
       }
     ]
   },
   "metrics": {
     "crossing_phi_deg": {
       "type": "number",
-      "value": 98.8858046365,
+      "value": 98.88580451770365,
       "format": {
         "style": "fixed",
         "digits": 2

@@ -1,84 +1,505 @@
 {
-  "experiment": "hillel-m4-sft",
-  "reconstruction": {
-    "source": "filled-post-metric-names-and-registered-claim",
-    "expected_lab_sha256": "d46c5c302ffc504f156feb0af95edf11b9a4b4a3efd73d1bbe329b639718ba10",
-    "note": "The private-lab Bayes dump was not on the authoring host. This file contains only the registered claim, the 90/105 interpolant, the conversion factor, and the four required-window points. No other energies were added."
-  },
+  "slug": "hillel-m4-sft",
+  "method": "ORCA 6.1.1 SF-TDA / Tamm\u2013Dancoff; ! LibXC(BHANDHLYP) D3BJ def2-QZVPP RIJCOSX def2/J TightSCF Opt; NROOTS 3; FOLLOWIROOT true; gas phase; charge 0; SF reference multiplicity 3",
+  "source_files": [
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/inputs/opt/m4_s0_phi_090.out",
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/inputs/opt/m4_t1_phi_090.out",
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/inputs/opt/m4_s0_phi_105.out",
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/inputs/opt/m4_t1_phi_105.out",
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/inputs/opt/m4_s0_phi_120.out",
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/inputs/opt/m4_t1_phi_120.out",
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/inputs/opt/m4_s0_phi_135.out",
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/inputs/opt/m4_t1_phi_135.out",
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/PREREGISTRATION.md",
+    "/Users/pvjohnst/Molecules/hillel-m4-sft/PLAN.md"
+  ],
+  "box_copies": [
+    "/workspace/hillel-m4-sft/opt/m4_s0_phi_090.out",
+    "/workspace/hillel-m4-sft/opt/m4_s0_phi_105.out",
+    "/workspace/hillel-m4-sft/opt/m4_s0_phi_120.out",
+    "/workspace/hillel-m4-sft/opt/m4_s0_phi_135.out",
+    "/workspace/hillel-m4-sft/opt/m4_t1_phi_090.out",
+    "/workspace/hillel-m4-sft/opt/m4_t1_phi_105.out",
+    "/workspace/hillel-m4-sft/opt/m4_t1_phi_120.out",
+    "/workspace/hillel-m4-sft/opt/m4_t1_phi_135.out"
+  ],
   "conversion_Eh_to_kJmol": 2625.49963831,
-  "crossing_phi_deg": 98.8858046365,
-  "hypothesis_supported": true,
+  "gap_definition": "deltaE_T1_minus_S0",
+  "energy_rule": "E(S0) from the S0-assigned IROOT on the S0-surface constrained opt; E(T1) from the T1-assigned IROOT on the T1-surface constrained opt. Totals are the last CIS/TD-DFT E(tot)=E(SCF)+DE(CIS) after THE OPTIMIZATION HAS CONVERGED. SP energies are not used for the claim.",
+  "preregistration": {
+    "frozen": "2026-08-25",
+    "question": "Does Hillel M4 (neutral NMe2/NO2 push-pull azobenzene) still show an S0/T1 crossing near 110\u00b0 when recomputed with Hillel 2024's own method, SF-TDDFT in ORCA?",
+    "hypothesis": "M4 still shows a both-converged S0/T1 crossing near 110\u00b0 when S0 and T1 are taken from the SF-TDDFT manifold at Hillel 2024\u2019s electronic-structure level.",
+    "crossing_definition_quoted": "\u0394E(\u03c6) = E(T1, \u03c6) \u2212 E(S0, \u03c6), both SF-TDDFT total energies (E_SCF + E_root) after constrained CNNC opts of the spin-assigned roots. S0 = lowest SF root with \u27e8S\u00b2\u27e9 \u2248 0; T1 = lowest SF root with \u27e8S\u00b2\u27e9 \u2248 2. A crossing is a sign change of \u0394E on neighboring both-converged, both-spin-assigned points, plus that pair\u2019s linear interpolant. \u201cNear 110\u00b0\u201d means the interpolant is in 90\u2013135\u00b0, or the pair is 120\u00b0/105\u00b0. Unconverged or spin-contaminated neighbors are not a bracket.",
+    "falsifiers_quoted": {
+      "1": "No both-converged, spin-assigned sign change of \u0394E in 90\u2013135\u00b0 \u2192 hypothesis not supported. \u201cIt did not reproduce for us under these conditions.\u201d",
+      "2": "Sign change exists, interpolant outside 90\u2013135\u00b0 \u2192 the \u201cnear 110\u00b0\u201d claim is not supported.",
+      "3": "Fewer than one neighboring both-converged, spin-assigned pair in 90\u2013135\u00b0 \u2192 inconclusive. \u201cThe SF-TDDFT grid did not decide.\u201d"
+    }
+  },
+  "points": [
+    {
+      "phi_deg": 90,
+      "cnnc_finalval_s0": "90.00",
+      "cnnc_finalval_t1": "90.00",
+      "s0": {
+        "file": "m4_s0_phi_090.out",
+        "converged": true,
+        "terminated_normally": true,
+        "last_cycle_n": 6,
+        "input_IROOT": 2,
+        "followed_IROOT": 2,
+        "iroot": 2,
+        "S2": 0.306315,
+        "S2_printed": "0.306315",
+        "E_Eh": -910.991726666,
+        "E_Eh_printed": "-910.991726666",
+        "E_SCF_printed": "-911.029181885",
+        "DE_CIS_printed": "0.037455220",
+        "all_iroots": [
+          {
+            "iroot": 1,
+            "E_root_au": "0.030579",
+            "S2": "2.250431",
+            "Mult": 3,
+            "E_total_from_E_SCF_plus_E_au": "-910.998602885",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          },
+          {
+            "iroot": 2,
+            "E_root_au": "0.037455",
+            "S2": "0.306315",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.991726885",
+            "E_tot_printed_if_followed": "-910.991726666",
+            "followed": true
+          },
+          {
+            "iroot": 3,
+            "E_root_au": "0.047224",
+            "S2": "0.240864",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.981957885",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          }
+        ]
+      },
+      "t1": {
+        "file": "m4_t1_phi_090.out",
+        "converged": true,
+        "terminated_normally": true,
+        "last_cycle_n": 8,
+        "input_IROOT": 1,
+        "followed_IROOT": 1,
+        "iroot": 1,
+        "S2": 2.266676,
+        "S2_printed": "2.266676",
+        "E_Eh": -910.999002358,
+        "E_Eh_printed": "-910.999002358",
+        "E_SCF_printed": "-911.029571943",
+        "DE_CIS_printed": "0.030569585",
+        "all_iroots": [
+          {
+            "iroot": 1,
+            "E_root_au": "0.030570",
+            "S2": "2.266676",
+            "Mult": 3,
+            "E_total_from_E_SCF_plus_E_au": "-910.999001943",
+            "E_tot_printed_if_followed": "-910.999002358",
+            "followed": true
+          },
+          {
+            "iroot": 2,
+            "E_root_au": "0.038074",
+            "S2": "0.257362",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.991497943",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          },
+          {
+            "iroot": 3,
+            "E_root_au": "0.047079",
+            "S2": "0.226144",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.982492943",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          }
+        ]
+      },
+      "deltaE_Eh": -0.007275692,
+      "deltaE_Eh_printed_diff": "-0.007275692",
+      "deltaE_kJmol": -19.10232671445496,
+      "gap_S0_minus_T1_Eh": 0.007275692,
+      "gap_S0_minus_T1_kJmol": 19.10232671445496,
+      "both_assigned": true,
+      "both_converged": true
+    },
+    {
+      "phi_deg": 105,
+      "cnnc_finalval_s0": "105.00",
+      "cnnc_finalval_t1": "105.00",
+      "s0": {
+        "file": "m4_s0_phi_105.out",
+        "converged": true,
+        "terminated_normally": true,
+        "last_cycle_n": 8,
+        "input_IROOT": 1,
+        "followed_IROOT": 1,
+        "iroot": 1,
+        "S2": 0.240665,
+        "S2_printed": "0.240665",
+        "E_Eh": -911.005003805,
+        "E_Eh_printed": "-911.005003805",
+        "E_SCF_printed": "-911.027553412",
+        "DE_CIS_printed": "0.022549607",
+        "all_iroots": [
+          {
+            "iroot": 1,
+            "E_root_au": "0.022550",
+            "S2": "0.240665",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-911.005003412",
+            "E_tot_printed_if_followed": "-911.005003805",
+            "followed": true
+          },
+          {
+            "iroot": 2,
+            "E_root_au": "0.030757",
+            "S2": "2.271712",
+            "Mult": 3,
+            "E_total_from_E_SCF_plus_E_au": "-910.996796412",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          },
+          {
+            "iroot": 3,
+            "E_root_au": "0.051434",
+            "S2": "0.244293",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.976119412",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          }
+        ]
+      },
+      "t1": {
+        "file": "m4_t1_phi_105.out",
+        "converged": true,
+        "terminated_normally": true,
+        "last_cycle_n": 7,
+        "input_IROOT": 2,
+        "followed_IROOT": 2,
+        "iroot": 2,
+        "S2": 2.19247,
+        "S2_printed": "2.192470",
+        "E_Eh": -910.999997505,
+        "E_Eh_printed": "-910.999997505",
+        "E_SCF_printed": "-911.030523735",
+        "DE_CIS_printed": "0.030526230",
+        "all_iroots": [
+          {
+            "iroot": 1,
+            "E_root_au": "0.027770",
+            "S2": "0.306505",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-911.002753735",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          },
+          {
+            "iroot": 2,
+            "E_root_au": "0.030526",
+            "S2": "2.192470",
+            "Mult": 3,
+            "E_total_from_E_SCF_plus_E_au": "-910.999997735",
+            "E_tot_printed_if_followed": "-910.999997505",
+            "followed": true
+          },
+          {
+            "iroot": 3,
+            "E_root_au": "0.051561",
+            "S2": "0.229390",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.978962735",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          }
+        ]
+      },
+      "deltaE_Eh": 0.0050063,
+      "deltaE_Eh_printed_diff": "0.005006300",
+      "deltaE_kJmol": 13.144038839271353,
+      "gap_S0_minus_T1_Eh": -0.0050063,
+      "gap_S0_minus_T1_kJmol": -13.144038839271353,
+      "both_assigned": true,
+      "both_converged": true
+    },
+    {
+      "phi_deg": 120,
+      "cnnc_finalval_s0": "120.00",
+      "cnnc_finalval_t1": "120.00",
+      "s0": {
+        "file": "m4_s0_phi_120.out",
+        "converged": true,
+        "terminated_normally": true,
+        "last_cycle_n": 7,
+        "input_IROOT": 1,
+        "followed_IROOT": 1,
+        "iroot": 1,
+        "S2": 0.167397,
+        "S2_printed": "0.167397",
+        "E_Eh": -911.02179347,
+        "E_Eh_printed": "-911.021793470",
+        "E_SCF_printed": "-911.024934489",
+        "DE_CIS_printed": "0.003141019",
+        "all_iroots": [
+          {
+            "iroot": 1,
+            "E_root_au": "0.003141",
+            "S2": "0.167397",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-911.021793489",
+            "E_tot_printed_if_followed": "-911.021793470",
+            "followed": true
+          },
+          {
+            "iroot": 2,
+            "E_root_au": "0.029904",
+            "S2": "2.269963",
+            "Mult": 3,
+            "E_total_from_E_SCF_plus_E_au": "-910.995030489",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          },
+          {
+            "iroot": 3,
+            "E_root_au": "0.054595",
+            "S2": "0.230172",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.970339489",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          }
+        ]
+      },
+      "t1": {
+        "file": "m4_t1_phi_120.out",
+        "converged": true,
+        "terminated_normally": true,
+        "last_cycle_n": 7,
+        "input_IROOT": 2,
+        "followed_IROOT": 2,
+        "iroot": 2,
+        "S2": 2.293241,
+        "S2_printed": "2.293241",
+        "E_Eh": -910.999998355,
+        "E_Eh_printed": "-910.999998355",
+        "E_SCF_printed": "-911.029614708",
+        "DE_CIS_printed": "0.029616354",
+        "all_iroots": [
+          {
+            "iroot": 1,
+            "E_root_au": "0.011832",
+            "S2": "0.187537",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-911.017782708",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          },
+          {
+            "iroot": 2,
+            "E_root_au": "0.029616",
+            "S2": "2.293241",
+            "Mult": 3,
+            "E_total_from_E_SCF_plus_E_au": "-910.999998708",
+            "E_tot_printed_if_followed": "-910.999998355",
+            "followed": true
+          },
+          {
+            "iroot": 3,
+            "E_root_au": "0.054339",
+            "S2": "0.247351",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.975275708",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          }
+        ]
+      },
+      "deltaE_Eh": 0.021795115,
+      "deltaE_Eh_printed_diff": "0.021795115",
+      "deltaE_kJmol": 57.22306654942486,
+      "gap_S0_minus_T1_Eh": -0.021795115,
+      "gap_S0_minus_T1_kJmol": -57.22306654942486,
+      "both_assigned": true,
+      "both_converged": true
+    },
+    {
+      "phi_deg": 135,
+      "cnnc_finalval_s0": "135.00",
+      "cnnc_finalval_t1": "135.00",
+      "s0": {
+        "file": "m4_s0_phi_135.out",
+        "converged": true,
+        "terminated_normally": true,
+        "last_cycle_n": 7,
+        "input_IROOT": 1,
+        "followed_IROOT": 1,
+        "iroot": 1,
+        "S2": 0.140925,
+        "S2_printed": "0.140925",
+        "E_Eh": -911.038263125,
+        "E_Eh_printed": "-911.038263125",
+        "E_SCF_printed": "-911.019406335",
+        "DE_CIS_printed": "-0.018856791",
+        "all_iroots": [
+          {
+            "iroot": 1,
+            "E_root_au": "-0.018857",
+            "S2": "0.140925",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-911.038263335",
+            "E_tot_printed_if_followed": "-911.038263125",
+            "followed": true
+          },
+          {
+            "iroot": 2,
+            "E_root_au": "0.028882",
+            "S2": "2.236588",
+            "Mult": 3,
+            "E_total_from_E_SCF_plus_E_au": "-910.990524335",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          },
+          {
+            "iroot": 3,
+            "E_root_au": "0.052872",
+            "S2": "0.224706",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.966534335",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          }
+        ]
+      },
+      "t1": {
+        "file": "m4_t1_phi_135.out",
+        "converged": true,
+        "terminated_normally": true,
+        "last_cycle_n": 7,
+        "input_IROOT": 2,
+        "followed_IROOT": 2,
+        "iroot": 2,
+        "S2": 2.283123,
+        "S2_printed": "2.283123",
+        "E_Eh": -910.99856939,
+        "E_Eh_printed": "-910.998569390",
+        "E_SCF_printed": "-911.027075603",
+        "DE_CIS_printed": "0.028506213",
+        "all_iroots": [
+          {
+            "iroot": 1,
+            "E_root_au": "-0.004170",
+            "S2": "0.173820",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-911.031245603",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          },
+          {
+            "iroot": 2,
+            "E_root_au": "0.028506",
+            "S2": "2.283123",
+            "Mult": 3,
+            "E_total_from_E_SCF_plus_E_au": "-910.998569603",
+            "E_tot_printed_if_followed": "-910.998569390",
+            "followed": true
+          },
+          {
+            "iroot": 3,
+            "E_root_au": "0.053430",
+            "S2": "0.273710",
+            "Mult": 1,
+            "E_total_from_E_SCF_plus_E_au": "-910.973645603",
+            "E_tot_printed_if_followed": null,
+            "followed": false
+          }
+        ]
+      },
+      "deltaE_Eh": 0.039693735,
+      "deltaE_Eh_printed_diff": "0.039693735",
+      "deltaE_kJmol": 104.21588688567299,
+      "gap_S0_minus_T1_Eh": -0.039693735,
+      "gap_S0_minus_T1_kJmol": -104.21588688567299,
+      "both_assigned": true,
+      "both_converged": true
+    }
+  ],
+  "iroot_notes": "Assignment is by \u27e8S\u00b2\u27e9, not filename or IROOT index (PLAN/PREREG). S0 = lowest SF root with \u27e8S\u00b2\u27e9\u22480 (Mult 1); T1 = lowest with \u27e8S\u00b2\u27e9\u22482 (Mult 3). A root with \u27e8S\u00b2\u27e9\u22481 is contaminated and is not used. At 105/120/135, IROOT 1 is the singlet and IROOT 2 the triplet (tutorial default), on both S0-opt and T1-opt final geometries. At 90\u00b0, the order is swapped on the diagnostic SPs (IROOT 1 \u27e8S\u00b2\u27e9=2.314693 Mult 3; IROOT 2 \u27e8S\u00b2\u27e9=0.280977 Mult 1) and remains swapped on both converged opts (S0-opt last: IROOT 1 \u27e8S\u00b2\u27e9=2.250431 Mult 3, IROOT 2 \u27e8S\u00b2\u27e9=0.306315 Mult 1; T1-opt last: IROOT 1 \u27e8S\u00b2\u27e9=2.266676 Mult 3, IROOT 2 \u27e8S\u00b2\u27e9=0.257362 Mult 1). The 90\u00b0 opt inputs were rewritten after the SPs (m4_s0_phi_090 IROOT 1\u21922; m4_t1_phi_090 IROOT 2\u21921) and FOLLOWIROOT stayed on that assignment through convergence. Residual SF contamination: assigned S0 \u27e8S\u00b2\u27e9=0.140925\u20130.306315; assigned T1 \u27e8S\u00b2\u27e9=2.192470\u20132.293241. None near 1. SP energies were used only to confirm this assignment and are not in the claim table.",
+  "neighboring_pairs": [
+    {
+      "pair": [
+        90,
+        105
+      ],
+      "both_assigned": true,
+      "both_converged": true,
+      "usable_neighboring_pair": true,
+      "deltaE_a_Eh": -0.007275692,
+      "deltaE_b_Eh": 0.0050063,
+      "deltaE_a_kJmol": -19.10232671445496,
+      "deltaE_b_kJmol": 13.144038839271353,
+      "sign_a": "negative",
+      "sign_b": "positive",
+      "sign_change": true,
+      "interpolated_crossing_phi_deg": 98.88580451770365,
+      "interpolated_crossing_phi_deg_full": "98.885804517703642861841955278915667751615535981460"
+    },
+    {
+      "pair": [
+        105,
+        120
+      ],
+      "both_assigned": true,
+      "both_converged": true,
+      "usable_neighboring_pair": true,
+      "deltaE_a_Eh": 0.0050063,
+      "deltaE_b_Eh": 0.021795115,
+      "deltaE_a_kJmol": 13.144038839271353,
+      "deltaE_b_kJmol": 57.22306654942486,
+      "sign_a": "positive",
+      "sign_b": "positive",
+      "sign_change": false,
+      "interpolated_crossing_phi_deg": null,
+      "interpolated_crossing_phi_deg_full": null
+    },
+    {
+      "pair": [
+        120,
+        135
+      ],
+      "both_assigned": true,
+      "both_converged": true,
+      "usable_neighboring_pair": true,
+      "deltaE_a_Eh": 0.021795115,
+      "deltaE_b_Eh": 0.039693735,
+      "deltaE_a_kJmol": 57.22306654942486,
+      "deltaE_b_kJmol": 104.21588688567299,
+      "sign_a": "positive",
+      "sign_b": "positive",
+      "sign_change": false,
+      "interpolated_crossing_phi_deg": null,
+      "interpolated_crossing_phi_deg_full": null
+    }
+  ],
+  "crossing_phi_deg": 98.88580451770365,
   "falsifier_1_no_sign_change": false,
   "falsifier_2_crossing_outside_90_135": false,
   "falsifier_3_no_neighboring_pair": false,
-  "neighboring_pairs": [
-    {
-      "phi_a": 90,
-      "phi_b": 105,
-      "interpolant": 98.88580451770365,
-      "sign_change": true
-    }
-  ],
-  "points": {
-    "90": {
-      "s0": {
-        "E_Eh": -910.991726666,
-        "S2": 0.306315,
-        "iroot": 2
-      },
-      "t1": {
-        "E_Eh": -910.999002358,
-        "S2": 2.266676,
-        "iroot": 1
-      },
-      "deltaE_kJmol": -19.10232671445496,
-      "both_converged": true,
-      "both_assigned": true
-    },
-    "105": {
-      "s0": {
-        "E_Eh": -911.005003805,
-        "S2": 0.240665,
-        "iroot": 1
-      },
-      "t1": {
-        "E_Eh": -910.999997505,
-        "S2": 2.19247,
-        "iroot": 2
-      },
-      "deltaE_kJmol": 13.144038839271353,
-      "both_converged": true,
-      "both_assigned": true
-    },
-    "120": {
-      "s0": {
-        "E_Eh": -911.02179347,
-        "S2": 0.167397,
-        "iroot": 1
-      },
-      "t1": {
-        "E_Eh": -910.999998355,
-        "S2": 2.293241,
-        "iroot": 2
-      },
-      "deltaE_kJmol": 57.22306654942486,
-      "both_converged": true,
-      "both_assigned": true
-    },
-    "135": {
-      "s0": {
-        "E_Eh": -911.038263125,
-        "S2": 0.140925,
-        "iroot": 1
-      },
-      "t1": {
-        "E_Eh": -910.99856939,
-        "S2": 2.283123,
-        "iroot": 2
-      },
-      "deltaE_kJmol": 104.21588688567299,
-      "both_converged": true,
-      "both_assigned": true
-    }
-  }
+  "hypothesis_supported": true,
+  "claim_sentence": "Under ORCA 6.1.1 SF-TDA LibXC(BHANDHLYP) D3BJ/def2-QZVPP (RIJCOSX, gas phase), constrained-CNNC M4 has a both-converged, spin-assigned sign change of \u0394E=E(T1)\u2212E(S0) between 90\u00b0 (-19.10 kJ/mol) and 105\u00b0 (+13.14 kJ/mol); the linear interpolant is 98.89\u00b0, inside 90\u2013135\u00b0."
 }

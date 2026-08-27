@@ -79,16 +79,48 @@ function linearZero(x0, y0, x1, y1) {
   return x0 - (y0 * (x1 - x0)) / (y1 - y0);
 }
 
+function pointMap(points) {
+  if (Array.isArray(points)) {
+    const map = {};
+    for (const point of points) {
+      const phi = point?.phi_deg;
+      if (!Number.isFinite(phi)) {
+        throw new Error('points[] entry is missing a finite phi_deg');
+      }
+      map[String(phi)] = point;
+    }
+    return map;
+  }
+  if (points && typeof points === 'object') return points;
+  throw new Error(`${bayesInput}: points list or object is required`);
+}
+
 function pointAt(points, phi) {
   const point = points[String(phi)];
   if (!point) throw new Error(`missing Bayes point at ${phi}°`);
   return point;
 }
 
+function pairEnds(pair) {
+  if (Array.isArray(pair.pair) && pair.pair.length === 2) {
+    return [Number(pair.pair[0]), Number(pair.pair[1])];
+  }
+  return [Number(pair.phi_a), Number(pair.phi_b)];
+}
+
+function pairInterpolantOf(pair) {
+  if (typeof pair.interpolated_crossing_phi_deg === 'number') {
+    return pair.interpolated_crossing_phi_deg;
+  }
+  if (typeof pair.interpolant === 'number') return pair.interpolant;
+  return null;
+}
+
 function build(generatedAt) {
   const bayes = JSON.parse(readFileSync(resolve(root, bayesInput), 'utf8'));
-  if (bayes.experiment !== 'hillel-m4-sft') {
-    throw new Error(`${bayesInput}: experiment must be hillel-m4-sft`);
+  const experimentId = bayes.experiment ?? bayes.slug;
+  if (experimentId !== 'hillel-m4-sft') {
+    throw new Error(`${bayesInput}: experiment/slug must be hillel-m4-sft`);
   }
 
   const conversion = requireFinite(
@@ -113,10 +145,7 @@ function build(generatedAt) {
     'falsifier_3_no_neighboring_pair',
   );
 
-  const points = bayes.points;
-  if (!points || typeof points !== 'object') {
-    throw new Error(`${bayesInput}: points object is required`);
-  }
+  const points = pointMap(bayes.points);
   const extraPhis = Object.keys(points).filter(
     (key) => !REQUIRED_PHIS.includes(Number(key)),
   );
@@ -149,14 +178,15 @@ function build(generatedAt) {
   const pairs = Array.isArray(bayes.neighboring_pairs)
     ? bayes.neighboring_pairs
     : [];
-  const claimPair = pairs.find((pair) => (
-    Number(pair.phi_a) === 90 && Number(pair.phi_b) === 105
-  ));
+  const claimPair = pairs.find((pair) => {
+    const [a, b] = pairEnds(pair);
+    return a === 90 && b === 105;
+  });
   if (!claimPair) {
     throw new Error(`${bayesInput}: missing neighboring_pairs 90/105 entry`);
   }
   const pairInterpolant = requireFinite(
-    claimPair.interpolant,
+    pairInterpolantOf(claimPair),
     '90/105 interpolant',
   );
   const derivedZero = linearZero(
@@ -166,6 +196,7 @@ function build(generatedAt) {
     throw new Error('90/105 pair does not change ΔE sign');
   }
   assertClose(derivedZero, pairInterpolant, '90/105 derived interpolant', 1e-8);
+  assertClose(crossing, pairInterpolant, 'stored crossing vs 90/105 interpolant', 1e-8);
 
   const signChangeCount = [
     [90, 105],

@@ -28,13 +28,10 @@ ORCA `.out` files and does not rerun ORCA. It binds the research note
   repository.
 - Archived-evidence or rerun constraints: raw ORCA output stays in
   the private Molecules lab (large, host paths), the same scratch
-  convention as `research/hillel-triplet`. The Bayes file on this
-  branch was reconstructed from the filled note's metric names and
-  the registered claim because the private-lab dump was not on the
-  authoring host. The lab sha256
-  `d46c5c302ffc504f156feb0af95edf11b9a4b4a3efd73d1bbe329b639718ba10`
-  is recorded in the reconstruction block; replace the file with the
-  lab dump if it is later available and re-run the generator.
+  convention as `research/hillel-triplet`. The committed Bayes file
+  is the lab dump
+  (`d46c5c302ffc504f156feb0af95edf11b9a4b4a3efd73d1bbe329b639718ba10`,
+  18777 bytes).
 
 ## Molecule
 
