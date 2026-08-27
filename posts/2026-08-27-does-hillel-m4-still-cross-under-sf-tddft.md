@@ -54,12 +54,24 @@ All four required CNNC points are both-converged and both-spin-assigned. Table 1
 **Table 1.** Assigned SF-S0 and SF-T1 totals on the required CNNC window after separately constrained optimizations of each assigned surface. $\Delta E = E(\mathrm{T1})-E(\mathrm{S0})$ is the gap between those two profiles at the same constrained φ. LibXC(BHANDHLYP)-D3(BJ)/def2-QZVPP, SF-TDA, RIJCOSX, gas phase.
 
 <figure>
-  <img src="/images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png" alt="M4 separately relaxed SF-S0 and SF-T1 profile gap ΔE versus constrained CNNC angle φ at 90, 105, 120, and 135 degrees, with callouts A through D on the four points and callout E at the 90–105 interpolant.">
+  <img src="/images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png" alt="M4 separately relaxed SF-S0 and SF-T1 profile gap ΔE versus constrained CNNC angle φ at 90, 105, 120, and 135 degrees, each point labeled with its ΔE value and the 90–105 interpolant marked at ΔE = 0.">
 </figure>
 
-**Figure 1.** Separately relaxed SF-S0 and SF-T1 profile gap versus constrained CNNC angle φ. The four both-converged, both-assigned points from the Bayes metrics file (ORCA 6.1.1 SF-TDA, LibXC BHANDHLYP, D3BJ/def2-QZVPP) are **A**, φ = 90° and ΔE = [deltae_kjmol_90]{.metric} kJ/mol; **B**, 105° and [deltae_kjmol_105]{.metric}; **C**, 120° and [deltae_kjmol_120]{.metric}; and **D**, 135° and [deltae_kjmol_135]{.metric}, with ΔE = E(T1) − E(S0) after independent constrained optimizations of the two assigned surfaces. Adjacent both-converged neighbors are joined by straight segments. The 90–105 pair changes sign; **E** marks that pair’s linear interpolant, [crossing_phi_deg]{.metric}°, at ΔE = 0. The 105–120 and 120–135 pairs stay positive and have no zero marker. 110° has no marker.
+**Figure 1.** Separately relaxed SF-S0 and SF-T1 profile gap versus constrained CNNC angle φ. The four both-converged, both-assigned points from the Bayes metrics file (ORCA 6.1.1 SF-TDA, LibXC BHANDHLYP, D3BJ/def2-QZVPP) are labeled with their ΔE values: φ = 90°, ΔE = [deltae_kjmol_90]{.metric} kJ/mol; 105°, [deltae_kjmol_105]{.metric}; 120°, [deltae_kjmol_120]{.metric}; and 135°, [deltae_kjmol_135]{.metric}, with ΔE = E(T1) − E(S0) after independent constrained optimizations of the two assigned surfaces. Adjacent both-converged neighbors are joined by straight segments. The 90–105 pair changes sign; [crossing_phi_deg]{.metric}° marks that pair’s linear interpolant at ΔE = 0. The 105–120 and 120–135 pairs stay positive and have no zero marker. 110° has no marker.
 
-The 90°/105° pair changes sign (Figure 1). The linear interpolant of that pair is [crossing_phi_deg]{.metric}°. The 105°/120° pair does not change sign ([deltae_kjmol_105]{.metric} and [deltae_kjmol_120]{.metric} kJ/mol). The 120°/135° pair does not change sign ([deltae_kjmol_120]{.metric} and [deltae_kjmol_135]{.metric} kJ/mol).
+<figure>
+  <img src="/images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-s0-stills.png" alt="Four edge-on stills of M4 on the S0 surface at constrained CNNC angles 90, 105, 120, and 135 degrees, from a shared camera.">
+</figure>
+
+**Figure 2.** S0 stills of constrained-CNNC M4 at φ = 90°, 105°, 120°, and 135°, from a shared edge-on camera, with angle tags and no energies.
+
+<figure>
+  <img src="/images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-t1-stills.png" alt="Four edge-on stills of M4 on the T1 surface at constrained CNNC angles 90, 105, 120, and 135 degrees, from the same shared camera.">
+</figure>
+
+**Figure 3.** T1 stills of constrained-CNNC M4 at φ = 90°, 105°, 120°, and 135°, from the same shared edge-on camera, with angle tags and no energies.
+
+The 90°/105° pair changes sign (Figure 1). The linear interpolant of that pair is [crossing_phi_deg]{.metric}°. The 105°/120° pair does not change sign ([deltae_kjmol_105]{.metric} and [deltae_kjmol_120]{.metric} kJ/mol). The 120°/135° pair does not change sign ([deltae_kjmol_120]{.metric} and [deltae_kjmol_135]{.metric} kJ/mol). Figure 2 is the S0-surface stills at those four φ values. Figure 3 is the T1-surface stills at the same angles, from the same edge-on camera.
 
 ## Discussion
 

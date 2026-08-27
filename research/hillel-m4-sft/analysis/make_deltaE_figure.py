@@ -7,7 +7,7 @@ does not draw a second zero. Stills composite existing frames only
 (shared edge-on camera); identity tags, no energies.
 
 Usage:
-  python3 /workspace/hillel-m4-sft/analysis/make_deltaE_figure.py
+  python3 research/hillel-m4-sft/analysis/make_deltaE_figure.py
 """
 from __future__ import annotations
 

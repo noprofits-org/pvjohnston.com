@@ -8,5 +8,6 @@ research/hillel-m4-sft/PUBLIC_FILES.txt
 research/hillel-m4-sft/generate-metrics.mjs
 research/hillel-m4-sft/requirements-figure.txt
 research/hillel-m4-sft/analysis/make_deltaE_figure.py
+research/hillel-m4-sft/analysis/hanken-grotesk.ttf
 research/hillel-m4-sft/metrics.json
 research/hillel-m4-sft/results/bayes-metrics.json
