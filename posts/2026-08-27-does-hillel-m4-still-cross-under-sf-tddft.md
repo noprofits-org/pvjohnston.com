@@ -3,7 +3,7 @@ title: "Does Hillel M4 still show an S0/T1 crossing near 110° under Hillel 2024
 date: 2026-08-27
 author: Peter Johnston
 tags: computational chemistry, azobenzene, SF-TDDFT, push-pull chromophores, intersystem crossing
-description: An independent rematch of Hillel, Rough, Barrett, Pietro, and Mermut (2024) SF-TDDFT on 4-dimethylamino-4′-nitroazobenzene. The 2026-08-22 RKS/UKS note found a both-converged crossing at 110.5°. This note asks whether that crossing remains when S0 and T1 are taken from the SF-TDDFT manifold at the 2024 electronic-structure level.
+description: An independent rematch of Hillel, Rough, Barrett, Pietro, and Mermut (2024) SF-TDDFT on 4-dimethylamino-4′-nitroazobenzene. The published 2026-08-22 RKS/UKS note found a both-converged S0/T1 sign change on this dye. This note asks whether that crossing remains when S0 and T1 are taken from the SF-TDDFT manifold at the 2024 electronic-structure level.
 post-type: research
 contribution: an independent ORCA 6.1.1 SF-TDDFT/TDA BH&HLYP-D3(BJ)/def2-QZVPP constrained CNNC scan of 4-dimethylamino-4′-nitroazobenzene (Hillel M4), which is not in Hillel et al. 2024 and is not the 2026-08-22 RKS/UKS B3LYP-D3(BJ)/cc-pVDZ scan.
 contribution-type: untested regime

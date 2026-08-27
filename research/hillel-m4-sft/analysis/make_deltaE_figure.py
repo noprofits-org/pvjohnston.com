@@ -3,8 +3,13 @@
 
 Reads results/bayes-metrics.json at runtime for the four (φ, ΔE)
 points and the single interpolant. Does not invent points, does not
-mark 110°, does not draw a second zero. Frames are identity-only
-stills.
+mark 110°, does not draw a second zero.
+
+Edge-on S0/T1 stills under frames/ are lab-side inputs (not in this
+repo; the Molecules lab has XYZ, not these PNGs). Missing files are
+skipped so a clean checkout can still write the ΔE plot. The published
+figure is the committed OG PNG
+images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png.
 
 Usage:
   python3 research/hillel-m4-sft/analysis/make_deltaE_figure.py
@@ -533,12 +538,15 @@ def blit_img(rgb, img, x, y):
 # ---------------------------------------------------------------------------
 
 def load_thumbs():
+    """Optional lab-side stills. Skip any frame that is not on disk."""
     x0, y0, x1, y1 = CROP
     out = {}
     for surf in ("s0", "t1"):
         for phi in (90, 105, 120, 135):
-            name = f"m4_{surf}_phi_{phi:03d}.png"
-            im = read_png(FRAMES / name)
+            path = FRAMES / f"m4_{surf}_phi_{phi:03d}.png"
+            if not path.is_file():
+                continue
+            im = read_png(path)
             out[(surf, phi)] = im[y0:y1, x0:x1]
     return out
 
@@ -578,22 +586,25 @@ def render(metrics: dict) -> np.ndarray:
         valign="middle",
     )
 
-    # frames — S0 top / T1 bottom, aligned to φ
+    # frames — S0 top / T1 bottom, aligned to φ when lab stills exist
     thumbs = load_thumbs()
     thumb_w, thumb_h = 188, 104
     s0_top, t1_top = 52, 512
-    for surf, top, tag in (("s0", s0_top, "S0"), ("t1", t1_top, "T1")):
-        text(rgb, font, tag, 14, top + thumb_h / 2, 12, INK, align="left", valign="middle")
-        for phi in (90, 105, 120, 135):
-            src = thumbs[(surf, phi)]
-            scale = min(thumb_w / src.shape[1], thumb_h / src.shape[0])
-            nw = max(1, int(round(src.shape[1] * scale)))
-            nh = max(1, int(round(src.shape[0] * scale)))
-            im = resize_rgb(src, nw, nh)
-            cx = X(phi)
-            x = cx - nw / 2
-            y = top + (thumb_h - nh) / 2
-            blit_img(rgb, im, x, y)
+    if thumbs:
+        for surf, top, tag in (("s0", s0_top, "S0"), ("t1", t1_top, "T1")):
+            text(rgb, font, tag, 14, top + thumb_h / 2, 12, INK, align="left", valign="middle")
+            for phi in (90, 105, 120, 135):
+                src = thumbs.get((surf, phi))
+                if src is None:
+                    continue
+                scale = min(thumb_w / src.shape[1], thumb_h / src.shape[0])
+                nw = max(1, int(round(src.shape[1] * scale)))
+                nh = max(1, int(round(src.shape[0] * scale)))
+                im = resize_rgb(src, nw, nh)
+                cx = X(phi)
+                x = cx - nw / 2
+                y = top + (thumb_h - nh) / 2
+                blit_img(rgb, im, x, y)
 
     # spines
     line(rgb, plot_l, plot_t, plot_r, plot_t, INK, 0.9)
@@ -693,6 +704,8 @@ def main():
         print(f"  phi={phi:g}  deltaE_kJmol={de}")
     print(f"interpolant phi={metrics['crossing_phi']}  label={metrics['crossing_phi']:.2f}°")
     print("pairs with a drawn crossing: 90–105 only; 110° not marked")
+    n_thumbs = len(load_thumbs())
+    print(f"optional frames present: {n_thumbs}/8 (lab-side; missing stills skipped)")
     rgb = render(metrics)
     if rgb.shape[1] != W or rgb.shape[0] != H:
         raise SystemExit(f"bad size {rgb.shape}")
