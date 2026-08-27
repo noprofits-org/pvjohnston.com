@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "experiment": "hillel-m4-sft",
+  "provenance": {
+    "generated_at": "2026-08-27T18:08:42Z",
+    "generator": "research/hillel-m4-sft/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/hillel-m4-sft/results/bayes-metrics.json",
+        "sha256": "e02721a3121b3561473385c4d558c1028e96f2c3b52a1c7123858956242a10b3"
+      }
+    ]
+  },
+  "metrics": {
+    "crossing_phi_deg": {
+      "type": "number",
+      "value": 98.88580451770365,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Stored Bayes linear interpolant of ΔE=E(T1)−E(S0) on the 90°/105° pair",
+      "unit": "deg"
+    },
+    "hypothesis_supported": {
+      "type": "boolean",
+      "value": true,
+      "description": "Registered hypothesis supported: both-converged both-assigned S0/T1 sign change inside 90–135°"
+    },
+    "falsifier_1_no_sign_change": {
+      "type": "boolean",
+      "value": false,
+      "description": "Falsifier 1: no both-converged both-assigned ΔE sign change on the required window"
+    },
+    "falsifier_2_crossing_outside_90_135": {
+      "type": "boolean",
+      "value": false,
+      "description": "Falsifier 2: stored crossing_phi_deg lies outside 90–135°"
+    },
+    "falsifier_3_no_neighboring_pair": {
+      "type": "boolean",
+      "value": false,
+      "description": "Falsifier 3: no neighboring both-converged both-assigned pair in the Bayes projection"
+    },
+    "deltae_kjmol_90": {
+      "type": "number",
+      "value": -19.10232671445496,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "ΔE=E(T1)−E(S0) at CNNC 90°, both-converged and both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_90": {
+      "type": "number",
+      "value": -910.991726666,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy at CNNC 90°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_90": {
+      "type": "number",
+      "value": -910.999002358,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy at CNNC 90°",
+      "unit": "Eh"
+    },
+    "s0_s2_90": {
+      "type": "number",
+      "value": 0.306315,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ at CNNC 90°"
+    },
+    "t1_s2_90": {
+      "type": "number",
+      "value": 2.266676,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ at CNNC 90°"
+    },
+    "s0_iroot_90": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-S0 iroot at CNNC 90°"
+    },
+    "t1_iroot_90": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-T1 iroot at CNNC 90°"
+    },
+    "deltae_kjmol_105": {
+      "type": "number",
+      "value": 13.144038839271353,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "ΔE=E(T1)−E(S0) at CNNC 105°, both-converged and both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_105": {
+      "type": "number",
+      "value": -911.005003805,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy at CNNC 105°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_105": {
+      "type": "number",
+      "value": -910.999997505,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy at CNNC 105°",
+      "unit": "Eh"
+    },
+    "s0_s2_105": {
+      "type": "number",
+      "value": 0.240665,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ at CNNC 105°"
+    },
+    "t1_s2_105": {
+      "type": "number",
+      "value": 2.19247,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ at CNNC 105°"
+    },
+    "s0_iroot_105": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-S0 iroot at CNNC 105°"
+    },
+    "t1_iroot_105": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-T1 iroot at CNNC 105°"
+    },
+    "deltae_kjmol_120": {
+      "type": "number",
+      "value": 57.22306654942486,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "ΔE=E(T1)−E(S0) at CNNC 120°, both-converged and both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_120": {
+      "type": "number",
+      "value": -911.02179347,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy at CNNC 120°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_120": {
+      "type": "number",
+      "value": -910.999998355,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy at CNNC 120°",
+      "unit": "Eh"
+    },
+    "s0_s2_120": {
+      "type": "number",
+      "value": 0.167397,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ at CNNC 120°"
+    },
+    "t1_s2_120": {
+      "type": "number",
+      "value": 2.293241,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ at CNNC 120°"
+    },
+    "s0_iroot_120": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-S0 iroot at CNNC 120°"
+    },
+    "t1_iroot_120": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-T1 iroot at CNNC 120°"
+    },
+    "deltae_kjmol_135": {
+      "type": "number",
+      "value": 104.21588688567299,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "ΔE=E(T1)−E(S0) at CNNC 135°, both-converged and both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_135": {
+      "type": "number",
+      "value": -911.038263125,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy at CNNC 135°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_135": {
+      "type": "number",
+      "value": -910.99856939,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy at CNNC 135°",
+      "unit": "Eh"
+    },
+    "s0_s2_135": {
+      "type": "number",
+      "value": 0.140925,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ at CNNC 135°"
+    },
+    "t1_s2_135": {
+      "type": "number",
+      "value": 2.283123,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ at CNNC 135°"
+    },
+    "s0_iroot_135": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-S0 iroot at CNNC 135°"
+    },
+    "t1_iroot_135": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-T1 iroot at CNNC 135°"
+    }
+  }
+}
