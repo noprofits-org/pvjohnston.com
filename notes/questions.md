@@ -1125,7 +1125,30 @@ Format:
   azobenzene/AzPy/AzPyH+/2-AzPy controls, which is not in Hillel et al. 2024
   or Hillel et al. 2026
 - **Falsifier:** M4 shows an S0/T1 crossing between converged points
-- **Status:** drafting
+- **Status:** published —
+  `/posts/2026-08-22-does-push-pull-abolish-the-s0-t1-crossing.html`
+
+## Does Hillel M4 still show an S0/T1 crossing near 110° under Hillel 2024 SF-TDDFT?
+- **Observed:** The 2026-08-22 RKS/UKS B3LYP-D3(BJ)/cc-pVDZ note found
+  a both-converged M4 S0/T1 sign change whose interpolant is 110.5°,
+  between 120° and 105°. That note did not run SF-TDDFT. The 2024
+  Hillel method (SF-TDA BH&HLYP-D3(BJ)/def2-QZVPP) on this dye is the
+  observation this note writes up: the required window
+  (135°, 120°, 105°, 90°) is both-converged and both-assigned; ΔE
+  changes sign between 90° and 105°.
+- **Source:** Hillel et al., *Commun. Chem.* **7**, 250 (2024),
+  doi:10.1038/s42004-024-01321-0; own next step from
+  `/posts/2026-08-22-does-push-pull-abolish-the-s0-t1-crossing.html`;
+  Hillel et al., *Commun. Chem.* **9**, 142 (2026),
+  doi:10.1038/s42004-026-01952-5
+- **Type:** untested regime
+- **Contribution (candidate):** an independent ORCA 6.1.1 SF-TDDFT/TDA BH&HLYP-D3(BJ)/def2-QZVPP constrained CNNC scan of 4-dimethylamino-4′-nitroazobenzene (Hillel M4), which is not in Hillel et al. 2024 and is not the 2026-08-22 RKS/UKS B3LYP-D3(BJ)/cc-pVDZ scan.
+- **Hypothesis:** M4 still shows a both-converged S0/T1 crossing near
+  110° when S0 and T1 are taken from the SF-TDDFT manifold.
+- **Falsifier:** (1) no both-converged both-assigned sign change of
+  ΔE; (2) interpolant outside 90–135°; (3) no neighboring
+  both-converged both-assigned pair
+- **Status:** drafting — PR
 
 ## Does carboxylate oxygen charge oscillate with CX3 rotation, with larger amplitude for CCl3COO− than for CF3COO−?
 - **Observed:** Johnson, Gregory, Robertson, Gresham, Nelson, Craig, Prescott,

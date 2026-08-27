@@ -1,0 +1,84 @@
+{
+  "experiment": "hillel-m4-sft",
+  "reconstruction": {
+    "source": "filled-post-metric-names-and-registered-claim",
+    "expected_lab_sha256": "d46c5c302ffc504f156feb0af95edf11b9a4b4a3efd73d1bbe329b639718ba10",
+    "note": "The private-lab Bayes dump was not on the authoring host. This file contains only the registered claim, the 90/105 interpolant, the conversion factor, and the four required-window points. No other energies were added."
+  },
+  "conversion_Eh_to_kJmol": 2625.49963831,
+  "crossing_phi_deg": 98.8858046365,
+  "hypothesis_supported": true,
+  "falsifier_1_no_sign_change": false,
+  "falsifier_2_crossing_outside_90_135": false,
+  "falsifier_3_no_neighboring_pair": false,
+  "neighboring_pairs": [
+    {
+      "phi_a": 90,
+      "phi_b": 105,
+      "interpolant": 98.88580451770365,
+      "sign_change": true
+    }
+  ],
+  "points": {
+    "90": {
+      "s0": {
+        "E_Eh": -910.991726666,
+        "S2": 0.306315,
+        "iroot": 2
+      },
+      "t1": {
+        "E_Eh": -910.999002358,
+        "S2": 2.266676,
+        "iroot": 1
+      },
+      "deltaE_kJmol": -19.10232671445496,
+      "both_converged": true,
+      "both_assigned": true
+    },
+    "105": {
+      "s0": {
+        "E_Eh": -911.005003805,
+        "S2": 0.240665,
+        "iroot": 1
+      },
+      "t1": {
+        "E_Eh": -910.999997505,
+        "S2": 2.19247,
+        "iroot": 2
+      },
+      "deltaE_kJmol": 13.144038839271353,
+      "both_converged": true,
+      "both_assigned": true
+    },
+    "120": {
+      "s0": {
+        "E_Eh": -911.02179347,
+        "S2": 0.167397,
+        "iroot": 1
+      },
+      "t1": {
+        "E_Eh": -910.999998355,
+        "S2": 2.293241,
+        "iroot": 2
+      },
+      "deltaE_kJmol": 57.22306654942486,
+      "both_converged": true,
+      "both_assigned": true
+    },
+    "135": {
+      "s0": {
+        "E_Eh": -911.038263125,
+        "S2": 0.140925,
+        "iroot": 1
+      },
+      "t1": {
+        "E_Eh": -910.99856939,
+        "S2": 2.283123,
+        "iroot": 2
+      },
+      "deltaE_kJmol": 104.21588688567299,
+      "both_converged": true,
+      "both_assigned": true
+    }
+  }
+}

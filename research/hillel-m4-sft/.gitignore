@@ -1,0 +1,8 @@
+# Raw ORCA logs and scratch stay in the private Molecules lab.
+*.out
+*.gbw
+*.densities
+*.tmp
+*.tmp.*
+scratch/
+__pycache__/

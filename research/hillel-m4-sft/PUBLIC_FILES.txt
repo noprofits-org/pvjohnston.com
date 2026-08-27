@@ -1,0 +1,10 @@
+# One repository-relative path per line. Raw ORCA logs are not listed.
+LICENSE
+research/metrics.schema.json
+research/hillel-m4-sft/README.md
+research/hillel-m4-sft/PREREGISTRATION.md
+research/hillel-m4-sft/environment.md
+research/hillel-m4-sft/PUBLIC_FILES.txt
+research/hillel-m4-sft/generate-metrics.mjs
+research/hillel-m4-sft/metrics.json
+research/hillel-m4-sft/results/bayes-metrics.json
