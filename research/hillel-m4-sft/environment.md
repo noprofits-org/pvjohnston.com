@@ -37,8 +37,11 @@ directory does not rerun ORCA and does not pin an ORCA rerun path.
 - Metrics generator: Node, `generate-metrics.mjs`; no extra
   packages
 - The Figure 1 renderer uses Python 3.9.6, NumPy 2.0.2, and Pillow
-  11.3.0, pinned in `requirements-figure.txt`. Pillow's bundled default
-  font avoids host font paths and platform-specific FreeType library names.
+  11.3.0, pinned in `requirements-figure.txt`. Type is the committed
+  `analysis/hanken-grotesk.ttf`, loaded with Pillow `ImageFont.truetype`.
+  No host font path and no platform-specific FreeType library name. Axis
+  Δ and φ, which that TTF does not encode, use Pillow's bundled default
+  at the same pixel size.
 - The metrics generator has no lockfile and reads only
   `results/bayes-metrics.json`
 

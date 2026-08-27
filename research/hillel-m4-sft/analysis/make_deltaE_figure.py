@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """M4 SF-TDDFT figures: ACS plot (Fig 1) + large S0/T1 stills (Fig 2/3).
 
-Reads metrics.json at runtime for the four (φ, ΔE) points and the
-single 90–105 interpolant. Does not invent points, does not mark 110°,
+Reads results/bayes-metrics.json at runtime for the four (φ, ΔE) points
+and the single 90–105 interpolant. Does not invent points, does not mark 110°,
 does not draw a second zero. Stills composite existing frames only
-(shared edge-on camera); identity tags, no energies.
+(shared edge-on camera); identity tags, no energies. Lab frames are
+optional: a clean checkout writes the OG plot and exits 0.
 
 Usage:
   python3 research/hillel-m4-sft/analysis/make_deltaE_figure.py
@@ -12,41 +13,44 @@ Usage:
 from __future__ import annotations
 
 import json
+import math
 import shutil
 import struct
 import zlib
 from pathlib import Path
 
-import ctypes
-from ctypes import (
-    POINTER,
-    Structure,
-    c_char_p,
-    c_int,
-    c_int16,
-    c_int32,
-    c_long,
-    c_short,
-    c_ubyte,
-    c_uint,
-    c_uint16,
-    c_uint32,
-    c_void_p,
-)
 import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
-METRICS_PATH = ROOT / "metrics.json"
+REPO_ROOT = ROOT.parents[1]
+METRICS_PATH = ROOT / "results" / "bayes-metrics.json"
 FRAMES = ROOT / "frames"
-OUT_PLOT = HERE / "fig_deltaE_vs_phi.png"
-OUT_PLOT_EASY = ROOT / "fig_deltaE_vs_phi.png"
-OUT_S0 = HERE / "fig_s0_stills.png"
-OUT_T1 = HERE / "fig_t1_stills.png"
-# Face: Hanken Grotesk (converted woff2 → static Regular TTF).
-# DejaVu only if Hanken will not rasterize, or for a missing glyph (Δ, φ).
+OUT_PREVIEW = HERE / "fig_deltaE_vs_phi.png"
+OUT_PUBLISHED = (
+    REPO_ROOT
+    / "images"
+    / "2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png"
+)
+OUT_S0_PREVIEW = HERE / "fig_s0_stills.png"
+OUT_T1_PREVIEW = HERE / "fig_t1_stills.png"
+OUT_S0_PUBLISHED = (
+    REPO_ROOT
+    / "images"
+    / "2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-s0-stills.png"
+)
+OUT_T1_PUBLISHED = (
+    REPO_ROOT
+    / "images"
+    / "2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-t1-stills.png"
+)
+# Face: committed Hanken Grotesk, loaded with Pillow ImageFont.truetype.
+# No host font path and no platform-specific FreeType soname.
 HANKEN_TTF = HERE / "hanken-grotesk.ttf"
-DEJAVU_TTF = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
+# Committed cmap has no Greek. Axis Δ and φ use Pillow's bundled default
+# at the same pixel size so macOS does not need a second TTF.
+_FALLBACK_CHARS = frozenset("\u0394\u03c6")
 
 # Standing rule (Peter / Heisenberg): plot type matches page body size.
 # Desktop in-article image width DISPLAY_W=632 CSS px; body BODY_PX=17 (Hanken).
@@ -242,188 +246,60 @@ def resize_rgb(src: np.ndarray, nw: int, nh: int) -> np.ndarray:
 
 
 # ---------------------------------------------------------------------------
-# FreeType (Hanken Grotesk; DejaVu only as last-resort / missing-glyph)
+# Portable font rendering — Pillow ImageFont.truetype on committed Hanken
 # ---------------------------------------------------------------------------
 
-class FT_Bitmap(Structure):
-    _fields_ = [
-        ("rows", c_uint32),
-        ("width", c_uint32),
-        ("pitch", c_int32),
-        ("buffer", POINTER(c_ubyte)),
-        ("num_grays", c_uint16),
-        ("pixel_mode", c_ubyte),
-        ("palette_mode", c_ubyte),
-        ("palette", c_void_p),
-    ]
-
-
-class FT_Vector(Structure):
-    _fields_ = [("x", c_long), ("y", c_long)]
-
-
-class FT_Glyph_Metrics(Structure):
-    _fields_ = [
-        ("width", c_long),
-        ("height", c_long),
-        ("horiBearingX", c_long),
-        ("horiBearingY", c_long),
-        ("horiAdvance", c_long),
-        ("vertBearingX", c_long),
-        ("vertBearingY", c_long),
-        ("vertAdvance", c_long),
-    ]
-
-
-class FT_Outline(Structure):
-    _fields_ = [
-        ("n_contours", c_short),
-        ("n_points", c_short),
-        ("points", c_void_p),
-        ("tags", c_void_p),
-        ("contours", c_void_p),
-        ("flags", c_int),
-    ]
-
-
-class FT_Generic(Structure):
-    _fields_ = [("data", c_void_p), ("finalizer", c_void_p)]
-
-
-class FT_GlyphSlotRec(Structure):
-    _fields_ = [
-        ("library", c_void_p),
-        ("face", c_void_p),
-        ("next", c_void_p),
-        ("glyph_index", c_uint),
-        ("generic", FT_Generic),
-        ("metrics", FT_Glyph_Metrics),
-        ("linearHoriAdvance", c_long),
-        ("linearVertAdvance", c_long),
-        ("advance", FT_Vector),
-        ("format", c_uint32),
-        ("bitmap", FT_Bitmap),
-        ("bitmap_left", c_int),
-        ("bitmap_top", c_int),
-        ("outline", FT_Outline),
-    ]
-
-
-class FT_BBox(Structure):
-    _fields_ = [("xMin", c_long), ("yMin", c_long), ("xMax", c_long), ("yMax", c_long)]
-
-
-class FT_FaceRec(Structure):
-    _fields_ = [
-        ("num_faces", c_long),
-        ("face_index", c_long),
-        ("face_flags", c_long),
-        ("style_flags", c_long),
-        ("num_glyphs", c_long),
-        ("family_name", c_char_p),
-        ("style_name", c_char_p),
-        ("num_fixed_sizes", c_int),
-        ("available_sizes", c_void_p),
-        ("num_charmaps", c_int),
-        ("charmaps", c_void_p),
-        ("generic", FT_Generic),
-        ("bbox", FT_BBox),
-        ("units_per_EM", c_uint16),
-        ("ascender", c_int16),
-        ("descender", c_int16),
-        ("height", c_int16),
-        ("max_advance_width", c_int16),
-        ("max_advance_height", c_int16),
-        ("underline_position", c_int16),
-        ("underline_thickness", c_int16),
-        ("glyph", POINTER(FT_GlyphSlotRec)),
-        ("size", c_void_p),
-        ("charmap", c_void_p),
-    ]
-
-
-FT_LOAD_RENDER = 4
-
-
 class Font:
-    def __init__(self, path: bytes, fallback_path: bytes | None = None):
-        self.ft = ctypes.cdll.LoadLibrary("libfreetype.so.6")
-        self.lib = c_void_p()
-        if self.ft.FT_Init_FreeType(ctypes.byref(self.lib)) != 0:
-            raise RuntimeError("FT_Init_FreeType")
-        self.ft.FT_Get_Char_Index.restype = c_uint
-        self.face_ptr = c_void_p()
-        if self.ft.FT_New_Face(self.lib, path, 0, ctypes.byref(self.face_ptr)) != 0:
-            raise RuntimeError("FT_New_Face")
-        self.face = ctypes.cast(self.face_ptr, POINTER(FT_FaceRec)).contents
-        self._px = None
-        self.fallback_ptr = None
-        self.fallback_face = None
-        self._fb_px = None
-        if fallback_path:
-            fb = c_void_p()
-            if self.ft.FT_New_Face(self.lib, fallback_path, 0, ctypes.byref(fb)) == 0:
-                self.fallback_ptr = fb
-                self.fallback_face = ctypes.cast(fb, POINTER(FT_FaceRec)).contents
+    """Hanken Grotesk via Pillow; no libfreetype.so.6, no host font path."""
 
-    def _set_px(self, px: int) -> None:
-        if self._px != px:
-            if self.ft.FT_Set_Pixel_Sizes(self.face_ptr, 0, px) != 0:
-                raise RuntimeError("FT_Set_Pixel_Sizes")
-            self._px = px
-        if self.fallback_ptr is not None and self._fb_px != px:
-            if self.ft.FT_Set_Pixel_Sizes(self.fallback_ptr, 0, px) != 0:
-                raise RuntimeError("FT_Set_Pixel_Sizes fallback")
-            self._fb_px = px
+    def __init__(self, path: Path):
+        if not path.is_file():
+            raise SystemExit(f"committed Hanken TTF missing: {path}")
+        self.path = path
+        self._hanken: dict[int, ImageFont.FreeTypeFont] = {}
+        self._bundled: dict[int, ImageFont.ImageFont] = {}
 
-    def _face_for_char(self, ch: str):
-        idx = self.ft.FT_Get_Char_Index(self.face_ptr, ord(ch))
-        if idx != 0 or self.fallback_ptr is None:
-            return self.face_ptr, self.face
-        fb_idx = self.ft.FT_Get_Char_Index(self.fallback_ptr, ord(ch))
-        if fb_idx != 0:
-            return self.fallback_ptr, self.fallback_face
-        return self.face_ptr, self.face
+    def _face(self, px: int, ch: str):
+        if ch in _FALLBACK_CHARS:
+            if px not in self._bundled:
+                self._bundled[px] = ImageFont.load_default(size=px)
+            return self._bundled[px]
+        if px not in self._hanken:
+            self._hanken[px] = ImageFont.truetype(str(self.path), size=px)
+        return self._hanken[px]
 
     def measure(self, text: str, px: int) -> tuple[int, int]:
-        self._set_px(px)
-        w = 0
-        for ch in text:
-            face_ptr, face = self._face_for_char(ch)
-            self.ft.FT_Load_Char(face_ptr, ord(ch), FT_LOAD_RENDER)
-            w += face.glyph.contents.advance.x >> 6
-        asc = int(round(self.face.ascender * px / max(self.face.units_per_EM, 1)))
-        desc = int(round(-self.face.descender * px / max(self.face.units_per_EM, 1)))
-        return w, asc + desc
+        gray, _ = self.render_gray(text, px)
+        return gray.shape[1], gray.shape[0]
 
     def render_gray(self, text: str, px: int) -> tuple[np.ndarray, int]:
         """Return (H×W uint8 coverage, baseline y)."""
-        self._set_px(px)
         glyphs = []
-        width = 0
+        width = 0.0
         max_top = 0
         max_bot = 0
         for ch in text:
-            face_ptr, face = self._face_for_char(ch)
-            self.ft.FT_Load_Char(face_ptr, ord(ch), FT_LOAD_RENDER)
-            slot = face.glyph.contents
-            bm = slot.bitmap
-            rows, cols, pitch = bm.rows, bm.width, bm.pitch
-            if rows and cols and bm.buffer:
-                buf = ctypes.string_at(bm.buffer, pitch * rows)
-                arr = np.frombuffer(buf, np.uint8).reshape(rows, pitch)[:, :cols].copy()
-            else:
-                arr = np.zeros((1, 1), np.uint8)
-            glyphs.append((arr, slot.bitmap_left, slot.bitmap_top, slot.advance.x >> 6))
-            max_top = max(max_top, slot.bitmap_top)
-            max_bot = max(max_bot, rows - slot.bitmap_top)
-            width += slot.advance.x >> 6
+            face = self._face(px, ch)
+            left, top, right, bottom = face.getbbox(ch, anchor="ls")
+            w = max(int(math.ceil(right - left)), 1)
+            h = max(int(math.ceil(bottom - top)), 1)
+            im = Image.new("L", (w, h), 0)
+            ImageDraw.Draw(im).text(
+                (-left, -top), ch, font=face, fill=255, anchor="ls"
+            )
+            arr = np.asarray(im, dtype=np.uint8)
+            adv = float(face.getlength(ch))
+            bitmap_top = int(round(-top))
+            glyphs.append((arr, left, bitmap_top, adv))
+            max_top = max(max_top, bitmap_top)
+            max_bot = max(max_bot, arr.shape[0] - bitmap_top)
+            width += adv
         height = max(max_top + max_bot, 1)
-        canvas = np.zeros((height, max(width + 4, 1)), np.uint8)
-        pen = 0
-        for arr, left, top, adv in glyphs:
-            y0 = max_top - top
-            x0 = pen + left
+        canvas = np.zeros((height, max(int(math.ceil(width)) + 4, 1)), np.uint8)
+        pen = 0.0
+        for arr, left, bitmap_top, adv in glyphs:
+            y0 = max_top - bitmap_top
+            x0 = int(round(pen + left))
             gh, gw = arr.shape
             x1 = x0 + gw
             y1 = y0 + gh
@@ -571,13 +447,30 @@ def blit_img(rgb, img, x, y):
 
 
 # ---------------------------------------------------------------------------
-# frames — crop only; never re-render
+# frames — crop only; never re-render. Lab stills are optional.
 # ---------------------------------------------------------------------------
+
+STILL_PHIS = (90, 105, 120, 135)
+STILL_SURFS = ("s0", "t1")
+
+
+def frame_path(surf: str, phi: int) -> Path:
+    return FRAMES / f"m4_{surf}_phi_{phi:03d}.png"
+
+
+def missing_frames() -> list[Path]:
+    return [
+        frame_path(surf, phi)
+        for surf in STILL_SURFS
+        for phi in STILL_PHIS
+        if not frame_path(surf, phi).is_file()
+    ]
+
 
 def load_cropped_frame(surf: str, phi: int) -> np.ndarray:
     x0, y0, x1, y1 = CROP
-    name = f"m4_{surf}_phi_{phi:03d}.png"
-    im = read_png(FRAMES / name)
+    path = frame_path(surf, phi)
+    im = read_png(path)
     crop = im[y0:y1, x0:x1]
     # refuse to ship a still that still has the old in-frame caption
     # (caption lives at source y 778–798; crop y1=601)
@@ -772,24 +665,17 @@ def render_stills(font: Font, surf: str) -> np.ndarray:
 
 
 def load_plot_font() -> tuple[Font, str]:
-    """Hanken Grotesk TTF; DejaVu only if Hanken will not rasterize."""
-    fallback = str(DEJAVU_TTF).encode()
-    if HANKEN_TTF.is_file():
-        try:
-            font = Font(str(HANKEN_TTF).encode(), fallback_path=fallback)
-            gray, _ = font.render_gray("Hanken", PLOT_FONT_PX)
-            if gray.max() == 0:
-                raise RuntimeError("Hanken rasterized empty")
-            fam = (font.face.family_name or b"").decode("ascii", "replace")
-            return font, fam
-        except Exception as exc:
-            print(f"Hanken failed ({exc}); falling back to DejaVu")
-    return Font(fallback), "DejaVu Sans"
+    """Committed Hanken Grotesk via Pillow ImageFont.truetype."""
+    font = Font(HANKEN_TTF)
+    gray, _ = font.render_gray("Hanken", PLOT_FONT_PX)
+    if gray.max() == 0:
+        raise SystemExit("Hanken rasterized empty")
+    return font, "Hanken Grotesk"
 
 
 def main():
     metrics = load_metrics(METRICS_PATH)
-    print("points (from metrics.json):")
+    print("points (from results/bayes-metrics.json):")
     for phi, de in metrics["points"]:
         print(f"  phi={phi:g}  deltaE_kJmol={de}  label={fmt_delta(de)}")
     print(f"interpolant phi={metrics['crossing_phi']}  label={metrics['crossing_phi']:.2f}°")
@@ -802,16 +688,22 @@ def main():
     )
 
     font, face_name = load_plot_font()
-    print(f"FreeType face: {face_name}")
-    print(f"FT_Set_Pixel_Sizes plot={PLOT_FONT_PX} stills={STILL_FONT_PX}")
+    print(f"Pillow face: {face_name} ({HANKEN_TTF.name})")
+    print(f"ImageFont.truetype plot={PLOT_FONT_PX} stills={STILL_FONT_PX}")
 
     plot = render_plot(metrics, font)
     if plot.shape[1] != PLOT_W or plot.shape[0] != PLOT_H:
         raise SystemExit(f"bad plot size {plot.shape}")
-    write_png(OUT_PLOT, plot)
-    shutil.copy2(OUT_PLOT, OUT_PLOT_EASY)
-    print(f"wrote {OUT_PLOT} {PLOT_W}x{PLOT_H}")
-    print(f"copied {OUT_PLOT_EASY}")
+    write_png(OUT_PREVIEW, plot)
+    shutil.copy2(OUT_PREVIEW, OUT_PUBLISHED)
+    print(f"wrote {OUT_PREVIEW} {PLOT_W}x{PLOT_H}")
+    print(f"copied {OUT_PUBLISHED}")
+
+    missing = missing_frames()
+    if missing:
+        print(f"stills skipped: {len(missing)} lab frame(s) not in checkout")
+        print("published still PNGs left unchanged")
+        return
 
     s0 = render_stills(font, "s0")
     t1 = render_stills(font, "t1")
@@ -819,10 +711,12 @@ def main():
         raise SystemExit(f"bad S0 stills size {s0.shape}")
     if t1.shape[1] != STILL_W or t1.shape[0] != STILL_H:
         raise SystemExit(f"bad T1 stills size {t1.shape}")
-    write_png(OUT_S0, s0)
-    write_png(OUT_T1, t1)
-    print(f"wrote {OUT_S0} {STILL_W}x{STILL_H}")
-    print(f"wrote {OUT_T1} {STILL_W}x{STILL_H}")
+    write_png(OUT_S0_PREVIEW, s0)
+    write_png(OUT_T1_PREVIEW, t1)
+    shutil.copy2(OUT_S0_PREVIEW, OUT_S0_PUBLISHED)
+    shutil.copy2(OUT_T1_PREVIEW, OUT_T1_PUBLISHED)
+    print(f"wrote {OUT_S0_PUBLISHED} {STILL_W}x{STILL_H}")
+    print(f"wrote {OUT_T1_PUBLISHED} {STILL_W}x{STILL_H}")
 
 
 if __name__ == "__main__":
