@@ -22,23 +22,8 @@ import struct
 import zlib
 from pathlib import Path
 
-import ctypes
-from ctypes import (
-    POINTER,
-    Structure,
-    c_char_p,
-    c_int,
-    c_int16,
-    c_int32,
-    c_long,
-    c_short,
-    c_ubyte,
-    c_uint,
-    c_uint16,
-    c_uint32,
-    c_void_p,
-)
 import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -46,8 +31,6 @@ METRICS_PATH = ROOT / "results" / "bayes-metrics.json"
 FRAMES = ROOT / "frames"
 OUT_HERO = HERE / "fig_deltaE_vs_phi.png"
 OUT_EASY = ROOT / "fig_deltaE_vs_phi.png"
-FONT_PATH = b"/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-
 W, H = 1200, 630
 INK = np.array([38, 38, 38], dtype=np.float64)       # ~0.15
 ZERO_C = np.array([22, 22, 22], dtype=np.float64)
@@ -57,6 +40,13 @@ WHITE = np.array([255, 255, 255], dtype=np.uint8)
 # Shared-camera crop of the 900×820 frames (union of content + pad).
 # Drops the unreadable-at-thumb identity caption band (y≥770).
 CROP = (26, 48, 646, 752)  # x0, y0, x1, y1
+
+EXPECTED_METHOD = (
+    "ORCA 6.1.1 SF-TDA / Tamm–Dancoff; ! LibXC(BHANDHLYP) D3BJ "
+    "def2-QZVPP RIJCOSX def2/J TightSCF Opt; NROOTS 3; "
+    "FOLLOWIROOT true; gas phase; charge 0; SF reference multiplicity 3"
+)
+METHOD_LABEL = "ORCA 6.1.1 SF-TDA  LibXC(BHANDHLYP) D3BJ/def2-QZVPP"
 
 
 # ---------------------------------------------------------------------------
@@ -100,21 +90,21 @@ def load_metrics(path: Path) -> dict:
 
 
 def short_method(method: str) -> str:
-    """ORCA 6.1.1 SF-TDA  LibXC(BHANDHLYP) D3BJ/def2-QZVPP"""
-    return "ORCA 6.1.1 SF-TDA  LibXC(BHANDHLYP) D3BJ/def2-QZVPP"
-
-
-def fmt_delta(v: float) -> str:
-    s = f"{v:+.2f}"
-    return s.replace("-", "\u2212")
+    """Validate the canonical method before returning its compact label."""
+    if method != EXPECTED_METHOD:
+        raise SystemExit(
+            "refusing to label figure: results/bayes-metrics.json method "
+            "does not match the renderer's expected canonical method"
+        )
+    return METHOD_LABEL
 
 
 def fmt_tick(v: float) -> str:
     if abs(v) < 1e-12:
         return "0"
     if abs(v - round(v)) < 1e-9:
-        return str(int(round(v))).replace("-", "\u2212")
-    return f"{v:g}".replace("-", "\u2212")
+        return str(int(round(v)))
+    return f"{v:g}"
 
 
 # ---------------------------------------------------------------------------
@@ -224,187 +214,44 @@ def resize_rgb(src: np.ndarray, nw: int, nh: int) -> np.ndarray:
 
 
 # ---------------------------------------------------------------------------
-# FreeType (DejaVu Sans)
+# Portable font rendering
 # ---------------------------------------------------------------------------
 
-class FT_Bitmap(Structure):
-    _fields_ = [
-        ("rows", c_uint32),
-        ("width", c_uint32),
-        ("pitch", c_int32),
-        ("buffer", POINTER(c_ubyte)),
-        ("num_grays", c_uint16),
-        ("pixel_mode", c_ubyte),
-        ("palette_mode", c_ubyte),
-        ("palette", c_void_p),
-    ]
-
-
-class FT_Vector(Structure):
-    _fields_ = [("x", c_long), ("y", c_long)]
-
-
-class FT_Glyph_Metrics(Structure):
-    _fields_ = [
-        ("width", c_long),
-        ("height", c_long),
-        ("horiBearingX", c_long),
-        ("horiBearingY", c_long),
-        ("horiAdvance", c_long),
-        ("vertBearingX", c_long),
-        ("vertBearingY", c_long),
-        ("vertAdvance", c_long),
-    ]
-
-
-class FT_Outline(Structure):
-    _fields_ = [
-        ("n_contours", c_short),
-        ("n_points", c_short),
-        ("points", c_void_p),
-        ("tags", c_void_p),
-        ("contours", c_void_p),
-        ("flags", c_int),
-    ]
-
-
-class FT_Generic(Structure):
-    _fields_ = [("data", c_void_p), ("finalizer", c_void_p)]
-
-
-class FT_GlyphSlotRec(Structure):
-    _fields_ = [
-        ("library", c_void_p),
-        ("face", c_void_p),
-        ("next", c_void_p),
-        ("glyph_index", c_uint),
-        ("generic", FT_Generic),
-        ("metrics", FT_Glyph_Metrics),
-        ("linearHoriAdvance", c_long),
-        ("linearVertAdvance", c_long),
-        ("advance", FT_Vector),
-        ("format", c_uint32),
-        ("bitmap", FT_Bitmap),
-        ("bitmap_left", c_int),
-        ("bitmap_top", c_int),
-        ("outline", FT_Outline),
-    ]
-
-
-class FT_BBox(Structure):
-    _fields_ = [("xMin", c_long), ("yMin", c_long), ("xMax", c_long), ("yMax", c_long)]
-
-
-class FT_FaceRec(Structure):
-    _fields_ = [
-        ("num_faces", c_long),
-        ("face_index", c_long),
-        ("face_flags", c_long),
-        ("style_flags", c_long),
-        ("num_glyphs", c_long),
-        ("family_name", c_char_p),
-        ("style_name", c_char_p),
-        ("num_fixed_sizes", c_int),
-        ("available_sizes", c_void_p),
-        ("num_charmaps", c_int),
-        ("charmaps", c_void_p),
-        ("generic", FT_Generic),
-        ("bbox", FT_BBox),
-        ("units_per_EM", c_uint16),
-        ("ascender", c_int16),
-        ("descender", c_int16),
-        ("height", c_int16),
-        ("max_advance_width", c_int16),
-        ("max_advance_height", c_int16),
-        ("underline_position", c_int16),
-        ("underline_thickness", c_int16),
-        ("glyph", POINTER(FT_GlyphSlotRec)),
-        ("size", c_void_p),
-        ("charmap", c_void_p),
-    ]
-
-
-FT_LOAD_RENDER = 4
-
-
 class Font:
-    def __init__(self, path: bytes):
-        self.ft = ctypes.cdll.LoadLibrary("libfreetype.so.6")
-        self.lib = c_void_p()
-        if self.ft.FT_Init_FreeType(ctypes.byref(self.lib)) != 0:
-            raise RuntimeError("FT_Init_FreeType")
-        self.face_ptr = c_void_p()
-        if self.ft.FT_New_Face(self.lib, path, 0, ctypes.byref(self.face_ptr)) != 0:
-            raise RuntimeError("FT_New_Face")
-        self.face = ctypes.cast(self.face_ptr, POINTER(FT_FaceRec)).contents
-        self._px = None
+    """Pillow's bundled default font, with no host font or soname lookup."""
 
-    def _set_px(self, px: int) -> None:
-        if self._px != px:
-            if self.ft.FT_Set_Pixel_Sizes(self.face_ptr, 0, px) != 0:
-                raise RuntimeError("FT_Set_Pixel_Sizes")
-            self._px = px
+    def __init__(self):
+        self._fonts = {}
+
+    def _font(self, px: int):
+        if px not in self._fonts:
+            self._fonts[px] = ImageFont.load_default(size=px)
+        return self._fonts[px]
 
     def measure(self, text: str, px: int) -> tuple[int, int]:
-        self._set_px(px)
-        w = 0
-        for ch in text:
-            self.ft.FT_Load_Char(self.face_ptr, ord(ch), FT_LOAD_RENDER)
-            w += self.face.glyph.contents.advance.x >> 6
-        asc = int(round(self.face.ascender * px / max(self.face.units_per_EM, 1)))
-        desc = int(round(-self.face.descender * px / max(self.face.units_per_EM, 1)))
-        return w, asc + desc
+        left, top, right, bottom = self._font(px).getbbox(text, anchor="ls")
+        return max(right - left, 1), max(bottom - top, 1)
 
-    def render_gray(self, text: str, px: int) -> tuple[np.ndarray, int]:
+    def render_gray(self, text: str, px: int, bold=False) -> tuple[np.ndarray, int]:
         """Return (H×W uint8 coverage, baseline y)."""
-        self._set_px(px)
-        glyphs = []
-        width = 0
-        max_top = 0
-        max_bot = 0
-        for ch in text:
-            self.ft.FT_Load_Char(self.face_ptr, ord(ch), FT_LOAD_RENDER)
-            slot = self.face.glyph.contents
-            bm = slot.bitmap
-            rows, cols, pitch = bm.rows, bm.width, bm.pitch
-            if rows and cols and bm.buffer:
-                buf = ctypes.string_at(bm.buffer, pitch * rows)
-                arr = np.frombuffer(buf, np.uint8).reshape(rows, pitch)[:, :cols].copy()
-            else:
-                arr = np.zeros((1, 1), np.uint8)
-            glyphs.append((arr, slot.bitmap_left, slot.bitmap_top, slot.advance.x >> 6))
-            max_top = max(max_top, slot.bitmap_top)
-            max_bot = max(max_bot, rows - slot.bitmap_top)
-            width += slot.advance.x >> 6
-        height = max(max_top + max_bot, 1)
-        canvas = np.zeros((height, max(width + 4, 1)), np.uint8)
-        pen = 0
-        for arr, left, top, adv in glyphs:
-            y0 = max_top - top
-            x0 = pen + left
-            gh, gw = arr.shape
-            x1 = x0 + gw
-            y1 = y0 + gh
-            if x0 < 0 or y0 < 0:
-                # clip negative bearings
-                sx = max(0, -x0)
-                sy = max(0, -y0)
-                arr = arr[sy:, sx:]
-                x0 = max(x0, 0)
-                y0 = max(y0, 0)
-                gh, gw = arr.shape
-                x1 = x0 + gw
-                y1 = y0 + gh
-            if y1 > canvas.shape[0] or x1 > canvas.shape[1]:
-                new = np.zeros(
-                    (max(canvas.shape[0], y1), max(canvas.shape[1], x1)), np.uint8
-                )
-                new[: canvas.shape[0], : canvas.shape[1]] = canvas
-                canvas = new
-            dst = canvas[y0:y1, x0:x1]
-            np.maximum(dst, arr[: dst.shape[0], : dst.shape[1]], out=dst)
-            pen += adv
-        return canvas, max_top
+        font = self._font(px)
+        stroke = 1 if bold else 0
+        left, top, right, bottom = font.getbbox(
+            text, anchor="ls", stroke_width=stroke
+        )
+        width = max(right - left, 1)
+        height = max(bottom - top, 1)
+        canvas = Image.new("L", (width, height), 0)
+        ImageDraw.Draw(canvas).text(
+            (-left, -top),
+            text,
+            font=font,
+            fill=255,
+            anchor="ls",
+            stroke_width=stroke,
+            stroke_fill=255,
+        )
+        return np.asarray(canvas, dtype=np.uint8), -top
 
 
 # ---------------------------------------------------------------------------
@@ -437,8 +284,9 @@ def text(
     color=INK,
     align="left",
     valign="baseline",
+    bold=False,
 ):
-    gray, base = font.render_gray(s, px)
+    gray, base = font.render_gray(s, px, bold=bold)
     gh, gw = gray.shape
     x = float(x)
     y = float(y)
@@ -552,7 +400,7 @@ def load_thumbs():
 
 
 def render(metrics: dict) -> np.ndarray:
-    font = Font(FONT_PATH)
+    font = Font()
     rgb = np.full((H, W, 3), 255, np.uint8)
 
     pts = metrics["points"]
@@ -573,7 +421,17 @@ def render(metrics: dict) -> np.ndarray:
         return plot_b - (de - ylim[0]) / (ylim[1] - ylim[0]) * (plot_b - plot_t)
 
     # title + method subtitle (11–12 pt near-black)
-    text(rgb, font, "M4 S0/T1 gap", W / 2, 20, 16, INK, align="center", valign="middle")
+    text(
+        rgb,
+        font,
+        "M4 separately relaxed S0/T1 profile gap",
+        W / 2,
+        20,
+        16,
+        INK,
+        align="center",
+        valign="middle",
+    )
     text(
         rgb,
         font,
@@ -632,7 +490,7 @@ def render(metrics: dict) -> np.ndarray:
     vtext(
         rgb,
         font,
-        "\u0394E = E(T1) \u2212 E(S0) (kJ/mol)",
+        "dE = E(T1) - E(S0) (kJ/mol)",
         18,
         (plot_t + plot_b) / 2,
         14,
@@ -641,7 +499,7 @@ def render(metrics: dict) -> np.ndarray:
     text(
         rgb,
         font,
-        "\u03c6 / CNNC (deg)",
+        "phi / CNNC (deg)",
         (plot_l + plot_r) / 2,
         plot_b + 28,
         14,
@@ -656,42 +514,43 @@ def render(metrics: dict) -> np.ndarray:
     for phi, de in pts:
         circle(rgb, X(phi), Y(de), 5.1, SERIES, fill=True)
 
-    # point labels (from file values, 2 decimals)
-    # offsets chosen so they miss the crossing hairline and each other
-    label_off = {
-        90: (10, 12, "left"),      # right of marker, above (still negative)
-        105: (9, -11, "left"),     # right of marker, above
-        120: (-9, -11, "right"),   # left of marker
-        135: (-9, 12, "right"),    # left of marker, below so it stays in-pad
+    # Bold lettered callouts only; values and explanations live in the caption.
+    callouts = {
+        90: ("A", 10, 12, "left"),
+        105: ("B", 9, -11, "left"),
+        120: ("C", -9, -11, "right"),
+        135: ("D", -9, 12, "right"),
     }
     for phi, de in pts:
-        dx, dy, al = label_off[int(phi)]
+        label, dx, dy, al = callouts[int(phi)]
         text(
             rgb,
             font,
-            fmt_delta(de),
+            label,
             X(phi) + dx,
             Y(de) + dy,
-            12,
+            14,
             INK,
             align=al,
             valign="middle",
+            bold=True,
         )
 
     # ONE interpolant: 90–105 pair, y = 0 on that segment. Not 110°.
-    # Hairline from the interpolant down to a short label, off the markers.
+    # Hairline from the interpolant down to a bold lettered callout.
     xcp, ycp = X(xc), Y(0.0)
     line(rgb, xcp, ycp, xcp, ycp + 16, ZERO_C, 0.85)
     text(
         rgb,
         font,
-        f"{xc:.2f}\u00b0",
+        "E",
         xcp + 4,
         ycp + 28,
-        12,
+        14,
         INK,
         align="center",
         valign="top",
+        bold=True,
     )
 
     return rgb

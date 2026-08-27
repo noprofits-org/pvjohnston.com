@@ -36,7 +36,10 @@ directory does not rerun ORCA and does not pin an ORCA rerun path.
 
 - Metrics generator: Node, `generate-metrics.mjs`; no extra
   packages
-- No lockfile. The generator reads only
+- The Figure 1 renderer uses Python 3.9.6, NumPy 2.0.2, and Pillow
+  11.3.0, pinned in `requirements-figure.txt`. Pillow's bundled default
+  font avoids host font paths and platform-specific FreeType library names.
+- The metrics generator has no lockfile and reads only
   `results/bayes-metrics.json`
 
 ## What is not in this repository

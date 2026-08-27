@@ -6,3 +6,4 @@
 *.tmp.*
 scratch/
 __pycache__/
+fig_deltaE_vs_phi.png

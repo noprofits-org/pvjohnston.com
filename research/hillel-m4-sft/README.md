@@ -29,9 +29,10 @@ ORCA `.out` files and does not rerun ORCA. It binds the research note
 - Archived-evidence or rerun constraints: raw ORCA output stays in
   the private Molecules lab (large, host paths), the same scratch
   convention as `research/hillel-triplet`. The committed Bayes file
-  is the lab dump
-  (`d46c5c302ffc504f156feb0af95edf11b9a4b4a3efd73d1bbe329b639718ba10`,
-  18777 bytes).
+  is a publication copy of the lab dump with absolute host paths replaced by
+  relative artifact identifiers; its scientific fields are unchanged
+  (`e02721a3121b3561473385c4d558c1028e96f2c3b52a1c7123858956242a10b3`,
+  18177 bytes).
 
 ## Molecule
 
@@ -55,6 +56,18 @@ node scripts/verify-metrics.mjs
 pair interpolant matches the stored neighboring-pair value. The
 site crossing metric is the stored `crossing_phi_deg`, not a
 re-derived angle.
+
+## Regenerate Figure 1
+
+```sh
+python3 -m pip install -r research/hillel-m4-sft/requirements-figure.txt
+python3 research/hillel-m4-sft/analysis/make_deltaE_figure.py
+```
+
+The renderer uses Pillow's bundled default font, so it does not depend on a
+host font path or platform-specific FreeType library name. Lab-side molecular
+stills are optional; without them the same command writes the data plot and
+lettered callouts from the committed Bayes projection.
 
 ## Data and publication
 
