@@ -1154,37 +1154,26 @@ Format:
   `/posts/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft.html`.
   Registered hypothesis **supported**: separately relaxed SF-S0 and
   SF-T1 profiles change sign between 90° and 105°; stored interpolant
-  of that profile gap is 98.89°. Next step below.
+  of that profile gap is 98.89°. Next step:
+  Does the M4 SF profile-gap sign change survive a same-geometry
+  two-root evaluation?
 
-## Does the Purkait–Deb Kerr-cavity temperature QFI peak at the finite-size DPT precursor?
-- **Observed:** Next step from the M4 SF-TDDFT note. Purkait and Deb
-  (2026, arXiv:2608.17510) report that in a driven–dissipative Kerr
-  cavity the steady-state temperature quantum Fisher information is
-  enhanced near a finite-size dissipative-phase-transition precursor,
-  and that an effective two-branch binary Fisher information $F_{\mathrm{bin}}$
-  accounts for that enhancement. Their numerical window includes
-  $\omega_c=1$, $\kappa=0.08$, $U=0.03$, $\Delta=0.6$, $N=60$. That
-  rematch has not been run here.
-- **Source:** Purkait, C.; Deb, B. *Enhanced quantum thermometry near
-  a dissipative phase transition in a driven Kerr cavity.* arXiv:2608.17510
-  (2026); own next step from
+## Does the M4 SF profile-gap sign change survive a same-geometry two-root evaluation?
+- **Observed:** Next step from the 2026-08-27 note. The reported
+  90°/105° sign change and 98.89° interpolant are a separately
+  relaxed profile gap, not two SF roots on one geometry.
+- **Source:** own next step from
   `/posts/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft.html`
 - **Type:** untested regime
-- **Contribution (candidate):** an independent QuTiP rematch of the
-  driven–dissipative Kerr-cavity window ($\omega_c=1$, $\kappa=0.08$,
-  $U=0.03$, $\Delta=0.6$, $N=60$) asking whether the steady-state
-  temperature QFI peaks at the finite-size DPT precursor and whether
-  two-branch $F_{\mathrm{bin}}$ reproduces that peak position, which
-  is not in Purkait and Deb as an independent implementation and is
-  not a second SF-TDDFT queue
-- **Hypothesis:** on that window the steady-state temperature QFI
-  peaks at the finite-size DPT precursor, and two-branch $F_{\mathrm{bin}}$
-  reproduces that peak position
-- **Falsifier:** the QFI peak is not at the precursor (Liouvillian-gap
-  minimum / photon-number jump), or $F_{\mathrm{bin}}$ does not
-  reproduce the QFI peak position
-- **Status:** ready — M1 QuTiP. Not 4-hydroxyazobenzene, not M2, not
-  a second SF-TDDFT queue.
+- **Contribution (candidate):** same-geometry two-root SF-TDA
+  LibXC(BHANDHLYP)-D3(BJ)/def2-QZVPP at the four constrained-CNNC M4
+  geometries already reported, which is not in that note
+- **Hypothesis:** $\Delta E$ still changes sign between 90° and 105°
+  when both roots sit on one structure
+- **Falsifier:** no both-assigned sign change of same-geometry
+  $\Delta E$ on a neighboring pair in 90–135°
+- **Status:** ready — same ORCA 6.1.1 method as the note; existing
+  constrained-CNNC geometries
 
 ## Does carboxylate oxygen charge oscillate with CX3 rotation, with larger amplitude for CCl3COO− than for CF3COO−?
 - **Observed:** Johnson, Gregory, Robertson, Gresham, Nelson, Craig, Prescott,
