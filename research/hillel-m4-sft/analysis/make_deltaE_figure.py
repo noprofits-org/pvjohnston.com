@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """M4 SF-TDDFT ΔE vs φ hero figure (1200×630).
 
-Reads metrics.json at runtime for the four (φ, ΔE) points and the
-single interpolant. Does not invent points, does not mark 110°,
-does not draw a second zero. Frames are identity-only stills.
+Reads results/bayes-metrics.json at runtime for the four (φ, ΔE)
+points and the single interpolant. Does not invent points, does not
+mark 110°, does not draw a second zero. Frames are identity-only
+stills.
 
 Usage:
-  python3 /workspace/hillel-m4-sft/analysis/make_deltaE_figure.py
+  python3 research/hillel-m4-sft/analysis/make_deltaE_figure.py
 """
 from __future__ import annotations
 
@@ -36,7 +37,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
-METRICS_PATH = ROOT / "metrics.json"
+METRICS_PATH = ROOT / "results" / "bayes-metrics.json"
 FRAMES = ROOT / "frames"
 OUT_HERO = HERE / "fig_deltaE_vs_phi.png"
 OUT_EASY = ROOT / "fig_deltaE_vs_phi.png"
@@ -687,7 +688,7 @@ def render(metrics: dict) -> np.ndarray:
 
 def main():
     metrics = load_metrics(METRICS_PATH)
-    print("points (from metrics.json):")
+    print("points (from results/bayes-metrics.json):")
     for phi, de in metrics["points"]:
         print(f"  phi={phi:g}  deltaE_kJmol={de}")
     print(f"interpolant phi={metrics['crossing_phi']}  label={metrics['crossing_phi']:.2f}°")

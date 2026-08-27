@@ -1134,8 +1134,10 @@ Format:
   between 120° and 105°. That note did not run SF-TDDFT. The 2024
   Hillel method (SF-TDA BH&HLYP-D3(BJ)/def2-QZVPP) on this dye is the
   observation this note writes up: the required window
-  (135°, 120°, 105°, 90°) is both-converged and both-assigned; ΔE
-  changes sign between 90° and 105°.
+  (135°, 120°, 105°, 90°) is both-converged and both-assigned; the
+  separately relaxed SF-S0 and SF-T1 profile gap ΔE changes sign
+  between 90° and 105°. That sign change is not an electronic gap at
+  one molecular geometry and is not an MECP.
 - **Source:** Hillel et al., *Commun. Chem.* **7**, 250 (2024),
   doi:10.1038/s42004-024-01321-0; own next step from
   `/posts/2026-08-22-does-push-pull-abolish-the-s0-t1-crossing.html`;
@@ -1148,7 +1150,41 @@ Format:
 - **Falsifier:** (1) no both-converged both-assigned sign change of
   ΔE; (2) interpolant outside 90–135°; (3) no neighboring
   both-converged both-assigned pair
-- **Status:** drafting — PR
+- **Status:** published —
+  `/posts/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft.html`.
+  Registered hypothesis **supported**: separately relaxed SF-S0 and
+  SF-T1 profiles change sign between 90° and 105°; stored interpolant
+  of that profile gap is 98.89°. Next step below.
+
+## Does the Purkait–Deb Kerr-cavity temperature QFI peak at the finite-size DPT precursor?
+- **Observed:** Next step from the M4 SF-TDDFT note. Purkait and Deb
+  (2026, arXiv:2608.17510) report that in a driven–dissipative Kerr
+  cavity the steady-state temperature quantum Fisher information is
+  enhanced near a finite-size dissipative-phase-transition precursor,
+  and that an effective two-branch binary Fisher information $F_{\mathrm{bin}}$
+  accounts for that enhancement. Their numerical window includes
+  $\omega_c=1$, $\kappa=0.08$, $U=0.03$, $\Delta=0.6$, $N=60$. That
+  rematch has not been run here.
+- **Source:** Purkait, C.; Deb, B. *Enhanced quantum thermometry near
+  a dissipative phase transition in a driven Kerr cavity.* arXiv:2608.17510
+  (2026); own next step from
+  `/posts/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft.html`
+- **Type:** untested regime
+- **Contribution (candidate):** an independent QuTiP rematch of the
+  driven–dissipative Kerr-cavity window ($\omega_c=1$, $\kappa=0.08$,
+  $U=0.03$, $\Delta=0.6$, $N=60$) asking whether the steady-state
+  temperature QFI peaks at the finite-size DPT precursor and whether
+  two-branch $F_{\mathrm{bin}}$ reproduces that peak position, which
+  is not in Purkait and Deb as an independent implementation and is
+  not a second SF-TDDFT queue
+- **Hypothesis:** on that window the steady-state temperature QFI
+  peaks at the finite-size DPT precursor, and two-branch $F_{\mathrm{bin}}$
+  reproduces that peak position
+- **Falsifier:** the QFI peak is not at the precursor (Liouvillian-gap
+  minimum / photon-number jump), or $F_{\mathrm{bin}}$ does not
+  reproduce the QFI peak position
+- **Status:** ready — M1 QuTiP. Not 4-hydroxyazobenzene, not M2, not
+  a second SF-TDDFT queue.
 
 ## Does carboxylate oxygen charge oscillate with CX3 rotation, with larger amplitude for CCl3COO− than for CF3COO−?
 - **Observed:** Johnson, Gregory, Robertson, Gresham, Nelson, Craig, Prescott,
