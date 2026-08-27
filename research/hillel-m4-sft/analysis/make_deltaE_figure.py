@@ -45,12 +45,11 @@ OUT_T1_PUBLISHED = (
     / "images"
     / "2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-t1-stills.png"
 )
-# Face: committed Hanken Grotesk, loaded with Pillow ImageFont.truetype.
-# No host font path and no platform-specific FreeType soname.
+# Faces: committed Hanken Grotesk (Latin ticks/numbers) plus DejaVu Sans
+# for codepoints Hanken does not encode (Δ, φ). Both load with Pillow
+# ImageFont.truetype at the same pixel size. No host font path.
 HANKEN_TTF = HERE / "hanken-grotesk.ttf"
-# Committed cmap has no Greek. Axis Δ and φ use Pillow's bundled default
-# at the same pixel size so macOS does not need a second TTF.
-_FALLBACK_CHARS = frozenset("\u0394\u03c6")
+DEJAVU_TTF = HERE / "dejavu-sans.ttf"
 
 # Standing rule (Peter / Heisenberg): plot type matches page body size.
 # Desktop in-article image width DISPLAY_W=632 CSS px; body BODY_PX=17 (Hanken).
@@ -246,27 +245,99 @@ def resize_rgb(src: np.ndarray, nw: int, nh: int) -> np.ndarray:
 
 
 # ---------------------------------------------------------------------------
-# Portable font rendering — Pillow ImageFont.truetype on committed Hanken
+# Portable font rendering — Pillow ImageFont.truetype on committed faces
 # ---------------------------------------------------------------------------
 
-class Font:
-    """Hanken Grotesk via Pillow; no libfreetype.so.6, no host font path."""
+def ttf_cmap(path: Path) -> frozenset[int]:
+    """Unicode codepoints with a non-zero glyph id in the TTF cmap."""
+    data = path.read_bytes()
+    ntables = struct.unpack(">H", data[4:6])[0]
+    tables: dict[bytes, tuple[int, int]] = {}
+    off = 12
+    for _ in range(ntables):
+        tag = data[off : off + 4]
+        _csum, toff, tlen = struct.unpack(">III", data[off + 4 : off + 16])
+        tables[tag] = (toff, tlen)
+        off += 16
+    if b"cmap" not in tables:
+        raise SystemExit(f"{path} has no cmap")
+    toff, tlen = tables[b"cmap"]
+    cmap = data[toff : toff + tlen]
+    _ver, nsub = struct.unpack(">HH", cmap[0:4])
+    cps: set[int] = set()
+    for i in range(nsub):
+        _plat, _enc, suboff = struct.unpack(">HHI", cmap[4 + i * 8 : 12 + i * 8])
+        fmt = struct.unpack(">H", cmap[suboff : suboff + 2])[0]
+        if fmt == 4:
+            _length, _lang, seg_x2 = struct.unpack(">HHH", cmap[suboff + 2 : suboff + 8])
+            nseg = seg_x2 // 2
+            end_off = suboff + 14
+            ends = struct.unpack(">" + "H" * nseg, cmap[end_off : end_off + 2 * nseg])
+            start_off = end_off + 2 * nseg + 2
+            starts = struct.unpack(">" + "H" * nseg, cmap[start_off : start_off + 2 * nseg])
+            delta_off = start_off + 2 * nseg
+            deltas = struct.unpack(">" + "h" * nseg, cmap[delta_off : delta_off + 2 * nseg])
+            range_off = delta_off + 2 * nseg
+            ranges = struct.unpack(">" + "H" * nseg, cmap[range_off : range_off + 2 * nseg])
+            for si in range(nseg):
+                for cp in range(starts[si], ends[si] + 1):
+                    if ranges[si] == 0:
+                        gid = (cp + deltas[si]) & 0xFFFF
+                    else:
+                        glyph_off = range_off + 2 * si + ranges[si] + 2 * (cp - starts[si])
+                        gid = struct.unpack(">H", cmap[glyph_off : glyph_off + 2])[0]
+                        if gid:
+                            gid = (gid + deltas[si]) & 0xFFFF
+                    if gid:
+                        cps.add(cp)
+        elif fmt == 12:
+            ng = struct.unpack(">I", cmap[suboff + 12 : suboff + 16])[0]
+            p = suboff + 16
+            for _g in range(ng):
+                start, end, start_gid = struct.unpack(">III", cmap[p : p + 12])
+                for cp in range(start, end + 1):
+                    gid = start_gid + (cp - start)
+                    if gid:
+                        cps.add(cp)
+                p += 12
+    return frozenset(cps)
 
-    def __init__(self, path: Path):
-        if not path.is_file():
-            raise SystemExit(f"committed Hanken TTF missing: {path}")
-        self.path = path
-        self._hanken: dict[int, ImageFont.FreeTypeFont] = {}
-        self._bundled: dict[int, ImageFont.ImageFont] = {}
+
+class Font:
+    """Hanken for Latin; DejaVu for Hanken-missing glyphs. No host soname."""
+
+    def __init__(self, latin_path: Path, greek_path: Path):
+        if not latin_path.is_file():
+            raise SystemExit(f"committed Hanken TTF missing: {latin_path}")
+        if not greek_path.is_file():
+            raise SystemExit(f"committed DejaVu TTF missing: {greek_path}")
+        self.latin_path = latin_path
+        self.greek_path = greek_path
+        self.latin_cmap = ttf_cmap(latin_path)
+        self.greek_cmap = ttf_cmap(greek_path)
+        for required in ("\u0394", "\u03c6"):
+            if ord(required) not in self.greek_cmap:
+                raise SystemExit(f"{greek_path.name} missing {required!r}")
+        self._latin: dict[int, ImageFont.FreeTypeFont] = {}
+        self._greek: dict[int, ImageFont.FreeTypeFont] = {}
+
+    def face_for(self, ch: str) -> str:
+        cp = ord(ch)
+        if cp in self.latin_cmap:
+            return "Hanken Grotesk"
+        if cp in self.greek_cmap:
+            return "DejaVu Sans"
+        raise SystemExit(f"no committed face covers U+{cp:04X} {ch!r}")
 
     def _face(self, px: int, ch: str):
-        if ch in _FALLBACK_CHARS:
-            if px not in self._bundled:
-                self._bundled[px] = ImageFont.load_default(size=px)
-            return self._bundled[px]
-        if px not in self._hanken:
-            self._hanken[px] = ImageFont.truetype(str(self.path), size=px)
-        return self._hanken[px]
+        name = self.face_for(ch)
+        if name == "Hanken Grotesk":
+            cache, path = self._latin, self.latin_path
+        else:
+            cache, path = self._greek, self.greek_path
+        if px not in cache:
+            cache[px] = ImageFont.truetype(str(path), size=px)
+        return cache[px]
 
     def measure(self, text: str, px: int) -> tuple[int, int]:
         gray, _ = self.render_gray(text, px)
@@ -664,13 +735,25 @@ def render_stills(font: Font, surf: str) -> np.ndarray:
     return rgb
 
 
-def load_plot_font() -> tuple[Font, str]:
-    """Committed Hanken Grotesk via Pillow ImageFont.truetype."""
-    font = Font(HANKEN_TTF)
+def load_plot_font() -> Font:
+    """Committed Hanken + DejaVu via Pillow ImageFont.truetype."""
+    font = Font(HANKEN_TTF, DEJAVU_TTF)
     gray, _ = font.render_gray("Hanken", PLOT_FONT_PX)
     if gray.max() == 0:
         raise SystemExit("Hanken rasterized empty")
-    return font, "Hanken Grotesk"
+    for ch in ("\u0394", "\u03c6", "\u2212"):
+        face = font.face_for(ch)
+        g, _ = font.render_gray(ch, PLOT_FONT_PX)
+        # Letter-sized glyphs must be taller than Hanken's 16 px .notdef box.
+        # U+2212 is a hairline; empty coverage is the only reject.
+        too_small = ch in "\u0394\u03c6" and g.shape[0] < 18
+        if g.max() == 0 or too_small:
+            raise SystemExit(
+                f"refusing tofu/empty for {ch!r} U+{ord(ch):04X} via {face} "
+                f"size={g.shape}"
+            )
+        print(f"glyph {ch} U+{ord(ch):04X} → {face} ({g.shape[1]}x{g.shape[0]})")
+    return font
 
 
 def main():
@@ -687,8 +770,8 @@ def main():
         f"stills {STILL_W}×{STILL_H} = {STILL_FONT_PX}px"
     )
 
-    font, face_name = load_plot_font()
-    print(f"Pillow face: {face_name} ({HANKEN_TTF.name})")
+    font = load_plot_font()
+    print(f"Pillow faces: {HANKEN_TTF.name} + {DEJAVU_TTF.name}")
     print(f"ImageFont.truetype plot={PLOT_FONT_PX} stills={STILL_FONT_PX}")
 
     plot = render_plot(metrics, font)

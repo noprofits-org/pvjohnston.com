@@ -65,7 +65,10 @@ python3 research/hillel-m4-sft/analysis/make_deltaE_figure.py
 ```
 
 The renderer loads the committed `analysis/hanken-grotesk.ttf` with Pillow
-`ImageFont.truetype` (pinned in `requirements-figure.txt`). It does not look
+`ImageFont.truetype` (pinned in `requirements-figure.txt`) for Latin ticks
+and numbers. Axis Δ and φ are not in that Latin-only cmap; they come from
+the committed `analysis/dejavu-sans.ttf` at the same pixel size. Coverage
+is checked from each TTF cmap before drawing. The renderer does not look
 up a host font path or a platform-specific FreeType soname. Lab-side
 molecular stills under `frames/` are optional and are not in this repository.
 Without them the same command writes the data plot from the committed
