@@ -64,12 +64,28 @@ python3 -m pip install -r research/hillel-m4-sft/requirements-figure.txt
 python3 research/hillel-m4-sft/analysis/make_deltaE_figure.py
 ```
 
-The renderer uses Pillow's bundled default font, so it does not depend on a
-host font path or platform-specific FreeType library name. Lab-side molecular
-stills are optional; without them the same command writes the data plot and
-lettered callouts from the committed Bayes projection. The command updates the
-published `/images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png`
-asset and an ignored preview beside the renderer.
+The renderer loads the committed `analysis/hanken-grotesk.ttf` with Pillow
+`ImageFont.truetype` (pinned in `requirements-figure.txt`) for Latin ticks
+and numbers. Axis Δ and φ are not in that Latin-only cmap; they come from
+the committed `analysis/dejavu-sans.ttf` at the same pixel size. Coverage
+is checked from each TTF cmap before drawing. The renderer does not look
+up a host font path or a platform-specific FreeType soname. Lab-side
+molecular stills under `frames/` are optional and are not in this repository.
+Without them the same command writes the data plot from the committed
+Bayes projection (`results/bayes-metrics.json`), leaves any existing still
+PNGs in place, and exits 0.
+With all eight frames present it also writes the published S0 and T1 stills.
+
+The command updates:
+
+- `images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png`
+- `images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-s0-stills.png`
+  (only when frames exist)
+- `images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-t1-stills.png`
+  (only when frames exist)
+
+and an ignored preview beside the renderer. Point labels on the plot are the
+stored ΔE values; 110° is unmarked.
 
 ## Data and publication
 

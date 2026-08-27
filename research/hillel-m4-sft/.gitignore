@@ -7,3 +7,6 @@
 scratch/
 __pycache__/
 fig_deltaE_vs_phi.png
+fig_s0_stills.png
+fig_t1_stills.png
+frames/

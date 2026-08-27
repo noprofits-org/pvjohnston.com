@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
-"""M4 SF-TDDFT ΔE vs φ hero figure (1200×630).
+"""M4 SF-TDDFT figures: ACS plot (Fig 1) + large S0/T1 stills (Fig 2/3).
 
-Reads results/bayes-metrics.json at runtime for the four (φ, ΔE)
-points and the single interpolant. Does not invent points, does not
-mark 110°, does not draw a second zero.
-
-Edge-on S0/T1 stills under frames/ are lab-side inputs (not in this
-repo; the Molecules lab has XYZ, not these PNGs). Missing files are
-skipped so a clean checkout can still write the ΔE plot. The published
-figure is the committed OG PNG
-images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png.
+Reads results/bayes-metrics.json at runtime for the four (φ, ΔE) points
+and the single 90–105 interpolant. Does not invent points, does not mark 110°,
+does not draw a second zero. Stills composite existing frames only
+(shared edge-on camera); identity tags, no energies. Lab frames are
+optional: a clean checkout writes the OG plot and exits 0.
 
 Usage:
   python3 research/hillel-m4-sft/analysis/make_deltaE_figure.py
@@ -17,6 +13,7 @@ Usage:
 from __future__ import annotations
 
 import json
+import math
 import shutil
 import struct
 import zlib
@@ -36,22 +33,56 @@ OUT_PUBLISHED = (
     / "images"
     / "2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png"
 )
-W, H = 1200, 630
-INK = np.array([38, 38, 38], dtype=np.float64)       # ~0.15
+OUT_S0_PREVIEW = HERE / "fig_s0_stills.png"
+OUT_T1_PREVIEW = HERE / "fig_t1_stills.png"
+OUT_S0_PUBLISHED = (
+    REPO_ROOT
+    / "images"
+    / "2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-s0-stills.png"
+)
+OUT_T1_PUBLISHED = (
+    REPO_ROOT
+    / "images"
+    / "2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-t1-stills.png"
+)
+# Faces: committed Hanken Grotesk (Latin ticks/numbers) plus DejaVu Sans
+# for codepoints Hanken does not encode (Δ, φ). Both load with Pillow
+# ImageFont.truetype at the same pixel size. No host font path.
+HANKEN_TTF = HERE / "hanken-grotesk.ttf"
+DEJAVU_TTF = HERE / "dejavu-sans.ttf"
+
+# Standing rule (Peter / Heisenberg): plot type matches page body size.
+# Desktop in-article image width DISPLAY_W=632 CSS px; body BODY_PX=17 (Hanken).
+# When a PNG is shown at 632 px wide, every plot string must be 17 CSS pixels:
+#   font_px_on_canvas = round(BODY_PX * canvas_w / DISPLAY_W)
+# Plot 1200×630 → 17*1200/632 = 32.278… → 32 px (ticks, axis labels, ΔE, 98.89°)
+# Stills 1600×520 → 17*1600/632 = 43.038… → 43 px (S0/T1 row tags, φ still tags)
+# Keep 1200×630 and 1600×520 if possible. Widen gutters/margins so the larger
+# type does not collide or clip. Grow canvas ONLY if labels otherwise clip;
+# if width grows, recompute font_px = round(17 * new_w / 632) so on-page size
+# stays 17 px.
+DISPLAY_W = 632
+BODY_PX = 17
+
+def canvas_font_px(canvas_w: int) -> int:
+    return int(round(BODY_PX * canvas_w / DISPLAY_W))
+
+# Fig 1 — plot only (PR 99 OG path). No title, no molecule strip.
+PLOT_W, PLOT_H = 1200, 630
+# Fig 2/3 — four large stills, page-width, separate from the graph.
+STILL_W, STILL_H = 1600, 520
+PLOT_FONT_PX = canvas_font_px(PLOT_W)    # 32
+STILL_FONT_PX = canvas_font_px(STILL_W)  # 43
+
+INK = np.array([38, 38, 38], dtype=np.float64)       # ~0.15 near-black
 ZERO_C = np.array([22, 22, 22], dtype=np.float64)
 SERIES = np.array([36, 74, 128], dtype=np.float64)    # one series
 WHITE = np.array([255, 255, 255], dtype=np.uint8)
 
-# Shared-camera crop of the 900×820 frames (union of content + pad).
-# Drops the unreadable-at-thumb identity caption band (y≥770).
-CROP = (26, 48, 646, 752)  # x0, y0, x1, y1
-
-EXPECTED_METHOD = (
-    "ORCA 6.1.1 SF-TDA / Tamm–Dancoff; ! LibXC(BHANDHLYP) D3BJ "
-    "def2-QZVPP RIJCOSX def2/J TightSCF Opt; NROOTS 3; "
-    "FOLLOWIROOT true; gas phase; charge 0; SF reference multiplicity 3"
-)
-METHOD_LABEL = "ORCA 6.1.1 SF-TDA  LibXC(BHANDHLYP) D3BJ/def2-QZVPP"
+# Shared-camera crop of the 900×820 frames (union of molecule + pad 20).
+# Edge-on CNNC camera: molecule bbox union x[171:690] y[48:581].
+# Drops the in-frame identity caption band (y 778–798; previously y≥770).
+CROP = (151, 28, 710, 601)  # x0, y0, x1, y1
 
 
 # ---------------------------------------------------------------------------
@@ -94,22 +125,17 @@ def load_metrics(path: Path) -> dict:
     }
 
 
-def short_method(method: str) -> str:
-    """Validate the canonical method before returning its compact label."""
-    if method != EXPECTED_METHOD:
-        raise SystemExit(
-            "refusing to label figure: results/bayes-metrics.json method "
-            "does not match the renderer's expected canonical method"
-        )
-    return METHOD_LABEL
+def fmt_delta(v: float) -> str:
+    s = f"{v:+.2f}"
+    return s.replace("-", "\u2212")
 
 
 def fmt_tick(v: float) -> str:
     if abs(v) < 1e-12:
         return "0"
     if abs(v - round(v)) < 1e-9:
-        return str(int(round(v)))
-    return f"{v:g}"
+        return str(int(round(v))).replace("-", "\u2212")
+    return f"{v:g}".replace("-", "\u2212")
 
 
 # ---------------------------------------------------------------------------
@@ -219,44 +245,154 @@ def resize_rgb(src: np.ndarray, nw: int, nh: int) -> np.ndarray:
 
 
 # ---------------------------------------------------------------------------
-# Portable font rendering
+# Portable font rendering — Pillow ImageFont.truetype on committed faces
 # ---------------------------------------------------------------------------
 
+def ttf_cmap(path: Path) -> frozenset[int]:
+    """Unicode codepoints with a non-zero glyph id in the TTF cmap."""
+    data = path.read_bytes()
+    ntables = struct.unpack(">H", data[4:6])[0]
+    tables: dict[bytes, tuple[int, int]] = {}
+    off = 12
+    for _ in range(ntables):
+        tag = data[off : off + 4]
+        _csum, toff, tlen = struct.unpack(">III", data[off + 4 : off + 16])
+        tables[tag] = (toff, tlen)
+        off += 16
+    if b"cmap" not in tables:
+        raise SystemExit(f"{path} has no cmap")
+    toff, tlen = tables[b"cmap"]
+    cmap = data[toff : toff + tlen]
+    _ver, nsub = struct.unpack(">HH", cmap[0:4])
+    cps: set[int] = set()
+    for i in range(nsub):
+        _plat, _enc, suboff = struct.unpack(">HHI", cmap[4 + i * 8 : 12 + i * 8])
+        fmt = struct.unpack(">H", cmap[suboff : suboff + 2])[0]
+        if fmt == 4:
+            _length, _lang, seg_x2 = struct.unpack(">HHH", cmap[suboff + 2 : suboff + 8])
+            nseg = seg_x2 // 2
+            end_off = suboff + 14
+            ends = struct.unpack(">" + "H" * nseg, cmap[end_off : end_off + 2 * nseg])
+            start_off = end_off + 2 * nseg + 2
+            starts = struct.unpack(">" + "H" * nseg, cmap[start_off : start_off + 2 * nseg])
+            delta_off = start_off + 2 * nseg
+            deltas = struct.unpack(">" + "h" * nseg, cmap[delta_off : delta_off + 2 * nseg])
+            range_off = delta_off + 2 * nseg
+            ranges = struct.unpack(">" + "H" * nseg, cmap[range_off : range_off + 2 * nseg])
+            for si in range(nseg):
+                for cp in range(starts[si], ends[si] + 1):
+                    if ranges[si] == 0:
+                        gid = (cp + deltas[si]) & 0xFFFF
+                    else:
+                        glyph_off = range_off + 2 * si + ranges[si] + 2 * (cp - starts[si])
+                        gid = struct.unpack(">H", cmap[glyph_off : glyph_off + 2])[0]
+                        if gid:
+                            gid = (gid + deltas[si]) & 0xFFFF
+                    if gid:
+                        cps.add(cp)
+        elif fmt == 12:
+            ng = struct.unpack(">I", cmap[suboff + 12 : suboff + 16])[0]
+            p = suboff + 16
+            for _g in range(ng):
+                start, end, start_gid = struct.unpack(">III", cmap[p : p + 12])
+                for cp in range(start, end + 1):
+                    gid = start_gid + (cp - start)
+                    if gid:
+                        cps.add(cp)
+                p += 12
+    return frozenset(cps)
+
+
 class Font:
-    """Pillow's bundled default font, with no host font or soname lookup."""
+    """Hanken for Latin; DejaVu for Hanken-missing glyphs. No host soname."""
 
-    def __init__(self):
-        self._fonts = {}
+    def __init__(self, latin_path: Path, greek_path: Path):
+        if not latin_path.is_file():
+            raise SystemExit(f"committed Hanken TTF missing: {latin_path}")
+        if not greek_path.is_file():
+            raise SystemExit(f"committed DejaVu TTF missing: {greek_path}")
+        self.latin_path = latin_path
+        self.greek_path = greek_path
+        self.latin_cmap = ttf_cmap(latin_path)
+        self.greek_cmap = ttf_cmap(greek_path)
+        for required in ("\u0394", "\u03c6"):
+            if ord(required) not in self.greek_cmap:
+                raise SystemExit(f"{greek_path.name} missing {required!r}")
+        self._latin: dict[int, ImageFont.FreeTypeFont] = {}
+        self._greek: dict[int, ImageFont.FreeTypeFont] = {}
 
-    def _font(self, px: int):
-        if px not in self._fonts:
-            self._fonts[px] = ImageFont.load_default(size=px)
-        return self._fonts[px]
+    def face_for(self, ch: str) -> str:
+        cp = ord(ch)
+        if cp in self.latin_cmap:
+            return "Hanken Grotesk"
+        if cp in self.greek_cmap:
+            return "DejaVu Sans"
+        raise SystemExit(f"no committed face covers U+{cp:04X} {ch!r}")
+
+    def _face(self, px: int, ch: str):
+        name = self.face_for(ch)
+        if name == "Hanken Grotesk":
+            cache, path = self._latin, self.latin_path
+        else:
+            cache, path = self._greek, self.greek_path
+        if px not in cache:
+            cache[px] = ImageFont.truetype(str(path), size=px)
+        return cache[px]
 
     def measure(self, text: str, px: int) -> tuple[int, int]:
-        left, top, right, bottom = self._font(px).getbbox(text, anchor="ls")
-        return max(right - left, 1), max(bottom - top, 1)
+        gray, _ = self.render_gray(text, px)
+        return gray.shape[1], gray.shape[0]
 
-    def render_gray(self, text: str, px: int, bold=False) -> tuple[np.ndarray, int]:
+    def render_gray(self, text: str, px: int) -> tuple[np.ndarray, int]:
         """Return (H×W uint8 coverage, baseline y)."""
-        font = self._font(px)
-        stroke = 1 if bold else 0
-        left, top, right, bottom = font.getbbox(
-            text, anchor="ls", stroke_width=stroke
-        )
-        width = max(right - left, 1)
-        height = max(bottom - top, 1)
-        canvas = Image.new("L", (width, height), 0)
-        ImageDraw.Draw(canvas).text(
-            (-left, -top),
-            text,
-            font=font,
-            fill=255,
-            anchor="ls",
-            stroke_width=stroke,
-            stroke_fill=255,
-        )
-        return np.asarray(canvas, dtype=np.uint8), -top
+        glyphs = []
+        width = 0.0
+        max_top = 0
+        max_bot = 0
+        for ch in text:
+            face = self._face(px, ch)
+            left, top, right, bottom = face.getbbox(ch, anchor="ls")
+            w = max(int(math.ceil(right - left)), 1)
+            h = max(int(math.ceil(bottom - top)), 1)
+            im = Image.new("L", (w, h), 0)
+            ImageDraw.Draw(im).text(
+                (-left, -top), ch, font=face, fill=255, anchor="ls"
+            )
+            arr = np.asarray(im, dtype=np.uint8)
+            adv = float(face.getlength(ch))
+            bitmap_top = int(round(-top))
+            glyphs.append((arr, left, bitmap_top, adv))
+            max_top = max(max_top, bitmap_top)
+            max_bot = max(max_bot, arr.shape[0] - bitmap_top)
+            width += adv
+        height = max(max_top + max_bot, 1)
+        canvas = np.zeros((height, max(int(math.ceil(width)) + 4, 1)), np.uint8)
+        pen = 0.0
+        for arr, left, bitmap_top, adv in glyphs:
+            y0 = max_top - bitmap_top
+            x0 = int(round(pen + left))
+            gh, gw = arr.shape
+            x1 = x0 + gw
+            y1 = y0 + gh
+            if x0 < 0 or y0 < 0:
+                sx = max(0, -x0)
+                sy = max(0, -y0)
+                arr = arr[sy:, sx:]
+                x0 = max(x0, 0)
+                y0 = max(y0, 0)
+                gh, gw = arr.shape
+                x1 = x0 + gw
+                y1 = y0 + gh
+            if y1 > canvas.shape[0] or x1 > canvas.shape[1]:
+                new = np.zeros(
+                    (max(canvas.shape[0], y1), max(canvas.shape[1], x1)), np.uint8
+                )
+                new[: canvas.shape[0], : canvas.shape[1]] = canvas
+                canvas = new
+            dst = canvas[y0:y1, x0:x1]
+            np.maximum(dst, arr[: dst.shape[0], : dst.shape[1]], out=dst)
+            pen += adv
+        return canvas, max_top
 
 
 # ---------------------------------------------------------------------------
@@ -289,9 +425,8 @@ def text(
     color=INK,
     align="left",
     valign="baseline",
-    bold=False,
 ):
-    gray, base = font.render_gray(s, px, bold=bold)
+    gray, base = font.render_gray(s, px)
     gh, gw = gray.shape
     x = float(x)
     y = float(y)
@@ -308,10 +443,6 @@ def text(
     else:  # baseline
         y0 = y - base
     blit_gray(rgb, gray, int(round(x)), int(round(y0)), color)
-
-
-def text_width(font: Font, s: str, px: int) -> int:
-    return font.measure(s, px)[0]
 
 
 def vtext(rgb, font: Font, s: str, x, y, px: int, color=INK):
@@ -387,35 +518,76 @@ def blit_img(rgb, img, x, y):
 
 
 # ---------------------------------------------------------------------------
-# figure
+# frames — crop only; never re-render. Lab stills are optional.
 # ---------------------------------------------------------------------------
 
-def load_thumbs():
-    """Optional lab-side stills. Skip any frame that is not on disk."""
+STILL_PHIS = (90, 105, 120, 135)
+STILL_SURFS = ("s0", "t1")
+
+
+def frame_path(surf: str, phi: int) -> Path:
+    return FRAMES / f"m4_{surf}_phi_{phi:03d}.png"
+
+
+def missing_frames() -> list[Path]:
+    return [
+        frame_path(surf, phi)
+        for surf in STILL_SURFS
+        for phi in STILL_PHIS
+        if not frame_path(surf, phi).is_file()
+    ]
+
+
+def load_cropped_frame(surf: str, phi: int) -> np.ndarray:
     x0, y0, x1, y1 = CROP
-    out = {}
-    for surf in ("s0", "t1"):
-        for phi in (90, 105, 120, 135):
-            path = FRAMES / f"m4_{surf}_phi_{phi:03d}.png"
-            if not path.is_file():
-                continue
-            im = read_png(path)
-            out[(surf, phi)] = im[y0:y1, x0:x1]
-    return out
+    path = frame_path(surf, phi)
+    im = read_png(path)
+    crop = im[y0:y1, x0:x1]
+    # refuse to ship a still that still has the old in-frame caption
+    # (caption lives at source y 778–798; crop y1=601)
+    if y1 > 770:
+        raise SystemExit(f"crop y1={y1} would keep the caption band")
+    return crop
 
 
-def render(metrics: dict) -> np.ndarray:
-    font = Font()
-    rgb = np.full((H, W, 3), 255, np.uint8)
+# ---------------------------------------------------------------------------
+# Fig 1 — ACS plot only
+# ---------------------------------------------------------------------------
+
+def render_plot(metrics: dict, font: Font) -> np.ndarray:
+    rgb = np.full((PLOT_H, PLOT_W, 3), 255, np.uint8)
 
     pts = metrics["points"]
-    phis = [p[0] for p in pts]
-    des = [p[1] for p in pts]
     xc = metrics["crossing_phi"]
+    font_px = PLOT_FONT_PX  # 17 * 1200 / 632 → 32
 
-    # layout — 2-row strip, plot in the middle band
-    plot_l, plot_r = 100, 1168
-    plot_t, plot_b = 172, 476
+    # Full-canvas plot: no title, no subtitle, no molecule strip.
+    # Gutters sized for 32 px type so y-label, ticks, point labels, and 98.89°
+    # do not collide or clip. Canvas stays 1200×630.
+    y_label = "\u0394E = E(T1) \u2212 E(S0) (kJ/mol)"
+    x_label = "\u03c6 / CNNC (deg)"
+    xticks = [90, 105, 120, 135]
+    yticks = [-20, 0, 20, 40, 60, 80, 100]
+
+    ytick_w = max(font.measure(fmt_tick(v), font_px)[0] for v in yticks)
+    _, ylab_box_w = font.measure(y_label, font_px)  # height before rot = width after
+    _, xlab_h = font.measure(x_label, font_px)
+    _, tick_h = font.measure("100", font_px)
+
+    left_pad = 16
+    ylab_to_ticks = 16
+    ticks_to_spine = 14
+    tick_len = 8
+    right_pad = 28
+    top_pad = 36
+    tick_label_gap = 10
+    xlab_gap = 12
+    bottom_pad = 14
+
+    plot_l = left_pad + ylab_box_w + ylab_to_ticks + ytick_w + ticks_to_spine
+    plot_r = PLOT_W - right_pad
+    plot_t = top_pad
+    plot_b = PLOT_H - (bottom_pad + xlab_h + xlab_gap + tick_h + tick_label_gap + tick_len)
     xlim = (86.5, 138.5)  # pad only; ticks stay 90/105/120/135
     ylim = (-30.0, 118.0)
 
@@ -424,50 +596,6 @@ def render(metrics: dict) -> np.ndarray:
 
     def Y(de):
         return plot_b - (de - ylim[0]) / (ylim[1] - ylim[0]) * (plot_b - plot_t)
-
-    # title + method subtitle (11–12 pt near-black)
-    text(
-        rgb,
-        font,
-        "M4 separately relaxed S0/T1 profile gap",
-        W / 2,
-        20,
-        16,
-        INK,
-        align="center",
-        valign="middle",
-    )
-    text(
-        rgb,
-        font,
-        short_method(metrics["method"]),
-        W / 2,
-        40,
-        13,
-        INK,
-        align="center",
-        valign="middle",
-    )
-
-    # frames — S0 top / T1 bottom, aligned to φ when lab stills exist
-    thumbs = load_thumbs()
-    thumb_w, thumb_h = 188, 104
-    s0_top, t1_top = 52, 512
-    if thumbs:
-        for surf, top, tag in (("s0", s0_top, "S0"), ("t1", t1_top, "T1")):
-            text(rgb, font, tag, 14, top + thumb_h / 2, 12, INK, align="left", valign="middle")
-            for phi in (90, 105, 120, 135):
-                src = thumbs.get((surf, phi))
-                if src is None:
-                    continue
-                scale = min(thumb_w / src.shape[1], thumb_h / src.shape[0])
-                nw = max(1, int(round(src.shape[1] * scale)))
-                nh = max(1, int(round(src.shape[0] * scale)))
-                im = resize_rgb(src, nw, nh)
-                cx = X(phi)
-                x = cx - nw / 2
-                y = top + (thumb_h - nh) / 2
-                blit_img(rgb, im, x, y)
 
     # spines
     line(rgb, plot_l, plot_t, plot_r, plot_t, INK, 0.9)
@@ -479,38 +607,33 @@ def render(metrics: dict) -> np.ndarray:
     y0 = Y(0.0)
     line(rgb, plot_l, y0, plot_r, y0, ZERO_C, 0.85)
 
-    # ticks
-    xticks = [90, 105, 120, 135]
-    yticks = [-20, 0, 20, 40, 60, 80, 100]
     for xv in xticks:
         px = X(xv)
-        line(rgb, px, plot_b, px, plot_b + 5, INK, 0.8)
-        text(rgb, font, fmt_tick(xv), px, plot_b + 8, 12, INK, align="center", valign="top")
+        line(rgb, px, plot_b, px, plot_b + tick_len, INK, 0.8)
+        text(
+            rgb, font, fmt_tick(xv), px, plot_b + tick_len + tick_label_gap,
+            font_px, INK, align="center", valign="top",
+        )
     for yv in yticks:
         py = Y(yv)
-        line(rgb, plot_l - 5, py, plot_l, py, INK, 0.8)
-        text(rgb, font, fmt_tick(yv), plot_l - 8, py, 12, INK, align="right", valign="middle")
+        line(rgb, plot_l - tick_len, py, plot_l, py, INK, 0.8)
+        text(
+            rgb, font, fmt_tick(yv), plot_l - ticks_to_spine, py,
+            font_px, INK, align="right", valign="middle",
+        )
 
-    # axis labels (y labelpad 8, x pad 6)
     vtext(
-        rgb,
-        font,
-        "dE = E(T1) - E(S0) (kJ/mol)",
-        18,
+        rgb, font, y_label,
+        left_pad + ylab_box_w / 2,
         (plot_t + plot_b) / 2,
-        14,
+        font_px,
         INK,
     )
     text(
-        rgb,
-        font,
-        "phi / CNNC (deg)",
+        rgb, font, x_label,
         (plot_l + plot_r) / 2,
-        plot_b + 28,
-        14,
-        INK,
-        align="center",
-        valign="top",
+        plot_b + tick_len + tick_label_gap + tick_h + xlab_gap,
+        font_px, INK, align="center", valign="top",
     )
 
     # series — adjacent both-converged neighbors only; straight segments; no wrap
@@ -519,64 +642,164 @@ def render(metrics: dict) -> np.ndarray:
     for phi, de in pts:
         circle(rgb, X(phi), Y(de), 5.1, SERIES, fill=True)
 
-    # Bold lettered callouts only; values and explanations live in the caption.
-    callouts = {
-        90: ("A", 10, 12, "left"),
-        105: ("B", 9, -11, "left"),
-        120: ("C", -9, -11, "right"),
-        135: ("D", -9, 12, "right"),
+    # point labels (from file values, 2 decimals). Offsets grown with 32 px type
+    # so labels miss markers, the series, the 0-line, and 98.89°.
+    # 90: right and below the rising 90–105 segment (not on the line).
+    # 105: left of the marker, above the 0-line (empty pocket; not on the
+    # incoming 90–105 segment). Right-aligned so the string sits left of 105.
+    # 135: left of the marker, slightly above, so it misses the incoming segment.
+    # 98.89° sits right of the crossing tick, just under the 0-line, so it
+    # stays clear of −19.10.
+    label_off = {
+        90: (36, 14, "left"),
+        105: (-56, -36, "right"),
+        120: (-18, -28, "right"),
+        135: (-50, -6, "right"),
     }
     for phi, de in pts:
-        label, dx, dy, al = callouts[int(phi)]
+        dx, dy, al = label_off[int(phi)]
         text(
-            rgb,
-            font,
-            label,
-            X(phi) + dx,
-            Y(de) + dy,
-            14,
-            INK,
-            align=al,
-            valign="middle",
-            bold=True,
+            rgb, font, fmt_delta(de),
+            X(phi) + dx, Y(de) + dy,
+            font_px, INK, align=al, valign="middle",
         )
 
     # ONE interpolant: 90–105 pair, y = 0 on that segment. Not 110°.
-    # Hairline from the interpolant down to a bold lettered callout.
     xcp, ycp = X(xc), Y(0.0)
-    line(rgb, xcp, ycp, xcp, ycp + 16, ZERO_C, 0.85)
+    line(rgb, xcp, ycp, xcp, ycp + 10, ZERO_C, 0.85)
     text(
-        rgb,
-        font,
-        "E",
-        xcp + 4,
-        ycp + 28,
-        14,
-        INK,
-        align="center",
-        valign="top",
-        bold=True,
+        rgb, font, f"{xc:.2f}\u00b0",
+        xcp + 12, ycp + 8,
+        font_px, INK, align="left", valign="top",
     )
 
     return rgb
+
+
+# ---------------------------------------------------------------------------
+# Fig 2 / Fig 3 — large stills, four to a page width
+# ---------------------------------------------------------------------------
+
+def render_stills(font: Font, surf: str) -> np.ndarray:
+    """One row of four large identity-only stills. Angle tags; no energies."""
+    rgb = np.full((STILL_H, STILL_W, 3), 255, np.uint8)
+    phis = (90, 105, 120, 135)
+    font_px = STILL_FONT_PX  # 17 * 1600 / 632 → 43
+
+    # Larger left gutter for vertical S0/T1; more space under φ tags.
+    # Canvas stays 1600×520; molecules shrink only as much as the gutters require.
+    _, tag_box_w = font.measure("T1", font_px)  # height before rot = width after
+    _, angle_h = font.measure("135\u00b0", font_px)
+
+    margin_l = 20
+    margin_r = 20
+    margin_t = 16
+    margin_b = 18
+    label_col = tag_box_w + 20
+    angle_band = angle_h + 16
+    gap = 14
+
+    inner_l = margin_l + label_col
+    inner_r = STILL_W - margin_r
+    inner_t = margin_t
+    inner_b = STILL_H - margin_b - angle_band
+    usable_w = inner_r - inner_l
+    panel_w = (usable_w - gap * (len(phis) - 1)) / len(phis)
+    panel_h = inner_b - inner_t
+
+    vtext(
+        rgb, font, surf.upper(),
+        margin_l + tag_box_w / 2,
+        (inner_t + inner_b) / 2,
+        font_px,
+        INK,
+    )
+
+    for i, phi in enumerate(phis):
+        src = load_cropped_frame(surf, phi)
+        scale = min(panel_w / src.shape[1], panel_h / src.shape[0])
+        nw = max(1, int(round(src.shape[1] * scale)))
+        nh = max(1, int(round(src.shape[0] * scale)))
+        im = resize_rgb(src, nw, nh)
+        px0 = inner_l + i * (panel_w + gap)
+        cx = px0 + panel_w / 2
+        x = cx - nw / 2
+        y = inner_t + (panel_h - nh) / 2
+        blit_img(rgb, im, x, y)
+        text(
+            rgb, font, f"{phi}\u00b0",
+            cx, STILL_H - margin_b,
+            font_px, INK, align="center", valign="bottom",
+        )
+
+    return rgb
+
+
+def load_plot_font() -> Font:
+    """Committed Hanken + DejaVu via Pillow ImageFont.truetype."""
+    font = Font(HANKEN_TTF, DEJAVU_TTF)
+    gray, _ = font.render_gray("Hanken", PLOT_FONT_PX)
+    if gray.max() == 0:
+        raise SystemExit("Hanken rasterized empty")
+    for ch in ("\u0394", "\u03c6", "\u2212"):
+        face = font.face_for(ch)
+        g, _ = font.render_gray(ch, PLOT_FONT_PX)
+        # Letter-sized glyphs must be taller than Hanken's 16 px .notdef box.
+        # U+2212 is a hairline; empty coverage is the only reject.
+        too_small = ch in "\u0394\u03c6" and g.shape[0] < 18
+        if g.max() == 0 or too_small:
+            raise SystemExit(
+                f"refusing tofu/empty for {ch!r} U+{ord(ch):04X} via {face} "
+                f"size={g.shape}"
+            )
+        print(f"glyph {ch} U+{ord(ch):04X} → {face} ({g.shape[1]}x{g.shape[0]})")
+    return font
 
 
 def main():
     metrics = load_metrics(METRICS_PATH)
     print("points (from results/bayes-metrics.json):")
     for phi, de in metrics["points"]:
-        print(f"  phi={phi:g}  deltaE_kJmol={de}")
+        print(f"  phi={phi:g}  deltaE_kJmol={de}  label={fmt_delta(de)}")
     print(f"interpolant phi={metrics['crossing_phi']}  label={metrics['crossing_phi']:.2f}°")
     print("pairs with a drawn crossing: 90–105 only; 110° not marked")
-    n_thumbs = len(load_thumbs())
-    print(f"optional frames present: {n_thumbs}/8 (lab-side; missing stills skipped)")
-    rgb = render(metrics)
-    if rgb.shape[1] != W or rgb.shape[0] != H:
-        raise SystemExit(f"bad size {rgb.shape}")
-    write_png(OUT_PUBLISHED, rgb)
-    shutil.copy2(OUT_PUBLISHED, OUT_PREVIEW)
-    print(f"wrote published asset {OUT_PUBLISHED} {W}x{H}")
-    print(f"copied preview {OUT_PREVIEW}")
+    print("ACS: no title, no subtitle, no stills on the plot")
+    print(
+        f"standing rule: font_px = round({BODY_PX} * W / {DISPLAY_W}) "
+        f"→ plot {PLOT_W}×{PLOT_H} = {PLOT_FONT_PX}px, "
+        f"stills {STILL_W}×{STILL_H} = {STILL_FONT_PX}px"
+    )
+
+    font = load_plot_font()
+    print(f"Pillow faces: {HANKEN_TTF.name} + {DEJAVU_TTF.name}")
+    print(f"ImageFont.truetype plot={PLOT_FONT_PX} stills={STILL_FONT_PX}")
+
+    plot = render_plot(metrics, font)
+    if plot.shape[1] != PLOT_W or plot.shape[0] != PLOT_H:
+        raise SystemExit(f"bad plot size {plot.shape}")
+    write_png(OUT_PREVIEW, plot)
+    shutil.copy2(OUT_PREVIEW, OUT_PUBLISHED)
+    print(f"wrote {OUT_PREVIEW} {PLOT_W}x{PLOT_H}")
+    print(f"copied {OUT_PUBLISHED}")
+
+    missing = missing_frames()
+    if missing:
+        print(f"stills skipped: {len(missing)} lab frame(s) not in checkout")
+        print("published still PNGs left unchanged")
+        return
+
+    s0 = render_stills(font, "s0")
+    t1 = render_stills(font, "t1")
+    if s0.shape[1] != STILL_W or s0.shape[0] != STILL_H:
+        raise SystemExit(f"bad S0 stills size {s0.shape}")
+    if t1.shape[1] != STILL_W or t1.shape[0] != STILL_H:
+        raise SystemExit(f"bad T1 stills size {t1.shape}")
+    write_png(OUT_S0_PREVIEW, s0)
+    write_png(OUT_T1_PREVIEW, t1)
+    shutil.copy2(OUT_S0_PREVIEW, OUT_S0_PUBLISHED)
+    shutil.copy2(OUT_T1_PREVIEW, OUT_T1_PUBLISHED)
+    print(f"wrote {OUT_S0_PUBLISHED} {STILL_W}x{STILL_H}")
+    print(f"wrote {OUT_T1_PUBLISHED} {STILL_W}x{STILL_H}")
 
 
 if __name__ == "__main__":
