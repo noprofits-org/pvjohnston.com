@@ -67,7 +67,9 @@ python3 research/hillel-m4-sft/analysis/make_deltaE_figure.py
 The renderer uses Pillow's bundled default font, so it does not depend on a
 host font path or platform-specific FreeType library name. Lab-side molecular
 stills are optional; without them the same command writes the data plot and
-lettered callouts from the committed Bayes projection.
+lettered callouts from the committed Bayes projection. The command updates the
+published `/images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png`
+asset and an ignored preview beside the renderer.
 
 ## Data and publication
 

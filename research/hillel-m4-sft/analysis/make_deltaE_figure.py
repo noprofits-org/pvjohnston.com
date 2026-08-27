@@ -27,10 +27,15 @@ from PIL import Image, ImageDraw, ImageFont
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
+REPO_ROOT = ROOT.parents[1]
 METRICS_PATH = ROOT / "results" / "bayes-metrics.json"
 FRAMES = ROOT / "frames"
-OUT_HERO = HERE / "fig_deltaE_vs_phi.png"
-OUT_EASY = ROOT / "fig_deltaE_vs_phi.png"
+OUT_PREVIEW = HERE / "fig_deltaE_vs_phi.png"
+OUT_PUBLISHED = (
+    REPO_ROOT
+    / "images"
+    / "2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png"
+)
 W, H = 1200, 630
 INK = np.array([38, 38, 38], dtype=np.float64)       # ~0.15
 ZERO_C = np.array([22, 22, 22], dtype=np.float64)
@@ -568,10 +573,10 @@ def main():
     rgb = render(metrics)
     if rgb.shape[1] != W or rgb.shape[0] != H:
         raise SystemExit(f"bad size {rgb.shape}")
-    write_png(OUT_HERO, rgb)
-    shutil.copy2(OUT_HERO, OUT_EASY)
-    print(f"wrote {OUT_HERO} {W}x{H}")
-    print(f"copied {OUT_EASY}")
+    write_png(OUT_PUBLISHED, rgb)
+    shutil.copy2(OUT_PUBLISHED, OUT_PREVIEW)
+    print(f"wrote published asset {OUT_PUBLISHED} {W}x{H}")
+    print(f"copied preview {OUT_PREVIEW}")
 
 
 if __name__ == "__main__":
