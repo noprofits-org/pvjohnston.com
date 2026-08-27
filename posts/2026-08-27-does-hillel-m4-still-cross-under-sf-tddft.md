@@ -9,6 +9,7 @@ contribution: an independent ORCA 6.1.1 SF-TDDFT/TDA BH&HLYP-D3(BJ)/def2-QZVPP c
 contribution-type: untested regime
 experiment: hillel-m4-sft
 status: supported
+og-image: /images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png
 ---
 
 ## Abstract
@@ -52,7 +53,13 @@ All four required CNNC points are both-converged and both-spin-assigned. Table 1
 
 **Table 1.** Assigned SF-S0 and SF-T1 totals on the required CNNC window after the constrained optimizations. $\Delta E = E(\mathrm{T1})-E(\mathrm{S0})$. LibXC(BHANDHLYP)-D3(BJ)/def2-QZVPP, SF-TDA, RIJCOSX, gas phase.
 
-The 90°/105° pair changes sign. The linear interpolant of that pair is [crossing_phi_deg]{.metric}°. The 105°/120° pair does not change sign ([deltae_kjmol_105]{.metric} and [deltae_kjmol_120]{.metric} kJ/mol). The 120°/135° pair does not change sign ([deltae_kjmol_120]{.metric} and [deltae_kjmol_135]{.metric} kJ/mol).
+<figure>
+  <img src="/images/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft-og.png" alt="M4 S0/T1 gap ΔE versus constrained CNNC angle φ at 90, 105, 120, and 135 degrees, with the sole interpolant crossing marked between 90 and 105 degrees.">
+</figure>
+
+**Figure 1.** M4 S0/T1 gap versus constrained CNNC angle φ. The four both-converged, both-assigned points from the Bayes metrics file (ORCA 6.1.1 SF-TDA, LibXC BHANDHLYP, D3BJ/def2-QZVPP): φ = 90° (ΔE = [deltae_kjmol_90]{.metric} kJ/mol), 105° ([deltae_kjmol_105]{.metric}), 120° ([deltae_kjmol_120]{.metric}), 135° ([deltae_kjmol_135]{.metric}), with ΔE = E(T1) − E(S0). Adjacent both-converged neighbors are joined by straight segments only. The only sign change is on the 90–105 pair; that pair’s linear interpolant is [crossing_phi_deg]{.metric}° and is the sole crossing mark. The 105–120 and 120–135 pairs stay positive and are not marked as crossings. 110° is not marked.
+
+The 90°/105° pair changes sign (Figure 1). The linear interpolant of that pair is [crossing_phi_deg]{.metric}°. The 105°/120° pair does not change sign ([deltae_kjmol_105]{.metric} and [deltae_kjmol_120]{.metric} kJ/mol). The 120°/135° pair does not change sign ([deltae_kjmol_120]{.metric} and [deltae_kjmol_135]{.metric} kJ/mol).
 
 ## Discussion
 
