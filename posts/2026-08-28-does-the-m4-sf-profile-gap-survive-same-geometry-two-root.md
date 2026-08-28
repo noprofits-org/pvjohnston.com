@@ -3,9 +3,9 @@ title: "Does the 2026-08-27 Hillel M4 SF profile-gap survive a same-geometry two
 date: 2026-08-28
 author: Peter Johnston
 tags: computational chemistry, azobenzene, SF-TDDFT, push-pull chromophores, intersystem crossing
-description: An independent same-geometry two-root rematch of this site's 2026-08-27 Hillel M4 SF-TDA geometries at the Hillel, Rough, Barrett, Pietro, and Mermut (2024) electronic-structure level. The parent note's sign change was a separately relaxed profile gap. This note asks whether ΔE = E(T1)−E(S0) still changes sign between 90° and 105° when both roots come from one SF manifold on one structure.
+description: An independent same-geometry two-root rematch of this site's 2026-08-27 Hillel M4 SF-TDA geometries at the Hillel, Rough, Barrett, Pietro, and Mermut (2024) electronic-structure level. The parent note's sign change was a separately relaxed profile gap. This note asks whether ΔE = E(T1)−E(S0) still changes sign when both roots come from one SF manifold on one structure.
 post-type: research
-contribution: an independent same-geometry two-root SF-TDA rematch of the eight 2026-08-27 constrained-CNNC M4 geometries at the Hillel 2024 electronic-structure level. On both constrained-CNNC geometry families, the same-geometry SF-TDA gap E(T1)−E(S0) changes sign between 90° and 105°, which is not in the 2026-08-27 profile-gap note and is not in Hillel et al. 2024.
+contribution: an independent same-geometry two-root SF-TDA rematch of the eight 2026-08-27 constrained-CNNC M4 geometries at the Hillel 2024 electronic-structure level, which is not in the 2026-08-27 profile-gap note and is not in Hillel et al. 2024.
 contribution-type: untested regime
 experiment: hillel-m4-sft-tworoot
 status: supported

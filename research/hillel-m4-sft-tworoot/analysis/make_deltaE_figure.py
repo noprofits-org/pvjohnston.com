@@ -455,7 +455,14 @@ def text(
         y0 = y - gh / 2
     else:  # baseline
         y0 = y - base
-    blit_gray(rgb, gray, int(round(x)), int(round(y0)), color)
+    x0 = int(round(x))
+    y0i = int(round(y0))
+    if x0 < 0 or y0i < 0 or x0 + gw > rgb.shape[1] or y0i + gh > rgb.shape[0]:
+        raise SystemExit(
+            f"text {s!r} clips canvas box=({x0},{y0i},{x0 + gw},{y0i + gh}) "
+            f"canvas={rgb.shape[1]}x{rgb.shape[0]}"
+        )
+    blit_gray(rgb, gray, x0, y0i, color)
 
 
 def vtext(rgb, font: Font, s: str, x, y, px: int, color=INK):
@@ -463,7 +470,14 @@ def vtext(rgb, font: Font, s: str, x, y, px: int, color=INK):
     gray, _ = font.render_gray(s, px)
     rot = np.rot90(gray, 1)
     rh, rw = rot.shape
-    blit_gray(rgb, rot, int(round(x - rw / 2)), int(round(y - rh / 2)), color)
+    x0 = int(round(x - rw / 2))
+    y0 = int(round(y - rh / 2))
+    if x0 < 0 or y0 < 0 or x0 + rw > rgb.shape[1] or y0 + rh > rgb.shape[0]:
+        raise SystemExit(
+            f"vtext {s!r} clips canvas box=({x0},{y0},{x0 + rw},{y0 + rh}) "
+            f"canvas={rgb.shape[1]}x{rgb.shape[0]}"
+        )
+    blit_gray(rgb, rot, x0, y0, color)
 
 
 def line(rgb, x0, y0, x1, y1, color, width=1.2):
