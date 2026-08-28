@@ -108,6 +108,20 @@ function pairEnds(pair) {
   return [Number(pair.phi_a), Number(pair.phi_b)];
 }
 
+function assertAssignedSpin(familyId, phi, s0s2, t1s2, s0Iroot, t1Iroot) {
+  if (s0Iroot === t1Iroot) {
+    throw new Error(`${familyId} ${phi}°: assigned S0 and T1 iroots must be distinct`);
+  }
+  // Stated rule: S0 ⟨S²⟩≈0; unused ≈1; T1 ⟨S²⟩≈2. Reject a swapped
+  // or contaminant labeling before ΔE is trusted.
+  if (!(s0s2 < 0.8)) {
+    throw new Error(`${familyId} ${phi}°: assigned S0 ⟨S²⟩=${s0s2} is not in the singlet window`);
+  }
+  if (!(t1s2 > 1.5 && t1s2 < 2.8)) {
+    throw new Error(`${familyId} ${phi}°: assigned T1 ⟨S²⟩=${t1s2} is not in the triplet window`);
+  }
+}
+
 function expectedPointFile(familyId, phi) {
   const surf = familyId === 's0_relaxed' ? 's0' : familyId === 't1_relaxed' ? 't1' : null;
   if (!surf) {
@@ -221,6 +235,7 @@ function build(generatedAt) {
       if (!Number.isInteger(s0Iroot) || !Number.isInteger(t1Iroot)) {
         throw new Error(`${family.id} ${phi}°: iroot values must be integers`);
       }
+      assertAssignedSpin(family.id, phi, s0s2, t1s2, s0Iroot, t1Iroot);
       const deltaE = requireFinite(point.deltaE_kJmol, `${family.id} ${phi} deltaE_kJmol`);
       assertClose((t1E - s0E) * conversion, deltaE, `${family.id} ${phi} ΔE from Eh`, 1e-8);
       s0S2.push(s0s2);
@@ -246,22 +261,31 @@ function build(generatedAt) {
     if (!claimPair) {
       throw new Error(`${bayesInput}: missing ${family.id} neighboring_pairs 90/105 entry`);
     }
-    const pairInterpolant = requireFinite(
-      pairInterpolantOf(claimPair),
-      `${family.id} 90/105 interpolant`,
-    );
+    const pairInterpolant = pairInterpolantOf(claimPair);
     const derivedZero = linearZero(
       90, slots[90].deltaE, 105, slots[105].deltaE,
     );
     if (derivedZero === null) {
-      throw new Error(`${family.id} 90/105 pair does not change ΔE sign`);
+      if (pairInterpolant !== null) {
+        throw new Error(`${family.id} 90/105 interpolant set without a ΔE sign change`);
+      }
+    } else {
+      if (pairInterpolant === null) {
+        throw new Error(`${family.id} 90/105 sign change missing interpolant`);
+      }
+      assertClose(derivedZero, pairInterpolant, `${family.id} 90/105 derived interpolant`, 1e-8);
     }
-    assertClose(derivedZero, pairInterpolant, `${family.id} 90/105 derived interpolant`, 1e-8);
-    const storedCrossing = requireFinite(
-      bayes[`crossing_phi_deg_${family.key}`],
-      `crossing_phi_deg_${family.key}`,
-    );
-    assertClose(storedCrossing, pairInterpolant, `${family.id} stored crossing vs 90/105 interpolant`, 1e-8);
+    const storedRaw = bayes[`crossing_phi_deg_${family.key}`];
+    const storedCrossing = storedRaw == null
+      ? null
+      : requireFinite(storedRaw, `crossing_phi_deg_${family.key}`);
+    if (derivedZero === null) {
+      if (storedCrossing !== null) {
+        throw new Error(`${family.id} stored crossing set without a 90/105 sign change`);
+      }
+    } else {
+      assertClose(storedCrossing, pairInterpolant, `${family.id} stored crossing vs 90/105 interpolant`, 1e-8);
+    }
 
     const usablePairs = familyPairs.filter((pair) => pair.both_assigned === true);
     const signChangePairs = [
@@ -274,6 +298,7 @@ function build(generatedAt) {
       `hypothesis_supported_${family.key}_family`,
     );
     const derivedFamilySupported = signChangePairs.length > 0
+      && storedCrossing != null
       && storedCrossing >= 90
       && storedCrossing <= 135
       && usablePairs.length > 0;
@@ -297,8 +322,10 @@ function build(generatedAt) {
   const hypothesisSupported = requireBool(bayes.hypothesis_supported, 'hypothesis_supported');
 
   const derivedF1 = s0Flags.signChangeCount === 0 && t1Flags.signChangeCount === 0;
-  const derivedF2 = (s0Flags.signChangeCount > 0 && (s0Flags.storedCrossing < 90 || s0Flags.storedCrossing > 135))
-    || (t1Flags.signChangeCount > 0 && (t1Flags.storedCrossing < 90 || t1Flags.storedCrossing > 135));
+  const derivedF2 = (s0Flags.signChangeCount > 0 && s0Flags.storedCrossing != null
+      && (s0Flags.storedCrossing < 90 || s0Flags.storedCrossing > 135))
+    || (t1Flags.signChangeCount > 0 && t1Flags.storedCrossing != null
+      && (t1Flags.storedCrossing < 90 || t1Flags.storedCrossing > 135));
   const derivedF3 = s0Flags.usablePairCount === 0 || t1Flags.usablePairCount === 0;
   if (falsifier1 !== derivedF1) {
     throw new Error(`falsifier_1_no_sign_change ${falsifier1} !== ${derivedF1}`);
@@ -330,12 +357,16 @@ function build(generatedAt) {
   assertClose(assignedT1Max, requireFinite(bayes.assigned_t1_s2_max, 'assigned_t1_s2_max'), 'assigned_t1_s2_max');
 
   const metrics = {
-    crossing_phi_deg_s0: num(s0Flags.storedCrossing, 2,
-      'Stored Bayes linear interpolant of same-geometry ΔE=E(T1)−E(S0) on the S0-relaxed 90°/105° pair',
-      'deg'),
-    crossing_phi_deg_t1: num(t1Flags.storedCrossing, 2,
-      'Stored Bayes linear interpolant of same-geometry ΔE=E(T1)−E(S0) on the T1-relaxed 90°/105° pair',
-      'deg'),
+    ...(s0Flags.storedCrossing != null ? {
+      crossing_phi_deg_s0: num(s0Flags.storedCrossing, 2,
+        'Stored Bayes linear interpolant of same-geometry ΔE=E(T1)−E(S0) on the S0-relaxed 90°/105° pair',
+        'deg'),
+    } : {}),
+    ...(t1Flags.storedCrossing != null ? {
+      crossing_phi_deg_t1: num(t1Flags.storedCrossing, 2,
+        'Stored Bayes linear interpolant of same-geometry ΔE=E(T1)−E(S0) on the T1-relaxed 90°/105° pair',
+        'deg'),
+    } : {}),
     hypothesis_supported: boolean(hypothesisSupported,
       'Registered hypothesis supported: both families have a both-assigned same-geometry ΔE sign change inside 90–135°'),
     hypothesis_supported_s0_family: boolean(s0Flags.familySupported,
@@ -346,6 +377,13 @@ function build(generatedAt) {
       'Exactly one geometry family has a both-assigned same-geometry ΔE sign change inside 90–135°; this fails the published both-family verdict without firing registered falsifier 1'),
     both_assigned_point_count: integer(bothAssignedPointCount,
       'Number of required-window same-geometry points that are both-assigned'),
+    both_assigned_neighbor_pair_count: integer(
+      s0Flags.usablePairCount + t1Flags.usablePairCount,
+      'Number of neighboring pairs that are both-assigned, both families'),
+    both_assigned_neighbor_pair_count_s0: integer(s0Flags.usablePairCount,
+      'Number of both-assigned neighboring pairs on the S0-relaxed family'),
+    both_assigned_neighbor_pair_count_t1: integer(t1Flags.usablePairCount,
+      'Number of both-assigned neighboring pairs on the T1-relaxed family'),
     falsifier_1_no_sign_change: boolean(falsifier1,
       'Falsifier 1: neither family has a both-assigned same-geometry ΔE sign change on a neighboring pair in 90–135°'),
     falsifier_3_no_neighboring_pair: boolean(falsifier3,

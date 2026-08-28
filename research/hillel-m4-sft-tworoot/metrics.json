@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "hillel-m4-sft-tworoot",
   "provenance": {
-    "generated_at": "2026-08-28T17:18:13Z",
+    "generated_at": "2026-08-28T17:32:35Z",
     "generator": "research/hillel-m4-sft-tworoot/generate-metrics.mjs",
     "inputs": [
       {
@@ -56,6 +56,21 @@
       "type": "integer",
       "value": 8,
       "description": "Number of required-window same-geometry points that are both-assigned"
+    },
+    "both_assigned_neighbor_pair_count": {
+      "type": "integer",
+      "value": 6,
+      "description": "Number of neighboring pairs that are both-assigned, both families"
+    },
+    "both_assigned_neighbor_pair_count_s0": {
+      "type": "integer",
+      "value": 3,
+      "description": "Number of both-assigned neighboring pairs on the S0-relaxed family"
+    },
+    "both_assigned_neighbor_pair_count_t1": {
+      "type": "integer",
+      "value": 3,
+      "description": "Number of both-assigned neighboring pairs on the T1-relaxed family"
     },
     "falsifier_1_no_sign_change": {
       "type": "boolean",
