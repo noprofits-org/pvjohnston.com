@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "experiment": "hillel-m4-sft-tworoot",
+  "provenance": {
+    "generated_at": "2026-08-28T16:27:23Z",
+    "generator": "research/hillel-m4-sft-tworoot/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/hillel-m4-sft-tworoot/results/bayes-metrics.json",
+        "sha256": "0656e7a7eb78597a35b4343e15fd754789e685e465a62d5e833f9ee5553faf0c"
+      }
+    ]
+  },
+  "metrics": {
+    "crossing_phi_deg_s0": {
+      "type": "number",
+      "value": 96.8355792737246,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Stored Bayes linear interpolant of same-geometry ΔE=E(T1)−E(S0) on the S0-relaxed 90°/105° pair",
+      "unit": "deg"
+    },
+    "crossing_phi_deg_t1": {
+      "type": "number",
+      "value": 100.9747917370288,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Stored Bayes linear interpolant of same-geometry ΔE=E(T1)−E(S0) on the T1-relaxed 90°/105° pair",
+      "unit": "deg"
+    },
+    "hypothesis_supported": {
+      "type": "boolean",
+      "value": true,
+      "description": "Registered hypothesis supported: both families have a both-assigned same-geometry ΔE sign change inside 90–135°"
+    },
+    "hypothesis_supported_s0_family": {
+      "type": "boolean",
+      "value": true,
+      "description": "S0-relaxed family has a both-assigned same-geometry ΔE sign change inside 90–135°"
+    },
+    "hypothesis_supported_t1_family": {
+      "type": "boolean",
+      "value": true,
+      "description": "T1-relaxed family has a both-assigned same-geometry ΔE sign change inside 90–135°"
+    },
+    "falsifier_1_no_sign_change": {
+      "type": "boolean",
+      "value": false,
+      "description": "Falsifier 1: neither family has a both-assigned same-geometry ΔE sign change on a neighboring pair in 90–135°"
+    },
+    "falsifier_2_crossing_outside_90_135": {
+      "type": "boolean",
+      "value": false,
+      "description": "Falsifier 2: a family has a sign change whose interpolant lies outside 90–135°"
+    },
+    "falsifier_3_no_neighboring_pair": {
+      "type": "boolean",
+      "value": false,
+      "description": "Falsifier 3: a family has no neighboring both-assigned pair"
+    },
+    "assigned_s0_s2_min": {
+      "type": "number",
+      "value": 0.140887,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Minimum assigned S0 ⟨S²⟩ across the eight same-geometry points"
+    },
+    "assigned_s0_s2_max": {
+      "type": "number",
+      "value": 0.30583,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Maximum assigned S0 ⟨S²⟩ across the eight same-geometry points"
+    },
+    "assigned_t1_s2_min": {
+      "type": "number",
+      "value": 2.194025,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Minimum assigned T1 ⟨S²⟩ across the eight same-geometry points"
+    },
+    "assigned_t1_s2_max": {
+      "type": "number",
+      "value": 2.293213,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Maximum assigned T1 ⟨S²⟩ across the eight same-geometry points"
+    },
+    "deltae_kjmol_s0_90": {
+      "type": "number",
+      "value": -18.044153216729413,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Same-geometry ΔE=E(T1)−E(S0) on the S0-relaxed geometry at CNNC 90°, both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_s0_90": {
+      "type": "number",
+      "value": -910.991732775,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 90°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_s0_90": {
+      "type": "number",
+      "value": -910.99860543,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 90°",
+      "unit": "Eh"
+    },
+    "s0_s2_s0_90": {
+      "type": "number",
+      "value": 0.30583,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ on the S0-relaxed geometry at CNNC 90°"
+    },
+    "t1_s2_s0_90": {
+      "type": "number",
+      "value": 2.250879,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ on the S0-relaxed geometry at CNNC 90°"
+    },
+    "s0_iroot_s0_90": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-S0 iroot on the S0-relaxed geometry at CNNC 90°"
+    },
+    "t1_iroot_s0_90": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-T1 iroot on the S0-relaxed geometry at CNNC 90°"
+    },
+    "deltae_kjmol_s0_105": {
+      "type": "number",
+      "value": 21.55194938299385,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Same-geometry ΔE=E(T1)−E(S0) on the S0-relaxed geometry at CNNC 105°, both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_s0_105": {
+      "type": "number",
+      "value": -911.005005336,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 105°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_s0_105": {
+      "type": "number",
+      "value": -910.996796632,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 105°",
+      "unit": "Eh"
+    },
+    "s0_s2_s0_105": {
+      "type": "number",
+      "value": 0.240761,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ on the S0-relaxed geometry at CNNC 105°"
+    },
+    "t1_s2_s0_105": {
+      "type": "number",
+      "value": 2.271664,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ on the S0-relaxed geometry at CNNC 105°"
+    },
+    "s0_iroot_s0_105": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-S0 iroot on the S0-relaxed geometry at CNNC 105°"
+    },
+    "t1_iroot_s0_105": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-T1 iroot on the S0-relaxed geometry at CNNC 105°"
+    },
+    "deltae_kjmol_s0_120": {
+      "type": "number",
+      "value": 70.26595538963068,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Same-geometry ΔE=E(T1)−E(S0) on the S0-relaxed geometry at CNNC 120°, both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_s0_120": {
+      "type": "number",
+      "value": -911.021794974,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 120°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_s0_120": {
+      "type": "number",
+      "value": -910.995032085,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 120°",
+      "unit": "Eh"
+    },
+    "s0_s2_s0_120": {
+      "type": "number",
+      "value": 0.167348,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ on the S0-relaxed geometry at CNNC 120°"
+    },
+    "t1_s2_s0_120": {
+      "type": "number",
+      "value": 2.269883,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ on the S0-relaxed geometry at CNNC 120°"
+    },
+    "s0_iroot_s0_120": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-S0 iroot on the S0-relaxed geometry at CNNC 120°"
+    },
+    "t1_iroot_s0_120": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-T1 iroot on the S0-relaxed geometry at CNNC 120°"
+    },
+    "deltae_kjmol_s0_135": {
+      "type": "number",
+      "value": 125.33671872605778,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Same-geometry ΔE=E(T1)−E(S0) on the S0-relaxed geometry at CNNC 135°, both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_s0_135": {
+      "type": "number",
+      "value": -911.038251678,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 135°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_s0_135": {
+      "type": "number",
+      "value": -910.990513443,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 135°",
+      "unit": "Eh"
+    },
+    "s0_s2_s0_135": {
+      "type": "number",
+      "value": 0.140887,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ on the S0-relaxed geometry at CNNC 135°"
+    },
+    "t1_s2_s0_135": {
+      "type": "number",
+      "value": 2.236532,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ on the S0-relaxed geometry at CNNC 135°"
+    },
+    "s0_iroot_s0_135": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-S0 iroot on the S0-relaxed geometry at CNNC 135°"
+    },
+    "t1_iroot_s0_135": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-T1 iroot on the S0-relaxed geometry at CNNC 135°"
+    },
+    "deltae_kjmol_t1_90": {
+      "type": "number",
+      "value": -19.696508788600173,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Same-geometry ΔE=E(T1)−E(S0) on the T1-relaxed geometry at CNNC 90°, both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_t1_90": {
+      "type": "number",
+      "value": -910.991500624,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 90°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_t1_90": {
+      "type": "number",
+      "value": -910.999002628,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 90°",
+      "unit": "Eh"
+    },
+    "s0_s2_t1_90": {
+      "type": "number",
+      "value": 0.256895,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ on the T1-relaxed geometry at CNNC 90°"
+    },
+    "t1_s2_t1_90": {
+      "type": "number",
+      "value": 2.26704,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ on the T1-relaxed geometry at CNNC 90°"
+    },
+    "s0_iroot_t1_90": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-S0 iroot on the T1-relaxed geometry at CNNC 90°"
+    },
+    "t1_iroot_t1_90": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-T1 iroot on the T1-relaxed geometry at CNNC 90°"
+    },
+    "deltae_kjmol_t1_105": {
+      "type": "number",
+      "value": 7.224059629310327,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Same-geometry ΔE=E(T1)−E(S0) on the T1-relaxed geometry at CNNC 105°, both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_t1_105": {
+      "type": "number",
+      "value": -911.00275957,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 105°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_t1_105": {
+      "type": "number",
+      "value": -911.000008071,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 105°",
+      "unit": "Eh"
+    },
+    "s0_s2_t1_105": {
+      "type": "number",
+      "value": 0.304834,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ on the T1-relaxed geometry at CNNC 105°"
+    },
+    "t1_s2_t1_105": {
+      "type": "number",
+      "value": 2.194025,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ on the T1-relaxed geometry at CNNC 105°"
+    },
+    "s0_iroot_t1_105": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-S0 iroot on the T1-relaxed geometry at CNNC 105°"
+    },
+    "t1_iroot_t1_105": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-T1 iroot on the T1-relaxed geometry at CNNC 105°"
+    },
+    "deltae_kjmol_t1_120": {
+      "type": "number",
+      "value": 46.69210348417502,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Same-geometry ΔE=E(T1)−E(S0) on the T1-relaxed geometry at CNNC 120°, both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_t1_120": {
+      "type": "number",
+      "value": -911.017785327,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 120°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_t1_120": {
+      "type": "number",
+      "value": -911.000001244,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 120°",
+      "unit": "Eh"
+    },
+    "s0_s2_t1_120": {
+      "type": "number",
+      "value": 0.187513,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ on the T1-relaxed geometry at CNNC 120°"
+    },
+    "t1_s2_t1_120": {
+      "type": "number",
+      "value": 2.293213,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ on the T1-relaxed geometry at CNNC 120°"
+    },
+    "s0_iroot_t1_120": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-S0 iroot on the T1-relaxed geometry at CNNC 120°"
+    },
+    "t1_iroot_t1_120": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-T1 iroot on the T1-relaxed geometry at CNNC 120°"
+    },
+    "deltae_kjmol_t1_135": {
+      "type": "number",
+      "value": 85.78994926453836,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Same-geometry ΔE=E(T1)−E(S0) on the T1-relaxed geometry at CNNC 135°, both-assigned",
+      "unit": "kJ/mol"
+    },
+    "s0_e_eh_t1_135": {
+      "type": "number",
+      "value": -911.031258915,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 135°",
+      "unit": "Eh"
+    },
+    "t1_e_eh_t1_135": {
+      "type": "number",
+      "value": -910.998583249,
+      "format": {
+        "style": "raw"
+      },
+      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 135°",
+      "unit": "Eh"
+    },
+    "s0_s2_t1_135": {
+      "type": "number",
+      "value": 0.173733,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-S0 ⟨S²⟩ on the T1-relaxed geometry at CNNC 135°"
+    },
+    "t1_s2_t1_135": {
+      "type": "number",
+      "value": 2.283005,
+      "format": {
+        "style": "fixed",
+        "digits": 6
+      },
+      "description": "Assigned SF-T1 ⟨S²⟩ on the T1-relaxed geometry at CNNC 135°"
+    },
+    "s0_iroot_t1_135": {
+      "type": "integer",
+      "value": 1,
+      "description": "Assigned SF-S0 iroot on the T1-relaxed geometry at CNNC 135°"
+    },
+    "t1_iroot_t1_135": {
+      "type": "integer",
+      "value": 2,
+      "description": "Assigned SF-T1 iroot on the T1-relaxed geometry at CNNC 135°"
+    }
+  }
+}

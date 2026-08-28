@@ -1,0 +1,91 @@
+---
+title: "Does the 2026-08-27 Hillel M4 SF profile-gap survive a same-geometry two-root rematch under Hillel 2024 SF-TDDFT?"
+date: 2026-08-28
+author: Peter Johnston
+tags: computational chemistry, azobenzene, SF-TDDFT, push-pull chromophores, intersystem crossing
+description: An independent same-geometry two-root rematch of this site's 2026-08-27 Hillel M4 SF-TDA geometries at the Hillel, Rough, Barrett, Pietro, and Mermut (2024) electronic-structure level. The parent note's sign change was a separately relaxed profile gap. This note asks whether ΔE = E(T1)−E(S0) still changes sign between 90° and 105° when both roots come from one SF manifold on one structure.
+post-type: research
+contribution: an independent same-geometry two-root SF-TDA rematch of the eight 2026-08-27 constrained-CNNC M4 geometries at the Hillel 2024 electronic-structure level. On both constrained-CNNC geometry families, the same-geometry SF-TDA gap E(T1)−E(S0) changes sign between 90° and 105°, which is not in the 2026-08-27 profile-gap note and is not in Hillel et al. 2024.
+contribution-type: untested regime
+experiment: hillel-m4-sft-tworoot
+status: supported
+og-image: /images/2026-08-28-does-the-m4-sf-profile-gap-survive-same-geometry-two-root-og.png
+---
+
+## Abstract
+
+Hillel, Rough, Barrett, Pietro, and Mermut (2024), in *A cautionary tale of basic azo photoswitching in dichloromethane finally explained*, computed 4-phenylazopyridine (AzPy) and its N-protonated form (AzPyH+) with spin-flip time-dependent density functional theory (SF-TDDFT, Tamm–Dancoff) at BH&HLYP-D3(BJ)/def2-QZVPP in ORCA.[@Hillel2024] A prior note on this site rematched that electronic-structure level on 4-dimethylamino-4′-nitroazobenzene (M4) and found a both-converged sign change of the separately relaxed SF-S0 and SF-T1 profile gap between 90° and 105° ([2026-08-27 profile-gap note](/posts/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft.html)). That ΔE was not two SF roots evaluated on one molecular geometry.
+
+This note is an independent same-geometry two-root rematch of those eight already-published constrained-CNNC geometries. It is not a rebuttal of the 2024 paper. The registered hypothesis, frozen 2026-08-27 before any two-root energy was seen, is that ΔE still changes sign between 90° and 105° when S0 and T1 are taken from the same SF manifold on one structure. In this experiment that means one SF-TDA single point per geometry, with both assigned roots taken from that one calculation — not a second pair of constrained optimizations, and not a minimum-energy crossing point.
+
+On both constrained-CNNC geometry families, the same-geometry SF-TDA gap $E(\mathrm{T1})-E(\mathrm{S0})$ changes sign between 90° and 105°. On the S0-relaxed family the gap is [deltae_kjmol_s0_90]{.metric} kJ/mol at 90° and [deltae_kjmol_s0_105]{.metric} kJ/mol at 105°; the linear interpolant of that pair is [crossing_phi_deg_s0]{.metric}°. On the T1-relaxed family the gap is [deltae_kjmol_t1_90]{.metric} kJ/mol at 90° and [deltae_kjmol_t1_105]{.metric} kJ/mol at 105°; the linear interpolant of that pair is [crossing_phi_deg_t1]{.metric}°. Those interpolants are linear estimates from a 15° bracket. They are not located minimum-energy crossing points, and they are not evaluated degeneracies. The registered hypothesis was **supported**.
+
+## Introduction
+
+Azobenzene and its derivatives change shape around the N=N azo bond. The **CNNC dihedral** is the torsion that takes the trans isomer (rings opposite, CNNC near 180°) toward the cis isomer (rings on the same side, near 0°). Two electronic states sit on that path. The **electronic ground state (S0)** is the closed-shell singlet. The **lowest triplet (T1)** is the lowest state with two unpaired electrons of the same spin. Hillel *et al.* discuss a crossing as a geometry on the CNNC path where those two states have the same energy.[@Hillel2024]
+
+Hillel, Rough, Barrett, Pietro, and Mermut computed AzPy and AzPyH+ with SF-TDDFT (Tamm–Dancoff) at BH&HLYP-D3(BJ)/def2-QZVPP in ORCA and found that protonation removes that crossing.[@Hillel2024] A prior note on this site asked whether 4-dimethylamino-4′-nitroazobenzene (M4) still shows an S0/T1 sign change near 110° when S0 and T1 are taken from that 2024 SF-TDDFT manifold ([2026-08-27 profile-gap note](/posts/2026-08-27-does-hillel-m4-still-cross-under-sf-tddft.html)). On that window the separately relaxed SF-S0 and SF-T1 profiles changed sign between 90° and 105°. The ΔE in that note was the gap between two state-specific constrained optimizations at the same constrained φ. It was not two roots evaluated at one molecular geometry, and it was not a minimum-energy crossing point.
+
+The gap is that distinction. A profile-gap sign change can survive, or fail, when both roots are taken from one SF calculation on one structure. We could not find a published same-geometry two-root SF-TDA evaluation of those eight M4 geometries. The hypothesis, frozen 2026-08-27 before any two-root energy was seen and not rewritten afterward: **ΔE still changes sign between 90° and 105° when S0 and T1 are taken from the same SF manifold on one structure.** Three falsifiers were fixed at the same time. (1) Neither family has a both-assigned sign change of same-geometry ΔE on a neighboring pair in 90–135°. (2) A family has a sign change whose interpolant lies outside 90–135°. (3) A family has no neighboring both-assigned pair. Either outcome is publishable. A surviving in-window sign change on both families would mean the 2026-08-27 profile-gap result was not an artifact of comparing two separately relaxed surfaces; a miss would bound that profile gap as a between-surface quantity.
+
+## Computational Methods
+
+This is an independent rematch of this site's own published geometries. The Hillel *et al.* 2024 geometries, orbitals, and energy tables were not imported.[@Hillel2024] The eight structures are the already-published constrained-CNNC optimizations from the 2026-08-27 note: S0-relaxed and T1-relaxed at 90°, 105°, 120°, and 135°. No new optimizations were run.
+
+The run uses ORCA 6.1.1; Hillel *et al.* 2024 used ORCA 5.0.3.[@Hillel2024; @Neese2025ORCA6] Each geometry received one SF-TDDFT single point (Tamm–Dancoff). **S0** is the lowest SF root with $\langle S^2\rangle\approx 0$ (printed multiplicity 1). **T1** is the lowest SF root with $\langle S^2\rangle\approx 2$ (printed multiplicity 3). A root with $\langle S^2\rangle\approx 1$ is unused. Assignments follow $\langle S^2\rangle$, not IROOT. The eight inputs contain no IROOT keyword. The functional, dispersion, and basis are LibXC(BHANDHLYP) with D3(BJ) and def2-QZVPP.[@Grimme2011; @Weigend2005Balanced] The Coulomb fit is RIJCOSX. The run is gas-phase; no polarizable continuum was applied. Charge 0. The SF reference multiplicity is 3. NROOTS is 3. Jobs used `%pal nprocs 4` and were started as `orca input.inp`, never `mpirun`. No minimum-energy crossing point was located.
+
+Printed $E(\mathrm{tot})=E(\mathrm{SCF})+\mathrm{DE}(\mathrm{CIS})$ is used for Root 1, the ORCA default. The other assigned root uses $E(\mathrm{SCF})+E_{\mathrm{root}}$ from that root's STATE line (6-decimal au). The FINAL SINGLE POINT ENERGY D3 reprint is not used for ΔE. $\Delta E(\varphi,\mathrm{geom})=E(\mathrm{T1})-E(\mathrm{S0})$ is the gap between those two assigned roots on that one structure. Conversion is 1 Eh = 2625.49963831 kJ/mol. A same-geometry sign change is a sign change of ΔE on a neighboring both-assigned pair in 90–135°, scored separately on the S0-relaxed family and on the T1-relaxed family. The linear interpolant of a sign-change pair is recorded. It is not a minimum-energy crossing point, and it is not an evaluated degeneracy. The two family interpolants are not averaged.
+
+The eight ORCA outputs, 24 root assignments, conversions, signs, and interpolants were independently verified against the 2026-08-27 freeze. Bayes scored the same projection. The committed evidence is `research/hillel-m4-sft-tworoot/results/bayes-metrics.json`. The environment record is `research/hillel-m4-sft-tworoot/environment.md`.
+
+Raw ORCA `.out` files stay in the private Molecules lab. They are large and carry host paths, and they are treated as scratch in the same way as the 2026-08-27 SF logs. What is committed is the Bayes projection. The reproducibility label this directory has earned is **analysis-reproducible**. It is not end-to-end reproducible from this public repository.
+
+## Results
+
+All eight same-geometry points are both-assigned. Table 1 lists assigned SF-S0 and SF-T1 totals on the S0-relaxed geometries. Table 2 lists the same quantities on the T1-relaxed geometries.
+
+| CNNC (deg) | SF-S0 $E$ (Eh) | SF-S0 $\langle S^2\rangle$ | SF-S0 iroot | SF-T1 $E$ (Eh) | SF-T1 $\langle S^2\rangle$ | SF-T1 iroot | $\Delta E$ (kJ/mol) |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 135 | [s0_e_eh_s0_135]{.metric} | [s0_s2_s0_135]{.metric} | [s0_iroot_s0_135]{.metric} | [t1_e_eh_s0_135]{.metric} | [t1_s2_s0_135]{.metric} | [t1_iroot_s0_135]{.metric} | [deltae_kjmol_s0_135]{.metric} |
+| 120 | [s0_e_eh_s0_120]{.metric} | [s0_s2_s0_120]{.metric} | [s0_iroot_s0_120]{.metric} | [t1_e_eh_s0_120]{.metric} | [t1_s2_s0_120]{.metric} | [t1_iroot_s0_120]{.metric} | [deltae_kjmol_s0_120]{.metric} |
+| 105 | [s0_e_eh_s0_105]{.metric} | [s0_s2_s0_105]{.metric} | [s0_iroot_s0_105]{.metric} | [t1_e_eh_s0_105]{.metric} | [t1_s2_s0_105]{.metric} | [t1_iroot_s0_105]{.metric} | [deltae_kjmol_s0_105]{.metric} |
+| 90 | [s0_e_eh_s0_90]{.metric} | [s0_s2_s0_90]{.metric} | [s0_iroot_s0_90]{.metric} | [t1_e_eh_s0_90]{.metric} | [t1_s2_s0_90]{.metric} | [t1_iroot_s0_90]{.metric} | [deltae_kjmol_s0_90]{.metric} |
+
+**Table 1.** Assigned SF-S0 and SF-T1 totals from one same-geometry SF-TDA single point on each S0-relaxed constrained-CNNC geometry. $\Delta E = E(\mathrm{T1})-E(\mathrm{S0})$ uses both roots from that one calculation. LibXC(BHANDHLYP)-D3(BJ)/def2-QZVPP, SF-TDA, RIJCOSX, gas phase.
+
+| CNNC (deg) | SF-S0 $E$ (Eh) | SF-S0 $\langle S^2\rangle$ | SF-S0 iroot | SF-T1 $E$ (Eh) | SF-T1 $\langle S^2\rangle$ | SF-T1 iroot | $\Delta E$ (kJ/mol) |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 135 | [s0_e_eh_t1_135]{.metric} | [s0_s2_t1_135]{.metric} | [s0_iroot_t1_135]{.metric} | [t1_e_eh_t1_135]{.metric} | [t1_s2_t1_135]{.metric} | [t1_iroot_t1_135]{.metric} | [deltae_kjmol_t1_135]{.metric} |
+| 120 | [s0_e_eh_t1_120]{.metric} | [s0_s2_t1_120]{.metric} | [s0_iroot_t1_120]{.metric} | [t1_e_eh_t1_120]{.metric} | [t1_s2_t1_120]{.metric} | [t1_iroot_t1_120]{.metric} | [deltae_kjmol_t1_120]{.metric} |
+| 105 | [s0_e_eh_t1_105]{.metric} | [s0_s2_t1_105]{.metric} | [s0_iroot_t1_105]{.metric} | [t1_e_eh_t1_105]{.metric} | [t1_s2_t1_105]{.metric} | [t1_iroot_t1_105]{.metric} | [deltae_kjmol_t1_105]{.metric} |
+| 90 | [s0_e_eh_t1_90]{.metric} | [s0_s2_t1_90]{.metric} | [s0_iroot_t1_90]{.metric} | [t1_e_eh_t1_90]{.metric} | [t1_s2_t1_90]{.metric} | [t1_iroot_t1_90]{.metric} | [deltae_kjmol_t1_90]{.metric} |
+
+**Table 2.** Assigned SF-S0 and SF-T1 totals from one same-geometry SF-TDA single point on each T1-relaxed constrained-CNNC geometry. $\Delta E = E(\mathrm{T1})-E(\mathrm{S0})$ uses both roots from that one calculation. Same method as Table 1.
+
+<figure>
+  <img src="/images/2026-08-28-does-the-m4-sf-profile-gap-survive-same-geometry-two-root-og.png" alt="Same-geometry SF-TDA gap ΔE versus constrained CNNC angle φ for S0-relaxed and T1-relaxed M4 geometries at 90, 105, 120, and 135 degrees, each point labeled with its ΔE value and the 90–105 linear interpolant of each series marked at ΔE = 0.">
+</figure>
+
+**Figure 1.** Same-geometry SF-TDA gap versus constrained CNNC angle φ on the two published geometry families. The eight both-assigned points from the Bayes metrics file (ORCA 6.1.1 SF-TDA, LibXC BHANDHLYP, D3BJ/def2-QZVPP) are labeled with their ΔE values. S0-relaxed: φ = 90°, ΔE = [deltae_kjmol_s0_90]{.metric} kJ/mol; 105°, [deltae_kjmol_s0_105]{.metric}; 120°, [deltae_kjmol_s0_120]{.metric}; 135°, [deltae_kjmol_s0_135]{.metric}. T1-relaxed: 90°, [deltae_kjmol_t1_90]{.metric}; 105°, [deltae_kjmol_t1_105]{.metric}; 120°, [deltae_kjmol_t1_120]{.metric}; 135°, [deltae_kjmol_t1_135]{.metric}. Adjacent both-assigned neighbors are joined by straight segments. The 90–105 pair changes sign on both families; [crossing_phi_deg_s0]{.metric}° and [crossing_phi_deg_t1]{.metric}° mark those pairs’ linear interpolants at ΔE = 0. The 105–120 and 120–135 pairs stay positive on both families and have no zero marker. 110° has no marker.
+
+On both constrained-CNNC geometry families, the same-geometry SF-TDA gap $E(\mathrm{T1})-E(\mathrm{S0})$ changes sign between 90° and 105° (Figure 1). The linear interpolant of the S0-relaxed 90°/105° pair is [crossing_phi_deg_s0]{.metric}°. The linear interpolant of the T1-relaxed 90°/105° pair is [crossing_phi_deg_t1]{.metric}°. The 105°/120° pair does not change sign on the S0-relaxed family ([deltae_kjmol_s0_105]{.metric} and [deltae_kjmol_s0_120]{.metric} kJ/mol) or on the T1-relaxed family ([deltae_kjmol_t1_105]{.metric} and [deltae_kjmol_t1_120]{.metric} kJ/mol). The 120°/135° pair does not change sign on either family.
+
+At 90° on the S0-relaxed family the assigned S0 is IROOT [s0_iroot_s0_90]{.metric} and the assigned T1 is IROOT [t1_iroot_s0_90]{.metric}. At 90° on the T1-relaxed family the assigned S0 is IROOT [s0_iroot_t1_90]{.metric} and the assigned T1 is IROOT [t1_iroot_t1_90]{.metric}. At 105°, 120°, and 135° the assigned S0 IROOT values are [s0_iroot_s0_105]{.metric}, [s0_iroot_s0_120]{.metric}, [s0_iroot_s0_135]{.metric}, [s0_iroot_t1_105]{.metric}, [s0_iroot_t1_120]{.metric}, and [s0_iroot_t1_135]{.metric}; the assigned T1 IROOT values are [t1_iroot_s0_105]{.metric}, [t1_iroot_s0_120]{.metric}, [t1_iroot_s0_135]{.metric}, [t1_iroot_t1_105]{.metric}, [t1_iroot_t1_120]{.metric}, and [t1_iroot_t1_135]{.metric}. Assigned S0 $\langle S^2\rangle$ ranges from [assigned_s0_s2_min]{.metric} to [assigned_s0_s2_max]{.metric}. Assigned T1 $\langle S^2\rangle$ ranges from [assigned_t1_s2_min]{.metric} to [assigned_t1_s2_max]{.metric}. Both families are both-assigned on all three neighboring pairs.
+
+## Discussion
+
+The registered hypothesis was **supported**. Falsifier 1 is [falsifier_1_no_sign_change]{.metric}. Falsifier 2 is [falsifier_2_crossing_outside_90_135]{.metric}. Falsifier 3 is [falsifier_3_no_neighboring_pair]{.metric}. The S0-relaxed family flag is [hypothesis_supported_s0_family]{.metric}. The T1-relaxed family flag is [hypothesis_supported_t1_family]{.metric}. The hypothesis-supported flag is [hypothesis_supported]{.metric}. On both constrained-CNNC geometry families, the same-geometry SF-TDA gap $E(\mathrm{T1})-E(\mathrm{S0})$ changes sign between 90° and 105°, and each stored interpolant sits inside 90–135°. Those interpolants are linear estimates from a coarse 15° bracket. They are not located minimum-energy crossing points, they are not evaluated degeneracies, and they are not averaged into one angle.
+
+That is as far as the verdict goes. It is a verdict on our hypothesis and this window. It is not a statement that Hillel *et al.* were wrong.[@Hillel2024] The 2024 calculation is SF-TDDFT on AzPy and AzPyH+; the 2026-08-27 note is a separately relaxed profile gap on M4; this calculation is a same-geometry two-root SF-TDA single point on those eight published M4 geometries. If a knowledgeable reader has already seen this same-geometry sign change on M4 at a comparable SF-TDDFT level, we would rather be told.
+
+Root order swaps at 90° on both families. IROOT 1 is the triplet and IROOT 2 the singlet at that angle; the assignments used here follow $\langle S^2\rangle$, not IROOT. Assigned S0 $\langle S^2\rangle$ is [assigned_s0_s2_min]{.metric}–[assigned_s0_s2_max]{.metric} and assigned T1 $\langle S^2\rangle$ is [assigned_t1_s2_min]{.metric}–[assigned_t1_s2_max]{.metric}. Those windows are distinguishable. They are not spin-pure.
+
+The limits that would overturn or shrink this reading are mostly on our side. The program is ORCA 6.1.1, not 5.0.3. The functional is LibXC(BHANDHLYP). The run is gas-phase; dichloromethane, the solvent of the 2024 experiments, is absent. Residual SF contamination remains on both assigned roots. The zeros are linear interpolants of a 15° pair, not a located degeneracy and not a minimum-energy crossing point. A denser 90–105° same-geometry bracket, a solvent model, a native-functional repair, or a located MECP could move or remove those interpolants. That would be a different experiment, and we would treat a discrepancy as something to chase through our own setup first.
+
+## Conclusion
+
+Under ORCA 6.1.1 SF-TDA LibXC(BHANDHLYP) D3BJ/def2-QZVPP (RIJCOSX, gas phase), the same-geometry SF-TDA gap $E(\mathrm{T1})-E(\mathrm{S0})$ of constrained-CNNC M4 changes sign between 90° and 105° on both published geometry families. On the S0-relaxed family the gap is [deltae_kjmol_s0_90]{.metric} kJ/mol at 90° and [deltae_kjmol_s0_105]{.metric} kJ/mol at 105°, with linear interpolant [crossing_phi_deg_s0]{.metric}°. On the T1-relaxed family the gap is [deltae_kjmol_t1_90]{.metric} kJ/mol at 90° and [deltae_kjmol_t1_105]{.metric} kJ/mol at 105°, with linear interpolant [crossing_phi_deg_t1]{.metric}°. Those interpolants are not located MECPs and are not evaluated degeneracies.
+
+The next experiment is a denser 90–105° same-geometry SF-TDA bracket on these two geometry families. Keep S0 and T1 as two roots from one SF manifold on one structure, and ask whether the sign change and the in-window interpolants survive a finer φ grid. An MECP search on the same surfaces is the following on-line item.
+
+## References
