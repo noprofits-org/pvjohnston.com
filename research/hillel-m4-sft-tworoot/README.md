@@ -90,9 +90,10 @@ The command updates:
   (only when frames exist)
 
 and an ignored preview beside the renderer. Point labels on the plot are the
-stored ΔE values. Linear interpolants of the 90–105 pairs are marked at
-ΔE = 0; they are not labeled as an MECP or an evaluated degeneracy. 110°
-is unmarked.
+stored ΔE values (T1 105 is drawn unlabeled so the two interpolant hashes
+remain readable). Linear interpolants of the 90–105 pairs are short hashes
+on the ΔE = 0 line, labeled “lin.”; they are not labeled as an MECP or an
+evaluated degeneracy. 110° is unmarked.
 
 ## Data and publication
 

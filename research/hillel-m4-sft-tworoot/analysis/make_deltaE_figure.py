@@ -519,6 +519,55 @@ def circle(rgb, cx, cy, r, color, fill=True, stroke=1.2):
     )
 
 
+def square(rgb, cx, cy, half, color, fill=True, stroke=1.2):
+    """Axis-aligned square marker. half is the half-side in pixels."""
+    h, w = rgb.shape[:2]
+    cx, cy, half = float(cx), float(cy), float(half)
+    pad = half + stroke + 1.5
+    xmin = max(int(np.floor(cx - pad)), 0)
+    xmax = min(int(np.ceil(cx + pad)) + 1, w)
+    ymin = max(int(np.floor(cy - pad)), 0)
+    ymax = min(int(np.ceil(cy + pad)) + 1, h)
+    if xmin >= xmax or ymin >= ymax:
+        return
+    ys, xs = np.mgrid[ymin:ymax, xmin:xmax]
+    cheb = np.maximum(np.abs(xs + 0.5 - cx), np.abs(ys + 0.5 - cy))
+    if fill:
+        a = np.clip((half + 0.45) - cheb, 0.0, 1.0)
+    else:
+        a = np.clip((stroke * 0.5 + 0.45) - np.abs(cheb - half), 0.0, 1.0)
+    sl = rgb[ymin:ymax, xmin:xmax].astype(np.float64)
+    col = np.asarray(color, dtype=np.float64).reshape(1, 1, 3)
+    rgb[ymin:ymax, xmin:xmax] = np.clip(sl * (1.0 - a[..., None]) + col * a[..., None], 0, 255).astype(
+        np.uint8
+    )
+
+
+def dashed_line(rgb, x0, y0, x1, y1, color, width=1.2, dash=9.0, gap=6.5):
+    dx, dy = float(x1) - float(x0), float(y1) - float(y0)
+    length = math.hypot(dx, dy)
+    if length < 1e-6:
+        return
+    ux, uy = dx / length, dy / length
+    t = 0.0
+    on = True
+    while t < length:
+        run = dash if on else gap
+        t2 = min(length, t + run)
+        if on:
+            line(
+                rgb,
+                float(x0) + ux * t,
+                float(y0) + uy * t,
+                float(x0) + ux * t2,
+                float(y0) + uy * t2,
+                color,
+                width,
+            )
+        t = t2
+        on = not on
+
+
 def blit_img(rgb, img, x, y):
     h, w = img.shape[:2]
     x, y = int(round(x)), int(round(y))
@@ -554,6 +603,8 @@ def missing_frames() -> list[Path]:
 def load_cropped_frame(surf: str, phi: int) -> np.ndarray:
     x0, y0, x1, y1 = CROP
     path = frame_path(surf, phi)
+    if not path.is_file():
+        raise SystemExit(f"missing lab frame: {path.name}")
     im = read_png(path)
     crop = im[y0:y1, x0:x1]
     # refuse to ship a still that still has the old in-frame caption
@@ -650,58 +701,65 @@ def render_plot(metrics: dict, font: Font) -> np.ndarray:
     )
 
     # Two series: adjacent both-assigned neighbors only; straight segments.
+    # S0-relaxed: solid line, filled circles. T1-relaxed: dashed, filled squares.
     for fam in FAMILY_ORDER:
         pts = series[fam]
         color = FAMILY_COLOR[fam]
         for (a, da), (b, db) in zip(pts, pts[1:]):
-            line(rgb, X(a), Y(da), X(b), Y(db), color, 2.15)
+            if fam == "t1_relaxed":
+                dashed_line(rgb, X(a), Y(da), X(b), Y(db), color, 2.15)
+            else:
+                line(rgb, X(a), Y(da), X(b), Y(db), color, 2.15)
         for phi, de in pts:
             if fam == "s0_relaxed":
                 circle(rgb, X(phi), Y(de), 5.1, color, fill=True)
             else:
-                circle(rgb, X(phi), Y(de), 5.1, color, fill=False, stroke=1.8)
-                circle(rgb, X(phi), Y(de), 2.2, color, fill=True)
+                square(rgb, X(phi), Y(de), 4.6, color, fill=True)
 
-    # Point labels from file values, 2 decimals. Offsets keep strings off
-    # markers, both series, the 0-line, and the two interpolant labels.
+    # Point labels from file values, 2 decimals, series color.
+    # T1 105 is drawn but unlabeled: that pocket holds the two lin. hashes.
     label_off = {
         "s0_relaxed": {
-            90: (-8, 18, "right"),
-            105: (14, -28, "left"),
-            120: (12, -26, "left"),
-            135: (-8, -18, "right"),
+            90: (0, 22, "center"),
+            105: (0, -24, "center"),
+            120: (0, -24, "center"),
+            135: (-14, 0, "right"),
         },
         "t1_relaxed": {
-            90: (10, 20, "left"),
-            105: (-10, 22, "right"),
-            120: (-10, 20, "right"),
-            135: (10, 16, "left"),
+            90: (0, 46, "center"),
+            120: (0, -24, "center"),
+            135: (-14, 0, "right"),
         },
     }
     for fam in FAMILY_ORDER:
+        color = FAMILY_COLOR[fam]
         for phi, de in series[fam]:
-            dx, dy, al = label_off[fam][int(phi)]
+            key = int(phi)
+            if key not in label_off[fam]:
+                continue
+            dx, dy, al = label_off[fam][key]
             text(
                 rgb, font, fmt_delta(de),
                 X(phi) + dx, Y(de) + dy,
-                font_px, INK, align=al, valign="middle",
+                font_px, color, align=al, valign="middle",
             )
 
-    # Linear interpolants of the 90–105 pairs at ΔE = 0. Not 110°.
-    # Not drawn as an MECP or an evaluated degeneracy: tick + stored angle.
+    # Stored interpolants only: short hashes on the zero line, labeled "lin."
+    # Not 110°. Not drawn as an MECP, a star, or an evaluated degeneracy.
     s0_xc = interpolants["s0_relaxed"]
     t1_xc = interpolants["t1_relaxed"]
-    line(rgb, X(s0_xc), y0, X(s0_xc), y0 + 10, SERIES_S0, 0.95)
-    line(rgb, X(t1_xc), y0, X(t1_xc), y0 + 10, SERIES_T1, 0.95)
+    hash_h = 7
+    line(rgb, X(s0_xc), y0 - hash_h, X(s0_xc), y0 + hash_h, SERIES_S0, 1.15)
+    line(rgb, X(t1_xc), y0 - hash_h, X(t1_xc), y0 + hash_h, SERIES_T1, 1.15)
     text(
-        rgb, font, f"{s0_xc:.2f}\u00b0",
-        X(s0_xc) - 8, y0 + 12,
-        font_px, INK, align="right", valign="top",
+        rgb, font, f"{s0_xc:.2f}\u00b0 lin.",
+        X(s0_xc), y0 - 10,
+        font_px, SERIES_S0, align="center", valign="bottom",
     )
     text(
-        rgb, font, f"{t1_xc:.2f}\u00b0",
-        X(t1_xc) + 8, y0 + 12,
-        font_px, INK, align="left", valign="top",
+        rgb, font, f"{t1_xc:.2f}\u00b0 lin.",
+        X(t1_xc), y0 + 10,
+        font_px, SERIES_T1, align="center", valign="top",
     )
 
     # Legend in the empty upper-left of the data box.
@@ -715,9 +773,8 @@ def render_plot(metrics: dict, font: Font) -> np.ndarray:
         font_px, INK, align="left", valign="middle",
     )
     legend_y2 = legend_y + 36
-    line(rgb, legend_x, legend_y2, legend_x + 28, legend_y2, SERIES_T1, 2.15)
-    circle(rgb, legend_x + 14, legend_y2, 5.1, SERIES_T1, fill=False, stroke=1.8)
-    circle(rgb, legend_x + 14, legend_y2, 2.2, SERIES_T1, fill=True)
+    dashed_line(rgb, legend_x, legend_y2, legend_x + 28, legend_y2, SERIES_T1, 2.15)
+    square(rgb, legend_x + 14, legend_y2, 4.6, SERIES_T1, fill=True)
     text(
         rgb, font, FAMILY_LABEL["t1_relaxed"],
         legend_x + 38, legend_y2,
@@ -816,8 +873,9 @@ def main():
             print(f"    phi={phi:g}  deltaE_kJmol={de}  label={fmt_delta(de)}")
     for fam in FAMILY_ORDER:
         xc = metrics["interpolants"][fam]
-        print(f"interpolant {fam} phi={xc}  label={xc:.2f}°")
+        print(f"interpolant {fam} phi={xc}  label={xc:.2f}° lin.")
     print("pairs with a drawn interpolant: 90–105 on each family; 110° not marked")
+    print("T1 105 is drawn unlabeled; interpolants are short hashes labeled lin.")
     print("ACS: no title, no subtitle, no stills on the plot")
     print(
         f"standing rule: font_px = round({BODY_PX} * W / {DISPLAY_W}) "
