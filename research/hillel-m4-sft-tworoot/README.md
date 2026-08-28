@@ -16,7 +16,10 @@ rerun ORCA. It binds the research note
   (3) a family has no neighboring both-assigned pair. Registered
   falsifier (2), an interpolant outside 90–135°, cannot fire under
   a linear interpolant of a neighboring pair inside that window
-  and is not published as an independent test.
+  and is not published as an independent test. Registered falsifier
+  (1) fires only if neither family changes sign. A one-family miss
+  fails the published both-family verdict without firing (1); that
+  outcome is `one_family_only_sign_change`.
 - What this experiment can establish: the sign of same-geometry
   ΔE = E(T1) − E(S0) on the eight already-published constrained-CNNC
   geometries, scored separately on the S0-relaxed and T1-relaxed

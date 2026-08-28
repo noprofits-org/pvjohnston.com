@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "hillel-m4-sft-tworoot",
   "provenance": {
-    "generated_at": "2026-08-28T16:50:57Z",
+    "generated_at": "2026-08-28T17:18:13Z",
     "generator": "research/hillel-m4-sft-tworoot/generate-metrics.mjs",
     "inputs": [
       {
@@ -46,6 +46,11 @@
       "type": "boolean",
       "value": true,
       "description": "T1-relaxed family has a both-assigned same-geometry ΔE sign change inside 90–135°"
+    },
+    "one_family_only_sign_change": {
+      "type": "boolean",
+      "value": false,
+      "description": "Exactly one geometry family has a both-assigned same-geometry ΔE sign change inside 90–135°; this fails the published both-family verdict without firing registered falsifier 1"
     },
     "both_assigned_point_count": {
       "type": "integer",

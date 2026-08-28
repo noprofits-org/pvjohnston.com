@@ -1170,8 +1170,11 @@ Format:
   geometries already reported, which is not in that note
 - **Hypothesis:** $\Delta E$ still changes sign between 90° and 105°
   when both roots sit on one structure
-- **Falsifier:** no both-assigned sign change of same-geometry
-  $\Delta E$ on a neighboring pair in 90–135°
+- **Falsifier:** Falsified if either family has no neighboring pair
+  of both-assigned points with opposite-signed ΔE values in
+  90–135°. Registered F1 was the stricter “neither family” clause;
+  a one-family miss fails the published both-family verdict without
+  firing F1.
 - **Status:** published —
   `/posts/2026-08-28-does-the-m4-sf-profile-gap-survive-same-geometry-two-root.html`.
   Registered hypothesis **supported**: on both constrained-CNNC

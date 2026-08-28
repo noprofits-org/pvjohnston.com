@@ -314,6 +314,7 @@ function build(generatedAt) {
   if (hypothesisSupported !== derivedSupported) {
     throw new Error(`hypothesis_supported ${hypothesisSupported} !== ${derivedSupported}`);
   }
+  const oneFamilyOnlySignChange = s0Flags.familySupported !== t1Flags.familySupported;
 
   // Registered falsifier 2 cannot fire: a linear zero of a neighboring
   // pair inside 90–135° lies between those endpoints. Keep the Bayes
@@ -341,6 +342,8 @@ function build(generatedAt) {
       'S0-relaxed family has a both-assigned same-geometry ΔE sign change inside 90–135°'),
     hypothesis_supported_t1_family: boolean(t1Flags.familySupported,
       'T1-relaxed family has a both-assigned same-geometry ΔE sign change inside 90–135°'),
+    one_family_only_sign_change: boolean(oneFamilyOnlySignChange,
+      'Exactly one geometry family has a both-assigned same-geometry ΔE sign change inside 90–135°; this fails the published both-family verdict without firing registered falsifier 1'),
     both_assigned_point_count: integer(bothAssignedPointCount,
       'Number of required-window same-geometry points that are both-assigned'),
     falsifier_1_no_sign_change: boolean(falsifier1,
