@@ -1197,9 +1197,9 @@ Format:
 - **Hypothesis:** ΔE still changes sign between neighboring
   both-assigned points inside 90–105° on both families when S0 and
   T1 are taken from the same SF manifold on one structure
-- **Falsifier:** neither family has a both-assigned same-geometry
-  ΔE sign change on a neighboring pair in 90–105°, or a family's
-  interpolant leaves that window
+- **Falsifier:** Falsified if either family has no neighboring pair
+  of both-assigned points with opposite-signed ΔE values inside
+  90–105°.
 - **Status:** ready — same ORCA 6.1.1 same-geometry method. The
   published families contain only 90°, 105°, 120°, and 135°; a
   denser relaxed-family bracket requires new constrained S0 and T1
