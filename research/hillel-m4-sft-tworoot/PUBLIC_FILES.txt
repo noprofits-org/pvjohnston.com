@@ -1,0 +1,14 @@
+# One repository-relative path per line. Raw ORCA logs are not listed.
+LICENSE
+research/metrics.schema.json
+research/hillel-m4-sft-tworoot/README.md
+research/hillel-m4-sft-tworoot/PREREGISTRATION.md
+research/hillel-m4-sft-tworoot/environment.md
+research/hillel-m4-sft-tworoot/PUBLIC_FILES.txt
+research/hillel-m4-sft-tworoot/generate-metrics.mjs
+research/hillel-m4-sft-tworoot/requirements-figure.txt
+research/hillel-m4-sft-tworoot/analysis/make_deltaE_figure.py
+research/hillel-m4-sft-tworoot/analysis/hanken-grotesk.ttf
+research/hillel-m4-sft-tworoot/analysis/dejavu-sans.ttf
+research/hillel-m4-sft-tworoot/metrics.json
+research/hillel-m4-sft-tworoot/results/bayes-metrics.json

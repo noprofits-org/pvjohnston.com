@@ -1,0 +1,291 @@
+{
+  "slug": "hillel-m4-sft-tworoot",
+  "experiment": "hillel-m4-sft-tworoot",
+  "method": "ORCA 6.1.1 SF-TDA / Tamm–Dancoff; LibXC(BHANDHLYP) D3BJ def2-QZVPP RIJCOSX def2/J TightSCF; NROOTS 3; SF true; no IROOT; no Opt; gas; charge 0; SF ref mult 3; %pal nprocs 4; run as orca input.inp, never mpirun",
+  "source_files": [
+    "inputs/tworoot/m4_s0_phi_090.out",
+    "inputs/tworoot/m4_s0_phi_105.out",
+    "inputs/tworoot/m4_s0_phi_120.out",
+    "inputs/tworoot/m4_s0_phi_135.out",
+    "inputs/tworoot/m4_t1_phi_090.out",
+    "inputs/tworoot/m4_t1_phi_105.out",
+    "inputs/tworoot/m4_t1_phi_120.out",
+    "inputs/tworoot/m4_t1_phi_135.out",
+    "PREREGISTRATION.md"
+  ],
+  "box_copies": [
+    "m4_s0_phi_090.out",
+    "m4_s0_phi_105.out",
+    "m4_s0_phi_120.out",
+    "m4_s0_phi_135.out",
+    "m4_t1_phi_090.out",
+    "m4_t1_phi_105.out",
+    "m4_t1_phi_120.out",
+    "m4_t1_phi_135.out"
+  ],
+  "private_output_sha256": [
+    {
+      "file": "m4_s0_phi_090.out",
+      "sha256": "8975f9cf03baf8f46037cfc684c18ce89a327cb7acc82f717ace356fef0bed1e"
+    },
+    {
+      "file": "m4_s0_phi_105.out",
+      "sha256": "ed7ec527f3573a6f401408b8a910f5493852efbbe0b71e72110c30c56fcbee28"
+    },
+    {
+      "file": "m4_s0_phi_120.out",
+      "sha256": "5fe93e3828ea9c81f3f0e2e4de1fb934181fd64e42068504c0b0035afc547cd6"
+    },
+    {
+      "file": "m4_s0_phi_135.out",
+      "sha256": "09901958c26c61635e6c77207f5307b0deb1019ec2d04ce114e50739fe818b4e"
+    },
+    {
+      "file": "m4_t1_phi_090.out",
+      "sha256": "7b3e747e141cd8c3c2e6cf0b3348b9e3faeaec3b0d451b021658e1f9c287344e"
+    },
+    {
+      "file": "m4_t1_phi_105.out",
+      "sha256": "029ed6c645bd3a9bc0a0d5f681da9b823787f5a30a143f3d7c8d8c06d75630db"
+    },
+    {
+      "file": "m4_t1_phi_120.out",
+      "sha256": "9431487ab7f1affc21c597fd14e40734f0f30ed2942dc51281847fbbda4600f8"
+    },
+    {
+      "file": "m4_t1_phi_135.out",
+      "sha256": "a314bcd5c33cd0e9885772aeac8969476c37e3335f334063e5698f9e8aa30386"
+    }
+  ],
+  "private_lab_metrics_sha256": "2b2a378217abcee603261a8ea619ddfd06ec10f550213886fdbc879c11c5779c",
+  "conversion_Eh_to_kJmol": 2625.49963831,
+  "gap_definition": "deltaE_T1_minus_S0",
+  "energy_rule": "ΔE = E(T1)−E(S0) on ONE structure (same-geometry two-root SP). No Opt. No IROOT in the eight inputs. Assignment by ⟨S²⟩: S0 = lowest SF root ⟨S²⟩≈0 (Mult 1); T1 = lowest ⟨S²⟩≈2 (Mult 3). A root with ⟨S²⟩≈1 is unused. Printed E(tot)=E(SCF)+DE(CIS) for Root 1 (ORCA default). The other assigned root uses E(SCF)+E_root from that root's STATE line (6-decimal au). FINAL SINGLE POINT ENERGY (D3 reprint) is not used for ΔE.",
+  "preregistration": {
+    "frozen": "2026-08-27",
+    "question": "Does the M4 SF profile-gap sign change survive a same-geometry two-root evaluation?",
+    "hypothesis": "ΔE still changes sign between 90° and 105° when S0 and T1 are taken from the same SF manifold on one structure.",
+    "crossing_definition_quoted": "At each of the eight already-reported constrained-CNNC geometries (S0-relaxed and T1-relaxed at 90°, 105°, 120°, 135°), run one SF-TDA SP. S0 = lowest SF root ⟨S²⟩≈0; T1 = lowest ⟨S²⟩≈2; both from that one calculation. ΔE(φ, geom) = E(T1) − E(S0) at that geometry. A same-geometry sign change is a sign change of ΔE on a neighboring both-assigned pair in 90–135°, scored separately on the S0-relaxed family and on the T1-relaxed family. Linear interpolant of a sign-change pair is recorded; it is not an MECP.",
+    "falsifiers_quoted": {
+      "1": "Neither family has a both-assigned sign change of same-geometry ΔE on a neighboring pair in 90–135° → the profile-gap sign change did not survive as an electronic gap at one geometry.",
+      "2": "A family has a sign change whose interpolant lies outside 90–135° → that family does not support an in-window same-geometry crossing.",
+      "3": "A family has no neighboring both-assigned pair → that family is inconclusive."
+    }
+  },
+  "points": [
+    {
+      "geom_family": "s0_relaxed",
+      "phi_deg": 90,
+      "file": "m4_s0_phi_090.out",
+      "both_assigned": true,
+      "s0": {
+        "iroot": 2,
+        "S2": 0.305830,
+        "E_Eh": -910.991732775
+      },
+      "t1": {
+        "iroot": 1,
+        "S2": 2.250879,
+        "E_Eh": -910.998605430
+      },
+      "deltaE_kJmol": -18.044153216729413,
+      "root_order_swap": true
+    },
+    {
+      "geom_family": "s0_relaxed",
+      "phi_deg": 105,
+      "file": "m4_s0_phi_105.out",
+      "both_assigned": true,
+      "s0": {
+        "iroot": 1,
+        "S2": 0.240761,
+        "E_Eh": -911.005005336
+      },
+      "t1": {
+        "iroot": 2,
+        "S2": 2.271664,
+        "E_Eh": -910.996796632
+      },
+      "deltaE_kJmol": 21.55194938299385,
+      "root_order_swap": false
+    },
+    {
+      "geom_family": "s0_relaxed",
+      "phi_deg": 120,
+      "file": "m4_s0_phi_120.out",
+      "both_assigned": true,
+      "s0": {
+        "iroot": 1,
+        "S2": 0.167348,
+        "E_Eh": -911.021794974
+      },
+      "t1": {
+        "iroot": 2,
+        "S2": 2.269883,
+        "E_Eh": -910.995032085
+      },
+      "deltaE_kJmol": 70.26595538963068,
+      "root_order_swap": false
+    },
+    {
+      "geom_family": "s0_relaxed",
+      "phi_deg": 135,
+      "file": "m4_s0_phi_135.out",
+      "both_assigned": true,
+      "s0": {
+        "iroot": 1,
+        "S2": 0.140887,
+        "E_Eh": -911.038251678
+      },
+      "t1": {
+        "iroot": 2,
+        "S2": 2.236532,
+        "E_Eh": -910.990513443
+      },
+      "deltaE_kJmol": 125.33671872605778,
+      "root_order_swap": false
+    },
+    {
+      "geom_family": "t1_relaxed",
+      "phi_deg": 90,
+      "file": "m4_t1_phi_090.out",
+      "both_assigned": true,
+      "s0": {
+        "iroot": 2,
+        "S2": 0.256895,
+        "E_Eh": -910.991500624
+      },
+      "t1": {
+        "iroot": 1,
+        "S2": 2.267040,
+        "E_Eh": -910.999002628
+      },
+      "deltaE_kJmol": -19.696508788600173,
+      "root_order_swap": true
+    },
+    {
+      "geom_family": "t1_relaxed",
+      "phi_deg": 105,
+      "file": "m4_t1_phi_105.out",
+      "both_assigned": true,
+      "s0": {
+        "iroot": 1,
+        "S2": 0.304834,
+        "E_Eh": -911.002759570
+      },
+      "t1": {
+        "iroot": 2,
+        "S2": 2.194025,
+        "E_Eh": -911.000008071
+      },
+      "deltaE_kJmol": 7.224059629310327,
+      "root_order_swap": false
+    },
+    {
+      "geom_family": "t1_relaxed",
+      "phi_deg": 120,
+      "file": "m4_t1_phi_120.out",
+      "both_assigned": true,
+      "s0": {
+        "iroot": 1,
+        "S2": 0.187513,
+        "E_Eh": -911.017785327
+      },
+      "t1": {
+        "iroot": 2,
+        "S2": 2.293213,
+        "E_Eh": -911.000001244
+      },
+      "deltaE_kJmol": 46.69210348417502,
+      "root_order_swap": false
+    },
+    {
+      "geom_family": "t1_relaxed",
+      "phi_deg": 135,
+      "file": "m4_t1_phi_135.out",
+      "both_assigned": true,
+      "s0": {
+        "iroot": 1,
+        "S2": 0.173733,
+        "E_Eh": -911.031258915
+      },
+      "t1": {
+        "iroot": 2,
+        "S2": 2.283005,
+        "E_Eh": -910.998583249
+      },
+      "deltaE_kJmol": 85.78994926453836,
+      "root_order_swap": false
+    }
+  ],
+  "iroot_notes": "Assignment is by ⟨S²⟩, not IROOT. S0 = lowest SF root ⟨S²⟩≈0 (Mult 1); T1 = lowest ⟨S²⟩≈2 (Mult 3). A root with ⟨S²⟩≈1 is unused. At 90° on both families the root order is swapped: IROOT 1 is the triplet and IROOT 2 the singlet. At 105/120/135 on both families IROOT 1 is the singlet and IROOT 2 the triplet. Assigned S0 ⟨S²⟩ = 0.140887–0.305830; assigned T1 ⟨S²⟩ = 2.194025–2.293213. None near 1.",
+  "assigned_s0_s2_min": 0.140887,
+  "assigned_s0_s2_max": 0.305830,
+  "assigned_t1_s2_min": 2.194025,
+  "assigned_t1_s2_max": 2.293213,
+  "neighboring_pairs": [
+    {
+      "geom_family": "s0_relaxed",
+      "pair": [90, 105],
+      "both_assigned": true,
+      "sign_change": true,
+      "interpolated_crossing_phi_deg": 96.8355792737246,
+      "deltaE_a_kJmol": -18.044153216729413,
+      "deltaE_b_kJmol": 21.55194938299385
+    },
+    {
+      "geom_family": "s0_relaxed",
+      "pair": [105, 120],
+      "both_assigned": true,
+      "sign_change": false,
+      "interpolated_crossing_phi_deg": null,
+      "deltaE_a_kJmol": 21.55194938299385,
+      "deltaE_b_kJmol": 70.26595538963068
+    },
+    {
+      "geom_family": "s0_relaxed",
+      "pair": [120, 135],
+      "both_assigned": true,
+      "sign_change": false,
+      "interpolated_crossing_phi_deg": null,
+      "deltaE_a_kJmol": 70.26595538963068,
+      "deltaE_b_kJmol": 125.33671872605778
+    },
+    {
+      "geom_family": "t1_relaxed",
+      "pair": [90, 105],
+      "both_assigned": true,
+      "sign_change": true,
+      "interpolated_crossing_phi_deg": 100.9747917370288,
+      "deltaE_a_kJmol": -19.696508788600173,
+      "deltaE_b_kJmol": 7.224059629310327
+    },
+    {
+      "geom_family": "t1_relaxed",
+      "pair": [105, 120],
+      "both_assigned": true,
+      "sign_change": false,
+      "interpolated_crossing_phi_deg": null,
+      "deltaE_a_kJmol": 7.224059629310327,
+      "deltaE_b_kJmol": 46.69210348417502
+    },
+    {
+      "geom_family": "t1_relaxed",
+      "pair": [120, 135],
+      "both_assigned": true,
+      "sign_change": false,
+      "interpolated_crossing_phi_deg": null,
+      "deltaE_a_kJmol": 46.69210348417502,
+      "deltaE_b_kJmol": 85.78994926453836
+    }
+  ],
+  "crossing_phi_deg_s0": 96.8355792737246,
+  "crossing_phi_deg_t1": 100.9747917370288,
+  "falsifier_1_no_sign_change": false,
+  "falsifier_2_crossing_outside_90_135": false,
+  "falsifier_3_no_neighboring_pair": false,
+  "hypothesis_supported_s0_family": true,
+  "hypothesis_supported_t1_family": true,
+  "hypothesis_supported": true,
+  "claim_sentence": "On both constrained-CNNC geometry families, the same-geometry SF-TDA gap E(T1)−E(S0) changes sign between 90° and 105°."
+}

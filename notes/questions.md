@@ -1170,10 +1170,45 @@ Format:
   geometries already reported, which is not in that note
 - **Hypothesis:** $\Delta E$ still changes sign between 90° and 105°
   when both roots sit on one structure
-- **Falsifier:** no both-assigned sign change of same-geometry
-  $\Delta E$ on a neighboring pair in 90–135°
-- **Status:** ready — same ORCA 6.1.1 method as the note; existing
-  constrained-CNNC geometries
+- **Falsifier:** Falsified if either family has no neighboring pair
+  of both-assigned points with opposite-signed ΔE values in
+  90–135°. Registered F1 was the stricter “neither family” clause;
+  a one-family miss fails the published both-family verdict without
+  firing F1.
+- **Status:** published —
+  `/posts/2026-08-28-does-the-m4-sf-profile-gap-survive-same-geometry-two-root.html`.
+  Registered hypothesis **supported**: on both constrained-CNNC
+  geometry families, the same-geometry SF-TDA gap E(T1)−E(S0)
+  changes sign between 90° and 105°. Linear interpolants of those
+  15° pairs sit inside 90–135°; they are not MECPs and are not
+  evaluated degeneracies. Next step: a denser 90–105° relaxed-family
+  same-geometry SF-TDA bracket with new constrained S0 and T1
+  optimizations at intermediate CNNC angles.
+
+## Does a denser 90–105° same-geometry SF-TDA bracket keep the M4 sign change?
+- **Observed:** Next step from the 2026-08-28 note. Both geometry
+  families change same-geometry ΔE sign between 90° and 105°, but
+  the stored zeros are linear estimates from a coarse 15° bracket.
+- **Source:** own next step from
+  `/posts/2026-08-28-does-the-m4-sf-profile-gap-survive-same-geometry-two-root.html`
+- **Type:** untested regime
+- **Contribution (candidate):** a denser relaxed-family 90–105°
+  same-geometry two-root SF-TDA LibXC(BHANDHLYP)-D3(BJ)/def2-QZVPP
+  bracket of M4, with new constrained S0 and T1 optimizations at
+  the intermediate CNNC angles and then same-geometry two-root SPs
+  on those new opts, which is not in the 2026-08-28 note
+- **Hypothesis:** ΔE still changes sign between neighboring
+  both-assigned points inside 90–105° on both families when S0 and
+  T1 are taken from the same SF manifold on one structure
+- **Falsifier:** Falsified if either family has no neighboring pair
+  of both-assigned points with opposite-signed ΔE values inside
+  90–105°.
+- **Status:** ready — same ORCA 6.1.1 same-geometry method. The
+  published families contain only 90°, 105°, 120°, and 135°; a
+  denser relaxed-family bracket requires new constrained S0 and T1
+  optimizations at the intermediate angles, then same-geometry
+  two-root SPs on those new opts. Following on-line item: an MECP
+  search on the same surfaces.
 
 ## Does carboxylate oxygen charge oscillate with CX3 rotation, with larger amplitude for CCl3COO− than for CF3COO−?
 - **Observed:** Johnson, Gregory, Robertson, Gresham, Nelson, Craig, Prescott,
