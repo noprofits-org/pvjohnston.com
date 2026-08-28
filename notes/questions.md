@@ -1178,8 +1178,9 @@ Format:
   geometry families, the same-geometry SF-TDA gap E(T1)−E(S0)
   changes sign between 90° and 105°. Linear interpolants of those
   15° pairs sit inside 90–135°; they are not MECPs and are not
-  evaluated degeneracies. Next step: a denser 90–105° same-geometry
-  SF-TDA bracket.
+  evaluated degeneracies. Next step: a denser 90–105° relaxed-family
+  same-geometry SF-TDA bracket with new constrained S0 and T1
+  optimizations at intermediate CNNC angles.
 
 ## Does a denser 90–105° same-geometry SF-TDA bracket keep the M4 sign change?
 - **Observed:** Next step from the 2026-08-28 note. Both geometry
@@ -1188,20 +1189,23 @@ Format:
 - **Source:** own next step from
   `/posts/2026-08-28-does-the-m4-sf-profile-gap-survive-same-geometry-two-root.html`
 - **Type:** untested regime
-- **Contribution (candidate):** a denser same-geometry two-root
-  SF-TDA LibXC(BHANDHLYP)-D3(BJ)/def2-QZVPP bracket of M4 between
-  90° and 105° on the two already-reported geometry families, which
-  is not in the 2026-08-28 note
+- **Contribution (candidate):** a denser relaxed-family 90–105°
+  same-geometry two-root SF-TDA LibXC(BHANDHLYP)-D3(BJ)/def2-QZVPP
+  bracket of M4, with new constrained S0 and T1 optimizations at
+  the intermediate CNNC angles and then same-geometry two-root SPs
+  on those new opts, which is not in the 2026-08-28 note
 - **Hypothesis:** ΔE still changes sign between neighboring
   both-assigned points inside 90–105° on both families when S0 and
   T1 are taken from the same SF manifold on one structure
 - **Falsifier:** neither family has a both-assigned same-geometry
   ΔE sign change on a neighboring pair in 90–105°, or a family's
   interpolant leaves that window
-- **Status:** ready — same ORCA 6.1.1 same-geometry method; no new
-  opts required if intermediate geometries are taken from the
-  published constrained-CNNC surfaces. Following on-line item: an
-  MECP search on the same surfaces.
+- **Status:** ready — same ORCA 6.1.1 same-geometry method. The
+  published families contain only 90°, 105°, 120°, and 135°; a
+  denser relaxed-family bracket requires new constrained S0 and T1
+  optimizations at the intermediate angles, then same-geometry
+  two-root SPs on those new opts. Following on-line item: an MECP
+  search on the same surfaces.
 
 ## Does carboxylate oxygen charge oscillate with CX3 rotation, with larger amplitude for CCl3COO− than for CF3COO−?
 - **Observed:** Johnson, Gregory, Robertson, Gresham, Nelson, Craig, Prescott,

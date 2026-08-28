@@ -46,7 +46,9 @@ rerun ORCA. It binds the research note
 
 Required CNNC window: 135°, 120°, 105°, 90°. Two geometry families:
 the published S0-relaxed and T1-relaxed constrained-CNNC opts. One
-SF-TDA SP per geometry. No new opts.
+SF-TDA SP per geometry. No new opts. The named next experiment is a
+denser relaxed-family 90–105° bracket; that run needs new constrained
+S0 and T1 optimizations at intermediate CNNC angles.
 
 ## Generate publication metrics
 
