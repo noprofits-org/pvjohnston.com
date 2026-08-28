@@ -108,6 +108,14 @@ function pairEnds(pair) {
   return [Number(pair.phi_a), Number(pair.phi_b)];
 }
 
+function expectedPointFile(familyId, phi) {
+  const surf = familyId === 's0_relaxed' ? 's0' : familyId === 't1_relaxed' ? 't1' : null;
+  if (!surf) {
+    throw new Error(`no expected output filename for geom_family ${familyId}`);
+  }
+  return `m4_${surf}_phi_${String(phi).padStart(3, '0')}.out`;
+}
+
 function pairInterpolantOf(pair) {
   if (typeof pair.interpolated_crossing_phi_deg === 'number') {
     return pair.interpolated_crossing_phi_deg;
@@ -179,12 +187,27 @@ function build(generatedAt) {
   const familyData = {};
   const s0S2 = [];
   const t1S2 = [];
+  let bothAssignedPointCount = 0;
   for (const family of FAMILIES) {
     const slots = {};
     for (const phi of REQUIRED_PHIS) {
       const point = byFamily[family.id][String(phi)];
       if (!point) {
         throw new Error(`${bayesInput}: missing ${family.id} point at ${phi}°`);
+      }
+      const expectedFile = expectedPointFile(family.id, phi);
+      const pointFile = point.file;
+      if (typeof pointFile !== 'string' || pointFile.includes('/') || pointFile.includes('\\')) {
+        throw new Error(`${family.id} ${phi}°: file must be a filename only`);
+      }
+      if (pointFile !== expectedFile) {
+        throw new Error(`${family.id} ${phi}°: file ${pointFile} !== ${expectedFile}`);
+      }
+      if (!hashByFile[expectedFile]) {
+        throw new Error(`${family.id} ${phi}°: missing private hash for ${expectedFile}`);
+      }
+      if (point.both_assigned === true) {
+        bothAssignedPointCount += 1;
       }
       if (point.both_assigned !== true) {
         throw new Error(`${family.id} ${phi}°: required window point must be both-assigned`);
@@ -292,6 +315,10 @@ function build(generatedAt) {
     throw new Error(`hypothesis_supported ${hypothesisSupported} !== ${derivedSupported}`);
   }
 
+  // Registered falsifier 2 cannot fire: a linear zero of a neighboring
+  // pair inside 90–135° lies between those endpoints. Keep the Bayes
+  // consistency check above; do not publish the flag as an independent test.
+
   const assignedS0Min = Math.min(...s0S2);
   const assignedS0Max = Math.max(...s0S2);
   const assignedT1Min = Math.min(...t1S2);
@@ -314,10 +341,10 @@ function build(generatedAt) {
       'S0-relaxed family has a both-assigned same-geometry ΔE sign change inside 90–135°'),
     hypothesis_supported_t1_family: boolean(t1Flags.familySupported,
       'T1-relaxed family has a both-assigned same-geometry ΔE sign change inside 90–135°'),
+    both_assigned_point_count: integer(bothAssignedPointCount,
+      'Number of required-window same-geometry points that are both-assigned'),
     falsifier_1_no_sign_change: boolean(falsifier1,
       'Falsifier 1: neither family has a both-assigned same-geometry ΔE sign change on a neighboring pair in 90–135°'),
-    falsifier_2_crossing_outside_90_135: boolean(falsifier2,
-      'Falsifier 2: a family has a sign change whose interpolant lies outside 90–135°'),
     falsifier_3_no_neighboring_pair: boolean(falsifier3,
       'Falsifier 3: a family has no neighboring both-assigned pair'),
     assigned_s0_s2_min: num(assignedS0Min, 2,
