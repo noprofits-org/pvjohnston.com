@@ -135,9 +135,12 @@ Entries come from three places, all three already proven here:
   sentence "I cannot account for the difference."
 - **Standing.** Places where you have a vantage nobody else has: your own
   published work and the methods in it, or data only you can see.
-- **Next steps.** Every Conclusion names the next experiment (§2). That sentence
-  is a queue entry. This is the loop that makes the blog a research programme
-  rather than a series of posts.
+- **Next steps.** A Conclusion may name the next experiment (§2). That sentence
+  is a queue entry, and only when the experiment is a direct follow-up on this
+  note's claim — same molecule, method, or gap. A different field, a parked
+  paper, or a lab-queue memo does not belong in the closer. If there is no
+  honest on-line follow-up, omit the future-work paragraph. The shelf can still
+  hold parked work; it is not auto-pasted into the Conclusion.
 
 **The contribution gate.** Before drafting, write one sentence, and put it in the
 post's front matter:
@@ -340,7 +343,7 @@ question: What physical signal does a chord make, and what does a Fourier transf
 ## Computational Methods     (or ## Experimental Methods)
 ## Results
 ## Discussion
-## Conclusion
+## Conclusion              (on-line next experiment only, or omit that paragraph)
 ## References
 ```
 
@@ -393,10 +396,12 @@ Prefer reproducing a published number yourself over quoting it.
   attributed to our conditions first — and keep the verdict a verdict on our own
   hypothesis, never a grade on the source.
 - **Conclusion** points **forward, not back**. State what changed in what we
-  know, and name the next experiment. Do *not* tie back to the problem that
-  opened the note — that is circularity, and it is what an essay does. A post
-  with no next step probably opened nothing. The next step goes on the shelf
-  (§0).
+  know. The closer may name the next experiment when that experiment is a
+  direct follow-up on this note's claim — same molecule, method, or gap. Do
+  not paste an unrelated shelf item into the last paragraph. If there is no
+  honest on-line follow-up, omit the future-work paragraph. Do *not* tie back
+  to the problem that opened the note — that is circularity, and it is what
+  an essay does. An on-line next step goes on the shelf (§0).
 
 Research notes do not drop Methods or Results. If the intellectual job does not
 require them, change the declared form to Understanding and satisfy that form's
@@ -577,14 +582,29 @@ two-panel / side-by-side scene with a heading. Personal-site palette:
 Keep explanatory graphics high-contrast and legible in print as well as on
 screen.
 
-**Text inside data figures: lettered callouts only, never sentences.** Mark
-each feature worth explaining with a bold letter (A, B, C…) placed at the
-feature, and define every letter in the numbered caption (§6) — ACS style.
-Axis labels, tick text, and legend entries are the only other text allowed in
-the plot area; values, names, and explanations all go to the caption. If a
-chart clips or piles a heavy tail, mark the overflow bins visually (detached
-bars in the lifted teal, tick labels like "≤ −6" / "> 36"), letter them, and
-let the caption say what they collect.
+**Text inside data figures: no sentences; values may label a small plot.** No
+sentences in the plot area, and no plot title on an ACS data figure. Axis
+labels, tick text, and legend entries stay. A small energy or geometry plot
+may label points with their numeric values (and a crossing mark) when those
+same values remain in the numbered caption (§6). Lettered callouts (A, B,
+C…) remain the right mark for a busy chart; define every letter in the
+caption. Do not require A–E when the numbers are the callouts. If a chart
+clips or piles a heavy tail, mark the overflow bins visually (detached bars
+in the lifted teal, tick labels like "≤ −6" / "> 36"), letter them, and let
+the caption say what they collect.
+
+**Figure type matches the page body, and every glyph must exist.**
+`.post-body` is 17px Hanken Grotesk. Desktop in-article figure width is
+632px. Ticks, axis labels, annotations, and still tags must render at 17 CSS
+pixels at that width: 32px source on a 1200-wide canvas; 43px on a 1600-wide
+still strip. The face is Hanken Grotesk. Any glyph you draw (Δ, φ, minus)
+must exist in a committed font; verify coverage before drawing;
+missing-glyph boxes are a bug. Figure generators write the published
+`/images/` assets the post embeds. Lab stills and frames are optional: a
+missing frame must not fail the documented regen. Load fonts portably
+(Pillow or another pinned dependency, not a Linux-only `libfreetype.so.6`).
+After a renderer change, commit the regenerated PNG so a second documented
+rerun matches.
 
 **Figures are optional and must earn their place.** A post with something to show
 makes one; a post whose argument is a table does not manufacture one. Seven
@@ -856,6 +876,7 @@ checkout does not restore the Hakyll store.
 - [ ] New bib entries appended, keys unique & de-duped; `node scripts/verify-bib.mjs` passes
 - [ ] Every `[@key]` grep-verified against `bib/bibliography.bib`; markers after punctuation; post ends with `## References`
 - [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional). If it has no figure, run `python3 scripts/render-og-cards.py --slug <slug>` so the note has a title card rather than the generic site header.
+- [ ] Data-figure text and type (§5): no sentences in the plot area; no ACS plot title; axis labels, ticks, and legends stay. A small energy/geometry plot may label points with numeric values (and a crossing mark) when those same values remain in the numbered caption; lettered callouts are for busy charts, not required when the numbers are the callouts. Type matches `.post-body`: 17px Hanken Grotesk at 632px desktop in-article width (32px source on a 1200-wide canvas; 43px on a 1600-wide still strip). Every drawn glyph exists in a committed font; coverage verified; no missing-glyph boxes. The generator writes the published `/images/` assets the post embeds, treats lab stills/frames as optional (missing frames must not fail the documented regen), loads fonts portably (Pillow / pinned dep, not a Linux-only `libfreetype.so.6`), and the regenerated PNG is committed after a renderer change
 - [ ] Every figure, table, code block, and audio player has a numbered caption (Figure/Table/Code/Audio N) and is referenced by number in the prose; each `<audio>` element stays on one source line and contains fallback text plus a direct file link
 - [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
 - [ ] Branch, build, verification, PR, and merge complete
@@ -878,7 +899,7 @@ checkout does not restore the Hakyll store.
 - [ ] **Results passes the printed-output test sentence by sentence** (§2); no banned words; captions clean
 - [ ] Any discrepancy with a source was chased through your own Methods before being reported unresolved, and written as "did not reproduce for us" — not as an author error (stance section)
 - [ ] Discussion states the verdict — supported / falsified / inconclusive — in those words
-- [ ] Conclusion points forward and names the next experiment; that next step is now on the shelf
+- [ ] Conclusion points forward. If it names a next experiment, that experiment is a direct follow-up on this note's claim (same molecule, method, or gap) and is now on the shelf; unrelated shelf items stay off the closer. If there is no honest on-line follow-up, the future-work paragraph is omitted
 
 **After drafting — Understanding only:**
 
