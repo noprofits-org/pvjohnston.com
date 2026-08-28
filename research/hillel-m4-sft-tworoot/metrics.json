@@ -2,7 +2,7 @@
   "schema_version": 1,
   "experiment": "hillel-m4-sft-tworoot",
   "provenance": {
-    "generated_at": "2026-08-28T17:32:35Z",
+    "generated_at": "2026-08-28T17:45:39Z",
     "generator": "research/hillel-m4-sft-tworoot/generate-metrics.mjs",
     "inputs": [
       {
@@ -89,7 +89,7 @@
         "style": "fixed",
         "digits": 2
       },
-      "description": "Minimum assigned S0 ⟨S²⟩ across the eight same-geometry points"
+      "description": "Minimum assigned S0 ⟨S²⟩ across the both-assigned same-geometry points"
     },
     "assigned_s0_s2_max": {
       "type": "number",
@@ -98,7 +98,7 @@
         "style": "fixed",
         "digits": 2
       },
-      "description": "Maximum assigned S0 ⟨S²⟩ across the eight same-geometry points"
+      "description": "Maximum assigned S0 ⟨S²⟩ across the both-assigned same-geometry points"
     },
     "assigned_t1_s2_min": {
       "type": "number",
@@ -107,7 +107,7 @@
         "style": "fixed",
         "digits": 2
       },
-      "description": "Minimum assigned T1 ⟨S²⟩ across the eight same-geometry points"
+      "description": "Minimum assigned T1 ⟨S²⟩ across the both-assigned same-geometry points"
     },
     "assigned_t1_s2_max": {
       "type": "number",
@@ -116,7 +116,7 @@
         "style": "fixed",
         "digits": 2
       },
-      "description": "Maximum assigned T1 ⟨S²⟩ across the eight same-geometry points"
+      "description": "Maximum assigned T1 ⟨S²⟩ across the both-assigned same-geometry points"
     },
     "deltae_kjmol_s0_90": {
       "type": "number",
@@ -132,18 +132,20 @@
       "type": "number",
       "value": -910.991732775,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 90°",
+      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 90°, six-decimal au",
       "unit": "Eh"
     },
     "t1_e_eh_s0_90": {
       "type": "number",
       "value": -910.99860543,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 90°",
+      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 90°, six-decimal au",
       "unit": "Eh"
     },
     "s0_s2_s0_90": {
@@ -188,18 +190,20 @@
       "type": "number",
       "value": -911.005005336,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 105°",
+      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 105°, six-decimal au",
       "unit": "Eh"
     },
     "t1_e_eh_s0_105": {
       "type": "number",
       "value": -910.996796632,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 105°",
+      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 105°, six-decimal au",
       "unit": "Eh"
     },
     "s0_s2_s0_105": {
@@ -244,18 +248,20 @@
       "type": "number",
       "value": -911.021794974,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 120°",
+      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 120°, six-decimal au",
       "unit": "Eh"
     },
     "t1_e_eh_s0_120": {
       "type": "number",
       "value": -910.995032085,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 120°",
+      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 120°, six-decimal au",
       "unit": "Eh"
     },
     "s0_s2_s0_120": {
@@ -300,18 +306,20 @@
       "type": "number",
       "value": -911.038251678,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 135°",
+      "description": "Assigned SF-S0 total energy on the S0-relaxed geometry at CNNC 135°, six-decimal au",
       "unit": "Eh"
     },
     "t1_e_eh_s0_135": {
       "type": "number",
       "value": -910.990513443,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 135°",
+      "description": "Assigned SF-T1 total energy on the S0-relaxed geometry at CNNC 135°, six-decimal au",
       "unit": "Eh"
     },
     "s0_s2_s0_135": {
@@ -356,18 +364,20 @@
       "type": "number",
       "value": -910.991500624,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 90°",
+      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 90°, six-decimal au",
       "unit": "Eh"
     },
     "t1_e_eh_t1_90": {
       "type": "number",
       "value": -910.999002628,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 90°",
+      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 90°, six-decimal au",
       "unit": "Eh"
     },
     "s0_s2_t1_90": {
@@ -412,18 +422,20 @@
       "type": "number",
       "value": -911.00275957,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 105°",
+      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 105°, six-decimal au",
       "unit": "Eh"
     },
     "t1_e_eh_t1_105": {
       "type": "number",
       "value": -911.000008071,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 105°",
+      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 105°, six-decimal au",
       "unit": "Eh"
     },
     "s0_s2_t1_105": {
@@ -468,18 +480,20 @@
       "type": "number",
       "value": -911.017785327,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 120°",
+      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 120°, six-decimal au",
       "unit": "Eh"
     },
     "t1_e_eh_t1_120": {
       "type": "number",
       "value": -911.000001244,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 120°",
+      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 120°, six-decimal au",
       "unit": "Eh"
     },
     "s0_s2_t1_120": {
@@ -524,18 +538,20 @@
       "type": "number",
       "value": -911.031258915,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 135°",
+      "description": "Assigned SF-S0 total energy on the T1-relaxed geometry at CNNC 135°, six-decimal au",
       "unit": "Eh"
     },
     "t1_e_eh_t1_135": {
       "type": "number",
       "value": -910.998583249,
       "format": {
-        "style": "raw"
+        "style": "fixed",
+        "digits": 6
       },
-      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 135°",
+      "description": "Assigned SF-T1 total energy on the T1-relaxed geometry at CNNC 135°, six-decimal au",
       "unit": "Eh"
     },
     "s0_s2_t1_135": {

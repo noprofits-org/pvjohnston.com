@@ -18,6 +18,7 @@ const bayesInput = 'research/hillel-m4-sft-tworoot/results/bayes-metrics.json';
 const checkOnly = process.argv.includes('--check');
 
 const REQUIRED_PHIS = [90, 105, 120, 135];
+const EXPECTED_PAIRS = [[90, 105], [105, 120], [120, 135]];
 const FAMILIES = [
   { id: 's0_relaxed', key: 's0', label: 'S0-relaxed' },
   { id: 't1_relaxed', key: 't1', label: 'T1-relaxed' },
@@ -130,6 +131,36 @@ function expectedPointFile(familyId, phi) {
   return `m4_${surf}_phi_${String(phi).padStart(3, '0')}.out`;
 }
 
+function requireExpectedPairs(familyId, familyPairs) {
+  const byKey = {};
+  for (const pair of familyPairs) {
+    const [a, b] = pairEnds(pair);
+    if (!Number.isFinite(a) || !Number.isFinite(b)) {
+      throw new Error(`${familyId}: neighboring pair endpoints must be finite`);
+    }
+    const key = `${a}/${b}`;
+    if (byKey[key]) {
+      throw new Error(`${familyId}: duplicate neighboring pair ${key}`);
+    }
+    byKey[key] = pair;
+  }
+  const ordered = [];
+  for (const [a, b] of EXPECTED_PAIRS) {
+    const key = `${a}/${b}`;
+    const pair = byKey[key];
+    if (!pair) {
+      throw new Error(`${familyId}: missing neighboring pair ${key}`);
+    }
+    ordered.push(pair);
+    delete byKey[key];
+  }
+  const extra = Object.keys(byKey);
+  if (extra.length) {
+    throw new Error(`${familyId}: unexpected neighboring pair(s) ${extra.join(', ')}`);
+  }
+  return ordered;
+}
+
 function pairInterpolantOf(pair) {
   if (typeof pair.interpolated_crossing_phi_deg === 'number') {
     return pair.interpolated_crossing_phi_deg;
@@ -220,12 +251,11 @@ function build(generatedAt) {
       if (!hashByFile[expectedFile]) {
         throw new Error(`${family.id} ${phi}°: missing private hash for ${expectedFile}`);
       }
-      if (point.both_assigned === true) {
-        bothAssignedPointCount += 1;
-      }
       if (point.both_assigned !== true) {
-        throw new Error(`${family.id} ${phi}°: required window point must be both-assigned`);
+        slots[phi] = { bothAssigned: false };
+        continue;
       }
+      bothAssignedPointCount += 1;
       const s0E = requireFinite(point.s0?.E_Eh, `${family.id} ${phi} s0.E_Eh`);
       const t1E = requireFinite(point.t1?.E_Eh, `${family.id} ${phi} t1.E_Eh`);
       const s0s2 = requireFinite(point.s0?.S2, `${family.id} ${phi} s0.S2`);
@@ -241,7 +271,7 @@ function build(generatedAt) {
       s0S2.push(s0s2);
       t1S2.push(t1s2);
       slots[phi] = {
-        s0E, t1E, s0s2, t1s2, s0Iroot, t1Iroot, deltaE,
+        bothAssigned: true, s0E, t1E, s0s2, t1s2, s0Iroot, t1Iroot, deltaE,
       };
     }
     familyData[family.id] = slots;
@@ -253,18 +283,17 @@ function build(generatedAt) {
   const familyFlags = {};
   for (const family of FAMILIES) {
     const slots = familyData[family.id];
-    const familyPairs = pairs.filter((pair) => pair.geom_family === family.id);
-    const claimPair = familyPairs.find((pair) => {
-      const [a, b] = pairEnds(pair);
-      return a === 90 && b === 105;
-    });
-    if (!claimPair) {
-      throw new Error(`${bayesInput}: missing ${family.id} neighboring_pairs 90/105 entry`);
-    }
-    const pairInterpolant = pairInterpolantOf(claimPair);
-    const derivedZero = linearZero(
-      90, slots[90].deltaE, 105, slots[105].deltaE,
+    const familyPairs = requireExpectedPairs(
+      family.id,
+      pairs.filter((pair) => pair.geom_family === family.id),
     );
+    const claimPair = familyPairs[0];
+    const slotA = slots[90];
+    const slotB = slots[105];
+    const pairInterpolant = pairInterpolantOf(claimPair);
+    const derivedZero = slotA.bothAssigned && slotB.bothAssigned
+      ? linearZero(90, slotA.deltaE, 105, slotB.deltaE)
+      : null;
     if (derivedZero === null) {
       if (pairInterpolant !== null) {
         throw new Error(`${family.id} 90/105 interpolant set without a ΔE sign change`);
@@ -287,12 +316,17 @@ function build(generatedAt) {
       assertClose(storedCrossing, pairInterpolant, `${family.id} stored crossing vs 90/105 interpolant`, 1e-8);
     }
 
-    const usablePairs = familyPairs.filter((pair) => pair.both_assigned === true);
-    const signChangePairs = [
-      [90, 105],
-      [105, 120],
-      [120, 135],
-    ].filter(([a, b]) => slots[a].deltaE * slots[b].deltaE < 0);
+    const usablePairs = familyPairs.filter((pair, i) => {
+      const [a, b] = EXPECTED_PAIRS[i];
+      return pair.both_assigned === true
+        && slots[a].bothAssigned
+        && slots[b].bothAssigned;
+    });
+    const signChangePairs = EXPECTED_PAIRS.filter(([a, b]) => (
+      slots[a].bothAssigned
+      && slots[b].bothAssigned
+      && slots[a].deltaE * slots[b].deltaE < 0
+    ));
     const familySupported = requireBool(
       bayes[`hypothesis_supported_${family.key}_family`],
       `hypothesis_supported_${family.key}_family`,
@@ -347,14 +381,16 @@ function build(generatedAt) {
   // pair inside 90–135° lies between those endpoints. Keep the Bayes
   // consistency check above; do not publish the flag as an independent test.
 
-  const assignedS0Min = Math.min(...s0S2);
-  const assignedS0Max = Math.max(...s0S2);
-  const assignedT1Min = Math.min(...t1S2);
-  const assignedT1Max = Math.max(...t1S2);
-  assertClose(assignedS0Min, requireFinite(bayes.assigned_s0_s2_min, 'assigned_s0_s2_min'), 'assigned_s0_s2_min');
-  assertClose(assignedS0Max, requireFinite(bayes.assigned_s0_s2_max, 'assigned_s0_s2_max'), 'assigned_s0_s2_max');
-  assertClose(assignedT1Min, requireFinite(bayes.assigned_t1_s2_min, 'assigned_t1_s2_min'), 'assigned_t1_s2_min');
-  assertClose(assignedT1Max, requireFinite(bayes.assigned_t1_s2_max, 'assigned_t1_s2_max'), 'assigned_t1_s2_max');
+  const assignedS0Min = s0S2.length ? Math.min(...s0S2) : null;
+  const assignedS0Max = s0S2.length ? Math.max(...s0S2) : null;
+  const assignedT1Min = t1S2.length ? Math.min(...t1S2) : null;
+  const assignedT1Max = t1S2.length ? Math.max(...t1S2) : null;
+  if (assignedS0Min != null) {
+    assertClose(assignedS0Min, requireFinite(bayes.assigned_s0_s2_min, 'assigned_s0_s2_min'), 'assigned_s0_s2_min');
+    assertClose(assignedS0Max, requireFinite(bayes.assigned_s0_s2_max, 'assigned_s0_s2_max'), 'assigned_s0_s2_max');
+    assertClose(assignedT1Min, requireFinite(bayes.assigned_t1_s2_min, 'assigned_t1_s2_min'), 'assigned_t1_s2_min');
+    assertClose(assignedT1Max, requireFinite(bayes.assigned_t1_s2_max, 'assigned_t1_s2_max'), 'assigned_t1_s2_max');
+  }
 
   const metrics = {
     ...(s0Flags.storedCrossing != null ? {
@@ -388,27 +424,30 @@ function build(generatedAt) {
       'Falsifier 1: neither family has a both-assigned same-geometry ΔE sign change on a neighboring pair in 90–135°'),
     falsifier_3_no_neighboring_pair: boolean(falsifier3,
       'Falsifier 3: a family has no neighboring both-assigned pair'),
-    assigned_s0_s2_min: num(assignedS0Min, 2,
-      'Minimum assigned S0 ⟨S²⟩ across the eight same-geometry points'),
-    assigned_s0_s2_max: num(assignedS0Max, 2,
-      'Maximum assigned S0 ⟨S²⟩ across the eight same-geometry points'),
-    assigned_t1_s2_min: num(assignedT1Min, 2,
-      'Minimum assigned T1 ⟨S²⟩ across the eight same-geometry points'),
-    assigned_t1_s2_max: num(assignedT1Max, 2,
-      'Maximum assigned T1 ⟨S²⟩ across the eight same-geometry points'),
+    ...(assignedS0Min != null ? {
+      assigned_s0_s2_min: num(assignedS0Min, 2,
+        'Minimum assigned S0 ⟨S²⟩ across the both-assigned same-geometry points'),
+      assigned_s0_s2_max: num(assignedS0Max, 2,
+        'Maximum assigned S0 ⟨S²⟩ across the both-assigned same-geometry points'),
+      assigned_t1_s2_min: num(assignedT1Min, 2,
+        'Minimum assigned T1 ⟨S²⟩ across the both-assigned same-geometry points'),
+      assigned_t1_s2_max: num(assignedT1Max, 2,
+        'Maximum assigned T1 ⟨S²⟩ across the both-assigned same-geometry points'),
+    } : {}),
   };
 
   for (const family of FAMILIES) {
     for (const phi of REQUIRED_PHIS) {
       const point = familyData[family.id][phi];
+      if (!point.bothAssigned) continue;
       metrics[`deltae_kjmol_${family.key}_${phi}`] = num(point.deltaE, 2,
         `Same-geometry ΔE=E(T1)−E(S0) on the ${family.label} geometry at CNNC ${phi}°, both-assigned`,
         'kJ/mol');
-      metrics[`s0_e_eh_${family.key}_${phi}`] = raw(point.s0E,
-        `Assigned SF-S0 total energy on the ${family.label} geometry at CNNC ${phi}°`,
+      metrics[`s0_e_eh_${family.key}_${phi}`] = num(point.s0E, 6,
+        `Assigned SF-S0 total energy on the ${family.label} geometry at CNNC ${phi}°, six-decimal au`,
         'Eh');
-      metrics[`t1_e_eh_${family.key}_${phi}`] = raw(point.t1E,
-        `Assigned SF-T1 total energy on the ${family.label} geometry at CNNC ${phi}°`,
+      metrics[`t1_e_eh_${family.key}_${phi}`] = num(point.t1E, 6,
+        `Assigned SF-T1 total energy on the ${family.label} geometry at CNNC ${phi}°, six-decimal au`,
         'Eh');
       metrics[`s0_s2_${family.key}_${phi}`] = num(point.s0s2, 6,
         `Assigned SF-S0 ⟨S²⟩ on the ${family.label} geometry at CNNC ${phi}°`);
