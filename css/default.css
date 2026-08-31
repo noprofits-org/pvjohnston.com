@@ -217,7 +217,7 @@ a { color: inherit; text-decoration: none; }
 /* Explicit display above would defeat [hidden] (same trap as .post-row). */
 .fig-nav[hidden] { display: none; }
 .fig-btn {
-  width: 30px; height: 30px;
+  width: 44px; height: 44px;
   display: inline-flex; align-items: center; justify-content: center;
   border: 1px solid var(--border-strong); border-radius: 8px;
   background: var(--white); color: var(--text);
@@ -248,7 +248,7 @@ a { color: inherit; text-decoration: none; }
   background: transparent; cursor: pointer;
 }
 .featured-dot::after {
-  content: ''; position: absolute; inset: -8px;
+  content: ''; position: absolute; inset: -20px;
 }
 .featured-dot:hover { border-color: var(--accent); }
 .featured-dot[aria-current='true'] {
@@ -285,8 +285,10 @@ a { color: inherit; text-decoration: none; }
 }
 .topic-filter { display: flex; flex-wrap: wrap; gap: 8px; }
 .topic-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px;
   font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em;
-  padding: 5px 12px; border-radius: 2px;
+  padding: 8px 12px; border-radius: 2px;
   border: 1px solid var(--border-strong); background: transparent;
   color: var(--muted); cursor: pointer;
   transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease;
@@ -319,7 +321,7 @@ a { color: inherit; text-decoration: none; }
    featured post's row here. A class, not [hidden], so the topic filter — which
    owns the [hidden] attribute — cannot un-hide it. */
 .post-row.is-featured { display: none !important; }
-.post-row-meta { display: flex; flex-direction: row; gap: 12px; align-items: baseline; }
+.post-row-meta { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
 .post-row-date { font-family: var(--font-mono); font-size: 12px; color: var(--faint); }
 .post-row-topic {
   font-family: var(--font-mono); font-size: 10.5px;
@@ -365,7 +367,7 @@ a { color: inherit; text-decoration: none; }
 .archive-year { position: relative; }
 .archive-year .post-list { border-top: none; }
 .year-head {
-  position: sticky; top: 61px; z-index: 10;
+  position: sticky; top: calc(72px + env(safe-area-inset-top, 0px)); z-index: 10;
   background: var(--cream);
   font-family: var(--font-mono); font-weight: 700; font-size: 13px;
   letter-spacing: 0.14em; color: var(--faint);
@@ -413,6 +415,7 @@ a { color: inherit; text-decoration: none; }
 .post { max-width: var(--maxw-read); margin: 0 auto; padding: 56px 32px 24px; }
 .back-link {
   display: inline-flex; align-items: center; gap: 7px;
+  min-height: 44px;
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
   color: var(--faint); margin-bottom: 28px;
   transition: color 0.16s ease;
@@ -489,10 +492,12 @@ a { color: inherit; text-decoration: none; }
 .post-body pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
 .copy-button {
   position: absolute; top: 8px; right: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px;
   font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--on-ink-quiet);
   background: transparent; border: 1px solid var(--border-strong);
-  border-radius: 3px; padding: 4px 9px; cursor: pointer;
+  border-radius: 3px; padding: 0 12px; cursor: pointer;
   transition: color 0.16s ease, border-color 0.16s ease;
 }
 .copy-button:hover { color: var(--mint); border-color: var(--mint); }
@@ -550,9 +555,7 @@ a { color: inherit; text-decoration: none; }
    horizontally within their own frame instead of overflowing the page. */
 .table-scroll {
   overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 0 24px;
-  scrollbar-width: none; -ms-overflow-style: none;
 }
-.table-scroll::-webkit-scrollbar { display: none; }
 .table-scroll table { margin: 0; }
 .post-body table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 14.5px; }
 .post-body th, .post-body td { border: 1px solid var(--border); padding: 8px 11px; text-align: left; }
@@ -575,6 +578,8 @@ a { color: inherit; text-decoration: none; }
   margin: 44px 0 0; padding-top: 22px; border-top: 1px solid var(--border);
 }
 .print-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 8px;
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
   color: var(--faint); background: none; border: none; cursor: pointer;
   transition: color 0.16s ease;
@@ -631,9 +636,11 @@ main > p a:hover, main > ul a:hover, main > ol a:hover { color: var(--accent); b
 @media (max-width: 680px) {
   .masthead-inner { padding: 48px 20px 40px; }
   .featured-inner { padding: 48px 20px; }
+  .post-body figure, .featured-figure { padding: 12px; }
   .latest-inner { padding-left: 20px; padding-right: 20px; }
   .post-row { margin: 0 -16px; padding: 22px 16px; }
   .post { padding: 40px 20px 20px; }
+  .post-title { font-size: 26px; }
   .archive-inner { padding-left: 20px; padding-right: 20px; }
   .archive-masthead { padding-top: 48px; }
   .archive-cta { padding-left: 20px; padding-right: 20px; }
