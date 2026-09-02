@@ -1245,3 +1245,59 @@ Format:
 - **Falsifier:** CCl3 q(O) amplitude remains ≤ CF3 q(O) amplitude on that
   grid → the miss is not an MBIS/B3LYP/double-ζ accident
 - **Status:** observation — neither calculation has been started
+
+## Cyclobutanone S3 doorway at 200 nm (Brady & Crespo-Otero 2025)
+- **Observed:** Brady and Crespo-Otero report that including S3 is
+  essential for cyclobutanone 200 nm dynamics; an S3/S2 conical
+  intersection traps Rydberg 3s, and omitting S3 forces artificial
+  adiabatic decay that biases lifetimes and products versus ultrafast
+  electron diffraction.
+- **Source:** Brady & Crespo-Otero, *J. Chem. Phys.* **163**, 234118
+  (2025), doi:10.1063/5.0294052. OA PDF: UCL Discovery
+  https://discovery.ucl.ac.uk/id/eprint/10221143/1/Crespo%20Otero_234118_1_5.0294052.pdf
+  (AIP CC BY-NC).
+- **Type:** untested regime
+- **Contribution (candidate):** an independent Franck–Condon geodesic
+  to an S3/S2 CI and onward S2/S1 characterization at LR-TDDFT or
+  SF-TDDFT with aug-cc-pVDZ on our ORCA/Psi4 setup, which is not in
+  Brady & Crespo-Otero 2025
+- **Falsifier:** under that method the S0–S3 gap does not support
+  200 nm population of S3, or the S3/S2 intersection is not
+  classically reachable from the FC point
+- **Status:** observation — parked after the denser M4 90–105°
+  same-geometry SF-TDA bracket. Full DC-FSSH is a compute-limit, not
+  this entry.
+
+## D2+ from D2O+ needs asymmetric stretch (Cheng et al. 2026)
+- **Observed:** Cheng et al. report that D2+ formation from D2O+
+  requires asymmetric stretch to open Ã/B̃ CI hopping, then branches
+  into direct, roaming, and delayed channels with reported rises near
+  34 fs and 72 fs.
+- **Source:** Cheng et al., arXiv:2608.23292,
+  https://arxiv.org/abs/2608.23292
+- **Type:** untested regime
+- **Contribution (candidate):** a CASSCF/FSSH rematch on D2O+ from
+  the Ã surface testing the three-mode O–DD rise times and the
+  asymmetry requirement, which is not in that preprint
+- **Falsifier:** hops persist without the asymmetric-stretch mode, or
+  the three-mode rise times do not separate into the reported
+  direct/roaming/delayed pattern under our implementation
+- **Status:** observation — blocked on a CASSCF/FSSH stack (OpenMolcas
+  or Psi4) on the M1; not an ORCA TDDFT job
+
+## FSSH rates on gapped JT surfaces with C=1/2 vs C=0 (Ghosh, Banker & Engel 2026)
+- **Observed:** Ghosh, Banker, and Engel report that the same gapped
+  Jahn–Teller eigensurfaces with Berry phase C=1/2 versus a trivial
+  C=0 construction give direction-dependent FSSH rates, about 30
+  times along $\hat{Q}_y$.
+- **Source:** Ghosh, Banker & Engel, arXiv:2608.24864,
+  https://arxiv.org/abs/2608.24864
+- **Type:** untested regime / quantification
+- **Contribution (candidate):** an independent numpy FSSH integration
+  on the published H_top versus H_triv models (parameters F, K, λ
+  from the paper), which is not in that preprint
+- **Falsifier:** Table 1 direction-dependent rates do not reproduce
+  on our integrator, or the $\hat{Q}_y$ nonadiabatic coupling does
+  not vanish on the claimed construction
+- **Status:** observation — parked after the denser M4 bracket;
+  laptop-scale if picked
