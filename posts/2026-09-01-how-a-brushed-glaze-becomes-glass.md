@@ -58,20 +58,25 @@ chemistry that makes glass begin: a **eutectic** in the silicate batch melts,
 and the remaining solids dissolve into that liquid.[@Kingery1976; @Rhodes1957]
 
 Pure silica is not a studio material in the melt sense. Its liquidus sits far
-above what a pottery kiln can hold as a working liquid. The **fluxes** — sodium
-and potassium from feldspar, calcium and magnesium from limestone and dolomite,
-boron from borax or a frit, and historically lead — open the silica network by
-creating non-bridging oxygens. The liquidus of the mixture drops into the kiln
-range, and a film a fraction of a millimeter thick can become a liquid without
-the ware itself melting away.[@Kingery1976; @Shelby2020]
+above what a pottery kiln can hold as a working liquid. The network-modifying **fluxes** — sodium and potassium from feldspar, calcium
+and magnesium from limestone and dolomite, and historically lead — open the
+silica network by creating non-bridging oxygens. **Boron**, added as borax or a frit,
+is a different cut: it is itself a network former, and a borosilicate liquidus
+sits much lower than a pure silicate one without that modifier mechanism. Either
+route drops the mixture into the kiln range, and a film a fraction of a
+millimeter thick can become a liquid without the ware itself melting
+away.[@Kingery1976; @Shelby2020]
 
 That liquid has a job that a bulk glass melt does not. It must **wet** the
 ware, flow enough to heal pinholes and brush marks, and remain on vertical
-surfaces instead of draining to the foot. Wetting is a surface-energy problem:
-the melt spreads if the glaze–body interface is cheaper than the free melt
-surface plus the bare body. Flow is a viscosity problem. Both are set by
-composition and temperature, and both have to stay inside a narrow window —
-fluid enough to level, stiff enough to stay put.[@Kingery1976; @Rhodes1957]
+surfaces instead of draining to the foot. Wetting is a surface-energy problem.
+The melt spreads when the bare-body surface energy is at least the sum of the
+glaze–body interfacial energy and the melt's free-surface energy; a
+glaze–body interface that is merely cheaper than those two free surfaces taken
+separately is the weaker condition for adhesion, and it does not by itself
+guarantee a sheet. Flow is a viscosity problem. Both are set by composition and
+temperature, and both have to stay inside a narrow window — fluid enough to
+level, stiff enough to stay put.[@Kingery1976; @Rhodes1957]
 
 ## 3. Hard glass from a frozen melt
 
@@ -96,10 +101,12 @@ Crystallization is the competing path, not a later decoration. If the melt is
 held, or cooled slowly, in a composition that has a stable crystalline phase —
 willemite, anorthite, a silica polymorph, an iron oxide — nuclei form and
 grow. A "glassy" coat is the kinetic outcome in which that path lost. A
-crystalline or matte coat is the outcome in which it won, locally or
-everywhere. Nothing in the cooling step changes the chemical identity of the
-oxides; it changes whether they are trapped in a random network or allowed to
-order.[@Kingery1976; @Shelby2020]
+crystalline coat is the outcome in which it won, locally or everywhere. A
+**matte** surface is a different claim: it is an optical appearance, and it can
+come from those crystals, from liquid–liquid phase separation, from leftover
+refractory particles, or from a melt that never fully leveled. Nothing in the
+cooling step changes the chemical identity of the oxides; it changes whether
+they are trapped in a random network or allowed to order.[@Kingery1976; @Shelby2020]
 
 ## 4. The same metal, different optical species
 
@@ -206,7 +213,10 @@ a uniform frozen liquid.
 This note is a mechanism sketch for a chemist who has not thrown a pot. It
 does not choose a firing schedule, and it does not turn a batch into a Seger
 formula. Those are quantitative tools; they are not what makes the brushed
-layer glass.
+layer glass. It also has no generated demonstration: the route is qualitative
+species and kinetic path, not a computed spectrum or a formula count from a
+published batch. A later figure could show the same objects in two
+representations; this draft does not invent one.
 
 The redox story is a kiln-average. Oxygen activity is not uniform from firebox
 to stack, or from the surface of a thick coat to the body interface, so
