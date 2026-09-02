@@ -58,11 +58,12 @@ chemistry that makes glass begin: a **eutectic** in the silicate batch melts,
 and the remaining solids dissolve into that liquid.[@Kingery1976; @Rhodes1957]
 
 Pure silica is not a studio material in the melt sense. Its liquidus sits far
-above what a pottery kiln can hold as a working liquid. The alkali and
-alkaline-earth **fluxes** — sodium and potassium from feldspar, calcium and
-magnesium from limestone and dolomite, and historically lead — open the silica
-network by creating non-bridging oxygens. **Boron**, added as borax or a frit,
-is a different cut: $\mathrm{B}_2\mathrm{O}_3$ is itself a low-melting network
+above what a pottery kiln can hold as a working liquid. The alkali and alkaline-earth **fluxes** — sodium and potassium from feldspar,
+calcium and magnesium from limestone and dolomite — open the silica network by
+creating non-bridging oxygens. Historical **lead** oxide is a separate
+heavy-metal modifier that does the same non-bridging-oxygen job; it is not an
+alkali or an alkaline earth. **Boron**, added as borax or a frit, is a
+different cut: $\mathrm{B}_2\mathrm{O}_3$ is itself a low-melting network
 former, entering as borate units rather than by that modifier mechanism, which
 is how §3 classifies B. Either route drops the mixture into the kiln range, and
 a film a fraction of a millimeter thick can become a liquid without the ware
@@ -86,18 +87,22 @@ On cooling, the melt does not freeze the way water freezes. There is no single
 temperature at which a crystal lattice appears. Viscosity rises continuously.
 Atomic rearrangements that would build a periodic silicate slow and then stop,
 and the liquid is left as an extended, non-periodic network of $\mathrm{SiO}_4$
-(and, where the batch supplies them, $\mathrm{BO}_4$ or $\mathrm{AlO}_4$)
-tetrahedra sharing corners. That is Zachariasen's picture of oxide glass, and
-it is still the useful first description of a glaze coat: the atoms are linked
-by forces of the same kind as in a crystal, but without periodicity or
-symmetry.[@Zachariasen1932; @Shelby2020]
+tetrahedra sharing corners — and, where the batch supplies them,
+$\mathrm{AlO}_4$ tetrahedra and borate units that are a mixture of trigonal
+$\mathrm{BO}_3$ and tetrahedral $\mathrm{BO}_4$. That is Zachariasen's picture
+of oxide glass, and it is still the useful first description of a glaze coat:
+the atoms are linked by forces of the same kind as in a crystal, but without
+periodicity or symmetry.[@Zachariasen1932; @Shelby2020]
 
 **Network formers** (Si, B, P, and Al when it substitutes for Si) build that
-framework. **Network modifiers** (the alkali and alkaline-earth fluxes of §2)
-break bridging $\mathrm{Si{-}O{-}Si}$ linkages and lower viscosity. A glaze is
-hard, then, not because it crystallized, but because the viscosity became so
-large that the melt could no longer flow on any laboratory timescale. The coat
-is a **frozen unequilibrated liquid**.[@Kingery1976; @Shelby2020; @Rhodes1957]
+framework. **Network modifiers** — the alkali and alkaline-earth fluxes of §2,
+and historical lead — break bridging $\mathrm{Si{-}O{-}Si}$ linkages and lower
+viscosity. A glaze is then **rigid**, not because it crystallized, but because
+the viscosity became so large that the melt could no longer flow on any
+laboratory timescale. The coat is a **frozen unequilibrated liquid**. Its
+**hardness** — resistance to scratch or indentation — is a property of the
+bonded oxide network, not of that long relaxation time
+alone.[@Kingery1976; @Shelby2020; @Rhodes1957]
 
 Crystallization is the competing path, not a later decoration. If the melt is
 held, or cooled slowly, in a composition that has a stable crystalline phase —
@@ -171,17 +176,18 @@ from the former as plate-like sheaves constrained by the thickness of the
 coat. The crystals are not painted on. They are the equilibrium solid the
 glass of §3 declined to become, grown on purpose.[@Sun2004Willemite; @Shelby2020]
 
-**Oil-spot** and other iron-saturate coats are liquid–liquid **phase
-separation** in an iron-rich silicate, followed by crystallization of the
-iron-rich liquid. Silicate melts in the lime–alumina–silica field, and the
-related alkali-bearing quaternaries, have a miscibility gap: on cooling, the
-homogeneous melt splits into two liquids, one silica-rich and one richer in
-modifier and iron. In a Jian or Tianmu glaze that iron-rich liquid migrates,
-often with the help of bubbles from iron-oxide decomposition, and freezes as
-spots or streaks of magnetite and hematite. The pattern is an unfinished
-equilibration — two liquids, then crystals — not a printed decoration. The
-same immiscibility, frozen as droplets rather than as iron-oxide spots, is
-what gives Jun glazes their opalescent scatter.[@Kingery1983Immiscibility; @Kingery1983Jun; @Shi2019Tianmu]
+**Oil-spot** and other iron-saturate coats are unfinished iron enrichment, not
+a printed decoration. In some lime–alumina–silica and alkali-bearing melts a
+miscibility gap is established: the homogeneous liquid splits into a
+silica-rich melt and a modifier- and iron-rich melt, and that second liquid
+can freeze as droplets — the route behind Jun opalescence — or feed later
+crystals.[@Kingery1983Immiscibility; @Kingery1983Jun] That **phase
+separation** is not required for every oil-spot. Iron-oxide decomposition can
+release oxygen bubbles that carry iron-rich material to the surface, where
+magnetite and hematite crystallize, without the homogeneous melt having entered
+a two-liquid field. The cited Jian and Tianmu coats combine those paths in
+specific batches; they do not make immiscibility the only
+mechanism.[@Shi2019Tianmu]
 
 **Reduction** is the kiln atmosphere as a reagent. A reducing fire does not
 "add a special color"; it changes the oxygen activity of the melt so that
@@ -250,7 +256,7 @@ Color is the optical species the metal becomes in that network, in a crystal,
 or as a colloid; celadon and amber are two iron ions, copper-green and
 copper-red are an ion and a metal particle. The studio effects are the same
 history stopped short: crystals from a supersaturated melt, a second liquid
-from a miscibility gap, a redox shift in the kiln atmosphere, and a melt
+or an iron-rich surface film, a redox shift in the kiln atmosphere, and a melt
 whose viscosity and surface tension never produced a flat sheet.
 
 ## References
