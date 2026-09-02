@@ -58,25 +58,27 @@ chemistry that makes glass begin: a **eutectic** in the silicate batch melts,
 and the remaining solids dissolve into that liquid.[@Kingery1976; @Rhodes1957]
 
 Pure silica is not a studio material in the melt sense. Its liquidus sits far
-above what a pottery kiln can hold as a working liquid. The network-modifying **fluxes** — sodium and potassium from feldspar, calcium
-and magnesium from limestone and dolomite, and historically lead — open the
-silica network by creating non-bridging oxygens. **Boron**, added as borax or a frit,
-is a different cut: it is itself a network former, and a borosilicate liquidus
-sits much lower than a pure silicate one without that modifier mechanism. Either
-route drops the mixture into the kiln range, and a film a fraction of a
-millimeter thick can become a liquid without the ware itself melting
-away.[@Kingery1976; @Shelby2020]
+above what a pottery kiln can hold as a working liquid. The alkali and
+alkaline-earth **fluxes** — sodium and potassium from feldspar, calcium and
+magnesium from limestone and dolomite, and historically lead — open the silica
+network by creating non-bridging oxygens. **Boron**, added as borax or a frit,
+is a different cut: $\mathrm{B}_2\mathrm{O}_3$ is itself a low-melting network
+former, entering as borate units rather than by that modifier mechanism, which
+is how §3 classifies B. Either route drops the mixture into the kiln range, and
+a film a fraction of a millimeter thick can become a liquid without the ware
+itself melting away.[@Kingery1976; @Shelby2020]
 
 That liquid has a job that a bulk glass melt does not. It must **wet** the
 ware, flow enough to heal pinholes and brush marks, and remain on vertical
 surfaces instead of draining to the foot. Wetting is a surface-energy problem.
 The melt spreads when the bare-body surface energy is at least the sum of the
-glaze–body interfacial energy and the melt's free-surface energy; a
-glaze–body interface that is merely cheaper than those two free surfaces taken
-separately is the weaker condition for adhesion, and it does not by itself
-guarantee a sheet. Flow is a viscosity problem. Both are set by composition and
-temperature, and both have to stay inside a narrow window — fluid enough to
-level, stiff enough to stay put.[@Kingery1976; @Rhodes1957]
+glaze–body interfacial energy and the glaze free-surface energy
+($\gamma_{\text{body-air}} \ge \gamma_{\text{body-glaze}} +
+\gamma_{\text{glaze-air}}$). A glaze–body interface that is merely cheaper than
+those two free surfaces taken separately is the weaker adhesion condition, and
+it does not by itself guarantee a sheet. Flow is a viscosity problem. Both are
+set by composition and temperature, and both have to stay inside a narrow
+window — fluid enough to level, stiff enough to stay put.[@Kingery1976; @Rhodes1957]
 
 ## 3. Hard glass from a frozen melt
 
@@ -102,11 +104,11 @@ held, or cooled slowly, in a composition that has a stable crystalline phase —
 willemite, anorthite, a silica polymorph, an iron oxide — nuclei form and
 grow. A "glassy" coat is the kinetic outcome in which that path lost. A
 crystalline coat is the outcome in which it won, locally or everywhere. A
-**matte** surface is a different claim: it is an optical appearance, and it can
-come from those crystals, from liquid–liquid phase separation, from leftover
-refractory particles, or from a melt that never fully leveled. Nothing in the
-cooling step changes the chemical identity of the oxides; it changes whether
-they are trapped in a random network or allowed to order.[@Kingery1976; @Shelby2020]
+**matte** surface is a different claim — an optical appearance that can also
+come from liquid–liquid phase separation, underfiring, retained particles, or
+surface roughness. Nothing in the cooling step changes the chemical identity of
+the oxides; it changes whether they are trapped in a random network or allowed
+to order.[@Kingery1976; @Shelby2020]
 
 ## 4. The same metal, different optical species
 
