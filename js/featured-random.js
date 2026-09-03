@@ -87,16 +87,25 @@
     }
 
     // The picker injects the figure + caption AFTER MathJax's one-time initial
-    // typeset has already run, so any \(...\) in a fetched caption stays raw.
-    // Re-typeset just the injected subtree once MathJax is ready.
+    // typeset has already run, so any math delimiters in a fetched caption stay raw.
+    // Homepage skips MathJax (no .math in the baked document); lazy-load the
+    // same CDN only when injected HTML actually contains math.
+    function looksLikeMath(html) {
+      return typeof html === 'string' && /\\\(|\\\[|\.math\b/.test(html);
+    }
     function typeset(el) {
-      var MJ = window.MathJax;
-      if (!MJ) return;
-      var run = function () {
-        if (MJ.typesetPromise) MJ.typesetPromise([el]).catch(function () {});
-      };
-      if (MJ.startup && MJ.startup.promise) MJ.startup.promise.then(run);
-      else run();
+      if (!el || typeof window.ensureMathJax !== 'function') return;
+      window.ensureMathJax(el);
+    }
+    function typesetIfMath(el, html) {
+      if (!el) return;
+      var blob = html;
+      if (blob == null) blob = el.innerHTML || '';
+      if (!looksLikeMath(blob) &&
+          !(el.querySelector && (el.querySelector('.math') || el.querySelector('mjx-container')))) {
+        return;
+      }
+      typeset(el);
     }
 
     function dropFigure() {
@@ -141,6 +150,7 @@
       var capSrc = srcFig.querySelector('[data-figcaption]');
       if (capSrc) capText = capSrc.textContent.trim();
       setCaption(figEl, { text: capText });
+      typesetIfMath(figEl, (body.innerHTML || '') + capText);
       return true;
     }
 
@@ -165,7 +175,7 @@
       var body = figEl.querySelector('.figure-body');
       body.innerHTML = cached.markup;
       setCaption(figEl, cached.capHtml ? { html: cached.capHtml } : { text: '' });
-      typeset(figEl);
+      typesetIfMath(figEl, (cached.markup || '') + (cached.capHtml || ''));
     }
 
     var figCache = Object.create(null);
