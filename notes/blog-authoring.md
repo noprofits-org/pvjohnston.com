@@ -554,6 +554,34 @@ under you.
 that carries a DOI is an `@article` with the blog as `journal` — follow the
 source's own citation block when it provides one (rule 5).
 
+### Asides — digressions the reader may skip
+
+An explanation that would interrupt the main thread goes in an aside: a fenced
+div, kept in the reading column, visually set apart.
+
+```markdown
+::: {.aside}
+The derivation, the historical detour, the definition a specialist already
+knows. Any blocks work here — prose, lists, code, math, a table.
+:::
+```
+
+It renders as a bordered panel labelled **Aside**, quieter and slightly smaller
+than body text, and it prints as a panel that will not split across a page
+break. No compiler support is involved: pandoc's `fenced_divs` extension is
+already enabled, so the class arrives as `<div class="aside">` and `css/` does
+the rest.
+
+Use it for material a reader can skip **without losing the argument**. If
+skipping it breaks the next paragraph, it is not an aside — it is the post, and
+it belongs in the main flow. It is also not a blockquote: a blockquote marks
+someone else's words, an aside marks your own detour.
+
+Asides are unnumbered and uncaptioned; the §6 numbering rule covers figures,
+tables, code blocks, and audio, not these. Do not put a numbered element inside
+one — a reader who skips the aside would then skip something the prose refers
+to by number.
+
 ## 5. Figures & the hero image
 
 **File & embed.** PNG in `/images/`, named with the post slug
@@ -878,6 +906,7 @@ checkout does not restore the Hakyll store.
 - [ ] If the post has a figure: Figure 1 at 1200×630 in house style, `<figure>` + alt text, `og-image` set (§5 — figures are optional). If it has no figure, run `python3 scripts/render-og-cards.py --slug <slug>` so the note has a title card rather than the generic site header.
 - [ ] Data-figure text and type (§5): no sentences in the plot area; no ACS plot title; axis labels, ticks, and legends stay. A small energy/geometry plot may label points with numeric values (and a crossing mark) when those same values remain in the numbered caption; lettered callouts are for busy charts, not required when the numbers are the callouts. Type matches `.post-body`: 17px Hanken Grotesk at 632px desktop in-article width (32px source on a 1200-wide canvas; 43px on a 1600-wide still strip). Every drawn glyph exists in a committed font; coverage verified; no missing-glyph boxes. The generator writes the published `/images/` assets the post embeds, treats lab stills/frames as optional (missing frames must not fail the documented regen), loads fonts portably (Pillow / pinned dep, not a Linux-only `libfreetype.so.6`), and the regenerated PNG is committed after a renderer change
 - [ ] Every figure, table, code block, and audio player has a numbered caption (Figure/Table/Code/Audio N) and is referenced by number in the prose; each `<audio>` element stays on one source line and contains fallback text plus a direct file link
+- [ ] Every aside passes the skip test — removing it leaves the argument intact — and contains no numbered element (§4)
 - [ ] Cross-links to the rest of the series, each pointing at the `.html` target (no `/posts/…-slug.md`)
 - [ ] Branch, build, verification, PR, and merge complete
 - [ ] Session closed out per `notes/worktrees.md` §6: no dirty worktree, no stash, no orphan branch, primary checkout clean on `main`

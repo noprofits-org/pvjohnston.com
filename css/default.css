@@ -512,6 +512,45 @@ a { color: inherit; text-decoration: none; }
 .post-body blockquote { border-left: 3px solid var(--accent); padding: 4px 0 4px 22px; margin: 0 0 26px; }
 .post-body blockquote p { font-size: 18px; line-height: 1.6; color: var(--muted); font-style: italic; margin: 0; }
 
+/* ASIDE — an in-column digression the reader may take or skip.
+   Authored as a pandoc fenced div:
+
+       ::: {.aside}
+       Prose, lists, code, math — any blocks.
+       :::
+
+   No compiler support is needed: the reader extensions in lib/Blog/Compilers.hs
+   are built on pandocExtensions, which includes fenced_divs, so this arrives as
+   <div class="aside"> already. Verified against those exact options rather than
+   assumed.
+
+   It deliberately stays in the reading column rather than moving to the margin.
+   The article is a centred 760px box (.post) with no wider parent, so true
+   margin notes would mean restructuring the column — a layout project, not a
+   rule. Distinct from blockquote, which marks quoted material; this marks the
+   author's own digression. */
+.aside {
+  margin: 0 0 28px;
+  padding: 18px 22px;
+  background: var(--offwhite);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+}
+.aside::before {
+  content: "Aside";
+  display: block;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: 10px;
+}
+/* Quieter and slightly smaller than body text so it reads as subordinate,
+   without dropping to a size that is unpleasant to actually read. */
+.post-body .aside p, .post-body .aside li { font-size: 16px; color: var(--muted); }
+/* The panel's own padding sets the bottom gap; without this the last child's
+   margin stacks on top of it. */
+.aside > :last-child { margin-bottom: 0; }
+
 .post-body figure { margin: 0 0 28px; border: 1px solid var(--border); background: var(--offwhite); border-radius: 6px; padding: 32px; scroll-margin-top: 84px; }
 .post-body figure img { display: block; margin: 0 auto; }
 .post-body figcaption, .post-body figure figcaption {
@@ -597,7 +636,7 @@ a { color: inherit; text-decoration: none; }
    `{=html}` raw blocks -- so this is a guard against a future one, not a
    present bug. */
 main > h1, main > h2, main > h3, main > p, main > ul, main > ol,
-main > pre, main > .code-block, main > blockquote, main > table, main > dl {
+main > pre, main > .code-block, main > .aside, main > blockquote, main > table, main > dl {
   max-width: var(--maxw-read); margin-left: auto; margin-right: auto;
   padding-left: 32px; padding-right: 32px;
 }
@@ -647,7 +686,7 @@ main > p a:hover, main > ul a:hover, main > ol a:hover { color: var(--accent); b
   /* `main > .code-block` for the same reason as the desktop rule above: a pre
      wrapped by js/code-copy.js is no longer `main > pre`. */
   main > h1, main > h2, main > h3, main > p, main > ul, main > ol,
-  main > pre, main > .code-block, main > blockquote, main > table, main > dl {
+  main > pre, main > .code-block, main > .aside, main > blockquote, main > table, main > dl {
     padding-left: 20px; padding-right: 20px;
   }
   main > ul, main > ol { padding-left: 40px; }
@@ -710,6 +749,13 @@ main > p a:hover, main > ul a:hover, main > ol a:hover { color: var(--accent); b
 
   .post-body blockquote { background:#F6F2EA !important; border-left:3px solid #362C17 !important; padding:12px 18px; break-inside:avoid; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .post-body blockquote p { color:#333; }
+  /* Same panel treatment as blockquote and figure, so a digression stays
+     visibly set apart on paper too. break-inside:avoid because an aside split
+     across a page break loses exactly the "this is a detour" reading it
+     exists to give. */
+  .aside { background:#FBF9F4 !important; border:1px solid #D7D1C5 !important; border-left:3px solid #362C17 !important; padding:12px 18px; break-inside:avoid; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .aside::before { color:#5A4A28 !important; }
+  .post-body .aside p, .post-body .aside li { color:#333 !important; }
   .post-body figure { background:#FBF9F4 !important; border:1px solid #D7D1C5 !important; break-inside:avoid; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .tikz-figure { background:#FCFAF5 !important; border:1px solid #D7D1C5 !important; break-inside:avoid; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .post-body table, .post-body pre, .post-body figure, .post-body blockquote { break-inside:avoid; }
