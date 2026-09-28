@@ -1,0 +1,12 @@
+# OPTIONAL Tier 1 extra (NOT RUN; un-benchmarked). ORCA 6.1.1 STEOM-CCSD singlets and triplets for boroxine (11).
+# A different method from ADC(2)/SCS-CC2 (implicit triples); exploratory, NOT part of the frozen falsifier.
+# Run two jobs: this one (DoTriplet false -> singlets) and a copy with DoTriplet true (triplets).
+! STEOM-CCSD def2-TZVP def2-TZVP/C TightSCF FrozenCore
+%maxcore 3000
+%pal nprocs 8 end
+%mdci
+  NRoots 4
+  DoTriplet false
+  DoDbFilter true
+end
+* xyzfile 0 1 ../../xyz/11.xyz

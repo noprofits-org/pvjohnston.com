@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {"id": "shizu2026-si1",
+     "description": "Supplementary Information PDF (coordinates: Supp. Tables 9-65; published values: Supp. Tables 1-8)",
+     "article_doi": "10.1038/s42004-026-02141-0",
+     "license": "CC BY 4.0 (open access article)",
+     "sha256": "2106a4fd1f0ebf32c4b2b4442bef9b000461f1aabb031dec274bbe13c4d9802f",
+     "bytes": 6001893,
+     "accessed": "2026-09-28",
+     "acquisition": "Download the SI PDF from the article page; pdftotext -layout; parse with the committed parser."}
+  ]
+}

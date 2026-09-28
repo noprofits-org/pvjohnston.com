@@ -1322,3 +1322,16 @@ Format:
   not vanish on the claimed construction
 - **Status:** observation — parked after the denser M4 bracket;
   laptop-scale if picked
+
+## Does borazine keep its inverted S1/T1 gap under an independent ADC(2)? (Shizu et al. 2026)
+- **Observed:** the paper reports ADC(2)/def2-TZVP ΔEST of −193 meV for borazine
+  and +279 meV for boroxine; SCS-CC2 and ADC(2) disagree in sign for 2a, 2b and 9
+  in SI Tables 1/3. These are the authors' numbers.
+- **Source:** Shizu, Ishihara, Uratani and Kaji, *Inorganic benzenes with inverted
+  singlet-triplet gaps* (2026), doi:10.1038/s42004-026-02141-0, SI Tables 1/3.
+- **Type:** untested regime
+- **Contribution (candidate):** an independent open-source ADC(2)/def2-TZVP
+  singlet-triplet gap for borazine and boroxine on the published geometries,
+  which is not in Shizu et al. 2026.
+- **Falsifier:** research/borazine-inverted-gap/PREREGISTRATION.md P1/P2/S1.
+- **Status:** running

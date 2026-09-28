@@ -1,0 +1,401 @@
+[
+ {
+  "id": "1",
+  "name": "ben-BN",
+  "table": 9,
+  "natoms": 12,
+  "formula": "B3H6N3"
+ },
+ {
+  "id": "2a",
+  "name": "naph-BN",
+  "table": 10,
+  "natoms": 18,
+  "formula": "B5H8N5"
+ },
+ {
+  "id": "2b",
+  "name": "anth-BN",
+  "table": 11,
+  "natoms": 24,
+  "formula": "B7H10N7"
+ },
+ {
+  "id": "2c",
+  "name": "phenan-BN",
+  "table": 12,
+  "natoms": 24,
+  "formula": "B7H10N7"
+ },
+ {
+  "id": "2d",
+  "name": "tetra-BN",
+  "table": 13,
+  "natoms": 30,
+  "formula": "B9H12N9"
+ },
+ {
+  "id": "2e",
+  "name": "cryc-BN",
+  "table": 14,
+  "natoms": 30,
+  "formula": "B9H12N9"
+ },
+ {
+  "id": "2f",
+  "name": "pyr-BN",
+  "table": 15,
+  "natoms": 26,
+  "formula": "B8H10N8"
+ },
+ {
+  "id": "2g",
+  "name": "phenal-NB",
+  "table": 16,
+  "natoms": 22,
+  "formula": "B7H9N6"
+ },
+ {
+  "id": "2h",
+  "name": "phenal-BN",
+  "table": 17,
+  "natoms": 22,
+  "formula": "B6H9N7"
+ },
+ {
+  "id": "2i",
+  "name": "olymp-NB",
+  "table": 18,
+  "natoms": 30,
+  "formula": "B10H11N9"
+ },
+ {
+  "id": "2j",
+  "name": "olymp-BN",
+  "table": 19,
+  "natoms": 30,
+  "formula": "B9H11N10"
+ },
+ {
+  "id": "2k",
+  "name": "bis-BN",
+  "table": 20,
+  "natoms": 42,
+  "formula": "B14H14N14"
+ },
+ {
+  "id": "3",
+  "name": "(6, 6)NB-BN",
+  "table": 21,
+  "natoms": 72,
+  "formula": "B24H24N24"
+ },
+ {
+  "id": "4d",
+  "name": "[5]CPP-BN",
+  "table": 22,
+  "natoms": 50,
+  "formula": "B15H20N15"
+ },
+ {
+  "id": "4e",
+  "name": "[6]CPP-BN",
+  "table": 23,
+  "natoms": 60,
+  "formula": "B18H24N18"
+ },
+ {
+  "id": "4f",
+  "name": "[7]CPP-BN",
+  "table": 24,
+  "natoms": 70,
+  "formula": "B21H28N21"
+ },
+ {
+  "id": "4g",
+  "name": "[8]CPP-BN",
+  "table": 25,
+  "natoms": 80,
+  "formula": "B24H32N24"
+ },
+ {
+  "id": "4h",
+  "name": "[9]CPP-BN",
+  "table": 26,
+  "natoms": 90,
+  "formula": "B27H36N27"
+ },
+ {
+  "id": "4i",
+  "name": "[10]CPP-BN",
+  "table": 27,
+  "natoms": 100,
+  "formula": "B30H40N30"
+ },
+ {
+  "id": "4j",
+  "name": "[11]CPP-BN",
+  "table": 28,
+  "natoms": 110,
+  "formula": "B33H44N33"
+ },
+ {
+  "id": "4k",
+  "name": "[12]CPP-BN",
+  "table": 29,
+  "natoms": 120,
+  "formula": "B36H48N36"
+ },
+ {
+  "id": "5",
+  "name": "[6]CMP-BN",
+  "table": 30,
+  "natoms": 60,
+  "formula": "B18H24N18"
+ },
+ {
+  "id": "6a",
+  "name": "[2]PP-BN",
+  "table": 31,
+  "natoms": 22,
+  "formula": "B6H10N6"
+ },
+ {
+  "id": "6b",
+  "name": "[3]PP-BN",
+  "table": 32,
+  "natoms": 32,
+  "formula": "B9H14N9"
+ },
+ {
+  "id": "6c",
+  "name": "[4]PP-BN",
+  "table": 33,
+  "natoms": 42,
+  "formula": "B12H18N12"
+ },
+ {
+  "id": "6d",
+  "name": "[5]PP-BN",
+  "table": 34,
+  "natoms": 52,
+  "formula": "B15H22N15"
+ },
+ {
+  "id": "6e",
+  "name": "[6]PP-BN",
+  "table": 35,
+  "natoms": 62,
+  "formula": "B18H26N18"
+ },
+ {
+  "id": "6f",
+  "name": "[7]PP-BN",
+  "table": 36,
+  "natoms": 72,
+  "formula": "B21H30N21"
+ },
+ {
+  "id": "6g",
+  "name": "[8]PP-BN",
+  "table": 37,
+  "natoms": 82,
+  "formula": "B24H34N24"
+ },
+ {
+  "id": "6h",
+  "name": "[9]PP-BN",
+  "table": 38,
+  "natoms": 92,
+  "formula": "B27H38N27"
+ },
+ {
+  "id": "6i",
+  "name": "[10]PP-BN",
+  "table": 39,
+  "natoms": 102,
+  "formula": "B30H42N30"
+ },
+ {
+  "id": "6j",
+  "name": "[11]PP-BN",
+  "table": 40,
+  "natoms": 112,
+  "formula": "B33H46N33"
+ },
+ {
+  "id": "6k",
+  "name": "[12]PP-BN",
+  "table": 41,
+  "natoms": 122,
+  "formula": "B36H50N36"
+ },
+ {
+  "id": "7a",
+  "name": "[3]MP-BN",
+  "table": 42,
+  "natoms": 32,
+  "formula": "B9H14N9"
+ },
+ {
+  "id": "7b",
+  "name": "[3]MP-NB",
+  "table": 43,
+  "natoms": 32,
+  "formula": "B9H14N9"
+ },
+ {
+  "id": "7c",
+  "name": "[4]MP-BN",
+  "table": 44,
+  "natoms": 42,
+  "formula": "B12H18N12"
+ },
+ {
+  "id": "7d",
+  "name": "[5]MP-BN",
+  "table": 45,
+  "natoms": 52,
+  "formula": "B15H22N15"
+ },
+ {
+  "id": "7e",
+  "name": "[5]MP-NB",
+  "table": 46,
+  "natoms": 52,
+  "formula": "B15H22N15"
+ },
+ {
+  "id": "7f",
+  "name": "[6]MP-BN",
+  "table": 47,
+  "natoms": 62,
+  "formula": "B18H26N18"
+ },
+ {
+  "id": "8a",
+  "name": "B12N12-fullerene",
+  "table": 48,
+  "natoms": 24,
+  "formula": "B12N12"
+ },
+ {
+  "id": "8b",
+  "name": "B24N24-fullerene",
+  "table": 49,
+  "natoms": 48,
+  "formula": "B24N24"
+ },
+ {
+  "id": "8c",
+  "name": "B36N36-fullerene",
+  "table": 50,
+  "natoms": 72,
+  "formula": "B36N36"
+ },
+ {
+  "id": "9",
+  "name": "ben-BS",
+  "table": 51,
+  "natoms": 9,
+  "formula": "B3H3S3"
+ },
+ {
+  "id": "10",
+  "name": "ben-BSe",
+  "table": 52,
+  "natoms": 9,
+  "formula": "B3H3Se3"
+ },
+ {
+  "id": "11",
+  "name": "ben-BO",
+  "table": 53,
+  "natoms": 9,
+  "formula": "B3H3O3"
+ },
+ {
+  "id": "12",
+  "name": "ben-GaN",
+  "table": 54,
+  "natoms": 12,
+  "formula": "Ga3H6N3"
+ },
+ {
+  "id": "13",
+  "name": "prism-GaN",
+  "table": 55,
+  "natoms": 12,
+  "formula": "Ga3H6N3"
+ },
+ {
+  "id": "14",
+  "name": "ben-B4N2",
+  "table": 56,
+  "natoms": 12,
+  "formula": "B4H6N2"
+ },
+ {
+  "id": "15",
+  "name": "ben-BP",
+  "table": 57,
+  "natoms": 12,
+  "formula": "B3H6P3"
+ },
+ {
+  "id": "16",
+  "name": "ben-NP",
+  "table": 58,
+  "natoms": 12,
+  "formula": "H6N3P3"
+ },
+ {
+  "id": "17",
+  "name": "ring-Ga3P3",
+  "table": 59,
+  "natoms": 12,
+  "formula": "Ga3H6P3"
+ },
+ {
+  "id": "18",
+  "name": "ben-AlN",
+  "table": 60,
+  "natoms": 12,
+  "formula": "Al3H6N3"
+ },
+ {
+  "id": "19",
+  "name": "ring-Al3P3",
+  "table": 61,
+  "natoms": 12,
+  "formula": "Al3H6P3"
+ },
+ {
+  "id": "20",
+  "name": "ring-Al3As3",
+  "table": 62,
+  "natoms": 12,
+  "formula": "Al3As3H6"
+ },
+ {
+  "id": "21",
+  "name": "ring-(Si(N2CH3))3P3",
+  "table": 63,
+  "natoms": 24,
+  "formula": "C3H9N6P3Si3"
+ },
+ {
+  "id": "22",
+  "name": "ring-(Si(N2CH3))3As3",
+  "table": 64,
+  "natoms": 24,
+  "formula": "As3C3H9N6Si3"
+ },
+ {
+  "id": "23",
+  "name": "ring-Ge3N3",
+  "table": 65,
+  "natoms": 9,
+  "formula": "Ge3H3N3"
+ }
+]
