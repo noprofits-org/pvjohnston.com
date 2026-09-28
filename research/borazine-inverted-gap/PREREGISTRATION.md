@@ -93,3 +93,23 @@ cannot be blamed on bookkeeping. The SI itself has ≤13 meV internal rounding i
 ## Amendments
 
 None at freeze.
+
+## Amendment 1 (2026-09-28, PT), written before any def2-TZVP EOM-CCSD calculation
+
+Why: the exploratory EOM-CCSD/def2-SVP cross-check gave borazine ΔEST = +117.6 meV, the opposite sign to
+our ADC(2)/def2-TZVP P1 result (−191.9 meV). That comparison mixes method and basis. This amendment adds
+one secondary test to separate them. It does not change P1, P2 or S1, and it cannot change their verdicts.
+
+> **A1 (secondary, method check).** Method: PySCF EOM-EE-CCSD (`eomee_ccsd_singlet` / `eomee_ccsd_triplet`),
+> def2-TZVP, conventional RHF reference (conv_tol 1e-10 Eh), frozen core (PySCF `chemcore`), 4 singlet and
+> 4 triplet roots. Geometries: the published PBE0/6-31G(d) S0 geometries of borazine (1) and boroxine (11),
+> unchanged. S1 and T1 are the lowest singlet and lowest triplet roots, and ΔEST = E(S1) − E(T1).
+> Control first: if ΔEST(11) ≤ 0 meV, A1 is **inconclusive**.
+> Otherwise: if ΔEST(1) > +50 meV, **ADC(2) and EOM-CCSD disagree in sign for borazine at def2-TZVP**
+> (method-driven). If ΔEST(1) < −50 meV, **they agree in sign at def2-TZVP, and the def2-SVP sign flip was
+> basis-driven**. If −50 ≤ ΔEST(1) ≤ +50 meV, the EOM-CCSD sign is **non-decisive** at our tolerance.
+
+Budget: about 1 h each on the M1 (box estimate 0.8 h and 6.5 GB for 1; 0.5 h for 11), run after 2b.
+Command: `python tier1/run_eomccsd_pyscf.py <id> --basis def2-tzvp` → `tier1/results/<id>_eomccsd_def2-tzvp.json`.
+What this cannot establish: which method is right. Neither is the exact answer, and higher-level
+(for example EOM-CCSDT or CC3) numbers are outside the Mac budget.

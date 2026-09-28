@@ -1,2 +1,4 @@
 research/borazine-inverted-gap/README.md
 research/borazine-inverted-gap/PREREGISTRATION.md
+research/borazine-inverted-gap/prompts/README.md
+research/borazine-inverted-gap/prompts/01-setup-and-launch-tier1.codex.md
