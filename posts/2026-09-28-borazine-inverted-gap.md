@@ -60,9 +60,9 @@ Table 1 lists the ADC(2) excitation energies, gaps, published comparison values,
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | 1 | Borazine | 6.7687 | 6.9606 | −191.9 | −193.0 | 1.1 | P1 supported; magnitude reproduced |
 | 11 | Boroxine | 7.7906 | 7.5121 | +278.4 | +279.0 | 0.6 | P2 passes; reproduced |
-| 9 | Borthiin | 4.9498 | 4.9205 | +29.3 | +26.0 | 3.3 | Reproduced; sign non-decisive |
-| 10 | Boroselenol | 4.3577 | 4.4046 | −46.9 | −47.0 | 0.1 | Reproduced; sign non-decisive |
-| 12 | GaN analogue | 5.3475 | 5.5061 | −158.5 | −160.0 | 1.5 | Reproduced; sign test passes |
+| 9 | B₃S₃H₃ (ben-BS) | 4.9498 | 4.9205 | +29.3 | +26.0 | 3.3 | Reproduced; sign non-decisive |
+| 10 | B₃Se₃H₃ (ben-BSe) | 4.3577 | 4.4046 | −46.9 | −47.0 | 0.1 | Reproduced; sign non-decisive |
+| 12 | Ga₃N₃H₆ (ben-GaN) | 5.3475 | 5.5061 | −158.5 | −160.0 | 1.5 | Reproduced; sign test passes |
 | 2a | naph-BN | 6.5247 | 6.4897 | +35.0 | +34.0 | 1.0 | Reproduced with caveat; sign non-decisive |
 
 For 2a, the log reports `conv = False` for the fourth singlet at 7.40 eV. Its S1 and selected T1 roots report convergence. This higher root does not enter the displayed ΔEST. The protocol consequence of retaining that row is discussed below.
@@ -75,9 +75,9 @@ Table 2 gives the exploratory EOM-CCSD/def2-SVP gaps. Each recorded value is pos
 | --- | --- | ---: |
 | 1 | Borazine | +117.6 |
 | 11 | Boroxine | +473.2 |
-| 9 | Borthiin | +15.1 |
-| 10 | Boroselenol | +44.8 |
-| 12 | GaN analogue | +29.0 |
+| 9 | B₃S₃H₃ (ben-BS) | +15.1 |
+| 10 | B₃Se₃H₃ (ben-BSe) | +44.8 |
+| 12 | Ga₃N₃H₆ (ben-GaN) | +29.0 |
 | 2a | naph-BN | +151.0 |
 
 The [journal](/research/borazine-inverted-gap/results/JOURNAL.md) records 20.97 h of summed wall time for these completed jobs: 20.41 h for ADC(2) and 33.49 min for EOM-CCSD. ADC(2) jobs ranged from 29.78 to 692.87 min, with peak RSS from 16.15 to 23.28 GiB. EOM-CCSD jobs ranged from 0.91 to 15.80 min, with peak RSS from 2.08 to 12.71 GiB. These totals use the journal's completed entries and exclude the later zero-time skips. Peak RSS is the macOS `/usr/bin/time -l` maximum resident set size, converted from bytes to GiB.

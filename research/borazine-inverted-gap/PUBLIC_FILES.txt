@@ -2,6 +2,7 @@ research/borazine-inverted-gap/README.md
 research/borazine-inverted-gap/PREREGISTRATION.md
 research/borazine-inverted-gap/prompts/README.md
 research/borazine-inverted-gap/prompts/01-setup-and-launch-tier1.codex.md
+research/borazine-inverted-gap/prompts/02-writeup-draft.codex.md
 research/borazine-inverted-gap/results/10_adc2_def2-tzvp.json
 research/borazine-inverted-gap/results/10_eomccsd_def2-svp.json
 research/borazine-inverted-gap/results/11_adc2_def2-tzvp.json
