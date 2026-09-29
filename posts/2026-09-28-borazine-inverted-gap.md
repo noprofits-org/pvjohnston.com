@@ -1,5 +1,5 @@
 ---
-title: "Borazine keeps its inverted ADC(2) gap (draft)"
+title: "Borazine keeps its inverted ADC(2) gap"
 date: 2026-09-28
 author: Peter Johnston
 tags: "quantum chemistry, excited states"
@@ -7,7 +7,6 @@ description: "PySCF reproduces borazine's inverted ADC(2) gap; a smaller-basis E
 post-type: research
 contribution: "An independent open-source ADC(2)/def2-TZVP singlet-triplet gap for borazine and boroxine on the published geometries, which is not in Shizu et al. 2026."
 contribution-type: "untested regime"
-draft: true
 ---
 
 ## Abstract
@@ -86,7 +85,7 @@ The [journal](/research/borazine-inverted-gap/results/JOURNAL.md) records 20.97 
 
 P1 is **supported, magnitude reproduced**, and the positive P2 control passes and is reproduced. Our independent ADC(2) gaps closely reproduce the authors' column under the preregistered tolerance. [@Shizu2026] The completed secondary values also fall within that band, with 12 passing its sign test; 2a, 9, and 10 retain their preregistered non-decisive sign status.
 
-There is a protocol caveat for 2a. The frozen text says to stop and not report when SCF or Davidson fails to converge, but the supplied script checks SCF convergence and still writes a JSON when a higher Davidson root fails. We retain the 2a row with this departure disclosed: the unconverged fourth singlet lies above both converged roots used for ΔEST and has no role in their subtraction. Its presence does not change the reported gap, but we do not call the full requested root set converged or the row a fully compliant execution of that stopping rule. No rerun or script change was made for this draft.
+There is a protocol caveat for 2a. The frozen text says to stop and not report when SCF or Davidson fails to converge, but the supplied script checks SCF convergence and still writes a JSON when a higher Davidson root fails. We retain the 2a row with this departure disclosed: the unconverged fourth singlet lies above both converged roots used for ΔEST and has no role in their subtraction. Its presence does not change the reported gap, but we do not call the full requested root set converged or the row a fully compliant execution of that stopping rule. No rerun or script change was made for this note.
 
 The EOM-CCSD cross-check gives positive gaps across the entire completed set. Relative to ADC(2), that changes the sign for borazine, 10, and 12; boroxine, 9, and 2a are positive in both calculations. Borazine's +118 meV cross-check mixes a change of electronic-structure method with a change from def2-TZVP to def2-SVP. It cannot distinguish those causes or overturn the frozen ADC(2) verdict. That is the comparison Amendment 1 was written to test. Neither approximation establishes the experimental ordering, and the authors' SCS-CC2 results remain untested by us.
 
@@ -111,10 +110,10 @@ As of 29 September 2026, 2b ADC(2)/def2-TZVP is running, with its EOM-CCSD/def2-
 
 Amendment 1 then runs EOM-CCSD/def2-TZVP on borazine and boroxine, on the same geometries. Its frozen decision rule first requires boroxine to remain positive; otherwise A1 is inconclusive. With that control satisfied, borazine above +50 meV means method-driven sign disagreement at def2-TZVP; below −50 meV means agreement at def2-TZVP and a basis-driven def2-SVP sign flip. The inclusive interval from −50 to +50 meV is non-decisive. This secondary test cannot change P1/P2/S1 or establish which method is correct.
 
-This begins a series of inverted-gap rematches, run on a laptop where feasible. Cases requiring weeks of computation will be written up as **prepared for a team with access to higher levels of compute to run**, with inputs committed and no claim that we ran them. This post will be updated when 2b and Amendment 1 finish. Corrections to the state assignments or comparison assumptions are welcome.
+This begins a series of inverted-gap rematches, run on a laptop where feasible. Cases requiring weeks of computation will be written up as **prepared for a team with access to higher levels of compute to run**, with inputs committed and no claim that we ran them. The 2b and Amendment 1 results will appear in a follow-up post. Corrections to the state assignments or comparison assumptions are welcome.
 
 ## Data and code availability
 
-The [experiment README](/research/borazine-inverted-gap/README.md) and [publication manifest](/research/borazine-inverted-gap/PUBLIC_FILES.txt) link the completed result JSONs, journal snapshot, prompts, both executable scripts, environment record, and geometries used here. The authors' comparison values are retained in the [published SI table extract](/research/borazine-inverted-gap/expected/published_SI_tables_1-3.csv), with acquisition information in [sources.json](/research/borazine-inverted-gap/sources.json). The coordinates come from the authors' CC BY supplementary information. [@Shizu2026] Results were copied unchanged from the run directory; calculations continued there while this draft was prepared. This draft has no `experiment` binding or `metrics.json`, so it does not yet claim the site's automated traceability label.
+The [experiment README](/research/borazine-inverted-gap/README.md) and [publication manifest](/research/borazine-inverted-gap/PUBLIC_FILES.txt) link the completed result JSONs, journal snapshot, prompts, both executable scripts, environment record, and geometries used here. The authors' comparison values are retained in the [published SI table extract](/research/borazine-inverted-gap/expected/published_SI_tables_1-3.csv), with acquisition information in [sources.json](/research/borazine-inverted-gap/sources.json). The coordinates come from the authors' CC BY supplementary information. [@Shizu2026] Results were copied unchanged from the run directory; calculations continued there while this note was prepared. This note has no `experiment` binding or `metrics.json`, so it does not yet claim the site's automated traceability label.
 
 ## References
