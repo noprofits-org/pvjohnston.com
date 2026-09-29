@@ -1,0 +1,32 @@
+# ---------------------------------------------------------------------------
+# Tier 2 template (NOT RUN). Data groups to merge into a `control` file that
+# `define` has already produced for coord in this directory with:
+#   * basis def2-TZVP on all atoms (no ECPs are involved: heaviest atoms Ga/Ge/As/Se are all-electron in def2)
+#   * RHF closed shell, charge 0; $scfconv 8 (or tighter); $denconv 1.0d-7
+#   * RI-CC auxiliary basis: $cbas def2-TZVP (define `cc` menu -> `cbas`)
+#   * frozen core: define `cc` menu -> `freeze` default (orbitals below -3 Eh)   [paper does not state; assumption]
+#   * point group: highest Abelian subgroup detected by define (sy); nexc per irrep chosen so the lowest
+#     4 roots of each multiplicity are captured overall. If unsure, run in C1 with nexc=6.
+# Paper: Shizu, Ishihara, Uratani, Kaji, Commun. Chem. 2026, doi:10.1038/s42004-026-02141-0.
+# Method strings from SI Table 1 caption: SCS-CC2/def2-TZVP//PBE0/6-31G(d) and ADC(2)/def2-TZVP//PBE0/6-31G(d).
+# The SI does not give Turbomole version, SCS parameters, frozen-core, symmetry or nexc; defaults below are
+# the standard Turbomole SCS-CC2 parameters (cos=1.2, css=1/3) and are an ASSUMPTION to be recorded.
+# ---------------------------------------------------------------------------
+# Job A: SCS-CC2 singlets + triplets, oscillator strengths (for f, mu_F, kF)
+$ricc2
+  cc2
+  scs  cos=1.20000  css=0.33333
+  maxiter 200
+  conv 7
+$excitations
+  irrep=a  multiplicity=1  nexc=6  npre=12  nstart=12
+  irrep=a  multiplicity=3  nexc=6  npre=12  nstart=12
+  spectrum  states=all  operators=diplen
+# Job B: ADC(2) (unscaled) singlets + triplets - replace the $ricc2 block above with:
+#$ricc2
+#  adc(2)
+#  maxiter 200
+#  conv 7
+# Run:  dscf (or ridft with $rij) > dscf.out ; ricc2 > ricc2.out
+# Expected outputs to compare: ../../../expected/published_SI_tables_1-3.csv
+# kF check: kF = 2 E^2 f / c^3 (a.u.), E = E(S1) vertical, f from `spectrum` (SI Eq. S1-S2).

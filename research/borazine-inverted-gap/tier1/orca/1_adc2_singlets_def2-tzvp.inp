@@ -1,0 +1,9 @@
+# OPTIONAL cross-implementation check of S1 only (NOT RUN). ORCA 6.1.1 RI-ADC(2) is closed-shell and, per the
+# 6.1.1 manual, has no documented triplet option; this checks E(S1) against PySCF DF-RADC(2), not dEST.
+! ADC2 def2-TZVP def2-TZVP/C TightSCF FrozenCore
+%maxcore 3000
+%pal nprocs 8 end
+%mdci
+  nroots 4
+end
+* xyzfile 0 1 ../../xyz/1.xyz
