@@ -2,12 +2,12 @@
   "schema_version": 1,
   "experiment": "borazine-inverted-gap",
   "provenance": {
-    "generated_at": "2026-09-30T16:02:12Z",
+    "generated_at": "2026-09-30T18:03:04Z",
     "generator": "research/borazine-inverted-gap/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/borazine-inverted-gap/results/JOURNAL-2026-09-30.md",
-        "sha256": "9677e80bf5a9c057071b6039167e92cee2b67df5f95fb6c37cbff68de4d392b5"
+        "sha256": "61121b1ed6659a76867977377eb658a7a69d61fe9023ef4aa470c754f2ce75b5"
       },
       {
         "path": "research/borazine-inverted-gap/results/2b-adc2-stopped.pyscf.txt",
@@ -20,10 +20,24 @@
       {
         "path": "research/borazine-inverted-gap/results/2a_adc2_def2-tzvp.json",
         "sha256": "4fbeb550e4eed83bf40408dbd6e9d4407d84dde0291578ba7278415f98867fd6"
+      },
+      {
+        "path": "research/borazine-inverted-gap/results/2b_eomccsd_def2-svp.json",
+        "sha256": "0cc23488b200af9d5a3549c279a1add5b444379a53ec0cc011762052d5f84063"
       }
     ]
   },
   "metrics": {
+    "b_eom_gap_mev": {
+      "type": "number",
+      "value": 186.42877917408373,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "2b EOM-CCSD/def2-SVP gap from the lowest singlet and triplet energies; exploratory",
+      "unit": "meV"
+    },
     "b_occupied": {
       "type": "number",
       "value": 33,

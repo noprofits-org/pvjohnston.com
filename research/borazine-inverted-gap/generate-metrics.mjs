@@ -4,10 +4,13 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const dir = dirname(fileURLToPath(import.meta.url));
 const prefix = 'research/borazine-inverted-gap/';
-const paths = ['results/JOURNAL-2026-09-30.md', 'results/2b-adc2-stopped.pyscf.txt', 'results/2b-adc2-stopped.time.txt', 'results/2a_adc2_def2-tzvp.json'];
+const paths = ['results/JOURNAL-2026-09-30.md', 'results/2b-adc2-stopped.pyscf.txt', 'results/2b-adc2-stopped.time.txt', 'results/2a_adc2_def2-tzvp.json', 'results/2b_eomccsd_def2-svp.json'];
 const texts = paths.map(path => readFileSync(resolve(dir, path), 'utf8'));
-const [journal, log, timing, aText] = texts;
+const [journal, log, timing, aText, bEomText] = texts;
 const a = JSON.parse(aText);
+const bEom = JSON.parse(bEomText);
+const bEomGap = 1000 * (Math.min(...bEom.singlets_eV) - Math.min(...bEom.triplets_eV));
+if (Math.abs(bEomGap - bEom.dEST_meV) > 1e-8) throw new Error('2b EOM gap disagrees with the result JSON');
 const aLine = journal.split('\n').find(line => line.startsWith('- 2a_adc2_def2-tzvp | done |'));
 const bLine = journal.split('\n').find(line => line.startsWith('- 2b_adc2_def2-tzvp | failed |'));
 const aRun = Object.fromEntries(aLine.split(' | ').slice(2).map(field => field.split('=')));
@@ -18,6 +21,7 @@ const ao = a.nelec / 2 - a.frozen_core, av = a.nao - a.nelec / 2;
 const ratio = (bo * bv / (ao * av)) ** 2;
 const cpu = timing.match(/([\d.]+) user\s+([\d.]+) sys/);
 const rows = [
+  ['b_eom_gap_mev', bEomGap, 1, 'meV', '2b EOM-CCSD/def2-SVP gap from the lowest singlet and triplet energies; exploratory'],
   ['b_occupied', bo, 0, 'orbitals', '2b active occupied orbitals from the RADC log'],
   ['b_virtual', bv, 0, 'orbitals', '2b active virtual orbitals from the RADC log'],
   ['b_core', Number(log.match(/Number of Frozen Occupied Orbitals: (\d+)/)[1]), 0, 'orbitals', '2b frozen core orbitals'],

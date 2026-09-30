@@ -37,3 +37,5 @@ research/borazine-inverted-gap/results/status-2026-09-30.json
 research/borazine-inverted-gap/results/2b-adc2-stopped.pyscf.txt
 research/borazine-inverted-gap/results/2b-adc2-stopped.time.txt
 research/borazine-inverted-gap/prompts/03-followup-2b-compute-and-amendment1.md
+research/borazine-inverted-gap/results/2b_eomccsd_def2-svp.json
+research/borazine-inverted-gap/results/2b-eomccsd-completed.pyscf.txt

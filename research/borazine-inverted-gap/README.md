@@ -7,13 +7,13 @@ SI1.pdf SHA-256: 2106a4fd1f0ebf32c4b2b4442bef9b000461f1aabb031dec274bbe13c4d9802
 ## Question and boundary
 
 - Post type: research
-- Status: initial queue complete; 2b and Amendment 1 running or queued
+- Status: 2b ADC stopped without a gap; 2b EOM-CCSD complete; Amendment 1 running or queued
 - Question: does independent PySCF DF-ADC(2)/def2-TZVP on the published PBE0/6-31G(d)
   geometries reproduce the ADC(2) gaps for borazine (1), boroxine (11), 9, 10, 12 and 2a?
 - Research falsifier: [PREREGISTRATION.md](PREREGISTRATION.md), P1/P2/S1.
 - What this experiment can establish: agreement with the published ADC(2) column under the stated settings.
 - What it cannot establish: SCS-CC2 or kF (not run by us), experimental ordering, or S1-geometry behaviour.
-- Traceability: resource figures in the follow-up are traceable; the original note remains unbound
+- Traceability: resource figures and the 2b EOM-CCSD gap in the follow-up are traceable; the original note remains unbound
 - Highest reproduction level: none
 - Archived-evidence or rerun constraints: the source SI is identified in sources.json;
   SCS-CC2 remains the authors' evidence. The initial queue excluded 2b and 2c.
@@ -55,9 +55,9 @@ Failed jobs are recorded without editing the frozen scripts or retrying them.
 
 ## Generate publication metrics
 
-The completed initial outputs are archived in results/ and reported in the draft.
-No metrics.json or metric generator exists yet; the draft has no active experiment
-binding and does not yet claim automated traceability.
+The completed initial outputs are archived in results/ and reported in the first note,
+which has no active experiment binding. The follow-up uses `metrics.json` and
+`generate-metrics.mjs` for the resource figures and completed 2b EOM-CCSD gap.
 
 ## Data and publication
 
@@ -74,5 +74,5 @@ The first note's raw runtime logs, the venv and caches remain outside this publi
 output schema, falsifier and resource estimate. The stopped attempt yielded no
 ADC(2) gap. The 2026-09-30 journal/status snapshots and raw logs are allowlisted.
 `node research/borazine-inverted-gap/generate-metrics.mjs --check` verifies the
-follow-up resource figures from those inputs; this does not establish a completed
-2b calculation or change the original post's traceability status.
+follow-up resource figures and EOM-CCSD gap from the retained inputs. This does not
+establish a completed 2b ADC(2) calculation or change the original post's traceability status.

@@ -3,18 +3,17 @@ title: "The 2b gap calculation needs more memory"
 date: 2026-09-30
 author: Peter Johnston
 tags: "quantum chemistry, excited states"
-description: "Our 2b ADC(2) attempt ended without a gap. The inputs are ready for a team with more compute; the EOM-CCSD checks remain pending."
+description: "Our 2b ADC(2) attempt ended without a gap. The inputs are ready for a team with more compute; Amendment 1 remains pending."
 post-type: research
 contribution: "A documented resource limit and executable handoff for the independent 2b ADC(2) rematch, which are not in Shizu et al. 2026."
 contribution-type: "untested regime"
 experiment: borazine-inverted-gap
 status: inconclusive
-draft: true
 ---
 
 ## Abstract
 
-We could not complete the 2b ADC(2)/def2-TZVP gap calculation on our MacBook Pro. This continues our independent rematch of Shizu, Ishihara, Uratani, and Kaji's *Inorganic benzenes with inverted singlet-triplet gaps* (2026). [@Shizu2026] We prepared this experiment for a team with access to higher levels of compute to run. No completed 2b ADC(2) excitation energies or gap are available; the exploratory EOM-CCSD and Amendment 1 checks remain pending.
+We could not complete the 2b ADC(2)/def2-TZVP gap calculation on our MacBook Pro. This continues our independent rematch of Shizu, Ishihara, Uratani, and Kaji's *Inorganic benzenes with inverted singlet-triplet gaps* (2026). [@Shizu2026] We prepared this experiment for a team with access to higher levels of compute to run. No completed 2b ADC(2) excitation energies or gap are available; the exploratory EOM-CCSD/def2-SVP check finished with a positive gap, and Amendment 1 remains pending.
 
 ## Introduction
 
@@ -35,18 +34,20 @@ OMP_NUM_THREADS=8 ~/Molecules/ist-borazine/.venv/bin/python \
 
 The downloadable [2b handoff](/research/borazine-inverted-gap/2b-handoff.md) includes coordinates, script hash, basis and frozen-core settings, installation instructions, the [JSON output schema](/research/borazine-inverted-gap/adc2-results.schema.json), the frozen falsifier and the published comparison value. We have not completed the higher-resource calculation described there.
 
+The exploratory 2b check used [the frozen EOM-CCSD script](/research/borazine-inverted-gap/tier1/run_eomccsd_pyscf.py), a conventional RHF reference, def2-SVP, frozen core, and four singlet and four triplet roots. The [retained log](/research/borazine-inverted-gap/results/2b-eomccsd-completed.pyscf.txt) records convergence of SCF, CCSD and all requested EOM roots. The gap in Table 1 is calculated from the lowest singlet and triplet energies in [the completed JSON](/research/borazine-inverted-gap/results/2b_eomccsd_def2-svp.json).
+
 ## Results
 
 The 2b log records [b_occupied]{.metric} active occupied and [b_virtual]{.metric} virtual orbitals. It prints MP2 reference correlation energy [mp2_eh]{.metric} Eh, then RADCEE Davidson settings, with no subsequent output. The [journal](/research/borazine-inverted-gap/results/JOURNAL-2026-09-30.md) records termination by SIGTERM, exit −15, on 30 September 2026 at 08:06:42 PDT after [b_seconds]{.metric} s ([b_hours]{.metric} h). User plus system CPU time was [b_cpu_hours]{.metric} h. No 2b ADC(2) result JSON was written.
 
-The final [timing log](/research/borazine-inverted-gap/results/2b-adc2-stopped.time.txt) records [b_rss_gb]{.metric} decimal GB peak RSS and [b_footprint_gb]{.metric} decimal GB peak memory footprint. These are distinct counters. Table 1 records the follow-up outputs available at the [status snapshot](/research/borazine-inverted-gap/results/status-2026-09-30.json), last updated `2026-09-30T16:00:18+00:00`.
+The final [timing log](/research/borazine-inverted-gap/results/2b-adc2-stopped.time.txt) records [b_rss_gb]{.metric} decimal GB peak RSS and [b_footprint_gb]{.metric} decimal GB peak memory footprint. These are distinct counters. Table 1 records the follow-up outputs available at the [status snapshot](/research/borazine-inverted-gap/results/status-2026-09-30.json), last updated `2026-09-30T18:02:42+00:00`.
 
-**Table 1.** The requested follow-up gap files are absent at this snapshot; each placeholder awaits a completed JSON, and no ΔEST value is assigned.
+**Table 1.** EOM-CCSD gaps and queue state at the snapshot. The 2b value comes from its completed JSON; the Amendment 1 placeholders await their outputs.
 
 | Compound | Method and basis | Recorded state | ΔEST (meV) |
 | --- | --- | --- | --- |
-| 2b (anth-BN) | EOM-CCSD/def2-SVP | Running | **Pending — no result** |
-| 1 (Borazine) | EOM-CCSD/def2-TZVP, A1 | Queued after 2b | **Pending — no result** |
+| 2b (anth-BN) | EOM-CCSD/def2-SVP | Completed | +[b_eom_gap_mev]{.metric} |
+| 1 (Borazine) | EOM-CCSD/def2-TZVP, A1 | Running | **Pending — no result** |
 | 11 (Boroxine) | EOM-CCSD/def2-TZVP, A1 | Queued after 1 | **Pending — no result** |
 
 ## Discussion
@@ -55,7 +56,7 @@ The 2b sign test remains **inconclusive** because the attempt supplied no gap. I
 
 Peter observed a roughly 37 GB footprint and 28.4 of 29.7 GB swap in use near the stop. Those operator observations are preserved in the archived prompt, but no monitor capture was available to verify their timing or counter definitions. The final timing counters above are the retained machine record. We cannot accomplish this calculation without more compute within our budget; we will not occupy this Mac for weeks trying to obtain it.
 
-Amendment 1, frozen in `8c0a21e` before either def2-TZVP EOM-CCSD run, cannot yet receive a verdict. Its rule first requires the boroxine gap to be positive; if ΔEST(11) ≤ 0, A1 is inconclusive. With the control satisfied, ΔEST(1) > +50 meV means method-driven sign disagreement at def2-TZVP; ΔEST(1) < −50 meV means the def2-SVP sign flip was basis-driven. The inclusive interval −50 to +50 meV is non-decisive. The 2b EOM-CCSD/def2-SVP check is exploratory and cannot supply the missing ADC(2) sign test.
+Amendment 1, frozen in `8c0a21e` before either def2-TZVP EOM-CCSD run, cannot yet receive a verdict. Its rule first requires the boroxine gap to be positive; if ΔEST(11) ≤ 0, A1 is inconclusive. With the control satisfied, ΔEST(1) > +50 meV means method-driven sign disagreement at def2-TZVP; ΔEST(1) < −50 meV means the def2-SVP sign flip was basis-driven. The inclusive interval −50 to +50 meV is non-decisive. The positive 2b EOM-CCSD/def2-SVP gap is an exploratory small-basis cross-check. It cannot supply the missing ADC(2) sign test.
 
 ## Prompts and data
 
@@ -67,7 +68,7 @@ Code 2 quotes the compute budget in the handoff request. The [full prompt](/rese
 Peter's compute rule: nothing that would take weeks on this Mac.
 ```
 
-The [publication manifest](/research/borazine-inverted-gap/PUBLIC_FILES.txt) lists the inputs and retained evidence. A small [metrics generator](/research/borazine-inverted-gap/generate-metrics.mjs) derives the resource figures from the logs and journal; this traceability concerns the incomplete attempt and its resource estimate, not a completed 2b gap. The original post and frozen calculation scripts are unchanged.
+The [publication manifest](/research/borazine-inverted-gap/PUBLIC_FILES.txt) lists the inputs and retained evidence. A small [metrics generator](/research/borazine-inverted-gap/generate-metrics.mjs) derives the resource figures and the 2b EOM-CCSD gap from the retained logs, journal and JSON. The incomplete ADC(2) attempt still supplies no gap. The original post and frozen calculation scripts are unchanged.
 
 ## Conclusion
 

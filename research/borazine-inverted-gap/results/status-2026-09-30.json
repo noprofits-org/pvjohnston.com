@@ -1,5 +1,5 @@
 {
-  "current_job": "2b_eomccsd_def2-svp",
+  "current_job": "1_eomccsd_def2-tzvp",
   "done": [
     "1_adc2_def2-tzvp",
     "11_adc2_def2-tzvp",
@@ -12,18 +12,18 @@
     "10_eomccsd_def2-svp",
     "12_eomccsd_def2-svp",
     "2a_adc2_def2-tzvp",
-    "2a_eomccsd_def2-svp"
+    "2a_eomccsd_def2-svp",
+    "2b_eomccsd_def2-svp"
   ],
   "failed": [
     "2b_adc2_def2-tzvp"
   ],
   "queued": [
-    "1_eomccsd_def2-tzvp",
     "11_eomccsd_def2-tzvp"
   ],
-  "last_update": "2026-09-30T16:00:18+00:00",
-  "current_started_at": "2026-09-30T15:06:42+00:00",
-  "current_elapsed_s": 3215.969,
+  "last_update": "2026-09-30T18:02:42+00:00",
+  "current_started_at": "2026-09-30T17:52:41+00:00",
+  "current_elapsed_s": 600.959,
   "freeze_commit": "59824fdc22e3f548946878a41b3790dd7fc64d46",
   "runner_pid": 55688
 }
