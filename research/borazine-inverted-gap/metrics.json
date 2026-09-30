@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "experiment": "borazine-inverted-gap",
+  "provenance": {
+    "generated_at": "2026-09-30T16:02:12Z",
+    "generator": "research/borazine-inverted-gap/generate-metrics.mjs",
+    "inputs": [
+      {
+        "path": "research/borazine-inverted-gap/results/JOURNAL-2026-09-30.md",
+        "sha256": "9677e80bf5a9c057071b6039167e92cee2b67df5f95fb6c37cbff68de4d392b5"
+      },
+      {
+        "path": "research/borazine-inverted-gap/results/2b-adc2-stopped.pyscf.txt",
+        "sha256": "af75929f18b64315b03cfdc004c1f841e258c89a00641d67c4644aeda7900f77"
+      },
+      {
+        "path": "research/borazine-inverted-gap/results/2b-adc2-stopped.time.txt",
+        "sha256": "58aec978b5ad690a0ac78233fa570de877cd161eaa5c793032cc2f2abb1ba0bf"
+      },
+      {
+        "path": "research/borazine-inverted-gap/results/2a_adc2_def2-tzvp.json",
+        "sha256": "4fbeb550e4eed83bf40408dbd6e9d4407d84dde0291578ba7278415f98867fd6"
+      }
+    ]
+  },
+  "metrics": {
+    "b_occupied": {
+      "type": "number",
+      "value": 33,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "2b active occupied orbitals from the RADC log",
+      "unit": "orbitals"
+    },
+    "b_virtual": {
+      "type": "number",
+      "value": 447,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "2b active virtual orbitals from the RADC log",
+      "unit": "orbitals"
+    },
+    "b_core": {
+      "type": "number",
+      "value": 14,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "2b frozen core orbitals",
+      "unit": "orbitals"
+    },
+    "a_occupied": {
+      "type": "number",
+      "value": 24,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "2a occupied orbitals less frozen core",
+      "unit": "orbitals"
+    },
+    "a_virtual": {
+      "type": "number",
+      "value": 324,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "2a basis functions less occupied orbitals",
+      "unit": "orbitals"
+    },
+    "a_hours": {
+      "type": "number",
+      "value": 11.547780555555557,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "2a completed ADC wall time",
+      "unit": "hours"
+    },
+    "a_rss_gb": {
+      "type": "number",
+      "value": 24.992956416,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "2a peak RSS in decimal GB",
+      "unit": "GB"
+    },
+    "doubles_ratio": {
+      "type": "number",
+      "value": 3.598573870456104,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Squared ratio of occupied times virtual dimensions; storage scaling model",
+      "unit": "ratio"
+    },
+    "estimated_gb": {
+      "type": "number",
+      "value": 89.93899990406584,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Planning estimate from 2a peak RSS scaled by doubles space; not a measured requirement",
+      "unit": "GB"
+    },
+    "mp2_eh": {
+      "type": "number",
+      "value": -2.03570034,
+      "format": {
+        "style": "fixed",
+        "digits": 8
+      },
+      "description": "2b MP2 reference correlation energy; not an excitation gap",
+      "unit": "hartree"
+    },
+    "b_seconds": {
+      "type": "number",
+      "value": 70412.486,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "2b stopped ADC wall time",
+      "unit": "seconds"
+    },
+    "b_hours": {
+      "type": "number",
+      "value": 19.55902388888889,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "2b stopped ADC wall time",
+      "unit": "hours"
+    },
+    "b_cpu_hours": {
+      "type": "number",
+      "value": 12.434088888888889,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "2b user plus system CPU time",
+      "unit": "hours"
+    },
+    "b_rss_gb": {
+      "type": "number",
+      "value": 25.572573184,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "2b peak RSS from macOS time",
+      "unit": "GB"
+    },
+    "b_footprint_gb": {
+      "type": "number",
+      "value": 73.458684008,
+      "format": {
+        "style": "fixed",
+        "digits": 2
+      },
+      "description": "Final macOS time peak memory footprint; distinct from RSS",
+      "unit": "GB"
+    }
+  }
+}

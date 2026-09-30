@@ -13,7 +13,7 @@ SI1.pdf SHA-256: 2106a4fd1f0ebf32c4b2b4442bef9b000461f1aabb031dec274bbe13c4d9802
 - Research falsifier: [PREREGISTRATION.md](PREREGISTRATION.md), P1/P2/S1.
 - What this experiment can establish: agreement with the published ADC(2) column under the stated settings.
 - What it cannot establish: SCS-CC2 or kF (not run by us), experimental ordering, or S1-geometry behaviour.
-- Traceability: not yet established
+- Traceability: resource figures in the follow-up are traceable; the original note remains unbound
 - Highest reproduction level: none
 - Archived-evidence or rerun constraints: the source SI is identified in sources.json;
   SCS-CC2 remains the authors' evidence. The initial queue excluded 2b and 2c.
@@ -66,4 +66,13 @@ The supplied source manifest and parsers record acquisition and extraction.
 [PUBLIC_FILES.txt](PUBLIC_FILES.txt) lists the reader-facing files: the protocol,
 prompts, completed JSONs and journal, both Tier 1 scripts, environment, source
 manifest, published comparison values and the six geometries used in the draft.
-Raw runtime logs, the venv and caches remain outside this publication bundle.
+The first note's raw runtime logs, the venv and caches remain outside this publication bundle.
+
+## Follow-up: stopped 2b attempt
+
+[2b-handoff.md](2b-handoff.md) collects the prepared calculation, exact script version,
+output schema, falsifier and resource estimate. The stopped attempt yielded no
+ADC(2) gap. The 2026-09-30 journal/status snapshots and raw logs are allowlisted.
+`node research/borazine-inverted-gap/generate-metrics.mjs --check` verifies the
+follow-up resource figures from those inputs; this does not establish a completed
+2b calculation or change the original post's traceability status.

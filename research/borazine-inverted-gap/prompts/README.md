@@ -8,6 +8,7 @@ prompts only built the scaffold, installed PySCF, froze the preregistration and 
 |---|---|---|---|
 | `01-setup-and-launch-tier1.codex.md` | Codex CLI on the M1 | 2026-09-28, about 12:30 | Checked the input package, created this directory and the draft post, installed PySCF 2.14 in a venv, smoke-tested on water, committed the frozen preregistration (59824fd, 12:51), and started the launchd queue for 1, 11, 9, 10, 12, 2a plus EOM-CCSD/def2-SVP checks. |
 | `02-writeup-draft.codex.md` | Codex CLI on the M1 | 2026-09-29, about 12:40 | Wrote the draft Research note from the completed result JSONs and journal, copied results into `results/`, and committed locally (4973a24). Codex corrected one claim in this prompt: EOM-CCSD disagrees with ADC(2) on sign only for 1, 10 and 12, not across the whole set. |
+| `03-followup-2b-compute-and-amendment1.md` | Codex CLI | 2026-09-30 | Prepared the stopped 2b compute handoff and follow-up Research note, checked available EOM-CCSD outputs, archived the request, built the site and opened a draft PR. |
 
 One disclosed deviation: the prompt's package checksum refers to an earlier build of the input tarball.
 Before launch that tarball was rebuilt so the preregistration carried the smoke-test disclosure and the
