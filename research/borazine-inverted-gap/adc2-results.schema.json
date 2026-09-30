@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Frozen PySCF ADC(2) result with triplets enabled",
+  "description": "Shape of the full output from run_adc2_pyscf.py at freeze 59824fd. This does not certify convergence or the scientific verdict. No 2b output is fabricated.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "basis",
+    "aux",
+    "nao",
+    "nelec",
+    "frozen_core",
+    "e_hf",
+    "pyscf",
+    "numpy",
+    "python",
+    "machine",
+    "threads",
+    "t_scf_s",
+    "singlets_eV",
+    "singlets_f",
+    "t_radc_s",
+    "uadc_eV",
+    "uadc_f",
+    "uadc_s2",
+    "t_uadc_s",
+    "triplets_eV",
+    "S1_eV",
+    "T1_eV",
+    "dEST_meV"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "basis": {
+      "type": "string"
+    },
+    "aux": {
+      "type": "string"
+    },
+    "nao": {
+      "type": "integer"
+    },
+    "nelec": {
+      "type": "integer"
+    },
+    "frozen_core": {
+      "type": "integer"
+    },
+    "e_hf": {
+      "type": "number"
+    },
+    "pyscf": {
+      "type": "string"
+    },
+    "numpy": {
+      "type": "string"
+    },
+    "python": {
+      "type": "string"
+    },
+    "machine": {
+      "type": "string"
+    },
+    "threads": {
+      "type": "integer"
+    },
+    "t_scf_s": {
+      "type": "number",
+      "description": "Elapsed stage time in seconds."
+    },
+    "singlets_eV": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "Excitation energy or energies in eV."
+    },
+    "singlets_f": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "t_radc_s": {
+      "type": "number",
+      "description": "Elapsed stage time in seconds."
+    },
+    "uadc_eV": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "Excitation energy or energies in eV."
+    },
+    "uadc_f": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "uadc_s2": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "number"
+      },
+      "description": "Spin-square values; null means the script used the documented RADC-matching fallback."
+    },
+    "t_uadc_s": {
+      "type": "number",
+      "description": "Elapsed stage time in seconds."
+    },
+    "triplets_eV": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "Excitation energy or energies in eV."
+    },
+    "S1_eV": {
+      "type": "number",
+      "description": "Excitation energy or energies in eV."
+    },
+    "T1_eV": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Excitation energy or energies in eV."
+    },
+    "dEST_meV": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "1000 * (S1_eV - T1_eV); null if no triplet is selected. Null is not a result."
+    }
+  }
+}

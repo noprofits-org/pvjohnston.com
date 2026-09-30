@@ -27,3 +27,15 @@ research/borazine-inverted-gap/xyz/9.xyz
 research/borazine-inverted-gap/xyz/10.xyz
 research/borazine-inverted-gap/xyz/12.xyz
 research/borazine-inverted-gap/xyz/2a.xyz
+research/borazine-inverted-gap/xyz/2b.xyz
+research/borazine-inverted-gap/2b-handoff.md
+research/borazine-inverted-gap/adc2-results.schema.json
+research/borazine-inverted-gap/generate-metrics.mjs
+research/borazine-inverted-gap/metrics.json
+research/borazine-inverted-gap/results/JOURNAL-2026-09-30.md
+research/borazine-inverted-gap/results/status-2026-09-30.json
+research/borazine-inverted-gap/results/2b-adc2-stopped.pyscf.txt
+research/borazine-inverted-gap/results/2b-adc2-stopped.time.txt
+research/borazine-inverted-gap/prompts/03-followup-2b-compute-and-amendment1.md
+research/borazine-inverted-gap/results/2b_eomccsd_def2-svp.json
+research/borazine-inverted-gap/results/2b-eomccsd-completed.pyscf.txt

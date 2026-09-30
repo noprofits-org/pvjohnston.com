@@ -1,0 +1,189 @@
+#INFO: **** input file is /Users/pvjohnst/Molecules/ist-borazine/package/tier1/run_adc2_pyscf.py ****
+#!/usr/bin/env python3
+"""Tier 1 production script (NOT RUN YET). ADC(2)/def2-TZVP singlets + triplets on the published
+PBE0/6-31G(d) S0 geometry (Shizu et al., Commun. Chem. 2026, SI Tables 9-54), unchanged.
+
+Engine: PySCF >= 2.14 DF-ADC(2).
+  singlets : spin-adapted RADC(2)-ee            (pyscf.adc, method_type='ee')
+  triplets : UADC(2)-ee on the RHF solution (Ms=0 manifold contains singlets AND triplets);
+             triplet roots are those with <S^2> ~ 2 (compute_spin_square=True), cross-checked
+             against the RADC singlet list (any UADC root not matching a RADC singlet within 2 meV).
+Settings (frozen in PREREGISTRATION.md):
+  basis def2-TZVP; RI auxiliary def2-TZVP-RI (ADC step); SCF conventional RHF, conv_tol 1e-10;
+  frozen core = pyscf.data.elements.chemcore (B,C,N,O: 1s; S: 1s2s2p; Ga,Se: 1s-3p, 3d active);
+  Davidson conv_tol 1e-6 Eh (PySCF default for ADC); nroots singlet 4, UADC 8.
+Usage: python run_adc2_pyscf.py <id> [--basis def2-tzvp] [--aux def2-tzvp-ri] [--mem-mb 20000]
+Writes results/<id>_adc2_<basis>.json.  No number from this script is a result until the
+canonical run under PREREGISTRATION.md.
+"""
+import argparse, json, os, platform, time
+import numpy as np
+import pyscf
+from pyscf import gto, scf, adc, lib
+from pyscf.data import elements
+EV = 27.211386245988
+p = argparse.ArgumentParser()
+p.add_argument('id'); p.add_argument('--basis', default='def2-tzvp'); p.add_argument('--aux', default='def2-tzvp-ri')
+p.add_argument('--mem-mb', type=int, default=20000); p.add_argument('--nroots-s', type=int, default=4)
+p.add_argument('--nroots-u', type=int, default=8); p.add_argument('--skip-triplets', action='store_true')
+a = p.parse_args()
+here = os.path.dirname(os.path.abspath(__file__))
+xyz = os.path.join(here, '..', 'xyz', f'{a.id}.xyz')
+atom = '\n'.join(open(xyz).read().splitlines()[2:])
+os.makedirs(os.path.join(here, 'results'), exist_ok=True)
+mol = gto.M(atom=atom, basis=a.basis, charge=0, spin=0, verbose=4, max_memory=a.mem_mb,
+            output=os.path.join(here, 'results', f'{a.id}_adc2_{a.basis}.log'))
+t0 = time.time()
+mf = scf.RHF(mol); mf.conv_tol = 1e-10; mf.conv_tol_grad = 1e-7; mf.max_cycle = 200; mf.kernel()
+assert mf.converged, 'SCF not converged: stop, do not report'
+ncore = elements.chemcore(mol)
+out = dict(id=a.id, basis=a.basis, aux=a.aux, nao=mol.nao_nr(), nelec=mol.nelectron, frozen_core=ncore,
+           e_hf=mf.e_tot, pyscf=pyscf.__version__, numpy=np.__version__, python=platform.python_version(),
+           machine=platform.machine(), threads=lib.num_threads(), t_scf_s=time.time()-t0)
+t1 = time.time()
+ra = adc.ADC(mf, frozen=ncore).density_fit(a.aux); ra.method = 'adc(2)'; ra.method_type = 'ee'; ra.max_memory = a.mem_mb
+es, vs, ps, _ = ra.kernel(nroots=a.nroots_s)
+out.update(singlets_eV=[float(x)*EV for x in es], singlets_f=[float(x) for x in ps], t_radc_s=time.time()-t1)
+if not a.skip_triplets:
+    t2 = time.time()
+    umf = scf.addons.convert_to_uhf(mf)
+    ua = adc.ADC(umf, frozen=(ncore, ncore)).density_fit(a.aux); ua.method = 'adc(2)'; ua.method_type = 'ee'
+    ua.max_memory = a.mem_mb; ua.compute_spin_square = False
+    eu, vu, pu, _ = ua.kernel(nroots=a.nroots_u)
+    try:
+        s2, _ = ua._adc_es.get_spin_square()   # <S^2> of each Ms=0 root (PySCF 2.14 internals)
+    except Exception as ex:
+        print('spin_square unavailable, falling back to RADC matching:', ex); s2 = None
+    out.update(uadc_eV=[float(x)*EV for x in eu], uadc_f=[float(x) for x in pu],
+               uadc_s2=[float(x) for x in s2] if s2 is not None else None, t_uadc_s=time.time()-t2)
+    sing = np.array(out['singlets_eV'])
+    trip = [e for i, e in enumerate(out['uadc_eV'])
+            if (out['uadc_s2'] is not None and abs(out['uadc_s2'][i]-2.0) < 0.3)
+            or (out['uadc_s2'] is None and np.min(np.abs(sing-e)) > 2e-3)]
+    out['triplets_eV'] = trip
+    out['S1_eV'] = float(sing[0]); out['T1_eV'] = float(trip[0]) if trip else None
+    out['dEST_meV'] = (out['S1_eV']-out['T1_eV'])*1000 if trip else None
+json.dump(out, open(os.path.join(here, 'results', f'{a.id}_adc2_{a.basis}.json'), 'w'), indent=1)
+print(json.dumps({k: out[k] for k in out if k in ('id', 'S1_eV', 'T1_eV', 'dEST_meV')}))
+#INFO: ******************** input file end ********************
+
+
+System: uname_result(system='Darwin', node='MacBookPro', release='27.0.0', version='Darwin Kernel Version 27.0.0: Tue Aug 11 21:22:49 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T6000', machine='arm64')  Threads 1
+Python 3.13.12 (main, Feb  3 2026, 17:53:27) [Clang 17.0.0 (clang-1700.6.3.2)]
+numpy 2.5.3  scipy 1.18.1  h5py 3.16.0
+Date: Tue Sep 29 12:33:10 2026
+PySCF version 2.14.0
+PySCF path  /Users/pvjohnst/Molecules/ist-borazine/.venv/lib/python3.13/site-packages/pyscf
+
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 24
+[INPUT] num. electrons = 94
+[INPUT] charge = 0
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT] Symbol           X                Y                Z      unit          X                Y                Z       unit  Magmom
+[INPUT]  1 B      0.000000000000   2.498899000000  -1.467212000000 AA    0.000000000000   4.722234722950  -2.772628846675 Bohr   0.0
+[INPUT]  2 H      0.000000000000   2.510761000000  -2.665555000000 AA    0.000000000000   4.744650654239  -5.037168919965 Bohr   0.0
+[INPUT]  3 B      0.000000000000   0.000000000000  -1.458884000000 AA    0.000000000000   0.000000000000  -2.756891207510 Bohr   0.0
+[INPUT]  4 H      0.000000000000   0.000000000000  -2.656463000000 AA    0.000000000000   0.000000000000  -5.019987530040 Bohr   0.0
+[INPUT]  5 B      0.000000000000  -2.498899000000  -1.467212000000 AA    0.000000000000  -4.722234722950  -2.772628846675 Bohr   0.0
+[INPUT]  6 H      0.000000000000  -2.510761000000  -2.665555000000 AA    0.000000000000  -4.744650654239  -5.037168919965 Bohr   0.0
+[INPUT]  7 B      0.000000000000   3.763164000000   0.697815000000 AA    0.000000000000   7.111349321823   1.318679235613 Bohr   0.0
+[INPUT]  8 H      0.000000000000   4.806100000000   1.291366000000 AA    0.000000000000   9.082212727272   2.440328066575 Bohr   0.0
+[INPUT]  9 B      0.000000000000   1.255135000000   0.709193000000 AA    0.000000000000   2.371861399356   1.340180539459 Bohr   0.0
+[INPUT] 10 B      0.000000000000  -1.255135000000   0.709193000000 AA    0.000000000000  -2.371861399356   1.340180539459 Bohr   0.0
+[INPUT] 11 B      0.000000000000  -3.763164000000   0.697815000000 AA    0.000000000000  -7.111349321823   1.318679235613 Bohr   0.0
+[INPUT] 12 H      0.000000000000  -4.806100000000   1.291366000000 AA    0.000000000000  -9.082212727272   2.440328066575 Bohr   0.0
+[INPUT] 13 N      0.000000000000   2.520291000000   1.390656000000 AA    0.000000000000   4.762659744206   2.627958973483 Bohr   0.0
+[INPUT] 14 H      0.000000000000   2.541489000000   2.400440000000 AA    0.000000000000   4.802718158595   4.536174178451 Bohr   0.0
+[INPUT] 15 N      0.000000000000   0.000000000000   1.398152000000 AA    0.000000000000   0.000000000000   2.642124360513 Bohr   0.0
+[INPUT] 16 H      0.000000000000   0.000000000000   2.409010000000 AA    0.000000000000   0.000000000000   4.552369131338 Bohr   0.0
+[INPUT] 17 N      0.000000000000  -2.520291000000   1.390656000000 AA    0.000000000000  -4.762659744206   2.627958973483 Bohr   0.0
+[INPUT] 18 H      0.000000000000  -2.541489000000   2.400440000000 AA    0.000000000000  -4.802718158595   4.536174178451 Bohr   0.0
+[INPUT] 19 N      0.000000000000   3.718187000000  -0.731077000000 AA    0.000000000000   7.026355109918  -1.381535305969 Bohr   0.0
+[INPUT] 20 H      0.000000000000   4.587596000000  -1.243772000000 AA    0.000000000000   8.669300010150  -2.350388441403 Bohr   0.0
+[INPUT] 21 N      0.000000000000   1.249682000000  -0.745872000000 AA    0.000000000000   2.361556722799  -1.409493803982 Bohr   0.0
+[INPUT] 22 N      0.000000000000  -1.249682000000  -0.745872000000 AA    0.000000000000  -2.361556722799  -1.409493803982 Bohr   0.0
+[INPUT] 23 N      0.000000000000  -3.718187000000  -0.731077000000 AA    0.000000000000  -7.026355109918  -1.381535305969 Bohr   0.0
+[INPUT] 24 H      0.000000000000  -4.587596000000  -1.243772000000 AA    0.000000000000  -8.669300010150  -2.350388441403 Bohr   0.0
+
+nuclear repulsion = 749.252586190406
+number of shells = 194
+number of NR pGTOs = 724
+number of NR cGTOs = 494
+basis = def2-tzvp
+ecp = {}
+CPU time:         0.49
+
+
+******** <class 'pyscf.scf.hf.RHF'> ********
+method = RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+diis_damp = 0
+SCF conv_tol = 1e-10
+SCF conv_tol_grad = 1e-07
+SCF max_cycles = 200
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /var/folders/pt/_6tpyv_s4fq59bnyj2rxl0nc0000gn/T/tmphpm8gstf
+max_memory 24000 MB (current use 0 MB)
+Initial guess from minao.
+init E= -564.441480360991
+  HOMO = -0.291873789386216  LUMO = 0.0452538924466133  gap/eV = 9.17371
+cycle= 1 E= -560.490980386151  delta_E= 3.95  |g|= 0.715  |ddm|= 3.61
+  HOMO = -0.364399810632942  LUMO = 0.0976120826579745  gap/eV = 12.57198
+cycle= 2 E= -560.651897219749  delta_E= -0.161  |g|= 0.224  |ddm|= 0.792
+  HOMO = -0.39274091295885  LUMO = 0.0982913895543405  gap/eV = 13.36167
+cycle= 3 E= -560.665720689695  delta_E= -0.0138  |g|= 0.101  |ddm|= 0.271
+  HOMO = -0.377648955072837  LUMO = 0.101634171233716  gap/eV = 13.04196
+cycle= 4 E= -560.668241948921  delta_E= -0.00252  |g|= 0.0101  |ddm|= 0.0919
+  HOMO = -0.37868675732282  LUMO = 0.101159446827676  gap/eV = 13.05728
+cycle= 5 E= -560.668283617343  delta_E= -4.17e-05  |g|= 0.00298  |ddm|= 0.0185
+  HOMO = -0.378888672501359  LUMO = 0.101180645030274  gap/eV = 13.06335
+cycle= 6 E= -560.668286313998  delta_E= -2.7e-06  |g|= 0.000879  |ddm|= 0.00449
+  HOMO = -0.378796340763898  LUMO = 0.101214478783975  gap/eV = 13.06176
+cycle= 7 E= -560.668286581922  delta_E= -2.68e-07  |g|= 0.000187  |ddm|= 0.00165
+  HOMO = -0.378818048261982  LUMO = 0.101210131382901  gap/eV = 13.06223
+cycle= 8 E= -560.668286598685  delta_E= -1.68e-08  |g|= 6.53e-05  |ddm|= 0.000388
+  HOMO = -0.378815419927445  LUMO = 0.101212264669645  gap/eV = 13.06222
+cycle= 9 E= -560.668286600897  delta_E= -2.21e-09  |g|= 1.86e-05  |ddm|= 0.000114
+  HOMO = -0.378816837582232  LUMO = 0.101212758838662  gap/eV = 13.06227
+cycle= 10 E= -560.668286601154  delta_E= -2.57e-10  |g|= 6.06e-06  |ddm|= 3.05e-05
+  HOMO = -0.37881699027421  LUMO = 0.101212721627046  gap/eV = 13.06227
+cycle= 11 E= -560.668286601174  delta_E= -1.98e-11  |g|= 2.01e-06  |ddm|= 9.71e-06
+  HOMO = -0.378817098361647  LUMO = 0.10121275803901  gap/eV = 13.06228
+cycle= 12 E= -560.668286601178  delta_E= -4.09e-12  |g|= 5.98e-07  |ddm|= 3.43e-06
+  HOMO = -0.378817148649279  LUMO = 0.101212761423318  gap/eV = 13.06228
+cycle= 13 E= -560.668286601181  delta_E= -3.41e-12  |g|= 1.56e-07  |ddm|= 9.29e-07
+  HOMO = -0.378817131016046  LUMO = 0.101212764640501  gap/eV = 13.06228
+cycle= 14 E= -560.668286601172  delta_E= 9.09e-12  |g|= 5.06e-08  |ddm|= 3e-07
+  HOMO = -0.378817137297567  LUMO = 0.101212763103447  gap/eV = 13.06228
+Extra cycle  E= -560.668286601145  delta_E= 2.71e-11  |g|= 2.3e-08  |ddm|= 8.13e-08
+converged SCF energy = -560.668286601145
+
+******** <class 'pyscf.adc.radc.RADC'> ********
+max_memory 24000 MB (current use 0 MB)
+******** ADC Orbital Information ********
+Number of Frozen Occupied Orbitals: 14
+Number of Frozen Virtual Orbitals: 0
+Number of Active Occupied Orbitals: 33
+Number of Active Virtual Orbitals: 447
+*****************************************
+******** <class 'pyscf.df.df.DF'> ********
+auxbasis = def2-tzvp-ri
+max_memory = 24000
+Reference correlation energy (doubles): -2.03570034
+MP2 correlation energy of reference state (a.u.) = -2.03570034
+
+******** <class 'pyscf.adc.radc_ee.RADCEE'> ********
+max_space = 12
+max_cycle = 50
+conv_tol = 1e-08
+max_memory 24000 MB (current use 0 MB)

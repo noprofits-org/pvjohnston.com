@@ -1335,3 +1335,11 @@ Format:
   which is not in Shizu et al. 2026.
 - **Falsifier:** research/borazine-inverted-gap/PREREGISTRATION.md P1/P2/S1.
 - **Status:** running
+
+## Can the 2b rematch finish with more memory, and does borazine retain the EOM-CCSD sign at def2-TZVP?
+- **Observed:** 2b (anth-BN) ADC(2) was stopped without a gap; the exploratory 2b EOM-CCSD job is complete, with borazine A1 running and boroxine A1 queued in the 2026-09-30 snapshot.
+- **Source:** Shizu et al. (2026), doi:10.1038/s42004-026-02141-0; the borazine experiment's journal and frozen Amendment 1.
+- **Type:** untested regime
+- **Contribution (candidate):** a documented resource limit and executable 2b handoff, which are not in Shizu et al. 2026.
+- **Falsifier:** PREREGISTRATION.md S1 for 2b; A1 control and ±50 meV decision rule for borazine/boroxine.
+- **Status:** prepared for publication — stopped ADC attempt; 2b EOM-CCSD complete; A1 outputs pending.

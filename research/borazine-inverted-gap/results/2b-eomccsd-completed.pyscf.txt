@@ -1,0 +1,176 @@
+#INFO: **** input file is /Users/pvjohnst/Molecules/ist-borazine/package/tier1/run_eomccsd_pyscf.py ****
+#!/usr/bin/env python3
+"""Tier 1 cross-check script (NOT RUN YET). EOM-EE-CCSD singlets + triplets (spin-adapted, RHF reference),
+PySCF >= 2.14, conventional integrals, frozen core = chemcore, default basis def2-SVP (def2-TZVP only for
+1 and 11 if memory allows; vvvv ~ 6.5 GB for borazine/TZVP). Exploratory: NOT part of the frozen falsifier.
+Usage: python run_eomccsd_pyscf.py <id> [--basis def2-svp] [--nroots 4] [--mem-mb 20000]"""
+import argparse, json, os, time, platform
+import numpy as np, pyscf
+from pyscf import gto, scf, cc, lib
+from pyscf.data import elements
+EV = 27.211386245988
+p = argparse.ArgumentParser(); p.add_argument('id'); p.add_argument('--basis', default='def2-svp')
+p.add_argument('--nroots', type=int, default=4); p.add_argument('--mem-mb', type=int, default=20000)
+a = p.parse_args(); here = os.path.dirname(os.path.abspath(__file__)); os.makedirs(os.path.join(here, 'results'), exist_ok=True)
+atom = '\n'.join(open(os.path.join(here, '..', 'xyz', f'{a.id}.xyz')).read().splitlines()[2:])
+mol = gto.M(atom=atom, basis=a.basis, verbose=4, max_memory=a.mem_mb, output=os.path.join(here, 'results', f'{a.id}_eomccsd_{a.basis}.log'))
+t0 = time.time(); mf = scf.RHF(mol); mf.conv_tol = 1e-10; mf.kernel(); assert mf.converged
+ncore = elements.chemcore(mol)
+mycc = cc.RCCSD(mf, frozen=ncore); mycc.conv_tol = 1e-8; mycc.max_memory = a.mem_mb; mycc.kernel(); assert mycc.converged
+es, _ = mycc.eomee_ccsd_singlet(nroots=a.nroots); et, _ = mycc.eomee_ccsd_triplet(nroots=a.nroots)
+out = dict(id=a.id, basis=a.basis, frozen_core=ncore, pyscf=pyscf.__version__, machine=platform.machine(), threads=lib.num_threads(),
+           singlets_eV=[float(x)*EV for x in np.atleast_1d(es)], triplets_eV=[float(x)*EV for x in np.atleast_1d(et)], wall_s=time.time()-t0)
+out['dEST_meV'] = (out['singlets_eV'][0]-out['triplets_eV'][0])*1000
+json.dump(out, open(os.path.join(here, 'results', f'{a.id}_eomccsd_{a.basis}.json'), 'w'), indent=1); print(json.dumps(out))
+#INFO: ******************** input file end ********************
+
+
+System: uname_result(system='Darwin', node='MacBookPro', release='27.0.0', version='Darwin Kernel Version 27.0.0: Tue Aug 11 21:22:49 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T6000', machine='arm64')  Threads 1
+Python 3.13.12 (main, Feb  3 2026, 17:53:27) [Clang 17.0.0 (clang-1700.6.3.2)]
+numpy 2.5.3  scipy 1.18.1  h5py 3.16.0
+Date: Wed Sep 30 08:06:45 2026
+PySCF version 2.14.0
+PySCF path  /Users/pvjohnst/Molecules/ist-borazine/.venv/lib/python3.13/site-packages/pyscf
+
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 24
+[INPUT] num. electrons = 94
+[INPUT] charge = 0
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT] Symbol           X                Y                Z      unit          X                Y                Z       unit  Magmom
+[INPUT]  1 B      0.000000000000   2.498899000000  -1.467212000000 AA    0.000000000000   4.722234722950  -2.772628846675 Bohr   0.0
+[INPUT]  2 H      0.000000000000   2.510761000000  -2.665555000000 AA    0.000000000000   4.744650654239  -5.037168919965 Bohr   0.0
+[INPUT]  3 B      0.000000000000   0.000000000000  -1.458884000000 AA    0.000000000000   0.000000000000  -2.756891207510 Bohr   0.0
+[INPUT]  4 H      0.000000000000   0.000000000000  -2.656463000000 AA    0.000000000000   0.000000000000  -5.019987530040 Bohr   0.0
+[INPUT]  5 B      0.000000000000  -2.498899000000  -1.467212000000 AA    0.000000000000  -4.722234722950  -2.772628846675 Bohr   0.0
+[INPUT]  6 H      0.000000000000  -2.510761000000  -2.665555000000 AA    0.000000000000  -4.744650654239  -5.037168919965 Bohr   0.0
+[INPUT]  7 B      0.000000000000   3.763164000000   0.697815000000 AA    0.000000000000   7.111349321823   1.318679235613 Bohr   0.0
+[INPUT]  8 H      0.000000000000   4.806100000000   1.291366000000 AA    0.000000000000   9.082212727272   2.440328066575 Bohr   0.0
+[INPUT]  9 B      0.000000000000   1.255135000000   0.709193000000 AA    0.000000000000   2.371861399356   1.340180539459 Bohr   0.0
+[INPUT] 10 B      0.000000000000  -1.255135000000   0.709193000000 AA    0.000000000000  -2.371861399356   1.340180539459 Bohr   0.0
+[INPUT] 11 B      0.000000000000  -3.763164000000   0.697815000000 AA    0.000000000000  -7.111349321823   1.318679235613 Bohr   0.0
+[INPUT] 12 H      0.000000000000  -4.806100000000   1.291366000000 AA    0.000000000000  -9.082212727272   2.440328066575 Bohr   0.0
+[INPUT] 13 N      0.000000000000   2.520291000000   1.390656000000 AA    0.000000000000   4.762659744206   2.627958973483 Bohr   0.0
+[INPUT] 14 H      0.000000000000   2.541489000000   2.400440000000 AA    0.000000000000   4.802718158595   4.536174178451 Bohr   0.0
+[INPUT] 15 N      0.000000000000   0.000000000000   1.398152000000 AA    0.000000000000   0.000000000000   2.642124360513 Bohr   0.0
+[INPUT] 16 H      0.000000000000   0.000000000000   2.409010000000 AA    0.000000000000   0.000000000000   4.552369131338 Bohr   0.0
+[INPUT] 17 N      0.000000000000  -2.520291000000   1.390656000000 AA    0.000000000000  -4.762659744206   2.627958973483 Bohr   0.0
+[INPUT] 18 H      0.000000000000  -2.541489000000   2.400440000000 AA    0.000000000000  -4.802718158595   4.536174178451 Bohr   0.0
+[INPUT] 19 N      0.000000000000   3.718187000000  -0.731077000000 AA    0.000000000000   7.026355109918  -1.381535305969 Bohr   0.0
+[INPUT] 20 H      0.000000000000   4.587596000000  -1.243772000000 AA    0.000000000000   8.669300010150  -2.350388441403 Bohr   0.0
+[INPUT] 21 N      0.000000000000   1.249682000000  -0.745872000000 AA    0.000000000000   2.361556722799  -1.409493803982 Bohr   0.0
+[INPUT] 22 N      0.000000000000  -1.249682000000  -0.745872000000 AA    0.000000000000  -2.361556722799  -1.409493803982 Bohr   0.0
+[INPUT] 23 N      0.000000000000  -3.718187000000  -0.731077000000 AA    0.000000000000  -7.026355109918  -1.381535305969 Bohr   0.0
+[INPUT] 24 H      0.000000000000  -4.587596000000  -1.243772000000 AA    0.000000000000  -8.669300010150  -2.350388441403 Bohr   0.0
+
+nuclear repulsion = 749.252586190406
+number of shells = 114
+number of NR pGTOs = 406
+number of NR cGTOs = 246
+basis = def2-svp
+ecp = {}
+CPU time:         1.01
+
+
+******** <class 'pyscf.scf.hf.RHF'> ********
+method = RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+diis_damp = 0
+SCF conv_tol = 1e-10
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /var/folders/pt/_6tpyv_s4fq59bnyj2rxl0nc0000gn/T/tmpzm70h4k3
+max_memory 24000 MB (current use 0 MB)
+Set gradient conv threshold to 1e-05
+Initial guess from minao.
+init E= -563.725908168828
+  HOMO = -0.295733327701743  LUMO = 0.0442741136430063  gap/eV = 9.25207
+cycle= 1 E= -559.880130011838  delta_E= 3.85  |g|= 0.709  |ddm|= 5.21
+  HOMO = -0.364402813762615  LUMO = 0.137085629849098  gap/eV = 13.64620
+cycle= 2 E= -560.041570908048  delta_E= -0.161  |g|= 0.208  |ddm|= 0.864
+  HOMO = -0.389799359461144  LUMO = 0.134527889571651  gap/eV = 14.26767
+cycle= 3 E= -560.054317211133  delta_E= -0.0127  |g|= 0.0927  |ddm|= 0.282
+  HOMO = -0.375229962940728  LUMO = 0.141003738074196  gap/eV = 14.04743
+cycle= 4 E= -560.056487727055  delta_E= -0.00217  |g|= 0.00871  |ddm|= 0.0975
+  HOMO = -0.376403196100565  LUMO = 0.140446379371545  gap/eV = 14.06419
+cycle= 5 E= -560.056517176004  delta_E= -2.94e-05  |g|= 0.00252  |ddm|= 0.0154
+  HOMO = -0.376672933408269  LUMO = 0.140426910943516  gap/eV = 14.07100
+cycle= 6 E= -560.056519031404  delta_E= -1.86e-06  |g|= 0.000729  |ddm|= 0.00352
+  HOMO = -0.3765911791893  LUMO = 0.140441743269749  gap/eV = 14.06918
+cycle= 7 E= -560.056519211685  delta_E= -1.8e-07  |g|= 0.000151  |ddm|= 0.00118
+  HOMO = -0.376608723242291  LUMO = 0.140460978326159  gap/eV = 14.07018
+cycle= 8 E= -560.056519225032  delta_E= -1.33e-08  |g|= 5.96e-05  |ddm|= 0.000291
+  HOMO = -0.376609090307689  LUMO = 0.140459948685978  gap/eV = 14.07017
+cycle= 9 E= -560.056519227157  delta_E= -2.13e-09  |g|= 1.68e-05  |ddm|= 0.000104
+  HOMO = -0.376610711698263  LUMO = 0.140459751847025  gap/eV = 14.07020
+cycle= 10 E= -560.056519227357  delta_E= -2.01e-10  |g|= 5.48e-06  |ddm|= 3.18e-05
+  HOMO = -0.376610974174669  LUMO = 0.140460192527254  gap/eV = 14.07022
+cycle= 11 E= -560.05651922737  delta_E= -1.32e-11  |g|= 1.5e-06  |ddm|= 8.66e-06
+  HOMO = -0.37661097217193  LUMO = 0.140460151742707  gap/eV = 14.07022
+Extra cycle  E= -560.056519227373  delta_E= -2.73e-12  |g|= 7.99e-07  |ddm|= 2.07e-06
+converged SCF energy = -560.056519227373
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 33, nmo = 232
+frozen orbitals 14
+max_cycle = 50
+direct = 0
+conv_tol = 1e-08
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 1e+09
+max_memory 24000 MB (current use 0 MB)
+Init t2, MP2 energy = -561.733802545963  E_corr(MP2) -1.6772833185899
+Init E_corr(CCSD) = -1.67728331859011
+cycle = 1  E_corr(CCSD) = -1.7142444625016  dE = -0.0369611439  norm(t1,t2) = 0.107358
+cycle = 2  E_corr(CCSD) = -1.75515034973913  dE = -0.0409058872  norm(t1,t2) = 0.0304621
+cycle = 3  E_corr(CCSD) = -1.75951652758829  dE = -0.00436617785  norm(t1,t2) = 0.0183856
+cycle = 4  E_corr(CCSD) = -1.76652591000891  dE = -0.00700938242  norm(t1,t2) = 0.00790688
+cycle = 5  E_corr(CCSD) = -1.76633939394963  dE = 0.000186516059  norm(t1,t2) = 0.00266667
+cycle = 6  E_corr(CCSD) = -1.76593714103415  dE = 0.000402252915  norm(t1,t2) = 0.000946471
+cycle = 7  E_corr(CCSD) = -1.76592671767429  dE = 1.04233599e-05  norm(t1,t2) = 0.000299187
+cycle = 8  E_corr(CCSD) = -1.76595337589691  dE = -2.66582226e-05  norm(t1,t2) = 0.000112897
+cycle = 9  E_corr(CCSD) = -1.76595669746858  dE = -3.32157167e-06  norm(t1,t2) = 5.53932e-05
+cycle = 10  E_corr(CCSD) = -1.7659564068612  dE = 2.90607377e-07  norm(t1,t2) = 2.15827e-05
+cycle = 11  E_corr(CCSD) = -1.7659558260073  dE = 5.80853902e-07  norm(t1,t2) = 9.04944e-06
+cycle = 12  E_corr(CCSD) = -1.76595521647364  dE = 6.09533655e-07  norm(t1,t2) = 4.0764e-06
+cycle = 13  E_corr(CCSD) = -1.76595523998354  dE = -2.35098956e-08  norm(t1,t2) = 1.60786e-06
+cycle = 14  E_corr(CCSD) = -1.76595520309935  dE = 3.68841855e-08  norm(t1,t2) = 6.92407e-07
+cycle = 15  E_corr(CCSD) = -1.76595521507766  dE = -1.19783068e-08  norm(t1,t2) = 2.56264e-07
+cycle = 16  E_corr(CCSD) = -1.76595522388321  dE = -8.8055474e-09  norm(t1,t2) = 9.85437e-08
+CCSD converged
+E(CCSD) = -561.8224744512564  E_corr = -1.765955223883207
+
+******** <class 'pyscf.cc.eom_rccsd.EOMEESinglet'> ********
+max_space = 20
+max_cycle = 50
+conv_tol = 1e-08
+partition = None
+max_memory 24000 MB (current use 0 MB)
+EOM-CCSD root 0 E = 0.2464476830874392  qpwt = 0.929079  conv = True
+EOM-CCSD root 1 E = 0.2486726940258733  qpwt = 0.925937  conv = True
+EOM-CCSD root 2 E = 0.2699857391339569  qpwt = 0.930413  conv = True
+EOM-CCSD root 3 E = 0.2838914347933593  qpwt = 0.948254  conv = True
+
+******** <class 'pyscf.cc.eom_rccsd.EOMEETriplet'> ********
+max_space = 20
+max_cycle = 50
+conv_tol = 1e-08
+partition = None
+max_memory 24000 MB (current use 0 MB)
+EOM-CCSD root 0 E = 0.2395965518187567  qpwt = 0.922158  conv = True
+EOM-CCSD root 1 E = 0.2457847017941662  qpwt = 0.927789  conv = True
+EOM-CCSD root 2 E = 0.2502425874471738  qpwt = 0.923585  conv = True
+EOM-CCSD root 3 E = 0.2642515969326591  qpwt = 0.92536  conv = True
