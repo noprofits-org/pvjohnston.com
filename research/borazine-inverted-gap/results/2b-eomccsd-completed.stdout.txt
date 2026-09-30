@@ -1,0 +1,2 @@
+output file: /Users/pvjohnst/Molecules/ist-borazine/package/tier1/results/2b_eomccsd_def2-svp.log
+{"id": "2b", "basis": "def2-svp", "frozen_core": 14, "pyscf": "2.14.0", "machine": "arm64", "threads": 1, "singlets_eV": [6.706183093921152, 6.766728725968431, 7.346686228482659, 7.725079484089815], "triplets_eV": [6.519754314747068, 6.688142453876036, 6.809447702220474, 7.190652270253726], "wall_s": 9955.19346523285, "dEST_meV": 186.42877917408373}
