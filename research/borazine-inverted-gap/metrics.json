@@ -2,12 +2,12 @@
   "schema_version": 1,
   "experiment": "borazine-inverted-gap",
   "provenance": {
-    "generated_at": "2026-09-30T18:03:04Z",
+    "generated_at": "2026-09-30T19:07:23Z",
     "generator": "research/borazine-inverted-gap/generate-metrics.mjs",
     "inputs": [
       {
         "path": "research/borazine-inverted-gap/results/JOURNAL-2026-09-30.md",
-        "sha256": "61121b1ed6659a76867977377eb658a7a69d61fe9023ef4aa470c754f2ce75b5"
+        "sha256": "ac5f4a2addbf8690870fe6fc594c23aadbb3a3642a589799047f11918c7ee3c9"
       },
       {
         "path": "research/borazine-inverted-gap/results/2b-adc2-stopped.pyscf.txt",
@@ -24,6 +24,22 @@
       {
         "path": "research/borazine-inverted-gap/results/2b_eomccsd_def2-svp.json",
         "sha256": "0cc23488b200af9d5a3549c279a1add5b444379a53ec0cc011762052d5f84063"
+      },
+      {
+        "path": "research/borazine-inverted-gap/results/1_eomccsd_def2-tzvp.json",
+        "sha256": "d9b18e1cb25be2162fc63c8f2bc6c2ab5491c2a0f0d862261415b5d5a761d7dd"
+      },
+      {
+        "path": "research/borazine-inverted-gap/results/11_eomccsd_def2-tzvp.json",
+        "sha256": "09747282757b35c0fb873983a857b936bd12a366cce1bd86015bb3f0c5b7a75d"
+      },
+      {
+        "path": "research/borazine-inverted-gap/results/1_eomccsd_def2-svp.json",
+        "sha256": "deee1e1f906178316f358d1c26d4ef8e1ec6144165451a76f8b45fc1d2be54db"
+      },
+      {
+        "path": "research/borazine-inverted-gap/results/11_eomccsd_def2-svp.json",
+        "sha256": "b3b6e1aaee9324f5ce948d139ff310ec060e99a0f6cdd9f85cc4233573514b6f"
       }
     ]
   },
@@ -36,6 +52,56 @@
         "digits": 1
       },
       "description": "2b EOM-CCSD/def2-SVP gap from the lowest singlet and triplet energies; exploratory",
+      "unit": "meV"
+    },
+    "a1_borazine_gap_mev": {
+      "type": "number",
+      "value": -47.52276770168695,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Borazine EOM-CCSD/def2-TZVP gap for frozen Amendment 1",
+      "unit": "meV"
+    },
+    "a1_boroxine_gap_mev": {
+      "type": "number",
+      "value": 520.7740559129004,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Boroxine EOM-CCSD/def2-TZVP control gap for frozen Amendment 1",
+      "unit": "meV"
+    },
+    "borazine_svp_gap_mev": {
+      "type": "number",
+      "value": 117.6118160534001,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Borazine EOM-CCSD/def2-SVP gap for comparison with Amendment 1",
+      "unit": "meV"
+    },
+    "boroxine_svp_gap_mev": {
+      "type": "number",
+      "value": 473.2487729847428,
+      "format": {
+        "style": "fixed",
+        "digits": 1
+      },
+      "description": "Boroxine EOM-CCSD/def2-SVP control gap for comparison with Amendment 1",
+      "unit": "meV"
+    },
+    "borazine_basis_shift_mev": {
+      "type": "number",
+      "value": 165.13458375508705,
+      "format": {
+        "style": "fixed",
+        "digits": 0
+      },
+      "description": "Decrease in the borazine EOM-CCSD gap from def2-SVP to def2-TZVP; no basis-set-limit claim",
       "unit": "meV"
     },
     "b_occupied": {

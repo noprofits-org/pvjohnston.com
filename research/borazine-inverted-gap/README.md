@@ -7,13 +7,13 @@ SI1.pdf SHA-256: 2106a4fd1f0ebf32c4b2b4442bef9b000461f1aabb031dec274bbe13c4d9802
 ## Question and boundary
 
 - Post type: research
-- Status: 2b ADC stopped without a gap; 2b EOM-CCSD complete; Amendment 1 running or queued
+- Status: 2b ADC stopped without a gap; 2b EOM-CCSD complete; Amendment 1 complete, with a non-decisive verdict
 - Question: does independent PySCF DF-ADC(2)/def2-TZVP on the published PBE0/6-31G(d)
   geometries reproduce the ADC(2) gaps for borazine (1), boroxine (11), 9, 10, 12 and 2a?
 - Research falsifier: [PREREGISTRATION.md](PREREGISTRATION.md), P1/P2/S1.
 - What this experiment can establish: agreement with the published ADC(2) column under the stated settings.
 - What it cannot establish: SCS-CC2 or kF (not run by us), experimental ordering, or S1-geometry behaviour.
-- Traceability: resource figures and the 2b EOM-CCSD gap in the follow-up are traceable; the original note remains unbound
+- Traceability: resource figures, EOM-CCSD gaps and basis shift in the follow-up are traceable; the original note remains unbound
 - Highest reproduction level: none
 - Archived-evidence or rerun constraints: the source SI is identified in sources.json;
   SCS-CC2 remains the authors' evidence. The initial queue excluded 2b and 2c.
@@ -57,7 +57,7 @@ Failed jobs are recorded without editing the frozen scripts or retrying them.
 
 The completed initial outputs are archived in results/ and reported in the first note,
 which has no active experiment binding. The follow-up uses `metrics.json` and
-`generate-metrics.mjs` for the resource figures and completed 2b EOM-CCSD gap.
+`generate-metrics.mjs` for the resource figures, completed EOM-CCSD gaps and basis shift.
 
 ## Data and publication
 
@@ -74,5 +74,11 @@ The first note's raw runtime logs, the venv and caches remain outside this publi
 output schema, falsifier and resource estimate. The stopped attempt yielded no
 ADC(2) gap. The 2026-09-30 journal/status snapshots and raw logs are allowlisted.
 `node research/borazine-inverted-gap/generate-metrics.mjs --check` verifies the
-follow-up resource figures and EOM-CCSD gap from the retained inputs. This does not
+follow-up resource figures, EOM-CCSD gaps and basis shift from the retained inputs. This does not
 establish a completed 2b ADC(2) calculation or change the original post's traceability status.
+
+The completed A1 and 2b EOM-CCSD JSONs have raw PySCF, timing and stdout companions
+archived as `*-completed.{pyscf,time,stdout}.txt`; their bytes are unchanged from
+the run directory. The journal/status snapshots now record the completed queue.
+The first note's only update is a dated paragraph; its displayed A1 value was
+read from the retained JSON, while the follow-up uses metric references.

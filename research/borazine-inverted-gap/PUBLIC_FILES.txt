@@ -39,3 +39,15 @@ research/borazine-inverted-gap/results/2b-adc2-stopped.time.txt
 research/borazine-inverted-gap/prompts/03-followup-2b-compute-and-amendment1.md
 research/borazine-inverted-gap/results/2b_eomccsd_def2-svp.json
 research/borazine-inverted-gap/results/2b-eomccsd-completed.pyscf.txt
+research/borazine-inverted-gap/results/1_eomccsd_def2-tzvp.json
+research/borazine-inverted-gap/results/1-eomccsd-def2-tzvp-completed.pyscf.txt
+research/borazine-inverted-gap/results/1-eomccsd-def2-tzvp-completed.time.txt
+research/borazine-inverted-gap/results/1-eomccsd-def2-tzvp-completed.stdout.txt
+research/borazine-inverted-gap/results/11_eomccsd_def2-tzvp.json
+research/borazine-inverted-gap/results/11-eomccsd-def2-tzvp-completed.pyscf.txt
+research/borazine-inverted-gap/results/11-eomccsd-def2-tzvp-completed.time.txt
+research/borazine-inverted-gap/results/11-eomccsd-def2-tzvp-completed.stdout.txt
+research/borazine-inverted-gap/results/2b-eomccsd-completed.time.txt
+research/borazine-inverted-gap/results/2b-eomccsd-completed.stdout.txt
+research/borazine-inverted-gap/prompts/04-amendment1-results-fill.md
+research/borazine-inverted-gap/prompts/05-followup-title-and-polish.md

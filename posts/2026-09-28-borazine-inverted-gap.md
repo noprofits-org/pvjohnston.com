@@ -89,6 +89,8 @@ There is a protocol caveat for 2a. The frozen text says to stop and not report w
 
 The EOM-CCSD cross-check gives positive gaps across the entire completed set. Relative to ADC(2), that changes the sign for borazine, 10, and 12; boroxine, 9, and 2a are positive in both calculations. Borazine's +118 meV cross-check mixes a change of electronic-structure method with a change from def2-TZVP to def2-SVP. It cannot distinguish those causes or overturn the frozen ADC(2) verdict. That is the comparison Amendment 1 was written to test. Neither approximation establishes the experimental ordering, and the authors' SCS-CC2 results remain untested by us.
 
+**Update (2026-09-30).** The EOM-CCSD/def2-TZVP rerun inverts borazine (−47.5 meV), so the positive-gap observation here applies to def2-SVP. See the [follow-up](/posts/2026-09-30-borazine-inverted-gap-followup.html) for the results and the non-decisive Amendment 1 verdict.
+
 The runtimes are pessimistic as laptop benchmarks. From 21 September through 29 September 2026, a parked, unrelated ORCA job kept relaunching on the same Mac and shared its cores. That contention affects elapsed time, not the computed energies; no estimate of uncontended speedup is inferred here.
 
 ## Prompts
