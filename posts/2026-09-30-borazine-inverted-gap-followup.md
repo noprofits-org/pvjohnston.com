@@ -1,11 +1,11 @@
 ---
-title: "The 2b gap calculation needs more memory"
+title: "Borazine's EOM-CCSD gap is negative at def2-TZVP; 2b needs more memory"
 date: 2026-09-30
 author: Peter Johnston
 tags: "quantum chemistry, excited states"
-description: "Our 2b ADC(2) attempt ended without a gap. The inputs are ready for a team with more compute; Amendment 1 is non-decisive."
+description: "Borazine's EOM-CCSD gap shifts from +117.6 to −47.5 meV; Amendment 1 is non-decisive. The 2b ADC(2) handoff is ready for a team with more compute."
 post-type: research
-contribution: "A documented resource limit and executable handoff for the independent 2b ADC(2) rematch, which are not in Shizu et al. 2026."
+contribution: "Measured basis sensitivity of borazine's EOM-CCSD gap, including its sign change between def2-SVP and def2-TZVP, alongside a documented resource limit and executable handoff for the independent 2b ADC(2) rematch, which are not in Shizu et al. 2026."
 contribution-type: "untested regime"
 experiment: borazine-inverted-gap
 status: inconclusive
@@ -13,11 +13,11 @@ status: inconclusive
 
 ## Abstract
 
-We could not complete the 2b ADC(2)/def2-TZVP gap calculation on our MacBook Pro. This continues our independent rematch of Shizu, Ishihara, Uratani, and Kaji's *Inorganic benzenes with inverted singlet-triplet gaps* (2026). [@Shizu2026] We prepared this experiment for a team with access to higher levels of compute to run. No completed 2b ADC(2) excitation energies or gap are available. Amendment 1 is **non-decisive**: borazine's EOM-CCSD gap changes from +[borazine_svp_gap_mev]{.metric} meV at def2-SVP to [a1_borazine_gap_mev]{.metric} meV at def2-TZVP, a [borazine_basis_shift_mev]{.metric} meV decrease. Boroxine stays positive, but borazine lies inside the frozen ±50 meV band.
+Borazine's EOM-CCSD gap changes from +[borazine_svp_gap_mev]{.metric} meV at def2-SVP to [a1_borazine_gap_mev]{.metric} meV at def2-TZVP, a [borazine_basis_shift_mev]{.metric} meV decrease, while Amendment 1 is **non-decisive** under its frozen ±50 meV rule. This independent rematch of Shizu, Ishihara, Uratani, and Kaji's *Inorganic benzenes with inverted singlet-triplet gaps* (2026) also reached a compute limit: we could not complete the 2b ADC(2)/def2-TZVP gap calculation on our MacBook Pro. [@Shizu2026] Boroxine stays positive, but borazine lies inside the frozen band. We prepared this experiment for a team with access to higher levels of compute to run. No completed 2b ADC(2) excitation energies or gap are available.
 
 ## Introduction
 
-The [first note](/posts/2026-09-28-borazine-inverted-gap.html) reported the initial ADC(2) rematch and small-basis EOM-CCSD checks. The next compound is **2b (anth-BN)**, using the SI label; **2a (naph-BN)** is our smaller completed comparison. The published 2b ADC(2)/def2-TZVP gap is +106 meV. [@Shizu2026] Its frozen S1 sign test fails if our gap is non-positive, and magnitude reproduction requires agreement within ±50 meV. The [preregistration](/research/borazine-inverted-gap/PREREGISTRATION.md), frozen in `59824fd`, remains unchanged by this report.
+The EOM-CCSD rerun at def2-TZVP reverses borazine's positive def2-SVP gap from the [first note](/posts/2026-09-28-borazine-inverted-gap.html), but the frozen Amendment 1 rule assigns a **non-decisive** verdict. The 2b ADC(2)/def2-TZVP attempt ended without a gap on our Mac, leaving its sign test inconclusive. The ADC(2) follow-up targets **2b (anth-BN)**, using the SI label; **2a (naph-BN)** is our smaller completed comparison. The published 2b ADC(2)/def2-TZVP gap is +106 meV. [@Shizu2026] Its frozen S1 sign test fails if our gap is non-positive, and magnitude reproduction requires agreement within ±50 meV. The [preregistration](/research/borazine-inverted-gap/PREREGISTRATION.md), frozen in `59824fd`, remains unchanged by this report.
 
 ## Computational Methods
 
@@ -54,7 +54,7 @@ The final [timing log](/research/borazine-inverted-gap/results/2b-adc2-stopped.t
 
 The 2b sign test remains **inconclusive** because the attempt supplied no gap. Its failure to finish does not test the published sign. The completed 2a calculation had [a_occupied]{.metric} occupied × [a_virtual]{.metric} virtual orbitals and took [a_hours]{.metric} h with about [a_rss_gb]{.metric} decimal GB peak RSS. A doubles-storage model proportional to $(ov)^2$ gives a [doubles_ratio]{.metric}× size ratio for 2b. Applying it to 2a's measured RSS gives roughly [estimated_gb]{.metric} decimal GB for in-core storage. This extrapolation is a planning estimate; we have not verified either its memory requirement or runtime on a larger machine.
 
-Peter observed a roughly 37 GB footprint and 28.4 of 29.7 GB swap in use near the stop. Those operator observations are preserved in the archived prompt, but no monitor capture was available to verify their timing or counter definitions. The final timing counters above are the retained machine record. We cannot accomplish this calculation without more compute within our budget; we will not occupy this Mac for weeks trying to obtain it.
+We observed a roughly 37 GB footprint and 28.4 of 29.7 GB swap in use while monitoring near the stop. Those operator observations are preserved in the archived prompt, but no monitor capture was retained to verify their timing or counter definitions. The final timing counters above are the retained machine record. We cannot accomplish this calculation without more compute within our budget; we will not occupy this Mac for weeks trying to obtain it.
 
 Amendment 1, frozen in `8c0a21e` before either def2-TZVP EOM-CCSD run, is **non-decisive**. Its rule first requires the boroxine gap to be positive; if ΔEST(11) ≤ 0, A1 is inconclusive. With the control satisfied, ΔEST(1) > +50 meV means method-driven sign disagreement at def2-TZVP; ΔEST(1) < −50 meV means the def2-SVP sign flip was basis-driven. The inclusive interval −50 to +50 meV is non-decisive. The control passes at +[a1_boroxine_gap_mev]{.metric} meV, while borazine at [a1_borazine_gap_mev]{.metric} meV remains inside that interval. The frozen rule therefore assigns neither a method-driven nor a basis-driven verdict.
 
@@ -71,6 +71,8 @@ Peter's compute rule: nothing that would take weeks on this Mac.
 ```
 
 The [Amendment 1 update prompt](/research/borazine-inverted-gap/prompts/04-amendment1-results-fill.md) is also archived verbatim.
+
+The [title and polish prompt](/research/borazine-inverted-gap/prompts/05-followup-title-and-polish.md) records the request to lead with the borazine result while preserving the 2b handoff.
 
 The [publication manifest](/research/borazine-inverted-gap/PUBLIC_FILES.txt) lists the inputs and retained evidence. A small [metrics generator](/research/borazine-inverted-gap/generate-metrics.mjs) derives the resource figures, completed EOM-CCSD gaps and basis shift from the retained logs, journal and JSONs. The incomplete ADC(2) attempt still supplies no gap. The first post now has a dated update linking these results; the frozen calculation scripts are unchanged.
 
