@@ -173,6 +173,8 @@ siteRules previewDrafts = do
     match (fromList staticPages) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
+            >>= (\item -> if itemIdentifier item == fromFilePath "about.markdown"
+                  then applyAsTemplate baseCtx item else pure item)
             >>= loadAndApplyTemplate "templates/default.html" baseCtx
             >>= relativizeUrls
 
@@ -255,7 +257,6 @@ siteRules previewDrafts = do
                     listField "featured" featuredCtx (return featured) <>
                     listField "posts"    postCtx (return (take 8 posts)) <>
                     constField "postCount" (show (length posts))   <>
-                    constField "title" "Home"                      <>
                     baseCtx
 
             getResourceBody

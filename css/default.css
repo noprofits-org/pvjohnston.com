@@ -59,6 +59,7 @@ a { color: inherit; text-decoration: none; }
 }
 .masthead-title em { font-style: italic; color: var(--accent); }
 .masthead-lede {
+  font-weight: 400;
   font-size: 19px;
   line-height: 1.6;
   color: var(--muted);
@@ -850,10 +851,11 @@ main > p a:hover, main > ul a:hover, main > ol a:hover { color: var(--accent); b
   text-wrap: balance;
 }
 .personal-hero h1 em { color: var(--accent); font-style: normal; }
-.personal-hero p {
+.personal-hero p, .personal-hero h1.personal-introduction {
   max-width: 68ch; margin: 28px 0 0; color: var(--muted);
   font-size: 20px; line-height: 1.65; text-wrap: pretty;
 }
+.personal-hero h1.personal-introduction { font-family: inherit; font-weight: 400; letter-spacing: normal; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
 .hero-actions .np-btn { text-decoration: none; }
 
@@ -1260,7 +1262,7 @@ main > p a:hover, main > ul a:hover, main > ol a:hover { color: var(--accent); b
 
 @media (max-width: 760px) {
   .personal-hero-inner { padding: 62px 20px 58px; }
-  .personal-hero p { font-size: 18px; }
+  .personal-hero p, .personal-hero h1.personal-introduction { font-size: 18px; }
   .masthead-home .masthead-inner { padding: 42px 20px 34px; }
   .work-inner { padding: 48px 20px; }
   .work-grid { grid-template-columns: 1fr; }

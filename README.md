@@ -1,11 +1,15 @@
 # pvjohnston.com
 
-Peter V. Johnston’s portfolio, résumé, and personal technical notebook. The site is generated with Hakyll and Pandoc and published to [pvjohnston.com](https://pvjohnston.com) through GitHub Pages.
+Peter V. Johnston, Ph.D. — [Quantum-chemistry calculations and construction software](https://pvjohnston.com/about.html).
+
+Start with [One dye, one transition](https://pvjohnston.com/posts/2026-08-13-dcdhf-me2-transitions.html) and [How the acceptor closes the gap](https://pvjohnston.com/posts/2026-08-16-how-the-acceptor-closes-the-gap.html).
+
+Then test a photoswitching claim: [Does Hillel’s push-pull sentence hold?](https://pvjohnston.com/posts/2026-08-22-does-push-pull-abolish-the-s0-t1-crossing.html).
 
 ## What lives here
 
 - Personal landing page, selected work, and printable résumé
-- 51 migrated posts covering chemistry, physics, mathematics, art, software, automation, and systems
+- 90 posts covering chemistry, physics, mathematics, art, software, automation, and systems
 - BibTeX/CSL citations and MathJax with `mhchem`
 - Build-time TikZ/circuitikz → inline SVG rendering
 - Typed experiment metrics resolved from generated, fingerprint-verified research artifacts

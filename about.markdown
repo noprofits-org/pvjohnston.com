@@ -1,6 +1,6 @@
 ---
 title: About
-description: About Peter V. Johnston — a Seattle analytical problem solver, AI-assisted tool builder, Ph.D. chemist, and writer.
+description: Peter Johnston, Ph.D. I run quantum-chemistry calculations on dyes and light-switching molecules and publish every number with the code behind it. By day I build the software that runs a Seattle construction company.
 ---
 
 ```{=html}
@@ -10,10 +10,9 @@ description: About Peter V. Johnston — a Seattle analytical problem solver, AI
             <span class="meta-dot" aria-hidden="true"></span>
             <span class="meta-place">Peter V. Johnston · Seattle</span>
             <span class="meta-rule" aria-hidden="true"></span>
-            <span class="meta-kind">Analytical Problem Solver · Ph.D. Chemist</span>
+            <span class="meta-kind">Quantum chemistry · Construction software</span>
         </div>
-        <h1>I make complicated work <em>legible, reliable, and fast.</em></h1>
-        <p>Ph.D. chemist and analytical problem solver who uses AI-powered development, Google Workspace automation, and data to turn ambiguous technical problems into useful tools. I learn complicated domains quickly, find the bottleneck, and build a clear, reliable way through.</p>
+        <h1 class="personal-introduction">$introduction$</h1>
         <div class="hero-actions">
             <a class="np-btn np-btn-primary" href="/resume.html">View résumé <span aria-hidden="true">→</span></a>
             <a class="np-btn np-btn-secondary" href="/writing.html">Read the notes <span aria-hidden="true">→</span></a>
@@ -79,6 +78,7 @@ The notebook follows curiosity rather than a content calendar: quantum chemistry
 
 ## Elsewhere
 
+- [X](https://x.com/pvjohnston)
 - [GitHub](https://github.com/pvjohnston)
 - [ORCID](https://orcid.org/0009-0006-0084-8863)
 - [Google Scholar](https://scholar.google.com/citations?user=kl64cagAAAAJ)
